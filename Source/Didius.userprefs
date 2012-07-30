@@ -1,0 +1,38 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Test/Main.cs">
+    <Files>
+      <File FileName="Didius/Didius/Customer.cs" Line="571" Column="5" />
+      <File FileName="Didius/Didius/Auction.cs" Line="94" Column="5" />
+      <File FileName="Didius/Didius/Bid.cs" Line="89" Column="9" />
+      <File FileName="Didius/Didius/Case.cs" Line="97" Column="216" />
+      <File FileName="Didius/Didius/Item.cs" Line="383" Column="31" />
+      <File FileName="Test/Main.cs" Line="300" Column="6" />
+      <File FileName="Didius/Didius.Strings/LogDebug.cs" Line="37" Column="46" />
+      <File FileName="Didius/Didius.Strings/LogError.cs" Line="16" Column="19" />
+      <File FileName="Didius/Didius.Strings/Exception.cs" Line="40" Column="93" />
+      <File FileName="Didius/Didius/CustomerGroup.cs" Line="1" Column="1" />
+      <File FileName="Didius/Didius/ItemContent.cs" Line="6" Column="4" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Didius" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="Didius" expanded="True" />
+            <Node name="Didius.Enums" expanded="True" />
+            <Node name="Didius.Strings" expanded="True" />
+          </Node>
+          <Node name="Test" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="Main.cs" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

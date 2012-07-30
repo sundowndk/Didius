@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C08975DE-6AF6-4E87-A657-9F1DED1AA78F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Didius</RootNamespace>
+    <AssemblyName>Didius</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Test</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>True</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="SorentoLib">
+      <HintPath>..\Lib\SorentoLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SNDK">
+      <HintPath>..\Lib\SNDK.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Didius\Customer.cs" />
+    <Compile Include="Didius\Runtime.cs" />
+    <Compile Include="Didius.Strings\Exception.cs" />
+    <Compile Include="Didius.Strings\LogDebug.cs" />
+    <Compile Include="Didius\CustomerGroup.cs" />
+    <Compile Include="Didius.Enums\CustomerStatus.cs" />
+    <Compile Include="Didius.Strings\LogError.cs" />
+    <Compile Include="Didius\Case.cs" />
+    <Compile Include="Didius\Item.cs" />
+    <Compile Include="Didius\Auction.cs" />
+    <Compile Include="Didius\Bid.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Didius\" />
+    <Folder Include="Didius.Strings\" />
+    <Folder Include="Didius.Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Didius\ItemContent.cs" />
+  </ItemGroup>
+</Project>
