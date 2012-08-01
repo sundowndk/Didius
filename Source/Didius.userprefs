@@ -1,6 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Test/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Customer.cs">
     <Files>
       <File FileName="Didius/Didius/Customer.cs" Line="571" Column="5" />
       <File FileName="Didius/Didius/Auction.cs" Line="94" Column="5" />
@@ -19,13 +19,14 @@
         <State expanded="True">
           <Node name="Didius" expanded="True">
             <Node name="References" expanded="True" />
-            <Node name="Didius" expanded="True" />
+            <Node name="Didius" expanded="True">
+              <Node name="Customer.cs" selected="True" />
+            </Node>
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
           </Node>
           <Node name="Test" expanded="True">
             <Node name="References" expanded="True" />
-            <Node name="Main.cs" selected="True" />
           </Node>
         </State>
       </Pad>
