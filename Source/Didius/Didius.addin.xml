@@ -1,0 +1,23 @@
+<Addin id          = "Didius"              
+       author      = "QNAX ApS"
+       copyright   = "QNAX ApS"
+       url         = "http://www.qnax.net"
+       description = "Auction system"
+       version     = "1.0">
+	<Runtime>
+		<Import assembly="Didius.dll"/>
+	</Runtime>
+	
+	<Dependencies>
+		<Addin id="Sorento" version="1.0"/>
+		<Addin id="sConsole" version="2.0"/>
+	</Dependencies>
+		
+	<Extension path = "/SorentoLib/Init">
+		<Type type="Didus.Addin.Init"/>
+	</Extension>			
+										
+	<Extension path = "/SorentoLib/Resolver/Ajaxes">
+		<Type type="Didius.Addin.Ajax"/>
+	</Extension>				
+</Addin>

@@ -14,16 +14,21 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>bin\Debug\cgi-bin\Addins\Didius\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="AfterBuild" command="build.sh ${TargetDir}" />
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>bin\Release\Didius\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -46,6 +51,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="Mono.Addins, Version=0.6.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
+      <Private>False</Private>
+      <Package>mono-addins</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -60,14 +69,27 @@
     <Compile Include="Didius\Item.cs" />
     <Compile Include="Didius\Auction.cs" />
     <Compile Include="Didius\Bid.cs" />
+    <Compile Include="Didius.Addin\Ajax.cs" />
+    <Compile Include="Didius.Addin\Init.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Didius\" />
     <Folder Include="Didius.Strings\" />
     <Folder Include="Didius.Enums\" />
+    <Folder Include="Didius.Addin\" />
+    <Folder Include="resources\" />
+    <Folder Include="resources\js\" />
+    <Folder Include="resources\content\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
+    <None Include="javascript.jsb" />
+    <None Include="build.sh" />
+    <None Include="resources\js\customer.js" />
+    <None Include="resources\content\index.stpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Didius.addin.xml" />
   </ItemGroup>
 </Project>
