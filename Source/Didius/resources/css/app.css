@@ -1,0 +1,305 @@
+
+/********************************************************/
+/*                  7. Generic effects                  */
+/********************************************************/
+
+
+
+.with-border {
+	border-width: 1px;
+	border-style: solid;
+}
+.glow,
+#title-bar {
+	position: relative;
+	}
+	.glow:before,
+	#title-bar:before {
+		display: block;
+		content: ' ';
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background: url(../img/effects/glow.png) no-repeat center center;
+		-webkit-background-size: 100% 100%;
+		-moz-background-size: 100% 100%;
+		-o-background-size: 100% 100%;
+		background-size: 100% 100%;
+	}
+
+
+#title-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	}
+	.with-shortcuts #title-bar {
+		padding-left: 10px;
+	}
+	#title-bar ~ #main {
+		margin-top: 40px;
+	}
+	#title-bar ~ #shortcuts {
+		top: 40px;
+	}
+
+#title-bar {
+	height: 34px;
+	line-height: 32px;
+	border-top: 1px solid #666666;
+	}
+	#title-bar h2 {
+		height: 34px;
+		font-size: 14px;
+		line-height: 32px;
+		left: 0;
+		right: 0;
+	}
+
+/* 8. Main columns */
+#title-bar ~ #main {
+	margin-top: 35px;
+	}
+	.with-menu #title-bar {
+		padding-right: 10px;
+	}
+	#title-bar ~ #menu,
+	#title-bar ~ #shortcuts {
+		top: 35px;
+	}
+	
+	
+	
+	/********************************************************/
+/*                    3. Typography                     */
+/********************************************************/
+
+h1, h2 {
+	padding: 0;
+	-webkit-text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+	-moz-text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+	text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+	}
+	h1 {
+		font-size: 30px;
+		line-height: 36px;
+		margin-bottom: 26px;
+	}
+	h2 {
+		font-size: 24px;
+		line-height: 28px;
+		margin: 32px 0 22px;
+	}
+h3 {
+	font-size: 21px;
+	line-height: 25px;
+	margin: 30px 0 20px;
+}
+h4 {
+	font-size: 16px;
+	line-height: 19px;
+	margin: 25px 0 15px;
+}
+h5 {
+	margin: 20px 0 10px;
+}
+h6 {
+	font-size: 11px;
+	text-transform: uppercase;
+}
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+	margin-top: 0;
+}
+
+.thin,
+.thin h1,
+.thin h2,
+.thin h3,
+.thin h4,
+.thin h5,
+.thin h6 {
+	font-weight: 300;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.underline {
+	padding-bottom: 0.15em;
+	border-bottom: 1px solid;
+}
+
+/* Text styles */
+.big-text {
+	font-size: 18px;
+	line-height: 24px;
+}
+.intro {
+	font-style: italic;
+	color: #afafaf;
+}
+
+/* Box styling */
+.left-border {
+	border-left: 2px solid;
+	padding-left: 10px;
+}
+.right-border {
+	border-right: 2px solid;
+	padding-right: 10px;
+	text-align: right;
+}
+.wrapped {
+	display: block;
+	border-width: 1px;
+	border-style: solid;
+	padding: 10px;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+.boxed {
+	display: block;
+	padding: 16px;
+}
+body.with-menu #main {
+	margin-right: 260px;
+	-webkit-transition: margin-right 200ms;
+	-moz-transition: margin-right 200ms;
+	-o-transition: margin-right 200ms;
+	transition: margin-right 200ms;
+	}
+	body.with-menu.reversed #main {
+		margin-right: 0;
+		margin-left: 260px;
+		-webkit-transition: margin-left 200ms;
+		-moz-transition: margin-left 200ms;
+		-o-transition: margin-left 200ms;
+		transition: margin-left 200ms;
+		}
+		body.with-menu.with-shortcuts.reversed #main {
+			margin-right: 68px;
+		}
+	body.with-menu.menu-hidden #main {
+		margin-right: 0;
+		}
+		body.with-menu.menu-hidden.reversed #main {
+			margin-left: 0;
+			}
+			body.with-menu.with-shortcuts.menu-hidden.reversed #main {
+				margin-right: 68px;
+			}
+			
+			
+			* Black title bar */
+#title-bar {
+	height: 40px;
+	line-height: 38px;
+	text-align: center;
+	z-index: 3;
+	padding: 0 10px;
+	}
+	.fixed-title-bar > #title-bar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+	}
+	.with-shortcuts #title-bar {
+		padding-left: 43px;
+	}
+	.with-menu #title-bar {
+		padding-right: 92px;
+	}
+	#title-bar h2 {
+		font-family: Arial, Helvetica, sans-serif;
+		color: white;
+		line-height: 36px;
+		margin: 0;
+		font-size: 16px;
+		font-weight: bold;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-text-shadow: 0 -1px 0 black;
+		-moz-text-shadow: 0 -1px 0 black;
+		text-shadow: 0 -1px 0 black;
+	}
+
+	/* Menu opener icon */
+	#open-menu {
+		position: absolute;
+		z-index: 4;
+		top: 5px;
+		right: 8px;
+		-webkit-tap-highlight-color: transparent;
+		}
+		body.reversed #open-menu {
+			left: 8px;
+			right: auto;
+		}
+		.fixed-title-bar > #open-menu {
+			position: fixed;
+		}
+		#open-menu > span {
+			padding: 0 8px 0 30px;
+			background: url(../img/menu.png) no-repeat 7px center;
+			font-size: 16px;
+			height: 27px;
+			line-height: 27px;
+		}
+
+		#open-menu > span,
+		#open-shortcuts {
+			display: block;
+			border: 1px solid #020203;
+			color: white;
+			-webkit-text-shadow: 0 -1px 0 black;
+			-moz-text-shadow: 0 -1px 0 black;
+			text-shadow: 0 -1px 0 black;
+			background-color: #454545;
+			background-color: rgba(255, 255, 255, 0.3);
+			-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 rgba(255, 255, 255, 0.25);
+			-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 rgba(255, 255, 255, 0.25);
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 rgba(255, 255, 255, 0.25);
+			-webkit-background-clip: padding-box;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			border-radius: 4px;
+		}
+
+	/* Shortcuts opener icon */
+	#open-shortcuts {
+		position: absolute;
+		z-index: 5;
+		top: 5px;
+		left: 8px;
+		-webkit-tap-highlight-color: transparent;
+		text-align: center;
+		font-size: 24px;
+		height: 25px;
+		line-height: 25px;
+		width: 27px;
+		padding: 2px 0 0 2px;
+		}
+		body.reversed #open-shortcuts {
+			left: auto;
+			right: 8px;
+		}
+		.fixed-title-bar > #open-shortcuts {
+			position: fixed;
+		}
+		
+		
+		
+		#title-bar {
+    height: 40px;
+    line-height: 38px;
+    padding: 0 10px;
+    text-align: center;
+    z-index: 3;
+}

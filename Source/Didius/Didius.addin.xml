@@ -14,7 +14,7 @@
 	</Dependencies>
 		
 	<Extension path = "/SorentoLib/Init">
-		<Type type="Didus.Addin.Init"/>
+		<Type type="Didius.Addin.Init"/>
 	</Extension>			
 										
 	<Extension path = "/SorentoLib/Resolver/Ajaxes">

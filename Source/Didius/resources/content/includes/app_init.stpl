@@ -1,0 +1,64 @@
+<script language="JavaScript" type="text/javascript">
+	var app =
+	{
+		init : function ()
+		{
+			SNDK.debugMode = true;
+			
+			// Create new Shortcuts menu.
+			var shortcuts = new SNDK.widgets.shortcuts ({appendTo: "page"})
+			
+			// Add items.
+			shortcuts.addItem ({tag: "customers", title:"Kunder", icon:"card,white,green", onClick: app.section.set});
+			shortcuts.addItem ({tag: "auctions", title:"Kunder", icon:"loud,white,green", onClick: app.section.set});
+			shortcuts.addItem ({tag: "settings", title:"Kunder", icon:"gear,white,green", onClick: app.section.set});		
+
+			// Set selected shortcut/section.
+			shortcuts.setAttribute ("selected", "customers")				
+			app.section.set ("customers");
+								
+			// Init app sections.
+			app.customers.init ();
+			//app.auctions.init ();
+
+			// Init modal.
+			SNDK.SUI.modal.init ();
+				
+			// Init SUI
+			SNDK.SUI.init ();
+			
+			console.log ("sdf")
+				
+			//app.customers.create ();
+		},	
+		
+		section : 
+		{
+			// Current selected section.
+			current : "",
+
+			// Set section.
+			set : function (tag)
+			{	
+				// If a previous section was visible, hide it.
+				if (app.section.current)
+				{
+					var element = document.getElementById (app.section.current);
+					element.style.display = "none";		
+				}
+		
+				// Set new section as the visible one.
+				var element = document.getElementById (tag);
+				element.style.display = "block";
+		
+				app.section.current = tag;
+					
+				SNDK.SUI.refresh ();
+			}			
+		}
+	}
+	
+	// Init app.
+	window.onDomReady (app.init); 			
+	
+</script>

@@ -81,6 +81,12 @@
     <Folder Include="resources\" />
     <Folder Include="resources\js\" />
     <Folder Include="resources\content\" />
+    <Folder Include="resources\htdocs\" />
+    <Folder Include="resources\css\" />
+    <Folder Include="resources\xml\" />
+    <Folder Include="resources\content\includes\" />
+    <Folder Include="resources\includes\" />
+    <Folder Include="resources\xml\customers\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -88,6 +94,11 @@
     <None Include="build.sh" />
     <None Include="resources\js\customer.js" />
     <None Include="resources\content\index.stpl" />
+    <None Include="resources\content\includes\app_init.stpl" />
+    <None Include="resources\content\includes\app_customers.stpl" />
+    <None Include="resources\css\app.css" />
+    <None Include="resources\css\other.css" />
+    <None Include="resources\xml\customers\edit.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

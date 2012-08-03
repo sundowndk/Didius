@@ -1,0 +1,61 @@
+<script language="JavaScript" type="text/javascript">
+	app.customers =
+	{
+		elements : new Array (),
+		
+		init : function ()
+		{
+			// Canvas
+			app.customers.elements.canvas = new SNDK.SUI.canvas ({appendTo: "customers"});
+				
+			// Layoutbox 'layoutbox1'
+			app.customers.elements.layoutbox1 = new SNDK.SUI.layoutbox ({type: "vertical"});
+			app.customers.elements.layoutbox1.addPanel ({tag: "listview", size: "200px"});
+			app.customers.elements.layoutbox1.addPanel ({tag: "buttons", size: "140px"});										
+			app.customers.elements.canvas.addUIElement (app.customers.elements.layoutbox1);
+				
+			// Listview 'customers'
+			app.customers.elements.customers = new SNDK.SUI.listview ({width: "100%", height: "100%", disabled: true});
+			app.customers.elements.layoutbox1.getPanel ("listview").addUIElement (app.customers.elements.customers)
+					
+			// Buttons 'create', 'edit', 'remove'
+			app.customers.elements.create = new SNDK.SUI.button ({label: "Ny", disabled: false, onClick: app.customers.create});
+			app.customers.elements.edit = new SNDK.SUI.button ({label: "Redigere", disabled: true});
+			app.customers.elements.remove = new SNDK.SUI.button ({label: "Slet", disabled: true});
+					
+			app.customers.elements.layoutbox1.getPanel ("buttons").addUIElement (app.customers.elements.create);
+			app.customers.elements.layoutbox1.getPanel ("buttons").addUIElement (app.customers.elements.edit);
+			app.customers.elements.layoutbox1.getPanel ("buttons").addUIElement (app.customers.elements.remove);										
+		},
+			
+		create : function ()
+		{
+			// Elements
+			var elements = new Array ();
+				
+			// Functions
+			var save =		function ()
+							{
+							
+							};
+			
+			var close = 	function ()
+							{
+								elements.window.dispose ();
+							};								
+
+			// Window 'window'			
+			elements.window = new SNDK.SUI.modal.window ({title: "Opret ny kunde", UIURL: "xml/customers/edit.xml", width: "80%", height: "80%"});
+				
+			// Button 'save', 'close'
+			elements.window.getUIElement ("save").setAttribute ("onClick", save);
+			elements.window.getUIElement ("close").setAttribute ("onClick", close);
+																										
+			// Init elements.
+			//SNDK.SUI.init ();
+									
+			// Open modal window.															
+			elements.window.open ();				
+		}
+	}
+</script>

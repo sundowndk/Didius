@@ -1,34 +1,30 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Runtime.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/resources/content/includes/app_customers.stpl">
     <Files>
-      <File FileName="Didius/Didius/Customer.cs" Line="571" Column="5" />
-      <File FileName="Didius/Didius/Auction.cs" Line="94" Column="5" />
-      <File FileName="Didius/Didius/Bid.cs" Line="89" Column="9" />
-      <File FileName="Didius/Didius/Case.cs" Line="97" Column="216" />
-      <File FileName="Didius/Didius/Item.cs" Line="383" Column="31" />
-      <File FileName="Test/Main.cs" Line="285" Column="5" />
-      <File FileName="Didius/Didius.Strings/LogDebug.cs" Line="37" Column="46" />
-      <File FileName="Didius/Didius.Strings/LogError.cs" Line="16" Column="19" />
-      <File FileName="Didius/Didius.Strings/Exception.cs" Line="40" Column="93" />
-      <File FileName="Didius/Didius/CustomerGroup.cs" Line="1" Column="1" />
-      <File FileName="Didius/Didius/ItemContent.cs" Line="6" Column="4" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="12" Column="2" />
-      <File FileName="Didius/javascript.jsb" Line="10" Column="1" />
-      <File FileName="Didius/build.sh" Line="27" Column="1" />
-      <File FileName="Didius/resources/content/index.stpl" Line="1" Column="1" />
-      <File FileName="Didius/Didius/Runtime.cs" Line="24" Column="58" />
+      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="54" Column="1" />
+      <File FileName="Didius/resources/content/includes/app_init.stpl" Line="22" Column="6" />
+      <File FileName="Didius/resources/content/index.stpl" Line="14" Column="36" />
+      <File FileName="Didius/resources/xml/customers/edit.xml" Line="151" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
-            <Node name="Didius" expanded="True">
-              <Node name="Runtime.cs" selected="True" />
-            </Node>
+            <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
+            <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True">
+              <Node name="content" expanded="True">
+                <Node name="includes" expanded="True" />
+              </Node>
+              <Node name="css" expanded="True" />
               <Node name="js" expanded="True" />
+              <Node name="xml" expanded="True">
+                <Node name="customers" expanded="True">
+                  <Node name="edit.xml" selected="True" />
+                </Node>
+              </Node>
             </Node>
           </Node>
           <Node name="Test" expanded="True" />

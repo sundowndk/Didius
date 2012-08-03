@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
 
+	<title>York Auktion</title>
+	
+	<link rel="stylesheet" href="css/app.css">
+
+	<script language="JavaScript" type="text/javascript" src="includes/sndk/js/sndk.js"></script>	
+	<link rel="stylesheet" href="includes/sndk/css/sndk.css" type="text/css">
+	<link rel="stylesheet" href="includes/sndk/css/widgets/shortcuts.css" type="text/css">
+	
+	<%Include ("includes/app_init.stpl")%>
+	<%Include ("includes/app_customers.stpl")%>
+	
+</head>
+
+<body id="page">
+	<header id="title-bar" role="banner">
+		<h2>York Auktion</h2>
+	</header>
+
+	<section role="main" id="customers" style="margin-left: 90px; margin-right: 20px; padding-top: 70px; padding-bottom: 20px; display: none; top: 0; bottom: 0; width: 100%; position: fixed;">	
+		
+	</section>
+
+	<section role="main" id="auctions" style="margin-left: 90px; margin-right: 20px; padding-top: 70px; padding-bottom: 20px; display: none; top: 0; bottom: 0; width: 100%; position: fixed;">		
+	</section>
+	
+	<section role="main" id="settings" style="margin-left: 90px; margin-top: 60px; display: none;">	
+		<hgroup id="main-title" class="thin">
+			<h1>Indstillinger</h1>
+		</hgroup>
+	</section>	
+</body>
+
+	
+</html>
