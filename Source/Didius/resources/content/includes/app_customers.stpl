@@ -2,60 +2,255 @@
 	app.customers =
 	{
 		elements : new Array (),
+				
+		<%Include ("includes/app_customers_cases.stpl")%>
 		
 		init : function ()
 		{
-			// Canvas
-			app.customers.elements.canvas = new SNDK.SUI.canvas ({appendTo: "customers"});
-				
-			// Layoutbox 'layoutbox1'
-			app.customers.elements.layoutbox1 = new SNDK.SUI.layoutbox ({type: "vertical"});
-			app.customers.elements.layoutbox1.addPanel ({tag: "listview", size: "200px"});
-			app.customers.elements.layoutbox1.addPanel ({tag: "buttons", size: "140px"});										
-			app.customers.elements.canvas.addUIElement (app.customers.elements.layoutbox1);
-				
-			// Listview 'customers'
-			app.customers.elements.customers = new SNDK.SUI.listview ({width: "100%", height: "100%", disabled: true});
-			app.customers.elements.layoutbox1.getPanel ("listview").addUIElement (app.customers.elements.customers)
-					
-			// Buttons 'create', 'edit', 'remove'
-			app.customers.elements.create = new SNDK.SUI.button ({label: "Ny", disabled: false, onClick: app.customers.create});
-			app.customers.elements.edit = new SNDK.SUI.button ({label: "Redigere", disabled: true});
-			app.customers.elements.remove = new SNDK.SUI.button ({label: "Slet", disabled: true});
-					
-			app.customers.elements.layoutbox1.getPanel ("buttons").addUIElement (app.customers.elements.create);
-			app.customers.elements.layoutbox1.getPanel ("buttons").addUIElement (app.customers.elements.edit);
-			app.customers.elements.layoutbox1.getPanel ("buttons").addUIElement (app.customers.elements.remove);										
-		},
+			// Functions
+			var set = 		function ()
+							{
+								refresh ();
+							};
+							
+			var refresh =	function ()
+							{
+								var onDone =	function (result)
+												{													
+													app.customers.elements.customers.addItems (result);
+												};
+																									
+								didius.customer.list ({async: true, onDone: onDone});
+							};
+							
+			var onChange =	function ()
+							{
+								if (app.customers.elements.customers.getItem ())
+		 						{		 						 				
+		 							app.customers.elements.edit.setAttribute ("disabled", false);
+		 							app.customers.elements.destroy.setAttribute ("disabled", false);
+		 						}
+		 						else
+		 						{
+		 							app.customers.elements.edit.setAttribute ("disabled", true);
+		 							app.customers.elements.destroy.setAttribute ("disabled", true);
+		 						}
+							};
 			
-		create : function ()
-		{
+			var onCreate =	function ()
+							{
+								// Create new Customer, and give it a genric name
+								var current = didius.customer.create ();			
+								current.name = "Ny kunde";
+								didius.customer.save (current);											
+								
+								// Edit new Customer
+								app.customers.edit ({current: current, row: app.customers.elements.customers.addItem (current)});
+							};
+								
+			var onEdit =	function ()
+							{								
+								app.customers.edit ({current: didius.customer.load (app.customers.elements.customers.getItem ().id), row: app.customers.elements.customers.getItemRow ()});
+							};
+						
+			var onDestroy = function ()
+							{};
+		
+			// Build UI
+			app.customers.elements = SNDK.SUI.builder.construct ({URL: "xml/customers/section.xml", appendTo: "customers"});
+		
+			// Listview: 'customers'
+			app.customers.elements.customers.setAttribute ("onChange", onChange);
+			app.customers.elements.customers.setAttribute ("onDoubleClick",onEdit);
+		
+			// Buttons 'create', 'edit', 'destroy'
+			app.customers.elements.create.setAttribute ("onClick", onCreate);
+			app.customers.elements.edit.setAttribute ("onClick", onEdit);
+			app.customers.elements.destroy.setAttribute ("onClick", onDestroy);
+			
+			// Fill forms
+			set ();
+		},
+					
+		edit : function (attributes)
+		{																
 			// Elements
 			var elements = new Array ();
-				
+						
 			// Functions
 			var save =		function ()
 							{
-							
+								// Collect forms.
+								get ();
+								
+								// Save Customer object to database.
+								didius.customer.save (attributes.current);
+								
+								// Refresh listview in main section.
+								app.customers.elements.customers.setItem (attributes.current, attributes.row);
+								
+								// Update checksum.
+								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
+								onChange ();														
 							};
-			
+						
 			var close = 	function ()
 							{
 								elements.window.dispose ();
-							};								
-
-			// Window 'window'			
-			elements.window = new SNDK.SUI.modal.window ({title: "Opret ny kunde", UIURL: "xml/customers/edit.xml", width: "80%", height: "80%"});
-				
-			// Button 'save', 'close'
-			elements.window.getUIElement ("save").setAttribute ("onClick", save);
-			elements.window.getUIElement ("close").setAttribute ("onClick", close);
-																										
-			// Init elements.
-			//SNDK.SUI.init ();
+							};
+								
+			var set =		function ()
+							{							
+								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
+								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
+							
+								elements.window.getUIElement ("name").setAttribute ("value", attributes.current.name);
+								elements.window.getUIElement ("att").setAttribute ("value", attributes.current.att);
+								elements.window.getUIElement ("address1").setAttribute ("value", attributes.current.address1);
+								elements.window.getUIElement ("address2").setAttribute ("value", attributes.current.address2);
+								elements.window.getUIElement ("postcode").setAttribute ("value", attributes.current.postcode);
+								elements.window.getUIElement ("city").setAttribute ("value", attributes.current.city);
+								elements.window.getUIElement ("country").setAttribute ("value", attributes.current.country);
+								
+								elements.window.getUIElement ("phone").setAttribute ("value", attributes.current.phone);
+								elements.window.getUIElement ("mobile").setAttribute ("value", attributes.current.mobile);
+								elements.window.getUIElement ("email").setAttribute ("value", attributes.current.email);
+																
+								elements.window.getUIElement ("vat").setAttribute ("value", attributes.current.vat);
+								elements.window.getUIElement ("vatno").setAttribute ("value", attributes.current.vatno);
+								elements.window.getUIElement ("bankname").setAttribute ("value", attributes.current.bankname);
+								elements.window.getUIElement ("bankregistrationno").setAttribute ("value", attributes.current.bankregistrationno);
+								elements.window.getUIElement ("bankaccountno").setAttribute ("value", attributes.current.bankaccountno);
+								
+								elements.window.getUIElement ("notes").setAttribute ("value", attributes.current.notes);
+							
+								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
+						
+								onChange ();						
+							};
+						
+			var get =		function ()
+							{												
+								attributes.current.name = elements.window.getUIElement ("name").getAttribute ("value");
+								attributes.current.att = elements.window.getUIElement ("att").getAttribute ("value");
+								attributes.current.address1 = elements.window.getUIElement ("address1").getAttribute ("value");
+								attributes.current.address2 = elements.window.getUIElement ("address2").getAttribute ("value");
+								attributes.current.postcode = elements.window.getUIElement ("postcode").getAttribute ("value");
+								attributes.current.city = elements.window.getUIElement ("city").getAttribute ("value");
+								attributes.current.country = elements.window.getUIElement ("country").getAttribute ("value");															
+								
+								attributes.current.phone = elements.window.getUIElement ("phone").getAttribute ("value");
+								attributes.current.mobile = elements.window.getUIElement ("mobile").getAttribute ("value");
+								attributes.current.email = elements.window.getUIElement ("email").getAttribute ("value");
+								
+								attributes.current.vat = elements.window.getUIElement ("vat").getAttribute ("value");								
+								attributes.current.vatno = elements.window.getUIElement ("vatno").getAttribute ("value");
+								attributes.current.bankname = elements.window.getUIElement ("bankname").getAttribute ("value");
+								attributes.current.bankregistrationno = elements.window.getUIElement ("bankregistrationno").getAttribute ("value");
+								attributes.current.bankaccountno = elements.window.getUIElement ("bankaccountno").getAttribute ("value");
+								
+								attributes.current.notes = elements.window.getUIElement ("notes").getAttribute ("value");
+							};
 									
-			// Open modal window.															
-			elements.window.open ();				
-		}
+			var onChange =	function ()
+							{
+								get ();
+							
+								// Checksum & name not empty.
+								if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum) && (elements.window.getUIElement ("name").getAttribute ("value") != ""))
+								{
+									elements.window.getUIElement ("save").setAttribute ("disabled", false);
+								}
+								else
+								{
+									elements.window.getUIElement ("save").setAttribute ("disabled", true);
+								}															
+							};
+										
+			var init = 		function ()
+							{
+								if (!attributes)
+									attributes = new Array ();
+																									
+								// Functions
+								var onCaseCreate =	function ()
+													{
+														var current = didius.case.create (attributes.current);
+														didius.case.save (current);
+													
+														app.customers.cases.edit ({current: current, row: elements.window.getUIElement ("cases").addItem (current)});
+													};
+													
+								var onCaseEdit =	function ()
+													{
+													
+													};
+													
+								var onCaseDestroy = function ()
+													{
+													
+													};
+													
+								var onChange =		function ()
+													{
+														if (elements.window.getUIElement ("cases").getItem ())
+		 												{		 						 				
+		 													elements.window.getUIElement ("caseEdit").setAttribute ("disabled", false);
+		 													elements.window.getUIElement ("caseDestroy").setAttribute ("disabled", false);
+		 												}
+		 												else
+		 												{
+		 													elements.window.getUIElement ("caseEdit").setAttribute ("disabled", true);
+		 													elements.window.getUIElement ("caseDestroy").setAttribute ("disabled", true);
+		 												}
+													};
+
+								// Window 'window'			
+								attributes.windowTitle = "Kunde : ["+ attributes.current.no +"]";	
+								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/customers/edit.xml", width: "80%", height: "80%"});
+								
+								// Buttons 'caseCreate', 'caseEdit', 'caseDestroy'
+								elements.window.getUIElement ("caseCreate").setAttribute ("onClick", onCaseCreate);
+								elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);
+								elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", onCaseDestroy);
+								
+								// onChange
+								elements.window.getUIElement ("name").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("att").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("address1").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("address2").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("postcode").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("city").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("country").setAttribute ("onChange", onChange);
+								
+								elements.window.getUIElement ("phone").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("mobile").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("email").setAttribute ("onChange", onChange);
+								
+								elements.window.getUIElement ("vat").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("vatno").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("bankname").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("bankregistrationno").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("bankaccountno").setAttribute ("onChange", onChange);
+								
+								elements.window.getUIElement ("notes").setAttribute ("onChange", onChange);
+	
+								// Button 'save', 'close'
+								elements.window.getUIElement ("save").setAttribute ("onClick", save);
+								elements.window.getUIElement ("close").setAttribute ("onClick", close);
+																									
+								// Init elements.
+								//SNDK.SUI.init ();
+								
+								// Fill forms.
+								set ();
+						
+								// Open modal window.															
+								elements.window.open ();															
+						};
+						
+			// Initialize window
+			init ();				
+		}		
 	}
 </script>

@@ -1,3 +1,5 @@
+<script language="JavaScript" type="text/javascript" src="js/didius.js"></script>	
+
 <script language="JavaScript" type="text/javascript">
 	var app =
 	{
@@ -25,11 +27,7 @@
 			SNDK.SUI.modal.init ();
 				
 			// Init SUI
-			SNDK.SUI.init ();
-			
-			console.log ("sdf")
-				
-			//app.customers.create ();
+			SNDK.SUI.init ();			
 		},	
 		
 		section : 

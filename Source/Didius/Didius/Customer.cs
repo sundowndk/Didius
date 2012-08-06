@@ -43,7 +43,8 @@ namespace Didius
 		private string _att;
 
 		private string _email;
-		private List<string> _phonenumbers;
+		private string _phone;
+		private string _mobile;	
 
 		private bool _vat;
 		private string _vatno;
@@ -229,6 +230,32 @@ namespace Didius
 			}
 		}
 
+		public string Phone
+		{
+			get
+			{
+				return this._phone;
+			}
+			
+			set
+			{
+				this._phone = value;
+			}
+		}
+
+		public string Mobile
+		{
+			get
+			{
+				return this._mobile;
+			}
+			
+			set
+			{
+				this._mobile = value;
+			}
+		}
+
 		public string Email
 		{
 			get
@@ -242,13 +269,6 @@ namespace Didius
 			}
 		}
 
-		public List<string> PhoneNumbers
-		{
-			get
-			{
-				return this._phonenumbers;
-			}
-		}
 
 		public bool Vat
 		{
@@ -410,7 +430,8 @@ namespace Didius
 			this._att = string.Empty;
 
 			this._email = string.Empty;
-			this._phonenumbers = new List<string> ();
+			this._phone = string.Empty;
+			this._mobile = string.Empty;
 
 			this._vat = false;
 			this._vatno = string.Empty;
@@ -453,8 +474,10 @@ namespace Didius
 
 				item.Add ("att", this._att);
 
+				item.Add ("phone", this._phone);
+				item.Add ("mobile", this._mobile);
 				item.Add ("email", this._email);
-				item.Add ("phonenumbers", this._phonenumbers);				
+
 
 				item.Add ("vat", this._vat);
 				item.Add ("vatno", this._vatno);
@@ -502,8 +525,9 @@ namespace Didius
 
 			result.Add ("att", this._att);
 
+			result.Add ("phone", this._phone);
+			result.Add ("mobile", this._mobile);
 			result.Add ("email", this._email);
-			result.Add ("phonenumbers", this._phonenumbers);
 
 			result.Add ("vat", this._vat);
 			result.Add ("vatno", this._vatno);
@@ -589,19 +613,29 @@ namespace Didius
 					result._att = (string)item["att"];
 				}							
 
+				if (item.ContainsKey ("phone"))
+				{
+					result._phone = (string)item["phone"];
+				}
+
+				if (item.ContainsKey ("mobile"))
+				{
+					result._mobile = (string)item["mobile"];
+				}
+
 				if (item.ContainsKey ("email"))
 				{
 					result._email = (string)item["email"];
 				}
 
-				if (item.ContainsKey ("phonenumbers"))
-				{
-					result._phonenumbers = new List<string> ();						
-					foreach (XmlDocument phonenumber in (List<XmlDocument>)item["phonenumbers"])
-					{					
-						result._phonenumbers.Add ((string)((Hashtable)SNDK.Convert.FromXmlDocument (phonenumber))["value"]);
-					}
-				}	
+//				if (item.ContainsKey ("phonenumbers"))
+//				{
+//					result._phonenumbers = new List<string> ();						
+//					foreach (XmlDocument phonenumber in (List<XmlDocument>)item["phonenumbers"])
+//					{					
+//						result._phonenumbers.Add ((string)((Hashtable)SNDK.Convert.FromXmlDocument (phonenumber))["value"]);
+//					}
+//				}	
 
 				if (item.ContainsKey ("vat"))
 				{
@@ -791,19 +825,29 @@ namespace Didius
 				result._att = (string)item["att"];
 			}
 
+			if (item.ContainsKey ("phone"))
+			{
+				result._phone = (string)item["phone"];
+			}
+
+			if (item.ContainsKey ("mobile"))
+			{
+				result._mobile = (string)item["mobile"];
+			}
+
 			if (item.ContainsKey ("email"))
 			{
 				result._email = (string)item["email"];
 			}
 
-			if (item.ContainsKey ("phonenumbers"))
-			{
-				result._phonenumbers = new List<string> ();						
-				foreach (XmlDocument phonenumber in (List<XmlDocument>)item["phonenumbers"])
-				{					
-					result._phonenumbers.Add ((string)((Hashtable)SNDK.Convert.FromXmlDocument (phonenumber))["value"]);
-				}
-			}	
+//			if (item.ContainsKey ("phonenumbers"))
+//			{
+//				result._phonenumbers = new List<string> ();						
+//				foreach (XmlDocument phonenumber in (List<XmlDocument>)item["phonenumbers"])
+//				{					
+//					result._phonenumbers.Add ((string)((Hashtable)SNDK.Convert.FromXmlDocument (phonenumber))["value"]);
+//				}
+//			}	
 			
 			if (item.ContainsKey ("vat"))
 			{

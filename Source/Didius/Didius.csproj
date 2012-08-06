@@ -99,6 +99,10 @@
     <None Include="resources\css\app.css" />
     <None Include="resources\css\other.css" />
     <None Include="resources\xml\customers\edit.xml" />
+    <None Include="resources\xml\customers\section.xml" />
+    <None Include="resources\content\includes\app_customers_cases.stpl" />
+    <None Include="resources\xml\customers\edit_case.xml" />
+    <None Include="resources\js\case.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

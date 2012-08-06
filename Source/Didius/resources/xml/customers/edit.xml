@@ -1,13 +1,31 @@
 <sui elementheight="40px">
 	<layoutbox type="horizontal">			
 		<panel tag="content" size="*">
-			<tabview >
+			<tabview>
 				<tab label="Detaljer" selected="true">
-					<layoutbox type="horizontal" height="33%">			
+					<layoutbox type="horizontal" height="25%">			
 						<panel size="%elementheight%">
 							<layoutbox type="vertical">
 								<panel size="100px">
-									<label text="Name"/>
+									<label text="Kunde nr."/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="no" width="100%" readOnly="true"/>
+								</panel>		
+								<panel size="100px">
+									<label text="Oprets dato"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="createdate" width="100%" />
+								</panel>				
+							</layoutbox>
+						</panel>				
+					</layoutbox>									
+					<layoutbox type="horizontal" height="25%">			
+						<panel size="%elementheight%">
+							<layoutbox type="vertical">
+								<panel size="100px">
+									<label text="Navn"/>
 								</panel>					
 								<panel size="*">
 									<textbox tag="name" width="100%" />
@@ -17,7 +35,17 @@
 						<panel size="%elementheight%">
 							<layoutbox type="vertical">
 								<panel size="100px">
-									<label text="Address"/>
+									<label text="Att"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="att" width="100%" />
+								</panel>					
+							</layoutbox>
+						</panel>
+						<panel size="%elementheight%">
+							<layoutbox type="vertical">
+								<panel size="100px">
+									<label text="Adresse"/>
 								</panel>					
 								<panel size="*">
 									<textbox tag="address1" width="100%" />
@@ -29,7 +57,7 @@
 								<panel size="100px">
 								</panel>					
 								<panel size="*">
-									<textbox tag="address1" width="100%" />
+									<textbox tag="address2" width="100%" />
 								</panel>					
 							</layoutbox>
 						</panel>												
@@ -39,13 +67,13 @@
 									<label text="Post nr."/>
 								</panel>					
 								<panel size="100px">
-									<textbox tag="address1" width="100%" />
+									<textbox tag="postcode" width="100%" />
 								</panel>					
 								<panel size="100px">
 									<label text="By"/>
 								</panel>					
 								<panel size="*">
-									<textbox tag="address1" width="100%" />
+									<textbox tag="city" width="100%" />
 								</panel>					
 							</layoutbox>
 						</panel>	
@@ -55,73 +83,104 @@
 									<label text="Land"/>
 								</panel>					
 								<panel size="*">
-									<textbox tag="address1" width="100%" />
+									<textbox tag="country" width="100%" />
 								</panel>					
 							</layoutbox>
 						</panel>												
-					</layoutbox>
-					
-					<layoutbox type="horizontal" height="33%">			
+					</layoutbox>					
+					<layoutbox type="horizontal" height="25%">			
+						<panel size="%elementheight%">
+							<layoutbox type="vertical">
+								<panel size="100px">
+									<label text="Telefon"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="phone" width="100%" />
+								</panel>					
+							</layoutbox>
+						</panel>										
+						<panel size="%elementheight%">
+							<layoutbox type="vertical">
+								<panel size="100px">
+									<label text="Mobil"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="mobile" width="100%" />
+								</panel>					
+							</layoutbox>
+						</panel>														
 						<panel size="%elementheight%">
 							<layoutbox type="vertical">
 								<panel size="100px">
 									<label text="Email"/>
 								</panel>					
 								<panel size="*">
-									<textbox tag="name" width="100%" />
+									<textbox tag="email" width="100%" />
 								</panel>					
 							</layoutbox>
 						</panel>														
-					</layoutbox>					
-
-					<layoutbox type="horizontal" height="33%">			
+					</layoutbox>		
+					<layoutbox type="horizontal" height="25%">			
 						<panel size="%elementheight%">
 							<layoutbox type="vertical">
 								<panel size="100px">
-									<label text="Bank"/>
+									<label text="Moms"/>
 								</panel>					
 								<panel size="*">
-									<textbox tag="name" width="100%" />
+									<checkbox tag="vat" />
+								</panel>				
+								<panel size="100px">
+									<label text="Moms nr."/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="vatno" width="100%" />
 								</panel>					
 							</layoutbox>
 						</panel>
 						<panel size="%elementheight%">
 							<layoutbox type="vertical">
 								<panel size="100px">
+									<label text="Bank"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="bankname" width="100%" />
+								</panel>					
+							</layoutbox>
+						</panel>						
+						<panel size="%elementheight%">
+							<layoutbox type="vertical">
+								<panel size="100px">
 									<label text="Reg. nr."/>
 								</panel>					
 								<panel size="100px">
-									<textbox tag="address1" width="100%" />
+									<textbox tag="bankregistrationno" width="100%" />
 								</panel>					
 								<panel size="100px">
 									<label text="Konto nr."/>
 								</panel>					
 								<panel size="*">
-									<textbox tag="address1" width="100%" />
+									<textbox tag="bankaccountno" width="100%" />
 								</panel>					
 							</layoutbox>
 						</panel>																					
 					</layoutbox>					
-
 				</tab>
 				<tab label="Sager">
 					<layoutbox type="horizontal">					
 						<panel size="*">													
 							<layoutbox type="vertical">
 								<panel size="*">
-									<listview tag="fields" width="100%" height="100%">
+									<listview tag="cases" width="100%" height="100%">
 										<column tag="id" />
-										<column tag="name" label="Name" width="200px" visible="true" />
-										<column tag="type" label="Type" width="200px" visible="true" />									
-										<column tag="options" />												
+										<column tag="no" label="Sags nr." width="200px" visible="true" />
 									</listview>
 								</panel>					
 								<panel size="80px">
-									<layoutbox type="horizontal" width="100%" height="100%" stylesheet="SUILayoutboxNoBorder">
+									<layoutbox type="horizontal" width="100%" height="100%">
 										<panel size="*">
-											<button tag="fieldadd" width="100%" label="Opret" />
-											<button tag="fieldedit" width="100%" label="Redigere" disabled="true" />
-											<button tag="fieldremove" width="100%" label="Slet" disabled="true" />
+											<button tag="caseCreate" width="100%" label="Opret" />
+											<button tag="caseEdit" width="100%" label="Redigere" disabled="true" />
+											<button tag="caseDestroy" width="100%" label="Slet" disabled="true" />
 										</panel>										
 									</layoutbox>																									
 								</panel>
@@ -131,7 +190,11 @@
 				</tab>
 				<tab label="Notat">
 					<textarea tag="notes" />
-				</tab>				
+				</tab>		
+				<tab label="Grupper">
+				</tab>		
+				<tab label="Log">
+				</tab>						
 			</tabview>		
 		</panel>
 	

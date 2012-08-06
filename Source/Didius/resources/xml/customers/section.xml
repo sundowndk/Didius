@@ -1,0 +1,19 @@
+<sui>
+	<canvas>	
+		<layoutbox type="vertical">
+			<panel size="500px">
+				<listview tag="customers">
+					<column tag="id" />		
+					<column tag="name" label="Navn" width="300px" visible="true" />							
+				</listview>
+			</panel>
+			<panel size="140px">
+				<button tag="create" label="Ny" />
+				<button tag="edit" label="Redigere" disabled="true" />
+				<button tag="destroy" label="Slet" disabled="true" />
+			</panel>
+		</layoutbox>				
+	</canvas>
+</sui>
+
+

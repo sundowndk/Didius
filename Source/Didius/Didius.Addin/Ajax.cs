@@ -28,7 +28,7 @@ namespace Didius.Addin
 			switch (Fullname.ToLower ())
 			{
 				#region Didius.Customer
-				case "Didius.Customer":
+				case "didius.customer":
 				{	
 					switch (Method.ToLower ())
 					{						
@@ -64,7 +64,46 @@ namespace Didius.Addin
 					}
 					break;
 				}
-				#endregion					
+				#endregion	
+
+				#region Didius.Case
+				case "didius.case":
+				{	
+					switch (Method.ToLower ())
+					{						
+						case "create":
+						{
+							result.Add (new Case (request.getValue<Guid>("customerid")));
+							break;
+						}		
+							
+						case "load":
+						{
+							result.Add (Case.Load (request.getValue<Guid>("id")));
+							break;
+						}
+							
+						case "save":
+						{
+							request.getValue<Case> ("didius.case").Save ();
+							break;
+						}
+							
+						case "destroy":
+						{
+							Case.Delete (request.getValue<Guid> ("id"));
+							break;
+						}
+							
+						case "list":
+						{
+							result.Add (Customer.List ());
+							break;
+						}
+					}
+					break;
+				}
+				#endregion	
 			}
 			
 			return result;

@@ -89,6 +89,18 @@ namespace Didius
 			this._customerid = Customer.Id;
 		}
 
+		public Case (Guid Id)
+		{
+			this._id = Guid.NewGuid ();
+			
+			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
+			
+			this._no = DateTime.Now.Month.ToString () + DateTime.Now.Day.ToString () + DateTime.Now.Hour.ToString () + DateTime.Now.Minute.ToString () + DateTime.Now.Second.ToString () + DateTime.Now.Millisecond.ToString ();
+			
+			this._customerid = Id;
+		}
+
 		private Case ()
 		{
 			this._createtimestamp = 0;
@@ -215,6 +227,34 @@ namespace Didius
 			}
 		}
 
+//		public static List<Case> List (Customer Customer)
+//		{
+//			return List (Customer.Id);
+//		}
+//
+//		public static List<Case> List (Guid CustomerId)
+//		{
+//			List<Case> result = new List<Case> ();
+//			
+//			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchCondition.Equal, CustomerId)))
+//			{
+//				try
+//				{
+//					result.Add (Load (new Guid (id)));
+//				}
+//				catch (Exception exception)
+//				{
+//					// LOG: LogDebug.ExceptionUnknown
+//					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CASE", exception.Message));
+//					
+//					// LOG: LogDebug.PageList
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CaseList, id));
+//				}
+//			}
+//			
+//			return result;
+//		}
+
 		public static List<Case> List (Customer Customer)
 		{
 			return List (Customer.Id);
@@ -223,7 +263,7 @@ namespace Didius
 		public static List<Case> List (Guid CustomerId)
 		{
 			List<Case> result = new List<Case> ();
-			
+
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchCondition.Equal, CustomerId)))
 			{
 				try

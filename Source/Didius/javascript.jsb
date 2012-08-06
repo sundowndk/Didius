@@ -1,8 +1,11 @@
 <solution name="Didius" outputdirectory="">	
 	<project name="didius">
-		<class name="Didius">	
+		<class name="didius">	
 			<class name="customer">
-				<js file="resources/js/customer.js" />
+				<js file="resources/js/customer.js" />				
+			</class>				
+			<class name="case">
+				<js file="resources/js/case.js" />				
 			</class>				
 		</class>
 	</project>	
