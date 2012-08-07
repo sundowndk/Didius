@@ -416,7 +416,7 @@ namespace Didius
 			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 
-			this._no = DateTime.Now.Month.ToString () + DateTime.Now.Day.ToString () + DateTime.Now.Hour.ToString () + DateTime.Now.Minute.ToString () + DateTime.Now.Second.ToString () + DateTime.Now.Millisecond.ToString ();
+			this._no = Helpers.NewNo ();
 
 			this._groups = new List<CustomerGroup> ();
 
@@ -692,26 +692,24 @@ namespace Didius
 		public static void Delete (Guid Id)
 		{
 			// We can not delete Customer with a Case related to it.
-			if (Case.List (Id).Count == 0)
+			if (Case.List (Id).Count > 0)
 			{
-				try
-				{
-					SorentoLib.Services.Datastore.Delete (DatastoreAisle, Id.ToString ());
-				}
-				catch (Exception exception)
-				{
-					// LOG: LogDebug.ExceptionUnknown
-					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CUSTOMER", exception.Message));
+				// EXCEPTION: Exception.CustomerDeleteHasCase
+				throw new Exception (string.Format (Strings.Exception.CustomerDeleteHasCase, Id.ToString ()));
+			}
+
+			try
+			{
+				SorentoLib.Services.Datastore.Delete (DatastoreAisle, Id.ToString ());
+			}
+			catch (Exception exception)
+			{
+				// LOG: LogDebug.ExceptionUnknown
+				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CUSTOMER", exception.Message));
 				
-					// EXCEPTION: Exception.PageDelete
-					throw new Exception (string.Format (Strings.Exception.CustomerDeleteGuid, Id.ToString ()));
-				}			
-			}
-			else
-			{
-				// EXCEPTION: Exception.CustomerDeleteInUse
-				throw new Exception (string.Format (Strings.Exception.CustomerDeleteInUse, Id.ToString ()));
-			}
+				// EXCEPTION: Exception.PageDelete
+				throw new Exception (string.Format (Strings.Exception.CustomerDeleteGuid, Id.ToString ()));
+			}			
 		}
 
 		public static List<Customer> List ()

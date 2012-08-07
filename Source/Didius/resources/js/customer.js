@@ -30,15 +30,22 @@ save : function (template)
 	return true;
 },		
 
-destory : function (id)
+destroy : function (id)
 {
 	var content = new Array ();
 	content["id"] = id;
 
-	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Customer.Destroy", "data", "POST", false);	
-	request.send (content);
+	try
+	{
+		var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Customer.Destroy", "data", "POST", false);	
+		request.send (content);
+	}
+	catch (error)
+	{						
+		return [false, error];
+	}
 			
-	return true;
+	return [true];
 },				
 		
 list : function (attributes)
@@ -52,6 +59,7 @@ list : function (attributes)
 							attributes.onDone (respons[didius.customer.type +"s"]);
 						};
 		
+	
 		var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Customer.List", "data", "POST", true);
 		request.onLoaded (onDone);
 		request.send ();						

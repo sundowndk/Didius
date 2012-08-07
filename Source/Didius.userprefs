@@ -1,32 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Case.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius.Addin/Ajax.cs">
     <Files>
-      <File FileName="Didius/resources/xml/customers/edit.xml" Line="173" Column="30" />
-      <File FileName="Didius/resources/content/index.stpl" Line="13" Column="40" />
-      <File FileName="Didius/resources/js/customer.js" Line="69" Column="1" />
-      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="204" Column="92" />
-      <File FileName="Didius/resources/content/includes/app_customers_cases.stpl" Line="97" Column="19" />
-      <File FileName="Didius/resources/xml/customers/section.xml" Line="4" Column="22" />
-      <File FileName="Didius/Didius/Customer.cs" Line="862" Column="35" />
-      <File FileName="Didius/resources/xml/customers/edit_case.xml" Line="13" Column="26" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="76" Column="64" />
-      <File FileName="Didius/javascript.jsb" Line="8" Column="32" />
-      <File FileName="Didius/Didius/Case.cs" Line="258" Column="1" />
-      <File FileName="Didius/Didius/Bid.cs" Line="1" Column="1" />
-      <File FileName="Didius/Didius/Item.cs" Line="310" Column="84" />
-      <File FileName="Didius/Didius/CustomerGroup.cs" Line="35" Column="1" />
-      <File FileName="Didius/Didius/ItemContent.cs" Line="51" Column="3" />
-      <File FileName="Didius/Didius/Auction.cs" Line="1" Column="1" />
+      <File FileName="Didius/resources/content/includes/app_customers_cases.stpl" Line="1" Column="11" />
+      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="228" Column="13" />
+      <File FileName="Didius/resources/content/includes/app_cases.stpl" Line="108" Column="8" />
+      <File FileName="Didius/resources/content/includes/app_items.stpl" Line="20" Column="38" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="122" Column="60" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
-            <Node name="Didius" expanded="True">
-              <Node name="Case.cs" selected="True" />
+            <Node name="Didius" expanded="True" />
+            <Node name="Didius.Addin" expanded="True">
+              <Node name="Ajax.cs" selected="True" />
             </Node>
-            <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True">
               <Node name="content" expanded="True">
@@ -35,7 +24,9 @@
               <Node name="css" expanded="True" />
               <Node name="js" expanded="True" />
               <Node name="xml" expanded="True">
+                <Node name="cases" expanded="True" />
                 <Node name="customers" expanded="True" />
+                <Node name="items" expanded="True" />
               </Node>
             </Node>
           </Node>

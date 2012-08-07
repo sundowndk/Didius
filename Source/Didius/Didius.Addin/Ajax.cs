@@ -97,13 +97,66 @@ namespace Didius.Addin
 							
 						case "list":
 						{
-							result.Add (Customer.List ());
+							if (request.ContainsXPath ("customerid"))
+							{
+								result.Add (Case.List (request.getValue<Guid> ("customerid")));
+							}
+							else
+							{
+								result.Add (Case.List ());
+							}
 							break;
 						}
 					}
 					break;
 				}
 				#endregion	
+
+				#region Didius.Case
+				case "didius.item":
+				{	
+					switch (Method.ToLower ())
+					{						
+						case "create":
+						{
+							result.Add (new Item (request.getValue<Guid>("caseid")));
+							break;
+						}		
+							
+						case "load":
+						{
+							result.Add (Item.Load (request.getValue<Guid>("id")));
+							break;
+						}
+							
+						case "save":
+						{
+							request.getValue<Item> ("didius.item").Save ();
+							break;
+						}
+							
+						case "destroy":
+						{
+							Item.Delete (request.getValue<Guid> ("id"));
+							break;
+						}
+							
+						case "list":
+						{
+							if (request.ContainsXPath ("itemid"))
+							{
+								result.Add (Item.List (request.getValue<Guid> ("itemid")));
+							}
+							else
+							{
+								result.Add (Item.List ());
+							}
+							break;
+						}
+					}
+					break;
+				}
+				#endregion
 			}
 			
 			return result;

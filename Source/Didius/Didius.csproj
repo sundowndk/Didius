@@ -71,6 +71,7 @@
     <Compile Include="Didius\Bid.cs" />
     <Compile Include="Didius.Addin\Ajax.cs" />
     <Compile Include="Didius.Addin\Init.cs" />
+    <Compile Include="Didius\Helpers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -87,6 +88,8 @@
     <Folder Include="resources\content\includes\" />
     <Folder Include="resources\includes\" />
     <Folder Include="resources\xml\customers\" />
+    <Folder Include="resources\xml\cases\" />
+    <Folder Include="resources\xml\items\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -101,8 +104,12 @@
     <None Include="resources\xml\customers\edit.xml" />
     <None Include="resources\xml\customers\section.xml" />
     <None Include="resources\content\includes\app_customers_cases.stpl" />
-    <None Include="resources\xml\customers\edit_case.xml" />
     <None Include="resources\js\case.js" />
+    <None Include="resources\content\includes\app_cases.stpl" />
+    <None Include="resources\content\includes\app_items.stpl" />
+    <None Include="resources\xml\items\edit.xml" />
+    <None Include="resources\xml\cases\edit.xml" />
+    <None Include="resources\js\item.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

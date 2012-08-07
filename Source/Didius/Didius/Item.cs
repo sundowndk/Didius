@@ -29,6 +29,8 @@ namespace Didius
 		private int _createtimestamp;
 		private int _updatetimestamp;
 
+		private string _no;
+
 		private Guid _caseid;
 
 		private string _title;
@@ -59,6 +61,14 @@ namespace Didius
 			get
 			{
 				return this._updatetimestamp;
+			}
+		}
+
+		public string No
+		{
+			get
+			{
+				return this._no;
 			}
 		}
 
@@ -110,10 +120,29 @@ namespace Didius
 		{
 			this._id = Guid.NewGuid ();
 			
+			this._no = Helpers.NewNo ();
+			
 			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			
 			this._caseid = Case.Id;
+			
+			this._title = string.Empty;
+			this._description = string.Empty;
+			
+			this._fields = new Hashtable ();		
+		}
+
+		public Item (Guid Id)
+		{
+			this._id = Guid.NewGuid ();
+
+			this._no = Helpers.NewNo ();
+
+			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
+			
+			this._caseid = Id;
 
 			this._title = string.Empty;
 			this._description = string.Empty;
@@ -125,6 +154,8 @@ namespace Didius
 		{
 			this._createtimestamp = 0;
 			this._updatetimestamp = 0;
+
+			this._no = this._no = Helpers.NewNo ();
 
 			this._title = string.Empty;
 			this._description = string.Empty;
@@ -146,6 +177,8 @@ namespace Didius
 				item.Add ("createtimestamp", this._createtimestamp);
 				item.Add ("updatetimestamp", this._updatetimestamp);		
 								
+				item.Add ("no", this._no);
+
 				item.Add ("caseid", this._caseid);
 
 				item.Add ("title", this._title);
@@ -175,7 +208,9 @@ namespace Didius
 			result.Add ("id", this._id);
 			result.Add ("createtimestamp", this._createtimestamp);
 			result.Add ("updatetimestamp", this._updatetimestamp);				
-			
+
+			result.Add ("no", this._no);
+
 			result.Add ("caseid", this._caseid);
 
 			result.Add ("title", this._title);
@@ -216,7 +251,12 @@ namespace Didius
 				{
 					result._updatetimestamp = int.Parse ((string)item["updatetimestamp"]);
 				}
-								
+
+				if (item.ContainsKey ("no"))
+				{
+					result._no = (string)item["no"];
+				}
+
 				if (item.ContainsKey ("caseid"))
 				{					
 					result._caseid = new Guid ((string)item["caseid"]);
@@ -357,6 +397,11 @@ namespace Didius
 			if (item.ContainsKey ("updatetimestamp"))
 			{
 				result._updatetimestamp = int.Parse ((string)item["updatetimestamp"]);
+			}
+
+			if (item.ContainsKey ("no"))
+			{
+				result._no = (string)item["no"];
 			}
 
 			if (item.ContainsKey ("caseid"))

@@ -193,6 +193,8 @@
 				</tab>		
 				<tab label="Grupper">
 				</tab>		
+				<tab label="Web">
+				</tab>										
 				<tab label="Log">
 				</tab>						
 			</tabview>		
@@ -203,7 +205,7 @@
 				<panel size="*"/>
 				<panel size="300px">
 					<button tag="close" width="50%" label="Luk" />
-					<button tag="save" width="50%" label="Gem" disabled="true" />					
+					<button tag="save" width="50%" stylesheet="button green-gradient" label="Gem" disabled="true" />					
 				</panel>				
 			</layoutbox>
 		</panel>	

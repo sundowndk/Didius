@@ -7,6 +7,9 @@
 			<class name="case">
 				<js file="resources/js/case.js" />				
 			</class>				
+			<class name="item">
+				<js file="resources/js/item.js" />				
+			</class>				
 		</class>
 	</project>	
 </solution>

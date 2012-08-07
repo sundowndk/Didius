@@ -1,0 +1,58 @@
+<sui elementheight="40px">
+	<layoutbox type="horizontal">			
+		<panel tag="content" size="*">
+			<tabview>
+				<tab label="Detaljer" selected="true">
+					<layoutbox type="horizontal">			
+						<panel size="%elementheight%">
+							<layoutbox type="vertical">
+								<panel size="100px">
+									<label text="Sags nr."/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="no" width="100%" readOnly="true"/>
+								</panel>		
+								<panel size="100px">
+									<label text="Oprets dato"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="createdate" width="100%" />
+								</panel>				
+							</layoutbox>
+						</panel>				
+						<panel size="*">
+							<layoutbox type="vertical">
+								<panel size="*">
+									<listview tag="items" width="100%" height="100%">
+										<column tag="id" />
+										<column tag="no" label="Effekt nr." width="150px" visible="true" />
+										<column tag="title" label="Title" width="300px" visible="true" />
+									</listview>
+								</panel>					
+								<panel size="80px">
+									<layoutbox type="horizontal" width="100%" height="100%">
+										<panel size="*">
+											<button tag="itemCreate" width="100%" label="Opret" />
+											<button tag="itemEdit" width="100%" label="Redigere" disabled="true" />
+											<button tag="itemDestroy" width="100%" label="Slet" disabled="true" />
+										</panel>										
+									</layoutbox>																									
+								</panel>
+							</layoutbox>						
+						</panel>
+					</layoutbox>									
+				</tab>						
+			</tabview>		
+		</panel>
+	
+		<panel tag="buttons" size="%elementheight%">			
+			<layoutbox type="vertical">
+				<panel size="*"/>
+				<panel size="300px">
+					<button tag="close" width="50%" label="Luk" />
+					<button tag="save" width="50%" stylesheet="button green-gradient" label="Gem" disabled="true" />					
+				</panel>				
+			</layoutbox>
+		</panel>	
+	</layoutbox>
+</sui>

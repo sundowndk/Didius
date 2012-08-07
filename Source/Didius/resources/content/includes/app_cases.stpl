@@ -1,0 +1,146 @@
+<script language="JavaScript" type="text/javascript">
+	app.cases =
+	{
+		edit : function (attributes)
+		{
+			// Elements
+			var elements = new Array ();
+							
+			// Functions
+			var save =		function ()
+							{																
+								// Collect forms.
+								get ();
+									
+								// Save Customer object to database.
+								didius.case.save (attributes.current);
+									
+								if (attributes.onSave)
+								{
+									setTimeout (function () {attributes.onSave (attributes.current)}, 1);
+								}
+									
+								// Update checksum.
+								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
+								onChange ();														
+							};
+							
+			var close = 	function ()
+							{
+								elements.window.dispose ();
+							};
+								
+			var set =		function ()
+							{							
+								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
+								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
+								
+								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
+							
+								onChange ();						
+							};
+							
+			var get =		function ()
+								{												
+								};
+										
+			var onChange =	function ()
+							{
+								get ();
+								
+								// Checksum
+								if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum))
+								{
+									elements.window.getUIElement ("save").setAttribute ("disabled", false);
+								}
+								else
+								{
+									elements.window.getUIElement ("save").setAttribute ("disabled", true);
+								}															
+								
+								if (elements.window.getUIElement ("items").getItem ())
+								{			 						 				
+									elements.window.getUIElement ("itemEdit").setAttribute ("disabled", false);
+									elements.window.getUIElement ("itemDestroy").setAttribute ("disabled", false);
+								}
+								else
+								{
+									elements.window.getUIElement ("itemEdit").setAttribute ("disabled", true);
+									elements.window.getUIElement ("itemDestroy").setAttribute ("disabled", true);
+								}			
+							};
+							
+			var onItemCreate =	function ()
+								{
+									var current = didius.item.create (attributes.current);
+									didius.item.save (current);
+								
+									var row = elements.window.getUIElement ("items").addItem (current);															
+									var onSave =	function (result)
+													{
+														elements.window.getUIElement ("items").setItem (result, row);
+													};
+																
+									app.items.edit ({current: current, onSave: onSave});
+								};
+								
+			var onItemEdit =	function ()
+								{
+									var row = elements.window.getUIElement ("items").getItemRow ()
+									var onSave = 	function (result)
+													{
+														elements.window.getUIElement ("items").setItem (result, row);
+													};																				
+												
+									app.items.edit ({current: didius.case.load (elements.window.getUIElement ("items").getItem ().id), onSave: onSave});																								
+								};
+								
+			var onItemDestroy = function ()
+								{
+									var onDone =	function (result)
+									{
+										if (result == 1)
+										{
+											didius.item.destroy (elements.window.getUIElement ("items").getItem ().id);
+											elements.window.getUIElement ("items").removeItem ();
+										}
+									};
+							
+									SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne effekt ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});
+								}							
+											
+			var init = 		function ()
+							{
+								if (!attributes)
+									attributes = new Array ();
+																										
+								// Functions
+
+								// Window 'window'			
+								attributes.windowTitle = "Sag : ["+ attributes.current.no +"]";	
+								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/cases/edit.xml", width: "70%", height: "70%"});
+								
+								// Buttons 'itemCreate', 'itemEdit', 'itemDestroy'
+								elements.window.getUIElement ("itemCreate").setAttribute ("onClick", onItemCreate);
+								elements.window.getUIElement ("itemEdit").setAttribute ("onClick", onItemEdit);
+								elements.window.getUIElement ("itemDestroy").setAttribute ("onClick", onItemDestroy);
+								
+								// Button 'save', 'close'
+								elements.window.getUIElement ("save").setAttribute ("onClick", save);
+								elements.window.getUIElement ("close").setAttribute ("onClick", close);
+																									
+								// Init elements.
+								//SNDK.SUI.init ();
+								
+								// Fill forms.
+								set ();
+						
+								// Open modal window.															
+								elements.window.open ();															
+						};
+							
+			// Initialize window
+			init ();					
+		}
+	}
+</script>

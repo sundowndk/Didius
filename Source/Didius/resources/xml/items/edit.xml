@@ -3,7 +3,7 @@
 		<panel tag="content" size="*">
 			<tabview>
 				<tab label="Detaljer" selected="true">
-					<layoutbox type="horizontal" height="25%">			
+					<layoutbox type="horizontal">			
 						<panel size="%elementheight%">
 							<layoutbox type="vertical">
 								<panel size="100px">
@@ -30,7 +30,7 @@
 				<panel size="*"/>
 				<panel size="300px">
 					<button tag="close" width="50%" label="Luk" />
-					<button tag="save" width="50%" label="Gem" disabled="true" />					
+					<button tag="save" width="50%" stylesheet="button green-gradient" label="Gem" disabled="true" />					
 				</panel>				
 			</layoutbox>
 		</panel>	

@@ -1,31 +1,29 @@
-type : "didius.case",
-
 create : function (Customer)
 {
 	var content = new Array ();
-	content["customerid"] = Customer.id;
+	content.customerid = Customer.id;
 
 	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Create", "data", "POST", false);	
 	request.send (content);
 	
-	return request.respons ()[didius.case.type];
+	return request.respons ()["didius.case"];
 },
 	
 load : function (id)
 {
 	var content = new Array ();
-	content["id"] = id;
+	content.id = id;
 
 	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Load", "data", "POST", false);		
 	request.send (content);
 
-	return request.respons ()[didius.case.type];
+	return request.respons ()["didius.case"];
 },
 		
 save : function (template)
 {	
 	var content = new Array ();
-	content[didius.case.type] = template;
+	content["didius.case"] = template;
 								
 	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Save", "data", "POST", false);	
 	request.send (content);
@@ -33,10 +31,10 @@ save : function (template)
 	return true;
 },		
 
-destory : function (id)
+destroy : function (id)
 {
 	var content = new Array ();
-	content["id"] = id;
+	content.id = id;
 
 	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
 	request.send (content);
@@ -48,23 +46,30 @@ list : function (attributes)
 {
 	if (!attributes) attributes = new Array ();
 	
+	var content = new Array ();
+	
+	if (attributes.customer)
+	{
+		content.customerid = attributes.customer.id;
+	}
+	
 	if (attributes.async)
 	{
 		var onDone = 	function (respons)
 						{
-							attributes.onDone (respons[didius.customer.type +"s"]);
+							attributes.onDone (respons["didius.cases"]);
 						};
 		
-		var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Customer.List", "data", "POST", true);
+		var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.List", "data", "POST", true);
 		request.onLoaded (onDone);
-		request.send ();						
+		request.send (content);
 	}
 	else
 	{
-		var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Customer.List", "data", "POST", false);		
-		request.send ();
+		var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.List", "data", "POST", false);		
+		request.send (content);
 
-		return request.respons ()[didius.customer.type +"s"];		
+		return request.respons ()["didius.cases"];		
 	}
 }	
 

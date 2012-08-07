@@ -1,0 +1,91 @@
+<script language="JavaScript" type="text/javascript">
+	app.items =
+	{
+		edit : function (attributes)
+		{
+			// Elements
+			var elements = new Array ();
+							
+			// Functions
+			var save =		function ()
+							{																
+								// Collect forms.
+								get ();
+									
+								// Save Customer object to database.
+								didius.item.save (attributes.current);
+									
+								if (attributes.onSave)
+								{
+									setTimeout (function () {attributes.onSave (attributes.current)}, 1);
+								}
+									
+								// Update checksum.
+								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
+								onChange ();														
+							};
+							
+			var close = 	function ()
+							{
+								elements.window.dispose ();
+							};
+								
+			var set =		function ()
+							{							
+								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
+								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
+								
+								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
+							
+								onChange ();						
+							};
+							
+			var get =		function ()
+								{												
+								};
+										
+			var onChange =	function ()
+							{
+								get ();
+								
+								// Checksum
+								if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum))
+								{
+									elements.window.getUIElement ("save").setAttribute ("disabled", false);
+								}
+								else
+								{
+									elements.window.getUIElement ("save").setAttribute ("disabled", true);
+								}															
+							};
+											
+			var init = 		function ()
+							{
+								if (!attributes)
+									attributes = new Array ();
+																										
+								// Functions
+
+								// Window 'window'			
+								attributes.windowTitle = "Effekt : ["+ attributes.current.no +"]";	
+								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/items/case.xml", width: "60%", height: "60%"});
+								
+								// Button 'save', 'close'
+								elements.window.getUIElement ("save").setAttribute ("onClick", save);
+								elements.window.getUIElement ("close").setAttribute ("onClick", close);
+																									
+								// Init elements.
+								//SNDK.SUI.init ();
+								
+								// Fill forms.
+								set ();
+						
+								// Open modal window.															
+								elements.window.open ();															
+						};
+							
+			// Initialize window
+			init ();					
+		}
+	}
+</script>

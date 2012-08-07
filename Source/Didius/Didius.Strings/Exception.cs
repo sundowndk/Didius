@@ -14,11 +14,11 @@ namespace Didius.Strings
 	public class Exception
 	{
 		#region CUSTOMER
-		public static string CustomerSave = "Could not save Customer with id: {0}";
-		public static string CustomerLoadGuid = "Could not load Customer with id: {0}";
-		public static string CustomerDeleteGuid = "Could not delete Customer with id: {0}";
-		public static string CustomerDeleteInUse = "Cannot delete Customer with id: {0}, since its related to another dataset.";
-		public static string CustomerFromXmlDocument = "Cannot create Customer from XmlDocument, missing {0}";
+		public static string CustomerSave = "00100|Could not save Customer with id: {0}";
+		public static string CustomerLoadGuid = "00110|Could not load Customer with id: {0}";
+		public static string CustomerDeleteGuid = "00120|Could not delete Customer with id: {0}";
+		public static string CustomerDeleteHasCase = "00120|Can not delete Customer with id: {0}, since its related to a case.";
+		public static string CustomerFromXmlDocument = "00140|Can not create Customer from XmlDocument, missing {0}";
 		#endregion		
 
 		#region CUSTOMERGROUP

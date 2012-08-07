@@ -84,7 +84,7 @@ namespace Didius
 			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			
-			this._no = DateTime.Now.Month.ToString () + DateTime.Now.Day.ToString () + DateTime.Now.Hour.ToString () + DateTime.Now.Minute.ToString () + DateTime.Now.Second.ToString () + DateTime.Now.Millisecond.ToString ();
+			this._no = Helpers.NewNo ();
 
 			this._customerid = Customer.Id;
 		}
@@ -96,7 +96,8 @@ namespace Didius
 			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			
-			this._no = DateTime.Now.Month.ToString () + DateTime.Now.Day.ToString () + DateTime.Now.Hour.ToString () + DateTime.Now.Minute.ToString () + DateTime.Now.Second.ToString () + DateTime.Now.Millisecond.ToString ();
+			this._no =	Helpers.NewNo ();
+
 			
 			this._customerid = Id;
 		}
@@ -106,7 +107,7 @@ namespace Didius
 			this._createtimestamp = 0;
 			this._updatetimestamp = 0;
 
-			this._no = DateTime.Now.Month.ToString () + DateTime.Now.Day.ToString () + DateTime.Now.Hour.ToString () + DateTime.Now.Minute.ToString () + DateTime.Now.Second.ToString () + DateTime.Now.Millisecond.ToString ();
+			this._no = Helpers.NewNo ();
 		}
 		#endregion
 		
