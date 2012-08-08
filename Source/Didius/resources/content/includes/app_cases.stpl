@@ -35,6 +35,13 @@
 								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
 								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
 								
+								var onItemsDone = 	function (result)
+													{													
+														elements.window.getUIElement ("items").setItems (result);
+													};
+								
+								didius.item.list ({case: attributes.current, async: true, onDone: onItemsDone});
+								
 								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
 							
 								onChange ();						
@@ -73,6 +80,7 @@
 			var onItemCreate =	function ()
 								{
 									var current = didius.item.create (attributes.current);
+									console.log (current)
 									didius.item.save (current);
 								
 									var row = elements.window.getUIElement ("items").addItem (current);															
@@ -92,7 +100,7 @@
 														elements.window.getUIElement ("items").setItem (result, row);
 													};																				
 												
-									app.items.edit ({current: didius.case.load (elements.window.getUIElement ("items").getItem ().id), onSave: onSave});																								
+									app.items.edit ({current: didius.item.load (elements.window.getUIElement ("items").getItem ().id), onSave: onSave});																								
 								};
 								
 			var onItemDestroy = function ()
@@ -119,6 +127,10 @@
 								// Window 'window'			
 								attributes.windowTitle = "Sag : ["+ attributes.current.no +"]";	
 								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/cases/edit.xml", width: "70%", height: "70%"});
+								
+								// Listview 'items'
+								elements.window.getUIElement ("items").setAttribute ("onDoubleClick", onItemEdit);
+								elements.window.getUIElement ("items").setAttribute ("onChange", onChange);
 								
 								// Buttons 'itemCreate', 'itemEdit', 'itemDestroy'
 								elements.window.getUIElement ("itemCreate").setAttribute ("onClick", onItemCreate);

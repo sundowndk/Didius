@@ -218,6 +218,34 @@ namespace Didius
 				throw new Exception (string.Format (Strings.Exception.BidDeleteGuid, Id.ToString ()));
 			}			
 		}
+
+		public static List<Bid> List (Item Item)
+		{
+			return List (Item.Id);
+		}
+		
+		public static List<Bid> List (Guid ItemId)
+		{
+			List<Bid> result = new List<Bid> ();
+			
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemid", SorentoLib.Enums.DatastoreMetaSearchCondition.Equal, ItemId)))
+			{
+				try
+				{
+					result.Add (Load (new Guid (id)));
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
+					
+					// LOG: LogDebug.BidList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
+				}
+			}
+			
+			return result;
+		}
 		
 		public static List<Bid> List ()
 		{

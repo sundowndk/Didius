@@ -13,6 +13,7 @@
 	<%Include ("includes/app_init.stpl")%>
 	<%Include ("includes/app_customers.stpl")%>
 	<%Include ("includes/app_cases.stpl")%>
+	<%Include ("includes/app_items.stpl")%>
 	
 </head>
 

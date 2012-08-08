@@ -19,7 +19,11 @@
 									<textbox tag="createdate" width="100%" />
 								</panel>				
 							</layoutbox>
-						</panel>				
+						</panel>										
+					</layoutbox>									
+				</tab>				
+				<tab label="Effekter">
+					<layoutbox type="horizontal">			
 						<panel size="*">
 							<layoutbox type="vertical">
 								<panel size="*">

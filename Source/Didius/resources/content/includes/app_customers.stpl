@@ -283,6 +283,9 @@
 								elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);
 								elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", onCaseDestroy);
 								
+								// Listview 'cases'
+								elements.window.getUIElement ("cases").setAttribute ("onDoubleClick", onCaseEdit);
+								
 								// onChange
 								elements.window.getUIElement ("name").setAttribute ("onChange", onChange);
 								elements.window.getUIElement ("att").setAttribute ("onChange", onChange);
@@ -302,8 +305,7 @@
 								elements.window.getUIElement ("bankregistrationno").setAttribute ("onChange", onChange);
 								elements.window.getUIElement ("bankaccountno").setAttribute ("onChange", onChange);
 								
-								elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("cases").setAttribute ("onDoubleClick", onCaseEdit);
+								elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);								
 								
 								elements.window.getUIElement ("notes").setAttribute ("onChange", onChange);
 	

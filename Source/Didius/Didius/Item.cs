@@ -301,6 +301,13 @@ namespace Didius
 
 		public static void Delete (Guid Id)
 		{
+			// We can not delete if we have bids.
+			if (Bid.List (Id).Count > 0)
+			{
+				// EXCEPTION: Exception.ItemDeleteHasBid
+				throw new Exception (string.Format (Strings.Exception.ItemDeleteHasBid, Id.ToString ()));
+			}
+
 			try
 			{
 				SorentoLib.Services.Datastore.Delete (DatastoreAisle, Id.ToString ());
@@ -423,10 +430,10 @@ namespace Didius
 				result._description =(string)item["description"];
 			}	
 
-			if (item.ContainsKey ("fields"))
-			{					
-				result._fields =(Hashtable)item["fields"];
-			}	
+//			if (item.ContainsKey ("fields"))
+//			{					
+//				result._fields =(Hashtable)item["fields"];
+//			}	
 			
 			return result;
 		}

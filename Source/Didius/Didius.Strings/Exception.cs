@@ -17,8 +17,8 @@ namespace Didius.Strings
 		public static string CustomerSave = "00100|Could not save Customer with id: {0}";
 		public static string CustomerLoadGuid = "00110|Could not load Customer with id: {0}";
 		public static string CustomerDeleteGuid = "00120|Could not delete Customer with id: {0}";
-		public static string CustomerDeleteHasCase = "00120|Can not delete Customer with id: {0}, since its related to a case.";
-		public static string CustomerFromXmlDocument = "00140|Can not create Customer from XmlDocument, missing {0}";
+		public static string CustomerDeleteHasCase = "00121|Can not delete Customer with id: {0}, since its related to a case.";
+		public static string CustomerFromXmlDocument = "00130|Can not create Customer from XmlDocument, missing {0}";
 		#endregion		
 
 		#region CUSTOMERGROUP
@@ -37,13 +37,14 @@ namespace Didius.Strings
 		#endregion	
 
 		#region ITEM
-		public static string ItemSave = "Could not save Item with id: {0}.\nInner Exception:\n {1}";
-		public static string ItemLoadGuid = "Could not load Item with id: {0}.\nInner Exception:\n {1}";
-		public static string ItemDeleteGuid = "Could not delete Item with id: {0}.\nInner Exception:\n {1}";
-		public static string ItemFromXmlDocument = "Cannot create Item from XmlDocument, missing {0}";
+		public static string ItemSave = "00300|Could not save Item with id: {0}.\nInner Exception:\n {1}";
+		public static string ItemLoadGuid = "00310|Could not load Item with id: {0}.\nInner Exception:\n {1}";
+		public static string ItemDeleteGuid = "00320|Could not delete Item with id: {0}.\nInner Exception:\n {1}";
+		public static string ItemDeleteHasBid = "00321|Can not delete Item with id: {0}, since its related to a bid.";
+		public static string ItemFromXmlDocument = "00330|Cannot create Item from XmlDocument, missing {0}";
 		#endregion
 
-		#region ITEM
+		#region AUCTION
 		public static string AuctionSave = "Could not save Auction with id: {0}";
 		public static string AuctionLoadGuid = "Could not load Auction with id: {0}.\nInner Exception:\n {1}";
 		public static string AuctionDeleteGuid = "Could not delete Auction with id: {0}";

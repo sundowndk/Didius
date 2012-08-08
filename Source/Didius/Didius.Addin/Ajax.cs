@@ -112,7 +112,7 @@ namespace Didius.Addin
 				}
 				#endregion	
 
-				#region Didius.Case
+				#region Didius.Item
 				case "didius.item":
 				{	
 					switch (Method.ToLower ())
@@ -138,6 +138,52 @@ namespace Didius.Addin
 						case "destroy":
 						{
 							Item.Delete (request.getValue<Guid> ("id"));
+							break;
+						}
+							
+						case "list":
+						{
+							if (request.ContainsXPath ("caseid"))
+							{
+								result.Add (Item.List (request.getValue<Guid> ("caseid")));
+							}
+							else
+							{
+								result.Add (Item.List ());
+							}
+							break;
+						}
+					}
+					break;
+				}
+				#endregion
+
+				#region Didius.Bid
+				case "didius.bid":
+				{	
+					switch (Method.ToLower ())
+					{						
+						case "create":
+						{
+							result.Add (new Item (request.getValue<Guid>("itemid")));
+							break;
+						}		
+							
+						case "load":
+						{
+							result.Add (Item.Load (request.getValue<Guid>("id")));
+							break;
+						}
+							
+						case "save":
+						{
+							request.getValue<Bid> ("didius.bid").Save ();
+							break;
+						}
+							
+						case "destroy":
+						{
+							Bid.Delete (request.getValue<Guid> ("id"));
 							break;
 						}
 							

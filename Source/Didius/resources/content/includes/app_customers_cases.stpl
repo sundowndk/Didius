@@ -116,10 +116,10 @@ cases :
 							attributes.windowTitle = "Sag : ["+ attributes.current.no +"]";	
 							elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/customers/edit_case.xml", width: "70%", height: "70%"});
 							
-							// Buttons 'caseCreate', 'caseEdit', 'caseDestroy'
-//							elements.window.getUIElement ("caseCreate").setAttribute ("onClick", onCaseCreate);
-//							elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);
-//							elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", onCaseDestroy);
+							// Buttons 'itemCreate', 'itemEdit', 'itemDestroy'
+							elements.window.getUIElement ("itemCreate").setAttribute ("onClick", onItemCreate);
+							elements.window.getUIElement ("itemEdit").setAttribute ("onClick", onItemEdit);
+							elements.window.getUIElement ("itemDestroy").setAttribute ("onClick", onItemDestroy);
 							
 							// onChange
 //							elements.window.getUIElement ("name").setAttribute ("onChange", onChange);

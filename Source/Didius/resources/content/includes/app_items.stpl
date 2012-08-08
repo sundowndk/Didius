@@ -68,7 +68,7 @@
 
 								// Window 'window'			
 								attributes.windowTitle = "Effekt : ["+ attributes.current.no +"]";	
-								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/items/case.xml", width: "60%", height: "60%"});
+								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/items/edit.xml", width: "60%", height: "60%"});
 								
 								// Button 'save', 'close'
 								elements.window.getUIElement ("save").setAttribute ("onClick", save);

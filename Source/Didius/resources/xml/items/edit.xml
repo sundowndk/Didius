@@ -22,6 +22,32 @@
 						</panel>				
 					</layoutbox>									
 				</tab>						
+				<tab label="Bud">
+					<layoutbox type="horizontal">			
+						<panel size="*">
+							<layoutbox type="vertical">
+								<panel size="*">
+									<listview tag="items" width="100%" height="100%">
+										<column tag="id" />
+										<column tag="amount" label="Bud" width="80px" visible="true" />
+										<column tag="customer" label="Afgiver" width="200px" visible="true" />
+										<column tag="createdate" label="Dato" width="150px" visible="true" />
+									</listview>
+								</panel>					
+								<panel size="80px">
+									<layoutbox type="horizontal" width="100%" height="100%">
+										<panel size="*">
+											<button tag="bidCreate" width="100%" label="Afgiv" disabled="true"/>
+											<button tag="bidEdit" width="100%" label="Redigere" disabled="true" />
+											<button tag="bidDestroy" width="100%" label="Slet" disabled="true" />
+										</panel>										
+									</layoutbox>																									
+								</panel>
+							</layoutbox>						
+						</panel>
+					</layoutbox>									
+				</tab>						
+			
 			</tabview>		
 		</panel>
 	
