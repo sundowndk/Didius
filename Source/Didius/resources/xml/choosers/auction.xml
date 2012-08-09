@@ -1,0 +1,14 @@
+<sui elementheight="40px">
+	<layoutbox type="horizontal">			
+		<panel tag="content" size="*">
+			<listview tag="auctions">
+				<column tag="no" label="Auktions nr." width="100px" visible="true" />
+				<column tag="title" label="" width="100px" visible="true" />
+			</listview>
+		</panel>	
+		<panel tag="buttons" size="%elementheight%">
+			<button tag="close" label="Luk" width="50%" />
+			<button tag="choose" label="Vælg" width="50%" disabled="true"/>
+		</panel>	
+	</layoutbox>
+</sui>

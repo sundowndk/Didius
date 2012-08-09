@@ -3,11 +3,11 @@
 		<panel tag="content" size="*">
 			<tabview>
 				<tab label="Detaljer" selected="true">
-					<layoutbox type="horizontal">			
+					<layoutbox type="horizontal" height="25%">			
 						<panel size="%elementheight%">
 							<layoutbox type="vertical">
 								<panel size="100px">
-									<label text="Sags nr."/>
+									<label text="Auktion nr."/>
 								</panel>					
 								<panel size="*">
 									<textbox tag="no" width="100%" readOnly="true"/>
@@ -19,42 +19,45 @@
 									<textbox tag="createdate" width="100%" />
 								</panel>				
 							</layoutbox>
+						</panel>				
+						<panel size="%elementheight%">
 							<layoutbox type="vertical">
 								<panel size="100px">
-									<label text="Auktion"/>
+									<label text="Title"/>
 								</panel>					
 								<panel size="*">
-									<textbox tag="auctiontitle" width="95%" disabled="true"/>
-									<button tag="chooseauction" label="Vælg" width="5%"/>
-								</panel>										
+									<textbox tag="title" width="100%" />
+								</panel>		
 							</layoutbox>
-						</panel>										
+						</panel>				
 					</layoutbox>									
-				</tab>				
-				<tab label="Effekter">
-					<layoutbox type="horizontal">			
-						<panel size="*">
+				</tab>
+				<tab label="Sager">
+					<layoutbox type="horizontal">					
+						<panel size="*">													
 							<layoutbox type="vertical">
 								<panel size="*">
-									<listview tag="items" width="100%" height="100%">
+									<listview tag="cases" width="100%" height="100%">
 										<column tag="id" />
-										<column tag="no" label="Effekt nr." width="150px" visible="true" />
-										<column tag="title" label="Title" width="300px" visible="true" />
+										<column tag="no" label="Sags nr." width="200px" visible="true" />
 									</listview>
 								</panel>					
 								<panel size="80px">
 									<layoutbox type="horizontal" width="100%" height="100%">
 										<panel size="*">
-											<button tag="itemCreate" width="100%" label="Opret" />
-											<button tag="itemEdit" width="100%" label="Redigere" disabled="true" />
-											<button tag="itemDestroy" width="100%" label="Slet" disabled="true" />
+											<button tag="caseCreate" width="100%" label="Opret" />
+											<button tag="caseEdit" width="100%" label="Redigere" disabled="true" />
+											<button tag="caseDestroy" width="100%" label="Slet" disabled="true" />
 										</panel>										
 									</layoutbox>																									
 								</panel>
-							</layoutbox>						
+							</layoutbox>														
 						</panel>
-					</layoutbox>									
-				</tab>						
+					</layoutbox>			
+				</tab>
+				<tab label="Notat">
+					<textarea tag="notes" />
+				</tab>		
 			</tabview>		
 		</panel>
 	
@@ -69,3 +72,7 @@
 		</panel>	
 	</layoutbox>
 </sui>
+
+
+
+

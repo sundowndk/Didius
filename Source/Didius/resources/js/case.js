@@ -36,10 +36,18 @@ destroy : function (id)
 	var content = new Array ();
 	content.id = id;
 
-	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
-	request.send (content);
+	try
+	{
+		var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
+		request.send (content);
+	
+	}
+	catch (error)
+	{						
+		return [false, error.split ("|")];
+	}
 			
-	return true;
+	return [true];
 },				
 		
 list : function (attributes)

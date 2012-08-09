@@ -58,7 +58,53 @@ namespace Didius.Addin
 
 						case "list":
 						{
-							result.Add (Customer.List ());
+							if (request.ContainsXPath ("customergroupid"))
+							{
+								result.Add (Customer.List (request.getValue<Guid> ("customergroupid")));
+							}
+							else
+							{
+								result.Add (Customer.List ());
+							}
+							break;
+						}
+					}
+					break;
+				}
+				#endregion	
+
+				#region Didius.CustomerGroup
+				case "didius.customergroup":
+				{	
+					switch (Method.ToLower ())
+					{						
+						case "create":
+						{
+							result.Add (new CustomerGroup ());
+							break;
+						}		
+							
+						case "load":
+						{
+							result.Add (CustomerGroup.Load (request.getValue<Guid>("id")));
+							break;
+						}
+							
+						case "save":
+						{
+							request.getValue<CustomerGroup> ("didius.customergroup").Save ();
+							break;
+						}
+							
+						case "destroy":
+						{
+							CustomerGroup.Delete (request.getValue<Guid> ("id"));
+							break;
+						}
+							
+						case "list":
+						{
+							result.Add (CustomerGroup.List ());
 							break;
 						}
 					}
@@ -151,6 +197,45 @@ namespace Didius.Addin
 							{
 								result.Add (Item.List ());
 							}
+							break;
+						}
+					}
+					break;
+				}
+				#endregion
+
+				#region Didius.Auction
+				case "didius.auction":
+				{	
+					switch (Method.ToLower ())
+					{						
+						case "create":
+						{
+							result.Add (new Auction ());
+							break;
+						}		
+							
+						case "load":
+						{
+							result.Add (Auction.Load (request.getValue<Guid>("id")));
+							break;
+						}
+							
+						case "save":
+						{
+							request.getValue<Auction> ("didius.auction").Save ();
+							break;
+						}
+							
+						case "destroy":
+						{
+							Auction.Delete (request.getValue<Guid> ("id"));
+							break;
+						}
+							
+						case "list":
+						{
+							result.Add (Auction.List ());
 							break;
 						}
 					}

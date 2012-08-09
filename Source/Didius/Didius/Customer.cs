@@ -492,7 +492,10 @@ namespace Didius
 
 				item.Add ("userid", this._userid);
 
-				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()));				
+				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
+				meta.Add ("customergroupids", this._groupsasstring);
+
+				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
 			}
 			catch (Exception exception)
 			{
@@ -710,6 +713,34 @@ namespace Didius
 				// EXCEPTION: Exception.PageDelete
 				throw new Exception (string.Format (Strings.Exception.CustomerDeleteGuid, Id.ToString ()));
 			}			
+		}
+
+		public static List<Customer> List (CustomerGroup CustomerGroup)
+		{
+			return List (CustomerGroup.Id);
+		}
+		
+		public static List<Customer> List (Guid CustomerGroupId)
+		{
+			List<Customer> result = new List<Customer> ();
+			
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customergroupids", SorentoLib.Enums.DatastoreMetaSearchCondition.Contains, CustomerGroupId)))
+			{
+				try
+				{
+					result.Add (Load (new Guid (id)));
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CUSTOMER", exception.Message));
+					
+					// LOG: LogDebug.CustomerList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CustomerList, id));
+				}
+			}
+			
+			return result;
 		}
 
 		public static List<Customer> List ()

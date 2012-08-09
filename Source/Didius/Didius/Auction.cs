@@ -28,6 +28,12 @@ namespace Didius
 		
 		private int _createtimestamp;
 		private int _updatetimestamp;
+
+		private string _no;
+
+		private string _title;
+
+		private string _notes;
 		#endregion
 			
 		#region Public Fields
@@ -54,15 +60,55 @@ namespace Didius
 				return this._updatetimestamp;
 			}
 		}
+
+		public string No
+		{
+			get
+			{
+				return this._no;
+			}
+		}
+
+		public string Title
+		{
+			get
+			{
+				return this._title;
+			}
+
+			set
+			{
+				this._title = value;
+			}
+		}
+
+		public string Notes
+		{
+			get
+			{
+				return this._notes;
+			}
+
+			set
+			{
+				this._notes = value;
+			}
+		}
 		#endregion
 		
 		#region Constructor
 		public Auction ()
 		{
 			this._id = Guid.NewGuid ();
-			
+						
 			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
+
+			this._no = Helpers.NewNo ();
+
+			this._title = string.Empty;
+
+			this._notes = string.Empty;
 		}		
 		#endregion
 		
@@ -78,6 +124,12 @@ namespace Didius
 				item.Add ("id", this._id);
 				item.Add ("createtimestamp", this._createtimestamp);
 				item.Add ("updatetimestamp", this._updatetimestamp);		
+
+				item.Add ("no", this._no);	
+
+				item.Add ("title", this._title);
+
+				item.Add ("notes", this._notes);
 								
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()));
 			}
@@ -113,6 +165,12 @@ namespace Didius
 			result.Add ("createtimestamp", this._createtimestamp);
 			result.Add ("updatetimestamp", this._updatetimestamp);				
 
+			result.Add ("no", this._no);
+
+			result.Add ("title", this._title);
+
+			result.Add ("notes", this._notes);
+
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
 		#endregion
@@ -137,6 +195,21 @@ namespace Didius
 				if (item.ContainsKey ("updatetimestamp"))
 				{
 					result._updatetimestamp = int.Parse ((string)item["updatetimestamp"]);
+				}				
+
+				if (item.ContainsKey ("no"))
+				{
+					result._no = (string)item["no"];
+				}				
+
+				if (item.ContainsKey ("title"))
+				{
+					result._title = (string)item["title"];
+				}				
+
+				if (item.ContainsKey ("notes"))
+				{
+					result._notes = (string)item["notes"];
 				}				
 			}
 			catch (Exception exception)
@@ -221,6 +294,21 @@ namespace Didius
 			if (item.ContainsKey ("updatetimestamp"))
 			{
 				result._updatetimestamp = int.Parse ((string)item["updatetimestamp"]);
+			}
+
+			if (item.ContainsKey ("no"))
+			{
+				result._no = (string)item["no"];
+			}
+
+			if (item.ContainsKey ("title"))
+			{
+				result._title = (string)item["title"];
+			}
+
+			if (item.ContainsKey ("notes"))
+			{
+				result._notes = (string)item["notes"];
 			}
 
 			return result;

@@ -1,19 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/resources/js/item.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/resources/js/chooser/auction.js">
     <Files>
-      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="287" Column="91" />
-      <File FileName="Didius/resources/content/includes/app_cases.stpl" Line="103" Column="47" />
-      <File FileName="Didius/resources/content/includes/app_items.stpl" Line="71" Column="108" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="197" Column="9" />
-      <File FileName="Didius/resources/js/item.js" Line="45" Column="9" />
-      <File FileName="Didius/resources/content/index.stpl" Line="16" Column="32" />
-      <File FileName="Didius/Didius/Item.cs" Line="351" Column="4" />
-      <File FileName="Didius/resources/xml/items/edit.xml" Line="40" Column="77" />
-      <File FileName="Didius/resources/xml/cases/edit.xml" Line="25" Column="26" />
-      <File FileName="Didius/Didius/Bid.cs" Line="242" Column="30" />
-      <File FileName="Didius/Didius/Customer.cs" Line="699" Column="5" />
-      <File FileName="Didius/resources/js/customer.js" Line="46" Column="3" />
+      <File FileName="Didius/resources/content/includes/app_auctions.stpl" Line="35" Column="11" />
+      <File FileName="Didius/Didius/Case.cs" Line="34" Column="28" />
+      <File FileName="Didius/resources/xml/auctions/edit.xml" Line="58" Column="17" />
+      <File FileName="Didius/resources/js/auction.js" Line="21" Column="3" />
+      <File FileName="Didius/Didius/Auction.cs" Line="311" Column="40" />
+      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="192" Column="13" />
+      <File FileName="Didius/resources/xml/cases/edit.xml" Line="27" Column="36" />
+      <File FileName="Didius/resources/content/includes/app_init.stpl" Line="32" Column="35" />
+      <File FileName="Didius/resources/xml/items/edit.xml" Line="64" Column="7" />
+      <File FileName="Didius/resources/xml/choosers/auction.xml" Line="11" Column="23" />
+      <File FileName="Didius/resources/js/chooser/auction.js" Line="50" Column="31" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -27,11 +26,14 @@
                 <Node name="includes" expanded="True" />
               </Node>
               <Node name="css" expanded="True" />
-              <Node name="includes" selected="True" />
-              <Node name="js" expanded="True" />
+              <Node name="js" expanded="True">
+                <Node name="chooser" expanded="True">
+                  <Node name="auction.js" selected="True" />
+                </Node>
+              </Node>
               <Node name="xml" expanded="True">
-                <Node name="cases" expanded="True" />
-                <Node name="customers" expanded="True" />
+                <Node name="auctions" expanded="True" />
+                <Node name="choosers" expanded="True" />
                 <Node name="items" expanded="True" />
               </Node>
             </Node>

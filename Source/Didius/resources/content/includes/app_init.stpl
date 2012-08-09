@@ -16,18 +16,21 @@
 			shortcuts.addItem ({tag: "settings", title:"Kunder", icon:"gear,white,green", onClick: app.section.set});		
 
 			// Set selected shortcut/section.
-			shortcuts.setAttribute ("selected", "customers")				
+			shortcuts.setAttribute ("selected", "customers");
 			app.section.set ("customers");
 								
 			// Init app sections.
 			app.customers.init ();
-			//app.auctions.init ();
+			app.auctions.init ();
 
 			// Init modal.
 			SNDK.SUI.modal.init ();
 				
 			// Init SUI
 			SNDK.SUI.init ();			
+			
+			didius.chooser.auction.open ();
+			
 		},	
 		
 		section : 

@@ -14,11 +14,11 @@ namespace Didius.Strings
 	public class Exception
 	{
 		#region CUSTOMER
-		public static string CustomerSave = "00100|Could not save Customer with id: {0}";
-		public static string CustomerLoadGuid = "00110|Could not load Customer with id: {0}";
-		public static string CustomerDeleteGuid = "00120|Could not delete Customer with id: {0}";
-		public static string CustomerDeleteHasCase = "00121|Can not delete Customer with id: {0}, since its related to a case.";
-		public static string CustomerFromXmlDocument = "00130|Can not create Customer from XmlDocument, missing {0}";
+		public static string CustomerSave = "00110|Could not save Customer with id: {0}";
+		public static string CustomerLoadGuid = "00120|Could not load Customer with id: {0}";
+		public static string CustomerDeleteGuid = "00130|Could not delete Customer with id: {0}";
+		public static string CustomerDeleteHasCase = "00131|Can not delete Customer with id: {0}, since its related to a case.";
+		public static string CustomerFromXmlDocument = "00140|Can not create Customer from XmlDocument, missing {0}";
 		#endregion		
 
 		#region CUSTOMERGROUP
@@ -29,26 +29,27 @@ namespace Didius.Strings
 		#endregion		
 
 		#region CASE
-		public static string CaseSave = "Could not save Case with id: {0}";
-		public static string CaseLoadGuid = "Could not load Case with id: {0}";
-		public static string CaseDeleteGuid = "Could not delete Case with id: {0}";
-		public static string CAseDeleteInUse = "Cannot delete Case with id: {0}, since its related to another dataset.";
-		public static string CaseFromXmlDocument = "Cannot create Case from XmlDocument, missing {0}";
+		public static string CaseSave = "00310|Could not save Case with id: {0}";
+		public static string CaseLoadGuid = "00320|Could not load Case with id: {0}";
+		public static string CaseDeleteGuid = "00330|Could not delete Case with id: {0}";
+		public static string CaseDeleteHasItem = "00331|Cannot delete Case with id: {0}, since its related to a item.";
+		public static string CaseFromXmlDocument = "00340|Cannot create Case from XmlDocument, missing {0}";
 		#endregion	
 
 		#region ITEM
-		public static string ItemSave = "00300|Could not save Item with id: {0}.\nInner Exception:\n {1}";
-		public static string ItemLoadGuid = "00310|Could not load Item with id: {0}.\nInner Exception:\n {1}";
-		public static string ItemDeleteGuid = "00320|Could not delete Item with id: {0}.\nInner Exception:\n {1}";
-		public static string ItemDeleteHasBid = "00321|Can not delete Item with id: {0}, since its related to a bid.";
-		public static string ItemFromXmlDocument = "00330|Cannot create Item from XmlDocument, missing {0}";
+		public static string ItemSave = "00410|Could not save Item with id: {0}.\nInner Exception:\n {1}";
+		public static string ItemLoadGuid = "00420|Could not load Item with id: {0}.\nInner Exception:\n {1}";
+		public static string ItemDeleteGuid = "00430|Could not delete Item with id: {0}.\nInner Exception:\n {1}";
+		public static string ItemDeleteHasBid = "00431|Can not delete Item with id: {0}, since its related to a bid.";
+		public static string ItemFromXmlDocument = "00440|Cannot create Item from XmlDocument, missing {0}";
 		#endregion
 
 		#region AUCTION
-		public static string AuctionSave = "Could not save Auction with id: {0}";
-		public static string AuctionLoadGuid = "Could not load Auction with id: {0}.\nInner Exception:\n {1}";
-		public static string AuctionDeleteGuid = "Could not delete Auction with id: {0}";
-		public static string AuctionFromXmlDocument = "Cannot create Auction from XmlDocument, missing {0}";
+		public static string AuctionSave = "00510|Could not save Auction with id: {0}";
+		public static string AuctionLoadGuid = "00510|Could not load Auction with id: {0}.\nInner Exception:\n {1}";
+		public static string AuctionDeleteGuid = "00510|Could not delete Auction with id: {0}";
+		public static string AuctionDeleteHasCase = "00531|Can not delete Auction with id: {0}, since its related to a case.";
+		public static string AuctionFromXmlDocument = "00510|Cannot create Auction from XmlDocument, missing {0}";
 		#endregion
 
 		#region BID

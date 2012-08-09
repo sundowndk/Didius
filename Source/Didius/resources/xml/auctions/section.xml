@@ -1,0 +1,20 @@
+<sui>
+	<canvas>	
+		<layoutbox type="vertical">
+			<panel size="500px">
+				<listview tag="auctions">
+					<column tag="id" />		
+					<column tag="no" label="Auction nr." width="100px" visible="true" />	
+					<column tag="title" label="" width="200px" visible="true" />					
+				</listview>
+			</panel>
+			<panel size="140px">
+				<button tag="create" label="Ny" />
+				<button tag="edit" label="Redigere" disabled="true" />
+				<button tag="destroy" label="Slet" disabled="true" />
+			</panel>
+		</layoutbox>				
+	</canvas>
+</sui>
+
+

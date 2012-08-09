@@ -1,5 +1,5 @@
 <script language="JavaScript" type="text/javascript">
-	app.customers =
+	app.auctions =
 	{
 		elements : new Array (),
 						
@@ -15,51 +15,50 @@
 							{
 								var onDone =	function (result)
 												{													
-													app.customers.elements.customers.addItems (result);
+													app.auctions.elements.auctions.addItems (result);
 												};
 																									
-								didius.customer.list ({async: true, onDone: onDone});
+								didius.auction.list ({async: true, onDone: onDone});
 							};
 							
 			var onChange =	function ()
 							{
-								if (app.customers.elements.customers.getItem ())
+								if (app.auctions.elements.auctions.getItem ())
 		 						{		 						 				
-		 							app.customers.elements.edit.setAttribute ("disabled", false);
-		 							app.customers.elements.destroy.setAttribute ("disabled", false);
+		 							app.auctions.elements.edit.setAttribute ("disabled", false);
+		 							app.auctions.elements.destroy.setAttribute ("disabled", false);
 		 						}
 		 						else
 		 						{
-		 							app.customers.elements.edit.setAttribute ("disabled", true);
-		 							app.customers.elements.destroy.setAttribute ("disabled", true);
+		 							app.auctions.elements.edit.setAttribute ("disabled", true);
+		 							app.auctions.elements.destroy.setAttribute ("disabled", true);
 		 						}
 							};
 			
 			var onCreate =	function ()
 							{
-								// Create new Customer, and give it a genric name
-								var current = didius.customer.create ();			
-								current.name = "Ny kunde";
-								didius.customer.save (current);											
+								// Create new Auction.
+								var current = didius.auction.create ();																		
+								didius.auction.save (current);									
 								
-								var row = app.customers.elements.customers.addItem (current);															
+								var row = app.auctions.elements.auctions.addItem (current);															
 								var onSave =	function (result)
 												{
-													app.customers.elements.customers.setItem (result, row);
+													app.auctions.elements.auctions.setItem (result, row);
 												};
 																
-								app.customers.edit ({current: current, onSave: onSave});
+								app.auctions.edit ({current: current, onSave: onSave});
 							};
 								
 			var onEdit =	function ()
 							{	
-								var row = app.customers.elements.customers.getItemRow ();
+								var row = app.auctions.elements.auctions.getItemRow ();
 								var onSave = 	function (result)
 												{
-													app.customers.elements.customers.setItem (result, row);
+													app.auctions.elements.auctions.setItem (result, row);
 												};																				
 												
-								app.customers.edit ({current: didius.customer.load (app.customers.elements.customers.getItem ().id), onSave: onSave});
+								app.auctions.edit ({current: didius.auction.load (app.auctions.elements.auctions.getItem ().id), onSave: onSave});
 							};
 						
 			var onDestroy = function ()
@@ -69,28 +68,28 @@
 													if (result == 1)
 													{
 														// Delete customer
-														var result = didius.customer.destroy (app.customers.elements.customers.getItem ().id);
+														var result = didius.auction.destroy (app.auctions.elements.auctions.getItem ().id);
 																		
 														// Check if any errors occured												
 														if (result[0])
 														{
-															app.customers.elements.customers.removeItem ();
+															app.auctions.elements.auctions.removeItem ();
 														}
 														else
 														{	
-															var text = "Der er opstået en ukendt fejl under sletning af kunden.";
+															var text = "Der er opstået en ukendt fejl under sletning af auktionen.";
 															
 															switch (result[1][0])
 															{
-																case "00130":
+																case "00530":
 																{
-																	text = "Kunne ikke finde kunden der skulle slettes, prøv igen.";	
+																	text = "Kunne ikke finde auktion der skulle slettes, prøv igen.";	
 																	break;																
 																}
 																
-																case "00131":
+																case "00531":
 																{
-																	text = "Kan ikke slette kunden da denne har tilknyttet sager. Slet sagerne og forsøg igen.";
+																	text = "Kan ikke slette auktion da denne har tilknyttet sager. Slet sagerne og forsøg igen.";
 																	break;
 																}
 															}
@@ -102,20 +101,20 @@
 												};
 												
 								// Show dialog
-								SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne kunde ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});
+								SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne auktion ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});
 							};
 		
 			// Build UI
-			app.customers.elements = SNDK.SUI.builder.construct ({URL: "xml/customers/section.xml", appendTo: "customers"});
+			app.auctions.elements = SNDK.SUI.builder.construct ({URL: "xml/auctions/section.xml", appendTo: "auctions"});
 		
-			// Listview: 'customers'
-			app.customers.elements.customers.setAttribute ("onChange", onChange);
-			app.customers.elements.customers.setAttribute ("onDoubleClick",onEdit);
+			// Listview: 'auctions'
+			app.auctions.elements.auctions.setAttribute ("onChange", onChange);
+			app.auctions.elements.auctions.setAttribute ("onDoubleClick",onEdit);
 		
 			// Buttons 'create', 'edit', 'destroy'
-			app.customers.elements.create.setAttribute ("onClick", onCreate);
-			app.customers.elements.edit.setAttribute ("onClick", onEdit);
-			app.customers.elements.destroy.setAttribute ("onClick", onDestroy);
+			app.auctions.elements.create.setAttribute ("onClick", onCreate);
+			app.auctions.elements.edit.setAttribute ("onClick", onEdit);
+			app.auctions.elements.destroy.setAttribute ("onClick", onDestroy);
 			
 			// Fill forms
 			set ();
@@ -133,7 +132,7 @@
 								get ();
 								
 								// Save Customer object to database.
-								didius.customer.save (attributes.current);
+								didius.auction.save (attributes.current);
 								
 								// Refresh listview in main section.
 								if (attributes.onSave)
@@ -155,59 +154,26 @@
 							{							
 								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
 								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
-							
-								elements.window.getUIElement ("name").setAttribute ("value", attributes.current.name);
-								elements.window.getUIElement ("att").setAttribute ("value", attributes.current.att);
-								elements.window.getUIElement ("address1").setAttribute ("value", attributes.current.address1);
-								elements.window.getUIElement ("address2").setAttribute ("value", attributes.current.address2);
-								elements.window.getUIElement ("postcode").setAttribute ("value", attributes.current.postcode);
-								elements.window.getUIElement ("city").setAttribute ("value", attributes.current.city);
-								elements.window.getUIElement ("country").setAttribute ("value", attributes.current.country);
 								
-								elements.window.getUIElement ("phone").setAttribute ("value", attributes.current.phone);
-								elements.window.getUIElement ("mobile").setAttribute ("value", attributes.current.mobile);
-								elements.window.getUIElement ("email").setAttribute ("value", attributes.current.email);
-																
-								elements.window.getUIElement ("vat").setAttribute ("value", attributes.current.vat);
-								elements.window.getUIElement ("vatno").setAttribute ("value", attributes.current.vatno);
-								elements.window.getUIElement ("bankname").setAttribute ("value", attributes.current.bankname);
-								elements.window.getUIElement ("bankregistrationno").setAttribute ("value", attributes.current.bankregistrationno);
-								elements.window.getUIElement ("bankaccountno").setAttribute ("value", attributes.current.bankaccountno);
-								
-								var onCasesDone = 	function (result)
-													{													
-														elements.window.getUIElement ("cases").setItems (result);
-													};
-								
-								didius.case.list ({customer: attributes.current, async: true, onDone: onCasesDone});
-								
+								elements.window.getUIElement ("title").setAttribute ("value", attributes.current.title);
+																							
+//								var onCasesDone = 	function (result)
+//													{													
+//														elements.window.getUIElement ("cases").setItems (result);
+//													};
+//								
+//								didius.case.list ({customer: attributes.current, async: true, onDone: onCasesDone});
+//														
 								elements.window.getUIElement ("notes").setAttribute ("value", attributes.current.notes);
-							
+								
 								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
 						
 								onChange ();						
 							};
 						
 			var get =		function ()
-							{												
-								attributes.current.name = elements.window.getUIElement ("name").getAttribute ("value");
-								attributes.current.att = elements.window.getUIElement ("att").getAttribute ("value");
-								attributes.current.address1 = elements.window.getUIElement ("address1").getAttribute ("value");
-								attributes.current.address2 = elements.window.getUIElement ("address2").getAttribute ("value");
-								attributes.current.postcode = elements.window.getUIElement ("postcode").getAttribute ("value");
-								attributes.current.city = elements.window.getUIElement ("city").getAttribute ("value");
-								attributes.current.country = elements.window.getUIElement ("country").getAttribute ("value");															
-								
-								attributes.current.phone = elements.window.getUIElement ("phone").getAttribute ("value");
-								attributes.current.mobile = elements.window.getUIElement ("mobile").getAttribute ("value");
-								attributes.current.email = elements.window.getUIElement ("email").getAttribute ("value");
-								
-								attributes.current.vat = elements.window.getUIElement ("vat").getAttribute ("value");								
-								attributes.current.vatno = elements.window.getUIElement ("vatno").getAttribute ("value");
-								attributes.current.bankname = elements.window.getUIElement ("bankname").getAttribute ("value");
-								attributes.current.bankregistrationno = elements.window.getUIElement ("bankregistrationno").getAttribute ("value");
-								attributes.current.bankaccountno = elements.window.getUIElement ("bankaccountno").getAttribute ("value");
-								
+							{		
+								attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");								
 								attributes.current.notes = elements.window.getUIElement ("notes").getAttribute ("value");
 							};
 									
@@ -216,7 +182,7 @@
 								get ();
 							
 								// Checksum & name not empty.
-								if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum) && (elements.window.getUIElement ("name").getAttribute ("value") != ""))
+								if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum))
 								{									
 									elements.window.getUIElement ("save").setAttribute ("disabled", false);
 								}
@@ -315,8 +281,8 @@
 								// Functions
 													
 								// Window 'window'			
-								attributes.windowTitle = "Kunde : ["+ attributes.current.no +"]";	
-								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/customers/edit.xml", width: "80%", height: "80%"});
+								attributes.windowTitle = "Auktion : ["+ attributes.current.no +"]";	
+								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/auctions/edit.xml", width: "80%", height: "80%"});
 								
 								// Buttons 'caseCreate', 'caseEdit', 'caseDestroy'
 								elements.window.getUIElement ("caseCreate").setAttribute ("onClick", onCaseCreate);
@@ -325,28 +291,12 @@
 								
 								// Listview 'cases'
 								elements.window.getUIElement ("cases").setAttribute ("onDoubleClick", onCaseEdit);
+								elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);
 								
-								// onChange
-								elements.window.getUIElement ("name").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("att").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("address1").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("address2").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("postcode").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("city").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("country").setAttribute ("onChange", onChange);
+								// Textbox 'title'
+								elements.window.getUIElement ("title").setAttribute ("onChange", onChange);
 								
-								elements.window.getUIElement ("phone").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("mobile").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("email").setAttribute ("onChange", onChange);
-								
-								elements.window.getUIElement ("vat").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("vatno").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("bankname").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("bankregistrationno").setAttribute ("onChange", onChange);
-								elements.window.getUIElement ("bankaccountno").setAttribute ("onChange", onChange);
-								
-								elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);								
-								
+								// Textarea 'notes'
 								elements.window.getUIElement ("notes").setAttribute ("onChange", onChange);
 	
 								// Button 'save', 'close'

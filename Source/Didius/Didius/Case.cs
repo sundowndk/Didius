@@ -32,6 +32,7 @@ namespace Didius
 		private string _no;
 
 		private Guid _customerid;
+		private Guid _auctionid;
 		#endregion
 		
 		#region Public Fields
@@ -74,6 +75,14 @@ namespace Didius
 				return this._customerid;
 			}
 		}
+
+		public Guid AuctionId
+		{
+			get
+			{
+				return this._auctionid;
+			}
+		}
 		#endregion
 		
 		#region Constructor
@@ -87,6 +96,7 @@ namespace Didius
 			this._no = Helpers.NewNo ();
 
 			this._customerid = Customer.Id;
+			this._auctionid = Guid.Empty;
 		}
 
 		public Case (Guid Id)
@@ -97,9 +107,9 @@ namespace Didius
 			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			
 			this._no =	Helpers.NewNo ();
-
-			
+						
 			this._customerid = Id;
+			this._auctionid = Guid.Empty;
 		}
 
 		private Case ()
@@ -108,6 +118,8 @@ namespace Didius
 			this._updatetimestamp = 0;
 
 			this._no = Helpers.NewNo ();
+
+			this._auctionid = Guid.Empty;
 		}
 		#endregion
 		
@@ -126,7 +138,8 @@ namespace Didius
 
 				item.Add ("no", this._no);
 
-				item.Add ("customerid", this._customerid);
+				item.Add ("customerid", this._customerid);			
+				item.Add ("auctionid", this._auctionid);
 
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("customerid", this._customerid);
@@ -154,6 +167,7 @@ namespace Didius
 			result.Add ("no", this._no);
 
 			result.Add ("customerid", this._customerid);
+			result.Add ("auctionid", this._auctionid);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
@@ -190,6 +204,11 @@ namespace Didius
 				{					
 					result._customerid = new Guid ((string)item["customerid"]);
 				}				
+
+				if (item.ContainsKey ("auctionid"))
+				{					
+					result._auctionid = new Guid ((string)item["auctionid"]);
+				}				
 			}
 			catch (Exception exception)
 			{
@@ -224,37 +243,9 @@ namespace Didius
 			else
 			{
 				// EXCEPTION: Exception.CaseDeleteInUse
-				throw new Exception (string.Format (Strings.Exception.CAseDeleteInUse, Id.ToString ()));
+				throw new Exception (string.Format (Strings.Exception.CaseDeleteHasItem, Id.ToString ()));
 			}
 		}
-
-//		public static List<Case> List (Customer Customer)
-//		{
-//			return List (Customer.Id);
-//		}
-//
-//		public static List<Case> List (Guid CustomerId)
-//		{
-//			List<Case> result = new List<Case> ();
-//			
-//			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchCondition.Equal, CustomerId)))
-//			{
-//				try
-//				{
-//					result.Add (Load (new Guid (id)));
-//				}
-//				catch (Exception exception)
-//				{
-//					// LOG: LogDebug.ExceptionUnknown
-//					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CASE", exception.Message));
-//					
-//					// LOG: LogDebug.PageList
-//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CaseList, id));
-//				}
-//			}
-//			
-//			return result;
-//		}
 
 		public static List<Case> List (Customer Customer)
 		{
@@ -353,6 +344,11 @@ namespace Didius
 			{
 				throw new Exception (string.Format (Strings.Exception.CaseFromXmlDocument, "CUSTOMERID"));
 			}
+
+			if (item.ContainsKey ("auctionid"))
+			{					
+				result._auctionid = new Guid ((string)item["auctionid"]);
+			}				
 			
 			return result;
 		}

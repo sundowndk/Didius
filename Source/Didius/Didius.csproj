@@ -90,6 +90,9 @@
     <Folder Include="resources\xml\customers\" />
     <Folder Include="resources\xml\cases\" />
     <Folder Include="resources\xml\items\" />
+    <Folder Include="resources\xml\auctions\" />
+    <Folder Include="resources\xml\choosers\" />
+    <Folder Include="resources\js\chooser\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -110,6 +113,13 @@
     <None Include="resources\xml\items\edit.xml" />
     <None Include="resources\xml\cases\edit.xml" />
     <None Include="resources\js\item.js" />
+    <None Include="resources\content\includes\app_auctions.stpl" />
+    <None Include="resources\xml\auctions\section.xml" />
+    <None Include="resources\js\auction.js" />
+    <None Include="resources\js\customergroup.js" />
+    <None Include="resources\xml\auctions\edit.xml" />
+    <None Include="resources\xml\choosers\auction.xml" />
+    <None Include="resources\js\chooser\auction.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />
