@@ -39,15 +39,14 @@
 								<panel size="*">
 									<listview tag="cases" width="100%" height="100%">
 										<column tag="id" />
-										<column tag="no" label="Sags nr." width="200px" visible="true" />
+										<column tag="no" label="Sags nr." width="100px" visible="true" />
+										<column tag="title" label="" width="200px" visible="true" />
 									</listview>
 								</panel>					
 								<panel size="80px">
 									<layoutbox type="horizontal" width="100%" height="100%">
-										<panel size="*">
-											<button tag="caseCreate" width="100%" label="Opret" />
-											<button tag="caseEdit" width="100%" label="Redigere" disabled="true" />
-											<button tag="caseDestroy" width="100%" label="Slet" disabled="true" />
+										<panel size="*">											
+											<button tag="caseEdit" width="100%" label="Redigere" disabled="true" />											
 										</panel>										
 									</layoutbox>																									
 								</panel>

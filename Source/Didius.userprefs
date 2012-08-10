@@ -1,18 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/resources/js/chooser/auction.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/resources/xml/items/edit.xml">
     <Files>
-      <File FileName="Didius/resources/content/includes/app_auctions.stpl" Line="35" Column="11" />
-      <File FileName="Didius/Didius/Case.cs" Line="34" Column="28" />
-      <File FileName="Didius/resources/xml/auctions/edit.xml" Line="58" Column="17" />
-      <File FileName="Didius/resources/js/auction.js" Line="21" Column="3" />
-      <File FileName="Didius/Didius/Auction.cs" Line="311" Column="40" />
-      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="192" Column="13" />
-      <File FileName="Didius/resources/xml/cases/edit.xml" Line="27" Column="36" />
-      <File FileName="Didius/resources/content/includes/app_init.stpl" Line="32" Column="35" />
-      <File FileName="Didius/resources/xml/items/edit.xml" Line="64" Column="7" />
-      <File FileName="Didius/resources/xml/choosers/auction.xml" Line="11" Column="23" />
-      <File FileName="Didius/resources/js/chooser/auction.js" Line="50" Column="31" />
+      <File FileName="Didius/resources/xml/items/edit.xml" Line="39" Column="60" />
+      <File FileName="Didius/Didius/Item.cs" Line="158" Column="12" />
+      <File FileName="Didius/resources/js/item.js" Line="1" Column="1" />
+      <File FileName="Didius/resources/content/includes/app_items.stpl" Line="82" Column="51" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -27,18 +20,19 @@
               </Node>
               <Node name="css" expanded="True" />
               <Node name="js" expanded="True">
-                <Node name="chooser" expanded="True">
-                  <Node name="auction.js" selected="True" />
-                </Node>
+                <Node name="chooser" expanded="True" />
               </Node>
               <Node name="xml" expanded="True">
                 <Node name="auctions" expanded="True" />
+                <Node name="cases" expanded="True" />
                 <Node name="choosers" expanded="True" />
-                <Node name="items" expanded="True" />
+                <Node name="customers" expanded="True" />
+                <Node name="items" expanded="True">
+                  <Node name="edit.xml" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>
-          <Node name="Test" expanded="True" />
         </State>
       </Pad>
     </Pads>

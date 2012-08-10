@@ -61,6 +61,11 @@ list : function (attributes)
 		content.customerid = attributes.customer.id;
 	}
 	
+	if (attributes.auction)
+	{
+		content.auctuonid = attributes.auction.id;
+	}
+	
 	if (attributes.async)
 	{
 		var onDone = 	function (respons)

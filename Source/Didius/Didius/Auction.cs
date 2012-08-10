@@ -154,9 +154,7 @@ namespace Didius
 //
 //
 //		}
-
-
-		
+				
 		public XmlDocument ToXmlDocument ()
 		{
 			Hashtable result = new Hashtable ();

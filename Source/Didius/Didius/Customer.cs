@@ -724,7 +724,7 @@ namespace Didius
 		{
 			List<Customer> result = new List<Customer> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customergroupids", SorentoLib.Enums.DatastoreMetaSearchCondition.Contains, CustomerGroupId)))
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customergroupids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, CustomerGroupId)))
 			{
 				try
 				{

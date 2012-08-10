@@ -157,13 +157,13 @@
 								
 								elements.window.getUIElement ("title").setAttribute ("value", attributes.current.title);
 																							
-//								var onCasesDone = 	function (result)
-//													{													
-//														elements.window.getUIElement ("cases").setItems (result);
-//													};
-//								
-//								didius.case.list ({customer: attributes.current, async: true, onDone: onCasesDone});
-//														
+								var onCasesDone = 	function (result)
+													{													
+														elements.window.getUIElement ("cases").setItems (result);
+													};
+								
+								didius.case.list ({auction: attributes.current, async: true, onDone: onCasesDone});
+														
 								elements.window.getUIElement ("notes").setAttribute ("value", attributes.current.notes);
 								
 								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
@@ -193,29 +193,13 @@
 								
 								if (elements.window.getUIElement ("cases").getItem ())
 								{			 						 				
-									elements.window.getUIElement ("caseEdit").setAttribute ("disabled", false);
-									elements.window.getUIElement ("caseDestroy").setAttribute ("disabled", false);
+									elements.window.getUIElement ("caseEdit").setAttribute ("disabled", false);									
 								}
 								else
 								{
-									elements.window.getUIElement ("caseEdit").setAttribute ("disabled", true);
-									elements.window.getUIElement ("caseDestroy").setAttribute ("disabled", true);
+									elements.window.getUIElement ("caseEdit").setAttribute ("disabled", true);									
 								}																																				
 							};
-
-			var onCaseCreate =	function ()
-								{
-									var current = didius.case.create (attributes.current);																		
-									didius.case.save (current);
-								
-									var row = elements.window.getUIElement ("cases").addItem (current);															
-									var onSave =	function (result)
-													{
-														elements.window.getUIElement ("cases").setItem (result, row);
-													};
-																
-									app.cases.edit ({current: current, onSave: onSave});
-								};
 								
 			var onCaseEdit =	function ()
 								{
@@ -225,54 +209,9 @@
 														elements.window.getUIElement ("cases").setItem (result, row);
 													};																				
 												
-									app.cases.edit ({current: didius.case.load (elements.window.getUIElement ("cases").getItem ().id), onSave: onSave});																								
+									app.cases.edit ({current: didius.case.load (elements.window.getUIElement ("cases").getItem ().id), onSave: onSave, noAuctionIdEdit: true});
 								};
-								
-			var onCaseDestroy = function ()
-								{
-									var onDone =	function (result)
-													{
-														if (result == 1)
-														{
-															// Delete case
-															var result = didius.case.destroy (elements.window.getUIElement ("cases").getItem ().id);
-																																															
-															// Check if any errors occured		
-															if (result[0])
-															{
-																elements.window.getUIElement ("cases").removeItem ();
-															}
-															else
-															{	
-																var text = "Der er opstået en ukendt fejl under sletning af sagen.";
-															
-																// Cases with items connected to them cannot be deleted
-																switch (result[1][0])
-																{
-																	case "00330":
-																	{
-																		text = "Kunne ikke finde sagen der skulle slettes, prøv igen.";	
-																		break;
-																	}
-																
-																	case "00331":
-																	{
-																		text = "Kan ikke slette sagen da denne har tilknyttet effekter. Slet effekter og forsøg igen.";	
-																		break;
-																	}
-																
-																}
-																															
-																// Display error alert
-																SNDK.SUI.modal.dialog.alert.show ({text: text, buttonLabel: "Ok"});
-															}
-														}
-													};
-												
-									// Show dialog
-									SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne sag ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});														
-								};									
-																														
+																																						
 			var init = 		function ()
 							{
 								if (!attributes)
@@ -284,10 +223,8 @@
 								attributes.windowTitle = "Auktion : ["+ attributes.current.no +"]";	
 								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/auctions/edit.xml", width: "80%", height: "80%"});
 								
-								// Buttons 'caseCreate', 'caseEdit', 'caseDestroy'
-								elements.window.getUIElement ("caseCreate").setAttribute ("onClick", onCaseCreate);
-								elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);
-								elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", onCaseDestroy);
+								// Buttons caseEdit'
+								elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);								
 								
 								// Listview 'cases'
 								elements.window.getUIElement ("cases").setAttribute ("onDoubleClick", onCaseEdit);

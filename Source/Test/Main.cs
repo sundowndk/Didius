@@ -24,13 +24,15 @@ namespace Test
 
 			if (SorentoLib.Services.Database.Connection.Connect ())
 			{
+				Console.WriteLine (Guid.Empty);
+
 				Console.WriteLine ("Connected to database.");
 
 				bool testcustomergroup = false;
 				bool testcustomer = false;
 
 				bool testcase = false;
-				bool testitem = true;
+				bool testitem = false;
 
 				bool testauction = false;
 
@@ -108,8 +110,8 @@ namespace Test
 					c1.Country = "Country";
 					c1.Att = "Att";
 					c1.Email = "Email";
-					c1.PhoneNumbers.Add ("PhoneNumber");
-					c1.PhoneNumbers.Add ("PhoneNumber");
+//					c1.PhoneNumbers.Add ("PhoneNumber");
+//					c1.PhoneNumbers.Add ("PhoneNumber");
 					c1.Vat = true;
 					c1.VatNo = "VatNo";
 					c1.BankName = "BankName";
@@ -147,10 +149,10 @@ namespace Test
 					Console.WriteLine ("\t\tEmail: "+ c2.Email);
 
 					Console.WriteLine ("\r\t\tPhoneNumbers:");
-					foreach (string phonenumber in c2.PhoneNumbers)
-					{
-						Console.WriteLine ("\t\t\t"+ phonenumber);
-					}
+//					foreach (string phonenumber in c2.PhoneNumbers)
+//					{
+//						Console.WriteLine ("\t\t\t"+ phonenumber);
+//					}
 
 					Console.WriteLine ("\r\t\tVat: "+ c2.Vat);
 					Console.WriteLine ("\t\tVatNo.: "+ c2.VatNo);
@@ -196,10 +198,10 @@ namespace Test
 					Console.WriteLine ("\t\tEmail: "+ c3.Email);
 					
 					Console.WriteLine ("\r\t\tPhoneNumbers:");
-					foreach (string phonenumber in c3.PhoneNumbers)
-					{
-						Console.WriteLine ("\t\t\t"+ phonenumber);
-					}
+//					foreach (string phonenumber in c3.PhoneNumbers)
+//					{
+//						Console.WriteLine ("\t\t\t"+ phonenumber);
+//					}
 					
 					Console.WriteLine ("\r\t\tVat: "+ c3.Vat);
 					Console.WriteLine ("\t\tVatNo.: "+ c3.VatNo);

@@ -147,6 +147,10 @@ namespace Didius.Addin
 							{
 								result.Add (Case.List (request.getValue<Guid> ("customerid")));
 							}
+							else if (request.ContainsXPath ("auctionid"))
+							{
+								result.Add (Case.List (request.getValue<Guid> ("auctionid")));
+							}
 							else
 							{
 								result.Add (Case.List ());

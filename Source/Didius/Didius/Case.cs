@@ -33,6 +33,13 @@ namespace Didius
 
 		private Guid _customerid;
 		private Guid _auctionid;
+
+		private string _title;
+		private string _customerreference;
+
+		private decimal _preparationfee;
+		private decimal _commisionfeepercentage;
+		private decimal _commisionfeeminimum;
 		#endregion
 		
 		#region Public Fields
@@ -83,6 +90,71 @@ namespace Didius
 				return this._auctionid;
 			}
 		}
+
+		public string Title
+		{
+			get
+			{
+				return this._title;
+			}
+
+			set
+			{
+				this._title = value;
+			}
+		}
+
+		public string CustomerReference
+		{
+			get
+			{
+				return this._customerreference;
+			}
+			
+			set
+			{
+				this._customerreference = value;
+			}
+		}
+
+		public decimal PreparationFee
+		{
+			get
+			{
+				return this._preparationfee;
+			}
+			
+			set 
+			{
+				this._preparationfee = value;
+			}
+		}
+
+		public decimal CommisionFeePercentage
+		{
+			get
+			{
+				return this._commisionfeepercentage;
+			}
+			
+			set 
+			{
+				this._commisionfeepercentage = value;
+			}
+		}
+
+		public decimal CommisionFeeMinimum
+		{
+			get
+			{
+				return this._commisionfeeminimum;
+			}
+			
+			set 
+			{
+				this._commisionfeeminimum = value;
+			}
+		}
 		#endregion
 		
 		#region Constructor
@@ -97,6 +169,13 @@ namespace Didius
 
 			this._customerid = Customer.Id;
 			this._auctionid = Guid.Empty;
+
+			this._title = string.Empty;
+			this._customerreference = string.Empty;
+
+			this._preparationfee = 0;
+			this._commisionfeepercentage = 0;
+			this._commisionfeeminimum = 0;
 		}
 
 		public Case (Guid Id)
@@ -110,6 +189,13 @@ namespace Didius
 						
 			this._customerid = Id;
 			this._auctionid = Guid.Empty;
+
+			this._title = string.Empty;
+			this._customerreference = string.Empty;
+
+			this._preparationfee = 0;
+			this._commisionfeepercentage = 0;
+			this._commisionfeeminimum = 0;
 		}
 
 		private Case ()
@@ -118,8 +204,14 @@ namespace Didius
 			this._updatetimestamp = 0;
 
 			this._no = Helpers.NewNo ();
-
 			this._auctionid = Guid.Empty;
+
+			this._title = string.Empty;
+			this._customerreference = string.Empty;
+
+			this._preparationfee = 0;
+			this._commisionfeepercentage = 0;
+			this._commisionfeeminimum = 0;
 		}
 		#endregion
 		
@@ -141,8 +233,16 @@ namespace Didius
 				item.Add ("customerid", this._customerid);			
 				item.Add ("auctionid", this._auctionid);
 
+				item.Add ("title", this._title);
+				item.Add ("customerreference", this._customerreference);
+
+				item.Add ("preparationfee", this._preparationfee);
+				item.Add ("commisionfeepercentage", this._commisionfeepercentage);
+				item.Add ("commisionfeeminimum", this._commisionfeeminimum);
+
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("customerid", this._customerid);
+				meta.Add ("auctionid", this._auctionid);
 				
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);				
 			}
@@ -168,6 +268,13 @@ namespace Didius
 
 			result.Add ("customerid", this._customerid);
 			result.Add ("auctionid", this._auctionid);
+
+			result.Add ("title", this._title);
+			result.Add ("customerreference", this._customerreference);
+			
+			result.Add ("preparationfee", this._preparationfee);
+			result.Add ("commisionfeepercentage", this._commisionfeepercentage);
+			result.Add ("commisionfeeminimum", this._commisionfeeminimum);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
@@ -208,6 +315,31 @@ namespace Didius
 				if (item.ContainsKey ("auctionid"))
 				{					
 					result._auctionid = new Guid ((string)item["auctionid"]);
+				}				
+
+				if (item.ContainsKey ("title"))
+				{					
+					result._title = (string)item["title"];
+				}				
+
+				if (item.ContainsKey ("customerreference"))
+				{					
+					result._customerreference = (string)item["customerreference"];
+				}				
+
+				if (item.ContainsKey ("preparationfee"))
+				{					
+					result._preparationfee = decimal.Parse ((string)item["preparationfee"]);
+				}				
+
+				if (item.ContainsKey ("commisionfeepercentage"))
+				{					
+					result._commisionfeepercentage = decimal.Parse ((string)item["commisionfeepercentage"]);
+				}				
+
+				if (item.ContainsKey ("commisionfeeminimum"))
+				{					
+					result._commisionfeeminimum = decimal.Parse ((string)item["commisionfeeminimum"]);
 				}				
 			}
 			catch (Exception exception)
@@ -252,11 +384,16 @@ namespace Didius
 			return List (Customer.Id);
 		}
 
-		public static List<Case> List (Guid CustomerId)
+		public static List<Case> List (Auction Auction)
+		{
+			return List (Auction.Id);
+		}
+
+		public static List<Case> List (Guid Id)
 		{
 			List<Case> result = new List<Case> ();
-
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchCondition.Equal, CustomerId)))
+			
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Id), new SorentoLib.Services.Datastore.MetaSearch (SorentoLib.Enums.DatastoreMetaSearchLogicOperator.Or), new SorentoLib.Services.Datastore.MetaSearch ("auctionid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Id)))
 			{
 				try
 				{
@@ -348,7 +485,32 @@ namespace Didius
 			if (item.ContainsKey ("auctionid"))
 			{					
 				result._auctionid = new Guid ((string)item["auctionid"]);
+			}	
+
+			if (item.ContainsKey ("title"))
+			{					
+				result._title = (string)item["title"];
 			}				
+
+			if (item.ContainsKey ("customerreference"))
+			{					
+				result._customerreference = (string)item["customerreference"];
+			}				
+			
+			if (item.ContainsKey ("preparationfee"))
+			{					
+				result._preparationfee = decimal.Parse ((string)item["preparationfee"]);
+			}				
+			
+			if (item.ContainsKey ("commisionfeepercentage"))
+			{					
+				result._commisionfeepercentage = decimal.Parse ((string)item["commisionfeepercentage"]);
+			}				
+			
+			if (item.ContainsKey ("commisionfeeminimum"))
+			{					
+				result._commisionfeeminimum = decimal.Parse ((string)item["commisionfeeminimum"]);
+			}
 			
 			return result;
 		}

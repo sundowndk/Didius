@@ -21,12 +21,52 @@
 							</layoutbox>
 							<layoutbox type="vertical">
 								<panel size="100px">
+									<label text="Title"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="title" width="100%"/>
+								</panel>		
+							</layoutbox>
+							<layoutbox type="vertical">
+								<panel size="100px">
 									<label text="Auktion"/>
 								</panel>					
 								<panel size="*">
-									<textbox tag="auctiontitle" width="95%" disabled="true"/>
-									<button tag="chooseauction" label="Vælg" width="5%"/>
+									<textbox tag="auctionTitle" width="95%" disabled="true"/>
+									<button tag="chooseAuction" label="Vælg" width="5%"/>
 								</panel>										
+							</layoutbox>
+							<layoutbox type="vertical">
+								<panel size="100px">
+									<label text="Kundereference"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="customerReference" width="100%"/>
+								</panel>		
+							</layoutbox>
+							<layoutbox type="vertical">
+								<panel size="100px">
+									<label text="Fremstillingsgebyr"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="preparationFee" width="100%"/>
+								</panel>		
+							</layoutbox>
+							<layoutbox type="vertical">
+								<panel size="100px">
+									<label text="Salærprocent"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="commisionFeePercentage" width="100%"/>
+								</panel>		
+							</layoutbox>
+							<layoutbox type="vertical">
+								<panel size="100px">
+									<label text="Min. salær"/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="commisionFeeMinimum" width="100%"/>
+								</panel>		
 							</layoutbox>
 						</panel>										
 					</layoutbox>									

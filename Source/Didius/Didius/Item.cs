@@ -155,7 +155,7 @@ namespace Didius
 			this._createtimestamp = 0;
 			this._updatetimestamp = 0;
 
-			this._no = this._no = Helpers.NewNo ();
+			this._no = Helpers.NewNo ();
 
 			this._title = string.Empty;
 			this._description = string.Empty;
@@ -331,7 +331,7 @@ namespace Didius
 		{
 			List<Item> result = new List<Item> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("caseid", SorentoLib.Enums.DatastoreMetaSearchCondition.Equal, CaseId)))
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("caseid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, CaseId)))
 			{
 				try
 				{

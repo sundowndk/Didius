@@ -27,10 +27,7 @@
 			SNDK.SUI.modal.init ();
 				
 			// Init SUI
-			SNDK.SUI.init ();			
-			
-			didius.chooser.auction.open ();
-			
+			SNDK.SUI.init ();														
 		},	
 		
 		section : 

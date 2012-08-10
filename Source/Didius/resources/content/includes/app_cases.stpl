@@ -35,10 +35,28 @@
 								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
 								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
 								
+								elements.window.getUIElement ("title").setAttribute ("value", attributes.current.title);
+								
+								if (attributes.current.auctionid != SNDK.tools.emptyGuid)
+								{
+									var auction = didius.auction.load (attributes.current.auctionid);																	
+									elements.window.getUIElement ("auctionTitle").setAttribute ("value", auction.title +" ["+ auction.no +"]");									
+								}				
+								
+								if (attributes.noAuctionIdEdit)
+								{
+									elements.window.getUIElement ("chooseAuction").setAttribute ("disabled", true);
+								}
+								
 								var onItemsDone = 	function (result)
 													{													
 														elements.window.getUIElement ("items").setItems (result);
 													};
+													
+								elements.window.getUIElement ("customerReference").setAttribute ("value", attributes.current.customerreference);
+								elements.window.getUIElement ("preparationFee").setAttribute ("value", attributes.current.preparationfee);
+								elements.window.getUIElement ("commisionFeePercentage").setAttribute ("value", attributes.current.commisionfeepercentage);
+								elements.window.getUIElement ("commisionFeeMinimum").setAttribute ("value", attributes.current.commisionfeeminimum);
 								
 								didius.item.list ({case: attributes.current, async: true, onDone: onItemsDone});
 								
@@ -48,7 +66,12 @@
 							};
 							
 			var get =		function ()
-								{												
+								{				
+									attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");
+									attributes.current.customerreference = elements.window.getUIElement ("customerReference").getAttribute ("value");
+									attributes.current.preparationfee = elements.window.getUIElement ("preparationFee").getAttribute ("value");
+									attributes.current.commisionfeepercentage = elements.window.getUIElement ("commisionFeePercentage").getAttribute ("value");
+									attributes.current.commisionfeeminimum = elements.window.getUIElement ("commisionFeeMinimum").getAttribute ("value");
 								};
 										
 			var onChange =	function ()
@@ -76,6 +99,20 @@
 									elements.window.getUIElement ("itemDestroy").setAttribute ("disabled", true);
 								}			
 							};
+							
+			var onChooseAuction =	function ()
+									{
+										var onDone =	function (result)
+														{
+															if (result)
+															{
+																attributes.current.auctionid = result.id;
+																elements.window.getUIElement ("auctionTitle").setAttribute ("value", result.title +" ["+ result.no +"]");
+															}
+														};
+									
+										didius.chooser.auction.open ({onDone: onDone});
+									}
 							
 			var onItemCreate =	function ()
 								{
@@ -121,6 +158,9 @@
 							{
 								if (!attributes)
 									attributes = new Array ();
+									
+								if (!attributes.noAuctionIdEdit)
+									attributes.noAuctionIdEdit = false;
 																										
 								// Functions
 
@@ -132,7 +172,16 @@
 								elements.window.getUIElement ("items").setAttribute ("onDoubleClick", onItemEdit);
 								elements.window.getUIElement ("items").setAttribute ("onChange", onChange);
 								
-								// Buttons 'itemCreate', 'itemEdit', 'itemDestroy'
+								// Textbox 'title', 'auctionTitle', 'customerReference', 'preperationFee', 'commisionFeePercentage', 'commisionFeeMinimum'
+								elements.window.getUIElement ("title").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("auctionTitle").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("customerReference").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("preparationFee").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("commisionFeePercentage").setAttribute ("onChange", onChange);
+								elements.window.getUIElement ("commisionFeeMinimum").setAttribute ("onChange", onChange);
+								
+								// Buttons 'chooseAuction', 'itemCreate', 'itemEdit', 'itemDestroy'
+								elements.window.getUIElement ("chooseAuction").setAttribute ("onClick", onChooseAuction);																
 								elements.window.getUIElement ("itemCreate").setAttribute ("onClick", onItemCreate);
 								elements.window.getUIElement ("itemEdit").setAttribute ("onClick", onItemEdit);
 								elements.window.getUIElement ("itemDestroy").setAttribute ("onClick", onItemDestroy);

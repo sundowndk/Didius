@@ -35,13 +35,18 @@
 								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
 								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
 								
+								elements.window.getUIElement ("title").setAttribute ("value", attributes.current.title);
+								elements.window.getUIElement ("description").setAttribute ("value", attributes.current.description);
+								
 								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
 							
 								onChange ();						
 							};
 							
 			var get =		function ()
-								{												
+								{			
+									attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");
+									attributes.current.description = elements.window.getUIElement ("description").getAttribute ("value");																		
 								};
 										
 			var onChange =	function ()
@@ -69,6 +74,12 @@
 								// Window 'window'			
 								attributes.windowTitle = "Effekt : ["+ attributes.current.no +"]";	
 								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/items/edit.xml", width: "60%", height: "60%"});
+								
+								// Textbox 'title'
+								elements.window.getUIElement ("title").setAttribute ("onChange", onChange);
+								
+								// Textarea 'description'
+								elements.window.getUIElement ("description").setAttribute ("onChange", onChange);
 								
 								// Button 'save', 'close'
 								elements.window.getUIElement ("save").setAttribute ("onClick", save);
