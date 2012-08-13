@@ -32,7 +32,7 @@ namespace Test
 				bool testcustomer = false;
 
 				bool testcase = false;
-				bool testitem = false;
+				bool testitem = true;
 
 				bool testauction = false;
 
@@ -234,54 +234,57 @@ namespace Test
 					// SAVE
 					Console.WriteLine ("\tSave\n");
 
-					Didius.Customer _c = new Didius.Customer ();
-					_c.Name = "TEST CUSTOMER";
-					_c.Save ();
+					Didius.Auction d1 = new Didius.Auction ();
+					d1.Save ();
 
-					Didius.Case c1 = new Didius.Case (_c);
-					
-					c1.Save ();
+					Didius.Customer d2 = new Didius.Customer ();
+					d2.Name = "TEST CUSTOMER";
+					d2.Save ();
+
+					Didius.Case t1 = new Didius.Case (d1, d2);					
+					t1.Save ();
 					
 					// LOAD
 					Console.WriteLine ("\tLoad\n");
-					Didius.Case c2 = Didius.Case.Load (c1.Id);
+					Didius.Case t2 = Didius.Case.Load (t1.Id);
 					
-					Console.WriteLine ("\t\tNo: "+ c2.No);
-					Console.WriteLine ("\t\tCustomerId: "+ c2.CustomerId);
+					Console.WriteLine ("\t\tNo: "+ t2.No);
+					Console.WriteLine ("\t\tCustomerId: "+ t2.CustomerId);
 					
 					// LIST
 					Console.WriteLine ("\r\tList\n");
-					foreach (Didius.Case c in Didius.Case.List ())
+					foreach (Didius.Case t in Didius.Case.List ())
 					{
-						Console.WriteLine ("\t\t"+ c.No);
+						Console.WriteLine ("\t\t"+ t.No);
 					}
 
 					// LIST CUSTOMER
 					Console.WriteLine ("\r\tList with Customer\n");
-					foreach (Didius.Case c in Didius.Case.List (_c))
+					foreach (Didius.Case c in Didius.Case.List (d2))
 					{
 						Console.WriteLine ("\t\t"+ c.No);
 					}
 					
 					// TOXMLDOCUMENT
 					Console.WriteLine ("\r\tToXmlDocument\n");
-					XmlDocument c1xml = c1.ToXmlDocument ();
-					Console.WriteLine ("\t\t"+ c1xml.InnerXml.ToString ());
+					XmlDocument t1xml = t1.ToXmlDocument ();
+					Console.WriteLine ("\t\t"+ t1xml.InnerXml.ToString ());
 					
 					// FROMXMLDOCUMENT
 					Console.WriteLine ("\r\tFromXmlDocument\n");
-					Didius.Case c3 = Didius.Case.FromXmlDocument (c1xml);
-					Console.WriteLine ("\t\tNo: "+ c3.No);
-					Console.WriteLine ("\t\tCustomerId: "+ c3.CustomerId);
+					Didius.Case t3 = Didius.Case.FromXmlDocument (t1xml);
+					Console.WriteLine ("\t\tNo: "+ t3.No);
+					Console.WriteLine ("\t\tCustomerId: "+ t3.CustomerId);
 					
 					// DELETE
 					Console.WriteLine ("\r\tDelete\n");
-					Didius.Case.Delete (c1.Id);
+					Didius.Case.Delete (t1.Id);
 					
 					// CLEANUP
 					Console.WriteLine ("\tCleanup");
 
-					Didius.Customer.Delete (_c.Id);				
+					Didius.Auction.Delete (d1.Id);				
+					Didius.Customer.Delete (d2.Id);				
 				}
 				#endregion
 
@@ -293,22 +296,26 @@ namespace Test
 					// SAVE
 					Console.WriteLine ("\tSave\n");
 					
-					Didius.Customer d1 = new Didius.Customer ();
-					d1.Name = "TEST CUSTOMER";
+					Didius.Auction d1 = new Didius.Auction ();
 					d1.Save ();
 
-					Didius.Case d2 = new Didius.Case (d1);
+					Didius.Customer d2 = new Didius.Customer ();
 					d2.Save ();
-					
-					Didius.Item t1 = new Didius.Item (d2);					
+
+					Didius.Case d3 = new Didius.Case (d1, d2);
+					d3.Save ();
+
+					Didius.Item t1 = new Didius.Item (d3);					
 					t1.Title = "TITLE";
 					t1.Description = "DESCRIPTION";
-					t1.Fields.Add ("FIELD1", "VALUE1");
-					t1.Fields.Add ("FIELD2", "VALUE2");
-					t1.Fields.Add ("FIELD3", "VALUE3");
-					t1.Fields.Add ("FIELD4", "VALUE4");
+//					t1.Fields.Add ("FIELD1", "VALUE1");
+//					t1.Fields.Add ("FIELD2", "VALUE2");
+//					t1.Fields.Add ("FIELD3", "VALUE3");
+//					t1.Fields.Add ("FIELD4", "VALUE4");
 					t1.Save ();
-					
+
+					Console.WriteLine ("catalog "+ t1.CatalogNo);
+
 					// LOAD
 					Console.WriteLine ("\tLoad\n");
 					Didius.Item t2 = Didius.Item.Load (t1.Id);
@@ -316,11 +323,11 @@ namespace Test
 					Console.WriteLine ("\t\tTitle: "+ t2.Title);
 					Console.WriteLine ("\t\tDescription: "+ t2.Description);
 
-					foreach (string key in t2.Fields.Keys)
-					{
-						Console.WriteLine ("\t\t\t"+ key +": "+ t2.Fields[key]);
-					}
-										
+//					foreach (string key in t2.Fields.Keys)
+//					{
+//						Console.WriteLine ("\t\t\t"+ key +": "+ t2.Fields[key]);
+//					}
+//										
 					// LIST
 					Console.WriteLine ("\r\tList\n");
 					foreach (Didius.Item t3 in Didius.Item.List ())
@@ -332,28 +339,29 @@ namespace Test
 					Console.WriteLine ("\r\tToXmlDocument\n");
 					XmlDocument t1xml = t1.ToXmlDocument ();
 					Console.WriteLine ("\t\t"+ t1xml.InnerXml.ToString ());
-					
+
 					// FROMXMLDOCUMENT
 					Console.WriteLine ("\r\tFromXmlDocument\n");
 					Didius.Item t4 = Didius.Item.FromXmlDocument (t1xml);
 					Console.WriteLine ("\t\tId: "+ t4.Id);
 					Console.WriteLine ("\t\tTitle: "+ t4.Title);
 					Console.WriteLine ("\t\tDescription: "+ t4.Description);
-
-					foreach (string key in t2.Fields.Keys)
-					{
-						Console.WriteLine ("\t\t\t"+ key +": "+ t2.Fields[key]);
-					}
+//
+//					foreach (string key in t2.Fields.Keys)
+//					{
+//						Console.WriteLine ("\t\t\t"+ key +": "+ t2.Fields[key]);
+//					}
 
 					// DELETE
 					Console.WriteLine ("\r\tDelete\n");
 					Didius.Item.Delete (t1);
-					
+
 					// CLEANUP
 					Console.WriteLine ("\tCleanup");
 
-					Didius.Case.Delete (d2.Id);
-					Didius.Customer.Delete (d1.Id);				
+					Didius.Case.Delete (d3.Id);
+					Didius.Customer.Delete (d2.Id);
+					Didius.Auction.Delete (d1.Id);				
 				}
 				#endregion
 
@@ -403,58 +411,58 @@ namespace Test
 				#region BID
 				if (testbid)
 				{
-					Console.WriteLine ("Testing Didius.Bid\n");
-					
-					// SAVE
-					Console.WriteLine ("\tSave\n");
-
-					Didius.Customer d1 = new Didius.Customer ();
-					d1.Name = "TEST CUSTOMER";
-					d1.Save ();
-
-					Didius.Case d2 = new Didius.Case (d1);
-					d2.Save ();
-
-					Didius.Item d3 = new Didius.Item (d2);
-					d3.Save ();
-								
-					Didius.Bid b1 = new Didius.Bid (d1, d3, 100);
-					b1.Save ();
-					
-					// LOAD
-					Console.WriteLine ("\tLoad\n");
-					Didius.Bid b2 = Didius.Bid.Load (b1.Id);					
-					Console.WriteLine ("\t\tId: "+ b2.Id);
-					Console.WriteLine ("\t\tAmount: "+ b2.Amount);
-					
-					// LIST
-					Console.WriteLine ("\r\tList\n");
-					foreach (Didius.Bid b in Didius.Bid.List ())
-					{
-						Console.WriteLine ("\t\tId: "+ b.Id);
-					}
-					
-					// TOXMLDOCUMENT
-					Console.WriteLine ("\r\tToXmlDocument\n");
-					XmlDocument b1xml = b1.ToXmlDocument ();
-					Console.WriteLine ("\t\t"+ b1xml.InnerXml.ToString ());
-					
-					// FROMXMLDOCUMENT
-					Console.WriteLine ("\r\tFromXmlDocument\n");
-					Didius.Bid b3 = Didius.Bid.FromXmlDocument (b1xml);
-					Console.WriteLine ("\t\tId: "+ b3.Id);
-					Console.WriteLine ("\t\tAmount: "+ b3.Amount);
-					
-					// DELETE
-					Console.WriteLine ("\r\tDelete\n");
-					Didius.Bid.Delete (b1.Id);
-					
-					// CLEANUP
-					Console.WriteLine ("\tCleanup");
-
-					Didius.Item.Delete (d3.Id);
-					Didius.Case.Delete (d2.Id);
-					Didius.Customer.Delete (d1.Id);
+//					Console.WriteLine ("Testing Didius.Bid\n");
+//					
+//					// SAVE
+//					Console.WriteLine ("\tSave\n");
+//
+//					Didius.Customer d1 = new Didius.Customer ();
+//					d1.Name = "TEST CUSTOMER";
+//					d1.Save ();
+//
+//					Didius.Case d2 = new Didius.Case (d1);
+//					d2.Save ();
+//
+//					Didius.Item d3 = new Didius.Item (d2);
+//					d3.Save ();
+//								
+//					Didius.Bid b1 = new Didius.Bid (d1, d3, 100);
+//					b1.Save ();
+//					
+//					// LOAD
+//					Console.WriteLine ("\tLoad\n");
+//					Didius.Bid b2 = Didius.Bid.Load (b1.Id);					
+//					Console.WriteLine ("\t\tId: "+ b2.Id);
+//					Console.WriteLine ("\t\tAmount: "+ b2.Amount);
+//					
+//					// LIST
+//					Console.WriteLine ("\r\tList\n");
+//					foreach (Didius.Bid b in Didius.Bid.List ())
+//					{
+//						Console.WriteLine ("\t\tId: "+ b.Id);
+//					}
+//					
+//					// TOXMLDOCUMENT
+//					Console.WriteLine ("\r\tToXmlDocument\n");
+//					XmlDocument b1xml = b1.ToXmlDocument ();
+//					Console.WriteLine ("\t\t"+ b1xml.InnerXml.ToString ());
+//					
+//					// FROMXMLDOCUMENT
+//					Console.WriteLine ("\r\tFromXmlDocument\n");
+//					Didius.Bid b3 = Didius.Bid.FromXmlDocument (b1xml);
+//					Console.WriteLine ("\t\tId: "+ b3.Id);
+//					Console.WriteLine ("\t\tAmount: "+ b3.Amount);
+//					
+//					// DELETE
+//					Console.WriteLine ("\r\tDelete\n");
+//					Didius.Bid.Delete (b1.Id);
+//					
+//					// CLEANUP
+//					Console.WriteLine ("\tCleanup");
+//
+//					Didius.Item.Delete (d3.Id);
+//					Didius.Case.Delete (d2.Id);
+//					Didius.Customer.Delete (d1.Id);
 				}
 				#endregion
 			}

@@ -178,8 +178,7 @@
 								</panel>					
 								<panel size="80px">
 									<layoutbox type="horizontal" width="100%" height="100%">
-										<panel size="*">
-											<button tag="caseCreate" width="100%" label="Opret" />
+										<panel size="*">											
 											<button tag="caseEdit" width="100%" label="Redigere" disabled="true" />
 											<button tag="caseDestroy" width="100%" label="Slet" disabled="true" />
 										</panel>										

@@ -5,6 +5,9 @@
 				<class name="auction">
 					<js file="resources/js/chooser/auction.js" />	
 				</class>
+				<class name="customer">
+					<js file="resources/js/chooser/customer.js" />	
+				</class>
 			</class>
 			<class name="customer">
 				<js file="resources/js/customer.js" />				

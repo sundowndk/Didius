@@ -237,19 +237,19 @@
 								}																																				
 							};
 
-			var onCaseCreate =	function ()
-								{
-									var current = didius.case.create (attributes.current);																		
-									didius.case.save (current);
-								
-									var row = elements.window.getUIElement ("cases").addItem (current);															
-									var onSave =	function (result)
-													{
-														elements.window.getUIElement ("cases").setItem (result, row);
-													};
-																
-									app.cases.edit ({current: current, onSave: onSave});
-								};
+//			var onCaseCreate =	function ()
+//								{
+//									var current = didius.case.create (attributes.current);																		
+//									didius.case.save (current);
+//								
+//									var row = elements.window.getUIElement ("cases").addItem (current);															
+//									var onSave =	function (result)
+//													{
+//														elements.window.getUIElement ("cases").setItem (result, row);
+//													};
+//																
+//									app.cases.edit ({current: current, onSave: onSave});
+//								};
 								
 			var onCaseEdit =	function ()
 								{
@@ -319,7 +319,7 @@
 								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/customers/edit.xml", width: "80%", height: "80%"});
 								
 								// Buttons 'caseCreate', 'caseEdit', 'caseDestroy'
-								elements.window.getUIElement ("caseCreate").setAttribute ("onClick", onCaseCreate);
+//								elements.window.getUIElement ("caseCreate").setAttribute ("onClick", onCaseCreate);
 								elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);
 								elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", onCaseDestroy);
 								

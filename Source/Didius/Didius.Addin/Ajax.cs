@@ -119,7 +119,7 @@ namespace Didius.Addin
 					{						
 						case "create":
 						{
-							result.Add (new Case (request.getValue<Guid>("customerid")));
+							result.Add (new Case (Auction.Load (request.getValue<Guid>("auctionid")), Customer.Load (request.getValue<Guid>("customerid"))));
 							break;
 						}		
 							
@@ -169,7 +169,7 @@ namespace Didius.Addin
 					{						
 						case "create":
 						{
-							result.Add (new Item (request.getValue<Guid>("caseid")));
+							result.Add (new Item (Case.Load (request.getValue<Guid>("caseid"))));
 							break;
 						}		
 							
@@ -254,7 +254,7 @@ namespace Didius.Addin
 					{						
 						case "create":
 						{
-							result.Add (new Item (request.getValue<Guid>("itemid")));
+							result.Add (new Bid (Customer.Load (request.getValue<Guid> ("customerid")), Item.Load (request.getValue<Guid> ("itemid")), request.getValue<decimal> ("amount")));
 							break;
 						}		
 							

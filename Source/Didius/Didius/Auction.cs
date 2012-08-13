@@ -94,6 +94,14 @@ namespace Didius
 				this._notes = value;
 			}
 		}
+
+		public List<Case> Cases
+		{
+			get
+			{
+				return Case.List (this);
+			}
+		}
 		#endregion
 		
 		#region Constructor

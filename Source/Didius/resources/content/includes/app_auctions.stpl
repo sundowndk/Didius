@@ -126,129 +126,171 @@
 			var elements = new Array ();
 						
 			// Functions
-			var save =		function ()
-							{
-								// Collect forms.
-								get ();
-								
-								// Save Customer object to database.
-								didius.auction.save (attributes.current);
-								
-								// Refresh listview in main section.
-								if (attributes.onSave)
+			var save =			function ()
 								{
-									setTimeout (function () {attributes.onSave (attributes.current)}, 1);									
-								}
-								
-								// Update checksum.
-								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
-								onChange ();														
-							};
-						
-			var close = 	function ()
-							{
-								elements.window.dispose ();
-							};
-								
-			var set =		function ()
-							{							
-								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
-								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
-								
-								elements.window.getUIElement ("title").setAttribute ("value", attributes.current.title);
-																							
-								var onCasesDone = 	function (result)
-													{													
-														elements.window.getUIElement ("cases").setItems (result);
-													};
-								
-								didius.case.list ({auction: attributes.current, async: true, onDone: onCasesDone});
-														
-								elements.window.getUIElement ("notes").setAttribute ("value", attributes.current.notes);
-								
-								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
-						
-								onChange ();						
-							};
-						
-			var get =		function ()
-							{		
-								attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");								
-								attributes.current.notes = elements.window.getUIElement ("notes").getAttribute ("value");
-							};
+									// Collect forms.
+									get ();
 									
-			var onChange =	function ()
-							{							
-								get ();
-							
-								// Checksum & name not empty.
-								if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum))
-								{									
-									elements.window.getUIElement ("save").setAttribute ("disabled", false);
-								}
-								else
+									// Save Customer object to database.
+									didius.auction.save (attributes.current);
+									
+									// Refresh listview in main section.
+									if (attributes.onSave)
+									{
+										setTimeout (function () {attributes.onSave (attributes.current)}, 1);									
+									}
+									
+									// Update checksum.
+									attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
+									onChange ();														
+								};
+						
+			var close = 		function ()
 								{
-									elements.window.getUIElement ("save").setAttribute ("disabled", true);
-								}	
+									elements.window.dispose ();
+								};
 								
-								if (elements.window.getUIElement ("cases").getItem ())
-								{			 						 				
-									elements.window.getUIElement ("caseEdit").setAttribute ("disabled", false);									
-								}
-								else
+			var set =			function ()
+								{							
+									elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
+									elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
+									
+									elements.window.getUIElement ("title").setAttribute ("value", attributes.current.title);
+																								
+									var onCasesDone = 	function (result)
+														{													
+															elements.window.getUIElement ("cases").setItems (result);
+														};
+									
+									didius.case.list ({auction: attributes.current, async: true, onDone: onCasesDone});
+															
+									elements.window.getUIElement ("notes").setAttribute ("value", attributes.current.notes);
+									
+									attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
+							
+									onChange ();						
+								};
+						
+			var get =			function ()
+								{		
+									attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");								
+									attributes.current.notes = elements.window.getUIElement ("notes").getAttribute ("value");
+								};
+									
+			var onChange =		function ()
+								{							
+									get ();
+								
+									// Checksum & name not empty.
+									if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum))
+									{									
+										elements.window.getUIElement ("save").setAttribute ("disabled", false);
+									}
+									else
+									{
+										elements.window.getUIElement ("save").setAttribute ("disabled", true);
+									}	
+									
+									if (elements.window.getUIElement ("cases").getItem ())
+									{			 						 				
+										elements.window.getUIElement ("caseEdit").setAttribute ("disabled", false);	
+										elements.window.getUIElement ("caseDestroy").setAttribute ("disabled", false);									
+									}
+									else
+									{
+										elements.window.getUIElement ("caseEdit").setAttribute ("disabled", true);									
+										elements.window.getUIElement ("caseDestroy").setAttribute ("disabled", true);									
+									}																																				
+								};
+								
+			var onCaseCreate =	function ()
 								{
-									elements.window.getUIElement ("caseEdit").setAttribute ("disabled", true);									
-								}																																				
-							};
+									var onDone =	function (result)
+													{
+														if (result)
+														{
+															var case_ = didius.case.create (attributes.current, result);
+															didius.case.save (case_);
+								
+															var row = elements.window.getUIElement ("cases").addItem (case_);
+															var onDone =	function (result)
+																			{
+																				elements.window.getUIElement ("cases").setItem (result, row);
+																			};
+																
+															app.cases.edit ({current: case_, onDone: onDone});
+														}
+													};
+														
+									didius.chooser.customer.open ({onDone: onDone});
+								};								
 								
 			var onCaseEdit =	function ()
 								{
 									var row = elements.window.getUIElement ("cases").getItemRow ()
-									var onSave = 	function (result)
+									var onDone = 	function (result)
 													{
-														elements.window.getUIElement ("cases").setItem (result, row);
+														if (result == 1)
+														{
+															elements.window.getUIElement ("cases").setItem (result, row);
+														}
 													};																				
 												
-									app.cases.edit ({current: didius.case.load (elements.window.getUIElement ("cases").getItem ().id), onSave: onSave, noAuctionIdEdit: true});
+									app.cases.edit ({current: didius.case.load (elements.window.getUIElement ("cases").getItem ().id), onDone: onDone});
 								};
-																																						
-			var init = 		function ()
-							{
-								if (!attributes)
-									attributes = new Array ();
-																									
-								// Functions
-													
-								// Window 'window'			
-								attributes.windowTitle = "Auktion : ["+ attributes.current.no +"]";	
-								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/auctions/edit.xml", width: "80%", height: "80%"});
+		
+			var onCaseDestroy =	function ()
+								{
+									var onDone =	function (result)
+													{
+														if (result == 1)
+														{
+															elements.window.getUIElement ("cases").removeItem ();
+														}
+													};
 								
-								// Buttons caseEdit'
-								elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);								
-								
-								// Listview 'cases'
-								elements.window.getUIElement ("cases").setAttribute ("onDoubleClick", onCaseEdit);
-								elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);
-								
-								// Textbox 'title'
-								elements.window.getUIElement ("title").setAttribute ("onChange", onChange);
-								
-								// Textarea 'notes'
-								elements.window.getUIElement ("notes").setAttribute ("onChange", onChange);
-	
-								// Button 'save', 'close'
-								elements.window.getUIElement ("save").setAttribute ("onClick", save);
-								elements.window.getUIElement ("close").setAttribute ("onClick", close);
-																									
-								// Init elements.
-								//SNDK.SUI.init ();
-								
-								// Fill forms.
-								set ();
-						
-								// Open modal window.															
-								elements.window.open ();															
-						};
+									app.cases.destroy ({current: didius.case.load (elements.window.getUIElement ("cases").getItem ().id), onDone: onDone});
+								};
+																																					
+			var init = 			function ()
+								{
+									if (!attributes)
+										attributes = new Array ();
+																										
+									// Functions
+														
+									// Window 'window'			
+									attributes.windowTitle = "Auktion : ["+ attributes.current.no +"]";	
+									elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/auctions/edit.xml", width: "80%", height: "80%"});
+									
+									// Buttons 'caseEdit', 'caseCreate'
+									elements.window.getUIElement ("caseCreate").setAttribute ("onClick", onCaseCreate);
+									elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);								
+									elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", onCaseDestroy);	
+									
+									// Listview 'cases'
+									elements.window.getUIElement ("cases").setAttribute ("onDoubleClick", onCaseEdit);
+									elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);
+									
+									// Textbox 'title'
+									elements.window.getUIElement ("title").setAttribute ("onChange", onChange);
+									
+									// Textarea 'notes'
+									elements.window.getUIElement ("notes").setAttribute ("onChange", onChange);
+		
+									// Button 'save', 'close'
+									elements.window.getUIElement ("save").setAttribute ("onClick", save);
+									elements.window.getUIElement ("close").setAttribute ("onClick", close);
+																										
+									// Init elements.
+									//SNDK.SUI.init ();
+									
+									// Fill forms.
+									set ();
+							
+									// Open modal window.															
+									elements.window.open ();															
+							};
 						
 			// Initialize window
 			init ();				

@@ -1,7 +1,8 @@
-create : function (Customer)
+create : function (Auction, Customer)
 {
 	var content = new Array ();
 	content.customerid = Customer.id;
+	content.auctionid = Auction.id;
 
 	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Create", "data", "POST", false);	
 	request.send (content);

@@ -91,6 +91,14 @@ namespace Didius
 			}
 		}
 
+		public Auction Auction
+		{
+			get
+			{
+				return Auction.Load (this._auctionid);
+			}
+		}
+
 		public string Title
 		{
 			get
@@ -155,10 +163,18 @@ namespace Didius
 				this._commisionfeeminimum = value;
 			}
 		}
+
+		public System.List.ReadOnlyCollection<Item> Items
+		{
+			get
+			{
+				return Item.List (this).AsReadOnly ();			
+			}
+		}
 		#endregion
 		
 		#region Constructor
-		public Case (Customer Customer)
+		public Case (Auction Auction, Customer Customer)
 		{
 			this._id = Guid.NewGuid ();
 			
@@ -168,27 +184,7 @@ namespace Didius
 			this._no = Helpers.NewNo ();
 
 			this._customerid = Customer.Id;
-			this._auctionid = Guid.Empty;
-
-			this._title = string.Empty;
-			this._customerreference = string.Empty;
-
-			this._preparationfee = 0;
-			this._commisionfeepercentage = 0;
-			this._commisionfeeminimum = 0;
-		}
-
-		public Case (Guid Id)
-		{
-			this._id = Guid.NewGuid ();
-			
-			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
-			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
-			
-			this._no =	Helpers.NewNo ();
-						
-			this._customerid = Id;
-			this._auctionid = Guid.Empty;
+			this._auctionid = Auction.Id;
 
 			this._title = string.Empty;
 			this._customerreference = string.Empty;
@@ -204,7 +200,6 @@ namespace Didius
 			this._updatetimestamp = 0;
 
 			this._no = Helpers.NewNo ();
-			this._auctionid = Guid.Empty;
 
 			this._title = string.Empty;
 			this._customerreference = string.Empty;
@@ -480,6 +475,15 @@ namespace Didius
 			else
 			{
 				throw new Exception (string.Format (Strings.Exception.CaseFromXmlDocument, "CUSTOMERID"));
+			}
+
+			if (item.ContainsKey ("auctionid"))
+			{					
+				result._auctionid = new Guid ((string)item["auctionid"]);
+			}	
+			else
+			{
+				throw new Exception (string.Format (Strings.Exception.CaseFromXmlDocument, "AUCTIONID"));
 			}
 
 			if (item.ContainsKey ("auctionid"))

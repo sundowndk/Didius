@@ -1,17 +1,19 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/resources/xml/items/edit.xml">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Case.cs">
     <Files>
-      <File FileName="Didius/resources/xml/items/edit.xml" Line="39" Column="60" />
-      <File FileName="Didius/Didius/Item.cs" Line="158" Column="12" />
-      <File FileName="Didius/resources/js/item.js" Line="1" Column="1" />
-      <File FileName="Didius/resources/content/includes/app_items.stpl" Line="82" Column="51" />
+      <File FileName="Didius/Didius/Item.cs" Line="183" Column="9" />
+      <File FileName="Test/Main.cs" Line="313" Column="18" />
+      <File FileName="Didius/Didius/Case.cs" Line="167" Column="31" />
+      <File FileName="Didius/Didius/Auction.cs" Line="102" Column="29" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
-            <Node name="Didius" expanded="True" />
+            <Node name="Didius" expanded="True">
+              <Node name="Case.cs" selected="True" />
+            </Node>
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True">
@@ -27,12 +29,11 @@
                 <Node name="cases" expanded="True" />
                 <Node name="choosers" expanded="True" />
                 <Node name="customers" expanded="True" />
-                <Node name="items" expanded="True">
-                  <Node name="edit.xml" selected="True" />
-                </Node>
+                <Node name="items" expanded="True" />
               </Node>
             </Node>
           </Node>
+          <Node name="Test" expanded="True" />
         </State>
       </Pad>
     </Pads>

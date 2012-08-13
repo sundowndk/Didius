@@ -120,6 +120,8 @@
     <None Include="resources\xml\auctions\edit.xml" />
     <None Include="resources\xml\choosers\auction.xml" />
     <None Include="resources\js\chooser\auction.js" />
+    <None Include="resources\js\chooser\customer.js" />
+    <None Include="resources\xml\choosers\customer.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

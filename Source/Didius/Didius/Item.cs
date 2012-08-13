@@ -30,6 +30,7 @@ namespace Didius
 		private int _updatetimestamp;
 
 		private string _no;
+		private string _catalogno;
 
 		private Guid _caseid;
 
@@ -72,11 +73,32 @@ namespace Didius
 			}
 		}
 
+		public string CatalogNo
+		{
+			get
+			{
+				return this._catalogno;
+			}
+
+			set
+			{
+				this._catalogno = value;
+			}
+		}
+
 		public Guid CaseId
 		{
 			get
 			{
 				return this._caseid;
+			}
+		}
+
+		public Case Case
+		{
+			get
+			{
+				return Case.Load (this._caseid);
 			}
 		}
 
@@ -119,12 +141,13 @@ namespace Didius
 		public Item (Case Case)
 		{
 			this._id = Guid.NewGuid ();
-			
-			this._no = Helpers.NewNo ();
-			
+						
 			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
-			
+
+			this._no = Helpers.NewNo ();
+			this._catalogno = GetCatalogNo ();
+
 			this._caseid = Case.Id;
 			
 			this._title = string.Empty;
@@ -132,30 +155,14 @@ namespace Didius
 			
 			this._fields = new Hashtable ();		
 		}
-
-		public Item (Guid Id)
-		{
-			this._id = Guid.NewGuid ();
-
-			this._no = Helpers.NewNo ();
-
-			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
-			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
-			
-			this._caseid = Id;
-
-			this._title = string.Empty;
-			this._description = string.Empty;
-
-			this._fields = new Hashtable ();
-		}
-		
+				
 		private Item ()
 		{
 			this._createtimestamp = 0;
 			this._updatetimestamp = 0;
 
 			this._no = Helpers.NewNo ();
+			this._catalogno = string.Empty;
 
 			this._title = string.Empty;
 			this._description = string.Empty;
@@ -163,7 +170,27 @@ namespace Didius
 			this._fields = new Hashtable ();
 		}
 		#endregion
-		
+
+		#region Private Methods
+		public string GetCatalogNo ()
+		{
+			string result = string.Empty;
+
+			int count = 0;
+
+			foreach (Case c in Case.List (this.Case.Auction))
+			{
+//				foreach (Item i in )
+
+			}
+
+
+			return result;
+
+//			foreach ()
+		}
+		#endregion
+
 		#region Public Methods
 		public void Save ()
 		{

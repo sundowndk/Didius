@@ -10,10 +10,10 @@ open : function (attributes)
 					{
 						var onDone =	function (result)
 										{										
-											chooser.getUIElement ("auctions").addItems (result);
+											chooser.getUIElement ("customers").addItems (result);
 										};
 																									
-						didius.auction.list ({async: true, onDone: onDone});					
+						didius.customer.list ({async: true, onDone: onDone});					
 					};
 		
 	var onChoose =	function ()
@@ -22,7 +22,7 @@ open : function (attributes)
 															
 						if (attributes.onDone != null)
 						{
-							setTimeout (function () {attributes.onDone (didius.auction.load (result.id))});
+							setTimeout (function () {attributes.onDone (didius.customer.load (result.id))});
 						}
 					};
 		
@@ -39,7 +39,7 @@ open : function (attributes)
 					
 	var onChange =	function ()
 					{
-						result = chooser.getUIElement ("auctions").getItem ();
+						result = chooser.getUIElement ("customers").getItem ();
 					
 						if (result)
 						{		 						 											
@@ -51,10 +51,10 @@ open : function (attributes)
  						}
 					};
 					
-	chooser = new SNDK.SUI.modal.chooser.base ({UIURL:  "xml/choosers/auction.xml", width: "450px", height: "600px"});
+	chooser = new SNDK.SUI.modal.chooser.base ({UIURL:  "xml/choosers/customer.xml", width: "450px", height: "600px"});
 	
-	chooser.getUIElement ("auctions").setAttribute ("onChange", onChange);
-	chooser.getUIElement ("auctions").setAttribute ("onDoubleClick", onChoose);
+	chooser.getUIElement ("customers").setAttribute ("onChange", onChange);
+	chooser.getUIElement ("customers").setAttribute ("onDoubleClick", onChoose);
 	
 	chooser.getUIElement ("close").setAttribute ("onClick", onClose);
 	chooser.getUIElement ("choose").setAttribute ("onClick", onChoose);
