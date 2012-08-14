@@ -8,7 +8,24 @@
 							
 			// Functions
 			var save =		function ()
-							{																
+							{		
+								// Disable buttons
+								elements.window.getUIElement ("save").setAttribute ("disabled", true);
+								elements.window.getUIElement ("close").setAttribute ("disabled", true);
+										
+								// Verifty CatalogNo if it was changed.
+								if (attributes.temp.catalogNo != attributes.current.catalogno)
+								{								
+									var test = didius.helpers.isCatalogNoTaken ({auction: didius.auction.load (didius.case.load (attributes.current.caseid).auctionid), catalogNo: elements.window.getUIElement ("catalogno").getAttribute ("value")});
+										
+									if (test)
+									{
+										SNDK.SUI.modal.dialog.alert.show ({text: "Det angivet katalog nummer er i brug. Systemmet har derfor fundet det laveste ubrugte katalog nummer og angivet dette i stedet.", buttonLabel: "Ok"});
+										
+										elements.window.getUIElement ("catalogno").setAttribute ("value", didius.helpers.newCatalogNo ({auction: didius.auction.load (didius.case.load (attributes.current.caseid).auctionid)}));
+									}								
+								}
+								
 								// Collect forms.
 								get ();
 									
@@ -22,7 +39,7 @@
 									
 								// Update checksum.
 								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
-								onChange ();														
+								onChange ();
 							};
 							
 			var close = 	function ()
@@ -31,10 +48,11 @@
 							};
 								
 			var set =		function ()
-							{							
+							{																
 								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
 								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
 								
+								elements.window.getUIElement ("catalogno").setAttribute ("value", attributes.current.catalogno);
 								elements.window.getUIElement ("title").setAttribute ("value", attributes.current.title);
 								elements.window.getUIElement ("description").setAttribute ("value", attributes.current.description);
 								
@@ -44,11 +62,12 @@
 							};
 							
 			var get =		function ()
-								{			
-									attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");
-									attributes.current.description = elements.window.getUIElement ("description").getAttribute ("value");																		
-								};
-										
+							{			
+								attributes.current.catalogno = elements.window.getUIElement ("catalogno").getAttribute ("value");
+								attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");
+								attributes.current.description = elements.window.getUIElement ("description").getAttribute ("value");																		
+							};
+																									
 			var onChange =	function ()
 							{
 								get ();
@@ -57,10 +76,12 @@
 								if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum))
 								{
 									elements.window.getUIElement ("save").setAttribute ("disabled", false);
+									elements.window.getUIElement ("close").setAttribute ("disabled", false);
 								}
 								else
 								{
 									elements.window.getUIElement ("save").setAttribute ("disabled", true);
+									elements.window.getUIElement ("close").setAttribute ("disabled", false);
 								}															
 							};
 											
@@ -68,14 +89,18 @@
 							{
 								if (!attributes)
 									attributes = new Array ();
-																										
-								// Functions
+												
+								if (!attributes.temp)
+									attributes.temp = new Array ();
+									
+								attributes.temp.catalogNo = attributes.current.catalogno;
 
 								// Window 'window'			
 								attributes.windowTitle = "Effekt : ["+ attributes.current.no +"]";	
 								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/items/edit.xml", width: "60%", height: "60%"});
 								
-								// Textbox 'title'
+								// Textbox 'title', 'catalogno'
+								elements.window.getUIElement ("catalogno").setAttribute ("onChange", onChange);
 								elements.window.getUIElement ("title").setAttribute ("onChange", onChange);
 								
 								// Textarea 'description'
@@ -89,7 +114,7 @@
 								//SNDK.SUI.init ();
 								
 								// Fill forms.
-								set ();
+								set ();															
 						
 								// Open modal window.															
 								elements.window.open ();															
@@ -97,6 +122,24 @@
 							
 			// Initialize window
 			init ();					
+		},
+		
+		destroy : function (attributes)
+		{
+			var onDone =	function (result)
+							{
+								if (result == 1)
+								{																
+									didius.item.destroy (attributes.current.id);									
+									
+									if (attributes.onDone != null)
+									{
+										setTimeout (function () {attributes.onDone (result)}, 1);
+									}
+								}
+							};
+							
+			SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne effekt ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});
 		}
 	}
 </script>

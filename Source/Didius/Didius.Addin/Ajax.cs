@@ -193,9 +193,13 @@ namespace Didius.Addin
 							
 						case "list":
 						{
-							if (request.ContainsXPath ("caseid"))
+							if (request.ContainsXPath ("auctionid"))
 							{
-								result.Add (Item.List (request.getValue<Guid> ("caseid")));
+								result.Add (Item.List (Auction.Load (request.getValue<Guid> ("auctionid"))));
+							}
+							else if (request.ContainsXPath ("caseid"))
+							{
+								result.Add (Item.List (Case.Load (request.getValue<Guid> ("caseid"))));
 							}
 							else
 							{
@@ -288,6 +292,27 @@ namespace Didius.Addin
 							}
 							break;
 						}
+					}
+					break;
+				}
+				#endregion
+
+				#region Didius.Helpers
+				case "didius.helpers":
+				{	
+					switch (Method.ToLower ())
+					{					
+						case "newcatalogno":
+						{
+							result.Add (Helpers.NewCatelogNo (Auction.Load (request.getValue<Guid> ("auctionid"))));
+							break;
+						}
+
+						case "iscatalognotaken":
+						{
+							result.Add (  Helpers.IsCatalogNoTaken (Auction.Load (request.getValue<Guid> ("auctionid")), int.Parse (request.getValue<string> ("catalogno"))));
+							break;
+						}		
 					}
 					break;
 				}

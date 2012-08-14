@@ -55,9 +55,24 @@ list : function (attributes)
 	
 	var content = new Array ();
 	
+	// CASE
 	if (attributes.case)
 	{
 		content.caseid = attributes.case.id;
+	}
+	else if (attributes.caseId)
+	{
+		content.caseid = attributes.caseId;
+	}
+	
+	// AUCTION
+	if (attributes.auction)
+	{
+		content.auctionid = attributes.auction.id;
+	}
+	else if (attributes.auctionId)
+	{
+		content.auctionId = attributes.auctionId;
 	}
 	
 	if (attributes.async)

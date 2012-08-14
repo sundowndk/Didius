@@ -119,7 +119,9 @@ namespace Didius
 			this._notes = string.Empty;
 		}		
 		#endregion
-		
+	
+
+
 		#region Public Methods
 		public void Save ()
 		{

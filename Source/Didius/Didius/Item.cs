@@ -30,7 +30,7 @@ namespace Didius
 		private int _updatetimestamp;
 
 		private string _no;
-		private string _catalogno;
+		private int _catalogno;
 
 		private Guid _caseid;
 
@@ -73,7 +73,7 @@ namespace Didius
 			}
 		}
 
-		public string CatalogNo
+		public int CatalogNo
 		{
 			get
 			{
@@ -146,7 +146,7 @@ namespace Didius
 			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 
 			this._no = Helpers.NewNo ();
-			this._catalogno = GetCatalogNo ();
+			this._catalogno = Helpers.NewCatelogNo (Case.Auction);
 
 			this._caseid = Case.Id;
 			
@@ -162,32 +162,12 @@ namespace Didius
 			this._updatetimestamp = 0;
 
 			this._no = Helpers.NewNo ();
-			this._catalogno = string.Empty;
+			this._catalogno = 0;
 
 			this._title = string.Empty;
 			this._description = string.Empty;
 
 			this._fields = new Hashtable ();
-		}
-		#endregion
-
-		#region Private Methods
-		public string GetCatalogNo ()
-		{
-			string result = string.Empty;
-
-			int count = 0;
-
-			foreach (Case c in Case.List (this.Case.Auction))
-			{
-//				foreach (Item i in )
-
-			}
-
-
-			return result;
-
-//			foreach ()
 		}
 		#endregion
 
@@ -205,6 +185,7 @@ namespace Didius
 				item.Add ("updatetimestamp", this._updatetimestamp);		
 								
 				item.Add ("no", this._no);
+				item.Add ("catalogno", this._catalogno);
 
 				item.Add ("caseid", this._caseid);
 
@@ -237,6 +218,7 @@ namespace Didius
 			result.Add ("updatetimestamp", this._updatetimestamp);				
 
 			result.Add ("no", this._no);
+			result.Add ("catalogno", this._catalogno);
 
 			result.Add ("caseid", this._caseid);
 
@@ -282,6 +264,11 @@ namespace Didius
 				if (item.ContainsKey ("no"))
 				{
 					result._no = (string)item["no"];
+				}
+
+				if (item.ContainsKey ("catalogno"))
+				{
+					result._catalogno = int.Parse ((string)item["catalogno"]);
 				}
 
 				if (item.ContainsKey ("caseid"))
@@ -348,7 +335,21 @@ namespace Didius
 				throw new Exception (string.Format (Strings.Exception.ItemDeleteGuid, Id.ToString (), exception.Message));
 			}			
 		}
-		
+
+		public static List<Item> List (Auction Auction)
+		{
+			List<Item> result = new List<Item> ();
+
+			foreach (Case c in Auction.Cases)
+			{
+				result.AddRange (Item.List (c));
+			}
+
+			result.Sort (delegate (Item item1, Item item2) { return item1._catalogno.CompareTo (item2._catalogno); });
+
+			return result;
+		}
+ 
 		public static List<Item> List (Case Case)
 		{
 			return List (Case.Id);
@@ -373,6 +374,8 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.ItemList, id));
 				}
 			}
+
+			result.Sort (delegate (Item item1, Item item2) { return item1._catalogno.CompareTo (item2._catalogno); });
 			
 			return result;
 		}
@@ -436,6 +439,15 @@ namespace Didius
 			if (item.ContainsKey ("no"))
 			{
 				result._no = (string)item["no"];
+			}
+
+			if (item.ContainsKey ("catalogno"))
+			{
+				result._catalogno = int.Parse ((string)item["catalogno"]);
+			}
+			else
+			{
+				throw new Exception (string.Format (Strings.Exception.ItemFromXmlDocument, "CATALOGNO"));
 			}
 
 			if (item.ContainsKey ("caseid"))

@@ -1,24 +1,24 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Case.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/resources/content/includes/app_customers.stpl">
     <Files>
-      <File FileName="Didius/Didius/Item.cs" Line="183" Column="9" />
-      <File FileName="Test/Main.cs" Line="313" Column="18" />
-      <File FileName="Didius/Didius/Case.cs" Line="167" Column="31" />
-      <File FileName="Didius/Didius/Auction.cs" Line="102" Column="29" />
+      <File FileName="Didius/resources/content/includes/app_auctions.stpl" Line="270" Column="11" />
+      <File FileName="Didius/resources/content/includes/app_cases.stpl" Line="144" Column="11" />
+      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="133" Column="11" />
+      <File FileName="Didius/resources/content/includes/app_items.stpl" Line="142" Column="153" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
-            <Node name="Didius" expanded="True">
-              <Node name="Case.cs" selected="True" />
-            </Node>
+            <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True">
               <Node name="content" expanded="True">
-                <Node name="includes" expanded="True" />
+                <Node name="includes" expanded="True">
+                  <Node name="app_customers.stpl" selected="True" />
+                </Node>
               </Node>
               <Node name="css" expanded="True" />
               <Node name="js" expanded="True">
@@ -33,7 +33,6 @@
               </Node>
             </Node>
           </Node>
-          <Node name="Test" expanded="True" />
         </State>
       </Pad>
     </Pads>

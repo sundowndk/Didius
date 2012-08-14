@@ -38,7 +38,7 @@
 							<layoutbox type="vertical">
 								<panel size="*">
 									<listview tag="cases" width="100%" height="100%">
-										<column tag="id" />
+										<column tag="id" />										
 										<column tag="no" label="Sags nr." width="100px" visible="true" />
 										<column tag="title" label="" width="200px" visible="true" />
 									</listview>
@@ -56,6 +56,30 @@
 						</panel>
 					</layoutbox>			
 				</tab>
+				<tab label="Katalog">
+					<layoutbox type="horizontal">					
+						<panel size="*">													
+							<layoutbox type="vertical">
+								<panel size="*">
+									<listview tag="items" width="100%" height="100%">
+										<column tag="id" />										
+										<column tag="catalogno" label="" width="40px" visible="true" />
+										<column tag="no" label="Effekt nr." width="100px" visible="true" />										
+										<column tag="title" label="" width="200px" visible="true" />
+									</listview>
+								</panel>					
+								<panel size="80px">
+									<layoutbox type="horizontal" width="100%" height="100%">
+										<panel size="*">														
+											<button tag="itemEdit" width="100%" label="Redigere" disabled="true" />
+											<button tag="itemDestroy" width="100%" label="Slet" disabled="true" />
+										</panel>										
+									</layoutbox>																									
+								</panel>
+							</layoutbox>														
+						</panel>
+					</layoutbox>			
+				</tab>				
 				<tab label="Notat">
 					<textarea tag="notes" />
 				</tab>		

@@ -39,70 +39,41 @@
 							{
 								// Create new Customer, and give it a genric name
 								var current = didius.customer.create ();			
-								current.name = "Ny kunde";
+								current.name = "Unavngiven kunde";
 								didius.customer.save (current);											
 								
 								var row = app.customers.elements.customers.addItem (current);															
-								var onSave =	function (result)
+								var onDone =	function (result)
 												{
 													app.customers.elements.customers.setItem (result, row);
 												};
 																
-								app.customers.edit ({current: current, onSave: onSave});
+								app.customers.edit ({customerId: current.id, onDone: onDone});
 							};
 								
 			var onEdit =	function ()
 							{	
 								var row = app.customers.elements.customers.getItemRow ();
-								var onSave = 	function (result)
+								var onDone = 	function (result)
 												{
 													app.customers.elements.customers.setItem (result, row);
 												};																				
 												
-								app.customers.edit ({current: didius.customer.load (app.customers.elements.customers.getItem ().id), onSave: onSave});
+								app.customers.edit ({customerId: app.customers.elements.customers.getItem ().id , onDone: onDone});
 							};
 						
 			var onDestroy = function ()
 							{
 								var onDone =	function (result)
 												{
-													if (result == 1)
+													if (result)
 													{
-														// Delete customer
-														var result = didius.customer.destroy (app.customers.elements.customers.getItem ().id);
-																		
-														// Check if any errors occured												
-														if (result[0])
-														{
-															app.customers.elements.customers.removeItem ();
-														}
-														else
-														{	
-															var text = "Der er opstået en ukendt fejl under sletning af kunden.";
-															
-															switch (result[1][0])
-															{
-																case "00130":
-																{
-																	text = "Kunne ikke finde kunden der skulle slettes, prøv igen.";	
-																	break;																
-																}
-																
-																case "00131":
-																{
-																	text = "Kan ikke slette kunden da denne har tilknyttet sager. Slet sagerne og forsøg igen.";
-																	break;
-																}
-															}
-																															
-															// Display error alert
-															SNDK.SUI.modal.dialog.alert.show ({text: text, buttonLabel: "Ok"});
-														}
+														app.customers.elements.customers.removeItem ();
 													}
 												};
 												
 								// Show dialog
-								SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne kunde ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});
+								app.customer.destroy ({customerId: app.customers.elements.customers.getItem ().id, onDone: onDone});
 							};
 		
 			// Build UI
@@ -128,22 +99,26 @@
 						
 			// Functions
 			var save =		function ()
-							{
+							{															
+								// Disable buttons.
+								elements.window.getUIElement ("save").setAttribute ("disabled", true);							
+								elements.window.getUIElement ("close").setAttribute ("disabled", false);
+							
 								// Collect forms.
-								get ();
+								get ();															
 								
 								// Save Customer object to database.
-								didius.customer.save (attributes.current);
-								
-								// Refresh listview in main section.
-								if (attributes.onSave)
-								{
-									setTimeout (function () {attributes.onSave (attributes.current)}, 1);									
-								}
+								didius.customer.save (attributes.current);																
 								
 								// Update checksum.
 								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
 								onChange ();														
+								
+								// Performe callback.								
+								if (attributes.onDone)
+								{
+									setTimeout (function () {attributes.onDone (attributes.current)}, 1);									
+								}
 							};
 						
 			var close = 	function ()
@@ -152,7 +127,11 @@
 							};
 								
 			var set =		function ()
-							{							
+							{				
+								attributes.current = didius.customer.load (attributes.customerId);
+								
+								//elements.window.setAttribute ("title", "Kunde : ["+ attributes.current.no +"]");								
+													
 								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
 								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
 							
@@ -219,10 +198,12 @@
 								if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum) && (elements.window.getUIElement ("name").getAttribute ("value") != ""))
 								{									
 									elements.window.getUIElement ("save").setAttribute ("disabled", false);
+									elements.window.getUIElement ("close").setAttribute ("disabled", false);
 								}
 								else
 								{
 									elements.window.getUIElement ("save").setAttribute ("disabled", true);
+									elements.window.getUIElement ("close").setAttribute ("disabled", false);
 								}	
 								
 								if (elements.window.getUIElement ("cases").getItem ())
@@ -237,96 +218,47 @@
 								}																																				
 							};
 
-//			var onCaseCreate =	function ()
-//								{
-//									var current = didius.case.create (attributes.current);																		
-//									didius.case.save (current);
-//								
-//									var row = elements.window.getUIElement ("cases").addItem (current);															
-//									var onSave =	function (result)
-//													{
-//														elements.window.getUIElement ("cases").setItem (result, row);
-//													};
-//																
-//									app.cases.edit ({current: current, onSave: onSave});
-//								};
-								
 			var onCaseEdit =	function ()
 								{
 									var row = elements.window.getUIElement ("cases").getItemRow ()
-									var onSave = 	function (result)
+									var onDone = 	function (result)
 													{
 														elements.window.getUIElement ("cases").setItem (result, row);
 													};																				
 												
-									app.cases.edit ({current: didius.case.load (elements.window.getUIElement ("cases").getItem ().id), onSave: onSave});																								
+									app.cases.edit ({caseId: elements.window.getUIElement ("cases").getItem ().id, onDone: onDone});																								
 								};
 								
 			var onCaseDestroy = function ()
 								{
 									var onDone =	function (result)
 													{
-														if (result == 1)
+														if (result)
 														{
-															// Delete case
-															var result = didius.case.destroy (elements.window.getUIElement ("cases").getItem ().id);
-																																															
-															// Check if any errors occured		
-															if (result[0])
-															{
-																elements.window.getUIElement ("cases").removeItem ();
-															}
-															else
-															{	
-																var text = "Der er opstået en ukendt fejl under sletning af sagen.";
-															
-																// Cases with items connected to them cannot be deleted
-																switch (result[1][0])
-																{
-																	case "00330":
-																	{
-																		text = "Kunne ikke finde sagen der skulle slettes, prøv igen.";	
-																		break;
-																	}
-																
-																	case "00331":
-																	{
-																		text = "Kan ikke slette sagen da denne har tilknyttet effekter. Slet effekter og forsøg igen.";	
-																		break;
-																	}
-																
-																}
-																															
-																// Display error alert
-																SNDK.SUI.modal.dialog.alert.show ({text: text, buttonLabel: "Ok"});
-															}
+															elements.window.getUIElement ("cases").removeItem ();
 														}
 													};
-												
-									// Show dialog
-									SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne sag ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});														
+																
+									app.cases.destroy ({caseId: elements.window.getUIElement ("cases").getItem ().id, onDone: onDone});
 								};									
 																														
 			var init = 		function ()
 							{
 								if (!attributes)
 									attributes = new Array ();
-																									
-								// Functions
-													
-								// Window 'window'			
-								attributes.windowTitle = "Kunde : ["+ attributes.current.no +"]";	
-								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/customers/edit.xml", width: "80%", height: "80%"});
+																																														
+								// Window 'window'											
+								elements.window = new SNDK.SUI.modal.window ({UIURL: "xml/customers/edit.xml", width: "80%", height: "80%"});
 								
-								// Buttons 'caseCreate', 'caseEdit', 'caseDestroy'
-//								elements.window.getUIElement ("caseCreate").setAttribute ("onClick", onCaseCreate);
+								// Buttons 'caseEdit', 'caseDestroy'
 								elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);
 								elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", onCaseDestroy);
 								
-								// Listview 'cases'
+								// Listview 'cases'								
+								elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);
 								elements.window.getUIElement ("cases").setAttribute ("onDoubleClick", onCaseEdit);
 								
-								// onChange
+								// Textbox 'name', 'att', 'address1', 'address2', 'postcode', 'city', 'country', 'phone', 'mobile', 'email', 'vat', 'vatno', 'bankname', 'bankregistrationno', 'bankaccountno'
 								elements.window.getUIElement ("name").setAttribute ("onChange", onChange);
 								elements.window.getUIElement ("att").setAttribute ("onChange", onChange);
 								elements.window.getUIElement ("address1").setAttribute ("onChange", onChange);
@@ -344,18 +276,14 @@
 								elements.window.getUIElement ("bankname").setAttribute ("onChange", onChange);
 								elements.window.getUIElement ("bankregistrationno").setAttribute ("onChange", onChange);
 								elements.window.getUIElement ("bankaccountno").setAttribute ("onChange", onChange);
-								
-								elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);								
-								
+																								
+								// Textarea 'notes'
 								elements.window.getUIElement ("notes").setAttribute ("onChange", onChange);
 	
 								// Button 'save', 'close'
 								elements.window.getUIElement ("save").setAttribute ("onClick", save);
 								elements.window.getUIElement ("close").setAttribute ("onClick", close);
-																									
-								// Init elements.
-								//SNDK.SUI.init ();
-								
+																																	
 								// Fill forms.
 								set ();
 						
@@ -365,6 +293,58 @@
 						
 			// Initialize window
 			init ();				
-		}		
+		},
+		
+		destroy : function (attributes)
+		{
+			var onDone =	function (result)
+							{
+								if (result == 1)
+								{
+									// Delete customer
+									var result = didius.customer.destroy (attributes.customerId);
+													
+									// Check if any errors occured												
+									if (!result[0])
+									{	
+										var text = "Der er opstået en ukendt fejl under sletning af kunden.";
+										
+										switch (result[1][0])
+										{
+											case "00130":
+											{
+												text = "Kunne ikke finde kunden der skulle slettes, prøv igen.";	
+												break;																
+											}
+											
+											case "00131":
+											{
+												text = "Kan ikke slette kunden da denne har tilknyttet sager. Slet sagerne og forsøg igen.";
+												break;
+											}
+										}
+																										
+										// Display error alert
+										SNDK.SUI.modal.dialog.alert.show ({text: text, buttonLabel: "Ok"});
+										
+										if (attributes.onDone != null)
+										{
+											setTimeout (function () {attributes.onDone (false)});
+										}
+									}
+									else
+									{
+										if (attributes.onDone != null)
+										{
+											setTimeout (function () {attributes.onDone (true)});
+										}
+									
+									}
+								}
+							};
+									
+			// Show dialog
+			SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne kunde ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});
+		}	
 	}
 </script>

@@ -60,7 +60,7 @@
 												
 								app.auctions.edit ({current: didius.auction.load (app.auctions.elements.auctions.getItem ().id), onSave: onSave});
 							};
-						
+																
 			var onDestroy = function ()
 							{
 								var onDone =	function (result)
@@ -163,6 +163,13 @@
 														};
 									
 									didius.case.list ({auction: attributes.current, async: true, onDone: onCasesDone});
+									
+									var onItemsDone = 	function (result)
+														{													
+															elements.window.getUIElement ("items").setItems (result);
+														};
+									
+									didius.item.list ({auction: attributes.current, async: true, onDone: onItemsDone});
 															
 									elements.window.getUIElement ("notes").setAttribute ("value", attributes.current.notes);
 									
@@ -251,6 +258,16 @@
 								
 									app.cases.destroy ({current: didius.case.load (elements.window.getUIElement ("cases").getItem ().id), onDone: onDone});
 								};
+								
+			var onItemEdit = 	function ()
+								{
+								
+								};
+								
+			var onItemDestroy = function ()
+								{
+								
+								};
 																																					
 			var init = 			function ()
 								{
@@ -268,9 +285,12 @@
 									elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);								
 									elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", onCaseDestroy);	
 									
-									// Listview 'cases'
+									// Listview 'cases', 'items'
 									elements.window.getUIElement ("cases").setAttribute ("onDoubleClick", onCaseEdit);
 									elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);
+									
+									//elements.window.getUIElement ("items").setAttribute ("onDoubleClick", onCaseEdit);
+									elements.window.getUIElement ("items").setAttribute ("onChange", onChange);
 									
 									// Textbox 'title'
 									elements.window.getUIElement ("title").setAttribute ("onChange", onChange);

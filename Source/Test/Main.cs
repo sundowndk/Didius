@@ -24,8 +24,6 @@ namespace Test
 
 			if (SorentoLib.Services.Database.Connection.Connect ())
 			{
-				Console.WriteLine (Guid.Empty);
-
 				Console.WriteLine ("Connected to database.");
 
 				bool testcustomergroup = false;
@@ -305,23 +303,52 @@ namespace Test
 					Didius.Case d3 = new Didius.Case (d1, d2);
 					d3.Save ();
 
-					Didius.Item t1 = new Didius.Item (d3);					
-					t1.Title = "TITLE";
-					t1.Description = "DESCRIPTION";
-//					t1.Fields.Add ("FIELD1", "VALUE1");
-//					t1.Fields.Add ("FIELD2", "VALUE2");
-//					t1.Fields.Add ("FIELD3", "VALUE3");
-//					t1.Fields.Add ("FIELD4", "VALUE4");
-					t1.Save ();
+					for (int i = 1; i < 21; i++) 
+					{
+						Didius.Item t = new Didius.Item (d3);
+						t.Title = "TITLE #"+ i.ToString ();
 
-					Console.WriteLine ("catalog "+ t1.CatalogNo);
+						if (i == 10)
+						{
+							t.CatalogNo = 15;
+						}
 
-					// LOAD
-					Console.WriteLine ("\tLoad\n");
-					Didius.Item t2 = Didius.Item.Load (t1.Id);
-					Console.WriteLine ("\t\tCaseId: "+ t2.CaseId);
-					Console.WriteLine ("\t\tTitle: "+ t2.Title);
-					Console.WriteLine ("\t\tDescription: "+ t2.Description);
+						if (i == 13)
+						{
+							t.CatalogNo = 17;
+						}
+
+						if (i == 14)
+						{
+							t.CatalogNo = 200;
+						}
+
+						if (i == 15)
+						{
+							t.CatalogNo = 100;
+						}
+
+						t.Save ();	
+
+					}
+
+
+					foreach (Didius.Item i in Didius.Item.List ())
+					{
+						Console.WriteLine (i.CatalogNo +" - "+ i.Title);
+					}
+
+
+				
+
+//					Console.WriteLine ("catalog "+ t1.CatalogNo);
+//
+//					// LOAD
+//					Console.WriteLine ("\tLoad\n");
+//					Didius.Item t2 = Didius.Item.Load (t1.Id);
+//					Console.WriteLine ("\t\tCaseId: "+ t2.CaseId);
+//					Console.WriteLine ("\t\tTitle: "+ t2.Title);
+//					Console.WriteLine ("\t\tDescription: "+ t2.Description);
 
 //					foreach (string key in t2.Fields.Keys)
 //					{
@@ -329,23 +356,23 @@ namespace Test
 //					}
 //										
 					// LIST
-					Console.WriteLine ("\r\tList\n");
-					foreach (Didius.Item t3 in Didius.Item.List ())
-					{
-						Console.WriteLine ("\t\tTitle: "+ t3.Title);
-					}
-
-					// TOXMLDOCUMENT
-					Console.WriteLine ("\r\tToXmlDocument\n");
-					XmlDocument t1xml = t1.ToXmlDocument ();
-					Console.WriteLine ("\t\t"+ t1xml.InnerXml.ToString ());
-
-					// FROMXMLDOCUMENT
-					Console.WriteLine ("\r\tFromXmlDocument\n");
-					Didius.Item t4 = Didius.Item.FromXmlDocument (t1xml);
-					Console.WriteLine ("\t\tId: "+ t4.Id);
-					Console.WriteLine ("\t\tTitle: "+ t4.Title);
-					Console.WriteLine ("\t\tDescription: "+ t4.Description);
+//					Console.WriteLine ("\r\tList\n");
+//					foreach (Didius.Item t3 in Didius.Item.List ())
+//					{
+//						Console.WriteLine ("\t\tTitle: "+ t3.Title);
+//					}
+//
+//					// TOXMLDOCUMENT
+//					Console.WriteLine ("\r\tToXmlDocument\n");
+//					XmlDocument t1xml = t1.ToXmlDocument ();
+//					Console.WriteLine ("\t\t"+ t1xml.InnerXml.ToString ());
+//
+//					// FROMXMLDOCUMENT
+//					Console.WriteLine ("\r\tFromXmlDocument\n");
+//					Didius.Item t4 = Didius.Item.FromXmlDocument (t1xml);
+//					Console.WriteLine ("\t\tId: "+ t4.Id);
+//					Console.WriteLine ("\t\tTitle: "+ t4.Title);
+//					Console.WriteLine ("\t\tDescription: "+ t4.Description);
 //
 //					foreach (string key in t2.Fields.Keys)
 //					{
@@ -354,7 +381,10 @@ namespace Test
 
 					// DELETE
 					Console.WriteLine ("\r\tDelete\n");
-					Didius.Item.Delete (t1);
+					foreach (Didius.Item i in Didius.Item.List ())
+					{
+						Didius.Item.Delete (i);
+					}
 
 					// CLEANUP
 					Console.WriteLine ("\tCleanup");

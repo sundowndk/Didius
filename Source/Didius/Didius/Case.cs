@@ -164,13 +164,13 @@ namespace Didius
 			}
 		}
 
-		public System.List.ReadOnlyCollection<Item> Items
-		{
-			get
-			{
-				return Item.List (this).AsReadOnly ();			
-			}
-		}
+//		public System.List.ReadOnlyCollection<Item> Items
+//		{
+//			get
+//			{
+//				return Item.List (this).AsReadOnly ();			
+//			}
+//		}
 		#endregion
 		
 		#region Constructor

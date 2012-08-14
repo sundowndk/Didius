@@ -1,6 +1,9 @@
 <solution name="Didius" outputdirectory="">	
 	<project name="didius">
 		<class name="didius">	
+			<class name="helpers">
+				<js file="resources/js/helpers.js" />	
+			</class>
 			<class name="chooser">
 				<class name="auction">
 					<js file="resources/js/chooser/auction.js" />	

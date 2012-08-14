@@ -23,6 +23,16 @@
 						<panel size="%elementheight%">
 							<layoutbox type="vertical">
 								<panel size="100px">
+									<label text="Katalog nr."/>
+								</panel>					
+								<panel size="*">
+									<textbox tag="catalogno" width="100%"/>
+								</panel>		
+							</layoutbox>
+						</panel>		
+						<panel size="%elementheight%">
+							<layoutbox type="vertical">
+								<panel size="100px">
 									<label text="Title"/>
 								</panel>					
 								<panel size="*">
