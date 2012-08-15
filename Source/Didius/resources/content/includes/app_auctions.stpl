@@ -6,11 +6,17 @@
 		init : function ()
 		{
 			// Functions
+			// -------------
+			// SET
+			// -------------
 			var set = 		function ()
 							{
 								refresh ();
 							};
 							
+			// -------------
+			// REFRESH
+			// -------------
 			var refresh =	function ()
 							{
 								var onDone =	function (result)
@@ -20,7 +26,10 @@
 																									
 								didius.auction.list ({async: true, onDone: onDone});
 							};
-							
+					
+			// -------------
+			// ONCHANGE
+			// -------------		
 			var onChange =	function ()
 							{
 								if (app.auctions.elements.auctions.getItem ())
@@ -35,73 +44,53 @@
 		 						}
 							};
 			
-			var onCreate =	function ()
-							{
+			// -------------
+			// CREATE
+			// -------------
+			var create =	function ()
+							{								
 								// Create new Auction.
 								var current = didius.auction.create ();																		
 								didius.auction.save (current);									
 								
 								var row = app.auctions.elements.auctions.addItem (current);															
-								var onSave =	function (result)
+								var onDone =	function (result)
 												{
 													app.auctions.elements.auctions.setItem (result, row);
 												};
 																
-								app.auctions.edit ({current: current, onSave: onSave});
+								app.auctions.edit ({auctionId: current.id, onDone: onDone});
 							};
-								
-			var onEdit =	function ()
+				
+			// -------------
+			// EDIT
+			// -------------				
+			var edit =		function ()
 							{	
 								var row = app.auctions.elements.auctions.getItemRow ();
-								var onSave = 	function (result)
+								var onDone = 	function (result)
 												{
 													app.auctions.elements.auctions.setItem (result, row);
 												};																				
 												
-								app.auctions.edit ({current: didius.auction.load (app.auctions.elements.auctions.getItem ().id), onSave: onSave});
+								app.auctions.edit ({auctionId: app.auctions.elements.auctions.getItem ().id, onDone: onDone});
 							};
-																
-			var onDestroy = function ()
+				
+			// -------------
+			// DESTROY
+			// -------------												
+			var destroy =	 function ()
 							{
 								var onDone =	function (result)
 												{
-													if (result == 1)
+													if (result)
 													{
-														// Delete customer
-														var result = didius.auction.destroy (app.auctions.elements.auctions.getItem ().id);
-																		
-														// Check if any errors occured												
-														if (result[0])
-														{
-															app.auctions.elements.auctions.removeItem ();
-														}
-														else
-														{	
-															var text = "Der er opstået en ukendt fejl under sletning af auktionen.";
-															
-															switch (result[1][0])
-															{
-																case "00530":
-																{
-																	text = "Kunne ikke finde auktion der skulle slettes, prøv igen.";	
-																	break;																
-																}
-																
-																case "00531":
-																{
-																	text = "Kan ikke slette auktion da denne har tilknyttet sager. Slet sagerne og forsøg igen.";
-																	break;
-																}
-															}
-																															
-															// Display error alert
-															SNDK.SUI.modal.dialog.alert.show ({text: text, buttonLabel: "Ok"});
-														}
+														app.auctions.elements.auctions.removeItem ();
 													}
 												};
 												
 								// Show dialog
-								SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne auktion ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});
+								app.auctions.destroy ({auctionId: app.auctions.elements.auctions.getItem ().id, onDone: onDone});															
 							};
 		
 			// Build UI
@@ -109,12 +98,12 @@
 		
 			// Listview: 'auctions'
 			app.auctions.elements.auctions.setAttribute ("onChange", onChange);
-			app.auctions.elements.auctions.setAttribute ("onDoubleClick",onEdit);
+			app.auctions.elements.auctions.setAttribute ("onDoubleClick", edit);
 		
 			// Buttons 'create', 'edit', 'destroy'
-			app.auctions.elements.create.setAttribute ("onClick", onCreate);
-			app.auctions.elements.edit.setAttribute ("onClick", onEdit);
-			app.auctions.elements.destroy.setAttribute ("onClick", onDestroy);
+			app.auctions.elements.create.setAttribute ("onClick", create);
+			app.auctions.elements.edit.setAttribute ("onClick", edit);
+			app.auctions.elements.destroy.setAttribute ("onClick", destroy);
 			
 			// Fill forms
 			set ();
@@ -126,32 +115,13 @@
 			var elements = new Array ();
 						
 			// Functions
-			var save =			function ()
-								{
-									// Collect forms.
-									get ();
-									
-									// Save Customer object to database.
-									didius.auction.save (attributes.current);
-									
-									// Refresh listview in main section.
-									if (attributes.onSave)
-									{
-										setTimeout (function () {attributes.onSave (attributes.current)}, 1);									
-									}
-									
-									// Update checksum.
-									attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
-									onChange ();														
-								};
-						
-			var close = 		function ()
-								{
-									elements.window.dispose ();
-								};
-								
+			// -------------
+			// SET
+			// -------------	
 			var set =			function ()
-								{							
+								{						
+									elements.window.setAttribute ("title", "Auktion : ["+ attributes.current.no +"]");	
+										
 									elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
 									elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
 									
@@ -177,27 +147,70 @@
 							
 									onChange ();						
 								};
-						
+				
+			// -------------
+			// GET
+			// -------------	
 			var get =			function ()
 								{		
 									attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");								
 									attributes.current.notes = elements.window.getUIElement ("notes").getAttribute ("value");
-								};
+								};			
+			
+			// -------------
+			// SAVE
+			// -------------	
+			var save =			function ()
+								{
+									// Disable buttons.
+									elements.window.getUIElement ("save").setAttribute ("disabled", true);							
+									elements.window.getUIElement ("close").setAttribute ("disabled", false);
+								
+									// Collect forms.
+									get ();
 									
+									// Save Customer object to database.
+									didius.auction.save (attributes.current);
+																										
+									// Update checksum.
+									attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
+									onChange ();														
+									
+									if (attributes.onDone)
+									{
+										setTimeout (function () {attributes.onDone (attributes.current)}, 1);									
+									}
+
+								};
+						
+			// -------------
+			// CLOSE
+			// -------------							
+			var close = 		function ()
+								{
+									elements.window.dispose ();
+								};
+										
+			// -------------
+			// ONCHANGE
+			// -------------							
 			var onChange =		function ()
 								{							
 									get ();
 								
-									// Checksum & name not empty.
+									// Main
 									if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum))
 									{									
 										elements.window.getUIElement ("save").setAttribute ("disabled", false);
+										elements.window.getUIElement ("close").setAttribute ("disabled", false);
 									}
 									else
 									{
 										elements.window.getUIElement ("save").setAttribute ("disabled", true);
+										elements.window.getUIElement ("close").setAttribute ("disabled", false);
 									}	
 									
+									// Cases
 									if (elements.window.getUIElement ("cases").getItem ())
 									{			 						 				
 										elements.window.getUIElement ("caseEdit").setAttribute ("disabled", false);	
@@ -208,9 +221,24 @@
 										elements.window.getUIElement ("caseEdit").setAttribute ("disabled", true);									
 										elements.window.getUIElement ("caseDestroy").setAttribute ("disabled", true);									
 									}																																				
+									
+									// Items
+									if (elements.window.getUIElement ("items").getItem ())
+									{			 						 				
+										elements.window.getUIElement ("itemEdit").setAttribute ("disabled", false);	
+										elements.window.getUIElement ("itemDestroy").setAttribute ("disabled", false);									
+									}
+									else
+									{
+										elements.window.getUIElement ("itemEdit").setAttribute ("disabled", true);									
+										elements.window.getUIElement ("itemDestroy").setAttribute ("disabled", true);									
+									}
 								};
-								
-			var onCaseCreate =	function ()
+						
+			// -------------
+			// CASECREATE
+			// -------------											
+			var caseCreate =	function ()
 								{
 									var onDone =	function (result)
 													{
@@ -225,72 +253,98 @@
 																				elements.window.getUIElement ("cases").setItem (result, row);
 																			};
 																
-															app.cases.edit ({current: case_, onDone: onDone});
+															app.cases.edit ({caseId: case_.id, onDone: onDone});
 														}
 													};
 														
 									didius.chooser.customer.open ({onDone: onDone});
 								};								
-								
-			var onCaseEdit =	function ()
+					
+			// -------------
+			// CASEEDIT
+			// -------------												
+			var caseEdit =	function ()
 								{
 									var row = elements.window.getUIElement ("cases").getItemRow ()
 									var onDone = 	function (result)
 													{
-														if (result == 1)
+														if (result)
 														{
 															elements.window.getUIElement ("cases").setItem (result, row);
 														}
 													};																				
 												
-									app.cases.edit ({current: didius.case.load (elements.window.getUIElement ("cases").getItem ().id), onDone: onDone});
+									app.cases.edit ({caseId: elements.window.getUIElement ("cases").getItem ().id, onDone: onDone});
 								};
 		
-			var onCaseDestroy =	function ()
+			// -------------
+			// CASEDESTROY
+			// -------------	
+			var caseDestroy =	function ()
 								{
 									var onDone =	function (result)
 													{
-														if (result == 1)
+														if (result)
 														{
 															elements.window.getUIElement ("cases").removeItem ();
 														}
 													};
 								
-									app.cases.destroy ({current: didius.case.load (elements.window.getUIElement ("cases").getItem ().id), onDone: onDone});
+									app.cases.destroy ({caseId: elements.window.getUIElement ("cases").getItem ().id, onDone: onDone});
 								};
-								
-			var onItemEdit = 	function ()
+						
+			// -------------
+			// ITEMEDIT
+			// -------------											
+			var itemEdit = 		function ()
 								{
 								
 								};
-								
-			var onItemDestroy = function ()
+				
+			// -------------
+			// ITEMDESTROY
+			// -------------													
+			var itemDestroy = 	function ()
 								{
 								
 								};
-																																					
+				
+			// -------------
+			// INIT
+			// -------------																																																																							
 			var init = 			function ()
 								{
 									if (!attributes)
 										attributes = new Array ();
-																										
-									// Functions
+										
+									// Poplulate current
+									try
+									{
+										attributes.current = didius.auction.load (attributes.auctionId);
+									}
+									catch (exception)
+									{
+										app.error ({exception: exception});
+										return;
+									}					
 														
-									// Window 'window'			
-									attributes.windowTitle = "Auktion : ["+ attributes.current.no +"]";	
-									elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/auctions/edit.xml", width: "80%", height: "80%"});
+									// Window 'window'												
+									elements.window = new SNDK.SUI.modal.window ({UIURL: "xml/auctions/edit.xml", width: "80%", height: "80%"});
 									
-									// Buttons 'caseEdit', 'caseCreate'
-									elements.window.getUIElement ("caseCreate").setAttribute ("onClick", onCaseCreate);
-									elements.window.getUIElement ("caseEdit").setAttribute ("onClick", onCaseEdit);								
-									elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", onCaseDestroy);	
+									// Buttons 'caseCreate', 'caseEdit', 'caseDestory', 'itemEdit', 'itemDestory'
+									elements.window.getUIElement ("caseCreate").setAttribute ("onClick", caseCreate);
+									elements.window.getUIElement ("caseEdit").setAttribute ("onClick", caseEdit);								
+									elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", caseDestroy);	
+																		
+									elements.window.getUIElement ("itemEdit").setAttribute ("onClick", itemEdit);
+									elements.window.getUIElement ("itemDestroy").setAttribute ("onClick", itemDestroy);	
 									
-									// Listview 'cases', 'items'
-									elements.window.getUIElement ("cases").setAttribute ("onDoubleClick", onCaseEdit);
+									// Listview 'cases', 'items'									
 									elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);
-									
-									//elements.window.getUIElement ("items").setAttribute ("onDoubleClick", onCaseEdit);
+									elements.window.getUIElement ("cases").setAttribute ("onDoubleClick", caseEdit);
+																		
 									elements.window.getUIElement ("items").setAttribute ("onChange", onChange);
+									elements.window.getUIElement ("items").setAttribute ("onDoubleClick", itemEdit);
 									
 									// Textbox 'title'
 									elements.window.getUIElement ("title").setAttribute ("onChange", onChange);
@@ -301,10 +355,7 @@
 									// Button 'save', 'close'
 									elements.window.getUIElement ("save").setAttribute ("onClick", save);
 									elements.window.getUIElement ("close").setAttribute ("onClick", close);
-																										
-									// Init elements.
-									//SNDK.SUI.init ();
-									
+																																			
 									// Fill forms.
 									set ();
 							
@@ -314,6 +365,39 @@
 						
 			// Initialize window
 			init ();				
+		},
+		
+		destroy : function (attributes)
+		{
+			var onDone =	function (result)
+							{
+								var success = true;
+							
+								if (result == 1)
+								{
+									try
+									{
+										didius.auction.destroy (attributes.auctionId);
+									}
+									catch (error)
+									{
+										success = false;
+										app.error ({exception: error})												
+									}																			
+								}
+								else
+								{
+									success = false;
+								}
+								
+								if (attributes.onDone != null)
+								{
+									setTimeout (function () {attributes.onDone (success)});
+								}			
+							};
+									
+			// Show dialog
+			SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne auktion ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});
 		}		
 	}
 </script>

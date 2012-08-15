@@ -234,6 +234,13 @@ namespace Didius
 		
 		public static void Delete (Guid Id)
 		{
+			// We can not delete Auction with a Case related to it.
+			if (Case.List (Auction.Load (Id)).Count > 0)
+			{
+				// EXCEPTION: Exception.AuctionHasCase
+				throw new Exception (string.Format (Strings.Exception.AuctionDeleteHasCase, Id.ToString ()));
+			}
+
 			try
 			{
 				SorentoLib.Services.Datastore.Delete (DatastoreAisle, Id.ToString ());

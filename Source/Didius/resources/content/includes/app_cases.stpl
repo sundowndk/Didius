@@ -6,9 +6,14 @@
 			// Elements
 			var elements = new Array ();
 							
-			// Functions										
+			// Functions			
+			// -------------
+			// SET
+			// -------------							
 			var set =			function ()
-								{							
+								{												
+									elements.window.setAttribute ("title", "Sag : ["+ attributes.current.no +"]");	
+																	
 									elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
 									elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
 									
@@ -34,18 +39,22 @@
 									onChange ();						
 								};
 							
+			// -------------
+			// GET
+			// -------------							
 			var get =			function ()
-								{				
-									attributes.current = didius.case.load (attributes.caseId);
-								
+								{												
 									attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");
 									attributes.current.customerreference = elements.window.getUIElement ("customerReference").getAttribute ("value");
 									attributes.current.preparationfee = elements.window.getUIElement ("preparationFee").getAttribute ("value");
 									attributes.current.commisionfeepercentage = elements.window.getUIElement ("commisionFeePercentage").getAttribute ("value");
 									attributes.current.commisionfeeminimum = elements.window.getUIElement ("commisionFeeMinimum").getAttribute ("value");
 								};
-																		
-			var onSave =		function ()
+					
+			// -------------
+			// SAVE
+			// -------------																															
+			var save =			function ()
 								{																
 									// Collect forms.
 									get ();
@@ -62,27 +71,36 @@
 									attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
 									onChange ();														
 								};
-							
-			var onClose = 		function ()
+					
+			// -------------
+			// CLOSE
+			// -------------									
+			var close = 		function ()
 								{
 									elements.window.dispose ();
 								};							
 							
-			var onItemCreate =	function ()
+			// -------------
+			// ITEMCREATE
+			// -------------							
+			var itemCreate =	function ()
 								{
 									var current = didius.item.create (attributes.current);									
 									didius.item.save (current);
 								
 									var row = elements.window.getUIElement ("items").addItem (current);															
-									var onSave =	function (result)
+									var onDone =	function (result)
 													{
 														elements.window.getUIElement ("items").setItem (result, row);
 													};
 																
-									app.items.edit ({current: current, onSave: onSave});
+									app.items.edit ({itemId: current.id, onDone: onDone});
 								};
-								
-			var onItemEdit =	function ()
+				
+			// -------------
+			// ITEMEDIT
+			// -------------
+			var itemEdit =		function ()
 								{
 									var row = elements.window.getUIElement ("items").getItemRow ()
 									var onDone = 	function (result)
@@ -90,28 +108,29 @@
 														elements.window.getUIElement ("items").setItem (result, row);
 													};																				
 												
-									app.items.edit ({current: didius.item.load (elements.window.getUIElement ("items").getItem ().id), onDone: onDone});			
+									app.items.edit ({itemId: elements.window.getUIElement ("items").getItem ().id, onDone: onDone});			
 								};
-								
-			var onItemDestroy = function ()
+						
+			// -------------
+			// ITEMDESTROY
+			// -------------										
+			var itemDestroy =	function ()
 								{
-									app.items.destroy ({onDone: onDone});
-								
 									var onDone =	function (result)
-									{
-										if (result == 1)
-										{
-											didius.item.destroy (elements.window.getUIElement ("items").getItem ().id);
-											elements.window.getUIElement ("items").removeItem ();
-										}
-									};
+													{
+														if (result)
+														{															
+															elements.window.getUIElement ("items").removeItem ();
+														}
+													};
 									
-									app.items.destroy ({onDone: onDone});
-							
-									SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne effekt ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});
+									app.items.destroy ({itemId: elements.window.getUIElement ("items").getItem ().id, onDone: onDone});
 								}		
-								
-																					var onChange =		function ()
+						
+			// -------------
+			// ONCHANGE
+			// -------------
+			var onChange =		function ()
 								{
 									get ();
 									
@@ -136,19 +155,32 @@
 										elements.window.getUIElement ("itemDestroy").setAttribute ("disabled", true);
 									}			
 								};
-											
+				
+			// -------------
+			// INIT
+			// -------------																		
 			var init = 			function ()
 								{
 									if (!attributes)
 										attributes = new Array ();
+										
+									// Populate current
+									try
+									{
+										attributes.current = didius.case.load (attributes.caseId);
+									}
+									catch (exception)
+									{
+										app.error ({exception: exception});
+										return;
+									}
 																																					
-									// Window 'window'			
-									attributes.windowTitle = "Sag : ["+ attributes.current.no +"]";	
-									elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/cases/edit.xml", width: "70%", height: "70%"});
+									// Window 'window'												
+									elements.window = new SNDK.SUI.modal.window ({UIURL: "xml/cases/edit.xml", width: "70%", height: "70%"});
 									
-									// Listview 'items'
-									elements.window.getUIElement ("items").setAttribute ("onDoubleClick", onItemEdit);
+									// Listview 'items'									
 									elements.window.getUIElement ("items").setAttribute ("onChange", onChange);
+									elements.window.getUIElement ("items").setAttribute ("onDoubleClick", itemEdit);
 									
 									// Textbox 'title', 'auctionTitle', 'customerReference', 'preperationFee', 'commisionFeePercentage', 'commisionFeeMinimum'
 									elements.window.getUIElement ("title").setAttribute ("onChange", onChange);
@@ -159,17 +191,14 @@
 									elements.window.getUIElement ("commisionFeeMinimum").setAttribute ("onChange", onChange);
 									
 									// Buttons 'chooseAuction', 'itemCreate', 'itemEdit', 'itemDestroy'
-									elements.window.getUIElement ("itemCreate").setAttribute ("onClick", onItemCreate);
-									elements.window.getUIElement ("itemEdit").setAttribute ("onClick", onItemEdit);
-									elements.window.getUIElement ("itemDestroy").setAttribute ("onClick", onItemDestroy);
+									elements.window.getUIElement ("itemCreate").setAttribute ("onClick", itemCreate);
+									elements.window.getUIElement ("itemEdit").setAttribute ("onClick", itemEdit);
+									elements.window.getUIElement ("itemDestroy").setAttribute ("onClick", itemDestroy);
 									
 									// Button 'save', 'close'
-									elements.window.getUIElement ("save").setAttribute ("onClick", onSave);
-									elements.window.getUIElement ("close").setAttribute ("onClick", onClose);
-																										
-									// Init elements.
-									//SNDK.SUI.init ();
-									
+									elements.window.getUIElement ("save").setAttribute ("onClick", save);
+									elements.window.getUIElement ("close").setAttribute ("onClick", close);
+																																			
 									// Fill forms.
 									set ();
 							
@@ -186,49 +215,28 @@
 			var onDone =	function (result)
 							{
 								if (result == 1)
-								{																	
+								{										
+									var success = true;
+																						
 									// Delete case								
-									var destory = didius.case.destroy (attributes.caseId);
-																																									
-									// Check if any errors occured		
-									if (!destory[0])
-									{	
-										success = false;
-										
-										var text = "Der er opstået en ukendt fejl under sletning af sagen.";
-									
-										// Cases with items connected to them cannot be deleted
-										switch (destory[1][0])
-										{
-											case "00330":
-											{
-												text = "Kunne ikke finde sagen der skulle slettes, prøv igen.";	
-												break;
-											}
-										
-											case "00331":
-											{
-												text = "Kan ikke slette sagen da denne har tilknyttet effekter. Slet effekter og forsøg igen.";	
-												break;
-											}
-										
-										}
-																									
-										// Display error alert
-										SNDK.SUI.modal.dialog.alert.show ({text: text, buttonLabel: "Ok"});																				
-										
-										if (!attributes.onDone != null)
-										{
-											setTimeout (function () {attributes.onDone (false)});
-										}
-									}														
-									else
+									try
 									{
-										if (!attributes.onDone != null)
-										{
-											setTimeout (function () {attributes.onDone (true)});
-										}
-									}				
+										didius.case.destroy (attributes.caseId);
+									}
+									catch (exception)
+									{
+										success = false;
+										app.error ({exception: exception});
+									}																																									
+								}
+								else
+								{
+									success = false;
+								}
+								
+								if (!attributes.onDone != null)
+								{
+									setTimeout (function () {attributes.onDone (success)});
 								}
 							};
 												

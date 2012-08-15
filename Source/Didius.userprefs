@@ -1,11 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/resources/content/includes/app_customers.stpl">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/resources/content/includes/app_cases.stpl">
     <Files>
-      <File FileName="Didius/resources/content/includes/app_auctions.stpl" Line="270" Column="11" />
-      <File FileName="Didius/resources/content/includes/app_cases.stpl" Line="144" Column="11" />
-      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="133" Column="11" />
-      <File FileName="Didius/resources/content/includes/app_items.stpl" Line="142" Column="153" />
+      <File FileName="Didius/resources/content/includes/app_cases.stpl" Line="92" Column="20" />
+      <File FileName="Didius/resources/content/includes/app_items.stpl" Line="73" Column="52" />
+      <File FileName="Didius/resources/content/includes/app_auctions.stpl" Line="329" Column="16" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,7 +16,7 @@
             <Node name="resources" expanded="True">
               <Node name="content" expanded="True">
                 <Node name="includes" expanded="True">
-                  <Node name="app_customers.stpl" selected="True" />
+                  <Node name="app_cases.stpl" selected="True" />
                 </Node>
               </Node>
               <Node name="css" expanded="True" />

@@ -6,7 +6,39 @@
 			// Elements
 			var elements = new Array ();
 							
-			// Functions
+			// Functions					
+			// -------------
+			// SET
+			// -------------											
+			var set =		function ()
+							{			
+								elements.window.setAttribute ("title" , "Effekt : ["+ attributes.current.no +"]");	
+																																	
+								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
+								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
+								
+								elements.window.getUIElement ("catalogno").setAttribute ("value", attributes.current.catalogno);
+								elements.window.getUIElement ("title").setAttribute ("value", attributes.current.title);
+								elements.window.getUIElement ("description").setAttribute ("value", attributes.current.description);
+								
+								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
+							
+								onChange ();						
+							};
+				
+			// -------------
+			// GET
+			// -------------										
+			var get =		function ()
+							{			
+								attributes.current.catalogno = elements.window.getUIElement ("catalogno").getAttribute ("value");
+								attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");
+								attributes.current.description = elements.window.getUIElement ("description").getAttribute ("value");																		
+							};			
+			
+			// -------------
+			// SAVE
+			// -------------
 			var save =		function ()
 							{		
 								// Disable buttons
@@ -31,48 +63,33 @@
 									
 								// Save Customer object to database.
 								didius.item.save (attributes.current);
-									
-								if (attributes.onSave)
-								{
-									setTimeout (function () {attributes.onSave (attributes.current)}, 1);
-								}
-									
+																										
 								// Update checksum.
 								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
 								onChange ();
+								
+								if (attributes.onDone)
+								{
+									setTimeout (function () {attributes.onDone (attributes.current)}, 1);
+								}
 							};
-							
+				
+			// -------------
+			// CLOSE
+			// -------------										
 			var close = 	function ()
 							{
 								elements.window.dispose ();
 							};
-								
-			var set =		function ()
-							{																
-								elements.window.getUIElement ("no").setAttribute ("value", attributes.current.no);								
-								elements.window.getUIElement ("createdate").setAttribute ("value", attributes.current.createtimestamp);
-								
-								elements.window.getUIElement ("catalogno").setAttribute ("value", attributes.current.catalogno);
-								elements.window.getUIElement ("title").setAttribute ("value", attributes.current.title);
-								elements.window.getUIElement ("description").setAttribute ("value", attributes.current.description);
-								
-								attributes.checksum = SNDK.tools.arrayChecksum (attributes.current);
-							
-								onChange ();						
-							};
-							
-			var get =		function ()
-							{			
-								attributes.current.catalogno = elements.window.getUIElement ("catalogno").getAttribute ("value");
-								attributes.current.title = elements.window.getUIElement ("title").getAttribute ("value");
-								attributes.current.description = elements.window.getUIElement ("description").getAttribute ("value");																		
-							};
-																									
+				
+			// -------------
+			// ONCHANGE
+			// -------------																																														
 			var onChange =	function ()
 							{
 								get ();
 								
-								// Checksum
+								// Main
 								if ((SNDK.tools.arrayChecksum (attributes.current) != attributes.checksum))
 								{
 									elements.window.getUIElement ("save").setAttribute ("disabled", false);
@@ -83,8 +100,11 @@
 									elements.window.getUIElement ("save").setAttribute ("disabled", true);
 									elements.window.getUIElement ("close").setAttribute ("disabled", false);
 								}															
-							};
+							};						
 											
+			// -------------
+			// INIT
+			// -------------																					
 			var init = 		function ()
 							{
 								if (!attributes)
@@ -93,10 +113,20 @@
 								if (!attributes.temp)
 									attributes.temp = new Array ();
 									
+								// Poplulate current
+								try
+								{
+									attributes.current = didius.item.load (attributes.itemId);
+								}
+								catch (exception)
+								{
+									app.error ({exception: exception});
+									return;
+								}														
+									
 								attributes.temp.catalogNo = attributes.current.catalogno;
 
-								// Window 'window'			
-								attributes.windowTitle = "Effekt : ["+ attributes.current.no +"]";	
+								// Window 'window'											
 								elements.window = new SNDK.SUI.modal.window ({title: attributes.windowTitle, UIURL: "xml/items/edit.xml", width: "60%", height: "60%"});
 								
 								// Textbox 'title', 'catalogno'
@@ -129,15 +159,30 @@
 			var onDone =	function (result)
 							{
 								if (result == 1)
-								{																
-									didius.item.destroy (attributes.current.id);									
-									
-									if (attributes.onDone != null)
+								{										
+									var success = true;
+																						
+									// Delete case								
+									try
 									{
-										setTimeout (function () {attributes.onDone (result)}, 1);
+										didius.item.destroy (attributes.itemId);												
 									}
+									catch (exception)
+									{
+										success = false;
+										app.error ({exception: exception});
+									}																																									
 								}
-							};
+								else
+								{
+									success = false;
+								}
+								
+								if (!attributes.onDone != null)
+								{
+									setTimeout (function () {attributes.onDone (success)});
+								}
+							};		
 							
 			SNDK.SUI.modal.dialog.confirm.show ({text: "Er du sikker på du vil slette denne effekt ?", buttonLabel1: "Ja", buttonLabel2: "Nej", onDone: onDone});
 		}

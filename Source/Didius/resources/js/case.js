@@ -28,8 +28,6 @@ save : function (template)
 								
 	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Save", "data", "POST", false);	
 	request.send (content);
-
-	return true;
 },		
 
 destroy : function (id)
@@ -37,18 +35,8 @@ destroy : function (id)
 	var content = new Array ();
 	content.id = id;
 
-	try
-	{
-		var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
-		request.send (content);
-	
-	}
-	catch (error)
-	{						
-		return [false, error.split ("|")];
-	}
-			
-	return [true];
+	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
+	request.send (content);				
 },				
 		
 list : function (attributes)
@@ -57,15 +45,24 @@ list : function (attributes)
 	
 	var content = new Array ();
 	
-	if (attributes.customer)
+	if (attributes.customerId)
+	{
+		content.customerid = attributes.customerId;
+	}
+	else if (attributes.customer)
 	{
 		content.customerid = attributes.customer.id;
 	}
 	
-	if (attributes.auction)
+	if (attributes.auctionId)
 	{
-		content.auctuonid = attributes.auction.id;
+		content.auctionid = attributes.auctionId;
 	}
+	else if (attributes.auction)
+	{
+		content.auctionid = attributes.auction.id;
+	}
+	
 	
 	if (attributes.async)
 	{
