@@ -68,13 +68,20 @@
 										<column tag="title" label="" width="200px" visible="true" />
 									</listview>
 								</panel>					
-								<panel size="80px">
-									<layoutbox type="horizontal" width="100%" height="100%">
+								<panel size="80px">								
+									<layoutbox type="horizontal">
+										<panel size="*">
+										<layoutbox type="horizontal" width="100%" height="100%">
 										<panel size="*">														
 											<button tag="itemEdit" width="100%" label="Redigere" disabled="true" />
 											<button tag="itemDestroy" width="100%" label="Slet" disabled="true" />
 										</panel>										
 									</layoutbox>																									
+										</panel>
+										<panel size="200px">
+											<button tag="catalogPrint" width="100%" label="Print" disabled="true" />
+										</panel>
+									</layoutbox>									
 								</panel>
 							</layoutbox>														
 						</panel>

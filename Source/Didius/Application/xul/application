@@ -1,0 +1,10 @@
+[App]
+Vendor=QNAX ApS
+Name=Didius
+Version=1.0
+BuildID=20100901
+ID=xulapp@xultest.org
+
+[Gecko]
+MinVersion=1.*
+MaxVersion=14.*

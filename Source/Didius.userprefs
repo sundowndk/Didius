@@ -1,34 +1,39 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/resources/content/includes/app_cases.stpl">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main.xul">
     <Files>
-      <File FileName="Didius/resources/content/includes/app_cases.stpl" Line="92" Column="20" />
-      <File FileName="Didius/resources/content/includes/app_items.stpl" Line="73" Column="52" />
-      <File FileName="Didius/resources/content/includes/app_auctions.stpl" Line="329" Column="16" />
+      <File FileName="Didius/Application/xul/chrome/content/main.xul" Line="27" Column="39" />
+      <File FileName="Didius/Application/js/app/runtime.js" Line="16" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/js/main.js" Line="26" Column="1" />
+      <File FileName="Didius/Application/js/app/customers.js" Line="2" Column="2" />
+      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="27" Column="62" />
+      <File FileName="Didius/Application/js/app/auctions.js" Line="10" Column="1" />
+      <File FileName="Didius/Application/build-app.jsb" Line="11" Column="30" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
-            <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True" />
-            <Node name="Didius.Strings" expanded="True" />
-            <Node name="resources" expanded="True">
-              <Node name="content" expanded="True">
-                <Node name="includes" expanded="True">
-                  <Node name="app_cases.stpl" selected="True" />
+            <Node name="Application" expanded="True">
+              <Node name="js" expanded="True">
+                <Node name="app" expanded="True" />
+                <Node name="didius" expanded="True" />
+              </Node>
+              <Node name="xul" expanded="True">
+                <Node name="chrome" expanded="True">
+                  <Node name="content" expanded="True">
+                    <Node name="js" expanded="True" />
+                    <Node name="main.xul" selected="True" />
+                  </Node>
+                </Node>
+                <Node name="defaults" expanded="True">
+                  <Node name="preferences" expanded="True" />
                 </Node>
               </Node>
-              <Node name="css" expanded="True" />
-              <Node name="js" expanded="True">
-                <Node name="chooser" expanded="True" />
-              </Node>
-              <Node name="xml" expanded="True">
-                <Node name="auctions" expanded="True" />
-                <Node name="cases" expanded="True" />
-                <Node name="choosers" expanded="True" />
-                <Node name="customers" expanded="True" />
-                <Node name="items" expanded="True" />
+            </Node>
+            <Node name="resources" expanded="True">
+              <Node name="content" expanded="True">
+                <Node name="includes" expanded="True" />
               </Node>
             </Node>
           </Node>

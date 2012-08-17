@@ -134,12 +134,7 @@
 									
 									didius.case.list ({auction: attributes.current, async: true, onDone: onCasesDone});
 									
-									var onItemsDone = 	function (result)
-														{													
-															elements.window.getUIElement ("items").setItems (result);
-														};
-									
-									didius.item.list ({auction: attributes.current, async: true, onDone: onItemsDone});
+									refreshCatalog ();
 															
 									elements.window.getUIElement ("notes").setAttribute ("value", attributes.current.notes);
 									
@@ -147,7 +142,7 @@
 							
 									onChange ();						
 								};
-				
+			
 			// -------------
 			// GET
 			// -------------	
@@ -192,6 +187,21 @@
 								};
 										
 			// -------------
+			// REFRESHCATALOG
+			// -------------					
+			var refreshCatalog = 	function ()
+									{
+										var onItemsDone = 	function (result)
+															{																													
+																elements.window.getUIElement ("items").setItems (result);
+																onChange ();
+															};
+																			
+										elements.window.getUIElement ("items").clear ();
+										didius.item.list ({auction: attributes.current, async: true, onDone: onItemsDone});
+									};
+																							
+			// -------------
 			// ONCHANGE
 			// -------------							
 			var onChange =		function ()
@@ -232,6 +242,16 @@
 									{
 										elements.window.getUIElement ("itemEdit").setAttribute ("disabled", true);									
 										elements.window.getUIElement ("itemDestroy").setAttribute ("disabled", true);									
+									}
+																											
+									// Catalog
+									if (elements.window.getUIElement ("items").count () > 0)
+									{
+										elements.window.getUIElement ("catalogPrint").setAttribute ("disabled", false);
+									}
+									else
+									{
+										elements.window.getUIElement ("catalogPrint").setAttribute ("disabled", true);
 									}
 								};
 						
@@ -308,6 +328,15 @@
 								{
 								
 								};
+								
+			// -------------
+			// CATALOGPRINT
+			// -------------													
+			var catalogPrint = 	function ()
+								{
+								
+								};
+			
 				
 			// -------------
 			// INIT
@@ -331,13 +360,15 @@
 									// Window 'window'												
 									elements.window = new SNDK.SUI.modal.window ({UIURL: "xml/auctions/edit.xml", width: "80%", height: "80%"});
 									
-									// Buttons 'caseCreate', 'caseEdit', 'caseDestory', 'itemEdit', 'itemDestory'
+									// Buttons 'caseCreate', 'caseEdit', 'caseDestory', 'itemEdit', 'itemDestory', 'catalogPrint'
 									elements.window.getUIElement ("caseCreate").setAttribute ("onClick", caseCreate);
 									elements.window.getUIElement ("caseEdit").setAttribute ("onClick", caseEdit);								
 									elements.window.getUIElement ("caseDestroy").setAttribute ("onClick", caseDestroy);	
-																		
+																										
 									elements.window.getUIElement ("itemEdit").setAttribute ("onClick", itemEdit);
 									elements.window.getUIElement ("itemDestroy").setAttribute ("onClick", itemDestroy);	
+									
+									elements.window.getUIElement ("catalogPrint").setAttribute ("onClick", catalogPrint);	
 									
 									// Listview 'cases', 'items'									
 									elements.window.getUIElement ("cases").setAttribute ("onChange", onChange);

@@ -40,6 +40,18 @@
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppDebug|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\AppDebug</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="AfterBuild" command="Application/build.sh ${TargetDir}" />
+        <Command type="Execute" command="xulrunner app/Didius/application" workingdir="${TargetDir}" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="SorentoLib">
@@ -93,6 +105,17 @@
     <Folder Include="resources\xml\auctions\" />
     <Folder Include="resources\xml\choosers\" />
     <Folder Include="resources\js\chooser\" />
+    <Folder Include="Application\" />
+    <Folder Include="Application\xul\" />
+    <Folder Include="Application\xul\chrome\" />
+    <Folder Include="Application\xul\defaults\" />
+    <Folder Include="Application\xul\chrome\content\" />
+    <Folder Include="Application\xul\defaults\preferences\" />
+    <Folder Include="Application\js\" />
+    <Folder Include="Application\xul\chrome\content\icons\" />
+    <Folder Include="Application\xul\chrome\content\js\" />
+    <Folder Include="Application\js\didius\" />
+    <Folder Include="Application\js\app\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -123,6 +146,28 @@
     <None Include="resources\js\chooser\customer.js" />
     <None Include="resources\xml\choosers\customer.xml" />
     <None Include="resources\js\helpers.js" />
+    <None Include="Application\xul\defaults\preferences\prefs.js" />
+    <None Include="Application\xul\chrome\chrome.manifest" />
+    <None Include="Application\xul\chrome.manifest" />
+    <None Include="Application\xul\application" />
+    <None Include="Application\xul\chrome\content\main.xul" />
+    <None Include="Application\xul\chrome\content\icons\customers.png" />
+    <None Include="Application\xul\chrome\content\icons\auctions.png" />
+    <None Include="Application\build.sh" />
+    <None Include="Application\xul\chrome\content\js\main.js" />
+    <None Include="Application\xul\chrome\content\js\sndk.js" />
+    <None Include="Application\js\didius\runtime.js" />
+    <None Include="Application\js\didius\item.js" />
+    <None Include="Application\js\didius\helpers.js" />
+    <None Include="Application\js\didius\customergroup.js" />
+    <None Include="Application\js\didius\customer.js" />
+    <None Include="Application\js\didius\case.js" />
+    <None Include="Application\js\didius\auction.js" />
+    <None Include="Application\build-didius.jsb" />
+    <None Include="Application\build-app.jsb" />
+    <None Include="Application\js\app\runtime.js" />
+    <None Include="Application\js\app\customers.js" />
+    <None Include="Application\js\app\auctions.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />
