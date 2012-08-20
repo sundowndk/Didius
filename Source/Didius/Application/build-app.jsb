@@ -1,5 +1,5 @@
 <solution name="App" outputdirectory="">	
-	<project name="app">
+	<project name="app">		
 		<class name="app">	
 			<class name="runtime">			
 				<js file="js/app/runtime.js" />					
@@ -11,5 +11,6 @@
 				<js file="js/app/auctions.js" />					
 			</class>
 		</class>
+		<js file="js/app/test.js" />
 	</project>	
 </solution>

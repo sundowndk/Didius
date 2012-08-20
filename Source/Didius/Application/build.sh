@@ -27,6 +27,16 @@ for file in Application/xul/*; do
 done
 
 ####################################################
+# INCLUDES                                         #
+####################################################
+echo "Copying 'xul''..."
+mkdir "$OUTPUTDIR/app/Didius/chrome/content/js/sndk"
+for file in ../Lib/sndk/*; do
+    cp -rv $file "$OUTPUTDIR/app/Didius/chrome/content/js/sndk/"
+done
+
+
+####################################################
 # JAVASCRIPT                                       #
 ####################################################
 echo "Building 'js'..."

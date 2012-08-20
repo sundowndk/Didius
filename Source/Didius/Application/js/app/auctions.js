@@ -12,6 +12,7 @@ refresh : function ()
 {
 	var onDone = 	function (auctions)
 					{
+						// Populate tree
 						var tree = document.getElementById ("auctions");
 						var children = document.createElement('treechildren');		
 						tree.appendChild (children);
@@ -35,7 +36,9 @@ refresh : function ()
 							row.appendChild(cell);			
 						}				
 						
+						// Enable controls
 						tree.disabled = false;
+						document.getElementById ("auctionCreate").disabled = false;
 					};
 
 	didius.auction.list ({async: true, onDone: onDone});

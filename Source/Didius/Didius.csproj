@@ -116,6 +116,7 @@
     <Folder Include="Application\xul\chrome\content\js\" />
     <Folder Include="Application\js\didius\" />
     <Folder Include="Application\js\app\" />
+    <Folder Include="Application\xul\chrome\content\customers\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -155,7 +156,6 @@
     <None Include="Application\xul\chrome\content\icons\auctions.png" />
     <None Include="Application\build.sh" />
     <None Include="Application\xul\chrome\content\js\main.js" />
-    <None Include="Application\xul\chrome\content\js\sndk.js" />
     <None Include="Application\js\didius\runtime.js" />
     <None Include="Application\js\didius\item.js" />
     <None Include="Application\js\didius\helpers.js" />
@@ -168,6 +168,10 @@
     <None Include="Application\js\app\runtime.js" />
     <None Include="Application\js\app\customers.js" />
     <None Include="Application\js\app\auctions.js" />
+    <None Include="Application\xul\chrome\content\customerEdit.xul" />
+    <None Include="Application\js\app\test.js" />
+    <None Include="Application\xul\chrome\content\js\customers.js" />
+    <None Include="Application\xul\chrome\content\customers\edit.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

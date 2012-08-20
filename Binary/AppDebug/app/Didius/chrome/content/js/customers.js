@@ -1,0 +1,10 @@
+var customers =
+{
+	init : function ()
+	{
+	
+	}
+		
+
+}
+
