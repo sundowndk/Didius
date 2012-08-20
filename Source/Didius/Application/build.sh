@@ -35,11 +35,17 @@ for file in ../Lib/sndk/*; do
     cp -rv $file "$OUTPUTDIR/app/Didius/chrome/content/js/sndk/"
 done
 
+#echo "Copying 'xul''..."
+#for file in Application/js/app/*; do
+#    cp -rv $file "$OUTPUTDIR/app/Didius/chrome/content/js/"
+#done
+
+
 
 ####################################################
 # JAVASCRIPT                                       #
 ####################################################
 echo "Building 'js'..."
 jsbuilder Application/build-didius.jsb "$OUTPUTDIR/app/Didius/chrome/content/js/"
-jsbuilder Application/build-app.jsb "$OUTPUTDIR/app/Didius/chrome/content/js/"
+#jsbuilder Application/build-app.jsb "$OUTPUTDIR/app/Didius/chrome/content/js/"
 

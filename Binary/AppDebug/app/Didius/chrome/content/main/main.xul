@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="main" title="York Aucktion ApS" width="800" height="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY width height">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+	
+	<script type="application/javascript" src="main.js"/>	
+
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="app.shutdown (false);"/>
+	</keyset>
+	
+	<menubar id="menubar">
+		<menu label="File">
+			<menupopup>
+				<menuitem label="Close (Ctrl+W)" oncommand="app.shutdown (false);" />
+			</menupopup>
+		</menu>
+	</menubar>	
+		
+	<vbox flex="1">
+		<tabbox id="myTabList" selectedIndex="0" flex="1">
+		
+			<tabs>
+				<tab image="chrome://didius/content/icons/customers.png"/>
+				<tab image="chrome://didius/content/icons/auctions.png"/>			
+			</tabs>
+						
+			<tabpanels flex="1">
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.customers.onChange ();" ondblclick="main.customers.edit ();">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<treecol id="name" label="Navn" flex="1" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="address1" label="Adresse" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="postcode" label="Post nr." width="90" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="city" label="By" flex="1" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="email" label="Email" flex="1" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+							</treecols>	
+							<treechildren id="customersTreeChildren">
+							</treechildren>
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>
+							<button id="customerCreate" label="Opret" disabled="true" oncommand="main.customers.create ();"/>
+							<button id="customerEdit" label="Redigere" disabled="true" oncommand="main.customers.edit ();"/>
+							<button id="customerDestroy" label="Slet" disabled="true" oncommand="main.customers.destroy ();"/>	
+						</vbox>	
+					</hbox>	
+				</tabpanel>
+				
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="auctions" flex="1" hidecolumnpicker="true" disabled="true">
+							<treecols>
+								<treecol id="id" label="Auktion nr." flex="1" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="descending"/>
+								<treecol id="auctionsTitleCol" label="Title" flex="3" onclick="SignonColumnSort('hostname');" persist="width" />
+							</treecols>	
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>
+							<button id="auctionCreate" label="Opret" disabled="true" />
+							<button id="auctionEdit" label="Redigere" disabled="true" />
+							<button id="auctionDestroy" label="Slet" disabled="true" />	
+						</vbox>
+					</hbox>
+				</tabpanel>
+			
+			</tabpanels>
+		</tabbox>
+		<statusbar>
+    <statusbarpanel id="status"/>
+    </statusbar>
+
+	</vbox>
+</window>

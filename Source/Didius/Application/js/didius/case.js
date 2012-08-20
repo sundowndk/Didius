@@ -4,7 +4,7 @@ create : function (Auction, Customer)
 	content.customerid = Customer.id;
 	content.auctionid = Auction.id;
 
-	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Create", "data", "POST", false);	
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Create", "data", "POST", false);	
 	request.send (content);
 	
 	return request.respons ()["didius.case"];
@@ -15,7 +15,7 @@ load : function (id)
 	var content = new Array ();
 	content.id = id;
 
-	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Load", "data", "POST", false);		
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Load", "data", "POST", false);		
 	request.send (content);
 
 	return request.respons ()["didius.case"];
@@ -26,7 +26,7 @@ save : function (template)
 	var content = new Array ();
 	content["didius.case"] = template;
 								
-	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Save", "data", "POST", false);	
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Save", "data", "POST", false);	
 	request.send (content);
 },		
 
@@ -35,7 +35,7 @@ destroy : function (id)
 	var content = new Array ();
 	content.id = id;
 
-	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
 	request.send (content);				
 },				
 		
@@ -71,13 +71,13 @@ list : function (attributes)
 							attributes.onDone (respons["didius.cases"]);
 						};
 		
-		var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.List", "data", "POST", true);
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.List", "data", "POST", true);
 		request.onLoaded (onDone);
 		request.send (content);
 	}
 	else
 	{
-		var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Case.List", "data", "POST", false);		
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.List", "data", "POST", false);		
 		request.send (content);
 
 		return request.respons ()["didius.cases"];		

@@ -1,4 +1,4 @@
-pref("toolkit.defaultChromeURI", "chrome://didius/content/main.xul");
+pref("toolkit.defaultChromeURI", "chrome://didius/content/main/main.xul");
 
 /* debugging prefs */
 pref("browser.dom.window.dump.enabled", true);

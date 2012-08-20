@@ -1,14 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main.xul">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/customeredit/customeredit.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/main.xul" Line="27" Column="39" />
-      <File FileName="Didius/Application/js/app/runtime.js" Line="16" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/js/main.js" Line="26" Column="1" />
-      <File FileName="Didius/Application/js/app/customers.js" Line="2" Column="2" />
-      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="27" Column="62" />
-      <File FileName="Didius/Application/js/app/auctions.js" Line="10" Column="1" />
-      <File FileName="Didius/Application/build-app.jsb" Line="11" Column="30" />
+      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.js" Line="32" Column="52" />
+      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.xul" Line="97" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="1" Column="1" />
+      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="152" Column="93" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="34" Column="161" />
+      <File FileName="Didius/Application/js/didius/case.js" Line="44" Column="45" />
+      <File FileName="Didius/Application/js/didius/customer.js" Line="14" Column="61" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="80" Column="3" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.xul" Line="61" Column="41" />
+      <File FileName="Didius/Didius/Case.cs" Line="335" Column="47" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,14 +19,17 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
-                <Node name="app" expanded="True" />
                 <Node name="didius" expanded="True" />
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
+                    <Node name="caseedit" expanded="True" />
+                    <Node name="customeredit" expanded="True">
+                      <Node name="customeredit.js" selected="True" />
+                    </Node>
                     <Node name="js" expanded="True" />
-                    <Node name="main.xul" selected="True" />
+                    <Node name="main" expanded="True" />
                   </Node>
                 </Node>
                 <Node name="defaults" expanded="True">
@@ -31,6 +37,7 @@
                 </Node>
               </Node>
             </Node>
+            <Node name="Didius" expanded="True" />
             <Node name="resources" expanded="True">
               <Node name="content" expanded="True">
                 <Node name="includes" expanded="True" />

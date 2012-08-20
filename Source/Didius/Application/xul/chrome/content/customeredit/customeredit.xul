@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="main" title="York Aucktion ApS" width="800" height="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY width height">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+		
+	<script type="application/javascript" src="chrome://didius/content/customeredit/customeredit.js"/>	
+			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+			
+	<hbox flex="1">
+		<tabbox id="myTabList" selectedIndex="0" flex="1">
+		
+			<tabs>
+				<tab label="Detaljer"/>
+				<tab label="Sager"/>			
+				<tab label="Noter"/>
+			</tabs>
+						
+			<tabpanels flex="1">
+				<tabpanel>
+					<vbox flex="1">
+						<groupbox flex="1">
+							<caption label="Info"/>
+							
+							<hbox>
+								<label width="60">Kunde nr.:</label>
+								<textbox id="no" flex="1" readonly="true"  />
+								<label width="60">Oprettet:</label>
+								<textbox id="createdate" flex="1" readonly="true"  />
+							</hbox>
+						</groupbox>
+						
+						<groupbox flex="1">
+							<caption label="Adresse"/>
+							
+							<hbox>
+								<label width="55">Navn:</label>
+								<textbox id="name" flex="1" onkeyup="main.onChange ();" />
+							</hbox>
+							<hbox>
+								<label width="55">Adresse:</label>
+								<textbox id="address1" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox>
+								<label width="55"></label>
+								<textbox id="address2" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox>
+								<label width="55">Post nr.:</label>
+								<textbox id="postcode" width="60" />
+								<label width="55">By:</label>
+								<textbox id="city" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox>
+								<label width="55">Land:</label>
+								<textbox id="country" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>  					
+						</groupbox>
+						
+						<groupbox flex="1">
+							<caption label="Kontakt"/>
+							<hbox>
+								<label width="55">Att:</label>
+								<textbox id="att" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox>
+								<label width="55">Telefon:</label>
+								<textbox id="phone" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox>
+								<label width="55">Mobil:</label>
+								<textbox id="mobile" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox>
+								<label width="55">Email:</label>
+								<textbox id="email" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+						</groupbox>
+	    
+						<groupbox flex="1">
+							<caption label="Virksomheds oplysninger"/>
+							
+							<hbox>    					
+								<label width="55">Moms:</label>
+								<checkbox id="vat" oncommand="main.onChange ();"/>						
+							</hbox>
+							<hbox>
+								<label width="55">CVR nr.:</label>
+								<textbox id="vatno" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+						</groupbox>
+
+						<groupbox flex="1">
+							<caption label="Bank oplysninger"/>
+
+							<hbox>
+								<label width="55">Bank:</label>
+								<textbox id="bankname" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox>
+								<label width="55">Reg.nr.:</label>
+								<textbox id="bankregistrationno" flex="1" onkeyup="main.onChange ();"/>
+								<label width="60">Konto nr.:</label>
+								<textbox id="bankaccountno" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+						</groupbox>      
+					</vbox>
+    			</tabpanel>
+    			
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.cases.onChange ();" ondblclick="main.cases.edit ();">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<treecol id="no" label="Sags nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+							</treecols>	
+							<treechildren id="casesTreeChildren">
+							</treechildren>
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>							
+							<button id="caseEdit" label="Redigere" oncommand="main.cases.edit ();" disabled="true" />
+							<button id="caseDestroy" label="Slet" oncommand="main.cases.destroy ();" disabled="true" />	
+						</vbox>	
+					</hbox>						
+				</tabpanel>
+				<tabpanel>
+					<textbox id="notes" flex="1" multiline="true" onkeyup="main.onChange ();"/>
+				</tabpanel>
+			
+			</tabpanels>
+		</tabbox>
+	</hbox>
+	<hbox>
+	<hbox align="right" flex="1">
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
+		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+	</hbox>
+</hbox>
+</window>

@@ -17,7 +17,7 @@ var app =
   		appStartup.quit(quitSeverity);  		  	
 	},
 	
-	error : function (attributes)
+	error : function (error)
 	{
 		var text = "";
 								
@@ -39,7 +39,7 @@ var app =
 								
 			case "00131":
 			{
-				text = "Kan ikke slette kunden da denne har tilknyttet sager. Slet alle sagerne og forsøg igen.";
+				text = "Kan ikke slette kunden da denne har tilknyttet sager. Slet sagerne og forsøg igen.";
 				break;
 			}
 			
@@ -80,6 +80,5 @@ var app =
 		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
 		prompts.alert(null, "Der opstod en fejl", text);
 	}
-	
 }
 
