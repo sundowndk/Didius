@@ -27,7 +27,7 @@
 							<caption label="Info"/>
 							
 							<hbox>
-								<label width="60">Kunde nr.:</label>
+								<label width="60">Sags nr.:</label>
 								<textbox id="no" flex="1" readonly="true"  />
 								<label width="60">Oprettet:</label>
 								<textbox id="createdate" flex="1" readonly="true"  />
@@ -41,7 +41,7 @@
 						<groupbox flex="1">
 							<caption label=""/>							
 							<hbox>
-								<label width="55">Navn:</label>
+								<label width="55">Title:</label>
 								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
 							</hbox>
 							<hbox>
@@ -66,10 +66,11 @@
     			
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true">
+						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.items.onChange ();" ondblclick="main.items.edit ();">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="no" label="Sags nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="catalogno" label="Katalog nr." width="30" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="no" label="Effekt nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
 								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
 							</treecols>	
 							<treechildren id="itemsTreeChildren">
@@ -78,8 +79,9 @@
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="itemEdit" label="Redigere" disabled="true" />
-							<button id="itemDestroy" label="Slet" disabled="true" />	
+							<button id="itemCreate" label="Opret" disabled="true" oncommand="main.items.create ();"/>
+							<button id="itemEdit" label="Redigere" disabled="true" oncommand="main.items.edit ();"/>
+							<button id="itemDestroy" label="Slet" disabled="true" oncommand="main.items.destroy ();"/>	
 						</vbox>	
 					</hbox>						
 				</tabpanel>

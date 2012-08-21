@@ -24,7 +24,7 @@ isCatalogNoTaken : function (attributes)
 		throw "didius.helpers.isCatalogNoTaken - missing catalogNo attribute.";
 	}
 	
-	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Helpers.IsCatalogNoTaken", "data", "POST", false);	
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.IsCatalogNoTaken", "data", "POST", false);	
 	request.send (content);
 	
 	return request.respons ()["value"];
@@ -47,7 +47,7 @@ newCatalogNo : function (attributes)
 		throw "didius.helpers.isCatalogNoTaken - missing auction or auctionId attribute.";
 	}
 		
-	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Helpers.NewCatalogNo", "data", "POST", false);	
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.NewCatalogNo", "data", "POST", false);	
 	request.send (content);
 	
 	return request.respons ()["value"];

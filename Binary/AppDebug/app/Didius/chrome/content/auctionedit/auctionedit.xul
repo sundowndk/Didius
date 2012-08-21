@@ -6,7 +6,7 @@
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
 		
-	<script type="application/javascript" src="chrome://didius/content/caseedit/caseedit.js"/>	
+	<script type="application/javascript" src="chrome://didius/content/auctionedit/auctionedit.js"/>	
 			
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
@@ -17,7 +17,9 @@
 		
 			<tabs>
 				<tab label="Detaljer"/>
-				<tab label="Effekter"/>							
+				<tab label="Sager"/>							
+				<tab label="Katalog"/>
+				<tab label="Noter"/>
 			</tabs>
 						
 			<tabpanels flex="1">
@@ -27,43 +29,43 @@
 							<caption label="Info"/>
 							
 							<hbox>
-								<label width="60">Sags nr.:</label>
+								<label width="60">Auktion nr.:</label>
 								<textbox id="no" flex="1" readonly="true"  />
 								<label width="60">Oprettet:</label>
 								<textbox id="createdate" flex="1" readonly="true"  />
-							</hbox>
-							<hbox>
-								<label width="55">Auktion:</label>
-								<textbox id="auction" flex="1" disabled="true"/>
-							</hbox>
+							</hbox>							
 						</groupbox>
 						
 						<groupbox flex="1">
 							<caption label=""/>							
 							<hbox>
-								<label width="55">Title:</label>
+								<label width="55">Navn:</label>
 								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
-							</hbox>
-							<hbox>
-								<label width="55">Kunde ref:</label>
-								<textbox id="customerreference" flex="1" onkeyup="main.onChange ();"/>
-							</hbox>
-							<hbox>
-								<label width="55">Fremstillings gebyr:</label>
-								<textbox id="preparationfee" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>							
-							<hbox>
-								<label width="55">Salærprocent:</label>
-								<textbox id="commisionfeepercentage" flex="1" onkeyup="main.onChange ();"/>
-							</hbox>  					
-							<hbox>
-								<label width="55">Min. salær:</label>
-								<textbox id="commisionfeeminimum" flex="1" onkeyup="main.onChange ();"/>
-							</hbox>  					
 						</groupbox>
 					</vbox>
     			</tabpanel>
     			
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.cases.onChange ();" ondblclick="main.cases.edit ();">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<treecol id="no" label="Sags nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+							</treecols>	
+							<treechildren id="casesTreeChildren">
+							</treechildren>
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>							
+							<button id="caseCreate" label="Opret" disabled="true" oncommand="main.cases.create ();"/>
+							<button id="caseEdit" label="Redigere" disabled="true" oncommand="main.cases.edit ();"/>
+							<button id="caseDestroy" label="Slet" disabled="true" oncommand="main.cases.destroy ();"/>	
+						</vbox>	
+					</hbox>						
+				</tabpanel>
 				<tabpanel>
 					<hbox flex="1">
 						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.items.onChange ();" ondblclick="main.items.edit ();">
@@ -78,12 +80,14 @@
 						</tree>
 					</hbox>
 					<hbox>
-						<vbox>							
-							<button id="itemCreate" label="Opret" disabled="true" oncommand="main.items.create ();"/>
+						<vbox>													
 							<button id="itemEdit" label="Redigere" disabled="true" oncommand="main.items.edit ();"/>
 							<button id="itemDestroy" label="Slet" disabled="true" oncommand="main.items.destroy ();"/>	
 						</vbox>	
-					</hbox>						
+					</hbox>										
+				</tabpanel>
+				<tabpanel>
+					<textbox id="notes" flex="1" multiline="true" onkeyup="main.onChange ();"/>
 				</tabpanel>
 			</tabpanels>
 		</tabbox>

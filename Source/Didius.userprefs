@@ -1,17 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/customeredit/customeredit.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/itemedit/itemedit.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.js" Line="32" Column="52" />
-      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.xul" Line="97" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="1" Column="1" />
-      <File FileName="Didius/resources/content/includes/app_customers.stpl" Line="152" Column="93" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="34" Column="161" />
-      <File FileName="Didius/Application/js/didius/case.js" Line="44" Column="45" />
-      <File FileName="Didius/Application/js/didius/customer.js" Line="14" Column="61" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="80" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.xul" Line="61" Column="41" />
-      <File FileName="Didius/Didius/Case.cs" Line="335" Column="47" />
+      <File FileName="Didius/Application/xul/chrome/content/js/app.js" Line="49" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="16" Column="34" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="133" Column="6" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.xul" Line="31" Column="41" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="193" Column="21" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.xul" Line="33" Column="27" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -24,9 +20,12 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
+                    <Node name="auctionedit" expanded="True" />
                     <Node name="caseedit" expanded="True" />
-                    <Node name="customeredit" expanded="True">
-                      <Node name="customeredit.js" selected="True" />
+                    <Node name="chooser" expanded="True" />
+                    <Node name="customeredit" expanded="True" />
+                    <Node name="itemedit" expanded="True">
+                      <Node name="itemedit.js" selected="True" />
                     </Node>
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />

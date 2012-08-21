@@ -119,6 +119,9 @@
     <Folder Include="Application\xul\chrome\content\main\" />
     <Folder Include="Application\xul\chrome\content\customeredit\" />
     <Folder Include="Application\xul\chrome\content\caseedit\" />
+    <Folder Include="Application\xul\chrome\content\itemedit\" />
+    <Folder Include="Application\xul\chrome\content\auctionedit\" />
+    <Folder Include="Application\xul\chrome\content\chooser\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -178,6 +181,12 @@
     <None Include="Application\xul\chrome\content\js\app.js" />
     <None Include="Application\xul\chrome\content\caseedit\caseedit.js" />
     <None Include="Application\xul\chrome\content\caseedit\caseedit.xul" />
+    <None Include="Application\xul\chrome\content\itemedit\itemedit.xul" />
+    <None Include="Application\xul\chrome\content\itemedit\itemedit.js" />
+    <None Include="Application\xul\chrome\content\auctionedit\auctionedit.js" />
+    <None Include="Application\xul\chrome\content\auctionedit\auctionedit.xul" />
+    <None Include="Application\xul\chrome\content\chooser\customer.js" />
+    <None Include="Application\xul\chrome\content\chooser\customer.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

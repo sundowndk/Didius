@@ -108,7 +108,7 @@ var didius =
 	{
 		create : function ()
 		{
-			var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.CustomerGroup.Create", "data", "POST", false);	
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.CustomerGroup.Create", "data", "POST", false);	
 			request.send ();
 			
 			return request.respons ()["didius.customergroup"];
@@ -119,7 +119,7 @@ var didius =
 			var content = new Array ();
 			content["id"] = id;
 		
-			var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.CustomerGroup.Load", "data", "POST", false);		
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.CustomerGroup.Load", "data", "POST", false);		
 			request.send (content);
 		
 			return request.respons ()["didius.customergroup"];
@@ -130,7 +130,7 @@ var didius =
 			var content = new Array ();
 			content["didius.customergroup"] = CustomerGroup;
 										
-			var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.CustomerGroup.Save", "data", "POST", false);	
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.CustomerGroup.Save", "data", "POST", false);	
 			request.send (content);
 		
 			return true;
@@ -143,7 +143,7 @@ var didius =
 		
 			try
 			{
-				var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.CustomerGroup.Destroy", "data", "POST", false);	
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.CustomerGroup.Destroy", "data", "POST", false);	
 				request.send (content);
 			}
 			catch (error)
@@ -165,13 +165,13 @@ var didius =
 									attributes.onDone (respons["didius.customergroups"]);
 								};		
 			
-				var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.CustomerGroup.List", "data", "POST", true);
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.CustomerGroup.List", "data", "POST", true);
 				request.onLoaded (onDone);
 				request.send ();						
 			}
 			else
 			{
-				var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.CustomerGroup.List", "data", "POST", false);		
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.CustomerGroup.List", "data", "POST", false);		
 				request.send ();
 		
 				return request.respons ()["didius.customergroups"];		
@@ -287,7 +287,7 @@ var didius =
 			var content = new Array ();
 			content.caseid = Case.id;
 		
-			var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Item.Create", "data", "POST", false);	
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Create", "data", "POST", false);	
 			request.send (content);
 			
 			return request.respons ()["didius.item"];
@@ -298,7 +298,7 @@ var didius =
 			var content = new Array ();
 			content.id = id;
 		
-			var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Item.Load", "data", "POST", false);		
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Load", "data", "POST", false);		
 			request.send (content);
 		
 			return request.respons ()["didius.item"];
@@ -309,7 +309,7 @@ var didius =
 			var content = new Array ();
 			content["didius.item"] = Item;
 										
-			var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Item.Save", "data", "POST", false);	
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Save", "data", "POST", false);	
 			request.send (content);
 		
 			return true;
@@ -322,7 +322,7 @@ var didius =
 		
 			try
 			{
-				var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Item.Destroy", "data", "POST", false);	
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Destroy", "data", "POST", false);	
 				request.send (content);
 			}
 			catch (error)
@@ -366,13 +366,13 @@ var didius =
 									attributes.onDone (respons["didius.items"]);
 								};
 				
-				var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Item.List", "data", "POST", true);
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.List", "data", "POST", true);
 				request.onLoaded (onDone);
 				request.send (content);
 			}
 			else
 			{
-				var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Item.List", "data", "POST", false);		
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.List", "data", "POST", false);		
 				request.send (content);
 		
 				return request.respons ()["didius.items"];		
@@ -484,7 +484,7 @@ var didius =
 				throw "didius.helpers.isCatalogNoTaken - missing catalogNo attribute.";
 			}
 			
-			var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Helpers.IsCatalogNoTaken", "data", "POST", false);	
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.IsCatalogNoTaken", "data", "POST", false);	
 			request.send (content);
 			
 			return request.respons ()["value"];
@@ -507,7 +507,7 @@ var didius =
 				throw "didius.helpers.isCatalogNoTaken - missing auction or auctionId attribute.";
 			}
 				
-			var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=Didius.Helpers.NewCatalogNo", "data", "POST", false);	
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.NewCatalogNo", "data", "POST", false);	
 			request.send (content);
 			
 			return request.respons ()["value"];

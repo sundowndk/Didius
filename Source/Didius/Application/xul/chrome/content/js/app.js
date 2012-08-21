@@ -1,9 +1,52 @@
-var EXPORTED_SYMBOLS = ["app"];
+var EXPORTED_SYMBOLS = ["app", "event"];
+  
+function event()
+{
+	this.eventHandlers = new Array ();
+}
+
+event.prototype.addHandler = function(eventHandler)
+{
+	this.eventHandlers.push(eventHandler);
+}
+
+event.prototype.execute = function(args)
+{
+	for(var i = 0; i < this.eventHandlers.length; i++)
+	{
+		this.eventHandlers[i](args);
+	}
+}
+
   
 var app =
 {
-	startup : function ()
+	mainWindow : null,
+
+	events : new Array (),	
+
+	startup : function (mainWindow)
 	{
+		// Make everybody can get to the main window.
+		app.mainWindow = mainWindow;
+	
+		// Setup events.
+		app.events.onCustomerCreate = new event ();
+		app.events.onCustomerSave = new event ();
+		app.events.onCustomerDestroy = new event ();
+		
+		app.events.onCaseCreate = new event ();
+		app.events.onCaseSave = new event ();
+		app.events.onCaseDestroy = new event ();
+		
+		app.events.onItemCreate = new event ();
+		app.events.onItemSave = new event ();
+		app.events.onItemDestroy = new event ();
+				
+		app.events.onAuctionCreate = new event ();
+		app.events.onAuctionSave = new event ();
+		app.events.onAuctionDestroy = new event ();
+				
 		dump("App startup!");
 	},
 	
@@ -15,6 +58,14 @@ var app =
   		var quitSeverity = ForceQuit ? Components.interfaces.nsIAppStartup.eForceQuit :
                                   Components.interfaces.nsIAppStartup.eAttemptQuit;
   		appStartup.quit(quitSeverity);  		  	
+	},
+	
+	choose : 
+	{
+		customer : function (attributes)
+		{
+			app.mainWindow.openDialog ("chrome://didius/content/chooser/customer.xul", "test", "chrome", attributes);
+		}	
 	},
 	
 	error : function (attributes)

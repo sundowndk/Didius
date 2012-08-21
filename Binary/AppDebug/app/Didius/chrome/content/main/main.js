@@ -3,10 +3,11 @@ Components.utils.import("resource://didius/js/app.js");
 var main = 
 {
 	init : function ()
-	{		
-		app.startup ();
+	{				
+		app.startup (window);
 		
 		main.customers.init ();
+		main.auctions.init ();
 	},
 	
 	controls : 
@@ -136,6 +137,127 @@ var main =
 					document.getElementById ("customerDestroy").disabled = true;
 				}
 			}
+		},
+		
+		auctions :
+		{
+			addRow : function (auction)
+			{
+				var treechildren = document.getElementById ('auctionsTreeChildren');			
+				
+				var treeitem = document.createElement ('treeitem');	
+				treechildren.appendChild (treeitem)
+
+				var treerow = document.createElement('treerow');
+				treeitem.appendChild (treerow);
+
+				var columns = [auction["id"], auction["no"], auction["title"]];
+									
+				for (index in columns)
+				{
+					var treecell = document.createElement ('treecell');
+					treecell.setAttribute ('label', columns[index]);
+					treerow.appendChild (treecell);																		
+				}
+			},
+			
+			changeRow : function (auction)
+			{
+				var tree = document.getElementById ('auctions');
+				
+				for (var i = 0; i < tree.view.rowCount; i++) 
+				{
+					if (tree.view.getCellText (i, tree.columns.getNamedColumn('id')) == auction.id)					
+					{					
+						tree.view.setCellText (i, tree.columns.getNamedColumn('no'), auction.no);
+						tree.view.setCellText (i, tree.columns.getNamedColumn('title'), auction.title);
+						break;
+					}
+				}
+			},
+			
+			removeRow : function (row)
+			{
+				if (!row)
+				{
+					var tree = document.getElementById("auctions");
+					var rangeCount = tree.view.selection.getRangeCount();
+ 					var start = {};
+ 					var end   = {};
+ 					for (var i=0; i<rangeCount; i++)  
+ 					{  
+ 						tree.view.selection.getRangeAt(i, start, end);
+ 						for (var c=end.value; c>=start.value; c--)  
+ 						{
+						 	tree.view.getItemAtIndex(c).parentNode.removeChild(tree.view.getItemAtIndex(c));
+						}
+					}
+  				}
+			},
+				
+			clear : function ()
+			{
+				var treechildren = document.getElementById ('auctionsTreeChildren');
+								
+				while (treechildren.firstChild) 
+				{
+ 					treechildren.removeChild (treechildren.firstChild);
+				}
+			},	
+			
+			refresh : function ()
+			{					
+				var onDone = 	function (auctions)
+								{
+									for (index in auctions)
+									{									
+										main.controls.auctions.addRow (auctions[index]);
+									}
+								
+								// Enable controls
+								document.getElementById ("auctions").disabled = false;								
+								document.getElementById ("auctionCreate").disabled = false;								
+								
+								main.controls.auctions.onChange ();
+							};
+
+				// Disable controls
+				document.getElementById ("auctions").disabled = true;
+				document.getElementById ("auctionCreate").disabled = true;
+				document.getElementById ("auctionEdit").disabled = true;
+				document.getElementById ("auctionDestroy").disabled = true;
+			
+				didius.auction.list ({async: true, onDone: onDone});					
+			},
+			
+			getSelected : function ()
+			{
+				var result = new Array ();
+				var tree = document.getElementById ('auctions');
+				
+				result.id = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('id'));
+				result.no = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('no'));				
+				result.title = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('title'));				
+				
+				return result;
+			},
+		
+			onChange : function ()
+			{
+				var view = document.getElementById ("auctions").view;
+				var selection = view.selection.currentIndex; //returns -1 if the tree is not focused
+				
+				if (selection != -1)
+				{
+					document.getElementById ("auctionEdit").disabled = false;
+					document.getElementById ("auctionDestroy").disabled = false;
+				}
+				else
+				{
+					document.getElementById ("auctionEdit").disabled = true;
+					document.getElementById ("auctionDestroy").disabled = true;
+				}
+			}
 		}
 	},
 	
@@ -198,5 +320,65 @@ var main =
 				}								
 			}
 		}
-	}		
+	},
+	
+	auctions :
+	{
+		init : function ()
+		{
+			main.controls.auctions.refresh ();		
+		},
+								
+		create : function ()
+		{		
+			var current = didius.auction.create ();						
+			didius.auction.save (current);																								
+			
+			main.controls.auctions.addCustomer (current);
+			
+			var onSave = function (result)
+			{				
+				if (result != null)
+				{
+					main.controls.auctions.changeRow (result);					
+				}													
+			}
+												
+			window.openDialog ("chrome://didius/content/auctionedit/auctionedit.xul", current.id, "chrome", {auctionId: current.id, onSave: onSave});
+		},
+		
+		edit : function ()
+		{		
+			var current = main.controls.auctions.getSelected ();
+						
+			var onSave = function (result)
+			{				
+				if (result != null)
+				{
+					main.controls.auctions.changeRow (result);					
+				}													
+			}
+							
+			window.openDialog ("chrome://didius/content/auctionedit/auctionedit.xul", current.id, "chrome", {auctionId: current.id, onSave: onSave});
+		},
+		
+		destroy : function ()
+		{
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+			var result = prompts.confirm (null, "Slet auktion", "Er du sikker på du vil slette denne auktion ?");
+			
+			if (result)
+			{
+				try
+				{
+					didius.auction.destroy (main.controls.auctions.getSelected ().id);
+					main.controls.auctions.removeRow ();
+				}
+				catch (error)
+				{
+					app.error ({exception: error})
+				}								
+			}
+		}
+	}	
 }
