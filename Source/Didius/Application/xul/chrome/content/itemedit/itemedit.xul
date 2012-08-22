@@ -50,6 +50,27 @@
 								<textbox id="description" flex="1" multiline="true" onkeyup="main.onChange ();"/>
 							</hbox>
 						</groupbox>						
+						
+						<groupbox flex="1">
+							<caption label="Værdi"/>
+							
+							<hbox>
+								<label width="55">Min. bud:</label>
+								<textbox id="minimumbid" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							</hbox>
+							<hbox>
+								<label width="55">Vurdering 1:</label>
+								<textbox id="appraisal1" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							</hbox>
+							<hbox>
+								<label width="55">Vurdering 2:</label>
+								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							</hbox>
+							<hbox>
+								<label width="55">Vurdering 3:</label>
+								<textbox id="appraisal3" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							</hbox>							
+						</groupbox>						
 					</vbox>
     			</tabpanel>
     			

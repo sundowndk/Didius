@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
-<window id="main" title="York Aucktion ApS" width="800" height="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY width height">
+<window id="main" windowtype="didius" width="800" height="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY width height">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
-	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>  	
 	
 	<script type="application/javascript" src="main.js"/>	
 
 	<keyset>
-  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="app.shutdown (false);"/>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close (false);"/>
 	</keyset>
 	
 	<menubar id="menubar">
 		<menu label="File">
 			<menupopup>
-				<menuitem label="Close (Ctrl+W)" oncommand="app.shutdown (false);" />
+				<menuitem label="Close (Ctrl+W)" oncommand="main.close (false);" />
 			</menupopup>
 		</menu>
 	</menubar>	

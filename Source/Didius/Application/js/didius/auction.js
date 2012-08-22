@@ -3,7 +3,11 @@ create : function ()
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Auction.Create", "data", "POST", false);	
 	request.send ();
 	
-	return request.respons ()["didius.auction"];
+	var result = request.respons ()["didius.auction"];
+	
+	app.events.onAuctionCreate.execute (result);
+	
+	return result;
 },
 	
 load : function (id)
@@ -14,16 +18,22 @@ load : function (id)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Auction.Load", "data", "POST", false);		
 	request.send (content);
 
-	return request.respons ()["didius.auction"];
+	var result = request.respons ()["didius.auction"];
+	
+	app.events.onAuctionLoad.execute (result);
+
+	return result;
 },
 		
-save : function (Auction)
+save : function (auction)
 {		
 	var content = new Array ();
-	content["didius.auction"] = Auction;
+	content["didius.auction"] = auction;
 								
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Auction.Save", "data", "POST", false);	
 	request.send (content);
+	
+	app.events.onAuctionSave.execute (auction);
 },		
 
 destroy : function (id)
@@ -33,6 +43,8 @@ destroy : function (id)
 	
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Auction.Destroy", "data", "POST", false);	
 	request.send (content);
+	
+	app.events.onAuctionDestroy.execute (id);
 },				
 		
 list : function (attributes)

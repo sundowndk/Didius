@@ -3,7 +3,11 @@ create : function ()
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.Create", "data", "POST", false);	
 	request.send ();
 	
-	return request.respons ()["didius.customer"];
+	var result = request.respons ()["didius.customer"];
+		
+	app.events.onCustomerCreate.execute (result);
+	
+	return result;
 },
 	
 load : function (id)
@@ -14,16 +18,22 @@ load : function (id)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.Load", "data", "POST", false);		
 	request.send (content);
 
-	return request.respons ()["didius.customer"];
+	var result = request.respons ()["didius.customer"];
+	
+	app.events.onCustomerLoad.execute (result);
+
+	return result;
 },
 		
-save : function (Customer)
+save : function (customer)
 {	
 	var content = new Array ();
-	content["didius.customer"] = Customer;
+	content["didius.customer"] = customer;
 								
-	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.Save", "data", "POST", false);	
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.Save", "data", "POST", false);		
 	request.send (content);
+	
+	app.events.onCustomerSave.execute (customer);
 },		
 
 destroy : function (id)
@@ -33,6 +43,8 @@ destroy : function (id)
 	
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.Destroy", "data", "POST", false);	
 	request.send (content);
+	
+	app.events.onCustomerDestroy.execute (id);
 },				
 		
 list : function (attributes)

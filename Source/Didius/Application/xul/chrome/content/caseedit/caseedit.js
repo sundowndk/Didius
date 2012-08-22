@@ -296,10 +296,7 @@ var main =
 			// Create new item.
 			var current = didius.item.create (main.current);			
 			didius.item.save (current);																								
-									
-			// Event: ItemCreate
-			app.events.onItemCreate.execute (current);
-																	
+																													
 			window.openDialog ("chrome://didius/content/itemedit/itemedit.xul", current.id, "chrome", {itemId: current.id});
 		},
 									

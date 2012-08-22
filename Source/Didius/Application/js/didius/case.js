@@ -7,7 +7,11 @@ create : function (Auction, Customer)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Create", "data", "POST", false);	
 	request.send (content);
 	
-	return request.respons ()["didius.case"];
+	var result = request.respons ()["didius.case"];
+	
+	app.events.onCaseCreate.execute (result);
+	
+	return result;
 },
 	
 load : function (id)
@@ -18,16 +22,22 @@ load : function (id)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Load", "data", "POST", false);		
 	request.send (content);
 
-	return request.respons ()["didius.case"];
+	var result = request.respons ()["didius.case"];
+	
+	app.events.onCaseLoad.execute (result); 
+
+	return result;
 },
 		
-save : function (template)
+save : function (case_)
 {	
 	var content = new Array ();
-	content["didius.case"] = template;
+	content["didius.case"] = case_;
 								
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Save", "data", "POST", false);	
 	request.send (content);
+	
+	app.events.onCaseSave.execute (case_);
 },		
 
 destroy : function (id)
@@ -37,6 +47,8 @@ destroy : function (id)
 
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
 	request.send (content);				
+	
+	app.events.onCaseDestroy.execute (id);
 },				
 		
 list : function (attributes)

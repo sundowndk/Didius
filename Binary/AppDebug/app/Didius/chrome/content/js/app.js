@@ -22,6 +22,13 @@ event.prototype.execute = function(args)
 var app =
 {
 	mainWindow : null,
+	
+	session :
+	{
+		loggedIn : false,
+		current : null
+		
+	},
 
 	events : new Array (),	
 
@@ -32,18 +39,22 @@ var app =
 	
 		// Setup events.
 		app.events.onCustomerCreate = new event ();
+		app.events.onCustomerLoad = new event ();
 		app.events.onCustomerSave = new event ();
 		app.events.onCustomerDestroy = new event ();
 		
 		app.events.onCaseCreate = new event ();
+		app.events.onCaseLoad = new event ();
 		app.events.onCaseSave = new event ();
 		app.events.onCaseDestroy = new event ();
 		
 		app.events.onItemCreate = new event ();
+		app.events.onItemLoad = new event ();
 		app.events.onItemSave = new event ();
 		app.events.onItemDestroy = new event ();
 				
 		app.events.onAuctionCreate = new event ();
+		app.events.onAuctionLoad = new event ();
 		app.events.onAuctionSave = new event ();
 		app.events.onAuctionDestroy = new event ();
 				
@@ -70,6 +81,8 @@ var app =
 	
 	error : function (attributes)
 	{
+		dump (attributes.exception)
+	
 		var text = "";
 								
 		switch (attributes.exception.split ("|")[0])

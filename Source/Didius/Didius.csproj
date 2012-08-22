@@ -187,6 +187,7 @@
     <None Include="Application\xul\chrome\content\auctionedit\auctionedit.xul" />
     <None Include="Application\xul\chrome\content\chooser\customer.js" />
     <None Include="Application\xul\chrome\content\chooser\customer.xul" />
+    <None Include="Application\js\didius\other.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

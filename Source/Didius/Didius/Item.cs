@@ -37,6 +37,14 @@ namespace Didius
 		private string _title;
 		private string _description;
 
+		private bool _vat;
+
+		private decimal _minimumbid;
+
+		private decimal _appraisal1;
+		private decimal _appraisal2;
+		private decimal _appraisal3;
+
 		private Hashtable _fields;
 		#endregion
 		
@@ -128,6 +136,71 @@ namespace Didius
 			}
 		}
 
+		public bool Vat
+		{
+			get 
+			{
+				return this._vat;
+			}
+
+			set
+			{
+				this._vat = value;
+			}
+		}
+
+		public decimal MinimumBid
+		{
+			get
+			{
+				return this._minimumbid;
+			}
+
+			set
+			{
+				this._minimumbid = value;
+			}
+		}
+
+		public decimal Appraisal1
+		{
+			get
+			{
+				return this._appraisal1;
+			}
+
+			set
+			{
+				this._appraisal1 = value;
+			}
+		}
+
+		public decimal Appraisal2
+		{
+			get
+			{
+				return this._appraisal2;
+			}
+			
+			set
+			{
+				this._appraisal2 = value;
+			}
+		}
+
+		public decimal Appraisal3
+		{
+			get
+			{
+				return this._appraisal3;
+			}
+			
+			set
+			{
+				this._appraisal3 = value;
+			}
+		}
+
 		public Hashtable Fields
 		{
 			get
@@ -152,6 +225,14 @@ namespace Didius
 			
 			this._title = string.Empty;
 			this._description = string.Empty;
+
+			this._vat = false;
+
+			this._minimumbid = 0;
+
+			this._appraisal1 = 0;
+			this._appraisal2 = 0;
+			this._appraisal3 = 0;
 			
 			this._fields = new Hashtable ();		
 		}
@@ -166,6 +247,14 @@ namespace Didius
 
 			this._title = string.Empty;
 			this._description = string.Empty;
+
+			this._vat = false;
+
+			this._minimumbid = 0;
+			
+			this._appraisal1 = 0;
+			this._appraisal2 = 0;
+			this._appraisal3 = 0;
 
 			this._fields = new Hashtable ();
 		}
@@ -193,7 +282,15 @@ namespace Didius
 
 				item.Add ("description", this._description);
 				item.Add ("fields", this._fields);
-				
+
+				item.Add ("vat", this._vat);
+
+				item.Add ("minimumbid", this._minimumbid);
+
+				item.Add ("appraisal1", this._appraisal1);
+				item.Add ("appraisal2", this._appraisal2);
+				item.Add ("appraisal3", this._appraisal3);
+								
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("caseid", this._caseid);
 				
@@ -224,6 +321,14 @@ namespace Didius
 
 			result.Add ("title", this._title);
 			result.Add ("description", this._description);
+
+			result.Add ("vat", this._vat);
+
+			result.Add ("minimumbid", this._minimumbid);
+
+			result.Add ("appraisal1", this._appraisal1);
+			result.Add ("appraisal2", this._appraisal2);
+			result.Add ("appraisal3", this._appraisal3);
 
 			result.Add ("fields", this._fields);
 			
@@ -289,6 +394,31 @@ namespace Didius
 				if (item.ContainsKey ("description"))
 				{					
 					result._description = (string)item["description"];
+				}
+
+				if (item.ContainsKey ("vat"))
+				{					
+					result._vat = (bool)item["vat"];
+				}
+
+				if (item.ContainsKey ("minimumbid"))
+				{					
+					result._minimumbid = decimal.Parse ((string)item["minimumbid"]);
+				}
+
+				if (item.ContainsKey ("appraisal1"))
+				{					
+					result._appraisal1 = decimal.Parse ((string)item["appraisal1"]);
+				}
+
+				if (item.ContainsKey ("appraisal2"))
+				{					
+					result._appraisal2 = decimal.Parse ((string)item["appraisal2"]);
+				}
+
+				if (item.ContainsKey ("appraisal3"))
+				{					
+					result._appraisal3 = decimal.Parse ((string)item["appraisal3"]);
 				}
 
 				if (item.ContainsKey ("fields"))
@@ -468,6 +598,31 @@ namespace Didius
 			{					
 				result._description =(string)item["description"];
 			}	
+
+			if (item.ContainsKey ("vat"))
+			{					
+				result._vat = (bool)item["vat"];
+			}
+			
+			if (item.ContainsKey ("minimumbid"))
+			{					
+				result._minimumbid = decimal.Parse ((string)item["minimumbid"]);
+			}
+			
+			if (item.ContainsKey ("appraisal1"))
+			{					
+				result._appraisal1 = decimal.Parse ((string)item["appraisal1"]);
+			}
+			
+			if (item.ContainsKey ("appraisal2"))
+			{					
+				result._appraisal2 = decimal.Parse ((string)item["appraisal2"]);
+			}
+			
+			if (item.ContainsKey ("appraisal3"))
+			{					
+				result._appraisal3 = decimal.Parse ((string)item["appraisal3"]);
+			}
 
 //			if (item.ContainsKey ("fields"))
 //			{					

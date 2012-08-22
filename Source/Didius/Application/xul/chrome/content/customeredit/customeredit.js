@@ -19,6 +19,45 @@ var main =
 		}								
 	
 		main.set ();
+		
+		// Hook events.
+		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
+		
+		app.events.onCaseCreate.addHandler (main.eventHandlers.onCaseCreate);
+		app.events.onCaseSave.addHandler (main.eventHandlers.onCaseSave);
+		app.events.onCaseDestroy.addHandler (main.eventHandlers.onCaseDestroy);
+	},
+	
+	eventHandlers :
+	{
+		onCustomerDestroy : function (id)
+		{
+			if (main.current.id == id)
+			{
+				main.close (true);
+			}
+		},
+	
+		onCaseCreate : function (case_)
+		{
+			if (main.current.id == case_.customerid)
+			{
+				main.controls.cases.addRow (case_);
+			}
+		},
+		
+		onCaseSave : function (case_)
+		{
+			if (main.current.id == case_.customerid)
+			{
+				main.controls.cases.setRow (case_);
+			}
+		},
+		
+		onCaseDestroy : function (id)
+		{
+			main.controls.cases.removeRow (id);
+		}		
 	},
 	
 	controls :
@@ -27,22 +66,111 @@ var main =
 		{
 			addRow : function (case_)
 			{
-				var children = document.getElementById ('casesTreeChildren');		
+				var treechildren = document.getElementById ('casesTreeChildren');		
 	
-				var item = document.createElement('treeitem');	
-				children.appendChild (item)
+				var treeitem = document.createElement('treeitem');	
+				treechildren.appendChild (treeitem)
 
-				var row = document.createElement('treerow');
-				item.appendChild (row);
+				var treerow = document.createElement('treerow');
+				treeitem.appendChild (treerow);
 
 				var columns = [case_["id"], case_["no"], case_["title"]];
-									
+										
 				for (index in columns)
 				{
-					var cell = document.createElement('treecell');
-					cell.setAttribute ('label', columns[index]);
-					row.appendChild(cell);																		
+					var treecell = document.createElement('treecell');
+					treecell.setAttribute ('label', columns[index]);
+					treerow.appendChild (treecell);
 				}
+			},
+									
+			removeRow : function (id)
+			{
+				var tree = document.getElementById ('cases');
+				var index = -1;
+				
+				if (!id)
+				{
+					index = tree.currentIndex;									
+  				}
+  				else
+  				{  									
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
+						{					
+							index = i;				
+							break;
+						}
+					}
+  				}
+  				
+  				if (index != -1)
+  				{
+  					tree.view.getItemAtIndex (index).parentNode.removeChild (tree.view.getItemAtIndex (index));
+  				}
+			},
+			
+			setRow : function (case_)
+			{
+				var tree = document.getElementById ('cases');
+				var index = -1;
+				
+				if (!case_)
+				{
+					index = tree.currentIndex;
+				}
+				else
+				{
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{	
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == case_.id)
+						{					
+							index = i;							
+							break;
+						}
+					}
+				}
+
+				if (index != -1)
+				{
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('id'), case_.id);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('no'), case_.no);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('title'), case_.title);					
+				}
+			},
+			
+			getRow : function (id)
+			{
+				var result = new Array ();
+				
+				var tree = document.getElementById ('cases');
+				var index = -1;				
+				
+				if (!id)
+				{
+					index = tree.currentIndex;				
+				}
+				else
+				{
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
+						{					
+							index = i;
+							break;
+						}
+					}	
+				}
+				
+				if (index != -1)
+				{									
+					result.id = tree.view.getCellText (index, tree.columns.getNamedColumn ('id'));
+					result.no = tree.view.getCellText (index, tree.columns.getNamedColumn ('no'));
+					result.title = tree.view.getCellText (index, tree.columns.getNamedColumn ('title'));
+				}
+				
+				return result;
 			},
 		
 			refresh : function ()
@@ -55,83 +183,35 @@ var main =
 									}
 								
 								// Enable controls
-								document.getElementById ("cases").disabled = false;								
-								
-								//main.controls.customers.onChange ();
+								document.getElementById ("cases").disabled = false;																
+								main.controls.cases.onChange ();
 							};
 
 				// Disable controls
-				document.getElementById ("cases").disabled = true;
-				//document.getElementById ("customerCreate").disabled = true;
-				//document.getElementById ("customerEdit").disabled = true;
-				//document.getElementById ("customerDestroy").disabled = true;
-			
-			
-				didius.case.list ({customer: main.current, async: true, onDone: onDone});				
+				document.getElementById ("cases").disabled = true;					
+				document.getElementById ("caseEdit").disabled = true;
+				document.getElementById ("caseDestroy").disabled = true;
+						
+				didius.case.list ({async: true, onDone: onDone});				
 			},
 			
-			changeRow : function (case_)
-			{
-				var tree = document.getElementById('cases');
-				
-				for (var i = 0; i < tree.view.rowCount; i++) 
-				{
-					if (tree.view.getCellText (i, tree.columns.getNamedColumn('id')) == case_.id)					
-					{					
-						tree.view.setCellText (i, tree.columns.getNamedColumn('title'), case_.title);						
-						break;
-					}
-				}
-			},
-			
-			selectedRow : function ()
-			{
-				var result = new Array ();
-				var tree = document.getElementById ('cases');
-				
-				result.id = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('id'));
-				result.no = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('no'));
-				result.title = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('title'));				
-				
-				return result;
-			},
-		
-		removeRow : function (row)
-			{
-				if (!row)
-				{
-					var tree = document.getElementById("customers");
- var rangeCount = tree.view.selection.getRangeCount();
- var start = {};
- var end   = {};
- for (var i=0; i<rangeCount; i++)  
- {  
- tree.view.selection.getRangeAt(i, start, end);
- for (var c=end.value; c>=start.value; c--)  
- {
- tree.view.getItemAtIndex(c).parentNode.removeChild(tree.view.getItemAtIndex(c));
- }
- }
-  				}
-			},
-		
 			onChange : function ()
 			{
 				var view = document.getElementById ("cases").view;
 				var selection = view.selection.currentIndex; 
 				
 				if (selection != -1)
-				{
+				{										
 					document.getElementById ("caseEdit").disabled = false;
 					document.getElementById ("caseDestroy").disabled = false;
 				}
 				else
-				{
+				{									
 					document.getElementById ("caseEdit").disabled = true;
 					document.getElementById ("caseDestroy").disabled = true;
 				}
-			}
-		}
+			}		
+		}		
 	},
 	
 	set : function ()
@@ -205,16 +285,19 @@ var main =
 		}
 	},
 	
-	close : function ()
+	close : function (force)
 	{			
-		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
-		{
-			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-			
-			if (!prompts.confirm (null, "Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
+		if (force)
+		{	
+			if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
 			{
-				return;
-			}			
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+			
+				if (!prompts.confirm (null, "Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
+				{
+					return;
+				}			
+			}
 		}
 	
 		window.close ();
@@ -226,11 +309,15 @@ var main =
 	
 		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum) && (main.current.name != ""))
 		{
+			document.title = "Kunde: "+ main.current.name +" ["+ main.current.no +"] *";
+		
 			document.getElementById ("save").disabled = false;
 			document.getElementById ("close").disabled = false;
 		}
 		else
 		{
+			document.title = "Kunde: "+ main.current.name +" ["+ main.current.no +"]";
+		
 			document.getElementById ("save").disabled = true;
 			document.getElementById ("close").disabled = false;
 		}
@@ -245,17 +332,9 @@ var main =
 									
 		edit : function ()
 		{		
-			var current = main.controls.cases.selectedRow ();
-						
-			var onSave = function (result)
-			{				
-				if (result != null)
-				{
-					main.controls.cases.changeRow (result);					
-				}													
-			}
-							
-			window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", current.id, "chrome", {caseId: current.id, onSave: onSave});
+			var current = main.controls.cases.getRow ();
+															
+			window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", current.id, "chrome", {caseId: current.id});
 		},
 		
 		destroy : function ()
@@ -267,8 +346,7 @@ var main =
 			{
 				try
 				{
-					didius.case.destroy (main.controls.cases.selectedRow ().id);
-					main.controls.cases.removeRow ();
+					didius.case.destroy (main.controls.cases.getRow ().id);					
 				}
 				catch (error)
 				{

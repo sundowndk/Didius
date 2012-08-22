@@ -6,7 +6,11 @@ create : function (Case)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Create", "data", "POST", false);	
 	request.send (content);
 	
-	return request.respons ()["didius.item"];
+	var result = request.respons ()["didius.item"];
+	
+	app.events.onItemCreate.execute (result);
+	
+	return result;
 },
 	
 load : function (id)
@@ -17,18 +21,22 @@ load : function (id)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Load", "data", "POST", false);		
 	request.send (content);
 
-	return request.respons ()["didius.item"];
+	var result = request.respons ()["didius.item"];
+	
+	app.events.onItemLoad.execute (result);
+
+	return result;
 },
 		
-save : function (Item)
+save : function (item)
 {	
 	var content = new Array ();
-	content["didius.item"] = Item;
+	content["didius.item"] = item;
 								
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Save", "data", "POST", false);	
 	request.send (content);
 
-	return true;
+	app.events.onItemSave.execute (item);
 },		
 
 destroy : function (id)
@@ -36,17 +44,10 @@ destroy : function (id)
 	var content = new Array ();
 	content.id = id;
 
-	try
-	{
-		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Destroy", "data", "POST", false);	
-		request.send (content);
-	}
-	catch (error)
-	{						
-		return [false, error];
-	}
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Destroy", "data", "POST", false);	
+	request.send (content);
 			
-	return true;
+	app.events.onItemDestroy.execute (id);
 },				
 		
 list : function (attributes)

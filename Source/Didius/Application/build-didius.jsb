@@ -1,4 +1,4 @@
-<solution name="Didius" outputdirectory="">	
+<solution name="Didius" outputdirectory="" buildjsm="true">	
 	<project name="didius">
 		<class name="didius">	
 			<class name="runtime">			
@@ -23,5 +23,6 @@
 				<js file="js/didius/helpers.js" />	
 			</class>						
 		</class>
+		<js file="js/didius/other.js" />	
 	</project>	
 </solution>

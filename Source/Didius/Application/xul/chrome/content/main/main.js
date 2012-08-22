@@ -4,209 +4,362 @@ var main =
 {
 	init : function ()
 	{				
+		main.login.show ();
+							
 		app.startup (window);
 		
+		document.title = "York Auktion ApS [Rasmus Pedersen] ";
+				
 		main.customers.init ();
-		main.auctions.init ();
+		main.auctions.init ();				
+		
+		// Hook events.
+		app.events.onCustomerCreate.addHandler (main.eventHandlers.onCustomerCreate);
+		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
+		
+		app.events.onAuctionCreate.addHandler (main.eventHandlers.onAuctionCreate);
+		app.events.onAuctionSave.addHandler (main.eventHandlers.onAuctionSave);
+		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);				
 	},
 	
+	eventHandlers :
+	{
+		onCustomerCreate : function (customer)
+		{
+			main.controls.customers.addRow (customer);
+		},
+		
+		onCustomerSave : function (customer)
+		{
+			main.controls.customers.setRow (customer);
+		},
+		
+		onCustomerDestroy : function (id)
+		{
+			main.controls.customers.removeRow (id);
+		},
+		
+		onAuctionCreate : function (auction)
+		{
+			main.controls.auctions.addRow (auction);
+		},
+		
+		onAuctionSave : function (auction)
+		{
+			main.controls.auctions.setRow (auction);
+		},
+		
+		onAuctionDestroy : function (id)
+		{
+			main.controls.auctions.removeRow (id);
+		}	
+	},
+	
+	login : 
+	{
+		show : function ()
+		{
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
+ 
+			var username = {value: ""};
+			var password = {value: ""}; 
+			var check = {value: true};
+ 
+			var result = prompts.promptUsernameAndPassword (null, "Login", "Angiv brugernavn og adgangskode\nfor at logge på systemmet.", username, password, null, check);
+			
+			if (result)
+			{
+				
+			}
+			else
+			{
+				app.shutdown (false);
+			}		
+		}
+	
+	},
+	
+	close : function ()
+	{
+		app.shutdown (false);
+	},
+		
 	controls : 
 	{
 		customers :
 		{
-			addCustomer : function (customer)
+			addRow : function (customer)
 			{
-				var children = document.getElementById ('customersTreeChildren');		
+				var treechildren = document.getElementById ('customersTreeChildren');		
 	
-				var item = document.createElement('treeitem');	
-				children.appendChild (item)
+				var treeitem = document.createElement('treeitem');	
+				treechildren.appendChild (treeitem)
 
-				var row = document.createElement('treerow');
-				item.appendChild (row);
+				var treerow = document.createElement('treerow');
+				treeitem.appendChild (treerow);
 
 				var columns = [customer["id"], customer["name"], customer["address1"], customer["postcode"], customer["city"], customer["email"]]
-									
+										
 				for (index in columns)
 				{
-					var cell = document.createElement('treecell');
-					cell.setAttribute ('label', columns[index]);
-					row.appendChild(cell);																		
+					var treecell = document.createElement('treecell');
+					treecell.setAttribute ('label', columns[index]);
+					treerow.appendChild (treecell);
 				}
 			},
-			
-			changeRow : function (customer)
+									
+			removeRow : function (id)
 			{
-				var tree = document.getElementById('customers');
+				var tree = document.getElementById ('customers');
+				var index = -1;
 				
-				for (var i = 0; i < tree.view.rowCount; i++) 
+				if (!id)
 				{
-					if (tree.view.getCellText (i, tree.columns.getNamedColumn('id')) == customer.id)					
-					{					
-						tree.view.setCellText (i, tree.columns.getNamedColumn('name'), customer.name);
-						tree.view.setCellText (i, tree.columns.getNamedColumn('address1'), customer.address1);
-						tree.view.setCellText (i, tree.columns.getNamedColumn('postcode'), customer.postcode);
-						tree.view.setCellText (i, tree.columns.getNamedColumn('city'), customer.city);
-						tree.view.setCellText (i, tree.columns.getNamedColumn('email'), customer.email);
-						break;
+					index = tree.currentIndex;									
+  				}
+  				else
+  				{  									
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
+						{					
+							index = i;				
+							break;
+						}
 					}
-				}
-			},
-			
-			removeRow : function (row)
-			{
-				if (!row)
-				{
-					var tree = document.getElementById("customers");
- var rangeCount = tree.view.selection.getRangeCount();
- var start = {};
- var end   = {};
- for (var i=0; i<rangeCount; i++)  
- {  
- tree.view.selection.getRangeAt(i, start, end);
- for (var c=end.value; c>=start.value; c--)  
- {
- tree.view.getItemAtIndex(c).parentNode.removeChild(tree.view.getItemAtIndex(c));
- }
- }
+  				}
+  				
+  				if (index != -1)
+  				{
+  					tree.view.getItemAtIndex (index).parentNode.removeChild (tree.view.getItemAtIndex (index));
   				}
 			},
-				
-			clear : function ()
+			
+			setRow : function (customer)
 			{
-				var treechildren = document.getElementById ('customersTreeChildren');
-								
-				while (treechildren.firstChild) 
+				var tree = document.getElementById ('customers');
+				var index = -1;
+				
+				if (!customer)
 				{
- 						treechildren.removeChild (treechildren.firstChild);
+					index = tree.currentIndex;
 				}
-			},	
-			
-			refresh : function ()
-			{					
-				var onDone = 	function (customers)
-								{
-									for (index in customers)
-									{									
-										main.controls.customers.addCustomer (customers[index]);
-									}
-								
-								// Enable controls
-								document.getElementById ("customers").disabled = false;								
-								document.getElementById ("customerCreate").disabled = false;								
-								
-								main.controls.customers.onChange ();
-							};
+				else
+				{
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{	
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == customer.id)
+						{					
+							index = i;							
+							break;
+						}
+					}
+				}
 
-				// Disable controls
-				document.getElementById ("customers").disabled = true;
-				document.getElementById ("customerCreate").disabled = true;
-				document.getElementById ("customerEdit").disabled = true;
-				document.getElementById ("customerDestroy").disabled = true;
-			
-				didius.customer.list ({async: true, onDone: onDone});					
+				if (index != -1)
+				{
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('id'), customer.id);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('name'), customer.name);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('address1'), customer.address1);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('postcode'), customer.postcode);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('city'), customer.city);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('email'), customer.email);	
+				}
 			},
 			
-			getSelected : function ()
+			getRow : function (id)
 			{
 				var result = new Array ();
-				var tree = document.getElementById ('customers');
 				
-				result.id = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('id'));
-				result.name = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('name'));
-				result.address1 = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('address1'));
-				result.postcode = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('postcode'));
-				result.city = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('city'));
-				result.email = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('email'));
+				var tree = document.getElementById ('customers');
+				var index = -1;				
+				
+				if (!id)
+				{
+					index = tree.currentIndex;				
+				}
+				else
+				{
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
+						{					
+							index = i;
+							break;
+						}
+					}	
+				}
+				
+				if (index != -1)
+				{									
+					result.id = tree.view.getCellText (index, tree.columns.getNamedColumn ('id'));
+					result.name = tree.view.getCellText (index, tree.columns.getNamedColumn ('name'));
+					result.address1 = tree.view.getCellText (index, tree.columns.getNamedColumn ('address1'));				
+					result.postcode = tree.view.getCellText (index, tree.columns.getNamedColumn ('postcode'));
+					result.city = tree.view.getCellText (index, tree.columns.getNamedColumn ('city'));
+					result.email = tree.view.getCellText (index, tree.columns.getNamedColumn ('email'));
+				}
 				
 				return result;
 			},
 		
+			refresh : function ()
+			{
+				var onDone = 	function (customers)
+								{
+									for (index in customers)
+									{									
+										main.controls.customers.addRow (customers[index]);
+									}
+								
+								// Enable controls
+								document.getElementById ("customers").disabled = false;																
+								main.controls.customers.onChange ();
+							};
+
+				// Disable controls
+				document.getElementById ("customers").disabled = true;	
+				document.getElementById ("customerCreate").disabled = true;			
+				document.getElementById ("customerEdit").disabled = true;
+				document.getElementById ("customerDestroy").disabled = true;
+						
+				didius.customer.list ({async: true, onDone: onDone});				
+			},
+			
 			onChange : function ()
 			{
 				var view = document.getElementById ("customers").view;
-				var selection = view.selection.currentIndex; //returns -1 if the tree is not focused
+				var selection = view.selection.currentIndex; 
 				
 				if (selection != -1)
-				{
+				{					
+					document.getElementById ("customerCreate").disabled = false;
 					document.getElementById ("customerEdit").disabled = false;
 					document.getElementById ("customerDestroy").disabled = false;
 				}
 				else
-				{
+				{				
+					document.getElementById ("customerCreate").disabled = false;
 					document.getElementById ("customerEdit").disabled = true;
 					document.getElementById ("customerDestroy").disabled = true;
 				}
-			}
+			}		
 		},
 		
 		auctions :
 		{
 			addRow : function (auction)
 			{
-				var treechildren = document.getElementById ('auctionsTreeChildren');			
-				
-				var treeitem = document.createElement ('treeitem');	
+				var treechildren = document.getElementById ('auctionsTreeChildren');		
+	
+				var treeitem = document.createElement('treeitem');	
 				treechildren.appendChild (treeitem)
 
 				var treerow = document.createElement('treerow');
 				treeitem.appendChild (treerow);
 
 				var columns = [auction["id"], auction["no"], auction["title"]];
-									
+										
 				for (index in columns)
 				{
-					var treecell = document.createElement ('treecell');
+					var treecell = document.createElement('treecell');
 					treecell.setAttribute ('label', columns[index]);
-					treerow.appendChild (treecell);																		
+					treerow.appendChild (treecell);
 				}
 			},
-			
-			changeRow : function (auction)
+									
+			removeRow : function (id)
 			{
 				var tree = document.getElementById ('auctions');
+				var index = -1;
 				
-				for (var i = 0; i < tree.view.rowCount; i++) 
+				if (!id)
 				{
-					if (tree.view.getCellText (i, tree.columns.getNamedColumn('id')) == auction.id)					
-					{					
-						tree.view.setCellText (i, tree.columns.getNamedColumn('no'), auction.no);
-						tree.view.setCellText (i, tree.columns.getNamedColumn('title'), auction.title);
-						break;
-					}
-				}
-			},
-			
-			removeRow : function (row)
-			{
-				if (!row)
-				{
-					var tree = document.getElementById("auctions");
-					var rangeCount = tree.view.selection.getRangeCount();
- 					var start = {};
- 					var end   = {};
- 					for (var i=0; i<rangeCount; i++)  
- 					{  
- 						tree.view.selection.getRangeAt(i, start, end);
- 						for (var c=end.value; c>=start.value; c--)  
- 						{
-						 	tree.view.getItemAtIndex(c).parentNode.removeChild(tree.view.getItemAtIndex(c));
+					index = tree.currentIndex;									
+  				}
+  				else
+  				{  									
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
+						{					
+							index = i;				
+							break;
 						}
 					}
   				}
+  				
+  				if (index != -1)
+  				{
+  					tree.view.getItemAtIndex (index).parentNode.removeChild (tree.view.getItemAtIndex (index));
+  				}
 			},
-				
-			clear : function ()
-			{
-				var treechildren = document.getElementById ('auctionsTreeChildren');
-								
-				while (treechildren.firstChild) 
-				{
- 					treechildren.removeChild (treechildren.firstChild);
-				}
-			},	
 			
+			setRow : function (auction)
+			{
+				var tree = document.getElementById ('auctions');
+				var index = -1;
+				
+				if (!auction)
+				{
+					index = tree.currentIndex;
+				}
+				else
+				{
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{	
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == auction.id)
+						{					
+							index = i;							
+							break;
+						}
+					}
+				}
+
+				if (index != -1)
+				{
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('id'), auction.id);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('no'), auction.no);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('title'), auction.title);
+				}
+			},
+			
+			getRow : function (id)
+			{
+				var result = new Array ();
+				
+				var tree = document.getElementById ('auctions');
+				var index = -1;				
+				
+				if (!id)
+				{
+					index = tree.currentIndex;				
+				}
+				else
+				{
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
+						{					
+							index = i;
+							break;
+						}
+					}	
+				}
+				
+				if (index != -1)
+				{									
+					result.id = tree.view.getCellText (index, tree.columns.getNamedColumn ('id'));
+					result.no = tree.view.getCellText (index, tree.columns.getNamedColumn ('no'));
+					result.title = tree.view.getCellText (index, tree.columns.getNamedColumn ('title'));				
+				}
+				
+				return result;
+			},
+		
 			refresh : function ()
-			{					
+			{
 				var onDone = 	function (auctions)
 								{
 									for (index in auctions)
@@ -215,49 +368,37 @@ var main =
 									}
 								
 								// Enable controls
-								document.getElementById ("auctions").disabled = false;								
-								document.getElementById ("auctionCreate").disabled = false;								
-								
+								document.getElementById ("auctions").disabled = false;																
 								main.controls.auctions.onChange ();
 							};
 
 				// Disable controls
-				document.getElementById ("auctions").disabled = true;
-				document.getElementById ("auctionCreate").disabled = true;
+				document.getElementById ("auctions").disabled = true;	
+				document.getElementById ("auctionCreate").disabled = true;			
 				document.getElementById ("auctionEdit").disabled = true;
 				document.getElementById ("auctionDestroy").disabled = true;
-			
-				didius.auction.list ({async: true, onDone: onDone});					
+						
+				didius.auction.list ({async: true, onDone: onDone});				
 			},
 			
-			getSelected : function ()
-			{
-				var result = new Array ();
-				var tree = document.getElementById ('auctions');
-				
-				result.id = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('id'));
-				result.no = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('no'));				
-				result.title = tree.view.getCellText (tree.currentIndex, tree.columns.getNamedColumn('title'));				
-				
-				return result;
-			},
-		
 			onChange : function ()
 			{
 				var view = document.getElementById ("auctions").view;
-				var selection = view.selection.currentIndex; //returns -1 if the tree is not focused
+				var selection = view.selection.currentIndex; 
 				
 				if (selection != -1)
-				{
+				{					
+					document.getElementById ("auctionCreate").disabled = false;
 					document.getElementById ("auctionEdit").disabled = false;
 					document.getElementById ("auctionDestroy").disabled = false;
 				}
 				else
-				{
+				{				
+					document.getElementById ("auctionCreate").disabled = false;
 					document.getElementById ("auctionEdit").disabled = true;
 					document.getElementById ("auctionDestroy").disabled = true;
 				}
-			}
+			}		
 		}
 	},
 	
@@ -273,33 +414,15 @@ var main =
 			var current = didius.customer.create ();			
 			current.name = "Unavngiven kunde";
 			didius.customer.save (current);																								
-			
-			main.controls.customers.addCustomer (current);
-			
-			var onSave = function (result)
-			{				
-				if (result != null)
-				{
-					main.controls.customers.changeRow (result);					
-				}													
-			}
-												
-			window.openDialog ("chrome://didius/content/customeredit/customeredit.xul", "customeredit:"+ current.id, "chrome", {customerId: current.id, onSave: onSave});
+																											
+			window.openDialog ("chrome://didius/content/customeredit/customeredit.xul", "customeredit:"+ current.id, "chrome", {customerId: current.id});
 		},
 		
 		edit : function ()
 		{		
-			var current = main.controls.customers.getSelected ();
-						
-			var onSave = function (result)
-			{				
-				if (result != null)
-				{
-					main.controls.customers.changeRow (result);					
-				}													
-			}
-							
-			window.openDialog ("chrome://didius/content/customeredit/customeredit.xul", "customeredit:"+ current.id, "chrome", {customerId: current.id, onSave: onSave});
+			var current = main.controls.customers.getRow ();
+													
+			window.openDialog ("chrome://didius/content/customeredit/customeredit.xul", "customeredit:"+ current.id, "chrome", {customerId: current.id});
 		},
 		
 		destroy : function ()
@@ -311,8 +434,7 @@ var main =
 			{
 				try
 				{
-					didius.customer.destroy (main.controls.customers.getSelected ().id);
-					main.controls.customers.removeRow ();
+					didius.customer.destroy (main.controls.customers.getRow ().id);					
 				}
 				catch (error)
 				{
@@ -332,34 +454,16 @@ var main =
 		create : function ()
 		{		
 			var current = didius.auction.create ();						
-			didius.auction.save (current);																								
-			
-			main.controls.auctions.addCustomer (current);
-			
-			var onSave = function (result)
-			{				
-				if (result != null)
-				{
-					main.controls.auctions.changeRow (result);					
-				}													
-			}
-												
-			window.openDialog ("chrome://didius/content/auctionedit/auctionedit.xul", current.id, "chrome", {auctionId: current.id, onSave: onSave});
+			didius.auction.save (current);																												
+																	
+			window.openDialog ("chrome://didius/content/auctionedit/auctionedit.xul", current.id, "chrome", {auctionId: current.id});
 		},
 		
 		edit : function ()
 		{		
-			var current = main.controls.auctions.getSelected ();
-						
-			var onSave = function (result)
-			{				
-				if (result != null)
-				{
-					main.controls.auctions.changeRow (result);					
-				}													
-			}
-							
-			window.openDialog ("chrome://didius/content/auctionedit/auctionedit.xul", current.id, "chrome", {auctionId: current.id, onSave: onSave});
+			var current = main.controls.auctions.getRow ();
+													
+			window.openDialog ("chrome://didius/content/auctionedit/auctionedit.xul", current.id, "chrome", {auctionId: current.id});
 		},
 		
 		destroy : function ()
@@ -371,8 +475,7 @@ var main =
 			{
 				try
 				{
-					didius.auction.destroy (main.controls.auctions.getSelected ().id);
-					main.controls.auctions.removeRow ();
+					didius.auction.destroy (main.controls.auctions.getRow ().id);					
 				}
 				catch (error)
 				{

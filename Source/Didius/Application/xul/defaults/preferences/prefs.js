@@ -1,5 +1,7 @@
 pref("toolkit.defaultChromeURI", "chrome://didius/content/main/main.xul");
 
+pref("toolkit.singletonWindowType", "didius"); 
+
 /* debugging prefs */
 pref("browser.dom.window.dump.enabled", true);
 pref("javascript.options.showInConsole", true);
