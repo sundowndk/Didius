@@ -6,8 +6,20 @@ function event()
 }
 
 event.prototype.addHandler = function(eventHandler)
-{
+{	
 	this.eventHandlers.push(eventHandler);
+}
+
+event.prototype.removeHandler = function (fn)
+{	
+	for (var i in this.eventHandlers) 
+	{	
+		if (this.eventHandlers[i] === fn) 
+		{			
+			this.eventHandlers.splice(i, 1);
+			return;
+		}
+	}
 }
 
 event.prototype.execute = function(args)
@@ -17,6 +29,12 @@ event.prototype.execute = function(args)
 		this.eventHandlers[i](args);
 	}
 }
+
+
+
+
+
+
 
   
 var app =

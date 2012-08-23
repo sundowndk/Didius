@@ -122,6 +122,7 @@
     <Folder Include="Application\xul\chrome\content\itemedit\" />
     <Folder Include="Application\xul\chrome\content\auctionedit\" />
     <Folder Include="Application\xul\chrome\content\chooser\" />
+    <Folder Include="Application\xul\chrome\content\catalogedit\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -188,6 +189,8 @@
     <None Include="Application\xul\chrome\content\chooser\customer.js" />
     <None Include="Application\xul\chrome\content\chooser\customer.xul" />
     <None Include="Application\js\didius\other.js" />
+    <None Include="Application\xul\chrome\content\catalogedit\catalogedit.js" />
+    <None Include="Application\xul\chrome\content\catalogedit\catalogedit.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

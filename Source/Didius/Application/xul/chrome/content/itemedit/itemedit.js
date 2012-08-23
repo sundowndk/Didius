@@ -103,9 +103,11 @@ var main =
 	},
 	
 	close : function (force)
-	{			
+	{		
+		// If we are forced to close, then dont promt user about potential unsaved data.		
 		if (!force)
 		{	
+			// If checksums do not match, promt user about unsaved data.
 			if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
 			{
 				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
@@ -117,6 +119,10 @@ var main =
 			}
 		}
 		
+		// Unhook events.		
+		app.events.onItemDestroy.removeHandler (main.eventHandlers.onItemDestroy);		
+		
+		// Close window.
 		window.close ();
 	},
 	

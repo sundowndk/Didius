@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Didius
+Comment=
+TryExec=didius
+Exec=didius
+Icon=gnome-settings-theme
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Office;
+

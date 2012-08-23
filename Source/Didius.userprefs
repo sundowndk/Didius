@@ -1,10 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/runtime.js">
     <Files>
-      <File FileName="Didius/Application/js/didius/item.js" Line="50" Column="40" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="27" Column="4" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="7" Column="3" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="542" Column="6" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="102" Column="10" />
+      <File FileName="Didius/Application/xul/chrome/content/catalogedit/catalogedit.js" Line="10" Column="3" />
+      <File FileName="Didius/Application/xul/chrome/content/catalogedit/catalogedit.xul" Line="102" Column="10" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="21" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -21,6 +23,8 @@
                   <Node name="content" expanded="True">
                     <Node name="auctionedit" expanded="True" />
                     <Node name="caseedit" expanded="True" />
+                    <Node name="catalogedit" expanded="True" />
+                    <Node name="chooser" expanded="True" />
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />

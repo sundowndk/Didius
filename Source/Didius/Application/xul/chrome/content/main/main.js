@@ -4,7 +4,7 @@ var main =
 {
 	init : function ()
 	{				
-		main.login.show ();
+		//main.login.show ();
 							
 		app.startup (window);
 		

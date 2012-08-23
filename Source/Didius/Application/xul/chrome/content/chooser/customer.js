@@ -5,6 +5,29 @@ var main =
 	init : function ()
 	{				
 		main.controls.customers.refresh ();
+		
+		// Hook events.			
+		app.events.onCustomerCreate.addHandler (main.eventHandlers.onCustomerCreate);		
+		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
+	},
+	
+	eventHandlers : 
+	{
+		onCustomerCreate : function (customer)
+		{
+			main.controls.customers.addRow (customer);
+		},
+		
+		onCustomerSave : function (customer)
+		{
+			main.controls.customers.setRow (customer);
+		},
+		
+		onCustomerDestroy : function (id)
+		{
+			main.controls.customers.removeRow (id);
+		}		
 	},
 	
 	choose : function ()
@@ -23,7 +46,13 @@ var main =
 		{
 			window.arguments[0].onDone (null);
 		}
+		
+		// Unhook events.
+		app.events.onCustomerCreate.removeHandler (main.eventHandlers.onCustomerCreate);		
+		app.events.onCustomerSave.removeHandler (main.eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.removeHandler (main.eventHandlers.onCustomerDestroy);
 	
+		// Close window.
 		window.close ();
 	},
 	
@@ -82,6 +111,66 @@ var main =
 			
 				didius.customer.list ({async: true, onDone: onDone});					
 			},
+			
+			setRow : function (customer)
+			{
+				var tree = document.getElementById ('customers');
+				var index = -1;
+				
+				if (!customer)
+				{
+					index = tree.currentIndex;
+				}
+				else
+				{
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{	
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == customer.id)
+						{					
+							index = i;							
+							break;
+						}
+					}
+				}
+
+				if (index != -1)
+				{
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('id'), customer.id);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('name'), customer.name);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('address1'), customer.address1);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('postcode'), customer.postcode);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('city'), customer.city);
+					tree.view.setCellText (index, tree.columns.getNamedColumn ('email'), customer.email);	
+				}
+			},
+			
+						removeRow : function (id)
+			{
+				var tree = document.getElementById ('customers');
+				var index = -1;
+				
+				if (!id)
+				{
+					index = tree.currentIndex;									
+  				}
+  				else
+  				{  									
+					for (var i = 0; i < tree.view.rowCount; i++) 
+					{
+						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
+						{					
+							index = i;				
+							break;
+						}
+					}
+  				}
+  				
+  				if (index != -1)
+  				{
+  					tree.view.getItemAtIndex (index).parentNode.removeChild (tree.view.getItemAtIndex (index));
+  				}
+			},
+			
 			
 			getSelected : function ()
 			{

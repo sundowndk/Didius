@@ -21,7 +21,7 @@
 	</menubar>	
 		
 	<vbox flex="1">
-		<tabbox id="myTabList" selectedIndex="1" flex="1">
+		<tabbox id="myTabList" selectedIndex="0" flex="1">
 		
 			<tabs>
 				<tab image="chrome://didius/content/icons/customers.png"/>

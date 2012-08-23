@@ -20,14 +20,16 @@ var main =
 	
 		main.set ();
 		
-		// Hook events.
-		app.events.onItemCreate.addHandler (main.eventHandlers.onItemCreate);
-		app.events.onItemSave.addHandler (main.eventHandlers.onItemSave);
-		app.events.onItemDestroy.addHandler (main.eventHandlers.onItemDestroy);
+		// Hook events.			
+		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);
 		
 		app.events.onCaseCreate.addHandler (main.eventHandlers.onCaseCreate);
 		app.events.onCaseSave.addHandler (main.eventHandlers.onCaseSave);
-		app.events.onCaseDestroy.addHandler (main.eventHandlers.onCaseDestroy);
+		app.events.onCaseDestroy.addHandler (main.eventHandlers.onCaseDestroy);				
+		
+		app.events.onItemCreate.addHandler (main.eventHandlers.onItemCreate);
+		app.events.onItemSave.addHandler (main.eventHandlers.onItemSave);
+		app.events.onItemDestroy.addHandler (main.eventHandlers.onItemDestroy);				
 	},
 	
 	eventHandlers : 
@@ -89,8 +91,16 @@ var main =
 		
 		onCaseDestroy : function (id)
 		{
-			main.controls.items.removeRow (id);	
-		}		
+			main.controls.cases.removeRow (id);	
+		},		
+		
+		onAuctionDestroy : function (id)
+		{
+			if (main.current.id == id)
+			{
+				main.close (true);
+			}
+		}
 	},
 	
 	controls :
@@ -226,7 +236,7 @@ var main =
 				document.getElementById ("caseEdit").disabled = true;
 				document.getElementById ("caseDestroy").disabled = true;
 						
-				didius.case.list ({async: true, onDone: onDone});				
+				didius.case.list ({auction: main.current, async: true, onDone: onDone});				
 			},
 			
 			onChange : function ()
@@ -440,18 +450,35 @@ var main =
 		}
 	},
 	
-	close : function ()
+	close : function (force)
 	{			
-		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
+		// If we are forced to close, then dont promt user about potential unsaved data.
+		if (!force)
 		{
-			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-			
-			if (!prompts.confirm (null, "Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
+			// If checksums do not match, promt user about unsaved data.
+			if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
 			{
-				return;
-			}			
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+				
+				if (!prompts.confirm (null, "Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
+				{
+					return;
+				}			
+			}
 		}
-	
+		
+		// Unhook events.						
+		app.events.onAuctionDestroy.removeHandler (main.eventHandlers.onAuctionDestroy);
+		
+		app.events.onCaseCreate.removeHandler (main.eventHandlers.onCaseCreate);
+		app.events.onCaseSave.removeHandler (main.eventHandlers.onCaseSave);
+		app.events.onCaseDestroy.removeHandler (main.eventHandlers.onCaseDestroy);
+		
+		app.events.onItemCreate.removeHandler (main.eventHandlers.onItemCreate);
+		app.events.onItemSave.removeHandler (main.eventHandlers.onItemSave);
+		app.events.onItemDestroy.removeHandler (main.eventHandlers.onItemDestroy);
+			
+		// Close window.		
 		window.close ();
 	},
 	
@@ -461,11 +488,15 @@ var main =
 	
 		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
 		{
+			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"] *";
+		
 			document.getElementById ("save").disabled = false;
 			document.getElementById ("close").disabled = false;
 		}
 		else
 		{
+			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"]";
+		
 			document.getElementById ("save").disabled = true;
 			document.getElementById ("close").disabled = false;
 		}
@@ -554,7 +585,7 @@ var main =
 			{
 				try
 				{
-					didius.item.destroy (main.controls.items.getRow ().id);										
+					didius.case.destroy (main.controls.cases.getRow ().id);										
 				}
 				catch (error)
 				{					

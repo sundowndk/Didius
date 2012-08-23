@@ -21,6 +21,8 @@ var main =
 		main.set ();
 		
 		// Hook events.
+		app.events.onCaseDestroy.addHandler (main.eventHandlers.onCaseDestroy);
+		
 		app.events.onItemCreate.addHandler (main.eventHandlers.onItemCreate);
 		app.events.onItemSave.addHandler (main.eventHandlers.onItemSave);
 		app.events.onItemDestroy.addHandler (main.eventHandlers.onItemDestroy);
@@ -28,6 +30,14 @@ var main =
 	
 	eventHandlers :
 	{
+		onCaseDestroy : function (id)
+		{
+			if (main.current.id == id)
+			{
+				main.close (true);
+			}
+		},
+	
 		onItemCreate : function (item)
 		{
 			// Only react to Items beloning to this case.
@@ -253,18 +263,31 @@ var main =
 		}
 	},
 	
-	close : function ()
+	close : function (force)
 	{			
-		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
+		// If we are forced to close, then dont promt user about potential unsaved data.	
+		if (!force)
 		{
-			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-			
-			if (!prompts.confirm (null, "Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
+			// If checksums do not match, promt user about unsaved data.
+			if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
 			{
-				return;
-			}			
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+				
+				if (!prompts.confirm (null, "Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
+				{
+					return;
+				}			
+			}
 		}
+		
+		// Unhook events.
+		app.events.onCaseDestroy.removeHandler (main.eventHandlers.onCaseDestroy);
+		
+		app.events.onItemCreate.removeHandler (main.eventHandlers.onItemCreate);
+		app.events.onItemSave.removeHandler (main.eventHandlers.onItemSave);
+		app.events.onItemDestroy.removeHandler (main.eventHandlers.onItemDestroy);
 	
+		// Close window.
 		window.close ();
 	},
 	
@@ -274,11 +297,15 @@ var main =
 	
 		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
 		{
+			document.title = "Sag: "+ main.current.title +" ["+ main.current.no +"] *";
+		
 			document.getElementById ("save").disabled = false;
 			document.getElementById ("close").disabled = false;
 		}
 		else
 		{
+			document.title = "Sag: "+ main.current.title +" ["+ main.current.no +"]";
+		
 			document.getElementById ("save").disabled = true;
 			document.getElementById ("close").disabled = false;
 		}

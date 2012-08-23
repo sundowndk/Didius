@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="main" width="800" height="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY width height">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+		
+	<script type="application/javascript" src="chrome://didius/content/itemedit/itemedit.js"/>	
+			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+			
+	<hbox flex="1">
+		<tabbox id="myTabList" selectedIndex="0" flex="1">
+		
+			<tabs>
+				<tab label="Detaljer"/>
+				<tab label="Bud"/>							
+			</tabs>
+						
+			<tabpanels flex="1">
+				<tabpanel>
+					<vbox flex="1">
+						<groupbox flex="1">
+							<caption label="Info"/>
+							
+							<hbox>
+								<label width="60">Effekt nr.:</label>
+								<textbox id="no" flex="1" readonly="true"  />
+								<label width="60">Oprettet:</label>
+								<textbox id="createdate" flex="1" readonly="true"  />
+							</hbox>
+						</groupbox>
+						
+						<groupbox flex="1">
+							<caption label="Info"/>
+							
+							<hbox>
+								<label width="55">Katalog nr.:</label>
+								<textbox id="catalogno" flex="1" onkeyup="main.onChange ();" />
+							</hbox>
+							<hbox>
+								<label width="55">Title:</label>
+								<textbox id="title" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox>
+								<label width="55">Beskrivelse:</label>
+								<textbox id="description" flex="1" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>
+						</groupbox>						
+						
+						<groupbox flex="1">
+							<caption label="Værdi"/>
+							
+							<hbox>
+								<label width="55">Min. bud:</label>
+								<textbox id="minimumbid" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							</hbox>
+							<hbox>
+								<label width="55">Vurdering 1:</label>
+								<textbox id="appraisal1" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							</hbox>
+							<hbox>
+								<label width="55">Vurdering 2:</label>
+								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							</hbox>
+							<hbox>
+								<label width="55">Vurdering 3:</label>
+								<textbox id="appraisal3" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							</hbox>							
+						</groupbox>						
+					</vbox>
+    			</tabpanel>
+    			
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="bids" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.cases.onChange ();" ondblclick="main.cases.edit ();">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<treecol id="no" label="Sags nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+							</treecols>	
+							<treechildren id="casesTreeChildren">
+							</treechildren>
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>							
+							<button id="caseEdit" label="Redigere" oncommand="main.cases.edit ();" disabled="true" />
+							<button id="caseDestroy" label="Slet" oncommand="main.cases.destroy ();" disabled="true" />	
+						</vbox>	
+					</hbox>						
+				</tabpanel>				
+			
+			</tabpanels>
+		</tabbox>
+	</hbox>
+	<hbox>
+	<hbox align="right" flex="1">
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
+		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+	</hbox>
+</hbox>
+</window>

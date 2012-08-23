@@ -287,8 +287,10 @@ var main =
 	
 	close : function (force)
 	{			
-		if (force)
+		// If we are forced to close, then dont promt user about potential unsaved data.
+		if (!force)
 		{	
+			// If checksums do not match, promt user about unsaved data.
 			if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
 			{
 				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
@@ -299,7 +301,15 @@ var main =
 				}			
 			}
 		}
+		
+		// Unhook events.
+		app.events.onCustomerDestroy.removeHandler (main.eventHandlers.onCustomerDestroy);		
+		
+		app.events.onCaseCreate.removeHandler (main.eventHandlers.onCaseCreate);
+		app.events.onCaseSave.removeHandler (main.eventHandlers.onCaseSave);
+		app.events.onCaseDestroy.removeHandler (main.eventHandlers.onCaseDestroy);
 	
+		// Close window.
 		window.close ();
 	},
 	
