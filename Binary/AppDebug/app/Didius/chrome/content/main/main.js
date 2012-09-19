@@ -10,8 +10,15 @@ var main =
 		
 		document.title = "York Auktion ApS [Rasmus Pedersen] ";
 				
-		main.customers.init ();
-		main.auctions.init ();				
+		main.controls.statusbar.progressmeter.setMode ("undetermined");
+		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
+				
+		main.customers.init ();		
+		main.auctions.init ();			
+		
+		main.controls.statusbar.progressmeter.setMode ("determined");
+		main.controls.statusbar.progressmeter.setValue (100);
+		main.controls.statusbar.progressmeter.setDescription ("Færdig");
 		
 		// Hook events.
 		app.events.onCustomerCreate.addHandler (main.eventHandlers.onCustomerCreate);
@@ -87,6 +94,30 @@ var main =
 		
 	controls : 
 	{
+		statusbar : 
+		{
+			progressmeter : 
+			{
+				setMode : function (value)
+				{
+					var progressmeter = document.getElementById ("statusbarProgressmeter");
+					progressmeter.mode = value;
+				},
+			
+				setValue : function (value)
+				{
+					var progressmeter = document.getElementById ("statusbarProgressmeter");
+					progressmeter.value = value;
+				},
+				
+				setDescription : function (value)
+				{
+					var description = document.getElementById ("statusbarProgressmeterDescription");
+					description.value = value;
+				}			
+			}		
+		},
+	
 		customers :
 		{
 			addRow : function (customer)

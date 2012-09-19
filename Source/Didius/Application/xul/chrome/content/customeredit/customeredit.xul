@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
 <window id="main" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
 	
@@ -12,8 +13,8 @@
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
 	</keyset>			
 			
-	<hbox flex="1">
-		<tabbox id="myTabList" selectedIndex="0" flex="1">
+	<hbox class="Main" flex="1">
+		<tabbox selectedIndex="0" flex="1">
 		
 			<tabs>
 				<tab label="Detaljer"/>
@@ -25,87 +26,83 @@
 				<tabpanel>
 					<vbox flex="1">
 						<groupbox flex="1">
-							<caption label="Info"/>
-							
-							<hbox>
-								<label width="60">Kunde nr.:</label>
+							<caption label="Info"/>							
+							<hbox align="center">
+								<label class="Label">Kunde nr.:</label>
 								<textbox id="no" flex="1" readonly="true"  />
-								<label width="60">Oprettet:</label>
+								<label class="Label">Oprettet:</label>
 								<textbox id="createdate" flex="1" readonly="true"  />
 							</hbox>
 						</groupbox>
 						
 						<groupbox flex="1">
-							<caption label="Adresse"/>
-							
-							<hbox>
-								<label width="55">Navn:</label>
+							<caption label="Adresse"/>							
+							<hbox align="center">
+								<label class="Label">Navn:</label>
 								<textbox id="name" flex="1" onkeyup="main.onChange ();" />
 							</hbox>
-							<hbox>
-								<label width="55">Adresse:</label>
+							<hbox align="center">
+								<label class="Label">Adresse:</label>
 								<textbox id="address1" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
-							<hbox>
-								<label width="55"></label>
+							<hbox align="center">
+								<label class="Label"></label>
 								<textbox id="address2" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
-							<hbox>
-								<label width="55">Post nr.:</label>
+							<hbox align="center">
+								<label class="Label">Post nr.:</label>
 								<textbox id="postcode" width="60" />
-								<label width="55">By:</label>
+								<label class="Label">By:</label>
 								<textbox id="city" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
-							<hbox>
-								<label width="55">Land:</label>
+							<hbox align="center">
+								<label class="Label">Land:</label>
 								<textbox id="country" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>  					
 						</groupbox>
 						
 						<groupbox flex="1">
 							<caption label="Kontakt"/>
-							<hbox>
-								<label width="55">Att:</label>
+							<hbox align="center">
+								<label class="Label">Att:</label>
 								<textbox id="att" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
-							<hbox>
-								<label width="55">Telefon:</label>
+							<hbox align="center">
+								<label class="Label">Telefon:</label>
 								<textbox id="phone" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
-							<hbox>
-								<label width="55">Mobil:</label>
+							<hbox align="center">
+								<label class="Label">Mobil:</label>
 								<textbox id="mobile" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
-							<hbox>
-								<label width="55">Email:</label>
+							<hbox align="center">
+								<label class="Label">Email:</label>
 								<textbox id="email" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
 						</groupbox>
 	    
 						<groupbox flex="1">
-							<caption label="Virksomheds oplysninger"/>
-							
-							<hbox>    					
-								<label width="55">Moms:</label>
+							<caption label="Virksomheds oplysninger"/>							
+							<hbox align="center">
+								<label class="Label">Moms:</label>
 								<checkbox id="vat" oncommand="main.onChange ();"/>						
 							</hbox>
-							<hbox>
-								<label width="55">CVR nr.:</label>
+							<hbox align="center">
+								<label class="Label">CVR nr.:</label>
 								<textbox id="vatno" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
 						</groupbox>
 
 						<groupbox flex="1">
 							<caption label="Bank oplysninger"/>
-
-							<hbox>
-								<label width="55">Bank:</label>
+							<hbox align="center">
+								<label class="Label">Bank:</label>
 								<textbox id="bankname" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
-							<hbox>
-								<label width="55">Reg.nr.:</label>
+							<hbox align="center">
+								<label class="Label">Reg.nr.:</label>
 								<textbox id="bankregistrationno" flex="1" onkeyup="main.onChange ();"/>
-								<label width="60">Konto nr.:</label>
+								<label class="Label">Konto nr.:</label>
 								<textbox id="bankaccountno" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
 						</groupbox>      
@@ -136,12 +133,11 @@
 				</tabpanel>
 			
 			</tabpanels>
-		</tabbox>
+		</tabbox>				
 	</hbox>
-	<hbox>
-	<hbox align="right" flex="1">
+		
+	<hbox class="WindowButtons" align="right" >
 		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
 		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
 	</hbox>
-</hbox>
 </window>

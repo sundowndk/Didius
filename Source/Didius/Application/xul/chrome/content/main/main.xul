@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
 <window id="main" windowtype="didius" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
 	
@@ -20,7 +21,7 @@
 		</menu>
 	</menubar>	
 		
-	<vbox flex="1">
+	<vbox flex="1" class="Main">
 		<tabbox id="myTabList" selectedIndex="0" flex="1">
 		
 			<tabs>
@@ -72,13 +73,16 @@
 							<button id="auctionDestroy" label="Slet" disabled="true" oncommand="main.auctions.destroy ();"/>	
 						</vbox>
 					</hbox>
-				</tabpanel>
-			
+				</tabpanel>			
 			</tabpanels>
-		</tabbox>
-		<statusbar>
-    <statusbarpanel id="status"/>
-    </statusbar>
-
+		</tabbox>			
 	</vbox>
+	<statusbar>
+		 <statusbarpanel>
+    	 	<progressmeter id="statusbarProgressmeter" mode="determined" value="" />
+    	 	<description id="statusbarProgressmeterDescription" value="Færdig" />
+    	 </statusbarpanel>  		
+    	 <statusbarpanel flex="1">    	 	
+    	 </statusbarpanel>  		
+    </statusbar>
 </window>

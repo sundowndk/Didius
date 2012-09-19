@@ -17,7 +17,7 @@ var main =
 			main.close ();
 			return;
 		}								
-	
+		
 		main.set ();
 		
 		// Hook events.
