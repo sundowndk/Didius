@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: sndk
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -143,6 +143,16 @@ var SNDK =
 					element.innerHTML = text;
 				}
 			}
+		},
+		
+		timestampToDate : function (timestamp)
+		{
+			return new Date (timestamp*1000);
+		},
+		
+		dateToTimestamp : function (date)
+		{
+			return Math.floor( date.getTime ()/1000 );
 		},
 		
 		// ***************************************************************************************************************************************************
@@ -2515,12 +2525,7 @@ var SNDK =
 				
 		init : function ()
 		{
-			try
-			{
 			document.onkeypress = SNDK.page.onKeyDown;
-			}
-			catch (erorr)
-			{}
 		},
 		
 		keyHandler : function (event)
@@ -19009,6 +19014,8 @@ var SNDK =
 			this.send = send;		
 				
 			// Properties
+			this.responsXmlAsXmlDocument = valueResponsXmlAsXmlDocument;
+			this.responsXmlAsString = valueResponsXmlAsString;
 			this.respons = valueRespons;		
 			this.onSent = valueOnSent;
 			this.onReceiving = valueOnReceiving;		
@@ -19405,6 +19412,16 @@ var SNDK =
 				return document;	
 			}	
 			
+			function valueResponsXmlAsXmlDocument ()
+			{
+				return _xmlhttp.responseXML;
+			}
+			
+			function valueResponsXmlAsString ()
+			{
+				return (new XMLSerializer()).serializeToString(_xmlhttp.responseXML);			
+			}
+			
 			function valueRespons ()
 			{
 				return _data;
@@ -19586,9 +19603,6 @@ String.prototype.trimEnd = function (character)
 // -------------------------------------------------------------------------------------------------------------------------
 // Client
 // -------------------------------------------------------------------------------------------------------------------------
-try
-{
-
 var client = 
 {
 	init: function () 
@@ -19714,12 +19728,6 @@ var client =
 };
 
 client.init();
-}
-catch (error)
-{}
-
-try
-{
 /*********************************************************************
  * No onMouseOut event if the mouse pointer hovers a child element 
  * *** Please do not remove this header. ***
@@ -19765,7 +19773,9 @@ function fixOnMouseOut (element, event, JavaScript_code)
 	}
 }
 /*********************************************************************/
-// -------------------------------------------------------------------------------------------------------------------------
+
+
+﻿// -------------------------------------------------------------------------------------------------------------------------
 // Event handling
 // -------------------------------------------------------------------------------------------------------------------------
 function addEvent (element, type, handler) 
@@ -20083,12 +20093,10 @@ function bla ()
 This function calculates window.scrollbarWidth and window.scrollbarHeight
 
 This must be called
-?onload? to work correctly (or on ?DOM ready?, if you?re using
+“onload” to work correctly (or on “DOM ready”, if you’re using
 a framework that provides such an event)
 */
 
-try
-{
 var i = document.createElement("p");
 i.style.width = "100%";
 
@@ -20117,11 +20125,6 @@ document.body.removeChild(o);
 
 window.scrollbarWidth = w1-w2;
 window.scrollbarHeight = h1-h2;
-}
-catch (error)
-{
-
-}
 
 };
 
@@ -20130,11 +20133,6 @@ window.onDomReady (bla);
 
 
 
-}
-catch (error)
-{
-
-}
 
 
 //var test = function ()

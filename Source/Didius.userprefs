@@ -1,12 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/runtime.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/itemedit/itemedit.xul">
     <Files>
       <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="542" Column="6" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="102" Column="10" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="4" Column="188" />
       <File FileName="Didius/Application/xul/chrome/content/catalogedit/catalogedit.js" Line="10" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/catalogedit/catalogedit.xul" Line="102" Column="10" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="21" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/catalogedit/catalogedit.xul" Line="4" Column="188" />
+      <File FileName="Didius/Application/js/didius/auction.js" Line="8" Column="46" />
+      <File FileName="Didius/Application/xul/chrome/content/js/app.js" Line="7" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="112" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.xul" Line="19" Column="28" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="4" Column="181" />
+      <File FileName="Didius/Application/xul/chrome/content/chooser/customer.xul" Line="4" Column="45" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="4" Column="34" />
+      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.xul" Line="4" Column="161" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,9 +22,7 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
-                <Node name="didius" expanded="True">
-                  <Node name="runtime.js" selected="True" />
-                </Node>
+                <Node name="didius" expanded="True" />
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
@@ -26,7 +32,9 @@
                     <Node name="catalogedit" expanded="True" />
                     <Node name="chooser" expanded="True" />
                     <Node name="customeredit" expanded="True" />
-                    <Node name="itemedit" expanded="True" />
+                    <Node name="itemedit" expanded="True">
+                      <Node name="itemedit.xul" selected="True" />
+                    </Node>
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                   </Node>
