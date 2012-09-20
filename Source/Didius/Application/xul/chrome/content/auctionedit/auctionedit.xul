@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
 <window id="main" title="York Aucktion ApS" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
 	
@@ -12,8 +13,8 @@
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
 	</keyset>			
 			
-	<hbox flex="1">
-		<tabbox id="myTabList" selectedIndex="0" flex="1">
+	<hbox class="Main" flex="1">
+		<tabbox selectedIndex="0" flex="1">
 		
 			<tabs>
 				<tab label="Detaljer"/>
@@ -25,21 +26,21 @@
 			<tabpanels flex="1">
 				<tabpanel>
 					<vbox flex="1">
-						<groupbox flex="1">
-							<caption label="Info"/>
+						<groupbox>
+							<caption label="Meta"/>
 							
-							<hbox>
-								<label width="60">Auktion nr.:</label>
+							<hbox align="center">
+								<label class="Label">Auktion nr.:</label>
 								<textbox id="no" flex="1" readonly="true"  />
-								<label width="60">Oprettet:</label>
-								<textbox id="createdate" flex="1" readonly="true"  />
+								<label class="Label">Oprettet:</label>
+								<datepicker id="createdate" type="normal" disabled="true"/>
 							</hbox>							
 						</groupbox>
 						
-						<groupbox flex="1">
-							<caption label=""/>							
-							<hbox>
-								<label width="55">Navn:</label>
+						<groupbox>
+							<caption label="Andet"/>							
+							<hbox align="center">
+								<label class="Label">Navn:</label>
 								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
 							</hbox>							
 						</groupbox>
@@ -93,10 +94,9 @@
 			</tabpanels>
 		</tabbox>
 	</hbox>
-	<hbox>
-	<hbox align="right" flex="1">
+	
+	<hbox class="WindowButtons" align="right" >
 		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
 		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
 	</hbox>
-</hbox>
 </window>

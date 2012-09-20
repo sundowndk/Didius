@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="main" title="York Aucktion ApS" width="800" height="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY width height">
+
+<window id="main" title="York Aucktion ApS" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
@@ -12,8 +14,8 @@
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
 	</keyset>			
 			
-	<hbox flex="1">
-		<tabbox id="myTabList" selectedIndex="0" flex="1">
+	<hbox class="Main" flex="1">
+		<tabbox selectedIndex="0" flex="1">
 		
 			<tabs>
 				<tab label="Detaljer"/>
@@ -23,41 +25,41 @@
 			<tabpanels flex="1">
 				<tabpanel>
 					<vbox flex="1">
-						<groupbox flex="1">
-							<caption label="Info"/>
+						<groupbox>
+							<caption label="Meta"/>
 							
-							<hbox>
-								<label width="60">Sags nr.:</label>
+							<hbox align="center">
+								<label class="Label">Sags nr.:</label>
 								<textbox id="no" flex="1" readonly="true"  />
-								<label width="60">Oprettet:</label>
-								<textbox id="createdate" flex="1" readonly="true"  />
+								<label class="Label">Oprettet:</label>
+								<datepicker id="createdate" type="normal" disabled="true"/>
 							</hbox>
-							<hbox>
-								<label width="55">Auktion:</label>
-								<textbox id="auction" flex="1" disabled="true"/>
+							<hbox align="center">
+								<label class="Label">Auktion:</label>
+								<textbox id="auction" flex="1" readonly="true"/>
 							</hbox>
 						</groupbox>
 						
-						<groupbox flex="1">
-							<caption label=""/>							
-							<hbox>
-								<label width="55">Title:</label>
+						<groupbox>
+							<caption label="Andet"/>							
+							<hbox align="center">
+								<label class="Label">Title:</label>
 								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
 							</hbox>
-							<hbox>
-								<label width="55">Kunde ref:</label>
+							<hbox align="center">
+								<label class="Label">Kunde ref:</label>
 								<textbox id="customerreference" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
-							<hbox>
-								<label width="55">Fremstillings gebyr:</label>
+							<hbox align="center">
+								<label class="Label">Fremstillings gebyr:</label>
 								<textbox id="preparationfee" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>							
-							<hbox>
-								<label width="55">Salærprocent:</label>
+							<hbox align="center">
+								<label class="Label">Salærprocent:</label>
 								<textbox id="commisionfeepercentage" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>  					
-							<hbox>
-								<label width="55">Min. salær:</label>
+							<hbox align="center">
+								<label class="Label">Min. salær:</label>
 								<textbox id="commisionfeeminimum" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>  					
 						</groupbox>
@@ -88,10 +90,9 @@
 			</tabpanels>
 		</tabbox>
 	</hbox>
-	<hbox>
-	<hbox align="right" flex="1">
+	
+	<hbox class="WindowButtons" align="right" >
 		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
 		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
 	</hbox>
-</hbox>
 </window>

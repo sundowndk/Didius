@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
 <window id="main" title="York Aucktion ApS" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY width height">
 	
@@ -8,8 +9,8 @@
 	
 	<script type="application/javascript" src="customer.js"/>	
 			
-	<vbox flex="1">		
-		<hbox flex="1">
+	
+		<hbox class="Main" flex="1">
 			<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.customers.onChange ();" ondblclick="main.choose ();">
 				<treecols>
 					<treecol id="id" hidden="true"/>					
@@ -23,11 +24,10 @@
 				</treechildren>
 			</tree>
 		</hbox>
-	</vbox>
-	<vbox>
-		<hbox align="right">
-			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
-			<button id="choose" label="Vælg" oncommand="main.choose ();" disabled="true"/>
-		</hbox>
-	</vbox>
+	
+
+	<hbox align="right"  class="WindowButtons">
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
+		<button id="choose" label="Vælg" oncommand="main.choose ();" disabled="true"/>
+	</hbox>
 </window>

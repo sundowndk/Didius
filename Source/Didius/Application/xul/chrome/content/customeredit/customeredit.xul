@@ -25,17 +25,17 @@
 			<tabpanels flex="1">
 				<tabpanel>
 					<vbox flex="1">
-						<groupbox flex="1">
-							<caption label="Info"/>							
+						<groupbox>
+							<caption label="Meta"/>							
 							<hbox align="center">
 								<label class="Label">Kunde nr.:</label>
 								<textbox id="no" flex="1" readonly="true"  />
 								<label class="Label">Oprettet:</label>
-								<textbox id="createdate" flex="1" readonly="true"  />
+								<datepicker id="createdate" type="normal" disabled="true"/>								
 							</hbox>
 						</groupbox>
 						
-						<groupbox flex="1">
+						<groupbox>
 							<caption label="Adresse"/>							
 							<hbox align="center">
 								<label class="Label">Navn:</label>
@@ -61,7 +61,7 @@
 							</hbox>  					
 						</groupbox>
 						
-						<groupbox flex="1">
+						<groupbox>
 							<caption label="Kontakt"/>
 							<hbox align="center">
 								<label class="Label">Att:</label>
@@ -81,7 +81,7 @@
 							</hbox>
 						</groupbox>
 	    
-						<groupbox flex="1">
+						<groupbox>
 							<caption label="Virksomheds oplysninger"/>							
 							<hbox align="center">
 								<label class="Label">Moms:</label>

@@ -225,6 +225,8 @@ var main =
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
 	
 		document.getElementById ("no").value = main.current.no;
+		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
+		document.getElementById ("auction").value = didius.auction.load (main.current.auctionid).title;
 	
 		document.getElementById ("title").value = main.current.title;		
 		

@@ -219,6 +219,7 @@ var main =
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
 	
 		document.getElementById ("no").value = main.current.no;
+		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
 	
 		document.getElementById ("name").value = main.current.name;
 		document.getElementById ("address1").value = main.current.address1;
