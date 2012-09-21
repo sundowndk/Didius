@@ -227,6 +227,7 @@ var main =
 		document.getElementById ("no").value = main.current.no;
 		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
 		document.getElementById ("auction").value = didius.auction.load (main.current.auctionid).title;
+		document.getElementById ("customer").value = didius.customer.load (main.current.customerid).name;
 	
 		document.getElementById ("title").value = main.current.title;		
 		

@@ -27,7 +27,7 @@ var main =
 		
 		app.events.onAuctionCreate.addHandler (main.eventHandlers.onAuctionCreate);
 		app.events.onAuctionSave.addHandler (main.eventHandlers.onAuctionSave);
-		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);				
+		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
 	},
 	
 	eventHandlers :
@@ -422,12 +422,14 @@ var main =
 					document.getElementById ("auctionCreate").disabled = false;
 					document.getElementById ("auctionEdit").disabled = false;
 					document.getElementById ("auctionDestroy").disabled = false;
+					document.getElementById ("auctionRun").disabled = false;
 				}
 				else
 				{				
 					document.getElementById ("auctionCreate").disabled = false;
 					document.getElementById ("auctionEdit").disabled = true;
 					document.getElementById ("auctionDestroy").disabled = true;
+					document.getElementById ("auctionRun").disabled = true;
 				}
 			}		
 		}
@@ -513,6 +515,13 @@ var main =
 					app.error ({exception: error})
 				}								
 			}
+		},
+		
+		run : function ()
+		{
+			var current = main.controls.auctions.getRow ();
+													
+			window.openDialog ("chrome://didius/content/auctionrun/auctionrun.xul", current.id, "chrome", {auctionId: current.id});
 		}
 	}	
 }

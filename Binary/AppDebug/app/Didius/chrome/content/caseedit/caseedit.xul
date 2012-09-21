@@ -2,12 +2,10 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-
-<window id="main" title="York Aucktion ApS" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
+<window id="main" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
-	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
-		
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/javascript" src="chrome://didius/content/caseedit/caseedit.js"/>	
 			
 	<keyset>
@@ -23,7 +21,7 @@
 			</tabs>
 						
 			<tabpanels flex="1">
-				<tabpanel>
+				<tabpanel flex="1">
 					<vbox flex="1">
 						<groupbox>
 							<caption label="Meta"/>
@@ -38,10 +36,14 @@
 								<label class="Label">Auktion:</label>
 								<textbox id="auction" flex="1" readonly="true"/>
 							</hbox>
+							<hbox align="center">
+								<label class="Label">Kunde:</label>
+								<textbox id="customer" flex="1" readonly="true"/>
+							</hbox>
 						</groupbox>
 						
 						<groupbox>
-							<caption label="Andet"/>							
+							<caption label="Andet"/>	
 							<hbox align="center">
 								<label class="Label">Title:</label>
 								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
@@ -49,18 +51,26 @@
 							<hbox align="center">
 								<label class="Label">Kunde ref:</label>
 								<textbox id="customerreference" flex="1" onkeyup="main.onChange ();"/>
-							</hbox>
-							<hbox align="center">
-								<label class="Label">Fremstillings gebyr:</label>
-								<textbox id="preparationfee" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>							
+						</groupbox>						
+						
+						<groupbox>
+							<caption label="Gebyr"/>
 							<hbox align="center">
-								<label class="Label">Salærprocent:</label>
-								<textbox id="commisionfeepercentage" flex="1" onkeyup="main.onChange ();"/>
+								<label class="Label">Fremstilling:</label>								
+								<textbox id="preparationfee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+							</hbox>														
+						</groupbox>
+						
+						<groupbox>
+							<caption label="Salær"/>							
+							<hbox align="center">
+								<label class="Label">Procent:</label>							
+								<textbox id="commisionfeepercentage" type="number" decimalplaces="0" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
 							</hbox>  					
 							<hbox align="center">
-								<label class="Label">Min. salær:</label>
-								<textbox id="commisionfeeminimum" flex="1" onkeyup="main.onChange ();"/>
+								<label class="Label">Minimum:</label>								
+								<textbox id="commisionfeeminimum" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
 							</hbox>  					
 						</groupbox>
 					</vbox>
@@ -96,3 +106,5 @@
 		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
 	</hbox>
 </window>
+
+

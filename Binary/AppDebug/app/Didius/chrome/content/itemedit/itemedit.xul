@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
 <window id="main" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
 	
@@ -12,8 +13,8 @@
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
 	</keyset>			
 			
-	<hbox flex="1">
-		<tabbox id="myTabList" selectedIndex="0" flex="1">
+	<hbox class="Main" flex="1">
+		<tabbox selectedIndex="0" flex="1">
 		
 			<tabs>
 				<tab label="Detaljer"/>
@@ -23,52 +24,52 @@
 			<tabpanels flex="1">
 				<tabpanel>
 					<vbox flex="1">
-						<groupbox flex="1">
-							<caption label="Info"/>
+						<groupbox>
+							<caption label="Meta"/>
 							
-							<hbox>
-								<label width="60">Effekt nr.:</label>
+							<hbox align="center">
+								<label class="Label">Effekt nr.:</label>
 								<textbox id="no" flex="1" readonly="true"  />
-								<label width="60">Oprettet:</label>
-								<textbox id="createdate" flex="1" readonly="true"  />
+								<label class="Label">Oprettet:</label>
+								<datepicker id="createdate" type="normal" disabled="true"/>	
 							</hbox>
 						</groupbox>
 						
-						<groupbox flex="1">
-							<caption label="Info"/>
+						<groupbox>
+							<caption label="Andet"/>
 							
-							<hbox>
-								<label width="55">Katalog nr.:</label>
+							<hbox align="center">
+								<label class="Label">Katalog nr.:</label>
 								<textbox id="catalogno" flex="1" onkeyup="main.onChange ();" />
 							</hbox>
-							<hbox>
-								<label width="55">Title:</label>
+							<hbox align="center">
+								<label class="Label">Title:</label>
 								<textbox id="title" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>
-							<hbox>
-								<label width="55">Beskrivelse:</label>
+							<hbox align="top">
+								<label class="Label">Beskrivelse:</label>
 								<textbox id="description" flex="1" multiline="true" onkeyup="main.onChange ();"/>
 							</hbox>
 						</groupbox>						
 						
-						<groupbox flex="1">
+						<groupbox>
 							<caption label="Værdi"/>
 							
-							<hbox>
-								<label width="55">Min. bud:</label>
-								<textbox id="minimumbid" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							<hbox align="center">
+								<label class="Label">Min. bud:</label>
+								<textbox id="minimumbid" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
 							</hbox>
-							<hbox>
-								<label width="55">Vurdering 1:</label>
-								<textbox id="appraisal1" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							<hbox align="center">
+								<label class="Label">Vurdering 1:</label>
+								<textbox id="appraisal1" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
 							</hbox>
-							<hbox>
-								<label width="55">Vurdering 2:</label>
-								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							<hbox align="center">
+								<label class="Label">Vurdering 2:</label>
+								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
 							</hbox>
-							<hbox>
-								<label width="55">Vurdering 3:</label>
-								<textbox id="appraisal3" type="number" decimalplaces="2" flex="1" onchange="main.onChange ();" />
+							<hbox align="center">
+								<label class="Label">Vurdering 3:</label>
+								<textbox id="appraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
 							</hbox>							
 						</groupbox>						
 					</vbox>
@@ -97,10 +98,9 @@
 			</tabpanels>
 		</tabbox>
 	</hbox>
-	<hbox>
-	<hbox align="right" flex="1">
+	
+	<hbox class="WindowButtons" align="right" >
 		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
 		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
 	</hbox>
-</hbox>
 </window>

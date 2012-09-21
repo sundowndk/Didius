@@ -1,14 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/caseedit/caseedit.xul">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.js" Line="222" Column="112" />
-      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.xul" Line="52" Column="29" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.xul" Line="6" Column="44" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="229" Column="97" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="420" Column="112" />
-      <File FileName="Didius/Didius/Case.cs" Line="1" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="18" Column="3" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="28" Column="60" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="487" Column="23" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul" Line="47" Column="18" />
+      <File FileName="Didius/Application/xul/chrome/content/css/default.css" Line="17" Column="11" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="208" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -19,15 +18,19 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auctionedit" expanded="True" />
-                    <Node name="caseedit" expanded="True">
-                      <Node name="caseedit.xul" selected="True" />
+                    <Node name="auctionrun" expanded="True">
+                      <Node name="auctionrun.xul" selected="True" />
                     </Node>
+                    <Node name="caseedit" expanded="True" />
                     <Node name="chooser" expanded="True" />
                     <Node name="css" expanded="True" />
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="main" expanded="True" />
                   </Node>
+                </Node>
+                <Node name="defaults" expanded="True">
+                  <Node name="preferences" expanded="True" />
                 </Node>
               </Node>
             </Node>

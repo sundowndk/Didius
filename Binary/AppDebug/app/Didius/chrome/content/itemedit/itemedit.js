@@ -46,6 +46,7 @@ var main =
 		main.catalogNo = main.current.catalogno;
 	
 		document.getElementById ("no").value = main.current.no;
+		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
 	
 		document.getElementById ("catalogno").value = main.current.catalogno;
 		document.getElementById ("title").value = main.current.title;
