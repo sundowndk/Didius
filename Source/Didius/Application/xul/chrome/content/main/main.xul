@@ -21,9 +21,8 @@
 		</menu>
 	</menubar>	
 		
-	<vbox flex="1" class="Main">
-		<tabbox selectedIndex="0" flex="1">
-		
+	<vbox flex="1" class="WindowInnerPadding">
+		<tabbox selectedIndex="1" flex="1">		
 			<tabs>
 				<tab image="chrome://didius/content/icons/customers.png"/>
 				<tab image="chrome://didius/content/icons/auctions.png"/>			

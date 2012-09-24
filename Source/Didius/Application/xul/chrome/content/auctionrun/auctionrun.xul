@@ -2,20 +2,17 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="editauction" minwidth="750" minheight="650" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
+<window id="runauction" minwidth="750" minheight="650" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
-		
-	
-			
+						
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
 	</keyset>			
 			
-	<hbox class="Main" flex="1">
-		<tabbox selectedIndex="0" flex="1">
-		
+	<hbox class="WindowInnerPadding" flex="1">
+		<tabbox selectedIndex="0" flex="1">		
 			<tabs>
 				<tab label="Afvikling"/>				
 			</tabs>
@@ -28,7 +25,7 @@
 							
 							<hbox align="center">
 								<label class="Label">Auktion nr.:</label>
-								<textbox id="no" flex="1" readonly="true"  />
+								<textbox id="no" flex="1" disabled="true"  />
 								<label class="Label">Oprettet:</label>
 								<datepicker id="createdate" type="normal" disabled="true"/>
 							</hbox>							
@@ -37,8 +34,8 @@
 								<textbox id="title" flex="1" disabled="true" />
 							</hbox>							
 						</groupbox>
-												
-						<groupbox>
+																														
+						<groupbox style="display: none;">
 							<caption label="Effekt 1 af 12"/>
 							<grid>
 								<rows>
@@ -61,6 +58,7 @@
 												<label class="Label">Kunde:</label>
 												<textbox id="itemCustomer" flex="1" disabled="true" />
 											</hbox>
+											<separator class="groove-thin"/>
 											<hbox align="center">
 												<label class="Label">Title:</label>
 												<textbox id="itemName" flex="1" disabled="true" />
@@ -76,17 +74,42 @@
     								</column>
   								</columns>
 							</grid>
-							<groupbox>
-							<caption label="Værdi"/>
+							<separator class="groove-thin"/>
 							<hbox align="center">
 								<label class="Label">Min bud:</label>
-								<textbox id="itemMinimumBid" flex="1" disabled="true" />									
+								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
 							</hbox>							
 							<hbox align="center">
-								<label class="Label">Min bud:</label>
-								<textbox id="itemMinimumBid" flex="1" disabled="true" />									
+								<label class="Label">Vurdering 1:</label>
+								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
 							</hbox>							
-							</groupbox>
+							<hbox align="center">
+								<label class="Label">Vurdering 2:</label>
+								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
+							</hbox>							
+							<hbox align="center">
+								<label class="Label">Vurdering 3:</label>
+								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
+							</hbox>		
+							<separator class="groove-thin"/>
+							<hbox align="center">
+								<label class="Label">Køber nr.:</label>
+								<textbox id="buyernumber" flex="1" type="number" hidespinbuttons="true" style="font-size: 40px;"/>
+							</hbox>																		
+							<hbox align="center">
+								<label class="Label">Pris:</label>
+								<textbox id="bid" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" style="font-size: 40px;"/>
+							</hbox>		
+							<separator class="groove-thin"/>
+							<hbox align="center">
+								<button label="Forrige" style="height: 100px;" flex="1" disabled="true"/>
+								<button label="Næste" style="height: 100px;" flex="1" disabled="true"/>
+							</hbox>												
+						</groupbox>		
+								
+						<groupbox>										
+							<separator class="groove-thin"/>
+							<button label="Start auktion" />						
 						</groupbox>
 					</vbox>
     			</tabpanel>

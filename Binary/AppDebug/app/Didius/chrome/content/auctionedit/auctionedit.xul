@@ -13,9 +13,8 @@
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
 	</keyset>			
 			
-	<hbox class="Main" flex="1">
-		<tabbox selectedIndex="0" flex="1">
-		
+	<hbox class="WindowInnerPadding" flex="1">
+		<tabbox selectedIndex="0" flex="1">		
 			<tabs>
 				<tab label="Detaljer"/>
 				<tab label="Sager"/>							
