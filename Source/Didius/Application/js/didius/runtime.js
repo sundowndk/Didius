@@ -1,7 +1,8 @@
 
 
-ajaxUrlTest : "http://sorentotest.sundown.dk/",
-ajaxUrl : "http://78.109.223.248/",
+ajaxUrl : "http://sorentotest.sundown.dk/",
+ajaxUrlREAL : "http://78.109.223.248/",
+
 
 events :
 {
@@ -13,7 +14,32 @@ events :
 
 initialize : function ()
 {
-	 dump(didius.runtime.ajaxUrl);		
+	app.events.onCustomerCreate = new event ();
+	app.events.onCustomerLoad = new event ();
+	app.events.onCustomerSave = new event ();
+	app.events.onCustomerDestroy = new event ();
+			
+	var onCustomerCreate =	function (data)
+							{
+								didius.eventListener.update (app.session.eventListenerId, "onCustomerCreate", data.id);
+							};
+							
+	var onCustomerSave =	function (data)
+							{
+								didius.eventListener.update (app.session.eventListenerId, "onCustomerSave", data.id);
+							};
+	
+	var onCustomerDestroy =	function (data)
+							{
+								didius.eventListener.update (app.session.eventListenerId, "onCustomerDestroy", data.id);
+							};
+	
+	app.events.onCustomerCreate.addHandler (onCustomerCreate);
+	app.events.onCustomerSave.addHandler (onCustomerSave);
+	app.events.onCustomerDestroy.addHandler (onCustomerDestroy);
+
+	 
+	 //	 	 dump(didius.runtime.ajaxUrl);		
 }
 
 

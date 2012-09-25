@@ -1,27 +1,40 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/runtime.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="17" Column="38" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="1" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul" Line="113" Column="17" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.xul" Line="68" Column="61" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="32" Column="8" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="39" Column="62" />
+      <File FileName="Didius/Application/js/didius/customer.js" Line="45" Column="25" />
+      <File FileName="Didius/Application/js/didius/eventlistener.js" Line="40" Column="42" />
+      <File FileName="Didius/Application/xul/chrome/content/js/app.js" Line="64" Column="42" />
+      <File FileName="Didius/Didius/EventListener.cs" Line="172" Column="4" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="346" Column="87" />
+      <File FileName="Didius/Didius/Event.cs" Line="200" Column="4" />
+      <File FileName="Didius/Didius/Customer.cs" Line="537" Column="4" />
+      <File FileName="Didius/Application/js/didius/other.js" Line="20" Column="1" />
+      <File FileName="Didius/Application/xul/defaults/preferences/prefs.js" Line="3" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
+              <Node name="js" expanded="True">
+                <Node name="didius" expanded="True">
+                  <Node name="runtime.js" selected="True" />
+                </Node>
+              </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auctionedit" expanded="True" />
-                    <Node name="auctionrun" expanded="True">
-                      <Node name="auctionrun.xul" selected="True" />
-                    </Node>
-                    <Node name="css" expanded="True" />
+                    <Node name="auctionrun" expanded="True" />
                     <Node name="itemedit" expanded="True" />
+                    <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
+                  </Node>
+                  <Node name="locale" expanded="True">
+                    <Node name="branding" expanded="True" />
                   </Node>
                 </Node>
                 <Node name="defaults" expanded="True">
@@ -30,6 +43,8 @@
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />
+            <Node name="Didius.Addin" expanded="True" />
+            <Node name="Didius.Strings" expanded="True" />
           </Node>
         </State>
       </Pad>

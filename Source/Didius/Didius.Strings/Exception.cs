@@ -58,6 +58,12 @@ namespace Didius.Strings
 		public static string BidDeleteGuid = "Could not delete Bid with id: {0}";
 		public static string BidFromXmlDocument = "Cannot create Bid from XmlDocument, missing {0}";
 		#endregion
+
+		#region EVENTLISTENER
+		public static string EventListenerSave = "Could not save EventListener with id: {0}";
+		public static string EventListenerLoadGuid = "Could not load EventListener with id: {0}";
+		public static string EventListenerDeleteGuid = "Could not delete EventListener with id: {0}";
+		#endregion
 	}
 }
 

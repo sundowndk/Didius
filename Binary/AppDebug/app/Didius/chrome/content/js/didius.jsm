@@ -14,8 +14,9 @@ var didius =
 	{
 		
 		
-		ajaxUrlTest : "http://sorentotest.sundown.dk/",
-		ajaxUrl : "http://78.109.223.248/",
+		ajaxUrl : "http://sorentotest.sundown.dk/",
+		ajaxUrlREAL : "http://78.109.223.248/",
+		
 		
 		events :
 		{
@@ -27,7 +28,32 @@ var didius =
 		
 		initialize : function ()
 		{
-			 dump(didius.runtime.ajaxUrl);		
+			app.events.onCustomerCreate = new event ();
+			app.events.onCustomerLoad = new event ();
+			app.events.onCustomerSave = new event ();
+			app.events.onCustomerDestroy = new event ();
+					
+			var onCustomerCreate =	function (data)
+									{
+										didius.eventListener.update (app.session.eventListenerId, "onCustomerCreate", data.id);
+									};
+									
+			var onCustomerSave =	function (data)
+									{
+										didius.eventListener.update (app.session.eventListenerId, "onCustomerSave", data.id);
+									};
+			
+			var onCustomerDestroy =	function (data)
+									{
+										didius.eventListener.update (app.session.eventListenerId, "onCustomerDestroy", data.id);
+									};
+			
+			app.events.onCustomerCreate.addHandler (onCustomerCreate);
+			app.events.onCustomerSave.addHandler (onCustomerSave);
+			app.events.onCustomerDestroy.addHandler (onCustomerDestroy);
+		
+			 
+			 //	 	 dump(didius.runtime.ajaxUrl);		
 		}
 		
 		
@@ -78,7 +104,7 @@ var didius =
 		},		
 		
 		destroy : function (id)
-		{
+		{	
 			var content = new Array ();
 			content["id"] = id;
 			
@@ -500,6 +526,54 @@ var didius =
 	},
 
 	// ---------------------------------------------------------------------------------------------------------------
+	// CLASS: eventListener
+	// ---------------------------------------------------------------------------------------------------------------
+	eventListener :
+	{
+		attach : function ()
+		{
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.EventListener.Attach", "data", "POST", false);	
+			request.send ();
+			
+			var result = request.respons ()["value"];
+					
+			app.events.onAuctionCreate.execute (result);
+			
+			return result;
+		},
+			
+		detach : function (eventListenerId)
+		{
+			var content = new Array ();
+			content["eventlistenerid"] = eventListenerId;
+		
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.EventListener.Detach", "data", "POST", false);		
+			request.send (content);			
+		},
+		
+		update : function (eventListenerId, eventId, eventData)
+		{
+			var content = new Array ();
+			content["eventlistenerid"] = eventListenerId;
+			
+			if (eventId != null)
+			{
+				content["eventid"] = eventId;
+			}
+			
+			if (eventData != null)
+			{
+				content["eventdata"] = eventData;
+			}		
+						
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.EventListener.Update", "data", "POST", false);		
+			request.send (content);	
+			
+			return request.respons ()["didius.events"];
+		}
+	},
+
+	// ---------------------------------------------------------------------------------------------------------------
 	// CLASS: helpers
 	// ---------------------------------------------------------------------------------------------------------------
 	helpers :
@@ -580,4 +654,6 @@ event.prototype.execute = function(args)
 		this.eventHandlers[i](args);
 	}
 }
+
+
 

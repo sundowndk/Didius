@@ -37,7 +37,7 @@ save : function (customer)
 },		
 
 destroy : function (id)
-{
+{	
 	var content = new Array ();
 	content["id"] = id;
 	

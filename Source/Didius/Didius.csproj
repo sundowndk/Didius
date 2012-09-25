@@ -84,6 +84,8 @@
     <Compile Include="Didius.Addin\Ajax.cs" />
     <Compile Include="Didius.Addin\Init.cs" />
     <Compile Include="Didius\Helpers.cs" />
+    <Compile Include="Didius\EventListener.cs" />
+    <Compile Include="Didius\Event.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -126,6 +128,7 @@
     <Folder Include="Application\css\" />
     <Folder Include="Application\xul\chrome\content\css\" />
     <Folder Include="Application\xul\chrome\content\auctionrun\" />
+    <Folder Include="Application\xul\chrome\locale\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -198,6 +201,12 @@
     <None Include="Application\xul\chrome\content\css\default.css" />
     <None Include="Application\xul\chrome\content\auctionrun\auctionrun.js" />
     <None Include="Application\xul\chrome\content\auctionrun\auctionrun.xul" />
+    <None Include="Application\xul\chrome\locale\branding\about.png" />
+    <None Include="Application\xul\chrome\locale\branding\brand.dtd" />
+    <None Include="Application\xul\chrome\locale\branding\brand.properties" />
+    <None Include="Application\xul\chrome\locale\branding\icon48.png" />
+    <None Include="Application\xul\chrome\locale\branding\icon64.png" />
+    <None Include="Application\js\didius\eventlistener.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

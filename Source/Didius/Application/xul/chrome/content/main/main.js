@@ -8,6 +8,8 @@ var main =
 							
 		app.startup (window);
 		
+		didius.runtime.initialize ();
+						
 		document.title = "York Auktion ApS [Rasmus Pedersen] ";
 				
 		main.controls.statusbar.progressmeter.setMode ("undetermined");
@@ -21,6 +23,34 @@ var main =
 		main.controls.statusbar.progressmeter.setDescription ("Færdig");
 		
 		// Hook events.
+		app.session.eventListenerId = didius.eventListener.attach ();
+				
+				
+		var tester = 	function ()
+						{
+							var events = didius.eventListener.update (app.session.eventListenerId);
+							
+							for (index in events)
+							{
+								event = events[index]
+							
+								dump ("\n"+ event.name +"\n");
+								dump (event.data +"\n");
+							
+								if (event.name == "onCustomerSave")
+								{	
+									app.events.onCustomerSave.execute (didius.customer.load (event.data))									
+								}								
+								
+								if (event.name == "onCustomerDestroy")
+								{	
+									app.events.onCustomerDestroy.execute (event.data);									
+								}								
+							}
+						};
+		
+		setInterval (tester, 10000);			
+						
 		app.events.onCustomerCreate.addHandler (main.eventHandlers.onCustomerCreate);
 		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
 		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);

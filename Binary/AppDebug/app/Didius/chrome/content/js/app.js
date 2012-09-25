@@ -44,22 +44,22 @@ var app =
 	session :
 	{
 		loggedIn : false,
-		current : null
-		
+		current : null,
+		eventListenerId: null		
 	},
 
 	events : new Array (),	
 
 	startup : function (mainWindow)
 	{
-		// Make everybody can get to the main window.
+		// Make so everybody can get to the main window.
 		app.mainWindow = mainWindow;
 	
 		// Setup events.
-		app.events.onCustomerCreate = new event ();
-		app.events.onCustomerLoad = new event ();
-		app.events.onCustomerSave = new event ();
-		app.events.onCustomerDestroy = new event ();
+//		app.events.onCustomerCreate = new event ();
+//		app.events.onCustomerLoad = new event ();
+//		app.events.onCustomerSave = new event ();
+//		app.events.onCustomerDestroy = new event ();
 		
 		app.events.onCaseCreate = new event ();
 		app.events.onCaseLoad = new event ();

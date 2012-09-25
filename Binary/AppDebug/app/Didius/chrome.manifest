@@ -1,1 +1,2 @@
 manifest chrome/chrome.manifest
+locale branding en-US chrome/locale/branding/

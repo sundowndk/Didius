@@ -317,6 +317,40 @@ namespace Didius.Addin
 					break;
 				}
 				#endregion
+
+				#region Didius.EventListener
+				case "didius.eventlistener":
+				{	
+					switch (Method.ToLower ())
+					{					
+						case "attach":
+						{
+							result.Add (EventListener.Attach ());
+							break;
+						}
+
+						case "detach":
+						{
+							EventListener.Detach (request.getValue<Guid> ("eventlistenerid"));
+							break;
+						}	
+
+						case "update":
+						{
+							if (request.ContainsXPath ("eventid"))
+							{
+								EventListener.Update (request.getValue<Guid> ("eventlistenerid"), request.getValue<string> ("eventid"), request.getValue<string> ("eventdata"));
+							}
+							else
+							{
+								result.Add (EventListener.Update (request.getValue<Guid> ("eventlistenerid")));
+							}
+							break;
+						}
+					}
+					break;
+				}
+				#endregion
 			}
 			
 			return result;
