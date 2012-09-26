@@ -18,10 +18,7 @@
 			</class>				
 			<class name="auction">
 				<js file="js/didius/auction.js" />				
-			</class>				
-			<class name="eventListener">
-				<js file="js/didius/eventlistener.js" />				
-			</class>				
+			</class>							
 			<class name="helpers">
 				<js file="js/didius/helpers.js" />	
 			</class>						

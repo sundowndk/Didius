@@ -19,19 +19,19 @@ initialize : function ()
 	app.events.onCustomerSave = new event ();
 	app.events.onCustomerDestroy = new event ();
 			
-	var onCustomerCreate =	function (data)
+	var onCustomerCreate =	function (eventData)
 							{
-								didius.eventListener.update (app.session.eventListenerId, "onCustomerCreate", data.id);
+								//sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerCreate", eventData: eventData});
 							};
 							
-	var onCustomerSave =	function (data)
+	var onCustomerSave =	function (eventData)
 							{
-								didius.eventListener.update (app.session.eventListenerId, "onCustomerSave", data.id);
+								sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerSave", eventData: eventData});
 							};
 	
-	var onCustomerDestroy =	function (data)
+	var onCustomerDestroy =	function (eventData)
 							{
-								didius.eventListener.update (app.session.eventListenerId, "onCustomerDestroy", data.id);
+								sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerDestroy", eventData: eventData});
 							};
 	
 	app.events.onCustomerCreate.addHandler (onCustomerCreate);

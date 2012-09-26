@@ -23,30 +23,24 @@ var main =
 		main.controls.statusbar.progressmeter.setDescription ("Færdig");
 		
 		// Hook events.
-		app.session.eventListenerId = didius.eventListener.attach ();
-				
-				
+		app.session.eventListenerId = sXUL.eventListener.attach ();
+								
 		var tester = 	function ()
 						{
-							var events = didius.eventListener.update (app.session.eventListenerId);
-							
-							for (index in events)
+							var onDone = function (events)
 							{
-								event = events[index]
+								for (index in events)
+								{
+									event = events[index]
 							
-								dump ("\n"+ event.name +"\n");
-								dump (event.data +"\n");
+									dump ("\n"+ event.name +"\n");
+									dump (event.data +"\n");
 							
-								if (event.name == "onCustomerSave")
-								{	
-									app.events.onCustomerSave.execute (didius.customer.load (event.data))									
-								}								
-								
-								if (event.name == "onCustomerDestroy")
-								{	
-									app.events.onCustomerDestroy.execute (event.data);									
-								}								
+									app.events[event.name].execute (event.data);
+								}
 							}
+						
+							var events = sXUL.eventListener.update ({id: app.session.eventListenerId, onDone: onDone});
 						};
 		
 		setInterval (tester, 10000);			
@@ -72,9 +66,9 @@ var main =
 			main.controls.customers.setRow (customer);
 		},
 		
-		onCustomerDestroy : function (id)
+		onCustomerDestroy : function (eventdata)
 		{
-			main.controls.customers.removeRow (id);
+			main.controls.customers.removeRow (eventdata);
 		},
 		
 		onAuctionCreate : function (auction)

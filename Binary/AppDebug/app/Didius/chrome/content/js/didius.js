@@ -32,19 +32,19 @@ var didius =
 			app.events.onCustomerSave = new event ();
 			app.events.onCustomerDestroy = new event ();
 					
-			var onCustomerCreate =	function (data)
+			var onCustomerCreate =	function (eventData)
 									{
-										didius.eventListener.update (app.session.eventListenerId, "onCustomerCreate", data.id);
+										//sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerCreate", eventData: eventData});
 									};
 									
-			var onCustomerSave =	function (data)
+			var onCustomerSave =	function (eventData)
 									{
-										didius.eventListener.update (app.session.eventListenerId, "onCustomerSave", data.id);
+										sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerSave", eventData: eventData});
 									};
 			
-			var onCustomerDestroy =	function (data)
+			var onCustomerDestroy =	function (eventData)
 									{
-										didius.eventListener.update (app.session.eventListenerId, "onCustomerDestroy", data.id);
+										sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerDestroy", eventData: eventData});
 									};
 			
 			app.events.onCustomerCreate.addHandler (onCustomerCreate);
@@ -522,54 +522,6 @@ var didius =
 		
 		
 		
-	},
-
-	// ---------------------------------------------------------------------------------------------------------------
-	// CLASS: eventListener
-	// ---------------------------------------------------------------------------------------------------------------
-	eventListener :
-	{
-		attach : function ()
-		{
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.EventListener.Attach", "data", "POST", false);	
-			request.send ();
-			
-			var result = request.respons ()["value"];
-					
-			app.events.onAuctionCreate.execute (result);
-			
-			return result;
-		},
-			
-		detach : function (eventListenerId)
-		{
-			var content = new Array ();
-			content["eventlistenerid"] = eventListenerId;
-		
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.EventListener.Detach", "data", "POST", false);		
-			request.send (content);			
-		},
-		
-		update : function (eventListenerId, eventId, eventData)
-		{
-			var content = new Array ();
-			content["eventlistenerid"] = eventListenerId;
-			
-			if (eventId != null)
-			{
-				content["eventid"] = eventId;
-			}
-			
-			if (eventData != null)
-			{
-				content["eventdata"] = eventData;
-			}		
-						
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.EventListener.Update", "data", "POST", false);		
-			request.send (content);	
-			
-			return request.respons ()["didius.events"];
-		}
 	},
 
 	// ---------------------------------------------------------------------------------------------------------------

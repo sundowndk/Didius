@@ -206,7 +206,6 @@
     <None Include="Application\xul\chrome\locale\branding\brand.properties" />
     <None Include="Application\xul\chrome\locale\branding\icon48.png" />
     <None Include="Application\xul\chrome\locale\branding\icon64.png" />
-    <None Include="Application\js\didius\eventlistener.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

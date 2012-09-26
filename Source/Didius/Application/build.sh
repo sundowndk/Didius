@@ -29,11 +29,17 @@ done
 ####################################################
 # INCLUDES                                         #
 ####################################################
-echo "Copying 'xul''..."
+echo "Copying 'includes'..."
 mkdir "$OUTPUTDIR/app/Didius/chrome/content/js/sndk"
 for file in ../Lib/sndk/*; do
     cp -rv $file "$OUTPUTDIR/app/Didius/chrome/content/js/sndk/"
 done
+
+mkdir "$OUTPUTDIR/app/Didius/chrome/content/js/sxul"
+for file in ../Lib/sxul/*; do
+    cp -rv $file "$OUTPUTDIR/app/Didius/chrome/content/js/sxul/"
+done
+
 
 #echo "Copying 'xul''..."
 #for file in Application/js/app/*; do
