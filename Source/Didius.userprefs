@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/build.sh">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Customer.cs">
     <Files>
       <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="29" Column="8" />
       <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="23" Column="13" />
       <File FileName="Didius/Application/js/didius/customer.js" Line="78" Column="3" />
       <File FileName="Didius/Application/js/didius/runtime.js" Line="13" Column="3" />
       <File FileName="Didius/Application/build.sh" Line="32" Column="29" />
+      <File FileName="Didius/Didius/Customer.cs" Line="805" Column="7" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -33,9 +34,10 @@
                   <Node name="preferences" expanded="True" />
                 </Node>
               </Node>
-              <Node name="build.sh" selected="True" />
             </Node>
-            <Node name="Didius" expanded="True" />
+            <Node name="Didius" expanded="True">
+              <Node name="Customer.cs" selected="True" />
+            </Node>
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
           </Node>
