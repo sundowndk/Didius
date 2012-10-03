@@ -76,12 +76,12 @@ var app =
 		app.events.onAuctionSave = new event ();
 		app.events.onAuctionDestroy = new event ();
 				
-		dump("App startup!");
+		//dump("App startup!");
 	},
 	
 	shutdown : function (ForceQuit)
 	{
-		dump("App shutdown!");
+		//dump("App shutdown!");
   		var appStartup = Components.classes['@mozilla.org/toolkit/app-startup;1'].getService (Components.interfaces.nsIAppStartup);
 	
   		var quitSeverity = ForceQuit ? Components.interfaces.nsIAppStartup.eForceQuit :

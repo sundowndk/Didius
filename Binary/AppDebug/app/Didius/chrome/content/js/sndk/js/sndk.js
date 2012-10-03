@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: sndk
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -20108,7 +20108,7 @@ function bla ()
 This function calculates window.scrollbarWidth and window.scrollbarHeight
 
 This must be called
-?onload? to work correctly (or on ?DOM ready?, if you?re using
+“onload” to work correctly (or on “DOM ready”, if you’re using
 a framework that provides such an event)
 */
 

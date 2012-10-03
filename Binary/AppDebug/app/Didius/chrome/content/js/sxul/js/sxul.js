@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: sxul
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -11,12 +11,23 @@ var sXUL =
 	// ---------------------------------------------------------------------------------------------------------------
 	eventListener :
 	{
+		id : null,
+		timer : null,
+		
+		
 		attach : function ()
 		{
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=sXUL.EventListener.Attach", "data", "POST", false);	
 			request.send ();
 			
 			var result = request.respons ()["value"];
+			
+			sXUL.eventListener.id = result;
+			
+			setInterval (function () {sXUL.eventListener.update ({id: sXUL.eventListener.id}) }, 3000);			
+		
+			
+			//var events = sXUL.eventListener.update ({id: app.session.eventListenerId, onDone: onDone});
 										
 			return result;
 		},
@@ -35,8 +46,10 @@ var sXUL =
 			if (!attributes)
 				attributes = new Array ();
 			
-			if (!attributes.id)
-				throw "No ID given, cannot update eventListener";
+			//if (!attributes.id)
+				//throw "No ID given, cannot update eventListener";
+				
+			//attributes.id = sXUL.eventListener.id;
 						
 			var content = new Array ();			
 									
@@ -49,20 +62,52 @@ var sXUL =
 			
 			if (attributes.eventData != null)
 			{
-				content["eventdata"] = attributes.eventData;
+				var test = {};
+			
+				for (index in attributes.eventData)
+				{
+					test[index] = attributes.eventData[index];
+				}
+			
+				content["eventdata"] = test;
 			}		
 		
 			var onDone = 	function (respons)
-							{						
-								if (attributes.onDone)
-								{
-									attributes.onDone (respons["sxul.events"]);
-								}
+							{	
+								var events = respons["sxul.events"];
+																	
+								
+									for (index in events)
+									{
+										events[index].data.SXULREMOTEEVENT = true;
+									}
+									
+									for (index in events)
+									{
+										event = events[index]
+									
+										dump ("\n"+ event.name +"\n");
+										dump (event.data +"\n");
+											
+									
+										app.events[event.name].execute (event.data);
+									}																																				
 							};
 				
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=sXUL.EventListener.Update", "data", "POST", true);			
 			request.onLoaded (onDone);
 			request.send (content);													
+		}
+	},
+
+	// ---------------------------------------------------------------------------------------------------------------
+	// CLASS: console
+	// ---------------------------------------------------------------------------------------------------------------
+	console :
+	{
+		log : function (data)
+		{
+			dump (data +"\n");
 		}
 	},
 
@@ -402,27 +447,38 @@ var sXUL =
 									
 				if (!attributes.data)
 					attributes.data = new Array ();
-												
-				if (!attributes.data.id)
+				
+				
+																												
+				if (!attributes.id)
 				{
 					row = _elements.tree.currentIndex;
 				}
 				else
-				{						
-					for (var idx = 0; idx < _elements.tree.view.rowCount; idx++) 
+				{				
+					for (var idx in _rows)
 					{
-						if (_elements.tree.view.getCellText (idx, _elements.tree.columns.getNamedColumn ('id')) == attributes.id)
-						{					
-							row = idx;				
-							break;
+						if (_rows[idx].data.id == attributes.id)
+						{			
+							_rows.splice (idx, 1);
+							break;										
 						}
-					}
+					}											
+				//	for (var idx = 0; idx < _elements.tree.view.rowCount; idx++) 
+				//	{
+				//		if (_elements.tree.view.getCellText (idx, _elements.tree.columns.getNamedColumn ('id')) == attributes.id)
+				//		{					
+				//			row = idx;				
+				//			break;
+				//		}
+				//	}
 				}
 				
-				if (row != -1)
-				{
-					_elements.tree.view.getItemAtIndex (row).parentNode.removeChild (_elements.tree.view.getItemAtIndex (row));
-				}
+				refresh ();
+				//if (row != -1)
+				//{
+				//	_elements.tree.view.getItemAtIndex (row).parentNode.removeChild (_elements.tree.view.getItemAtIndex (row));
+				//}
 			}
 					
 			function setRow (attributes)
@@ -550,6 +606,67 @@ var sXUL =
 				return parser (id, 0)
 			}
 		}	
+	},
+
+	event : function (attributes)
+	{
+		var _attributes = attributes;
+		var _eventHandlers = new Array ();
+		
+	
+		init ();
+	
+		function init ()
+		{
+			if (!_attributes)
+				_attributes = new Array ();
+			
+			if (_attributes.remotePropagation)
+			{
+				if (!_attributes.id)
+				{
+					throw "No ID specified for remote event.";
+				}
+				
+				var remotePropagation =	function (eventData)
+										{		
+										//sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: _attributes.id, eventData: eventData});	
+											if (!eventData.SXULREMOTEEVENT)																
+												sXUL.eventListener.update ({id: sXUL.eventListener.id, eventId: _attributes.id, eventData: eventData});
+										};
+									
+				addHandler (remotePropagation);
+			}
+		}
+	
+		this.addHandler = addHandler;
+		this.removeHandler = removeHandler;
+		this.execute = execute;
+				
+		function addHandler (eventHandler)
+		{
+			_eventHandlers.push (eventHandler);
+		}
+		
+		function removeHandler (eventHandler)
+		{
+			for (var idx in _eventHandlers) 
+			{	
+				if (_eventHandlers[idx] === eventHandler) 
+				{			
+					_eventHandlers.splice (idx, 1);
+					return;
+				}	
+			}
+		}
+		
+		function execute (eventData)
+		{
+			for (var idx = 0; idx < _eventHandlers.length; idx++)
+			{
+				_eventHandlers[idx] (eventData);
+			}
+		}
 	}
 }
 

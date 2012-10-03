@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/customer.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="241" Column="11" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="51" Column="66" />
       <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="54" Column="5" />
-      <File FileName="Didius/Application/xul/application" Line="10" Column="14" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="30" Column="10" />
-      <File FileName="Didius/Application/js/didius/customer.js" Line="27" Column="3" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="28" Column="45" />
+      <File FileName="Didius/Application/js/didius/customer.js" Line="37" Column="5" />
+      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.js" Line="13" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/js/app.js" Line="3" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,9 +15,7 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
-                <Node name="didius" expanded="True">
-                  <Node name="customer.js" selected="True" />
-                </Node>
+                <Node name="didius" expanded="True" />
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
@@ -26,7 +25,9 @@
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True" />
+                    <Node name="main" expanded="True">
+                      <Node name="main.js" selected="True" />
+                    </Node>
                   </Node>
                   <Node name="locale" expanded="True">
                     <Node name="branding" expanded="True" />

@@ -23,27 +23,17 @@ var main =
 		main.controls.statusbar.progressmeter.setDescription ("Færdig");
 		
 		// Hook events.
-		app.session.eventListenerId = sXUL.eventListener.attach ();
-								
-		var tester = 	function ()
-						{
-							var onDone = function (events)
-							{
-								for (index in events)
-								{
-									event = events[index]
-							
-									dump ("\n"+ event.name +"\n");
-									dump (event.data +"\n");
-							
-									app.events[event.name].execute (event.data);
-								}
-							}
-						
-							var events = sXUL.eventListener.update ({id: app.session.eventListenerId, onDone: onDone});
-						};
+//		app.session.eventListenerId = sXUL.eventListener.attach ();
+		sXUL.eventListener.attach ();
 		
-		setInterval (tester, 10000);			
+		//sXUL.eventListener.attach ();
+								
+//		var tester = 	function ()
+//						{						
+//							var events = sXUL.eventListener.update ({id: app.session.eventListenerId});
+//						};
+		
+//		setInterval (tester, 3000);			
 						
 		app.events.onCustomerCreate.addHandler (main.eventHandlers.onCustomerCreate);
 		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
@@ -56,19 +46,20 @@ var main =
 	
 	eventHandlers :
 	{
-		onCustomerCreate : function (customer)
+		onCustomerCreate : function (eventData)
 		{
-			main.customers.customersTreeHelper.addRow ({data: customer});
+			main.customers.customersTreeHelper.addRow ({data: eventData});
 		},
 		
-		onCustomerSave : function (customer)
+		onCustomerSave : function (eventData)
 		{
-			main.customers.customersTreeHelper.setRow ({data: customer});
+			main.customers.customersTreeHelper.setRow ({data: eventData});
 		},
 		
-		onCustomerDestroy : function (eventdata)
-		{
-			main.customers.customersTreeHelper.removeRow (eventdata);
+		onCustomerDestroy : function (eventData)
+		{		
+		sXUL.console.log ("id: "+ eventData.id);
+			main.customers.customersTreeHelper.removeRow ({id: eventData.id});
 		},
 		
 		onAuctionCreate : function (auction)
