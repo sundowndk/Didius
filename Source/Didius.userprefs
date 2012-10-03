@@ -1,14 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/customeredit/customeredit.xul">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/customer.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="29" Column="8" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="23" Column="13" />
-      <File FileName="Didius/Application/js/didius/customer.js" Line="78" Column="3" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="13" Column="3" />
-      <File FileName="Didius/Application/build.sh" Line="32" Column="29" />
-      <File FileName="Didius/Didius/Customer.cs" Line="805" Column="7" />
-      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.xul" Line="91" Column="16" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="241" Column="11" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="54" Column="5" />
+      <File FileName="Didius/Application/xul/application" Line="10" Column="14" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="30" Column="10" />
+      <File FileName="Didius/Application/js/didius/customer.js" Line="27" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,16 +14,16 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
-                <Node name="didius" expanded="True" />
+                <Node name="didius" expanded="True">
+                  <Node name="customer.js" selected="True" />
+                </Node>
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
-                    <Node name="customeredit" expanded="True">
-                      <Node name="customeredit.xul" selected="True" />
-                    </Node>
+                    <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />

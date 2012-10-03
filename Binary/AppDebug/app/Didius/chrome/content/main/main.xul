@@ -15,15 +15,16 @@
 	</keyset>
 	
 	<menubar id="menubar">
-		<menu label="File">
+		<menu label="Filer">
 			<menupopup>
-				<menuitem label="Close (Ctrl+W)" oncommand="main.close (false);" />
+				<menuitem label="Indstillinger" oncommand="main.close (false);" />
+				<menuitem label="Luk (Ctrl+W)" oncommand="main.close (false);" />
 			</menupopup>
 		</menu>
 	</menubar>	
 		
 	<vbox flex="1" class="WindowInnerPadding">
-		<tabbox selectedIndex="1" flex="1">		
+		<tabbox selectedIndex="0" flex="1">		
 			<tabs>
 				<tab image="chrome://didius/content/icons/customers.png"/>
 				<tab image="chrome://didius/content/icons/auctions.png"/>			
@@ -31,39 +32,45 @@
 						
 			<tabpanels flex="1">
 				<tabpanel>
-					<hbox flex="1">
-						<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.customers.onChange ();" ondblclick="main.customers.edit ();">
-							<treecols>
-								<treecol id="id" hidden="true"/>
-								<treecol id="name" label="Navn" flex="1" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="address1" label="Adresse" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="postcode" label="Post nr." width="90" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="city" label="By" flex="1" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="email" label="Email" flex="1" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-							</treecols>	
-							<treechildren id="customersTreeChildren">
-							</treechildren>
-						</tree>
-					</hbox>
-					<hbox>
-						<vbox>
-							<button id="customerCreate" label="Opret" disabled="true" oncommand="main.customers.create ();"/>
-							<button id="customerEdit" label="Redigere" disabled="true" oncommand="main.customers.edit ();"/>
-							<button id="customerDestroy" label="Slet" disabled="true" oncommand="main.customers.destroy ();"/>	
-						</vbox>	
-					</hbox>	
+					<vbox flex="1">																		
+						<hbox align="center">
+							<label class="Label">Søg:</label>
+							<textbox id="customerSearch" onkeyup="main.customers.filter ();" disabled="true" />
+						</hbox>		
+						<hbox flex="1">
+							<hbox flex="1">													
+								<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single">
+									<treecols>
+										<treecol id="id" hidden="true"/>
+										<treecol id="name" label="Navn" flex="1" persist="width" onclick="main.customers.sort ({column: 'name'});" />
+										<treecol id="address1" label="Adresse" flex="2" persist="width" onclick="main.customers.sort ({column: 'address1'});" />
+										<treecol id="postcode" label="Post nr." width="90" persist="width" onclick="main.customers.sort ({column: 'postcode'});" />
+										<treecol id="city" label="By" flex="1" persist="width" onclick="main.customers.sort ({column: 'city'});"/>
+										<treecol id="email" label="Email" flex="1" persist="width" onclick="main.customers.sort ({column: 'email'});"/>
+									</treecols>								
+								</tree>						
+							</hbox>
+							<hbox>
+								<vbox>
+									
+									<button id="customerCreate" label="Opret" disabled="true" oncommand="main.customers.create ();"/>
+									<button id="customerEdit" label="Redigere" disabled="true" oncommand="main.customers.edit ();"/>
+									<button id="customerDestroy" label="Slet" disabled="true" oncommand="main.customers.destroy ();"/>	
+								</vbox>	
+							</hbox>	
+						</hbox>
+						
+					</vbox>
 				</tabpanel>
 				
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="auctions" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.auctions.onChange ();" ondblclick="main.auctions.edit ();">
+						<tree id="auctions" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.auctions.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="no" label="Auktion nr." width="150" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="descending"/>
-								<treecol id="title" label="Title" flex="3" onclick="SignonColumnSort('hostname');" persist="width" />
-							</treecols>	
-							<treechildren id="auctionsTreeChildren">
-							</treechildren>
+								<treecol id="no" label="Auktion nr." width="150" persist="width" onclick="main.auctions.sort ({column: 'no'});" />
+								<treecol id="title" label="Title" flex="3" persist="width" onclick="main.auctions.sort ({column: 'title'});" />
+							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>

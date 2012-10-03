@@ -21,7 +21,7 @@ initialize : function ()
 			
 	var onCustomerCreate =	function (eventData)
 							{
-								//sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerCreate", eventData: eventData});
+								sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerCreate", eventData: eventData});
 							};
 							
 	var onCustomerSave =	function (eventData)
