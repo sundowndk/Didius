@@ -22,6 +22,12 @@
 			<class name="helpers">
 				<js file="js/didius/helpers.js" />	
 			</class>						
+			<class name="user">
+				<js file="js/didius/user.js" />	
+			</class>						
+			<class name="session">
+				<js file="js/didius/session.js" />	
+			</class>						
 		</class>
 		<js file="js/didius/other.js" />	
 	</project>	

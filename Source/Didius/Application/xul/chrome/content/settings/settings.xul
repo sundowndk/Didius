@@ -4,7 +4,9 @@
 
 <window id="main" title="Indstillinger" minwidth="700" minheight="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
 	
+	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
 		
 	<script type="application/javascript" src="chrome://didius/content/settings/settings.js"/>	
@@ -28,11 +30,10 @@
 				</hbox>
 				<hbox flex="1">
 					<hbox flex="1">													
-						<tree id="access" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single">
+						<tree id="users" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.access.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="realname" label="Navn" flex="3" persist="width" onclick="main.access.usersSort ({column: 'realname'});" />								
-								<treecol id="acccesslevel" label="Rettigheder" flex="1" persist="width"/>
+								<treecol id="realname" label="Navn" flex="1" persist="width" onclick="main.access.usersSort ({column: 'realname'});" />																
 							</treecols>								
 						</tree>						
 					</hbox>
@@ -40,7 +41,7 @@
 						<vbox>									
 							<button id="userCreate" label="Opret" disabled="true" oncommand="main.access.userCreate ();"/>
 							<button id="userEdit" label="Redigere" disabled="true" oncommand="main.access.userEdit ();"/>
-							<button id="usewrDestroy" label="Slet" disabled="true" oncommand="main.access.userDestroy ();"/>	
+							<button id="userDestroy" label="Slet" disabled="true" oncommand="main.access.userDestroy ();"/>	
 						</vbox>	
 					</hbox>	
 				</hbox>

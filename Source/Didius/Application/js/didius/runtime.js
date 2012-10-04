@@ -18,6 +18,11 @@ initialize : function ()
 	app.events.onCustomerLoad = new sXUL.event ({id: "onCustomerLoad", remotePropagation: true});
 	app.events.onCustomerSave = new sXUL.event ({id: "onCustomerSave", remotePropagation: true});
 	app.events.onCustomerDestroy = new sXUL.event ({id: "onCustomerDestroy", remotePropagation: true});
+	
+	app.events.onUserCreate = new sXUL.event ({id: "onUserCreate", remotePropagation: true});
+	app.events.onUserLoad = new sXUL.event ({id: "onUserLoad", remotePropagation: true});
+	app.events.onUserSave = new sXUL.event ({id: "onUserSave", remotePropagation: true});
+	app.events.onUserDestroy = new sXUL.event ({id: "onUserDestroy", remotePropagation: true});
 			
 //	var onCustomerCreate =	function (eventData)
 //							{			

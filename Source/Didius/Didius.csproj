@@ -130,6 +130,8 @@
     <Folder Include="Application\xul\chrome\content\auctionrun\" />
     <Folder Include="Application\xul\chrome\locale\" />
     <Folder Include="Application\xul\chrome\content\settings\" />
+    <Folder Include="Application\xul\chrome\content\settings\access\" />
+    <Folder Include="Application\xul\chrome\content\settings\access\user\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -209,6 +211,14 @@
     <None Include="Application\xul\chrome\locale\branding\icon64.png" />
     <None Include="Application\xul\chrome\content\settings\settings.js" />
     <None Include="Application\xul\chrome\content\settings\settings.xul" />
+    <None Include="Application\xul\chrome\content\settings\access\user\create.xul" />
+    <None Include="Application\xul\chrome\content\settings\access\user\create.js" />
+    <None Include="Application\xul\chrome\content\settings\access\user\edit.xul" />
+    <None Include="Application\xul\chrome\content\settings\access\user\edit.js" />
+    <None Include="Application\js\didius\user.js" />
+    <None Include="Application\xul\chrome\content\settings\access\user\changepassword.xul" />
+    <None Include="Application\xul\chrome\content\settings\access\user\changepassword.js" />
+    <None Include="Application\js\didius\session.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

@@ -5,6 +5,10 @@ var main =
 	init : function ()
 	{				
 		//main.login.show ();
+		
+		var test = didius.session.login ("sundown", "scumbukket")
+		
+		sXUL.console.log (test)
 							
 		app.startup (window);
 		
@@ -18,7 +22,7 @@ var main =
 		main.customers.init ();		
 		main.auctions.init ();			
 		
-		//main.settings ();
+		main.settings ();
 		
 		main.controls.statusbar.progressmeter.setMode ("determined");
 		main.controls.statusbar.progressmeter.setValue (100);
