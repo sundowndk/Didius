@@ -1,17 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/build.sh">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome.manifest">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/settings/settings.xul" Line="37" Column="20" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/settings.js" Line="9" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/css/default.css" Line="38" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="149" Column="2" />
-      <File FileName="Didius/Application/build.sh" Line="29" Column="53" />
+      <File FileName="Didius/Application/xul/chrome/content/settings/settings.xul" Line="20" Column="29" />
+      <File FileName="Didius/Application/xul/chrome/content/settings/settings.js" Line="39" Column="27" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="26" Column="3" />
+      <File FileName="Didius/Application/xul/application" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome.manifest" Line="2" Column="25" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Didius" expanded="True">
+          <Node name="Didius" expanded="True" selected="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
                 <Node name="didius" expanded="True" />
@@ -33,7 +33,6 @@
                   <Node name="preferences" expanded="True" />
                 </Node>
               </Node>
-              <Node name="build.sh" selected="True" />
             </Node>
             <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />

@@ -18,7 +18,7 @@ var main =
 		main.customers.init ();		
 		main.auctions.init ();			
 		
-		main.settings ();
+		//main.settings ();
 		
 		main.controls.statusbar.progressmeter.setMode ("determined");
 		main.controls.statusbar.progressmeter.setValue (100);

@@ -22,25 +22,25 @@
 			</richlistbox>
 		</hbox>
 		<hbox flex="1">
-			<vbox flex="1" id="settingsAccess" style="display: none;">
+			<vbox flex="1" id="settingsAccess">
 				<hbox class="SettingsHeader">
 					<label>Adgangskontrol</label>
 				</hbox>
 				<hbox flex="1">
 					<hbox flex="1">													
-						<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single">
+						<tree id="access" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="name" label="Navn" flex="3" persist="width" onclick="main.customers.sort ({column: 'name'});" />								
-								<treecol id="acccesslevel" label="Rettigheder" flex="1" persist="width" onclick="main.customers.sort ({column: 'email'});"/>
+								<treecol id="realname" label="Navn" flex="3" persist="width" onclick="main.access.usersSort ({column: 'realname'});" />								
+								<treecol id="acccesslevel" label="Rettigheder" flex="1" persist="width"/>
 							</treecols>								
 						</tree>						
 					</hbox>
 					<hbox>
 						<vbox>									
-							<button id="customerCreate" label="Opret" disabled="true" oncommand="main.customers.create ();"/>
-							<button id="customerEdit" label="Redigere" disabled="true" oncommand="main.customers.edit ();"/>
-							<button id="customerDestroy" label="Slet" disabled="true" oncommand="main.customers.destroy ();"/>	
+							<button id="userCreate" label="Opret" disabled="true" oncommand="main.access.userCreate ();"/>
+							<button id="userEdit" label="Redigere" disabled="true" oncommand="main.access.userEdit ();"/>
+							<button id="usewrDestroy" label="Slet" disabled="true" oncommand="main.access.userDestroy ();"/>	
 						</vbox>	
 					</hbox>	
 				</hbox>
