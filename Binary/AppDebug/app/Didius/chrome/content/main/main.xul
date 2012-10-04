@@ -17,7 +17,7 @@
 	<menubar id="menubar">
 		<menu label="Filer">
 			<menupopup>
-				<menuitem label="Indstillinger" oncommand="main.close (false);" />
+				<menuitem label="Indstillinger" oncommand="main.settings ();" />
 				<menuitem label="Luk (Ctrl+W)" oncommand="main.close (false);" />
 			</menupopup>
 		</menu>

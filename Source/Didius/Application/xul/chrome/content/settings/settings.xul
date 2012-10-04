@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window id="main" title="Indstillinger" minwidth="700" minheight="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+		
+	<script type="application/javascript" src="chrome://didius/content/settings/settings.js"/>	
+			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+			
+	<hbox class="Main" flex="1">
+		<hbox>
+			<richlistbox id="settingsMenu" onClick="main.settings.change ();">  	
+  				<richlistitem align="center" class="SettingsMenuItem" value="access">  
+    				<image src="chrome://didius/content/icons/16/settings_access.png" /><label>Adgangskontrol</label>
+  				</richlistitem>
+			</richlistbox>
+		</hbox>
+		<hbox flex="1">
+			<vbox flex="1" id="settingsAccess" style="display: none;">
+				<hbox class="SettingsHeader">
+					<label>Adgangskontrol</label>
+				</hbox>
+				<hbox flex="1">
+					<hbox flex="1">													
+						<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<treecol id="name" label="Navn" flex="3" persist="width" onclick="main.customers.sort ({column: 'name'});" />								
+								<treecol id="acccesslevel" label="Rettigheder" flex="1" persist="width" onclick="main.customers.sort ({column: 'email'});"/>
+							</treecols>								
+						</tree>						
+					</hbox>
+					<hbox>
+						<vbox>									
+							<button id="customerCreate" label="Opret" disabled="true" oncommand="main.customers.create ();"/>
+							<button id="customerEdit" label="Redigere" disabled="true" oncommand="main.customers.edit ();"/>
+							<button id="customerDestroy" label="Slet" disabled="true" oncommand="main.customers.destroy ();"/>	
+						</vbox>	
+					</hbox>	
+				</hbox>
+			</vbox>
+		</hbox>
+	</hbox>
+	
+	<hbox class="WindowButtons" align="right" >
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
+		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+	</hbox>
+</window>

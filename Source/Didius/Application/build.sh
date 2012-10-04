@@ -40,6 +40,10 @@ for file in ../Lib/sxul/*; do
     cp -rv $file "$OUTPUTDIR/app/Didius/chrome/content/js/sxul/"
 done
 
+mkdir "$OUTPUTDIR/app/Didius/chrome/content/js/core"
+for file in ../Lib/core/*; do
+    cp -rv $file "$OUTPUTDIR/app/Didius/chrome/content/js/core/"
+done
 
 #echo "Copying 'xul''..."
 #for file in Application/js/app/*; do

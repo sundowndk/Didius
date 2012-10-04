@@ -18,6 +18,8 @@ var main =
 		main.customers.init ();		
 		main.auctions.init ();			
 		
+		main.settings ();
+		
 		main.controls.statusbar.progressmeter.setMode ("determined");
 		main.controls.statusbar.progressmeter.setValue (100);
 		main.controls.statusbar.progressmeter.setDescription ("Færdig");
@@ -107,6 +109,11 @@ var main =
 			getLogin ();
 		}
 	
+	},
+	
+	settings : function ()
+	{	
+		window.openDialog ("chrome://didius/content/settings/settings.xul", "settings", "chrome", null);
 	},
 	
 	close : function ()

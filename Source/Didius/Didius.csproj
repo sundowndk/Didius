@@ -129,6 +129,7 @@
     <Folder Include="Application\xul\chrome\content\css\" />
     <Folder Include="Application\xul\chrome\content\auctionrun\" />
     <Folder Include="Application\xul\chrome\locale\" />
+    <Folder Include="Application\xul\chrome\content\settings\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -206,6 +207,8 @@
     <None Include="Application\xul\chrome\locale\branding\brand.properties" />
     <None Include="Application\xul\chrome\locale\branding\icon48.png" />
     <None Include="Application\xul\chrome\locale\branding\icon64.png" />
+    <None Include="Application\xul\chrome\content\settings\settings.js" />
+    <None Include="Application\xul\chrome\content\settings\settings.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

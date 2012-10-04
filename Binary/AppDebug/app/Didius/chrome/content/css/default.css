@@ -50,3 +50,33 @@
   background-color: -moz-Field;
   color: -moz-FieldText;
 }
+
+.SettingsMenuItem
+{
+	padding: 5px;
+	
+	
+
+}
+
+.SettingsHeader
+{
+	margin-top: 2px;
+	margin-left: 4px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+
+	border: 1px solid;
+	border-color: #bbb;
+	
+	background: #ffffff;
+	
+}
+
+.SettingsHeader label
+{
+	margin: 8px;
+
+	font-size: 17px;
+	font-weight: bold;
+}

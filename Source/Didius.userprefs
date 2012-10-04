@@ -1,13 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/build.sh">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="51" Column="66" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="54" Column="5" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="28" Column="45" />
-      <File FileName="Didius/Application/js/didius/customer.js" Line="37" Column="5" />
-      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.js" Line="13" Column="4" />
-      <File FileName="Didius/Application/xul/chrome/content/js/app.js" Line="3" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/settings/settings.xul" Line="37" Column="20" />
+      <File FileName="Didius/Application/xul/chrome/content/settings/settings.js" Line="9" Column="3" />
+      <File FileName="Didius/Application/xul/chrome/content/css/default.css" Line="38" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="149" Column="2" />
+      <File FileName="Didius/Application/build.sh" Line="29" Column="53" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,21 +21,19 @@
                   <Node name="content" expanded="True">
                     <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
+                    <Node name="css" expanded="True" />
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True">
-                      <Node name="main.js" selected="True" />
-                    </Node>
-                  </Node>
-                  <Node name="locale" expanded="True">
-                    <Node name="branding" expanded="True" />
+                    <Node name="main" expanded="True" />
+                    <Node name="settings" expanded="True" />
                   </Node>
                 </Node>
                 <Node name="defaults" expanded="True">
                   <Node name="preferences" expanded="True" />
                 </Node>
               </Node>
+              <Node name="build.sh" selected="True" />
             </Node>
             <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
