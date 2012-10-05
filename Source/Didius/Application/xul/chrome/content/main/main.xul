@@ -24,7 +24,7 @@
 	</menubar>	
 		
 	<vbox flex="1" class="WindowInnerPadding">
-		<tabbox selectedIndex="0" flex="1">		
+		<tabbox selectedIndex="1" flex="1">		
 			<tabs>
 				<tab image="chrome://didius/content/icons/customers.png"/>
 				<tab image="chrome://didius/content/icons/auctions.png"/>			
@@ -33,9 +33,8 @@
 			<tabpanels flex="1">
 				<tabpanel>
 					<vbox flex="1">																		
-						<hbox align="center">
-							<label class="Label">Søg:</label>
-							<textbox id="customerSearch" onkeyup="main.customers.filter ();" disabled="true" />
+						<hbox align="center">				
+							<textbox id="customerSearch" type="search" flex="1" onkeyup="main.customers.filter ();" oncommand="main.customers.filter ();" disabled="true" />
 						</hbox>		
 						<hbox flex="1">
 							<hbox flex="1">													

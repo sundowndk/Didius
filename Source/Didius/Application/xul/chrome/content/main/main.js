@@ -3,16 +3,11 @@ Components.utils.import("resource://didius/js/app.js");
 var main = 
 {
 	init : function ()
-	{				
-		//main.login.show ();
+	{	
+		app.startup (window);			
+		didius.runtime.initialize ();				
 		
-		var test = didius.session.login ("sundown", "scumbukket")
-		
-		sXUL.console.log (test)
-							
-		app.startup (window);
-		
-		didius.runtime.initialize ();
+	//	main.login.show ();													
 						
 		document.title = "York Auktion ApS [Rasmus Pedersen] ";
 				
@@ -21,26 +16,14 @@ var main =
 				
 		main.customers.init ();		
 		main.auctions.init ();			
-		
-		main.settings ();
-		
+					
 		main.controls.statusbar.progressmeter.setMode ("determined");
 		main.controls.statusbar.progressmeter.setValue (100);
 		main.controls.statusbar.progressmeter.setDescription ("Færdig");
 		
 		// Hook events.
-//		app.session.eventListenerId = sXUL.eventListener.attach ();
 		sXUL.eventListener.attach ();
-		
-		//sXUL.eventListener.attach ();
 								
-//		var tester = 	function ()
-//						{						
-//							var events = sXUL.eventListener.update ({id: app.session.eventListenerId});
-//						};
-		
-//		setInterval (tester, 3000);			
-						
 		app.events.onCustomerCreate.addHandler (main.eventHandlers.onCustomerCreate);
 		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
 		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
@@ -63,24 +46,23 @@ var main =
 		},
 		
 		onCustomerDestroy : function (eventData)
-		{		
-		sXUL.console.log ("id: "+ eventData.id);
+		{				
 			main.customers.customersTreeHelper.removeRow ({id: eventData.id});
 		},
 		
-		onAuctionCreate : function (auction)
+		onAuctionCreate : function (eventData)
 		{
-			main.controls.auctions.addRow (auction);
+			main.auctions.auctionsTreeHelper.addRow ({data: eventData});			
 		},
 		
-		onAuctionSave : function (auction)
+		onAuctionSave : function (eventData)
 		{
-			main.controls.auctions.setRow (auction);
+			main.auctions.auctionsTreeHelper.setRow ({data: eventData});
 		},
 		
-		onAuctionDestroy : function (id)
+		onAuctionDestroy : function (eventData)
 		{
-			main.controls.auctions.removeRow (id);
+			main.auctions.auctionsTreeHelper.removeRow ({id: eventData.id});
 		}	
 	},
 	
@@ -95,19 +77,20 @@ var main =
 			var check = {value: true};
  
  			var getLogin = function ()	
- 			{
- 		
-			var result = prompts.promptUsernameAndPassword (null, "Login", "Angiv brugernavn og adgangskode\nfor at logge på systemmet.", username, password, null, check);
-			
-			if (result)
-			{
-				//alert ("Forkert brugernavn eller adgangskode.");
-				getLogin ();
-			}
-			else
-			{
-				app.shutdown (false);
-			}
+ 			{ 		
+				var result = prompts.promptUsernameAndPassword (null, "Login", "Angiv brugernavn og adgangskode\nfor at logge på systemmet.", username, password, null, check);
+													
+				if (result)
+				{
+					if (!didius.session.login (username.value, password.value))
+					{
+						getLogin ();
+					}										
+				}
+				else
+				{
+					app.shutdown (false);
+				}
 			}		
 			
 			getLogin ();

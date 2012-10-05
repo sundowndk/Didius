@@ -547,6 +547,14 @@ var main =
 		}
 	},
 	
+	catalog : 
+	{
+		print : function ()
+		{
+			window.openDialog ("chrome://didius/content/auction/catalog/print.xul", "blablabla", "chrome", {auctionId: main.current.id});	
+		}
+	},
+	
 	cases :
 	{
 		init : function ()

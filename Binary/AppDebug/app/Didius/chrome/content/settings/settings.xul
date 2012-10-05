@@ -50,7 +50,6 @@
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
-		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
-		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="false"/>		
 	</hbox>
 </window>

@@ -1,7 +1,7 @@
 
 
 ajaxUrl : "http://sorentotest.sundown.dk/",
-ajaxUrlREAL : "http://78.109.223.248/",
+ajaxUrl1 : "http://78.109.223.248/",
 
 
 events :

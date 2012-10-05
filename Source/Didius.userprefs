@@ -1,17 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/defaults/preferences/prefs.js">
     <Files>
-      <File FileName="Didius/Application/js/didius/user.js" Line="64" Column="23" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="25" Column="26" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="20" Column="36" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/settings.js" Line="104" Column="21" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/access/user/create.js" Line="45" Column="25" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/access/user/edit.js" Line="25" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/access/user/edit.xul" Line="33" Column="90" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/access/user/changepassword.xul" Line="30" Column="57" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/access/user/changepassword.js" Line="33" Column="19" />
-      <File FileName="Didius/Application/js/didius/session.js" Line="23" Column="61" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="8" Column="90" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="335" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="529" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.xul" Line="9" Column="93" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="36" Column="44" />
+      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.xul" Line="79" Column="27" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="30" Column="38" />
+      <File FileName="Didius/Application/xul/defaults/preferences/prefs.js" Line="26" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -24,15 +22,16 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
+                    <Node name="auction" expanded="True">
+                      <Node name="catalog" expanded="True" />
+                    </Node>
                     <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
                     <Node name="css" expanded="True" />
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True">
-                      <Node name="main.js" selected="True" />
-                    </Node>
+                    <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True">
                       <Node name="access" expanded="True">
                         <Node name="user" expanded="True" />
@@ -41,7 +40,9 @@
                   </Node>
                 </Node>
                 <Node name="defaults" expanded="True">
-                  <Node name="preferences" expanded="True" />
+                  <Node name="preferences" expanded="True">
+                    <Node name="prefs.js" selected="True" />
+                  </Node>
                 </Node>
               </Node>
             </Node>

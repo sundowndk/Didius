@@ -44,7 +44,10 @@ destroy : function (id)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Auction.Destroy", "data", "POST", false);	
 	request.send (content);
 	
-	app.events.onAuctionDestroy.execute (id);
+	var data = {};
+	data.id = id;
+	
+	app.events.onAuctionDestroy.execute (data);
 },				
 		
 list : function (attributes)
