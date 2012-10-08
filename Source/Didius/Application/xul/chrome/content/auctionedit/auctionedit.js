@@ -117,7 +117,7 @@ var main =
 				var treerow = document.createElement('treerow');
 				treeitem.appendChild (treerow);
 
-				var columns = [case_["id"], case_["no"], case_["title"]];
+				var columns = [case_["id"], case_["no"], case_["title"], case_["customer"]["name"]];
 										
 				for (index in columns)
 				{

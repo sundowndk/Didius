@@ -42,10 +42,6 @@
 								<label class="Label">Katalog nr.:</label>
 								<textbox id="catalogno" flex="1" onkeyup="main.onChange ();" />
 							</hbox>
-							<hbox align="center">
-								<label class="Label">Title:</label>
-								<textbox id="title" flex="1" onkeyup="main.onChange ();"/>
-							</hbox>
 							<hbox align="top">
 								<label class="Label">Beskrivelse:</label>
 								<textbox id="description" flex="1" multiline="true" onkeyup="main.onChange ();"/>

@@ -53,6 +53,7 @@
 								<treecol id="id" hidden="true"/>
 								<treecol id="no" label="Sags nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
 								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="customer" label="Kunde" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
 							</treecols>	
 							<treechildren id="casesTreeChildren">
 							</treechildren>
@@ -73,7 +74,7 @@
 								<treecol id="id" hidden="true"/>
 								<treecol id="catalogno" label="Katalog nr." width="30" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
 								<treecol id="no" label="Effekt nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>								
 							</treecols>	
 							<treechildren id="itemsTreeChildren">
 							</treechildren>

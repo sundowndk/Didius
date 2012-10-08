@@ -8,7 +8,7 @@
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
-		<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
 	<script type="application/javascript" src="chrome://didius/content/auction/catalog/print.js"/>	
 			
 	<keyset>

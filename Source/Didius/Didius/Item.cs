@@ -114,13 +114,23 @@ namespace Didius
 		{
 			get
 			{
-				return this._title;
+				string result = string.Empty;
+
+				try
+				{
+					result = this._description.Split ("\n".ToCharArray ())[0];
+				}
+				catch
+				{
+				}
+
+				return result;
 			}
 
-			set
-			{
-				this._title = value;
-			}
+//			set
+//			{
+//				this._title = value;
+//			}
 		}
 
 		public string Description
@@ -278,7 +288,7 @@ namespace Didius
 
 				item.Add ("caseid", this._caseid);
 
-				item.Add ("title", this._title);
+//				item.Add ("title", this._title);
 
 				item.Add ("description", this._description);
 				item.Add ("fields", this._fields);
@@ -319,7 +329,8 @@ namespace Didius
 
 			result.Add ("caseid", this._caseid);
 
-			result.Add ("title", this._title);
+//			result.Add ("title", this._title);
+			result.Add ("title", this.Title);
 			result.Add ("description", this._description);
 
 			result.Add ("vat", this._vat);
@@ -386,10 +397,10 @@ namespace Didius
 					throw new Exception (string.Format (Strings.Exception.ItemFromXmlDocument, "CASEID"));
 				}
 
-				if (item.ContainsKey ("title"))
-				{					
-					result._title = (string)item["title"];
-				}
+//				if (item.ContainsKey ("title"))
+//				{					
+//					result._title = (string)item["title"];
+//				}
 
 				if (item.ContainsKey ("description"))
 				{					
@@ -589,10 +600,10 @@ namespace Didius
 				throw new Exception (string.Format (Strings.Exception.ItemFromXmlDocument, "ITEMID"));
 			}
 
-			if (item.ContainsKey ("title"))
-			{					
-				result._title =(string)item["title"];
-			}	
+//			if (item.ContainsKey ("title"))
+//			{					
+//				result._title =(string)item["title"];
+//			}	
 
 			if (item.ContainsKey ("description"))
 			{					

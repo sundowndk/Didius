@@ -45,6 +45,7 @@
 										<treecol id="address1" label="Adresse" flex="2" persist="width" onclick="main.customers.sort ({column: 'address1'});" />
 										<treecol id="postcode" label="Post nr." width="90" persist="width" onclick="main.customers.sort ({column: 'postcode'});" />
 										<treecol id="city" label="By" flex="1" persist="width" onclick="main.customers.sort ({column: 'city'});"/>
+										<treecol id="phone" label="Telefon" flex="1" persist="width" onclick="main.customers.sort ({column: 'phone'});"/>
 										<treecol id="email" label="Email" flex="1" persist="width" onclick="main.customers.sort ({column: 'email'});"/>
 									</treecols>								
 								</tree>						

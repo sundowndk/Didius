@@ -49,7 +49,7 @@ var main =
 		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
 	
 		document.getElementById ("catalogno").value = main.current.catalogno;
-		document.getElementById ("title").value = main.current.title;
+		//document.getElementById ("title").value = main.current.title;
 		document.getElementById ("description").value = main.current.description;
 		
 		document.getElementById ("minimumbid").value = main.current.minimumbid;
@@ -64,7 +64,7 @@ var main =
 	get : function ()
 	{			
 		main.current.catalogno = document.getElementById ("catalogno").value;		
-		main.current.title = document.getElementById ("title").value;
+		//main.current.title = document.getElementById ("title").value;
 		main.current.description = document.getElementById ("description").value;	
 		
 		main.current.minimumbid = document.getElementById ("minimumbid").value;	

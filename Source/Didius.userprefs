@@ -1,16 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/catalog/print.xul">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/itemedit/itemedit.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="8" Column="90" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="335" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="529" Column="4" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.xul" Line="19" Column="74" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="103" Column="7" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/test.css" Line="9" Column="2" />
-      <File FileName="Didius/Application/xul/chrome/content/css/print.css" Line="5" Column="28" />
-      <File FileName="Didius/Application/xul/chrome/content/printing/test.html" Line="11" Column="2" />
-      <File FileName="Didius/Application/xul/chrome/content/printing/test.css" Line="15" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="48" Column="117" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="240" Column="2" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="77" Column="34" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="275" Column="10" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="232" Column="1" />
+      <File FileName="Didius/Didius/Case.cs" Line="266" Column="46" />
+      <File FileName="Didius/Didius/Item.cs" Line="291" Column="39" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.xul" Line="45" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="67" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -24,15 +24,16 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
-                      <Node name="catalog" expanded="True">
-                        <Node name="print.xul" selected="True" />
-                      </Node>
+                      <Node name="catalog" expanded="True" />
                     </Node>
                     <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
+                    <Node name="caseedit" expanded="True" />
                     <Node name="css" expanded="True" />
                     <Node name="customeredit" expanded="True" />
-                    <Node name="itemedit" expanded="True" />
+                    <Node name="itemedit" expanded="True">
+                      <Node name="itemedit.js" selected="True" />
+                    </Node>
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="printing" expanded="True" />
