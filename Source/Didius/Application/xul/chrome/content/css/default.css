@@ -80,3 +80,13 @@
 	font-size: 17px;
 	font-weight: bold;
 }
+
+
+.PrintCatalogTable
+{
+	width: 210mm;
+	height: 297mm;
+	border: solid;
+
+
+}

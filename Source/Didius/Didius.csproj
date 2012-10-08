@@ -134,6 +134,7 @@
     <Folder Include="Application\xul\chrome\content\settings\access\user\" />
     <Folder Include="Application\xul\chrome\content\auction\" />
     <Folder Include="Application\xul\chrome\content\auction\catalog\" />
+    <Folder Include="Application\xul\chrome\content\printing\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -223,6 +224,10 @@
     <None Include="Application\js\didius\session.js" />
     <None Include="Application\xul\chrome\content\auction\catalog\print.xul" />
     <None Include="Application\xul\chrome\content\auction\catalog\print.js" />
+    <None Include="Application\xul\chrome\content\auction\catalog\test.css" />
+    <None Include="Application\xul\chrome\content\css\print.css" />
+    <None Include="Application\xul\chrome\content\printing\test.html" />
+    <None Include="Application\xul\chrome\content\printing\test.css" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

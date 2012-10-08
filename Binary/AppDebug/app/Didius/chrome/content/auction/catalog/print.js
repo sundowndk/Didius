@@ -32,8 +32,15 @@ var main =
 			var printframe = document.getElementById ("printframe");
 			var doc = printframe.contentDocument;
 						   
+						   
+						   
+			
 			
 			var table = doc.createElement ("table");
+			table.style.width = "210mm";
+			table.style.height = "297mm";
+			table.style.border = "solid";
+			table.style.pageBreakAfter = "always";
 			
 			for (i=0; i<5; i++)
 			{
@@ -47,14 +54,63 @@ var main =
 			}
 			
 			doc.body.appendChild (table);
+
 			
+		///	netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+			
+  // 			var nsIPrintSettings = Components.classes["@mozilla.org/gfx/printsettings-service;1"].getService(Components.interfaces.nsIPrintSettingsService).newPrintSettings;
+   			
+//   			nsIPrintSettings.printSilent = true;
+ //  			nsIPrintSettings.printToFile = true;
+   //			nsIPrintSettings.toFileName = "/home/sundown/test_silent_print_ff.pdf";
+   	//		nsIPrintSettings.outputFormat = 2;
+   			
+//   			var browserPrint = window.content.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebBrowserPrint);
+//			browserPrint.print(nsIPrintSettings, null);						
+									
+												
+																		
 			//printframe.focus();
 			//printframe.print();
 			
+				//PrintUtils.gPrintSettingsAreGlobal = true;
+
+						
+						
+						
 		
-			var settings = PrintUtils.getPrintSettings();
-			settings.docURL = "asdfasdasdfasdf";  // suppress URL on printout
-			settings.footerStrRight = " ";
+				var settings = PrintUtils.getPrintSettings();
+				
+				
+				settings.headerStrLeft = "";
+				settings.headerStrCenter = "";
+				settings.headerStrRight = "";
+				settings.footerStrLeft = "";
+				settings.footerStrCenter = "";
+				settings.footerStrRight = "";
+				
+				settings.marginLeft = 0;
+				settings.marginRight = 0;
+				settings.marginTop = 0;
+				settings.marginBottom = 0;
+				settings.shrinkToFit = true;
+				
+				
+    var doc = document.getElementById("printframe")
+    var req = doc.contentWindow.QueryInterface(Components.interfaces.nsIInterfaceRequestor);
+    var wbprint = req.getInterface(Components.interfaces.nsIWebBrowserPrint);
+    
+    //wbprint.print(settings, null);				
+				
+				///ettings.setPaperName("Legal");
+//				settings.headerStrRight = "bla bla ";
+				
+//				sXUL.console.log (gPrintSettingsAreGlobal)
+			
+			//PrintUtils.initPrintSettingsFromPrefs (settings, false);
+			
+			//ttings.docURL = "asdfasdasdfasdf";  // suppress URL on printout
+			//settings.footerStrRight = " ";
 		//	sXUL.console.log (settings.printSettings ())
 									
 //			for (index in settings)
@@ -63,11 +119,13 @@ var main =
 //			}
 			
 //			PrintUtils.printPreview(document.getElementById("printframe").contentWindow)
-			
-			//PrintUtils.print (document.getElementById("printframe").contentWindow)
+		
+	//	PrintUtils.showPageSetup ()
+				
+		//	PrintUtils.print (document.getElementById("printframe").contentWindow)
 			
 			//window.print ();
-			document.getElementById("printframe").contentWindow.print();
+			//document.getElementById("printframe").contentWindow.print();
 			
 				
 	}	

@@ -16,7 +16,7 @@
 	</keyset>			
 			
 	<hbox class="Main" flex="1">
-		<iframe id="printframe" flex="1">			
+		<iframe id="printframe" src="chrome://didius/content/printing/test.html" flex="1">			
 		</iframe>
 	</hbox>
 		

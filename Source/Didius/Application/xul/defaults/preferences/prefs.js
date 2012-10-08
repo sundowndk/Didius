@@ -9,7 +9,7 @@ pref("print.print_footerright", " ");
 pref("print.print_footercenter", "&P");
 pref("print.print_footerleft", " ");
 
-
+pref ("print.use_global_printsettings", true);
 
 
 
