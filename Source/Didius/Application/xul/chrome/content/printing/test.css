@@ -12,3 +12,79 @@ body
 }
 
 
+.Header
+{
+	top: 0px;
+		
+	padding-bottom: 10px;
+	
+	text-align: center;
+	
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.Footer
+{
+	position:			absolute;
+		
+	bottom: 			-30px;	
+	
+	width: 200mm;
+	
+	text-align: center;
+	
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.ContainerA4
+{		
+	position:			relative;
+
+	width: 				200mm; 
+	height: 			287mm; 
+	
+	page-break-after:	always; 
+	display: 			block;
+}
+
+.Table, th, td
+{
+	padding: 0px;
+	margin: 0px;
+	
+	width: 100%;
+	
+	border-collapse:collapse;
+	
+	border: 1px solid black;
+	
+	font-size: 14px;
+}
+
+.ColumnHeader
+{
+	font-weight:		bold;
+}
+
+.CellCatalogNo
+{			
+	width: 				25mm;
+	
+	vertical-align: 	top; 
+}
+
+.CellDescription
+{
+	width:				150mm;
+	
+	vertical-align: 	top; 
+}
+
+.CellNotes
+{
+	width:				15mm;	
+	
+	vertical-align: 	top; 
+}
