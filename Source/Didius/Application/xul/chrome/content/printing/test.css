@@ -49,7 +49,7 @@ body
 	display: 			block;
 }
 
-.Table, th, td
+.Table, td, th
 {
 	padding: 0px;
 	margin: 0px;
@@ -63,6 +63,25 @@ body
 	font-size: 14px;
 }
 
+.InnerTable td
+{
+	padding: 0px;
+	margin: 0px;
+	border: none;
+}
+
+.InnerTableLabel
+{
+	font-size: 10px;
+	width: 80px;
+}
+
+.InnerTableValue
+{
+	font-size: 10px;
+	width: 150px;
+}
+
 .ColumnHeader
 {
 	font-weight:		bold;
@@ -70,19 +89,33 @@ body
 
 .CellCatalogNo
 {			
-	width: 				25mm;
+	width: 				15mm;
 	
 	vertical-align: 	top; 
 }
 
 .CellDescription
 {
-	width:				150mm;
+	width:				155mm;
 	
 	vertical-align: 	top; 
 }
 
 .CellNotes
+{
+	width:				15mm;	
+	
+	vertical-align: 	top; 
+}
+
+.CellBid
+{
+	width:				15mm;	
+	
+	vertical-align: 	top; 
+}
+
+.CellBidder
 {
 	width:				15mm;	
 	
