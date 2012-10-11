@@ -32,6 +32,7 @@ namespace Didius
 		private string _no;
 
 		private string _title;
+		private string _description;
 
 		private string _notes;
 		#endregion
@@ -82,6 +83,19 @@ namespace Didius
 			}
 		}
 
+		public string Description
+		{
+			get
+			{
+				return this._description;
+			}
+
+			set
+			{
+				this._description = value;
+			}
+		}
+
 		public string Notes
 		{
 			get
@@ -115,12 +129,11 @@ namespace Didius
 			this._no = Helpers.NewNo ();
 
 			this._title = string.Empty;
+			this._description = string.Empty;
 
 			this._notes = string.Empty;
 		}		
 		#endregion
-	
-
 
 		#region Public Methods
 		public void Save ()
@@ -138,6 +151,7 @@ namespace Didius
 				item.Add ("no", this._no);	
 
 				item.Add ("title", this._title);
+				item.Add ("description", this._description);
 
 				item.Add ("notes", this._notes);
 								
@@ -176,6 +190,7 @@ namespace Didius
 			result.Add ("no", this._no);
 
 			result.Add ("title", this._title);
+			result.Add ("description", this._description);
 
 			result.Add ("notes", this._notes);
 
@@ -213,6 +228,11 @@ namespace Didius
 				if (item.ContainsKey ("title"))
 				{
 					result._title = (string)item["title"];
+				}				
+
+				if (item.ContainsKey ("description"))
+				{
+					result._description = (string)item["description"];
 				}				
 
 				if (item.ContainsKey ("notes"))
@@ -320,6 +340,11 @@ namespace Didius
 			{
 				result._title = (string)item["title"];
 			}
+
+			if (item.ContainsKey ("description"))
+			{
+				result._description = (string)item["description"];
+			}				
 
 			if (item.ContainsKey ("notes"))
 			{

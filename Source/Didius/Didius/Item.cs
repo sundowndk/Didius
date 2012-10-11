@@ -286,8 +286,7 @@ namespace Didius
 				item.Add ("no", this._no);
 				item.Add ("catalogno", this._catalogno);
 
-				item.Add ("caseid", this._caseid);
-
+				item.Add ("caseid", this._caseid);			
 //				item.Add ("title", this._title);
 
 				item.Add ("description", this._description);
@@ -328,6 +327,7 @@ namespace Didius
 			result.Add ("catalogno", this._catalogno);
 
 			result.Add ("caseid", this._caseid);
+			result.Add ("case", Case.Load (this._caseid));
 
 //			result.Add ("title", this._title);
 			result.Add ("title", this.Title);

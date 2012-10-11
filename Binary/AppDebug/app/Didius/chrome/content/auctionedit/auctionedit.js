@@ -420,6 +420,7 @@ var main =
 		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
 	
 		document.getElementById ("title").value = main.current.title;		
+		document.getElementById ("description").value = main.current.description;		
 		
 		document.getElementById ("notes").value = main.current.notes;		
 						
@@ -432,6 +433,7 @@ var main =
 	get : function ()
 	{
 		main.current.title = document.getElementById ("title").value;		
+		main.current.description = document.getElementById ("description").value;
 		
 		main.current.notes = document.getElementById ("notes").value;				
 	},
@@ -551,7 +553,7 @@ var main =
 	{
 		print : function ()
 		{
-			window.openDialog ("chrome://didius/content/auction/catalog/print.xul", "blablabla", "chrome", {auctionId: main.current.id});	
+			window.openDialog ("chrome://didius/content/auction/catalog/print.xul", "printcatalog", "chrome, modal", {auctionId: main.current.id});	
 		}
 	},
 	

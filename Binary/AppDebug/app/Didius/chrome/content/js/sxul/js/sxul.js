@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: sxul
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -123,6 +123,7 @@ var sXUL =
 			var _rows = Array ();
 			
 			var _temp = {};			
+			_temp.filterColumns = new Array ();
 			
 			this.addRow = addRow;
 			this.removeRow = removeRow;
@@ -236,26 +237,53 @@ var sXUL =
 				{
 					for (index in _rows)
 					{	
-						if (_temp.filterColumn != null)
-						{
+		//				if (_temp.filterColumn != null)
+		//				{				
+		//					if (_temp.filterDirection == "in")
+		//					{							
+		//						if (_rows[index].data[_temp.filterColumn].toLowerCase ().indexOf(_temp.filterValue.toLowerCase ()) == -1)
+		//						{
+		//							//dump (_temp.filterColumn +" "+ _temp.filterValue +"\n")
+		//							continue;
+		//						}
+		//					}
+		//					else if (_temp.filterDirection == "out")
+		//					{							
+		//						if (_rows[index].data[_temp.filterColumn].toLowerCase ().indexOf(_temp.filterValue.toLowerCase ()) != -1)
+		//						{
+		//							//dump (_temp.filterColumn +" "+ _temp.filterValue +"\n")
+		//							continue;
+		//						}
+		//					}
+		//				}
 						
+						if (_temp.filterColumns.length > 0)
+						{								
 							if (_temp.filterDirection == "in")
-							{							
-								if (_rows[index].data[_temp.filterColumn].toLowerCase ().indexOf(_temp.filterValue.toLowerCase ()) == -1)
-								{
-									//dump (_temp.filterColumn +" "+ _temp.filterValue +"\n")
-									continue;
+							{								
+								for (i=0; i<_temp.filterColumns.length; i++)												
+								{													
+									if (_rows[index].data[_temp.filterColumns[i]].toLowerCase ().indexOf(_temp.filterValue.toLowerCase ()) != -1)
+									{
+										sXUL.console.log (_rows[index].data[_temp.filterColumns[i]].toLowerCase ())
+										break;								
+									}	
 								}
+																				
+								
 							}
 							else if (_temp.filterDirection == "out")
 							{							
-								if (_rows[index].data[_temp.filterColumn].toLowerCase ().indexOf(_temp.filterValue.toLowerCase ()) != -1)
+								for (i1 in _temp.filterColumns)
 								{
-									//dump (_temp.filterColumn +" "+ _temp.filterValue +"\n")
-									continue;
+									if (_rows[index].data[_temp.filterColumns[i1]].toLowerCase ().indexOf(_temp.filterValue.toLowerCase ()) == -1)
+									{
+										break;								
+									}	
 								}
 							}
 						}
+						
 													
 						if (_rows[index].level == idx)
 						{
@@ -381,6 +409,7 @@ var sXUL =
 					attributes.direction = "in";
 					
 				_temp.filterColumn = attributes.column;
+				_temp.filterColumns = attributes.columns.split (",");
 				_temp.filterValue = attributes.value;
 				_temp.filterDirection = attributes.direction;
 				
@@ -797,6 +826,42 @@ var sXUL =
 			request.send ();
 																															
 			return request.respons ()["sorentolib.enums.accesslevels"];
+		}
+	},
+
+	// ---------------------------------------------------------------------------------------------------------------
+	// CLASS: tools
+	// ---------------------------------------------------------------------------------------------------------------
+	tools :
+	{
+		fileToString : function (aURL)
+		{	
+			var ioService=Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
+		 	
+			var scriptableStream=Components.classes["@mozilla.org/scriptableinputstream;1"].getService(Components.interfaces.nsIScriptableInputStream);
+		
+			var channel=ioService.newChannel(aURL,null,null);	
+		  	var input=channel.open();
+		  	scriptableStream.init(input);
+		  	var str=scriptableStream.read(input.available());
+		  	scriptableStream.close();
+		  	input.close();
+		  	return str;
+		},
+		
+		print : function (contentWindow, nsiPrintSettings)
+		{
+			nsiPrintSettings.headerStrLeft = "";
+			nsiPrintSettings.headerStrCenter = "";
+			nsiPrintSettings.headerStrRight = "";
+			nsiPrintSettings.footerStrLeft = "";
+			nsiPrintSettings.footerStrCenter = "";
+			nsiPrintSettings.footerStrRight = "";
+		
+		  	var req = contentWindow.QueryInterface(Components.interfaces.nsIInterfaceRequestor);
+		    var wbprint = req.getInterface(Components.interfaces.nsIWebBrowserPrint);
+		    
+		    wbprint.print(nsiPrintSettings, null);				
 		}
 	},
 

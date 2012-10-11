@@ -137,7 +137,7 @@
 
 %%ROWS%%
 
-#BEGINROWS
+#BEGINROW
 // Columns
 	<tr>
 // CatalogNo
@@ -245,7 +245,7 @@
 		<td class="CellBidder">							
 		</td>		
 	</tr>
-#ENDROWS
+#ENDROW
 
 </table>
 

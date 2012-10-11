@@ -264,6 +264,7 @@ namespace Didius
 			result.Add ("customerid", this._customerid);
 			result.Add ("customer", Customer.Load (this._customerid));
 			result.Add ("auctionid", this._auctionid);
+			result.Add ("auction", Auction.Load (this._auctionid));
 
 			result.Add ("title", this._title);
 			result.Add ("customerreference", this._customerreference);

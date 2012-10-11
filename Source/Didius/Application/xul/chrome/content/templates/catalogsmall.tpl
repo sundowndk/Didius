@@ -103,7 +103,7 @@
 
 %%ROWS%%
 
-#BEGINROWS
+#BEGINROW
 // Columns
 	<tr>
 // CatalogNo
@@ -120,7 +120,7 @@
 		<td class="CellNotes">
 		</td>		
 	</tr>
-#ENDROWS
+#ENDROW
 
 </table>
 

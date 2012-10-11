@@ -597,6 +597,86 @@ var didius =
 			request.send (content);
 			
 			return request.respons ()["value"];
+		},
+		
+		parsePrintTemplate : function (data)
+		{
+			var result = {};
+					
+			result.page = "";	
+					
+			data = data.split ("\n");
+						
+			var block = "";	
+			for (idx in data)
+			{
+				// Remove comments.
+				if (data[idx].substring(0,2) == "//")
+				{					
+					continue;
+				}
+						
+				// If we are not in a block we can start a new at anytime.
+				if (block == "")
+				{
+					switch (data[idx])
+					{
+						case "#BEGINSTYLES":
+						{
+							block = "styles";
+							result.styles = "";
+							continue;
+						}
+						
+						case "#BEGINROW":
+						{
+							block = "row";
+							result.row = "";
+							continue;
+						}							
+					}					
+				}
+				else
+				{
+					switch (data[idx])
+					{
+						case "#ENDSTYLES":
+						{
+							block = "";
+							continue;
+						}
+						
+						case "#ENDROW":
+						{
+							block = "";
+							continue;
+						}
+					}
+				}
+													
+				switch (block)
+				{
+					case "":
+					{
+						result.page += data[idx] +"\n";
+						break;
+					}
+					
+					case "styles":
+					{
+						result.styles += data[idx] +"\n";
+						break;
+					}
+					
+					case "row":
+					{
+						result.row += data[idx] +"\n";
+						break;
+					}
+				}				
+			}
+			
+			return result;
 		}
 		
 		

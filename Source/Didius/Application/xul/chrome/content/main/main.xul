@@ -34,8 +34,12 @@
 				<tabpanel>
 					<vbox flex="1">																		
 						<hbox align="center">				
-							<textbox id="customerSearch" type="search" flex="1" onkeyup="main.customers.filter ();" oncommand="main.customers.filter ();" disabled="true" />
-						</hbox>		
+							<hbox flex="1">
+								<textbox id="customerSearch" type="search" flex="1" onkeyup="main.customers.filter ();" oncommand="main.customers.filter ();" focused="true" />
+							</hbox>
+							<hbox style="width: 93px;">
+							</hbox>
+						</hbox>													
 						<hbox flex="1">
 							<hbox flex="1">													
 								<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single">
@@ -51,8 +55,7 @@
 								</tree>						
 							</hbox>
 							<hbox>
-								<vbox>
-									
+								<vbox>									
 									<button id="customerCreate" label="Opret" disabled="true" oncommand="main.customers.create ();"/>
 									<button id="customerEdit" label="Redigere" disabled="true" oncommand="main.customers.edit ();"/>
 									<button id="customerDestroy" label="Slet" disabled="true" oncommand="main.customers.destroy ();"/>	

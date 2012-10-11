@@ -205,7 +205,7 @@ var main =
 		filter : function ()
 		{
 			var value = document.getElementById ("customerSearch").value;
-			main.customers.customersTreeHelper.filter ({column: "name", value: value, direction: "in"});
+			main.customers.customersTreeHelper.filter ({column: "name", columns: "name,address1,postcode,city,phone,email", value: value, direction: "in"});
 		},
 		
 		edit : function ()

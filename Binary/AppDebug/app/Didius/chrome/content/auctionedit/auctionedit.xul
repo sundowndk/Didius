@@ -41,7 +41,11 @@
 							<hbox align="center">
 								<label class="Label">Navn:</label>
 								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
-							</hbox>							
+							</hbox>				
+							<hbox align="top">
+								<label class="Label">Tekst:</label>
+								<textbox id="description" flex="1" rows="12" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>																	
 						</groupbox>
 					</vbox>
     			</tabpanel>

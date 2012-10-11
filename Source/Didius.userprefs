@@ -1,15 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/catalog/print.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/printing/test.css" Line="18" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="24" Column="19" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="56" Column="3" />
-      <File FileName="Didius/Didius/Item.cs" Line="37" Column="25" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.xul" Line="18" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/cataloglarge.tpl" Line="109" Column="33" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/catalogsmall.tpl" Line="1" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/printing/test.html" Line="10" Column="8" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="56" Column="15" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="201" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -23,9 +17,7 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
-                      <Node name="catalog" expanded="True">
-                        <Node name="print.js" selected="True" />
-                      </Node>
+                      <Node name="catalog" expanded="True" />
                     </Node>
                     <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
@@ -34,7 +26,9 @@
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True" />
+                    <Node name="main" expanded="True">
+                      <Node name="main.js" selected="True" />
+                    </Node>
                     <Node name="printing" expanded="True" />
                     <Node name="settings" expanded="True">
                       <Node name="access" expanded="True">
