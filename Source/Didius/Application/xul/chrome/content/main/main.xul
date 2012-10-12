@@ -32,6 +32,7 @@
 						
 			<tabpanels flex="1">
 				<tabpanel>
+				
 					<vbox flex="1">																		
 						<hbox align="center">				
 							<hbox flex="1">
@@ -39,17 +40,23 @@
 							</hbox>
 							<hbox style="width: 93px;">
 							</hbox>
-						</hbox>													
+						</hbox>																			
 						<hbox flex="1">
 							<hbox flex="1">													
 								<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single">
 									<treecols>
 										<treecol id="id" hidden="true"/>
+										<treecol id="no" hidden="true" />
 										<treecol id="name" label="Navn" flex="1" persist="width" onclick="main.customers.sort ({column: 'name'});" />
+										<splitter class="tree-splitter"/>
 										<treecol id="address1" label="Adresse" flex="2" persist="width" onclick="main.customers.sort ({column: 'address1'});" />
+										<splitter class="tree-splitter"/>
 										<treecol id="postcode" label="Post nr." width="90" persist="width" onclick="main.customers.sort ({column: 'postcode'});" />
+										<splitter class="tree-splitter"/>
 										<treecol id="city" label="By" flex="1" persist="width" onclick="main.customers.sort ({column: 'city'});"/>
+										<splitter class="tree-splitter"/>
 										<treecol id="phone" label="Telefon" flex="1" persist="width" onclick="main.customers.sort ({column: 'phone'});"/>
+										<splitter class="tree-splitter"/>
 										<treecol id="email" label="Email" flex="1" persist="width" onclick="main.customers.sort ({column: 'email'});"/>
 									</treecols>								
 								</tree>						
@@ -66,13 +73,14 @@
 					</vbox>
 				</tabpanel>
 				
-				<tabpanel>
+				<tabpanel>					
 					<hbox flex="1">
 						<tree id="auctions" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.auctions.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="no" label="Auktion nr." width="150" persist="width" onclick="main.auctions.sort ({column: 'no'});" />
-								<treecol id="title" label="Title" flex="3" persist="width" onclick="main.auctions.sort ({column: 'title'});" />
+								<treecol id="no" hidden="true" />		
+								<treecol id="createtimestamp" hidden="true" />						
+								<treecol id="title" label="Title" flex="3" onclick="main.auctions.sort ({column: 'title'});" />
 							</treecols>								
 						</tree>
 					</hbox>
@@ -84,7 +92,7 @@
 							<spacer flex="1"/>
 							<button id="auctionRun" label="Afvikle" disabled="true" oncommand="main.auctions.run ();"/>							
 						</vbox>
-					</hbox>
+					</hbox>					
 				</tabpanel>			
 			</tabpanels>
 		</tabbox>			

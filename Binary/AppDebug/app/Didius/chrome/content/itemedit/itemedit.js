@@ -4,7 +4,9 @@ var main =
 {
 	checksum : null,
 	current : null,
-	catalogNo: null,
+	catalogNo : null,
+	
+	dataTreeHelper : null,
 
 	init : function ()
 	{
@@ -17,8 +19,8 @@ var main =
 			app.error ({exception: error})
 			main.close ();
 			return;
-		}								
-	
+		}			
+																					
 		main.set ();
 	
 		// Hook events.		
@@ -40,6 +42,49 @@ var main =
 	{		
 	},
 	
+	setDataFields : function ()
+	{
+		var pref = "stelnummer;Stelnummer|aargang;Årgang|regnr;Reg.nr";
+		var keys = pref.split ("|");
+		
+		for (idx in keys)
+		{
+			var key = keys[idx].split (";")[0];
+			var alias = keys[idx].split (";")[1];
+		
+			var hbox = document.createElement ("hbox");			
+			hbox.setAttribute ("align", "center");	
+			document.getElementById ("datafields").appendChild (hbox);		
+			
+			var label = document.createElement ("label");
+			label.className = "Label";
+			label.setAttribute ("value", alias +":");
+			hbox.appendChild (label);
+			
+			var textbox = document.createElement ("textbox");
+			textbox.setAttribute ("id", key);
+			textbox.setAttribute ("flex", 1);
+			textbox.setAttribute ("onkeyup", "main.onChange ();");				
+			
+			hbox.appendChild (textbox);
+			textbox.value = main.current.fields[key];
+		}						
+	},
+	
+	getDataFields : function ()
+	{
+		main.current.fields =  new Array ();
+	
+		var pref = "stelnummer;Stelnummer|aargang;Årgang|regnr;Reg.nr";
+		var keys = pref.split ("|");
+		for (idx in keys)
+		{
+			var key = keys[idx].split (";")[0];			
+		
+			main.current.fields[key] = document.getElementById (key).value;
+		}
+	},
+	
 	set : function ()
 	{
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
@@ -48,23 +93,23 @@ var main =
 		document.getElementById ("no").value = main.current.no;
 		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
 	
-		document.getElementById ("catalogno").value = main.current.catalogno;
-		//document.getElementById ("title").value = main.current.title;
-		document.getElementById ("description").value = main.current.description;
-		
+		document.getElementById ("catalogno").value = main.current.catalogno;		
+		document.getElementById ("description").value = main.current.description;						
+						
 		document.getElementById ("minimumbid").value = main.current.minimumbid;
 		
 		document.getElementById ("appraisal1").value = main.current.appraisal1;
 		document.getElementById ("appraisal2").value = main.current.appraisal2;
 		document.getElementById ("appraisal3").value = main.current.appraisal3;
-				
+		
+		main.setDataFields ();
+						
 		main.onChange ();
 	},
 	
 	get : function ()
 	{			
-		main.current.catalogno = document.getElementById ("catalogno").value;		
-		//main.current.title = document.getElementById ("title").value;
+		main.current.catalogno = document.getElementById ("catalogno").value;				
 		main.current.description = document.getElementById ("description").value;	
 		
 		main.current.minimumbid = document.getElementById ("minimumbid").value;	
@@ -72,6 +117,8 @@ var main =
 		main.current.appraisal1 = document.getElementById ("appraisal1").value;	
 		main.current.appraisal2 = document.getElementById ("appraisal2").value;	
 		main.current.appraisal3 = document.getElementById ("appraisal3").value;	
+		
+		main.getDataFields ();
 	},
 	
 	save : function ()

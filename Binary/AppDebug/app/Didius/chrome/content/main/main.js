@@ -140,9 +140,8 @@ var main =
 		customersTreeHelper : null,
 		
 		init : function ()
-		{		
-			main.customers.customersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("customers"), sort: "name", sortDirection: "descending", onDoubleClick: main.customers.edit});
-		
+		{							
+			main.customers.customersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("customers"), sortColumn: "name", sortDirection: "descending", onDoubleClick: main.customers.edit});		
 			main.customers.set ();
 		},
 								
@@ -205,7 +204,7 @@ var main =
 		filter : function ()
 		{
 			var value = document.getElementById ("customerSearch").value;
-			main.customers.customersTreeHelper.filter ({column: "name", columns: "name,address1,postcode,city,phone,email", value: value, direction: "in"});
+			main.customers.customersTreeHelper.filter ({column: "name", columns: "no,name,address1,postcode,city,phone,email", value: value, direction: "in"});
 		},
 		
 		edit : function ()
@@ -240,9 +239,8 @@ var main =
 	
 		init : function ()
 		{
-			main.auctions.auctionsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("auctions"), sort: "title", sortDirection: "descending", onDoubleClick: main.auctions.edit});
-			
-			this.set ();
+			main.auctions.auctionsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("auctions"), sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.auctions.edit});			
+			main.auctions.set ();
 		},
 					
 		set : function ()

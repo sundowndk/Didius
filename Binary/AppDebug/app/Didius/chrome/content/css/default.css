@@ -18,6 +18,7 @@
 .Label
 {
 	width: 75px;
+	overflow: hidden;
 }
 
 .Image

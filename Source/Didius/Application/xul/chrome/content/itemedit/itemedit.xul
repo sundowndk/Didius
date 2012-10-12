@@ -4,7 +4,8 @@
 
 <window id="main" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
 	
-	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>	
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
 		
 	<script type="application/javascript" src="chrome://didius/content/itemedit/itemedit.js"/>	
@@ -45,8 +46,12 @@
 							<hbox align="top">
 								<label class="Label">Beskrivelse:</label>
 								<textbox id="description" flex="1" multiline="true" onkeyup="main.onChange ();"/>
-							</hbox>
-						</groupbox>						
+							</hbox>												
+						</groupbox>		
+						
+						<groupbox id="datafields">
+							<caption label="Data"/>																									
+						</groupbox>								
 						
 						<groupbox>
 							<caption label="Værdi"/>

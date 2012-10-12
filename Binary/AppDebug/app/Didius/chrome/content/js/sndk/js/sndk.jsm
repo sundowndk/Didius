@@ -19069,6 +19069,8 @@ var SNDK =
 		
 			var _seed = Math.random();			
 			var _data = null;	
+			
+			var _sentdata = "";
 		
 			// Event handlers.
 			var _event_onsent = null;
@@ -19083,6 +19085,8 @@ var SNDK =
 			this.onSent = valueOnSent;
 			this.onReceiving = valueOnReceiving;		
 			this.onLoaded = valueOnLoaded;
+			
+			this.sentData = valueSentData;
 		
 			// Init object.
 			init ();
@@ -19354,8 +19358,10 @@ var SNDK =
 						// Prepare header information.	
 						_xmlhttp.setRequestHeader("Content-type", "multipart/form-data; boundary=" + boundaryseed);
 						_xmlhttp.setRequestHeader("Content-length", requestbody.length);
-														
-						// Send request.
+													
+						_sentdata = requestbody;								
+							
+						// Send request.				
 						_xmlhttp.send(requestbody);
 					}
 						
@@ -19474,6 +19480,11 @@ var SNDK =
 				
 				return document;	
 			}	
+			
+			function valueSentData ()
+			{
+				return _sentdata;
+			}
 			
 			function valueRespons ()
 			{

@@ -290,10 +290,10 @@ namespace Test
 				if (testitem)
 				{
 					Console.WriteLine ("Testing Didius.Item\n");
-					
-					// SAVE
-					Console.WriteLine ("\tSave\n");
-					
+		
+//					// SAVE
+//					Console.WriteLine ("\tSave\n");
+//					
 					Didius.Auction d1 = new Didius.Auction ();
 					d1.Save ();
 
@@ -303,40 +303,61 @@ namespace Test
 					Didius.Case d3 = new Didius.Case (d1, d2);
 					d3.Save ();
 
-					for (int i = 1; i < 21; i++) 
+					Didius.Item t = new Didius.Item (d3);
+
+					t.Description = "Blablabla";
+
+					t.Fields.Add ("stelnummer", "10101010");
+
+					t.Save ();
+
+
+					foreach (string key in Didius.Item.Load (t.Id).Fields.Keys)
 					{
-						Didius.Item t = new Didius.Item (d3);
-						t.Title = "TITLE #"+ i.ToString ();
-
-						if (i == 10)
-						{
-							t.CatalogNo = 15;
-						}
-
-						if (i == 13)
-						{
-							t.CatalogNo = 17;
-						}
-
-						if (i == 14)
-						{
-							t.CatalogNo = 200;
-						}
-
-						if (i == 15)
-						{
-							t.CatalogNo = 100;
-						}
-
-						t.Save ();	
-
+						Console.WriteLine (key);
 					}
 
 
-					foreach (Didius.Item i in Didius.Item.List ())
-					{
-						Console.WriteLine (i.CatalogNo +" - "+ i.Title);
-					}
+					Didius.Item.Delete (t.Id);
+
+					Didius.Case.Delete (d3.Id);
+					Didius.Customer.Delete (d2.Id);
+					Didius.Auction.Delete (d1.Id);
+
+//					for (int i = 1; i < 21; i++) 
+//					{
+//						Didius.Item t = new Didius.Item (d3);
+//						t.Title = "TITLE #"+ i.ToString ();
+//
+//						if (i == 10)
+//						{
+//							t.CatalogNo = 15;
+//						}
+//
+//						if (i == 13)
+//						{
+//							t.CatalogNo = 17;
+//						}
+//
+//						if (i == 14)
+//						{
+//							t.CatalogNo = 200;
+//						}
+//
+//						if (i == 15)
+//						{
+//							t.CatalogNo = 100;
+//						}
+//
+//						t.Save ();	
+//
+//					}
+//
+//
+//					foreach (Didius.Item i in Didius.Item.List ())
+//					{
+//						Console.WriteLine (i.CatalogNo +" - "+ i.Title);
+//					}
 
 
 				
@@ -379,19 +400,19 @@ namespace Test
 //						Console.WriteLine ("\t\t\t"+ key +": "+ t2.Fields[key]);
 //					}
 
-					// DELETE
-					Console.WriteLine ("\r\tDelete\n");
-					foreach (Didius.Item i in Didius.Item.List ())
-					{
-						Didius.Item.Delete (i);
-					}
-
-					// CLEANUP
-					Console.WriteLine ("\tCleanup");
-
-					Didius.Case.Delete (d3.Id);
-					Didius.Customer.Delete (d2.Id);
-					Didius.Auction.Delete (d1.Id);				
+//					// DELETE
+//					Console.WriteLine ("\r\tDelete\n");
+//					foreach (Didius.Item i in Didius.Item.List ())
+//					{
+//						Didius.Item.Delete (i);
+//					}
+//
+//					// CLEANUP
+//					Console.WriteLine ("\tCleanup");
+//
+//					Didius.Case.Delete (d3.Id);
+//					Didius.Customer.Delete (d2.Id);
+//					Didius.Auction.Delete (d1.Id);				
 				}
 				#endregion
 

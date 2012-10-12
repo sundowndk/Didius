@@ -635,10 +635,10 @@ namespace Didius
 				result._appraisal3 = decimal.Parse ((string)item["appraisal3"]);
 			}
 
-//			if (item.ContainsKey ("fields"))
-//			{					
-//				result._fields =(Hashtable)item["fields"];
-//			}	
+			if (item.ContainsKey ("fields"))
+			{					
+				result._fields =(Hashtable)item["fields"];
+			}	
 			
 			return result;
 		}
