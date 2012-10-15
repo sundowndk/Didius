@@ -5,6 +5,7 @@
 <window id="editauction" minwidth="750" minheight="650" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
 		
 	<script type="application/javascript" src="chrome://didius/content/auctionedit/auctionedit.js"/>	
@@ -39,8 +40,12 @@
 						<groupbox>
 							<caption label="Andet"/>							
 							<hbox align="center">
-								<label class="Label">Navn:</label>
+								<label class="Label">Title:</label>
 								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
+							</hbox>				
+							<hbox align="center">
+								<label class="Label">Aukt. dato:</label>
+								<datepicker id="auctiondate" type="popup" onchange="main.onChange ();"/>
 							</hbox>				
 							<hbox align="top">
 								<label class="Label">Tekst:</label>
@@ -52,15 +57,13 @@
     			
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.cases.onChange ();" ondblclick="main.cases.edit ();">
+						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.cases.onChange ();" seltype="single" >
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="no" label="Sags nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="customer" label="Kunde" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-							</treecols>	
-							<treechildren id="casesTreeChildren">
-							</treechildren>
+								<treecol id="no" label="Sags nr." width="140" persist="width" onclick="main.cases.sort ({column: 'no'});"/>
+								<treecol id="title" label="Title" flex="2"  persist="width" onclick="main.cases.sort ({column: 'title'});"/>
+								<treecol id="customer" label="Kunde" flex="2" persist="width" onclick="main.cases.sort ({column: 'customer'});"/>
+							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>
@@ -73,15 +76,13 @@
 				</tabpanel>
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.items.onChange ();" ondblclick="main.items.edit ();">
+						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.items.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="catalogno" label="Katalog nr." width="30" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="no" label="Effekt nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>								
-							</treecols>	
-							<treechildren id="itemsTreeChildren">
-							</treechildren>
+								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="main.items.sort ({column: 'catalogno'});"/>
+								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="main.items.sort ({column: 'no'});"/>
+								<treecol id="title" label="Title" flex="2" persist="width" onclick="main.items.sort ({column: 'title'});"/>
+							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>						

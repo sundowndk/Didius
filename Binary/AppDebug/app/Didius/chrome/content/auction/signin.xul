@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window id="choosercustomer" minwidth="750" minheight="300" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+	
+	<script type="application/javascript" src="chrome://didius/content/auction/signin.js"/>	
+			
+	<hbox class="WindowInnerPadding" flex="1">
+		<tabbox selectedIndex="0" flex="1">		
+			<tabs>
+				<tab label="Registering"/>				
+			</tabs>
+						
+			<tabpanels flex="1">
+				<tabpanel>			
+						<vbox flex="1">
+							<hbox align="center">				
+								<hbox flex="1">
+									<textbox id="customerSearch" type="search" flex="1" onkeyup="main.filter ();" oncommand="main.filter ();" focused="true"/>									
+								</hbox>			
+							</hbox>		
+							<hbox flex="1">		
+								<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single" height="100">
+									<treecols>
+										<treecol id="id" hidden="true"/>					
+										<treecol id="name" label="Navn" flex="1" persist="width"  onclick="main.sort ({column: 'name'});"/>
+										<splitter class="tree-splitter"/>
+										<treecol id="address1" label="Adresse" flex="2" persist="width"  onclick="main.sort ({column: 'address1'});"/>
+										<splitter class="tree-splitter"/>
+										<treecol id="city" label="By" flex="2" persist="width"  onclick="main.sort ({column: 'city'});"/>
+										<splitter class="tree-splitter"/>
+										<treecol id="phone" label="Telefon" flex="2" persist="width"  onclick="main.sort ({column: 'phone'});"/>								
+										<splitter class="tree-splitter"/>
+										<treecol id="email" label="Email" flex="1" persist="width"  onclick="main.sort ({column: 'email'});"/>
+										<splitter class="tree-splitter"/>
+									</treecols>					
+								</tree>
+							</hbox>
+							<hbox flex="1">
+								<groupbox flex="1">
+									<caption label="Kunde"/>							
+									<hbox align="center">
+										<label class="Label">Kunde nr.:</label>
+										<textbox id="customerno" flex="1" readonly="true" />					
+									</hbox>				
+									<hbox align="center">
+										<label class="Label">Navn:</label>
+										<textbox id="customername" flex="1" readonly="true" />					
+									</hbox>				
+									<hbox align="center">
+										<label class="Label">Adresse:</label>
+										<textbox id="customeraddress1" flex="1" readonly="true" />					
+									</hbox>				
+									<hbox align="center">
+										<label class="Label"></label>
+										<textbox id="customeraddress2" flex="1" readonly="true" />					
+									</hbox>				
+									<hbox align="center">
+										<label class="Label">Post nr.:</label>
+										<textbox id="customerpostcode" width="60" readonly="true" />					
+										<label class="Label">By:</label>
+										<textbox id="customercity" flex="1" readonly="true" />					
+									</hbox>				
+									<hbox align="center">
+										<label class="Label">Telefon:</label>
+										<textbox id="customerphone" flex="1" readonly="true" />					
+										<label class="Label">Mobil:</label>
+										<textbox id="customermobile" flex="1" readonly="true" />					
+									</hbox>		
+									<hbox align="center">
+										<label class="Label">Email:</label>
+										<textbox id="customeremail" flex="1" readonly="true" />					
+									</hbox>								
+									<hbox align="center"> 
+										<vbox flex="1" align="end">
+											<button id="customerEdit" label="Redigere" disabled="true" width="70" oncommand="main.customers.edit ();"/>
+										</vbox>
+									</hbox>								
+								</groupbox>
+							</hbox>
+							<hbox flex="1">			
+								<groupbox flex="1">
+									<caption label="Auktion"/>							
+									<hbox align="center">
+										<label class="Label">Auktion nr.:</label>
+										<textbox id="auctionno" flex="1" readonly="true" />					
+									</hbox>															
+									<hbox align="center">
+										<label class="Label">Title:</label>
+										<textbox id="auctiontitle" flex="1" readonly="true" />			
+									</hbox>																							
+									<hbox align="center">
+										<label class="Label">Køber nr.:</label>
+										<textbox id="buyerBo" flex="1" disabled="true" onkeyup="main.onChange ();" />
+										<button label="Angiv" disabled="true"/>
+									</hbox>																	
+								</groupbox>
+							</hbox>
+						</vbox>						
+					</tabpanel>								
+				</tabpanels>
+		</tabbox>
+	</hbox>
+	
+	<hbox class="WindowButtons" align="right" >
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>		
+	</hbox>
+</window>

@@ -34,384 +34,75 @@ var main =
 	
 	eventHandlers : 
 	{
-		onItemCreate : function (item)
+		onItemCreate : function (eventData)
 		{		
-			var onDone = 	function (cases)
+			var onDone = 	function (items)
 							{
-								for (index in cases)
+								for (idx in items)
 								{
-									if (item.caseid == cases[index].id)
+									if (items[idx].id == eventData.caseid)
 									{	
-										main.controls.items.addRow (item);
+										main.items.itemsTreeHelper.addRow ({data: eventData});
 										break;
 									}
 								}
 							};
 						
-			didius.case.list ({auction: main.current, async: true, onDone: onDone});						
+			didius.case.list ({auction: main.current, async: true, onDone: onDone});
 		},
 		
-		onItemSave : function (item)
+		onItemSave : function (eventData)
 		{			
-			var onDone = 	function (cases)
+			var onDone = 	function (items)
 							{
-								for (index in cases)
+								for (idx in items)
 								{
-									if (item.caseid == cases[index].id)
+									if (items[idx].id == eventData.caseid)
 									{	
-										main.controls.items.setRow (item);
+										main.items.itemsTreeHelper.setRow ({data: eventData});
 										break;
 									}
 								}
 							};
 						
-			didius.case.list ({auction: main.current, async: true, onDone: onDone});		
+			didius.case.list ({auction: main.current, async: true, onDone: onDone});	
 		},
 		
-		onItemDestroy : function (id)
+		onItemDestroy : function (eventData)
 		{
-			main.controls.items.removeRow (id);	
+			main.items.itemsTreeHelper.removeRow ({id: eventData.id});	
 		},
 		
-		onCaseCreate : function (case_)
+		onCaseCreate : function (eventData)
 		{		
-			if (main.current.id == case_.auctionid)
+			if (main.current.id == eventData.auctionid)
 			{	
-				main.controls.cases.addRow (case_);				
+				main.cases.casesTreeHelper.addRow ({data: eventData});
 			}
 		},
 		
-		onCaseSave : function (case_)
+		onCaseSave : function (eventData)
 		{			
-			if (main.current.id == case_.auctionid)
+			if (main.current.id == eventData.auctionid)
 			{	
-				main.controls.cases.setRow (case_);				
+				main.cases.casesTreeHelper.setRow ({data: eventData});
 			}
 		},
 		
-		onCaseDestroy : function (id)
+		onCaseDestroy : function (eventData)
 		{
-			main.controls.cases.removeRow (id);	
+			main.cases.casesTreeHelper.removeRow ({id: eventData.id});
 		},		
 		
-		onAuctionDestroy : function (id)
+		onAuctionDestroy : function (eventData)
 		{
-			if (main.current.id == id)
+			if (main.current.id == eventData.id)
 			{
 				main.close (true);
 			}
 		}
 	},
-	
-	controls :
-	{
-		cases :
-		{
-			addRow : function (case_)
-			{
-				var treechildren = document.getElementById ('casesTreeChildren');		
-	
-				var treeitem = document.createElement('treeitem');	
-				treechildren.appendChild (treeitem)
-
-				var treerow = document.createElement('treerow');
-				treeitem.appendChild (treerow);
-
-				var columns = [case_["id"], case_["no"], case_["title"], case_["customer"]["name"]];
-										
-				for (index in columns)
-				{
-					var treecell = document.createElement('treecell');
-					treecell.setAttribute ('label', columns[index]);
-					treerow.appendChild (treecell);
-				}
-			},
-									
-			removeRow : function (id)
-			{
-				var tree = document.getElementById ('cases');
-				var index = -1;
-				
-				if (!id)
-				{
-					index = tree.currentIndex;									
-  				}
-  				else
-  				{  									
-					for (var i = 0; i < tree.view.rowCount; i++) 
-					{
-						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
-						{					
-							index = i;				
-							break;
-						}
-					}
-  				}
-  				
-  				if (index != -1)
-  				{
-  					tree.view.getItemAtIndex (index).parentNode.removeChild (tree.view.getItemAtIndex (index));
-  				}
-			},
-			
-			setRow : function (case_)
-			{
-				var tree = document.getElementById ('cases');
-				var index = -1;
-				
-				if (!case_)
-				{
-					index = tree.currentIndex;
-				}
-				else
-				{
-					for (var i = 0; i < tree.view.rowCount; i++) 
-					{	
-						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == case_.id)
-						{					
-							index = i;							
-							break;
-						}
-					}
-				}
-
-				if (index != -1)
-				{
-					tree.view.setCellText (index, tree.columns.getNamedColumn ('id'), case_.id);
-					tree.view.setCellText (index, tree.columns.getNamedColumn ('no'), case_.no);
-					tree.view.setCellText (index, tree.columns.getNamedColumn ('title'), case_.title);					
-				}
-			},
-			
-			getRow : function (id)
-			{
-				var result = new Array ();
-				
-				var tree = document.getElementById ('cases');
-				var index = -1;				
-				
-				if (!id)
-				{
-					index = tree.currentIndex;				
-				}
-				else
-				{
-					for (var i = 0; i < tree.view.rowCount; i++) 
-					{
-						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
-						{					
-							index = i;
-							break;
-						}
-					}	
-				}
-				
-				if (index != -1)
-				{									
-					result.id = tree.view.getCellText (index, tree.columns.getNamedColumn ('id'));
-					result.no = tree.view.getCellText (index, tree.columns.getNamedColumn ('no'));
-					result.title = tree.view.getCellText (index, tree.columns.getNamedColumn ('title'));
-				}
-				
-				return result;
-			},
 		
-			refresh : function ()
-			{
-				var onDone = 	function (cases)
-								{
-									for (index in cases)
-									{									
-										main.controls.cases.addRow (cases[index]);
-									}
-								
-								// Enable controls
-								document.getElementById ("cases").disabled = false;																
-								main.controls.cases.onChange ();
-							};
-
-				// Disable controls
-				document.getElementById ("cases").disabled = true;					
-				document.getElementById ("caseCreate").disabled = true;
-				document.getElementById ("caseEdit").disabled = true;
-				document.getElementById ("caseDestroy").disabled = true;
-						
-				didius.case.list ({auction: main.current, async: true, onDone: onDone});				
-			},
-			
-			onChange : function ()
-			{
-				var view = document.getElementById ("cases").view;
-				var selection = view.selection.currentIndex; 
-				
-				if (selection != -1)
-				{										
-					document.getElementById ("caseCreate").disabled = false;
-					document.getElementById ("caseEdit").disabled = false;
-					document.getElementById ("caseDestroy").disabled = false;
-				}
-				else
-				{									
-					document.getElementById ("caseCreate").disabled = false;
-					document.getElementById ("caseEdit").disabled = true;
-					document.getElementById ("caseDestroy").disabled = true;
-				}
-			}		
-		},
-	
-		items :
-		{
-			addRow : function (item)
-			{
-				var treechildren = document.getElementById ('itemsTreeChildren');		
-	
-				var treeitem = document.createElement('treeitem');	
-				treechildren.appendChild (treeitem)
-
-				var treerow = document.createElement('treerow');
-				treeitem.appendChild (treerow);
-
-				var columns = [item["id"], item["catalogno"], item["no"], item["title"]];
-									
-				for (index in columns)
-				{
-					var treecell = document.createElement('treecell');
-					treecell.setAttribute ('label', columns[index]);
-					treerow.appendChild (treecell);
-				}
-			},
-									
-			removeRow : function (id)
-			{
-				var tree = document.getElementById ('items');
-				var index = -1;
-				
-				if (!id)
-				{
-					index = tree.currentIndex;									
-  				}
-  				else
-  				{  									
-					for (var i = 0; i < tree.view.rowCount; i++) 
-					{
-						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
-						{					
-							index = i;				
-							break;
-						}
-					}
-  				}
-  				
-  				if (index != -1)
-  				{
-  					tree.view.getItemAtIndex (index).parentNode.removeChild (tree.view.getItemAtIndex (index));
-  				}
-			},
-			
-			setRow : function (item)
-			{
-				var tree = document.getElementById ('items');
-				var index = -1;
-				
-				if (!item)
-				{
-					index = tree.currentIndex;
-				}
-				else
-				{
-					for (var i = 0; i < tree.view.rowCount; i++) 
-					{	
-						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == item.id)
-						{					
-							index = i;							
-							break;
-						}
-					}
-				}
-
-				if (index != -1)
-				{
-					tree.view.setCellText (index, tree.columns.getNamedColumn ('id'), item.id);
-					tree.view.setCellText (index, tree.columns.getNamedColumn ('catalogno'), item.catalogno);
-					tree.view.setCellText (index, tree.columns.getNamedColumn ('title'), item.title);				
-				}
-			},
-			
-			getRow : function (id)
-			{
-				var result = new Array ();
-				
-				var tree = document.getElementById ('items');
-				var index = -1;				
-				
-				if (!id)
-				{
-					index = tree.currentIndex;				
-				}
-				else
-				{
-					for (var i = 0; i < tree.view.rowCount; i++) 
-					{
-						if (tree.view.getCellText (i, tree.columns.getNamedColumn ('id')) == id)
-						{					
-							index = i;
-							break;
-						}
-					}	
-				}
-				
-				if (index != -1)
-				{									
-					result.id = tree.view.getCellText (index, tree.columns.getNamedColumn ('id'));
-					result.catalogno = tree.view.getCellText (index, tree.columns.getNamedColumn ('catalogno'));
-					result.no = tree.view.getCellText (index, tree.columns.getNamedColumn ('no'));				
-					result.title = tree.view.getCellText (index, tree.columns.getNamedColumn ('title'));
-				}
-				
-				return result;
-			},
-		
-			refresh : function ()
-			{
-				var onDone = 	function (items)
-								{
-									for (index in items)
-									{									
-										main.controls.items.addRow (items[index]);
-									}
-								
-								// Enable controls
-								document.getElementById ("items").disabled = false;																
-								main.controls.items.onChange ();
-							};
-
-				// Disable controls
-				document.getElementById ("items").disabled = true;								
-				document.getElementById ("itemEdit").disabled = true;
-				document.getElementById ("itemDestroy").disabled = true;
-						
-				didius.item.list ({auction: main.current, async: true, onDone: onDone});				
-			},
-			
-			onChange : function ()
-			{
-				var view = document.getElementById ("items").view;
-				var selection = view.selection.currentIndex; 
-				
-				if (selection != -1)
-				{										
-					document.getElementById ("itemEdit").disabled = false;
-					document.getElementById ("itemDestroy").disabled = false;
-				}
-				else
-				{				
-					document.getElementById ("itemEdit").disabled = true;
-					document.getElementById ("itemDestroy").disabled = true;
-				}
-			}
-		}				
-	},
-	
 	set : function ()
 	{
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
@@ -420,7 +111,8 @@ var main =
 		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
 	
 		document.getElementById ("title").value = main.current.title;		
-		document.getElementById ("description").value = main.current.description;		
+		document.getElementById ("auctiondate").dateValue = new Date (Date.parse (main.current.auctiondate));
+		document.getElementById ("description").value = main.current.description;						
 		
 		document.getElementById ("notes").value = main.current.notes;		
 						
@@ -433,10 +125,12 @@ var main =
 	get : function ()
 	{
 		main.current.title = document.getElementById ("title").value;		
-		main.current.description = document.getElementById ("description").value;
+		main.current.auctiondate = SNDK.tools.dateToYMD (document.getElementById ("auctiondate").dateValue);
+		main.current.description = document.getElementById ("description").value;				
 		
 		main.current.notes = document.getElementById ("notes").value;				
 	},
+	
 	
 	save : function ()
 	{			
@@ -507,20 +201,64 @@ var main =
 	
 	items :
 	{
+		itemsTreeHelper : null,
+		
 		init : function ()
 		{
-			main.controls.items.refresh ();		
+			main.items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: main.items.edit});
+			main.items.set ();		
 		},
-					
+		
+		set : function ()
+		{
+			var onDone = 	function (items)
+							{
+								for (idx in items)
+								{									
+									main.items.itemsTreeHelper.addRow ({data: items[idx]});
+								}
+								
+								// Enable controls
+								document.getElementById ("items").disabled = false;																
+								main.items.onChange ();
+							};
+
+			// Disable controls
+			document.getElementById ("items").disabled = true;								
+			document.getElementById ("itemEdit").disabled = true;
+			document.getElementById ("itemDestroy").disabled = true;
+						
+			didius.item.list ({auction: main.current, async: true, onDone: onDone});				
+		},
+		
+		onChange : function ()
+		{
+			if (main.items.itemsTreeHelper.getCurrentIndex () != -1)
+			{										
+				document.getElementById ("itemEdit").disabled = false;
+				document.getElementById ("itemDestroy").disabled = false;
+			}
+			else
+			{				
+				document.getElementById ("itemEdit").disabled = true;
+				document.getElementById ("itemDestroy").disabled = true;
+			}
+		},
+		
+		sort : function (attributes)
+		{
+			main.items.itemsTreeHelper.sort (attributes);
+		},
+							
 		edit : function ()
 		{		
-			var current = main.controls.items.getRow ();
+			var current = main.items.itemsTreeHelper.getRow ();
 						
 			var onSave = function (result)
 			{				
 				if (result != null)
 				{
-					main.controls.items.changeRow (result);					
+					main.items.itemsTreeHelper.setRow ({data :result});					
 				}													
 			}
 							
@@ -536,10 +274,7 @@ var main =
 			{
 				try
 				{
-					didius.item.destroy (main.controls.items.getRow ().id);
-					
-					// Event: ItemDestroy
-					app.events.onItemDestroy.execute (main.controls.items.getRow ().id);
+					didius.item.destroy (main.items.itemsTreeHelper.getRow ().id);					
 				}
 				catch (error)
 				{
@@ -559,9 +294,56 @@ var main =
 	
 	cases :
 	{
+		casesTreeHelper : null,
+	
 		init : function ()
 		{
-			main.controls.cases.refresh ();		
+			main.cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: main.cases.edit});
+			main.cases.set ();	
+		},
+		
+		set : function ()
+		{
+			var onDone = 	function (items)
+							{
+								for (idx in items)
+								{												
+									main.cases.casesTreeHelper.addRow ({data: items[idx]});
+								}
+								
+								// Enable controls
+								document.getElementById ("cases").disabled = false;																
+								main.cases.onChange ();
+							};
+
+			// Disable controls
+			document.getElementById ("cases").disabled = true;					
+			document.getElementById ("caseCreate").disabled = true;
+			document.getElementById ("caseEdit").disabled = true;
+			document.getElementById ("caseDestroy").disabled = true;
+					
+			didius.case.list ({auction: main.current, async: true, onDone: onDone});			
+		},
+		
+		onChange : function ()
+		{					
+			if (main.cases.casesTreeHelper.getCurrentIndex () != -1)
+			{										
+				document.getElementById ("caseCreate").disabled = false;
+				document.getElementById ("caseEdit").disabled = false;
+				document.getElementById ("caseDestroy").disabled = false;
+			}
+			else
+			{									
+				document.getElementById ("caseCreate").disabled = false;
+				document.getElementById ("caseEdit").disabled = true;
+				document.getElementById ("caseDestroy").disabled = true;
+			}		
+		},
+		
+		sort : function (attributes)
+		{
+			main.cases.casesTreeHelper.sort (attributes);
 		},
 		
 		create : function ()
@@ -571,7 +353,7 @@ var main =
 								if (result)
 								{
 									var case_ = didius.case.create (main.current, result);
-									didius.case.save (case_);																								
+									didius.case.save (case_);
 																									
 									window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", case_.id, "chrome", {caseId: case_.id});
 								}
@@ -582,7 +364,7 @@ var main =
 									
 		edit : function ()
 		{		
-			var current = main.controls.cases.getRow ();
+			var current = main.cases.casesTreeHelper.getRow ();
 															
 			window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", current.id, "chrome", {caseId: current.id});
 		},
@@ -596,7 +378,7 @@ var main =
 			{
 				try
 				{
-					didius.case.destroy (main.controls.cases.getRow ().id);										
+					didius.case.destroy (main.cases.casesTreeHelper.getRow ().id);										
 				}
 				catch (error)
 				{					

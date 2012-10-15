@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Xml;
 
 using SNDK;
@@ -14,13 +15,13 @@ namespace Test
 		public static void Main (string[] args)
 		{
 			SorentoLib.Services.Database.Connection = new Connection (SNDK.Enums.DatabaseConnector.Mysql,
-			                                                          "localhost",
+			                                                          "10.0.0.40",
 			                                                          "sorentotest.sundown.dk",
 			                                                          "sorentotest",
 			                                                          "qwerty",
 			                                                          true);
 			
-			SorentoLib.Services.Database.Prefix = "didiustest_";
+			SorentoLib.Services.Database.Prefix = "sorento_";
 
 			if (SorentoLib.Services.Database.Connection.Connect ())
 			{
@@ -30,9 +31,9 @@ namespace Test
 				bool testcustomer = false;
 
 				bool testcase = false;
-				bool testitem = true;
+				bool testitem = false;
 
-				bool testauction = false;
+				bool testauction = true;
 
 				bool testbid = false;
 
@@ -303,61 +304,48 @@ namespace Test
 					Didius.Case d3 = new Didius.Case (d1, d2);
 					d3.Save ();
 
-					Didius.Item t = new Didius.Item (d3);
-
-					t.Description = "Blablabla";
-
-					t.Fields.Add ("stelnummer", "10101010");
-
-					t.Save ();
 
 
-					foreach (string key in Didius.Item.Load (t.Id).Fields.Keys)
+				
+
+
+					for (int i = 1; i < 20; i++) 
 					{
-						Console.WriteLine (key);
+						Didius.Item t = new Didius.Item (d3);
+						t.Description= "TITLE #"+ i.ToString ();
+
+						if (i == 4)
+						{
+							t.CatalogNo = 15;
+						}
+
+						if (i == 13)
+						{
+							t.CatalogNo = 17;
+						}
+
+						if (i == 14)
+						{
+							t.CatalogNo = 16;
+						}
+
+						if (i == 16)
+						{
+							t.CatalogNo = 19;
+						}
+
+						t.Save ();	
+
 					}
+//
+//
+					List<Didius.Item> list = Didius.Item.List ();
+					list.Sort (delegate (Didius.Item int1, Didius.Item int2) { return int1.CatalogNo.CompareTo (int2.CatalogNo); });
 
-
-					Didius.Item.Delete (t.Id);
-
-					Didius.Case.Delete (d3.Id);
-					Didius.Customer.Delete (d2.Id);
-					Didius.Auction.Delete (d1.Id);
-
-//					for (int i = 1; i < 21; i++) 
-//					{
-//						Didius.Item t = new Didius.Item (d3);
-//						t.Title = "TITLE #"+ i.ToString ();
-//
-//						if (i == 10)
-//						{
-//							t.CatalogNo = 15;
-//						}
-//
-//						if (i == 13)
-//						{
-//							t.CatalogNo = 17;
-//						}
-//
-//						if (i == 14)
-//						{
-//							t.CatalogNo = 200;
-//						}
-//
-//						if (i == 15)
-//						{
-//							t.CatalogNo = 100;
-//						}
-//
-//						t.Save ();	
-//
-//					}
-//
-//
-//					foreach (Didius.Item i in Didius.Item.List ())
-//					{
-//						Console.WriteLine (i.CatalogNo +" - "+ i.Title);
-//					}
+					foreach (Didius.Item i in list)
+					{
+						Console.WriteLine (i.CatalogNo +" - "+ i.Title);
+					}
 
 
 				
@@ -400,62 +388,104 @@ namespace Test
 //						Console.WriteLine ("\t\t\t"+ key +": "+ t2.Fields[key]);
 //					}
 
-//					// DELETE
-//					Console.WriteLine ("\r\tDelete\n");
-//					foreach (Didius.Item i in Didius.Item.List ())
-//					{
-//						Didius.Item.Delete (i);
-//					}
-//
-//					// CLEANUP
-//					Console.WriteLine ("\tCleanup");
-//
-//					Didius.Case.Delete (d3.Id);
-//					Didius.Customer.Delete (d2.Id);
-//					Didius.Auction.Delete (d1.Id);				
+					// DELETE
+					Console.WriteLine ("\r\tDelete\n");
+					foreach (Didius.Item i in Didius.Item.List ())
+					{
+						Didius.Item.Delete (i);
+					}
+
+					// CLEANUP
+					Console.WriteLine ("\tCleanup");
+
+					Didius.Case.Delete (d3.Id);
+					Didius.Customer.Delete (d2.Id);
+					Didius.Auction.Delete (d1.Id);				
 				}
 				#endregion
 
 				#region AUCTION
 				if (testauction)
 				{
-					Console.WriteLine ("Testing Didius.Auction\n");
-					
-					// SAVE
-					Console.WriteLine ("\tSave\n");
-					
+//					Console.WriteLine ("Testing Didius.Auction\n");
+//					
+//					// SAVE
+//					Console.WriteLine ("\tSave\n");
+//					
+					Didius.Customer c1 = new Didius.Customer ();
+					c1.Name = "Rasmus";
+					c1.Save ();
+
+
+					Didius.Customer c2= new Didius.Customer ();
+					c2.Name = "Ina";
+					c2.Save ();
+
 					Didius.Auction a1 = new Didius.Auction ();					
+
+					Didius.LiveBider l1 = new Didius.LiveBider ();
+					l1.BuyerNo = "100";
+					l1.CustomerId = c1.Id;
+
+					Didius.LiveBider l2 = new Didius.LiveBider ();
+					l2.BuyerNo = "101";
+					l2.CustomerId = c2.Id;
+
+					a1.LiveBiders.Add (l1);
+					a1.LiveBiders.Add (l2);
+
+
+//					a1.LiveBiders.Add ("111");
+//					a1.LiveBiders.Add ("122");
+
 					a1.Save ();
-										
-					// LOAD
-					Console.WriteLine ("\tLoad\n");
+
+
 					Didius.Auction a2 = Didius.Auction.Load (a1.Id);
 
-					Console.WriteLine ("\t\tId: "+ a2.Id);
-					
-					// LIST
-					Console.WriteLine ("\r\tList\n");
-					foreach (Didius.Auction a in Didius.Auction.List ())
+					foreach (Didius.LiveBider livebider in a2.LiveBiders)
 					{
-						Console.WriteLine ("\t\tId: "+ a.Id);
+						Console.WriteLine (Didius.Customer.Load (livebider.CustomerId).Name +" = "+  livebider.BuyerNo);
 					}
-										
-					// TOXMLDOCUMENT
-					Console.WriteLine ("\r\tToXmlDocument\n");
-					XmlDocument a1xml = a1.ToXmlDocument ();
-					Console.WriteLine ("\t\t"+ a1xml.InnerXml.ToString ());
-					
-					// FROMXMLDOCUMENT
-					Console.WriteLine ("\r\tFromXmlDocument\n");
-					Didius.Auction a3 = Didius.Auction.FromXmlDocument (a1xml);
-					Console.WriteLine ("\t\tId: "+ a3.Id);
-					
-					// DELETE
+//					{
+//						Console.WriteLine (Didius.Customer.Load (new Guid (key)).Name +" = "+  a2.LiveBiders[key]);
+//					}
+
+
+
+//										
+//					// LOAD
+//					Console.WriteLine ("\tLoad\n");
+//					Didius.Auction a2 = Didius.Auction.Load (a1.Id);
+//
+//					Console.WriteLine ("\t\tId: "+ a2.Id);
+//					
+//					// LIST
+//					Console.WriteLine ("\r\tList\n");
+//					foreach (Didius.Auction a in Didius.Auction.List ())
+//					{
+//						Console.WriteLine ("\t\tId: "+ a.Id);
+//					}
+//										
+//					// TOXMLDOCUMENT
+//					Console.WriteLine ("\r\tToXmlDocument\n");
+//					XmlDocument a1xml = a1.ToXmlDocument ();
+//					Console.WriteLine ("\t\t"+ a1xml.InnerXml.ToString ());
+//					
+//					// FROMXMLDOCUMENT
+//					Console.WriteLine ("\r\tFromXmlDocument\n");
+//					Didius.Auction a3 = Didius.Auction.FromXmlDocument (a1xml);
+//					Console.WriteLine ("\t\tId: "+ a3.Id);
+//					
+//					// DELETE
 					Console.WriteLine ("\r\tDelete\n");
 					Didius.Auction.Delete (a1.Id);
-					
-					// CLEANUP
-					Console.WriteLine ("\tCleanup");
+
+					Didius.Customer.Delete (c1.Id);
+					Didius.Customer.Delete (c2.Id);
+//					
+//					// CLEANUP
+//					Console.WriteLine ("\tCleanup");
 				}
 				#endregion
 

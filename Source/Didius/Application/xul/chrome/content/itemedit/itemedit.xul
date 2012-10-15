@@ -78,24 +78,23 @@
     			
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="bids" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.cases.onChange ();" ondblclick="main.cases.edit ();">
+						<tree id="bids" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.bids.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="no" label="Sags nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-							</treecols>	
-							<treechildren id="casesTreeChildren">
-							</treechildren>
+								<treecol id="createtimestamp" hidden="true"/>
+								<treecol id="customer" label="Kunde" flex="3" persist="width" />
+								<treecol id="amount" label="Bud" flex="1" persist="width" />
+							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="caseEdit" label="Redigere" oncommand="main.cases.edit ();" disabled="true" />
-							<button id="caseDestroy" label="Slet" oncommand="main.cases.destroy ();" disabled="true" />	
+							<button id="bidCreate" label="Opret" oncommand="main.bids.create ();" />	
+							<button id="bidEdit" label="Redigere" oncommand="main.bids.edit ();" />
+							<button id="bidDestroy" label="Slet" oncommand="main.bids.destroy ();" />	
 						</vbox>	
 					</hbox>						
-				</tabpanel>				
-			
+				</tabpanel>							
 			</tabpanels>
 		</tabbox>
 	</hbox>

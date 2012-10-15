@@ -2,30 +2,40 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="choosercustomer" minwidth="600" minheight="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY width height">
+<window id="choosercustomer" minwidth="750" minheight="250" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
 	
 	<script type="application/javascript" src="customer.js"/>	
-			
 	
-		<hbox class="Main" flex="1">
-			<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.customers.onChange ();" ondblclick="main.choose ();">
+			
+	<vbox class="WindowInnerPadding" flex="1">
+		<hbox align="center">				
+			<hbox flex="1">
+				<textbox id="customerSearch" type="search" flex="1" onkeyup="main.filter ();" oncommand="main.filter ();" focused="true"/>
+			</hbox>			
+		</hbox>		
+		<hbox flex="1">		
+			<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.onChange ();" eltype="single">
 				<treecols>
 					<treecol id="id" hidden="true"/>					
-					<treecol id="name" label="Navn" flex="1" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-					<treecol id="address1" label="Adresse" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-					<treecol id="postcode" label="Post nr." width="90" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-					<treecol id="city" label="By" flex="1" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-					<treecol id="email" label="Email" flex="1" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-				</treecols>	
-				<treechildren id="customersTreeChildren">
-				</treechildren>
+					<treecol id="name" label="Navn" flex="1" persist="width"  onclick="main.sort ({column: 'name'});"/>
+					<splitter class="tree-splitter"/>
+					<treecol id="address1" label="Adresse" flex="2" persist="width"  onclick="main.sort ({column: 'address1'});"/>
+					<splitter class="tree-splitter"/>
+					<treecol id="city" label="By" flex="2" persist="width"  onclick="main.sort ({column: 'city'});"/>
+					<splitter class="tree-splitter"/>
+					<treecol id="phone" label="Telefon" flex="2" persist="width"  onclick="main.sort ({column: 'phone'});"/>								
+					<splitter class="tree-splitter"/>
+					<treecol id="email" label="Email" flex="1" persist="width"  onclick="main.sort ({column: 'email'});"/>
+					<splitter class="tree-splitter"/>
+				</treecols>					
 			</tree>
 		</hbox>
-	
-
+	</vbox>						
+										
 	<hbox align="right"  class="WindowButtons">
 		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
 		<button id="choose" label="Vælg" oncommand="main.choose ();" disabled="true"/>

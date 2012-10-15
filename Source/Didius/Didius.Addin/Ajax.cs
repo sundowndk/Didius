@@ -258,13 +258,13 @@ namespace Didius.Addin
 					{						
 						case "create":
 						{
-							result.Add (new Bid (Customer.Load (request.getValue<Guid> ("customerid")), Item.Load (request.getValue<Guid> ("itemid")), request.getValue<decimal> ("amount")));
+							result.Add (new Bid (Customer.Load (request.getValue<Guid> ("customerid")), Item.Load (request.getValue<Guid> ("itemid")), decimal.Parse (request.getValue<string> ("amount"))));
 							break;
 						}		
 							
 						case "load":
 						{
-							result.Add (Item.Load (request.getValue<Guid>("id")));
+							result.Add (Bid.Load (request.getValue<Guid>("id")));
 							break;
 						}
 							
@@ -284,11 +284,11 @@ namespace Didius.Addin
 						{
 							if (request.ContainsXPath ("itemid"))
 							{
-								result.Add (Item.List (request.getValue<Guid> ("itemid")));
+								result.Add (Bid.List (request.getValue<Guid> ("itemid")));
 							}
 							else
 							{
-								result.Add (Item.List ());
+								result.Add (Bid.List ());
 							}
 							break;
 						}

@@ -16,6 +16,9 @@
 			<class name="item">
 				<js file="js/didius/item.js" />				
 			</class>				
+			<class name="bid">
+				<js file="js/didius/bid.js" />				
+			</class>				
 			<class name="auction">
 				<js file="js/didius/auction.js" />				
 			</class>							

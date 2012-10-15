@@ -46,7 +46,9 @@
 								<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single">
 									<treecols>
 										<treecol id="id" hidden="true"/>
+										<splitter class="tree-splitter" hidden="true"/>
 										<treecol id="no" hidden="true" />
+										<splitter class="tree-splitter" hidden="true"/>
 										<treecol id="name" label="Navn" flex="1" persist="width" onclick="main.customers.sort ({column: 'name'});" />
 										<splitter class="tree-splitter"/>
 										<treecol id="address1" label="Adresse" flex="2" persist="width" onclick="main.customers.sort ({column: 'address1'});" />
@@ -58,6 +60,7 @@
 										<treecol id="phone" label="Telefon" flex="1" persist="width" onclick="main.customers.sort ({column: 'phone'});"/>
 										<splitter class="tree-splitter"/>
 										<treecol id="email" label="Email" flex="1" persist="width" onclick="main.customers.sort ({column: 'email'});"/>
+										<splitter class="tree-splitter"/>										
 									</treecols>								
 								</tree>						
 							</hbox>
@@ -78,9 +81,13 @@
 						<tree id="auctions" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.auctions.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>
 								<treecol id="no" hidden="true" />		
-								<treecol id="createtimestamp" hidden="true" />						
+								<splitter class="tree-splitter" hidden="true"/>
+								<treecol id="createtimestamp" hidden="true" />
+								<splitter class="tree-splitter" hidden="true"/>
 								<treecol id="title" label="Title" flex="3" onclick="main.auctions.sort ({column: 'title'});" />
+								<splitter class="tree-splitter" />
 							</treecols>								
 						</tree>
 					</hbox>
@@ -90,7 +97,8 @@
 							<button id="auctionEdit" label="Redigere" disabled="true" oncommand="main.auctions.edit ();"/>
 							<button id="auctionDestroy" label="Slet" disabled="true" oncommand="main.auctions.destroy ();"/>	
 							<spacer flex="1"/>
-							<button id="auctionRun" label="Afvikle" disabled="true" oncommand="main.auctions.run ();"/>							
+							<button id="auctionSignin" label="Registering" disabled="true" oncommand="main.auctions.signin ();"/>	
+							<button id="auctionRun" label="Afvikle" disabled="true" oncommand="main.auctions.run ();"/>														
 						</vbox>
 					</hbox>					
 				</tabpanel>			

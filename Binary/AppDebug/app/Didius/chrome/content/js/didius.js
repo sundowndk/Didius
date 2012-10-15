@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: didius
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -11,19 +11,8 @@ var didius =
 	// ---------------------------------------------------------------------------------------------------------------
 	runtime :
 	{
-		
-		
 		ajaxUrl : "http://sorentotest.sundown.dk/",
 		ajaxUrl1 : "http://78.109.223.248/",
-		
-		
-		events :
-		{
-			onCustomerCreate : new event (),
-			onCustomerLoad : new event (),
-			onCustomerSave : new event (),	
-			onCustomerDestroy : new event ()
-		},
 		
 		initialize : function ()
 		{
@@ -32,35 +21,30 @@ var didius =
 			app.events.onCustomerSave = new sXUL.event ({id: "onCustomerSave", remotePropagation: true});
 			app.events.onCustomerDestroy = new sXUL.event ({id: "onCustomerDestroy", remotePropagation: true});
 			
+			app.events.onAuctionCreate = new sXUL.event ({id: "onAuctionCreate", remotePropagation: true});
+			app.events.onAuctionLoad = new sXUL.event ({id: "onAuctionLoad", remotePropagation: true});
+			app.events.onAuctionSave = new sXUL.event ({id: "onAuctionSave", remotePropagation: true});
+			app.events.onAuctionDestroy = new sXUL.event ({id: "onAuctionDestroy", remotePropagation: true});
+			
+			app.events.onCaseCreate = new sXUL.event ({id: "onCaseCreate", remotePropagation: true});
+			app.events.onCaseLoad = new sXUL.event ({id: "onCaseLoad", remotePropagation: true});
+			app.events.onCaseSave = new sXUL.event ({id: "onCaseSave", remotePropagation: true});
+			app.events.onCaseDestroy = new sXUL.event ({id: "onCaseDestroy", remotePropagation: true});
+			
+			app.events.onItemCreate = new sXUL.event ({id: "onItemCreate", remotePropagation: true});
+			app.events.onItemLoad = new sXUL.event ({id: "onItemLoad", remotePropagation: true});
+			app.events.onItemSave = new sXUL.event ({id: "onItemSave", remotePropagation: true});
+			app.events.onItemDestory = new sXUL.event ({id: "onItemDestroy", remotePropagation: true});
+			
+			app.events.onBidCreate = new sXUL.event ({id: "onBidCreate", remotePropagation: true});
+			app.events.onBidLoad = new sXUL.event ({id: "onBidLoad", remotePropagation: true});
+			app.events.onBidSave = new sXUL.event ({id: "onBidSave", remotePropagation: true});
+			app.events.onBidDestroy = new sXUL.event ({id: "onBidDestroy", remotePropagation: true});
+			
 			app.events.onUserCreate = new sXUL.event ({id: "onUserCreate", remotePropagation: true});
 			app.events.onUserLoad = new sXUL.event ({id: "onUserLoad", remotePropagation: true});
 			app.events.onUserSave = new sXUL.event ({id: "onUserSave", remotePropagation: true});
-			app.events.onUserDestroy = new sXUL.event ({id: "onUserDestroy", remotePropagation: true});
-					
-		//	var onCustomerCreate =	function (eventData)
-		//							{			
-		//								if (!eventData.SXULREMOTEEVENT)					
-		//									sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerCreate", eventData: eventData});
-		//							};
-		//							
-		//	var onCustomerSave =	function (eventData)
-		//							{											
-		//								if (!eventData.SXULREMOTEEVENT)					
-		//									sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerSave", eventData: eventData});
-		//							};
-		//	
-		//	var onCustomerDestroy =	function (eventData)
-		//							{
-		//								if (!eventData.SXULREMOTEEVENT)					
-		//									sXUL.eventListener.update ({id: app.session.eventListenerId, eventId: "onCustomerDestroy", eventData: eventData});
-		//							};
-		//	
-		//	app.events.onCustomerCreate.addHandler (onCustomerCreate);
-		//	app.events.onCustomerSave.addHandler (onCustomerSave);
-		//	app.events.onCustomerDestroy.addHandler (onCustomerDestroy);
-		
-			 
-			 //	 	 dump(didius.runtime.ajaxUrl);		
+			app.events.onUserDestroy = new sXUL.event ({id: "onUserDestroy", remotePropagation: true});			
 		}
 		
 		
@@ -294,7 +278,10 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
 			request.send (content);				
 			
-			app.events.onCaseDestroy.execute (id);
+			var data = {};
+			data.id = id;
+			
+			app.events.onCaseDestroy.execute (data);
 		},				
 				
 		list : function (attributes)
@@ -399,8 +386,11 @@ var didius =
 		
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Destroy", "data", "POST", false);	
 			request.send (content);
+			
+			var data = {}
+			data.id = id;
 					
-			app.events.onItemDestroy.execute (id);
+			app.events.onItemDestroy.execute (data);
 		},				
 				
 		list : function (attributes)
@@ -446,6 +436,110 @@ var didius =
 				request.send (content);
 		
 				return request.respons ()["didius.items"];		
+			}
+		}	
+		
+		
+		
+	},
+
+	// ---------------------------------------------------------------------------------------------------------------
+	// CLASS: bid
+	// ---------------------------------------------------------------------------------------------------------------
+	bid :
+	{
+		create : function (customer, item, amount)
+		{	
+			var content = new Array ();
+			content.customerid = customer.id;
+			content.itemid = item.id;
+			content.amount = amount;
+		
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Create", "data", "POST", false);	
+			request.send (content);
+			
+			var result = request.respons ()["didius.bid"];
+			
+			app.events.onBidCreate.execute (result);
+			
+			return result;
+		},
+			
+		load : function (id)
+		{
+			var content = new Array ();
+			content.id = id;
+		
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Load", "data", "POST", false);		
+			request.send (content);
+		
+			var result = request.respons ()["didius.bid"];
+			
+			app.events.onBidLoad.execute (result);
+		
+			return result;
+		},
+				
+		save : function (bid)
+		{	
+			var content = new Array ();
+			content["didius.bid"] = bid;
+										
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Save", "data", "POST", false);	
+			request.send (content);
+		
+			app.events.onBidSave.execute (bid);
+		},		
+		
+		destroy : function (id)
+		{
+			var content = new Array ();
+			content.id = id;
+		
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Destroy", "data", "POST", false);	
+			request.send (content);
+			
+			var data = {}
+			data.id = id;
+					
+			app.events.onBidDestroy.execute (data);
+		},				
+				
+		list : function (attributes)
+		{
+			if (!attributes) attributes = new Array ();
+			
+			var content = new Array ();
+			
+			// ITEM
+			if (attributes.item)
+			{
+				content.itemid = attributes.item.id;
+			}	
+			
+			// CUSTOMER
+			if (attributes.customer)
+			{
+				content.customerid = attributes.customer.id;
+			}	
+			
+			if (attributes.async)
+			{
+				var onDone = 	function (respons)
+								{
+									attributes.onDone (respons["didius.bids"]);
+								};
+				
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.List", "data", "POST", true);
+				request.onLoaded (onDone);
+				request.send (content);
+			}
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.List", "data", "POST", false);		
+				request.send (content);
+		
+				return request.respons ()["didius.bids"];
 			}
 		}	
 		

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window id="main" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>	
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+		
+	<script type="application/javascript" src="chrome://didius/content/bid/edit.js"/>	
+			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+			
+	<hbox class="Main" flex="1">
+		<tabbox selectedIndex="0" flex="1">		
+			<tabs>				
+				<tab label="Bud"/>							
+			</tabs>
+						
+			<tabpanels flex="1">
+				<tabpanel>
+					<vbox flex="1">
+						<groupbox>
+							<caption label="Meta"/>
+							
+							<hbox align="center">
+								<label class="Label">Kunde:</label>
+								<textbox id="customer" flex="1" readonly="true" />								
+							</hbox>
+							<hbox align="center">
+								<label class="Label">Effekt:</label>
+								<textbox id="item" flex="1" readonly="true" />								
+							</hbox>
+						</groupbox>
+						
+						<groupbox>
+							<caption label="Andet"/>
+							
+							<hbox align="center">
+								<label class="Label">Bud:</label>
+								<textbox id="amount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+							</hbox>							
+						</groupbox>														
+					</vbox>
+    			</tabpanel>    							
+			</tabpanels>
+		</tabbox>
+	</hbox>
+	
+	<hbox class="WindowButtons" align="right" >
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
+		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+	</hbox>
+</window>

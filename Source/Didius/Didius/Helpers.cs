@@ -7,12 +7,12 @@ namespace Didius
 	{
 		public static string NewNo ()
 		{
-			return (DateTime.Now.Second.ToString () + DateTime.Now.Day.ToString () + DateTime.Now.Month.ToString () + DateTime.Now.Hour.ToString () + DateTime.Now.Minute.ToString () + DateTime.Now.Millisecond.ToString ()).PadLeft (10, '0');
+			return (DateTime.Now.Second.ToString () + DateTime.Now.Day.ToString () + DateTime.Now.Month.ToString () + DateTime.Now.Hour.ToString () + DateTime.Now.Minute.ToString ()).PadRight (10, '0');
 		}
 
 		public static int NewCatelogNo (Auction Auction)
 		{
-			int result = 0;
+			int result = 1;
 
 			List<int> used = new List<int> ();
 
@@ -24,28 +24,19 @@ namespace Didius
 				}
 			}
 
-			if (used.Count > 0)
-			{
-				used.Sort (delegate (int int1, int int2) { return int1.CompareTo (int2); });
+			//used.Sort (delegate (int int1, int int2) { return int1.CompareTo (int2); });
 
-				for (int i = 0; i < used.Count; i++) 
+			if (used.Count > 0)
+			{							
+				for (int i = 1; i <= (used.Count+1); i++) 
 				{
-					if ((i + 1) < used.Count)
+					if (!used.Contains (i))
 					{
-						if ((used[i + 1]) != (used[i] + 1))
-						{
-							result = used[i];
-							break;
-						}
-					}
-					else
-					{
-						result = used[used.Count - 1];
+						result = i;
+						break;
 					}
 				}
-			}
-
-			result++;
+			}		
 
 			return result;
 		}

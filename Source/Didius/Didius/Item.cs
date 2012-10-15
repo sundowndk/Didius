@@ -637,7 +637,14 @@ namespace Didius
 
 			if (item.ContainsKey ("fields"))
 			{					
-				result._fields =(Hashtable)item["fields"];
+				try
+				{
+					result._fields = (Hashtable)item["fields"];
+				}
+				catch
+				{
+					// This conversion will fail if its empty. No way of knowing if its a list or hash.
+				}
 			}	
 			
 			return result;

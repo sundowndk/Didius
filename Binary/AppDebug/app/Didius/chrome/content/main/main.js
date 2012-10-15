@@ -9,7 +9,7 @@ var main =
 		
 	//	main.login.show ();													
 						
-		document.title = "York Auktion ApS [Rasmus Pedersen] ";
+		document.title = "Didius v1.24 - York Auktion ApS [Rasmus Pedersen] ";
 				
 		main.controls.statusbar.progressmeter.setMode ("undetermined");
 		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
@@ -273,6 +273,7 @@ var main =
 				document.getElementById ("auctionCreate").disabled = false;
 				document.getElementById ("auctionEdit").disabled = false;
 				document.getElementById ("auctionDestroy").disabled = false;
+				document.getElementById ("auctionSignin").disabled = false;
 				document.getElementById ("auctionRun").disabled = false;
 			}
 			else
@@ -280,6 +281,7 @@ var main =
 				document.getElementById ("auctionCreate").disabled = false;
 				document.getElementById ("auctionEdit").disabled = true;
 				document.getElementById ("auctionDestroy").disabled = true;
+				document.getElementById ("auctionSignin").disabled = true;
 				document.getElementById ("auctionRun").disabled = true;
 			}
 		},	
@@ -291,7 +293,8 @@ var main =
 			
 		create : function ()
 		{		
-			var current = didius.auction.create ();						
+			var current = didius.auction.create ();			
+			current.title = "Unavngiven auktion";			
 			didius.auction.save (current);																												
 																	
 			window.openDialog ("chrome://didius/content/auctionedit/auctionedit.xul", current.id, "chrome", {auctionId: current.id});
@@ -322,10 +325,15 @@ var main =
 			}
 		},
 		
-		run : function ()
+		signin : function ()
 		{
 			var current = main.auctions.auctionsTreeHelper.getRow ();
-													
+			window.openDialog ("chrome://didius/content/auction/signin.xul", "signin-"+ current.id, "chrome", {auctionId: current.id});
+		},
+		
+		run : function ()
+		{
+			var current = main.auctions.auctionsTreeHelper.getRow ();												
 			window.openDialog ("chrome://didius/content/auctionrun/auctionrun.xul", current.id, "chrome", {auctionId: current.id});
 		}
 	}	

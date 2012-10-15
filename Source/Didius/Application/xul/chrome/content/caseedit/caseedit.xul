@@ -5,6 +5,7 @@
 <window id="main" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/javascript" src="chrome://didius/content/caseedit/caseedit.js"/>	
 			
@@ -78,15 +79,13 @@
     			
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.items.onChange ();" ondblclick="main.items.edit ();">
+						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.items.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="catalogno" label="Katalog nr." width="30" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="no" label="Effekt nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-							</treecols>	
-							<treechildren id="itemsTreeChildren">
-							</treechildren>
+								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="main.items.sort ({column: 'catalogno'});"/>
+								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="main.items.sort ({column: 'no'});"/>
+								<treecol id="title" label="Title" flex="2" persist="width" onclick="main.items.sort ({column: 'title'});"/>
+							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>

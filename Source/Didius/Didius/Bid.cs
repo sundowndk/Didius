@@ -124,8 +124,12 @@ namespace Didius
 				item.Add ("itemid", this._itemid);		
 
 				item.Add ("amount", this._amount);
+
+				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
+				meta.Add ("customerid", this._customerid);
+				meta.Add ("itemid", this._itemid);
 				
-				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()));
+				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
 			}
 			catch (Exception exception)
 			{
@@ -146,7 +150,9 @@ namespace Didius
 			result.Add ("updatetimestamp", this._updatetimestamp);				
 
 			result.Add ("customerid", this._customerid);
+			result.Add ("customer", Customer.Load (this._customerid));
 			result.Add ("itemid", this._itemid);
+			result.Add ("item", Item.Load (this._itemid));
 
 			result.Add ("amount", this._amount);
 			

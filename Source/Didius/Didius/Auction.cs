@@ -32,7 +32,10 @@ namespace Didius
 		private string _no;
 
 		private string _title;
+		private int _auctiondate;
 		private string _description;
+
+		private List<LiveBider> _livebiders;
 
 		private string _notes;
 		#endregion
@@ -83,6 +86,14 @@ namespace Didius
 			}
 		}
 
+		public DateTime AuctionDate
+		{
+			get
+			{
+				return SNDK.Date.TimestampToDateTime (this._auctiondate);
+			}
+		}
+
 		public string Description
 		{
 			get
@@ -93,6 +104,14 @@ namespace Didius
 			set
 			{
 				this._description = value;
+			}
+		}
+
+		public List<LiveBider> LiveBiders
+		{
+			get
+			{
+				return this._livebiders;
 			}
 		}
 
@@ -129,7 +148,10 @@ namespace Didius
 			this._no = Helpers.NewNo ();
 
 			this._title = string.Empty;
+			this._auctiondate = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._description = string.Empty;
+
+			this._livebiders = new List<LiveBider> ();
 
 			this._notes = string.Empty;
 		}		
@@ -151,7 +173,10 @@ namespace Didius
 				item.Add ("no", this._no);	
 
 				item.Add ("title", this._title);
+				item.Add ("auctiondate", this._auctiondate);
 				item.Add ("description", this._description);
+
+				item.Add ("livebiders", this._livebiders);
 
 				item.Add ("notes", this._notes);
 								
@@ -159,6 +184,7 @@ namespace Didius
 			}
 			catch (Exception exception)
 			{
+				Console.WriteLine (exception);
 				// LOG: LogDebug.ExceptionUnknown
 				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUCTION", exception.Message));
 				
@@ -190,7 +216,10 @@ namespace Didius
 			result.Add ("no", this._no);
 
 			result.Add ("title", this._title);
+			result.Add ("auctiondate", String.Format("{0:yyyy/MM/dd}", SNDK.Date.TimestampToDateTime (this._auctiondate)));
 			result.Add ("description", this._description);
+
+			result.Add ("livebiders", this._livebiders);
 
 			result.Add ("notes", this._notes);
 
@@ -228,12 +257,25 @@ namespace Didius
 				if (item.ContainsKey ("title"))
 				{
 					result._title = (string)item["title"];
-				}				
+				}			
+
+				if (item.ContainsKey ("auctiondate"))
+				{
+					result._auctiondate = int.Parse ((string)item["auctiondate"]);
+				}			
 
 				if (item.ContainsKey ("description"))
 				{
 					result._description = (string)item["description"];
 				}				
+
+				if (item.ContainsKey ("livebiders"))
+				{				
+					foreach (XmlDocument livebider in (List<XmlDocument>)item["livebiders"])
+					{
+						result._livebiders.Add (LiveBider.FromXmlDocument (livebider));
+					}
+				}
 
 				if (item.ContainsKey ("notes"))
 				{
@@ -341,10 +383,23 @@ namespace Didius
 				result._title = (string)item["title"];
 			}
 
+			if (item.ContainsKey ("auctiondate"))
+			{			
+				result._auctiondate = SNDK.Date.DateTimeToTimestamp (DateTime.ParseExact ((string)item["auctiondate"], "yyyy/MM/dd", null));
+			}
+
 			if (item.ContainsKey ("description"))
 			{
 				result._description = (string)item["description"];
 			}				
+
+			if (item.ContainsKey ("livebiders"))
+			{				
+				foreach (XmlDocument livebider in (List<XmlDocument>)item["livebiders"])
+				{
+					result._livebiders.Add (LiveBider.FromXmlDocument (livebider));
+				}
+			}	
 
 			if (item.ContainsKey ("notes"))
 			{

@@ -86,6 +86,7 @@
     <Compile Include="Didius\Helpers.cs" />
     <Compile Include="Didius\EventListener.cs" />
     <Compile Include="Didius\Event.cs" />
+    <Compile Include="Didius\LiveBider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -136,6 +137,7 @@
     <Folder Include="Application\xul\chrome\content\auction\catalog\" />
     <Folder Include="Application\xul\chrome\content\printing\" />
     <Folder Include="Application\xul\chrome\content\templates\" />
+    <Folder Include="Application\xul\chrome\content\bid\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -231,6 +233,13 @@
     <None Include="Application\xul\chrome\content\printing\test.css" />
     <None Include="Application\xul\chrome\content\templates\cataloglarge.tpl" />
     <None Include="Application\xul\chrome\content\templates\catalogsmall.tpl" />
+    <None Include="Application\xul\chrome\content\auction\signin.xul" />
+    <None Include="Application\xul\chrome\content\auction\signin.js" />
+    <None Include="Application\xul\chrome\content\bid\edit.xul" />
+    <None Include="Application\xul\chrome\content\bid\edit.js" />
+    <None Include="Application\js\didius\bid.js" />
+    <None Include="Application\xul\chrome\content\bid\create.js" />
+    <None Include="Application\xul\chrome\content\bid\create.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

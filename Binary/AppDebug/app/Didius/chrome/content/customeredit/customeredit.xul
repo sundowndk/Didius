@@ -5,6 +5,7 @@
 <window id="editcustomer" minwidth="750" minheight="650" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY width height">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/> 
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
 		
 	<script type="application/javascript" src="chrome://didius/content/customeredit/customeredit.js"/>	
@@ -111,14 +112,15 @@
     			
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.controls.cases.onChange ();" ondblclick="main.cases.edit ();">
+						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.cases.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="no" label="Sags nr." width="140" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
-								<treecol id="title" label="Title" flex="2" onclick="SignonColumnSort('hostname');" persist="width" sortDirection="ascending"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="no" label="Sags nr." width="100" persist="width" onclick="main.cases.sort ({column: 'no'});" />
+								<splitter class="tree-splitter"/>
+								<treecol id="title" label="Title" flex="2" persist="width" onclick="main.cases.sort ({column: 'title'});" />
+								<splitter class="tree-splitter"/>
 							</treecols>	
-							<treechildren id="casesTreeChildren">
-							</treechildren>
 						</tree>
 					</hbox>
 					<hbox>
