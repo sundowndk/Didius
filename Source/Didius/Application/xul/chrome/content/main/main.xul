@@ -97,8 +97,10 @@
 							<button id="auctionEdit" label="Redigere" disabled="true" oncommand="main.auctions.edit ();"/>
 							<button id="auctionDestroy" label="Slet" disabled="true" oncommand="main.auctions.destroy ();"/>	
 							<spacer flex="1"/>
+							<button id="test" label="Test" disabled="false" oncommand="main.test ();"/>														
+
 							<button id="auctionSignin" label="Registering" disabled="true" oncommand="main.auctions.signin ();"/>	
-							<button id="auctionRun" label="Afvikle" disabled="true" oncommand="main.auctions.run ();"/>														
+							<button id="auctionRun" label="Afvikle" disabled="true" oncommand="main.auctions.run ();"/>																					
 						</vbox>
 					</hbox>					
 				</tabpanel>			

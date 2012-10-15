@@ -20,4 +20,8 @@
 	<Extension path = "/SorentoLib/Resolver/Ajaxes">
 		<Type type="Didius.Addin.Ajax"/>
 	</Extension>				
+	
+	<Extension path = "/SorentoLib/Resolver/Functions">
+		<Type type="Didius.Addin.Function"/>
+	</Extension>	
 </Addin>

@@ -15,7 +15,9 @@ var main =
 		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
 				
 		main.customers.init ();		
-		main.auctions.init ();			
+		main.auctions.init ();		
+		
+		//	main.settings ();	
 					
 		main.controls.statusbar.progressmeter.setMode ("determined");
 		main.controls.statusbar.progressmeter.setValue (100);
@@ -31,6 +33,57 @@ var main =
 		app.events.onAuctionCreate.addHandler (main.eventHandlers.onAuctionCreate);
 		app.events.onAuctionSave.addHandler (main.eventHandlers.onAuctionSave);
 		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
+	},
+	
+	test : function ()
+	{
+		var fileupload = 	function (postUrl, fieldName, filePath, onDone)
+							{
+								var formData = new FormData();
+  								formData.append (fieldName, new File(filePath));
+  								formData.append ("cmd", "Function");
+  								formData.append ("cmd.function", "Didius.Item.ImageUpload");  								
+ 
+  								var req = new XMLHttpRequest();
+  								req.open("POST", postUrl);
+  								req.onload = function(event) { onDone (event.target.responseText); };
+  								
+  								req.send(formData);
+  								
+//						var uploadform = SNDK.tools.newElement ("form", {id: "uploadform", method: "POST", enctype: "multipart/form-data", target: "uploadframe"})
+//						SNDK.tools.newElement ("input", {type: "hidden", name: "cmd", value: "Function", appendTo: uploadform});
+//						SNDK.tools.newElement ("input", {type: "hidden", name: "cmd.function", value: "SorentoLib.Media.Upload", appendTo: uploadform});
+//						SNDK.tools.newElement ("input", {type: "hidden", name: "cmd.onsuccess", value: "/console/includes/upload", appendTo: uploadform});
+//						SNDK.tools.newElement ("input", {type: "hidden", name: "cmd.onerror", value: "/console/includes/upload", appendTo: uploadform});
+//						SNDK.tools.newElement ("input", {type: "hidden", name: "cmd.redirect", value: "False", appendTo: uploadform});
+						
+//						SNDK.tools.newElement ("input", {type: "hidden", name: "path", value: attributes.path, appendTo: uploadform});
+//						SNDK.tools.newElement ("input", {type: "hidden", name: "mimetypes", value: attributes.mimetypes, appendTo: uploadform});
+//						SNDK.tools.newElement ("input", {type: "hidden", name: "mediatype", value: "public", appendTo: uploadform});	
+//						SNDK.tools.newElement ("input", {type: "hidden", name: "mediatransformations", value: attributes.mediatransformations, appendTo: uploadform});  								
+  								
+							};
+							
+		var onDone =	function (text)
+						{														
+							sXUL.console.log ("response:"+ text.replace ("\n",""));																					
+						};
+			
+							
+//		fileupload ("http://sorentotest.sundown.dk/", "image", "/home/rvp/Skrivebord/upload.pdf", onDone );
+
+
+		var formData = new FormData();  		
+  		formData.append ("cmd", "Media");  		
+ 
+  		var req = new XMLHttpRequest();
+  		req.open("POST", "http://sorentotest.sundown.dk/");
+  		req.onload = function(event) { alert (event.target.responseText); };
+  								
+  		req.send(formData);
+
+	
+	
 	},
 	
 	eventHandlers :

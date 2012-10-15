@@ -87,6 +87,7 @@
     <Compile Include="Didius\EventListener.cs" />
     <Compile Include="Didius\Event.cs" />
     <Compile Include="Didius\LiveBider.cs" />
+    <Compile Include="Didius.Addin\Function.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

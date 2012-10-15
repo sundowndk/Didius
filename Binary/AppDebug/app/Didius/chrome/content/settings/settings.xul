@@ -17,14 +17,69 @@
 			
 	<hbox class="Main" flex="1">
 		<hbox>
-			<richlistbox id="settingsMenu" onClick="main.settings.change ();">  	
-  				<richlistitem align="center" class="SettingsMenuItem" value="access">  
-    				<image src="chrome://didius/content/icons/16/settings_access.png" /><label>Adgangskontrol</label>
+			<richlistbox id="settingsMenu" onselect="main.onChange ();" seltype="single">  	
+				<richlistitem align="center" class="SettingsMenuItem" value="settingsCompany">
+    				<image src="chrome://didius/content/icons/16/settings_company.svg"/><label>Firmaoplysninger</label>
   				</richlistitem>
-			</richlistbox>
+  				<richlistitem align="center" class="SettingsMenuItem" value="settingsAccess">
+    				<image src="chrome://didius/content/icons/16/settings_access.png"/><label>Adgangskontrol</label>    			
+  				</richlistitem>
+  				<richlistitem align="center" class="SettingsMenuItem" value="settingsTexts">
+    				<image src="chrome://didius/content/icons/16/settings_texts.svg"/><label>Tekster</label>
+  				</richlistitem>
+  				<richlistitem align="center" class="SettingsMenuItem" value="settingsValues">
+    				<image src="chrome://didius/content/icons/16/settings_values.svg"/><label>Værdier</label>
+  				</richlistitem>
+  				<richlistitem align="center" class="SettingsMenuItem" value="settingsEmail">
+    				<image src="chrome://didius/content/icons/16/settings_email.svg"/><label>E-mail</label>
+  				</richlistitem>
+			</richlistbox>						
 		</hbox>
-		<hbox flex="1">
-			<vbox flex="1" id="settingsAccess">
+		
+		<hbox flex="1" collapsed="true" id="settingsCompany">
+			<vbox flex="1" >
+				<hbox class="SettingsHeader">
+					<label>Firmaoplysninger</label>
+				</hbox>
+				<vbox flex="1" style="overflow:auto">
+					<hbox>
+						<groupbox flex="1">
+							<caption label="Info"/>
+							<hbox align="center">
+								<label class="Label">Navn:</label>
+								<textbox id="companyName" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox align="center">
+								<label class="Label">Adresse:</label>
+								<textbox id="companyAddress" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox align="center">
+								<label class="Label">Post nr.:</label>
+								<textbox id="companyPostcode" flex="1" width="70" onkeyup="main.onChange ();"/>
+								<label class="Label">By:</label>
+								<textbox id="companyCity" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>							
+						</groupbox>
+					</hbox>					
+					<hbox>
+						<groupbox flex="1">
+							<caption label="Kontakt"/>
+							<hbox align="center">
+								<label class="Label">Telefon:</label>
+								<textbox id="companyPhone" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>							
+							<hbox align="center">
+								<label class="Label">Email:</label>
+								<textbox id="companyEmail" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>														
+						</groupbox>
+					</hbox>					
+				</vbox>
+			</vbox>
+		</hbox>				
+		
+		<hbox flex="1" collapsed="true" id="settingsAccess">
+			<vbox flex="1" >
 				<hbox class="SettingsHeader">
 					<label>Adgangskontrol</label>
 				</hbox>
@@ -47,9 +102,100 @@
 				</hbox>
 			</vbox>
 		</hbox>
+						
+		<hbox flex="1" collapsed="true" id="settingsTexts">
+			<vbox flex="1" >
+				<hbox class="SettingsHeader">
+					<label>Tekster</label>
+				</hbox>
+				<vbox flex="1" style="overflow:auto">
+					<hbox>
+						<groupbox flex="1">
+							<caption label="Auktion"/>														
+							<hbox align="top">
+								<label class="Label">Text:</label>
+								<textbox id="auctionText" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>												
+						</groupbox>
+					</hbox>				
+				</vbox>
+			</vbox>
+		</hbox>
+		
+		<hbox flex="1" collapsed="true" id="settingsValues">
+			<vbox flex="1" >
+				<hbox class="SettingsHeader">
+					<label>Værdier</label>
+				</hbox>
+				<vbox flex="1" style="overflow:auto">
+					<hbox>
+						<groupbox flex="1">
+							<caption label="Gebyr"/>
+							<hbox align="center">
+								<label class="Label">Fremstilling:</label>								
+								<textbox id="preparationFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+							</hbox>														
+						</groupbox>
+					</hbox>				
+					<hbox>	
+						<groupbox flex="1">
+							<caption label="Salær"/>							
+							<hbox align="center">
+								<label class="Label">Procent:</label>							
+								<textbox id="commisionFeePercentage" type="number" decimalplaces="0" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+							</hbox>  					
+							<hbox align="center">
+								<label class="Label">Minimum:</label>								
+								<textbox id="commisionFeeMinimum" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+							</hbox>  					
+						</groupbox>										
+					</hbox>				
+				</vbox>
+			</vbox>
+		</hbox>
+		<hbox flex="1" collapsed="true" id="settingsEmail">
+			<vbox flex="1" >
+				<hbox class="SettingsHeader">
+					<label>E-mail</label>
+				</hbox>
+				<vbox flex="1" style="overflow:auto">
+					<hbox>
+						<groupbox flex="1">
+							<caption label="Gebyr"/>
+							<hbox align="center">
+								<label class="Label">Generalt:</label>								
+								<textbox id="emailSender" flex="1" onchange="main.onChange ();" />
+							</hbox>														
+						</groupbox>
+					</hbox>				
+					<hbox>	
+						<groupbox flex="1">
+							<caption label="Tekster"/>
+							<hbox align="top">
+								<label class="Label">Vundet bud:</label>
+								<textbox id="emailTextBidWon" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>							
+							<hbox align="top">
+								<label class="Label">Over budt:</label>
+								<textbox id="emailTextOutBid" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>
+							<hbox align="top">
+								<label class="Label">Faktura:</label>
+								<textbox id="emailTextInvoice" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>							
+							<hbox align="top">
+								<label class="Label">Afregning:</label>
+								<textbox id="emailTextSettlement" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>
+						</groupbox>										
+					</hbox>				
+				</vbox>
+			</vbox>
+		</hbox>
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
-		<button id="close" label="Luk" oncommand="main.close ();" disabled="false"/>		
+		<button id="close" label="Luk" oncommand="main.close ();" />		
+		<button id="save" label="Gem" oncommand="main.save ();" />		
 	</hbox>
 </window>

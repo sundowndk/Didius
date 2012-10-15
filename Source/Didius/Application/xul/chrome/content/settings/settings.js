@@ -3,23 +3,142 @@ Components.utils.import("resource://didius/js/app.js");
 var main =
 {
 	checksum : null,
-	currentMenu : "access",	
+	current : {},
+	currentPage : null,		
 		 
 	init : function ()
-	{
-		this.access.init ();
+	{		
+		main.set ();		
 		
+		app.events.onUserCreate.addHandler (this.eventHandlers.onUserCreate);
+		app.events.onUserSave.addHandler (this.eventHandlers.onUserSave);
+		app.events.onUserDestroy.addHandler (this.eventHandlers.onUserDestroy);
 	},			
+					
+	eventHandlers :
+	{
+		onUserCreate : function (eventData)
+		{
+			main.access.usersTreeHelper.addRow ({data: eventData});
+		},
+	
+		onUserSave : function (eventData)
+		{			
+			main.access.usersTreeHelper.setRow ({data: eventData});
+		},
+	
+		onUserDestroy : function (eventData)
+		{				
+			main.access.usersTreeHelper.removeRow ({id: eventData.id});
+		}		
+	},	
+				
+	set : function ()
+	{
+		main.current = {};
+		
+		main.checksum = SNDK.tools.arrayChecksum (main.current);
+	
+		this.access.init ();		
+	
+		document.getElementById ("settingsMenu").selectedIndex = 0;					
+	},
+	
+	get : function ()
+	{
+		// COMPANY
+		main.current.companyname = document.getElementById ("companyName").value;
+		main.current.companyaddress = document.getElementById ("companyAddress").value;
+		main.current.companypostcode = document.getElementById ("companyPostcode").value;
+		main.current.companycity = document.getElementById ("companyCity").value;
+		main.current.companyphone = document.getElementById ("companyPhone").value;
+		main.current.companyemail = document.getElementById ("companyEmail").value;
+		
+		// TEXTS
+		main.current.auctiontext = document.getElementById ("auctionText").value;
+		
+		// VALUES
+		main.current.preparationfee = document.getElementById ("preparationFee").value;
+		main.current.commisionfeepercentage = document.getElementById ("commisionFeePercentage").value;
+		main.current.commisionfeeminimum = document.getElementById ("commisionFeeMinimum").value;			
+		
+		// EMAIL
+		main.current.emailsender = document.getElementById ("emailSender").value;
+		main.current.emailtextbidwon = document.getElementById ("emailTextBidWon").value;
+		main.current.emailtextoutbid = document.getElementById ("emailTextOutBid").value;
+		main.current.emailtextinvoice = document.getElementById ("emailTextInvoice").value;
+		main.current.emailtextsettlement = document.getElementById ("emailTextSettlement").value;
+	},
+	
+	onChange : function ()
+	{		
+		main.get ();
+	
+		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
+		{					
+			document.getElementById ("close").disabled = false;
+			document.getElementById ("save").disabled = false;			
+		}
+		else
+		{				
+			document.getElementById ("close").disabled = false;
+			document.getElementById ("save").disabled = true;			
+		}
+							
+		if (document.getElementById ("settingsMenu").selectedItem != null)
+		{
+			var page = document.getElementById ("settingsMenu").selectedItem.value;
 			
+			if (page != null)
+			{
+				main.setPage (page);
+			}
+		}
+	},
+	
+	setPage : function (page)
+	{		
+		document.getElementById (page).setAttribute ("collapsed", false);
+		
+		if (main.currentPage != null && main.currentPage != page)
+		{
+			document.getElementById (main.currentPage).setAttribute ("collapsed", true);		
+		}
+		
+		main.currentPage = page;
+	},
+	
 	close : function (force)
-	{				
+	{	
+		// If we are forced to close, then dont promt user about potential unsaved data.		
+		if (!force)
+		{	
+			// If checksums do not match, promt user about unsaved data.
+			if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
+			{
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+			
+				if (!prompts.confirm (null, "Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
+				{
+					return false;
+				}			
+			}
+		}
+		
+		// Unhook events.		
+		app.events.onUserCreate.removeHandler (main.eventHandlers.onUserCreate);				
+		app.events.onUserSave.removeHandler (main.eventHandlers.onUserSave);
+		app.events.onUserDestroy.removeHandler (main.eventHandlers.onUserDestroy);
+							
 		// Close window.
 		window.close ();
 	},
 	
-	onChange : function ()
+	save : function ()
 	{
-	
+		main.get ()
+		
+		main.onChange ();
 	},
 	
 	access :
@@ -30,30 +149,7 @@ var main =
 		{
 			this.usersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("users"), sort: "realname", sortDirection: "descending", onDoubleClick: main.access.userEdit});
 			this.set ();
-			
-			app.events.onUserCreate.addHandler (this.eventHandlers.onUserCreate);
-			app.events.onUserSave.addHandler (this.eventHandlers.onUserSave);
-			app.events.onUserDestroy.addHandler (this.eventHandlers.onUserDestroy);
-		},
-		
-		eventHandlers :
-		{
-			onUserCreate : function (eventData)
-			{
-				main.access.usersTreeHelper.addRow ({data: eventData});
-			},
-		
-			onUserSave : function (eventData)
-			{
-			sXUL.console.log ("blablabla")
-				main.access.usersTreeHelper.setRow ({data: eventData});
-			},
-		
-			onUserDestroy : function (eventData)
-			{				
-				main.access.usersTreeHelper.removeRow ({id: eventData.id});
-			}		
-		},
+		},		
 		
 		set : function ()
 		{
@@ -101,14 +197,14 @@ var main =
 		
 		userCreate : function ()
 		{																													
-			window.openDialog ("chrome://didius/content/settings/access/user/create.xul", "usercreate", "chrome", null);
+			window.openDialog ("chrome://didius/content/settings/access/user/create.xul", "usercreate", "chrome,modal", null);
 		},
 		
 		userEdit : function ()
 		{
 			var current = main.access.usersTreeHelper.getRow ();
 																		
-			window.openDialog ("chrome://didius/content/settings/access/user/edit.xul", current.id, "chrome", {userId: current.id});
+			window.openDialog ("chrome://didius/content/settings/access/user/edit.xul", current.id, "chrome,modal", {userId: current.id});
 		},
 		
 		userDestroy : function ()
