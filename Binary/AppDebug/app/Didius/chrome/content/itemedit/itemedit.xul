@@ -19,7 +19,8 @@
 		
 			<tabs>
 				<tab label="Detaljer"/>
-				<tab label="Bud"/>							
+				<tab label="Billed"/>			
+				<tab label="Bud"/>								
 			</tabs>
 						
 			<tabpanels flex="1">
@@ -74,6 +75,11 @@
 							</hbox>							
 						</groupbox>						
 					</vbox>
+    			</tabpanel>
+    			
+    			<tabpanel>    				
+    					<image class="ItemImage" id="picture" src='chrome://didius/content/icons/noimage.jpg' width="150"/>   
+    					<button label="Vælg billede" oncommand="main.setPicture ();"/>
     			</tabpanel>
     			
 				<tabpanel>

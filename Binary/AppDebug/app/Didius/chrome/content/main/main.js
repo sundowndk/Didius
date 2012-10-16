@@ -70,17 +70,17 @@ var main =
 						};
 			
 							
-//		fileupload ("http://sorentotest.sundown.dk/", "image", "/home/rvp/Skrivebord/upload.pdf", onDone );
+		fileupload ("http://sorentotest.sundown.dk/", "image", "/home/sundown/Skrivebord/mozilla.pdf", onDone );
 
 
-		var formData = new FormData();  		
-  		formData.append ("cmd", "Media");  		
+//		var formData = new FormData();  		
+  //		formData.append ("cmd", "Media");  		
  
-  		var req = new XMLHttpRequest();
-  		req.open("POST", "http://sorentotest.sundown.dk/");
-  		req.onload = function(event) { alert (event.target.responseText); };
+  	//	var req = new XMLHttpRequest();
+  	//	req.open("POST", "http://sorentotest.sundown.dk/");
+  	//	req.onload = function(event) { alert (event.target.responseText); };
   								
-  		req.send(formData);
+  	//	req.send(formData);
 
 	
 	

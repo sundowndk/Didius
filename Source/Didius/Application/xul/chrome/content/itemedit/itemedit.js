@@ -195,6 +195,49 @@ var main =
 		window.close ();
 	},
 	
+	setPicture : function ()
+	{
+	var fileupload = 	function (postUrl, fieldName, filePath, onDone)
+							{
+								var formData = new FormData();
+  								formData.append (fieldName, new File(filePath));
+  								formData.append ("cmd", "Function");
+  								formData.append ("cmd.function", "Didius.Item.ImageUpload");  								
+ 
+  								var req = new XMLHttpRequest();
+  								req.open("POST", postUrl);
+  								req.onload = function(event) { onDone (event.target.responseText); };
+  								
+  								req.send(formData);  								
+							};
+							
+		var onDone =	function (text)
+						{														
+							var mediaid = text.replace ("\n","").split (":")[1];
+							
+							sXUL.console.log (mediaid);
+							
+							document.getElementById ("picture").src = "http://sorentotest.sundown.dk/getmedia/"+mediaid;
+						
+							sXUL.console.log ("response:"+ text.replace ("\n",""));																					
+						};
+			
+							
+	
+	
+	
+		var nsIFilePicker = Components.interfaces.nsIFilePicker;
+		var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+		fp.init(window, "Select a File", nsIFilePicker.modeOpen);
+		
+		var res = fp.show();
+		if (res != nsIFilePicker.returnCancel){
+  			var thefile = fp.file;
+		fileupload ("http://sorentotest.sundown.dk/", "image", fp.file, onDone );
+  			
+		}
+	},
+	
 	onChange : function ()
 	{
 		main.get ();
