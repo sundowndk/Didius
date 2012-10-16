@@ -1,12 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius.Addin/Function.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="73" Column="107" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="88" Column="26" />
-      <File FileName="Didius/Didius.Addin/Function.cs" Line="55" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="220" Column="41" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.xul" Line="81" Column="46" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="111" Column="54" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul" Line="41" Column="27" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.xul" Line="62" Column="21" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="374" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,14 +16,19 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="auction" expanded="True" />
+                    <Node name="auction" expanded="True">
+                      <Node name="catalog" expanded="True" />
+                    </Node>
                     <Node name="auctionedit" expanded="True" />
-                    <Node name="auctionrun" expanded="True" />
+                    <Node name="auctionrun" expanded="True">
+                      <Node name="auctionrun.js" selected="True" />
+                    </Node>
                     <Node name="bid" expanded="True" />
                     <Node name="caseedit" expanded="True" />
                     <Node name="chooser" expanded="True" />
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
+                    <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />
                   </Node>
@@ -32,10 +36,11 @@
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True">
-              <Node name="Function.cs" selected="True" />
-            </Node>
+            <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
+            <Node name="resources" expanded="True">
+              <Node name="scripts" expanded="True" />
+            </Node>
           </Node>
         </State>
       </Pad>

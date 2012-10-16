@@ -1,0 +1,5 @@
+<job>
+	<load path="%%SOURCEPATH%%" name="IMAGE"/>	
+	<scale source="IMAGE" width="850" height="500" keepaspect="true" exact="true"/>
+	<save source="IMAGE" path="%%SOURCEPATH%%" codec="jpeg" quality="90"/>
+</job>  

@@ -98,63 +98,86 @@ var app =
 	},
 	
 	error : function (attributes)
-	{
-		dump (attributes.exception)
-	
+	{			
 		var text = "";
-								
-		switch (attributes.exception.split ("|")[0])
+		
+		if (attributes.errorCode != null)
 		{
-		
-			// CUSTOMER
-			case "00120":
-			{
-				text = "Kunden eksistere ikke i databasen.";
-				break;																
-			}
-		
-			case "00130":
-			{
-				text = "Kunne ikke finde kunden der skulle slettes, prøv igen.";	
-				break;																
-			}
+			switch (attributes.errorCode.split ("|")[0])
+			{						
+				// ITEM
+				case "APP00480":
+				{
+					text = "Der skete en fejl under upload af billede.";
+					break;
+				}
+				
+				// DEFAULT
+				default:
+				{
+					text = "Der er opstået en ukendt fejl. '"+ attributes.errorCode +"'";
+					break;
+				}
+			}			
+		}
 								
-			case "00131":
-			{
-				text = "Kan ikke slette kunden da denne har tilknyttet sager. Slet alle sagerne og forsøg igen.";
-				break;
-			}
+		if (attributes.exception != null)
+		{
+			dump (attributes.exception)
 			
-			// CASE
-			case "00330":
-			{
-				text = "Kunne ikke finde sagen der skulle slettes, prøv igen.";	
-				break;
-			}
-		
-			case "00331":
-			{
-				text = "Kan ikke slette sagen da denne har tilknyttet effekter. Slet effekter og forsøg igen.";	
-				break;
-			}
+			switch (attributes.exception.split ("|")[0])
+			{		
+				// CUSTOMER
+				case "00120":
+				{
+					text = "Kunden eksistere ikke i databasen.";
+					break;																
+				}
 			
-			case "00530":
-			{
-				text = "Kunne ikke finde auktion der skulle slettes, prøv igen.";	
-				break;																
-			}
+				case "00130":
+				{
+					text = "Kunne ikke finde kunden der skulle slettes, prøv igen.";	
+					break;																
+				}
+									
+				case "00131":
+				{
+					text = "Kan ikke slette kunden da denne har tilknyttet sager. Slet alle sagerne og forsøg igen.";
+					break;
+				}
+				
+				// CASE
+				case "00330":
+				{
+					text = "Kunne ikke finde sagen der skulle slettes, prøv igen.";	
+					break;
+				}
 			
-			case "00531":
-			{
-				text = "Kan ikke slette auktion da denne har tilknyttet sager. Slet sagerne og forsøg igen.";
-				break;
-			}
-			
-			// DEFAULT
-			default:
-			{
-				text = "Der er opstået en ukendt fejl. '"+ attributes.exception +"'";
-				break;
+				case "00331":
+				{
+					text = "Kan ikke slette sagen da denne har tilknyttet effekter. Slet effekter og forsøg igen.";	
+					break;
+				}
+				
+				case "00530":
+				{
+					text = "Kunne ikke finde auktion der skulle slettes, prøv igen.";	
+					break;																
+				}
+				
+				case "00531":
+				{
+					text = "Kan ikke slette auktion da denne har tilknyttet sager. Slet sagerne og forsøg igen.";
+					break;
+				}
+							
+				
+				// DEFAULT
+				default:
+				{
+					text = "Der er opstået en ukendt fejl. '"+ attributes.exception +"'";
+					break;
+				}
 			}
 		}
 																								

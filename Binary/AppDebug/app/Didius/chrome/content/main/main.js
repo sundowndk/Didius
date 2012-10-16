@@ -37,18 +37,28 @@ var main =
 	
 	test : function ()
 	{
-		var fileupload = 	function (postUrl, fieldName, filePath, onDone)
+//		var fileupload = 	function (postUrl, fieldName, filePath, onDone)
 							{
-								var formData = new FormData();
-  								formData.append (fieldName, new File(filePath));
-  								formData.append ("cmd", "Function");
-  								formData.append ("cmd.function", "Didius.Item.ImageUpload");  								
+//								var formData = new FormData();
+//  								formData.append (fieldName, new File(filePath));
+//  								formData.append ("cmd", "Function");
+//  								formData.append ("cmd.function", "Didius.Item.ImageUpload");  								
  
-  								var req = new XMLHttpRequest();
-  								req.open("POST", postUrl);
-  								req.onload = function(event) { onDone (event.target.responseText); };
+//  								var req = new XMLHttpRequest();
+//  								req.open("POST", postUrl);
+//  								req.onload = function(event) { onDone (event.target.responseText); };
   								
-  								req.send(formData);
+  //								var bla = function (event)
+  	//							{
+  	//								sXUL.console.log (event.loaded)
+ 	//								sXUL.console.log (event.total)
+  	//							}
+  								
+  //								req.onprogress = req.upload.addEventListener("progress", bla, false);
+  								
+  								//req.onprogress = function (event) {sXUL.console.log (event.position);sXUL.console.log (event.totalSize); }
+  								
+//  								req.send(formData);
   								
 //						var uploadform = SNDK.tools.newElement ("form", {id: "uploadform", method: "POST", enctype: "multipart/form-data", target: "uploadframe"})
 //						SNDK.tools.newElement ("input", {type: "hidden", name: "cmd", value: "Function", appendTo: uploadform});
@@ -64,13 +74,25 @@ var main =
   								
 							};
 							
-		var onDone =	function (text)
+		var onLoad =	function (text)
 						{														
 							sXUL.console.log ("response:"+ text.replace ("\n",""));																					
 						};
-			
+						
+		var onProgress = 	function (event)
+							{
+								sXUL.console.log ("loaded:"+ event.loaded);
+								sXUL.console.log ("total:"+event.total);
+							}
 							
-		fileupload ("http://sorentotest.sundown.dk/", "image", "/home/sundown/Skrivebord/mozilla.pdf", onDone );
+		var onError =	function (event)
+						{
+							sXUL.console.log ("An error occured during upload.");
+						}
+							
+		sXUL.tools.fileUpload ({postUrl: "http://sorentotest.sundown.dk", fieldName: "image", filePath: "/home/rvp/Skrivebord/uploadtest.dat", additionalFields: {cmd: "function", "cmd.function": "Didius.Item.ImageUpload"}, onLoad: onLoad, onProgress: onProgress, onError: onError})
+																	
+		//fileupload ("http://sorentotest.sundown.dk/", "image", "/home/rvp/Skrivebord/uploadtest.dat", onDone );
 
 
 //		var formData = new FormData();  		
@@ -387,7 +409,7 @@ var main =
 		run : function ()
 		{
 			var current = main.auctions.auctionsTreeHelper.getRow ();												
-			window.openDialog ("chrome://didius/content/auctionrun/auctionrun.xul", current.id, "chrome", {auctionId: current.id});
+			window.openDialog ("chrome://didius/content/auctionrun/auctionrun.xul", "auctionrun-"+ current.id, "chrome", {auctionId: current.id});
 		}
 	}	
 }

@@ -2,11 +2,13 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="runauction" minwidth="750" minheight="650" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
+<window id="runauction" minwidth="750" minheight="690" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
-						
+				
+	<script type="application/javascript" src="chrome://didius/content/auctionrun/auctionrun.js"/>							
+										
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
 	</keyset>			
@@ -35,8 +37,8 @@
 							</hbox>							
 						</groupbox>
 																														
-						<groupbox style="display: none;">
-							<caption label="Effekt 1 af 12"/>
+						<groupbox id="auctionrun" collapsed="true">
+							<caption id="tester" label="Effekt 1 af 12"/>
 							<grid>
 								<rows>
     								<row>      																			
@@ -46,18 +48,6 @@
   								<columns>
     								<column flex="2">
     									<vbox>
-    										<hbox align="center">
-												<label class="Label">Effekt nr.:</label>
-												<textbox id="itemNo" flex="1" disabled="true" />									
-											</hbox>							
-											<hbox align="center">
-												<label class="Label">Sags nr.:</label>
-												<textbox id="itemCaseNo" flex="1" disabled="true" />
-											</hbox>							
-											<hbox align="center">
-												<label class="Label">Kunde:</label>
-												<textbox id="itemCustomer" flex="1" disabled="true" />
-											</hbox>
 											<separator class="groove-thin"/>
 											<hbox align="center">
 												<label class="Label">Title:</label>
@@ -69,8 +59,12 @@
 											</hbox>				
 										</vbox>
     								</column>
-    								<column flex="1">
-    									<image class="ItemImage" src='chrome://didius/content/icons/noimage.jpg' width="150"/>
+    								<column >
+    									<vbox flex="1">		
+    										<hbox>
+    											<image class="ItemImage" id="picture" src='chrome://didius/content/icons/noimage.jpg' maxwidth="340" maxheight="200"/>
+    										</hbox>    										
+    									</vbox>
     								</column>
   								</columns>
 							</grid>
@@ -78,38 +72,34 @@
 							<hbox align="center">
 								<label class="Label">Min bud:</label>
 								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
-							</hbox>							
-							<hbox align="center">
 								<label class="Label">Vurdering 1:</label>
 								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
 							</hbox>							
 							<hbox align="center">
 								<label class="Label">Vurdering 2:</label>
 								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
-							</hbox>							
-							<hbox align="center">
 								<label class="Label">Vurdering 3:</label>
 								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
-							</hbox>		
+							</hbox>														
 							<separator class="groove-thin"/>
 							<hbox align="center">
 								<label class="Label">Køber nr.:</label>
-								<textbox id="buyernumber" flex="1" type="number" hidespinbuttons="true" style="font-size: 40px;"/>
+								<textbox id="buyernumber" flex="1" type="number" hidespinbuttons="true" style="font-size: 25px;"/>
 							</hbox>																		
 							<hbox align="center">
 								<label class="Label">Pris:</label>
-								<textbox id="bid" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" style="font-size: 40px;"/>
+								<textbox id="bid" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" style="font-size: 25px;"/>
 							</hbox>		
 							<separator class="groove-thin"/>
 							<hbox align="center">
-								<button label="Forrige" style="height: 100px;" flex="1" disabled="true"/>
-								<button label="Næste" style="height: 100px;" flex="1" disabled="true"/>
+								<button label="Forrige" style="height: 40px;" flex="1" disabled="true"/>
+								<button label="Næste" style="height: 40px;" flex="1" disabled="true"/>
 							</hbox>												
 						</groupbox>		
 								
-						<groupbox>										
+						<groupbox id="buttons">										
 							<separator class="groove-thin"/>
-							<button label="Start auktion" />						
+							<button label="Start auktion" oncommand="main.start ();"/>
 						</groupbox>
 					</vbox>
     			</tabpanel>

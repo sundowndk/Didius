@@ -46,6 +46,8 @@ namespace Didius
 		private decimal _appraisal3;
 
 		private Hashtable _fields;
+
+		private Guid _pictureid;
 		#endregion
 		
 		#region Public Fields
@@ -218,6 +220,19 @@ namespace Didius
 				return this._fields;
 			}
 		}
+
+		public Guid PictureId
+		{
+			get
+			{
+				return this._pictureid;
+			}
+
+			set
+			{
+				this._pictureid = value;
+			}
+		}
 		#endregion
 		
 		#region Constructor
@@ -245,6 +260,8 @@ namespace Didius
 			this._appraisal3 = 0;
 			
 			this._fields = new Hashtable ();		
+
+			this._pictureid = Guid.Empty;
 		}
 				
 		private Item ()
@@ -267,6 +284,8 @@ namespace Didius
 			this._appraisal3 = 0;
 
 			this._fields = new Hashtable ();
+
+			this._pictureid = Guid.Empty;
 		}
 		#endregion
 
@@ -299,6 +318,8 @@ namespace Didius
 				item.Add ("appraisal1", this._appraisal1);
 				item.Add ("appraisal2", this._appraisal2);
 				item.Add ("appraisal3", this._appraisal3);
+
+				item.Add ("pictureid", this._pictureid);
 								
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("caseid", this._caseid);
@@ -342,6 +363,8 @@ namespace Didius
 			result.Add ("appraisal3", this._appraisal3);
 
 			result.Add ("fields", this._fields);
+
+			result.Add ("pictureid", this._pictureid);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
@@ -435,6 +458,11 @@ namespace Didius
 				if (item.ContainsKey ("fields"))
 				{					
 					result._fields = (Hashtable)item["fields"];
+				}
+
+				if (item.ContainsKey ("pictureid"))
+				{					
+					result._pictureid = new Guid ((string)item["pictureid"]);
 				}
 			}
 			catch (Exception exception)
@@ -646,8 +674,56 @@ namespace Didius
 					// This conversion will fail if its empty. No way of knowing if its a list or hash.
 				}
 			}	
+
+			if (item.ContainsKey ("pictureid"))
+			{					
+				result._pictureid = new Guid ((string)item["pictureid"]);
+			}
 			
 			return result;
+		}
+		#endregion
+
+		#region Internal Static Methods
+		internal static void ServiceGarbageCollector ()
+		{
+			List<Media> medias = SorentoLib.Media.List ("/media/didius/app");
+			List<Item> items = List ();
+
+			foreach (Media media in medias)
+			{
+				if ((SNDK.Date.CurrentDateTimeToTimestamp () - media.CreateTimestamp) > 86400)
+				{
+					bool delete = true;
+					foreach (Item item in items)
+					{
+						if (item._pictureid != Guid.Empty)
+						{
+							if (media.Id == item._pictureid)
+							{
+								delete = false;
+								break;
+							}
+						}
+					}
+
+					if (delete)
+					{
+						try
+						{
+							Media.Delete (media.Id);
+						}
+						catch (Exception exception)
+						{
+							// LOG: LogDebug.ExceptionUnknown
+							SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.ITEM", exception.Message));
+						}
+					}
+				}
+			}
+
+			// LOG: LogDebug.SessionGarbageCollector
+			SorentoLib.Services.Logging.LogDebug (Strings.LogDebug.ItemGarbageCollector);
 		}
 		#endregion
 	}

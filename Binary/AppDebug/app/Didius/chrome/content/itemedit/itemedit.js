@@ -119,6 +119,11 @@ var main =
 		document.getElementById ("appraisal1").value = main.current.appraisal1;
 		document.getElementById ("appraisal2").value = main.current.appraisal2;
 		document.getElementById ("appraisal3").value = main.current.appraisal3;
+				
+		if (main.current.pictureid != SNDK.tools.emptyGuid)
+		{
+			document.getElementById ("picture").src = "http://sorentotest.sundown.dk/getmedia/" + main.current.pictureid;
+		}
 		
 		main.setDataFields ();
 						
@@ -197,44 +202,54 @@ var main =
 	
 	setPicture : function ()
 	{
-	var fileupload = 	function (postUrl, fieldName, filePath, onDone)
+		var onLoad = 	function (respons)
+						{
+							var respons = respons.replace ("\n","").split (":");
+						
+							switch (respons[0].toLowerCase ())
 							{
-								var formData = new FormData();
-  								formData.append (fieldName, new File(filePath));
-  								formData.append ("cmd", "Function");
-  								formData.append ("cmd.function", "Didius.Item.ImageUpload");  								
- 
-  								var req = new XMLHttpRequest();
-  								req.open("POST", postUrl);
-  								req.onload = function(event) { onDone (event.target.responseText); };
-  								
-  								req.send(formData);  								
+								case "success":
+								{
+									main.current.pictureid = respons[1];
+									document.getElementById ("picture").src = "http://sorentotest.sundown.dk/getmedia/" + respons[1];
+									
+									main.onChange ();
+									break;
+								}
+								
+								default:
+								{
+									app.error ({errorCode: "APP00480"});
+									break;
+								}							
+							}			
+							
+							document.getElementById ("pictureUpload").collapsed = false;
+							document.getElementById ("pictureUploadProgressmeter").collapsed = true;
+						}
+						
+		var onProgress =	function (event)
+							{
+								document.getElementById ("pictureUploadProgressmeter").value = (event.loaded / event.total) * 100;										
 							};
 							
-		var onDone =	function (text)
-						{														
-							var mediaid = text.replace ("\n","").split (":")[1];
-							
-							sXUL.console.log (mediaid);
-							
-							document.getElementById ("picture").src = "http://sorentotest.sundown.dk/getmedia/"+mediaid;
-						
-							sXUL.console.log ("response:"+ text.replace ("\n",""));																					
-						};
-			
-							
-	
-	
+		var onError =		function (event)
+							{
+								app.error ({errorCode: "APP00001"});
+							};
+														
 	
 		var nsIFilePicker = Components.interfaces.nsIFilePicker;
-		var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-		fp.init(window, "Select a File", nsIFilePicker.modeOpen);
+		var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance (nsIFilePicker);
+		filePicker.init (window, "Vælg et billede", nsIFilePicker.modeOpen);
 		
-		var res = fp.show();
-		if (res != nsIFilePicker.returnCancel){
-  			var thefile = fp.file;
-		fileupload ("http://sorentotest.sundown.dk/", "image", fp.file, onDone );
+		var res = filePicker.show ();
+		if (res != nsIFilePicker.returnCancel)
+		{
+  			document.getElementById ("pictureUpload").collapsed = true;
+  			document.getElementById ("pictureUploadProgressmeter").collapsed = false;
   			
+			sXUL.tools.fileUpload ({postUrl: "http://sorentotest.sundown.dk", fieldName: "image", filePath: filePicker.file, additionalFields: {cmd: "function", "cmd.function": "Didius.Item.ImageUpload"}, onLoad: onLoad, onProgress: onProgress, onError: onError})
 		}
 	},
 	

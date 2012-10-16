@@ -40,6 +40,12 @@ for file in resources/xml*; do
     cp -rv $file "$OUTPUTDIR/resources/xml/"
 done
 
+echo "Copying 'resources/scripts''..."
+for file in resources/scripts*; do
+    cp -rv $file "$OUTPUTDIR/resources/scripts/"
+done
+
+
 echo "Copying 'resources/includes''..."
 for file in resources/includes*; do
     cp -rv $file "$OUTPUTDIR/resources/includes/"

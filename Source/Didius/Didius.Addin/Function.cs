@@ -76,9 +76,11 @@ namespace Didius.Addin
 
 							if (allowedfiletypes.Contains (Session.Request.QueryJar.Get ("image").BinaryContentType))
 							{
-								SorentoLib.Media image = new SorentoLib.Media ("/media/didius/"+ Guid.NewGuid ().ToString (), Session.Request.QueryJar.Get ("image").BinaryData);
+								SorentoLib.Media image = new SorentoLib.Media ("/media/didius/app/"+ Guid.NewGuid ().ToString (), Session.Request.QueryJar.Get ("image").BinaryData);
 								image.Type = SorentoLib.Enums.MediaType.Restricted;
 								image.Save ();
+
+								MediaTransformation.Transform (image, SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_script) + "didius/item_picture_resize.xml");
 								
 //								Session.Page.Variables.Add ("mediaid", image.Id);
 //								Session.Page.Variables.Add ("mediasoftpath", image.Path);

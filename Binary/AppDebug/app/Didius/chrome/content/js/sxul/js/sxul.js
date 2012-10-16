@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: sxul
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -862,6 +862,53 @@ var sXUL =
 		    var wbprint = req.getInterface(Components.interfaces.nsIWebBrowserPrint);
 		    
 		    wbprint.print(nsiPrintSettings, null);				
+		},
+		
+		fileUpload : function (attributes)
+		{
+			if (!attributes)
+				throw "sXUL.tools.fileUpload: no attributes given";
+				
+			if (!attributes.postUrl)
+				throw "sXUL.tools.fileUpload: postUrl missing";
+				
+			if (!attributes.fieldName)
+				throw "sXUL.tools.fileUpload: fieldName missing";
+				
+			if (!attributes.filePath)
+				throw "sXUL.tools.fileUpload: filePath missing";
+			
+			if (!attributes.additionalFields)
+				attributes.additionalFields = {};
+					
+			var data = new FormData ();
+			
+			try
+			{
+				data.append (attributes.fieldName, new File (attributes.filePath));
+			}
+			catch (exception)
+			{
+				throw "sXUL.tools.fileUpload: "+ exception.message;		
+			}
+			
+			for (var idx in attributes.additionalFields)
+			{
+				var value = attributes.additionalFields[idx];
+				data.append (idx, value);
+			}															
+		 
+		  	var request = new XMLHttpRequest ();
+		  	request.open ("POST", attributes.postUrl);
+		  	
+		  	// Events
+		  	request.onload = function (event) { if (attributes.onLoad != null) attributes.onLoad (event.target.responseText); };
+		  	request.onError = function (event) { if (attributes.onError != null) attributes.onError (event); };	
+			request.upload.addEventListener ("progress", function (event) { if (attributes.onProgress != null) attributes.onProgress (event); }, false);
+			request.upload.addEventListener ("error", function (event) { if (attributes.onError != null) attributes.onError (event); }, false);	
+		  								
+		  	// Send request							
+		  	request.send (data);  									
 		}
 	},
 

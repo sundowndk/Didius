@@ -27,6 +27,8 @@ namespace Didius.Strings
 
 		#region ITEM
 		public static string ItemList = "[DIDIUS.ITEM]: Cannot load Item with id: {0}, will be excluded from list.";
+
+		public static string ItemGarbageCollector = "[DIDIUS.ITEM]: Garbage collected for item.";
 		#endregion
 
 		#region AUCTION

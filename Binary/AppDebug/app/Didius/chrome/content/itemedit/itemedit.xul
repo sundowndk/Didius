@@ -18,8 +18,7 @@
 		<tabbox selectedIndex="0" flex="1">
 		
 			<tabs>
-				<tab label="Detaljer"/>
-				<tab label="Billed"/>			
+				<tab label="Detaljer"/>				
 				<tab label="Bud"/>								
 			</tabs>
 						
@@ -39,16 +38,39 @@
 						
 						<groupbox>
 							<caption label="Andet"/>
+							<grid>
+								<rows>
+    								<row>      																			
+    								</row>    								    								
+  								</rows>
 							
-							<hbox align="center">
-								<label class="Label">Katalog nr.:</label>
-								<textbox id="catalogno" flex="1" onkeyup="main.onChange ();" />
-							</hbox>
-							<hbox align="top">
-								<label class="Label">Beskrivelse:</label>
-								<textbox id="description" flex="1" multiline="true" onkeyup="main.onChange ();"/>
-							</hbox>												
-						</groupbox>		
+  								<columns>
+    								<column flex="2">
+    									<vbox>
+    										<hbox align="center">
+												<label class="Label">Katalog nr.:</label>
+												<textbox id="catalogno" flex="1" onkeyup="main.onChange ();" />
+											</hbox>							
+											<hbox align="top">
+												<label class="Label">Beskrivelse:</label>
+												<textbox id="description" flex="1" multiline="true" style="height: 200px;"  onkeyup="main.onChange ();"/>
+											</hbox>																		
+										</vbox>
+    								</column>
+    								<column>
+    									<vbox flex="1">		
+    										<hbox>
+    											<image class="ItemImage" id="picture" src='chrome://didius/content/icons/noimage.jpg' maxwidth="340" maxheight="200"/>
+    										</hbox>
+    										<hbox align="center">
+    											<button id="pictureUpload" label="Vælg billede" oncommand="main.setPicture ();" flex="1"/>
+    											<progressmeter id="pictureUploadProgressmeter" flex="1" mode="determined" value="" collapsed="true"/>
+    										</hbox>
+    									</vbox>
+    								</column>
+  								</columns>
+							</grid>
+						</groupbox>
 						
 						<groupbox id="datafields">
 							<caption label="Data"/>																									
@@ -76,12 +98,7 @@
 						</groupbox>						
 					</vbox>
     			</tabpanel>
-    			
-    			<tabpanel>    				
-    					<image class="ItemImage" id="picture" src='chrome://didius/content/icons/noimage.jpg' width="150"/>   
-    					<button label="Vælg billede" oncommand="main.setPicture ();"/>
-    			</tabpanel>
-    			
+    			    			
 				<tabpanel>
 					<hbox flex="1">
 						<tree id="bids" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.bids.onChange ();" seltype="single">

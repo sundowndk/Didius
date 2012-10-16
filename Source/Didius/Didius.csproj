@@ -139,6 +139,7 @@
     <Folder Include="Application\xul\chrome\content\printing\" />
     <Folder Include="Application\xul\chrome\content\templates\" />
     <Folder Include="Application\xul\chrome\content\bid\" />
+    <Folder Include="resources\scripts\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -241,6 +242,7 @@
     <None Include="Application\js\didius\bid.js" />
     <None Include="Application\xul\chrome\content\bid\create.js" />
     <None Include="Application\xul\chrome\content\bid\create.xul" />
+    <None Include="resources\scripts\item_picture_resize.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />
