@@ -19,7 +19,10 @@
 		
 			<tabs>
 				<tab label="Detaljer"/>
-				<tab label="Sager"/>			
+				<tab label="Sager"/>							
+				<tab label="Køb"/>
+				<tab label="Salg"/>
+				<tab label="Bud"/>
 				<tab label="Noter"/>
 			</tabs>
 						
@@ -108,8 +111,7 @@
 							</hbox>
 						</groupbox>      
 					</vbox>
-    			</tabpanel>
-    			
+    			</tabpanel>    			
 				<tabpanel>
 					<hbox flex="1">
 						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.cases.onChange ();" seltype="single">
@@ -127,6 +129,71 @@
 						<vbox>							
 							<button id="caseEdit" label="Redigere" oncommand="main.cases.edit ();" disabled="true" />
 							<button id="caseDestroy" label="Slet" oncommand="main.cases.destroy ();" disabled="true" />	
+						</vbox>	
+					</hbox>						
+				</tabpanel>
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="buyes" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.cases.onChange ();" seltype="single">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="auctionno" label="Auktion nr." width="100" persist="width" onclick="main.cases.sort ({column: 'no'});" />
+								<splitter class="tree-splitter"/>
+								<treecol id="auctiontitle" label="Title" flex="3" persist="width" onclick="main.cases.sort ({column: 'title'});" />
+								<splitter class="tree-splitter"/>
+								<treecol id="totalamount" label="Total" flex="1" persist="width" onclick="main.cases.sort ({column: 'title'});" />
+								<splitter class="tree-splitter"/>
+							</treecols>	
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>							
+							<button id="buyShow" label="Vis" oncommand="main.cases.edit ();" disabled="true" />							
+						</vbox>	
+					</hbox>						
+				</tabpanel>
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="sales" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.cases.onChange ();" seltype="single">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="auctionno" label="Auktion nr." width="100" persist="width" onclick="main.cases.sort ({column: 'no'});" />
+								<splitter class="tree-splitter"/>
+								<treecol id="auctiontitle" label="Title" flex="3" persist="width" onclick="main.cases.sort ({column: 'title'});" />
+								<splitter class="tree-splitter"/>
+								<treecol id="totalamount" label="Total" flex="1" persist="width" onclick="main.cases.sort ({column: 'title'});" />
+								<splitter class="tree-splitter"/>
+							</treecols>	
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>							
+							<button id="saleShow" label="Vis" oncommand="main.cases.edit ();" disabled="true" />							
+						</vbox>	
+					</hbox>						
+				</tabpanel>				
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="bids" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.cases.onChange ();" seltype="single">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="auctionno" label="Auktion nr." width="100" persist="width" onclick="main.cases.sort ({column: 'no'});" />
+								<splitter class="tree-splitter"/>
+								<treecol id="itemno" label="Effekt nr." width="100" persist="width" onclick="main.cases.sort ({column: 'title'});" />
+								<splitter class="tree-splitter"/>
+								<treecol id="itemtitle" label="Title" flex="3" persist="width" onclick="main.cases.sort ({column: 'title'});" />
+								<splitter class="tree-splitter"/>
+								<treecol id="bidamount" label="Bud" flex="2" persist="width" onclick="main.cases.sort ({column: 'title'});" />
+								<splitter class="tree-splitter"/>
+							</treecols>	
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>							
+							<button id="bidShow" label="Vis" oncommand="main.cases.edit ();" disabled="true" />							
 						</vbox>	
 					</hbox>						
 				</tabpanel>

@@ -35,6 +35,8 @@ namespace Didius
 		private int _auctiondate;
 		private string _description;
 
+		private string _buyernos;
+
 		private List<LiveBider> _livebiders;
 
 		private string _notes;
@@ -153,6 +155,8 @@ namespace Didius
 
 			this._livebiders = new List<LiveBider> ();
 
+			this._buyernos = string.Empty;
+
 			this._notes = string.Empty;
 		}		
 		#endregion
@@ -177,6 +181,8 @@ namespace Didius
 				item.Add ("description", this._description);
 
 				item.Add ("livebiders", this._livebiders);
+
+				item.Add ("buyernos", this._buyernos);
 
 				item.Add ("notes", this._notes);
 								
@@ -220,6 +226,8 @@ namespace Didius
 			result.Add ("description", this._description);
 
 			result.Add ("livebiders", this._livebiders);
+
+			result.Add ("buyernos", this._buyernos);
 
 			result.Add ("notes", this._notes);
 
@@ -276,6 +284,12 @@ namespace Didius
 						result._livebiders.Add (LiveBider.FromXmlDocument (livebider));
 					}
 				}
+
+				if (item.ContainsKey ("buyernos"))
+				{
+					result._buyernos = (string)item["buyernos"];
+				}				
+
 
 				if (item.ContainsKey ("notes"))
 				{
@@ -400,6 +414,11 @@ namespace Didius
 					result._livebiders.Add (LiveBider.FromXmlDocument (livebider));
 				}
 			}	
+
+			if (item.ContainsKey ("buyernos"))
+			{
+				result._buyernos = (string)item["buyernos"];
+			}				
 
 			if (item.ContainsKey ("notes"))
 			{

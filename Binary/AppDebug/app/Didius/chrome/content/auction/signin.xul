@@ -96,8 +96,8 @@
 									</hbox>																							
 									<hbox align="center">
 										<label class="Label">Køber nr.:</label>
-										<textbox id="buyerBo" flex="1" disabled="true" onkeyup="main.onChange ();" />
-										<button label="Angiv" disabled="true"/>
+										<textbox id="buyerNo" flex="1" disabled="true" onkeyup="main.onChange ();" />
+										<button id="addBuyerNo" label="Tilføj" disabled="true" oncommand="main.buyerNo.add ();"/>
 									</hbox>																	
 								</groupbox>
 							</hbox>

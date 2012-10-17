@@ -4,12 +4,31 @@ var main =
 {	
 	auction : null,
 	customer : null,
+	buyernos : {},
 
 	init : function ()
 	{
 		try
 		{
-			main.auction = didius.auction.load (window.arguments[0].auctionId);
+			main.auction = didius.auction.load (window.arguments[0].auctionId);				
+			
+			sXUL.console.log (main.auction.buyernos)
+			
+			var test = main.auction.buyernos.split ("|");
+			for (idx in test)
+			{
+				try
+				{
+					var buyerno = test[idx].split (":")[0];
+					var customerid = test[idx].split (":")[1];
+			
+					main.buyernos[buyerno] = customerid;
+				}
+				catch (exception)
+				{		
+				sXUL.console.log (exception)		
+				}
+			}
 		}
 		catch (error)
 		{
@@ -116,51 +135,62 @@ var main =
 		//main.get ();
 	
 		if (main.customer != null)
-		{
-			document.getElementById ("customerno").value = main.customer.no;
-			document.getElementById ("customername").value = main.customer.name;			
-			document.getElementById ("customeraddress1").value = main.customer.address1;
-			document.getElementById ("customeraddress2").value = main.customer.address2;
-			document.getElementById ("customerpostcode").value = main.customer.postcode;
-			document.getElementById ("customercity").value = main.customer.city;
-			document.getElementById ("customerphone").value = main.customer.phone;
-			document.getElementById ("customermobile").value = main.customer.mobile;
-			document.getElementById ("customeremail").value = main.customer.email			
+		{					
+			document.getElementById ("customerEdit").disabled = false;
 			
-			document.getElementById ("customerEdit").disabled = false;			
+			document.getElementById ("buyerNo").disabled = false;
+			document.getElementById ("addBuyerNo").disabled = false;
 		}
 		else
-		{
-			document.getElementById ("customerno").value = "";
-			document.getElementById ("customername").value = "";			
-			document.getElementById ("customeraddress1").value = "";
-			document.getElementById ("customeraddress2").value = "";
-			document.getElementById ("customerpostcode").value = "";
-			document.getElementById ("customercity").value = "";
-			document.getElementById ("customerphone").value = "";
-			document.getElementById ("customermobile").value = "";
-			document.getElementById ("customeremail").value = "";	
-		
+		{					
 			document.getElementById ("customerEdit").disabled = true;
+			
+			document.getElementById ("buyerNo").disabled = true;
+			document.getElementById ("addBuyerNo").disabled = true;
 		}
 		
 		document.getElementById ("auctionno").value = main.auction.no;
-		document.getElementById ("auctiontitle").value = main.auction.title;
+		document.getElementById ("auctiontitle").value = main.auction.title;	
+	},
 	
-//		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
-//		{
-//			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"] *";
+	buyerNo :
+	{
+		add : function ()
+		{
+			var buyerno = document.getElementById ("buyerNo").value;
+			var customerid = main.customer.id;		
 		
-//			document.getElementById ("save").disabled = false;
-//			document.getElementById ("close").disabled = false;
-//		}
-//		else
-//		{
-//			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"]";
-		
-//			document.getElementById ("save").disabled = true;
-//			document.getElementById ("close").disabled = false;
-//		}
+			for (idx in main.buyernos)
+			{							
+				if (idx == document.getElementById ("buyerNo").value)
+				{
+					app.error ({errorCode: "APP00280"});
+					return;
+				}
+				
+				if (main.buyernos[idx] == main.customer.id)
+				{
+					main.buyernos[idx] = "";	
+				}
+			}
+						
+			main.buyernos[buyerno] = customerid;						
+			
+			var test = "";
+			for (idx in main.buyernos)
+			{
+				if (main.buyernos[idx] != "")
+				{
+					test += idx +":"+ main.buyernos[idx]+"|";
+				}
+			}
+			
+			sXUL.console.log (test);
+			
+			main.auction.buyernos = test;
+			
+			didius.auction.save (main.auction);
+		}
 	},
 	
 	customers :
@@ -200,15 +230,46 @@ var main =
 				main.customer = didius.customer.load (main.customers.customersTreeHelper.getRow ().id);
 				
 				main.onChange ();
-			
-//				document.getElementById ("itemEdit").disabled = false;
-//				document.getElementById ("itemDestroy").disabled = false;
+				
+				document.getElementById ("customerno").value = main.customer.no;
+				document.getElementById ("customername").value = main.customer.name;			
+				document.getElementById ("customeraddress1").value = main.customer.address1;
+				document.getElementById ("customeraddress2").value = main.customer.address2;
+				document.getElementById ("customerpostcode").value = main.customer.postcode;
+				document.getElementById ("customercity").value = main.customer.city;
+				document.getElementById ("customerphone").value = main.customer.phone;
+				document.getElementById ("customermobile").value = main.customer.mobile;
+				document.getElementById ("customeremail").value = main.customer.email							
+				
+				document.getElementById ("buyerNo").value = "";
+				document.getElementById ("addBuyerNo").value = "";
+				
+				for (idx in main.buyernos)
+				{					
+					if (main.buyernos[idx] == main.customer.id)
+					{
+						document.getElementById ("buyerNo").value = idx;
+						document.getElementById ("addBuyerNo").value = main.buyernos[idx];
+					}
+				}
 			}
-//			else
-//			{				
-//				document.getElementById ("itemEdit").disabled = true;
-//				document.getElementById ("itemDestroy").disabled = true;
-//			}
+			else
+			{	
+				main.onChange ();
+			
+				document.getElementById ("customerno").value = "";
+				document.getElementById ("customername").value = "";			
+				document.getElementById ("customeraddress1").value = "";
+				document.getElementById ("customeraddress2").value = "";
+				document.getElementById ("customerpostcode").value = "";
+				document.getElementById ("customercity").value = "";
+				document.getElementById ("customerphone").value = "";
+				document.getElementById ("customermobile").value = "";
+				document.getElementById ("customeremail").value = "";	
+				
+				document.getElementById ("buyerNo").value = "";
+				document.getElementById ("addBuyerNo").value = "";
+			}
 		},
 		
 		sort : function (attributes)

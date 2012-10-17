@@ -1,13 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/customeredit/customeredit.xul">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="131" Column="4" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul" Line="89" Column="29" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.xul" Line="8" Column="2" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="123" Column="1" />
-      <File FileName="Didius/Didius/Item.cs" Line="399" Column="49" />
-      <File FileName="Didius/Didius/Bid.cs" Line="255" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.xul" Line="166" Column="32" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,13 +17,13 @@
                       <Node name="catalog" expanded="True" />
                     </Node>
                     <Node name="auctionedit" expanded="True" />
-                    <Node name="auctionrun" expanded="True">
-                      <Node name="auctionrun.js" selected="True" />
-                    </Node>
+                    <Node name="auctionrun" expanded="True" />
                     <Node name="bid" expanded="True" />
                     <Node name="caseedit" expanded="True" />
                     <Node name="chooser" expanded="True" />
-                    <Node name="customeredit" expanded="True" />
+                    <Node name="customeredit" expanded="True">
+                      <Node name="customeredit.xul" selected="True" />
+                    </Node>
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />

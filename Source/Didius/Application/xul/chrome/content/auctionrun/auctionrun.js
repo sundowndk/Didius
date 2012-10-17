@@ -7,12 +7,29 @@ var main =
 	running : false,
 	items : null,
 	currentCatalogNo : 1,
+	buyernos: {},
 
 	init : function ()
 	{
 		try
 		{
 			main.current = didius.auction.load (window.arguments[0].auctionId);
+			
+			var test = main.current.buyernos.split ("|");
+			for (idx in test)
+			{
+				try
+				{
+					var buyerno = test[idx].split (":")[0];
+					var customerid = test[idx].split (":")[1];
+			
+					main.buyernos[buyerno] = customerid;
+				}
+				catch (exception)
+				{		
+					sXUL.console.log (exception)		
+				}
+			}
 		}
 		catch (error)
 		{
@@ -112,17 +129,44 @@ var main =
 		
 		document.getElementById ("tester").label = "Effekt 1 af "+ main.items.length;
 		
-		document.getElementById ("itemPrev").disabled = false;
-		document.getElementById ("itemNext").disabled = false;
+		
 		
 		
 		main.setItem (1);	
 	},
 
+	getBid : function ()
+	{
+		if (document.getElementById ("bidBuyerNo").value != 0 && document.getElementById ("bidAmount").value != 0.00)
+		{
+			var buyerno = document.getElementById ("bidBuyerNo").value;
+			var amount = document.getElementById ("bidAmount").value;
+		
+			for (idx in main.buyernos)
+			{							
+				if (idx == buyerno)
+				{
+					var customer = didius.customer.load (main.buyernos[idx]);
+					var item = main.items[(main.currentCatalogNo - 1)];
+				
+					var bid = didius.bid.create (customer, item, amount);
+					didius.bid.save (bid);			
+					
+					main.items[(main.currentCatalogNo - 1)] = didius.item.load (item.id);
+					return;		
+				}
+			}
+			
+			app.error ({errorCode: "APP00280"});
+		}
+	},
+
 	itemPrev : function ()
 	{
 		if (main.currentCatalogNo > 1)
-		{
+		{					
+			main.getBid ();
+		
 			document.getElementById ("itemPrev").disabled = true;
 			document.getElementById ("itemNext").disabled = true;
 			main.setItem ((main.currentCatalogNo - 1));
@@ -133,6 +177,8 @@ var main =
 	{
 		if (main.currentCatalogNo < main.items.length)
 		{
+			main.getBid ();
+		
 			document.getElementById ("itemPrev").disabled = true;
 			document.getElementById ("itemNext").disabled = true;
 			main.setItem ((main.currentCatalogNo + 1));
@@ -158,6 +204,10 @@ var main =
 		{
 			document.getElementById ("picture").src = "http://sorentotest.sundown.dk/getmedia/" + main.items[catalogNo].pictureid;
 		}
+		else
+		{
+			document.getElementById ("picture").src = "chrome://didius/content/icons/noimage.jpg";
+		}
 		
 		if (main.items[catalogNo].currentbidid != SNDK.tools.emptyGuid)
 		{
@@ -172,7 +222,10 @@ var main =
 			document.getElementById ("itemCurrentBidAmount").value = "";
 		}
 		
-		document.getElementById ("buyerno").focus ();
+		document.getElementById ("bidBuyerNo").value = 0;
+		document.getElementById ("bidAmount").value = 0;
+		
+		document.getElementById ("bidBuyerNo").focus ();
 		
 		main.onChange ();
 	},

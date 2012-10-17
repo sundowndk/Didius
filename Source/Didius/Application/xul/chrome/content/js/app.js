@@ -104,7 +104,20 @@ var app =
 		if (attributes.errorCode != null)
 		{
 			switch (attributes.errorCode.split ("|")[0])
-			{						
+			{			
+				// AUCTION
+				case "APP00281":
+				{
+					text = "Denne kunde er allerede tildelt et andet køber nr.";
+					break;
+				}
+				
+				case "APP00281":
+				{
+					text = "Køber nummer er allerede tildelt en anden kunde.";
+					break;
+				}
+									
 				// ITEM
 				case "APP00480":
 				{
