@@ -233,6 +233,36 @@ namespace Didius
 				this._pictureid = value;
 			}
 		}
+
+		public Bid CurrentBid
+		{
+			get
+			{
+				List<Bid> bids = Bid.List (this);
+				
+				if (bids.Count > 0)
+				{
+					return bids[0];
+				}
+				
+				return null;
+			}
+		}
+
+		public Guid CurrentBidId
+		{
+			get
+			{
+				List<Bid> bids = Bid.List (this);
+
+				if (bids.Count > 0)
+				{
+					return bids[0].Id;
+				}
+
+				return Guid.Empty;
+			}
+		}
 		#endregion
 		
 		#region Constructor
@@ -365,6 +395,8 @@ namespace Didius
 			result.Add ("fields", this._fields);
 
 			result.Add ("pictureid", this._pictureid);
+
+			result.Add ("currentbidid", this.CurrentBidId);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}

@@ -2,10 +2,12 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="111" Column="54" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul" Line="41" Column="27" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.xul" Line="62" Column="21" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="374" Column="10" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="131" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul" Line="89" Column="29" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.xul" Line="8" Column="2" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="123" Column="1" />
+      <File FileName="Didius/Didius/Item.cs" Line="399" Column="49" />
+      <File FileName="Didius/Didius/Bid.cs" Line="255" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

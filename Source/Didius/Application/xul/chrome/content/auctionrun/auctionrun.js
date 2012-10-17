@@ -5,6 +5,8 @@ var main =
 	checksum : null,
 	current : null,
 	running : false,
+	items : null,
+	currentCatalogNo : 1,
 
 	init : function ()
 	{
@@ -106,9 +108,73 @@ var main =
 		document.getElementById ("buttons").collapsed = true;
 		document.getElementById ("auctionrun").collapsed = false;
 		
-		var items = didius.item.list ({auction: main.current, async: false});		
+		main.items = didius.item.list ({auction: main.current, async: false});
 		
-		document.getElementById ("tester").label = "Effekt 1 af "+ items.length;
+		document.getElementById ("tester").label = "Effekt 1 af "+ main.items.length;
+		
+		document.getElementById ("itemPrev").disabled = false;
+		document.getElementById ("itemNext").disabled = false;
+		
+		
+		main.setItem (1);	
+	},
+
+	itemPrev : function ()
+	{
+		if (main.currentCatalogNo > 1)
+		{
+			document.getElementById ("itemPrev").disabled = true;
+			document.getElementById ("itemNext").disabled = true;
+			main.setItem ((main.currentCatalogNo - 1));
+		}
+	},
+			
+	itemNext : function ()
+	{
+		if (main.currentCatalogNo < main.items.length)
+		{
+			document.getElementById ("itemPrev").disabled = true;
+			document.getElementById ("itemNext").disabled = true;
+			main.setItem ((main.currentCatalogNo + 1));
+		}
+	},
+				
+	setItem : function (catalogNo)
+	{									
+		main.currentCatalogNo = catalogNo;
+	
+		document.getElementById ("tester").label = "Effekt "+ catalogNo +" af "+ main.items.length;
+		
+		catalogNo--;
+	
+		document.getElementById ("itemDescription").value = main.items[catalogNo].description;
+		
+		document.getElementById ("itemMinimumBid").value = main.items[catalogNo].minimumbid;
+		document.getElementById ("itemAppraisal1").value = main.items[catalogNo].appraisal1;
+		document.getElementById ("itemAppraisal2").value = main.items[catalogNo].appraisal2;
+		document.getElementById ("itemAppraisal3").value = main.items[catalogNo].appraisal3;
+			
+		if (main.items[catalogNo].pictureid != SNDK.tools.emptyGuid)
+		{
+			document.getElementById ("picture").src = "http://sorentotest.sundown.dk/getmedia/" + main.items[catalogNo].pictureid;
+		}
+		
+		if (main.items[catalogNo].currentbidid != SNDK.tools.emptyGuid)
+		{
+			var bid = didius.bid.load (main.items[catalogNo].currentbidid);
+		
+			document.getElementById ("itemCurrentBidCustomer").value = bid.customer.name;
+			document.getElementById ("itemCurrentBidAmount").value = bid.amount;
+		}
+		else
+		{
+			document.getElementById ("itemCurrentBidCustomer").value = "";
+			document.getElementById ("itemCurrentBidAmount").value = "";
+		}
+		
+		document.getElementById ("buyerno").focus ();
+		
+		main.onChange ();
 	},
 	
 	save : function ()
@@ -145,22 +211,43 @@ var main =
 	
 	onChange : function ()
 	{
-		main.get ();
-	
-		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
+		if (main.currentCatalogNo > 1)
 		{
-			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"] *";
-		
-			document.getElementById ("save").disabled = false;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("itemPrev").disabled = false;
 		}
 		else
 		{
-			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"]";
-		
-			document.getElementById ("save").disabled = true;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("itemPrev").disabled = true;
 		}
+		
+		if (main.currentCatalogNo < main.items.length)
+		{
+			document.getElementById ("itemNext").disabled = false;
+		}
+		else
+		{
+			document.getElementById ("itemNext").disabled = true;
+		}
+			
+		
+	
+	
+//		main.get ();
+	
+//		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
+//		{
+//			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"] *";
+//		
+//			document.getElementById ("save").disabled = false;
+//			document.getElementById ("close").disabled = false;
+//		}
+//		else
+//		{
+//			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"]";
+//		
+//			document.getElementById ("save").disabled = true;
+//			document.getElementById ("close").disabled = false;
+//		}
 	},
 	
 	items :

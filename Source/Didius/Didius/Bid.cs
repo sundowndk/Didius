@@ -249,7 +249,10 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
 				}
 			}
-			
+
+			result.Sort (delegate(Bid b1, Bid b2) { return b1.Amount.CompareTo (b2.Amount); });
+			result.Reverse ();
+
 			return result;
 		}
 		
@@ -272,6 +275,9 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
 				}
 			}
+
+			result.Sort (delegate(Bid b1, Bid b2) { return b1.Amount.CompareTo (b2.Amount); });
+			result.Reverse ();
 			
 			return result;
 		}

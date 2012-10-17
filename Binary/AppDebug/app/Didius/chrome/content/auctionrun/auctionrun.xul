@@ -5,6 +5,7 @@
 <window id="runauction" minwidth="750" minheight="690" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
 				
 	<script type="application/javascript" src="chrome://didius/content/auctionrun/auctionrun.js"/>							
@@ -38,7 +39,7 @@
 						</groupbox>
 																														
 						<groupbox id="auctionrun" collapsed="true">
-							<caption id="tester" label="Effekt 1 af 12"/>
+							<caption id="tester" label="Effekt ? af ?"/>
 							<grid>
 								<rows>
     								<row>      																			
@@ -47,15 +48,10 @@
 							
   								<columns>
     								<column flex="2">
-    									<vbox>
-											<separator class="groove-thin"/>
-											<hbox align="center">
-												<label class="Label">Title:</label>
-												<textbox id="itemName" flex="1" disabled="true" />
-											</hbox>								
+    									<vbox>																		
 											<hbox align="top">
 												<label class="Label">Beskrivelse:</label>
-												<textbox id="itemDescription" flex="1" multiline="true" rows="8" disabled="true"/>
+												<textbox id="itemDescription" flex="1" multiline="true" height="200" readonly="true"/>
 											</hbox>				
 										</vbox>
     								</column>
@@ -71,36 +67,42 @@
 							<separator class="groove-thin"/>
 							<hbox align="center">
 								<label class="Label">Min bud:</label>
-								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
+								<textbox id="itemMinimumBid" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true"/>
 								<label class="Label">Vurdering 1:</label>
-								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
+								<textbox id="itemAppraisal1" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true"/>
 							</hbox>							
 							<hbox align="center">
 								<label class="Label">Vurdering 2:</label>
-								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
+								<textbox id="itemAppraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true"/>
 								<label class="Label">Vurdering 3:</label>
-								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
-							</hbox>														
-							<separator class="groove-thin"/>
+								<textbox id="itemAppraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true"/>
+							</hbox>
 							<hbox align="center">
-								<label class="Label">Køber nr.:</label>
-								<textbox id="buyernumber" flex="1" type="number" hidespinbuttons="true" style="font-size: 25px;"/>
-							</hbox>																		
-							<hbox align="center">
-								<label class="Label">Pris:</label>
-								<textbox id="bid" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" style="font-size: 25px;"/>
+								<label class="Label">Kunde:</label>
+								<textbox id="itemCurrentBidCustomer" flex="1" readonly="true"/>
+								<label class="Label">Bud:</label>
+								<textbox id="itemCurrentBidAmount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true"/>
 							</hbox>		
 							<separator class="groove-thin"/>
 							<hbox align="center">
-								<button label="Forrige" style="height: 40px;" flex="1" disabled="true"/>
-								<button label="Næste" style="height: 40px;" flex="1" disabled="true"/>
+								<label class="Label">Køber nr.:</label>
+								<textbox id="buyerno" flex="1" type="number" hidespinbuttons="true" style="font-size: 25px;"/>
+							</hbox>																		
+							<hbox align="center">
+								<label class="Label">Pris:</label>
+								<textbox id="amount" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" style="font-size: 25px;"/>
+							</hbox>		
+							<separator class="groove-thin"/>
+							<hbox align="center">
+								<button id="itemPrev" label="Forrige" style="height: 40px;" flex="1" disabled="true" oncommand="main.itemPrev ();"/>
+								<button id="itemNext" label="Næste" style="height: 40px;" flex="1" disabled="true" oncommand="main.itemNext ();"/>
 							</hbox>												
 						</groupbox>		
 								
 						<groupbox id="buttons">										
 							<separator class="groove-thin"/>
 							<button label="Start auktion" oncommand="main.start ();"/>
-						</groupbox>
+						</groupbox>						
 					</vbox>
     			</tabpanel>
     							
@@ -108,7 +110,7 @@
 		</tabbox>
 	</hbox>
 	
-	<hbox class="WindowButtons" align="right" >
+	<hbox class="WindowButtons" align="right">
 		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
 		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
 	</hbox>
