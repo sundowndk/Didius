@@ -37,6 +37,15 @@ var main =
 	
 	test : function ()
 	{
+		sXUL.config.set ({key: "url", value: 1});
+		
+		var test = sXUL.config.get ({key: "url"});
+		
+		sXUL.console.log (test);
+	},
+	
+	test2 : function ()
+	{
 //		var fileupload = 	function (postUrl, fieldName, filePath, onDone)
 							{
 //								var formData = new FormData();

@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/customeredit/customeredit.xul">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.xul" Line="166" Column="32" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="42" Column="45" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="27" Column="27" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -21,12 +22,12 @@
                     <Node name="bid" expanded="True" />
                     <Node name="caseedit" expanded="True" />
                     <Node name="chooser" expanded="True" />
-                    <Node name="customeredit" expanded="True">
-                      <Node name="customeredit.xul" selected="True" />
-                    </Node>
+                    <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True" />
+                    <Node name="main" expanded="True">
+                      <Node name="main.js" selected="True" />
+                    </Node>
                     <Node name="settings" expanded="True" />
                   </Node>
                 </Node>
