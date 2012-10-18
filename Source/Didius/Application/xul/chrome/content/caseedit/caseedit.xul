@@ -8,6 +8,8 @@
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/javascript" src="chrome://didius/content/caseedit/caseedit.js"/>	
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
+
 			
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
@@ -100,10 +102,23 @@
 		</tabbox>
 	</hbox>
 	
-	<hbox class="WindowButtons" align="right" >
-		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
-		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+	<hbox class="WindowButtons">
+		<hbox id="settleBox" align="left" flex="1" collapsed="true"> 
+			<button id="settle" label="Afregn" oncommand="main.settlement.create ();" disabled="true"/>
+		</hbox>
+		<hbox id="printSettlementBox" align="left" flex="1" collapsed="true"> 
+			<button id="printSettlement" label="Udskriv afregning" oncommand="main.settlement.print ();" disabled="true"/>
+		</hbox>
+		<hbox align="printSettlementProgressmeterBox" collapsed="true">			
+			<vbox  collapsed="true">				
+				<iframe id="printframe" style="height: 0px; width: 0px; margin: 0px; padding: 0px;">
+				</iframe>			
+			</vbox>	
+			<progressmeter id="printSettlementProgressmeter" flex="1" mode="determined" value="" />
+		</hbox>		
+		<hbox align="right" flex="1"> 
+			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
+			<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+		</hbox>
 	</hbox>
 </window>
-
-

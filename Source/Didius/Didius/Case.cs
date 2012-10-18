@@ -40,6 +40,8 @@ namespace Didius
 		private decimal _preparationfee;
 		private decimal _commisionfeepercentage;
 		private decimal _commisionfeeminimum;
+
+		private bool _settled;
 		#endregion
 		
 		#region Public Fields
@@ -164,6 +166,19 @@ namespace Didius
 			}
 		}
 
+		public bool Settled
+		{
+			get
+			{
+				return this._settled;
+			}
+
+			set
+			{
+				this._settled = value;
+			}
+		}
+
 //		public System.List.ReadOnlyCollection<Item> Items
 //		{
 //			get
@@ -192,6 +207,8 @@ namespace Didius
 			this._preparationfee = 0;
 			this._commisionfeepercentage = 0;
 			this._commisionfeeminimum = 0;
+
+			this._settled = false;
 		}
 
 		private Case ()
@@ -207,6 +224,8 @@ namespace Didius
 			this._preparationfee = 0;
 			this._commisionfeepercentage = 0;
 			this._commisionfeeminimum = 0;
+
+			this._settled = false;
 		}
 		#endregion
 		
@@ -234,6 +253,8 @@ namespace Didius
 				item.Add ("preparationfee", this._preparationfee);
 				item.Add ("commisionfeepercentage", this._commisionfeepercentage);
 				item.Add ("commisionfeeminimum", this._commisionfeeminimum);
+
+				item.Add ("settled", this._settled);
 
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("customerid", this._customerid);
@@ -272,6 +293,8 @@ namespace Didius
 			result.Add ("preparationfee", this._preparationfee);
 			result.Add ("commisionfeepercentage", this._commisionfeepercentage);
 			result.Add ("commisionfeeminimum", this._commisionfeeminimum);
+
+			result.Add ("settled", this._settled);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
@@ -337,7 +360,12 @@ namespace Didius
 				if (item.ContainsKey ("commisionfeeminimum"))
 				{					
 					result._commisionfeeminimum = decimal.Parse ((string)item["commisionfeeminimum"]);
-				}				
+				}		
+
+				if (item.ContainsKey ("settled"))
+				{					
+					result._settled = (bool)item["settled"];
+				}
 			}
 			catch (Exception exception)
 			{
@@ -516,6 +544,11 @@ namespace Didius
 			if (item.ContainsKey ("commisionfeeminimum"))
 			{					
 				result._commisionfeeminimum = decimal.Parse ((string)item["commisionfeeminimum"]);
+			}
+
+			if (item.ContainsKey ("settled"))
+			{					
+				result._settled = (bool)item["settled"];
 			}
 			
 			return result;

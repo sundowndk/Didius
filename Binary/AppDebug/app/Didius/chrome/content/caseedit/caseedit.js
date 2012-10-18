@@ -152,8 +152,22 @@ var main =
 			document.getElementById ("save").disabled = true;
 			document.getElementById ("close").disabled = false;
 		}
+		
+		document.getElementById ("settle").disabled = false;
+		document.getElementById ("printSettlement").disabled = false;
+		
+		if (main.current.settled)
+		{
+			document.getElementById ("settleBox").collapsed = true;
+			document.getElementById ("printSettlementBox").collapsed = false;
+		}
+		else		
+		{
+			document.getElementById ("settleBox").collapsed = false;
+			document.getElementById ("printSettlementBox").collapsed = true;
+		}
 	},
-	
+			
 	items :
 	{
 		init : function ()
@@ -240,5 +254,194 @@ var main =
 				}								
 			}
 		}
-	}		
+	},
+	
+	settlement :
+	{	
+		create : function ()
+		{
+			window.openDialog ("chrome://didius/content/case/settlement/create.xul", "settlement-"+ main.current.id, "chrome, modal", {caseId: main.current.id});
+		},
+		
+		print : function ()
+		{					
+			var items = didius.item.list ({case: main.current});			
+					
+			
+			SNDK.tools.sortArrayHash (items, "catalogno", "numeric");
+				
+			var template = "";
+		
+			template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/settlement.tpl"));
+																																					
+			var pageCount = 1;			
+												
+			var print = document.getElementById ("printframe");
+		
+			print.contentDocument.body.innerHTML = " ";						
+															
+			var page = function (from)
+			{
+				// Add styles.																		
+				var styles = print.contentDocument.createElement ("style");					
+				print.contentDocument.body.appendChild (styles);					
+				styles.innerHTML = template.styles;
+		
+				// Create page.				
+				var page = print.contentDocument.createElement ("div");
+				page.className = "Page A4";
+				print.contentDocument.body.appendChild (page);
+																							
+				// Add content holder.																						
+				var content = print.contentDocument.createElement ("div")
+				content.className = "PrintContent";
+				page.appendChild (content);
+																		
+				// Add inital content.
+				var page2 = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
+				content.innerHTML = page2;
+			
+				// Caluculate page maxheight for printing.										
+				var maxHeight = page.offsetHeight 
+															
+				var count = 0;					
+				var rows = "";
+				var dummy = "";
+			
+				//progressmeter.value = 0;
+				
+				content.innerHTML = template.page.replace ("%%DISCLAIMER%%", template.disclaimer);
+				var disclaimerHeight = (content.offsetHeight);
+				content.innerHTML = " ";
+				
+				content.innerHTML = content.innerHTML + template.total;
+				var totalHeight = (content.offsetHeight);
+				content.innerHTML = " ";
+				
+				
+				var offset2 = disclaimerHeight + totalHeight;
+				
+				sXUL.console.log (disclaimerHeight)
+				sXUL.console.log (totalHeight)
+
+				
+				
+				{
+//					content.innerHTML
+
+					var customerinfo = "";
+					
+					customerinfo += main.current.customer.name +"<br>";
+					customerinfo += main.current.customer.address1 +"<br>";
+					
+					if (main.current.customer.address2 != "")
+					{
+						customerinfo += main.current.customer.address1 +"<br>";					
+					}
+					
+					customerinfo += main.current.customer.postcode +" "+ main.current.customer.city +"<br><br>";
+					
+					customerinfo += "Kunde nr. "+ main.current.customer.no +"<br><br>"
+					
+					customerinfo += "Tlf. "+ main.current.customer.phone +"<br>";
+					customerinfo += "Email "+ main.current.customer.email +"<br><br>";
+					
+					customerinfo += "Sag: "+ main.current.title +"<br><br>";
+					
+					page2 = page2.replace ("%%CUSTOMERINFO%%", customerinfo);
+								
+					page2 = page2.replace ("%%CUSTOMERBANKACCOUNT%%", main.current.customer.bankregistrationno +" "+ main.current.customer.bankaccountno);
+				}
+				
+								
+				
+//				content.innerHTML = " ";
+												
+				// Add data rows.				
+				var maxrows = 20;			
+				for (var idx = from; idx < items.length; idx++)
+				{						
+					//progressmeter.value = (idx / items.length) * 100;
+						
+					var row = template.row;
+											
+					//var case_ = didius.case.load (items[idx].caseid);
+					//var customer = didius.customer.load (case_.customerid)
+					
+					// Replace template placeholders.
+					row = row.replace ("%%CATALOGNO%%", items[idx].catalogno); // CatalogNo
+					row = row.replace ("%%DESCRIPTION%%", items[idx].description); // Description						
+					
+					
+					//row = row.replace ("%%BIDAMOUNT%%", items[idx].); // AmountBid
+					row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee); // CommissionFee
+								
+					// Test if rows fit inside maxheight of page.																																																																																																																											
+					dummy += row;						
+					content.innerHTML = page2.replace ("%%ROWS%%", dummy);
+					
+//					if (idx == (items.length - 1))
+//					{
+//						content.innerHTML = content.innerHTML + template.total;
+//					}
+					
+//					content.innerHTML = content.innerHTML.replace ("%%DISCLAIMER%%", template.disclaimer);
+														
+//					if (maxrows == 0)
+//					{
+//						break;
+//					}		
+					
+//					maxrows--;									
+							
+					
+					// If rows exceed, use last amount of rows that fit.																	
+					if (content.offsetHeight > (maxHeight - offset2))
+					{							
+						content.innerHTML = page2.replace ("%%ROWS%%", rows);												
+						break;	
+					}
+															
+					rows += row;
+					count++;						
+				}									
+			
+				return count;
+			}
+				
+			var c = 0;				
+			while (c < items.length)
+			{							
+			 	c += page (c);				 				
+			}		
+			
+		
+			
+			//progressmeter.value = 100;
+			
+//			document.getElementById ("main").hidden = false;						
+//			document.getElementById ("progress").hidden = true;
+			
+//			document.getElementById ("close").disabled = false;
+//			document.getElementById ("print").disabled = false;
+			
+			var settings = PrintUtils.getPrintSettings ();
+																																									
+			settings.marginLeft = 0.5;
+			settings.marginRight = 0.5;
+			settings.marginTop = 0.5;
+			settings.marginBottom = 0.5;
+			settings.shrinkToFit = true;
+			
+			settings.paperName =  "iso_a4";
+			settings.paperWidth = "210.00";
+			settings.paperHeight = "297.00";
+
+//			settings.printSilent = true;
+//			settings.printToFile = true;
+//			settings.toFileName = "/home/rvp/test.pdf";
+
+			sXUL.tools.print (print.contentWindow, settings);				
+		}
+	}
 }

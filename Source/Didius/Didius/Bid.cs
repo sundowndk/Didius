@@ -255,6 +255,32 @@ namespace Didius
 
 			return result;
 		}
+
+		public static List<Bid> List (Customer Customer)
+		{
+			List<Bid> result = new List<Bid> ();
+			
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Customer.Id)))
+			{
+				try
+				{
+					result.Add (Load (new Guid (id)));
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
+					
+					// LOG: LogDebug.BidList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
+				}
+			}
+			
+//			result.Sort (delegate(Bid b1, Bid b2) { return b1.Amount.CompareTo (b2.Amount); });
+//			result.Reverse ();
+			
+			return result;
+		}
 		
 		public static List<Bid> List ()
 		{

@@ -65,7 +65,7 @@ list : function (attributes)
 	if (attributes.item)
 	{
 		content.itemid = attributes.item.id;
-	}	
+	}		
 	
 	// CUSTOMER
 	if (attributes.customer)

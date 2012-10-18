@@ -47,6 +47,9 @@ namespace Didius
 
 		private Hashtable _fields;
 
+		private bool _invoiced;
+		private bool _settled;	
+
 		private Guid _pictureid;
 		#endregion
 		
@@ -221,6 +224,33 @@ namespace Didius
 			}
 		}
 
+		public bool Invoiced
+		{
+			get
+			{
+				return this._invoiced;
+			}
+
+			set
+			{
+				this._invoiced = value;
+			}
+		}
+
+
+		public bool Settled
+		{
+			get
+			{
+				return this._settled;
+			}
+
+			set
+			{
+				this._settled = value;
+			}
+		}
+
 		public Guid PictureId
 		{
 			get
@@ -263,6 +293,30 @@ namespace Didius
 				return Guid.Empty;
 			}
 		}
+
+		public Decimal CommissionFee
+		{
+			get
+			{
+				decimal result = 0;
+
+				decimal commissionfee = this.Case.CommisionFeePercentage;
+				decimal commissionfeeminimum = this.Case.CommisionFeeMinimum;
+				Bid currentbid = this.CurrentBid;
+
+				if (currentbid != null)
+				{
+					result = (currentbid.Amount * commissionfee) / 100;
+				}
+
+				if (result < commissionfeeminimum)
+				{
+					result = commissionfeeminimum;
+				}
+
+				return result;
+			}
+		}
 		#endregion
 		
 		#region Constructor
@@ -291,6 +345,9 @@ namespace Didius
 			
 			this._fields = new Hashtable ();		
 
+			this._invoiced = false;
+			this._settled = false;
+
 			this._pictureid = Guid.Empty;
 		}
 				
@@ -314,6 +371,9 @@ namespace Didius
 			this._appraisal3 = 0;
 
 			this._fields = new Hashtable ();
+
+			this._invoiced = false;
+			this._settled = false;
 
 			this._pictureid = Guid.Empty;
 		}
@@ -348,6 +408,9 @@ namespace Didius
 				item.Add ("appraisal1", this._appraisal1);
 				item.Add ("appraisal2", this._appraisal2);
 				item.Add ("appraisal3", this._appraisal3);
+
+				item.Add ("invoiced", this._invoiced);
+				item.Add ("settled", this._settled);
 
 				item.Add ("pictureid", this._pictureid);
 								
@@ -394,9 +457,13 @@ namespace Didius
 
 			result.Add ("fields", this._fields);
 
+			result.Add ("invoiced", this._invoiced);
+			result.Add ("settled", this._settled);
+
 			result.Add ("pictureid", this._pictureid);
 
 			result.Add ("currentbidid", this.CurrentBidId);
+			result.Add ("commissionfee", this.CommissionFee);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
@@ -490,6 +557,16 @@ namespace Didius
 				if (item.ContainsKey ("fields"))
 				{					
 					result._fields = (Hashtable)item["fields"];
+				}
+
+				if (item.ContainsKey ("invoiced"))
+				{					
+					result._invoiced = (bool)item["invoiced"];
+				}
+
+				if (item.ContainsKey ("settled"))
+				{					
+					result._settled = (bool)item["settled"];
 				}
 
 				if (item.ContainsKey ("pictureid"))
@@ -706,6 +783,16 @@ namespace Didius
 					// This conversion will fail if its empty. No way of knowing if its a list or hash.
 				}
 			}	
+
+			if (item.ContainsKey ("invoiced"))
+			{					
+				result._invoiced = (bool)item["invoiced"];
+			}
+			
+			if (item.ContainsKey ("settled"))
+			{					
+				result._settled = (bool)item["settled"];
+			}
 
 			if (item.ContainsKey ("pictureid"))
 			{					

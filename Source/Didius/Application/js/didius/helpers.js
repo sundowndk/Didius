@@ -88,6 +88,20 @@ parsePrintTemplate : function (data)
 					result.row = "";
 					continue;
 				}							
+				
+				case "#BEGINTOTAL":
+				{
+					block = "total";
+					result.total = "";
+					continue;
+				}							
+				
+				case "#BEGINDISCLAIMER":
+				{
+					block = "disclaimer";
+					result.disclaimer = "";
+					continue;
+				}							
 			}					
 		}
 		else
@@ -101,6 +115,18 @@ parsePrintTemplate : function (data)
 				}
 				
 				case "#ENDROW":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDTOTAL":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDDISCLAIMER":
 				{
 					block = "";
 					continue;
@@ -125,6 +151,18 @@ parsePrintTemplate : function (data)
 			case "row":
 			{
 				result.row += data[idx] +"\n";
+				break;
+			}
+			
+			case "total":
+			{
+				result.total += data[idx] +"\n";
+				break;
+			}
+			
+			case "disclaimer":
+			{
+				result.disclaimer += data[idx] +"\n";
 				break;
 			}
 		}				

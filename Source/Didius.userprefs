@@ -1,34 +1,40 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/itemedit/itemedit.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="42" Column="45" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="27" Column="27" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="373" Column="69" />
+      <File FileName="Didius/Application/xul/chrome/content/templates/settlement.tpl" Line="186" Column="13" />
+      <File FileName="Didius/Didius/Customer.cs" Line="487" Column="29" />
+      <File FileName="Didius/Application/js/didius/helpers.js" Line="98" Column="5" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="2" Column="8" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="212" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
-              <Node name="js" expanded="True" />
+              <Node name="js" expanded="True">
+                <Node name="didius" expanded="True" />
+              </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
                       <Node name="catalog" expanded="True" />
                     </Node>
-                    <Node name="auctionedit" expanded="True" />
-                    <Node name="auctionrun" expanded="True" />
-                    <Node name="bid" expanded="True" />
-                    <Node name="caseedit" expanded="True" />
-                    <Node name="chooser" expanded="True" />
-                    <Node name="customeredit" expanded="True" />
-                    <Node name="itemedit" expanded="True" />
-                    <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True">
-                      <Node name="main.js" selected="True" />
+                    <Node name="case" expanded="True">
+                      <Node name="settlement" expanded="True" />
                     </Node>
+                    <Node name="caseedit" expanded="True" />
+                    <Node name="customeredit" expanded="True" />
+                    <Node name="itemedit" expanded="True">
+                      <Node name="itemedit.js" selected="True" />
+                    </Node>
+                    <Node name="js" expanded="True" />
+                    <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />
+                    <Node name="templates" expanded="True" />
                   </Node>
                 </Node>
               </Node>

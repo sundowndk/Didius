@@ -286,6 +286,10 @@ namespace Didius.Addin
 							{
 								result.Add (Bid.List (request.getValue<Guid> ("itemid")));
 							}
+							if (request.ContainsXPath ("customerid"))
+							{
+								result.Add (Bid.List (Customer.Load (request.getValue<Guid> ("customerid"))));
+							}
 							else
 							{
 								result.Add (Bid.List ());

@@ -21,6 +21,7 @@ var main =
 		main.set ();
 		
 		main.cases.init ();
+		main.bids.init ();
 		
 		// Hook events.
 		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
@@ -28,6 +29,10 @@ var main =
 		app.events.onCaseCreate.addHandler (main.eventHandlers.onCaseCreate);
 		app.events.onCaseSave.addHandler (main.eventHandlers.onCaseSave);
 		app.events.onCaseDestroy.addHandler (main.eventHandlers.onCaseDestroy);
+		
+		app.events.onBidCreate.addHandler (main.eventHandlers.onBidCreate);
+		app.events.onBidSave.addHandler (main.eventHandlers.onBidSave);
+		app.events.onBidDestroy.addHandler (main.eventHandlers.onBidDestroy)
 	},
 	
 	eventHandlers :
@@ -59,7 +64,48 @@ var main =
 		onCaseDestroy : function (eventData)
 		{
 			main.cases.casesTreeHelper.removeRow ({id: eventData.id});
-		}		
+		},
+		
+		onBidCreate : function (eventData)
+		{
+			if (main.current.id == eventData.customerid)
+			{
+				var data = {};
+			
+				data.id = eventData.id;
+				data.createtimestamp = eventData.createtimestamp;
+				data.auctionno = eventData.item.case.auction.no;
+				data.auctiontitle = eventData.item.case.auction.title;
+				data.itemno = eventData.item.no;
+				data.itemtitle = eventData.item.title;
+				data.amount = eventData.amount;
+			
+				main.bids.bidsTreeHelper.addRow ({data: data});
+			}
+		},
+		
+		onBidSave : function (eventData)
+		{
+			if (main.current.id == eventData.customer.id)
+			{
+				var data = {};
+			
+				data.id = eventData.id;
+				data.createtimestamp = eventData.createtimestamp;
+				data.auctionno = eventData.item.case.auction.no;
+				data.auctiontitle = eventData.item.case.auction.title;
+				data.itemno = eventData.item.no;
+				data.itemtitle = eventData.item.title;
+				data.amount = eventData.amount;
+			
+				main.bids.bidsTreeHelper.setRow ({data: data});			
+			}
+		},
+		
+		onBidDestroy : function (eventData)
+		{
+			main.bids.bidsTreeHelper.removeRow ({id: eventData.id});
+		}
 	},
 			
 	set : function ()
@@ -89,9 +135,7 @@ var main =
 		document.getElementById ("bankaccountno").value = main.current.bankaccountno;
 		
 		document.getElementById ("notes").value = main.current.notes;
-		
-		main.cases.init ();
-				
+							
 		main.onChange ();
 	},
 	
@@ -195,9 +239,9 @@ var main =
 		set : function ()
 		{
 			var onDone = 	function (items)
-							{
+							{							
 								for (idx in items)
-								{				
+								{													
 									main.cases.casesTreeHelper.addRow ({data: items[idx]});									
 								}
 								
@@ -211,7 +255,7 @@ var main =
 				document.getElementById ("caseEdit").disabled = true;
 				document.getElementById ("caseDestroy").disabled = true;
 						
-				didius.case.list ({customerId: main.current.id, async: true, onDone: onDone});				
+				didius.case.list ({customer: main.current, async: true, onDone: onDone});				
 		},
 		
 		sort : function (attributes)
@@ -257,5 +301,72 @@ var main =
 				}								
 			}
 		}
-	}		
+	},
+	
+	bids :
+	{
+		bidsTreeHelper : null,
+	
+		init : function ()
+		{
+			main.bids.bidsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("bids"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.bids.edit});			
+			main.bids.set ();
+		},
+							
+		set : function ()
+		{
+			var onDone = 	function (items)
+							{														
+								for (idx in items)
+								{				
+									var data = {};
+									data.id = items[idx].id;
+									data.createtimestamp = items[idx].createtimestamp;
+									data.auctionno = items[idx].item.case.auction.no;
+									data.auctiontitle = items[idx].item.case.auction.title;
+									data.itemno = items[idx].item.no;
+									data.itemtitle = items[idx].item.title;
+									data.amount = items[idx].amount;
+									
+									main.bids.bidsTreeHelper.addRow ({data: data});
+								}
+								
+								// Enable controls
+								document.getElementById ("bids").disabled = false;																
+								main.cases.onChange ();
+							};
+
+				// Disable controls
+				document.getElementById ("bids").disabled = true;					
+				document.getElementById ("bidShow").disabled = true;				
+						
+				didius.bid.list ({customer: main.current, async: true, onDone: onDone});
+		},
+		
+		sort : function (attributes)
+		{
+			main.cases.casesTreeHelper.sort (attributes);
+		},
+					
+		onChange : function ()
+		{
+			if (main.cases.casesTreeHelper.getCurrentIndex () != -1)
+			{					
+				document.getElementById ("caseEdit").disabled = false;
+				document.getElementById ("caseDestroy").disabled = false;				
+			}
+			else
+			{												
+				document.getElementById ("caseEdit").disabled = true;
+				document.getElementById ("caseDestroy").disabled = true;				
+			}						
+		},
+																													
+		show : function ()
+		{		
+			var current = main.cases.casesTreeHelper.getRow ();
+															
+			window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", current.id, "chrome", {caseId: current.id});
+		}
+	}	
 }
