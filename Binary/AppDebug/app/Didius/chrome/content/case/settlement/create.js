@@ -115,6 +115,11 @@ var main =
 		main.current.settled = true;
 		
 		didius.case.save (main.current);		
+					
+		if (window.arguments[0].onApprove != null)
+		{
+			window.arguments[0].onApprove (main.current);
+		}
 		
 		main.close ();	
 	},

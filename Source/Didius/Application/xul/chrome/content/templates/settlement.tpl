@@ -27,11 +27,12 @@
 .PageFooter
 {
 	position:						absolute;		
-	bottom: 						-30px;	
+	top:	 						220mm;	
 
 	width: 							200mm;
 	
-	text-align: 					right;	
+
+	
 	font-size: 						14px;
 	font-weight:					bold;
 }
@@ -51,19 +52,36 @@
 	padding:					 	0px;
 	
 	border-style: 					solid none none none;
+	border-width:					1px;
 	border-collapse:				collapse;
 }
 
-.LinesTable
+.TableRows
 {
 	margin: 						0px;		
 	padding:					 	0px;
+	
+	width: 							100%;
 	
 	border-style: 					none none none none;
 	border-collapse:				collapse;
 }
 
-.totalTable
+.TableTransfer
+{
+	margin: 						0px;		
+	padding:					 	0px;
+	
+	margin-top:						15px;
+	
+	width: 							100%;
+	
+	border-style: 					solid none solid none;
+	border-width:					1px;
+	border-collapse:				collapse;
+}
+
+.TableTotal
 {
 	margin: 						0px;		
 	padding:					 	0px;
@@ -71,6 +89,7 @@
 	margin-top:						20px;
 	
 	border-style: 					solid none none none;
+	border-width:					1px;
 	border-collapse:				collapse;
 }
 
@@ -92,6 +111,7 @@
 	font-weight:					bold;
 	
 	border-style: 					none none solid none;
+	border-width:					1px;
 }
 
 .CellCatalogNo
@@ -102,17 +122,38 @@
 }
 
 .CellDescription
-{
-	width:							155mm;
-
+{	
 	vertical-align: 				top; 
+	
+	width:							125mm;	
 }	
 
-.CellNotes
+.CellBidAmount
 {
-	width:							15mm;	
+	width:							25mm;	
 
 	vertical-align: 				top; 
+	
+	text-align:						right;
+}
+
+.CellCommissionFee
+{
+	width:							25mm;	
+
+	vertical-align: 				top; 
+	
+	text-align:						right;
+}
+
+.CellTotalDescription
+{
+	text-align:						left;	
+}
+
+.CellTotalValue
+{
+	text-align:						right;	
 }
 #ENDSTYLES
 
@@ -149,7 +190,8 @@
 			<td valign="top" align="left" style="width: 100mm">
 				%%CUSTOMERINFO%%
 			</td>
-			<td valign="top" align="right" style="width: 100mm">
+			<td valign="top" align="right" style="width: 100mm">				
+				Afregning: %%SETTLEMENTNO%%<br><br>
 				Afregningskonto: %%CUSTOMERBANKACCOUNT%%
 			</td>
 		</tr>
@@ -157,7 +199,7 @@
 </div>
 
 // Table
-<table class="LinesTable">
+<table class="TableRows">
 // ColumnHeader
 	<tr>					
 // CatalogNo
@@ -171,19 +213,18 @@
 		</td>
 
 // BidAmount
-		<td class="CellNotes ColumnHeader">
+		<td class="CellBidAmount ColumnHeader">
 			Pris
 		</td>	
 
 // CommissionFee
-		<td class="CellNotes ColumnHeader">
-			SalÃ¦r
+		<td class="CellCommissionFee ColumnHeader">
+			Salær
 		</td>		
-</tr>
+	</tr>
 
-%%ROWS%%
-
-%%DISCLAIMER%%
+%%ROWS%%	
+</table>
 
 #BEGINROW
 // Columns
@@ -199,41 +240,50 @@
 		</td>
 
 // BidAmount
-		<td class="CellNotes">
+		<td class="CellBidAmount">
 			%%BIDAMOUNT%%
 		</td>		
 
 // CommissionFee
-		<td class="CellNotes">
+		<td class="CellCommissionFee">
 			%%COMMISSIONFEE%%
 		</td>			
 	</tr>
 #ENDROW
+
+#BEGINTRANFER
+<table class="TableTransfer">
+	<tr>
+		<td colspan="4">
+			Overført
+		</td>
+	</tr>
 </table>
+#ENDTRANSFER
 
 #BEGINTOTAL
-<table class="totalTable">
+<table class="TableTotal">
 	<tr>
-		<td >
+		<td class="CellTotalDescription">
 			Salg
 		</td>
-		<td colspan="3">
+		<td class="CellTotalValue" colspan="3">
 			%%TOTALSALE%%
 		</td>
 	</tr>
 	<tr>
-		<td>
-			SalÃ¦re
+		<td class="CellTotalDescription">
+			Salær
 		</td>
-		<td colspan="3">
+		<td class="CellTotalValue" colspan="3">
 			%%TOTALCOMMISSIONFEE%%
 		</td>
 	</tr>
 	<tr>
-		<td>
+		<td class="CellTotalDescription">
 			I alt
 		</td>
-		<td colspan="3">
+		<td class="CellTotalValue" colspan="3">
 			%%TOTALTOTAL%%
 		</td>
 	</tr>	
@@ -241,15 +291,19 @@
 #ENDTOTAL
 
 #BEGINDISCLAIMER
-Effekterne afregnes under forudsÃ¦tning af at ovennÃ¦vnte er fri og ubehÃ¦ftet af nogen art.<br>
-BelÃ¸bet bankoverfÃ¸res til den opgivne bankkonto. (3 - 5 bankdage fra modtagelse af denne opgÃ¸relse)<br>
-Skulle der vÃ¦re tvivlsspÃ¸rgsmÃ¥l i afregningen, bedes du kontakte os inden 3 hverdage fra modtagelsen af denne
-afregning pÃ¥ jm@york-auktion.dk, herefter vil belÃ¸bet blive overfÃ¸rt til din konto.<br><br>
+<br>
+<br>
+Effekterne afregnes under forudsætning af at ovennævnte er fri og ubehæftet af nogen art.<br>
+Beløbet bankoverføres til den opgivne bankkonto. (3 - 5 bankdage fra modtagelse af denne opgørelse)<br>
+Skulle der være tvivlsspørgsmål i afregningen, bedes du kontakte os inden 3 hverdage fra modtagelsen af denne
+afregning på jm@york-auktion.dk, herefter vil beløbet blive overført til din konto.<br><br>
 
-NÃ¦ste auktion i Nyrup: %%NEXTAUCTIONDATE%%<br><br>
+Næste auktion i Nyrup: %%NEXTAUCTIONDATE%%<br><br>
 #ENDDISCLAIMER
 
 // Footer
 <div id="PageFooter" class="PageFooter">
-	Side %%PAGENUMBER%%
+	%%TRANSFER%%
+	%%TOTAL%%
+	%%DISCLAIMER%%
 </div>

@@ -179,6 +179,45 @@ namespace Didius
 			}
 		}
 
+		public decimal SettlementSale
+		{
+			get
+			{
+				decimal result = 0;
+
+				foreach (Item item in Item.List (this))
+				{
+					result += item.BidAmount;
+				}
+
+				return Math.Round (result, 2);
+			}
+		}
+
+		public decimal SettlementCommissionFee
+		{
+			get
+			{
+				decimal result = 0;
+				
+				foreach (Item item in Item.List (this))
+				{
+					result += item.CommissionFee;
+				}
+				
+				return Math.Round (result, 2);
+
+			}
+		}
+
+		public decimal SettlementTotal
+		{
+			get
+			{
+				return Math.Round (this.SettlementSale + this.SettlementCommissionFee, 2);
+			}
+		}
+
 //		public System.List.ReadOnlyCollection<Item> Items
 //		{
 //			get
@@ -295,6 +334,9 @@ namespace Didius
 			result.Add ("commisionfeeminimum", this._commisionfeeminimum);
 
 			result.Add ("settled", this._settled);
+//			result.Add ("settlementsale", this.SettlementSale);
+//			result.Add ("settlementcommissionfee", this.SettlementCommissionFee);
+//			result.Add ("settlementtotal", this.SettlementTotal);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}

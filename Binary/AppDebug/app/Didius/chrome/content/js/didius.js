@@ -728,6 +728,13 @@ var didius =
 							continue;
 						}							
 						
+						case "#BEGINTRANFER":
+						{
+							block = "transfer";
+							result.transfer = "";
+							continue;
+						}							
+						
 						case "#BEGINTOTAL":
 						{
 							block = "total";
@@ -754,6 +761,12 @@ var didius =
 						}
 						
 						case "#ENDROW":
+						{
+							block = "";
+							continue;
+						}
+						
+						case "#ENDTRANSFER":
 						{
 							block = "";
 							continue;
@@ -790,6 +803,12 @@ var didius =
 					case "row":
 					{
 						result.row += data[idx] +"\n";
+						break;
+					}
+					
+					case "transfer":
+					{
+						result.transfer += data[idx] +"\n";
 						break;
 					}
 					

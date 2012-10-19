@@ -1,13 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/itemedit/itemedit.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="373" Column="69" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/settlement.tpl" Line="186" Column="13" />
-      <File FileName="Didius/Didius/Customer.cs" Line="487" Column="29" />
-      <File FileName="Didius/Application/js/didius/helpers.js" Line="98" Column="5" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="106" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/create.js" Line="88" Column="22" />
+      <File FileName="Didius/Application/js/app/runtime.js" Line="1" Column="1" />
       <File FileName="Didius/Application/js/didius/runtime.js" Line="2" Column="8" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="212" Column="9" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="12" Column="33" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,6 +14,7 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
+                <Node name="app" expanded="True" />
                 <Node name="didius" expanded="True" />
               </Node>
               <Node name="xul" expanded="True">
@@ -28,11 +28,11 @@
                     </Node>
                     <Node name="caseedit" expanded="True" />
                     <Node name="customeredit" expanded="True" />
-                    <Node name="itemedit" expanded="True">
-                      <Node name="itemedit.js" selected="True" />
-                    </Node>
+                    <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True" />
+                    <Node name="main" expanded="True">
+                      <Node name="main.js" selected="True" />
+                    </Node>
                     <Node name="settings" expanded="True" />
                     <Node name="templates" expanded="True" />
                   </Node>

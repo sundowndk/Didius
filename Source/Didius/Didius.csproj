@@ -248,6 +248,7 @@
     <None Include="Application\xul\chrome\content\case\settlement\create.js" />
     <None Include="Application\xul\chrome\content\case\settlement\create.xul" />
     <None Include="Application\xul\chrome\content\templates\settlement.tpl" />
+    <None Include="Didius\Settlement.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

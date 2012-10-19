@@ -294,7 +294,22 @@ namespace Didius
 			}
 		}
 
-		public Decimal CommissionFee
+		public decimal BidAmount 
+		{
+			get
+			{
+				decimal result = 0;
+
+				if (this.CurrentBidId != Guid.Empty)
+				{
+					result = Bid.Load (this.CurrentBidId).Amount;
+				}
+
+				return Math.Round (result, 2);
+			}
+		}
+
+		public decimal CommissionFee
 		{
 			get
 			{
@@ -314,7 +329,7 @@ namespace Didius
 					result = commissionfeeminimum;
 				}
 
-				return result;
+				return Math.Round (result, 2);
 			}
 		}
 		#endregion
@@ -463,6 +478,7 @@ namespace Didius
 			result.Add ("pictureid", this._pictureid);
 
 			result.Add ("currentbidid", this.CurrentBidId);
+			result.Add ("bidamount", this.BidAmount);
 			result.Add ("commissionfee", this.CommissionFee);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());

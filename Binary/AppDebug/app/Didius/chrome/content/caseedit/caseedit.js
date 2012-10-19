@@ -20,7 +20,7 @@ var main =
 	
 		main.set ();
 		
-		// Hook events.
+		// Hook events.		
 		app.events.onCaseDestroy.addHandler (main.eventHandlers.onCaseDestroy);
 		
 		app.events.onItemCreate.addHandler (main.eventHandlers.onItemCreate);
@@ -29,7 +29,7 @@ var main =
 	},
 	
 	eventHandlers :
-	{
+	{			
 		onCaseDestroy : function (eventData)
 		{
 			if (main.current.id == eventData.id)
@@ -260,14 +260,20 @@ var main =
 	{	
 		create : function ()
 		{
-			window.openDialog ("chrome://didius/content/case/settlement/create.xul", "settlement-"+ main.current.id, "chrome, modal", {caseId: main.current.id});
+			var onApprove = function ()
+							{
+								main.current.settled = true;
+								main.checksum = SNDK.tools.arrayChecksum (main.current);
+								main.onChange ();
+							};
+					
+			window.openDialog ("chrome://didius/content/case/settlement/create.xul", "settlement-"+ main.current.id, "chrome, modal", {caseId: main.current.id, onApprove: onApprove});
 		},
 		
 		print : function ()
 		{					
 			var items = didius.item.list ({case: main.current});			
-					
-			
+								
 			SNDK.tools.sortArrayHash (items, "catalogno", "numeric");
 				
 			var template = "";
@@ -279,7 +285,11 @@ var main =
 			var print = document.getElementById ("printframe");
 		
 			print.contentDocument.body.innerHTML = " ";						
-															
+				
+			var totalSale = 0;
+			var totalCommissionFee = 0;							
+			var totalTotal = 0;																																								
+																																																
 			var page = function (from)
 			{
 				// Add styles.																		
@@ -298,133 +308,146 @@ var main =
 				page.appendChild (content);
 																		
 				// Add inital content.
-				var page2 = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
-				content.innerHTML = page2;
+				var render = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
+				content.innerHTML = render;
 			
 				// Caluculate page maxheight for printing.										
 				var maxHeight = page.offsetHeight 
-															
-				var count = 0;					
-				var rows = "";
-				var dummy = "";
-			
-				//progressmeter.value = 0;
+				var maxHeight2 = page.offsetHeight;
 				
-				content.innerHTML = template.page.replace ("%%DISCLAIMER%%", template.disclaimer);
-				var disclaimerHeight = (content.offsetHeight);
-				content.innerHTML = " ";
+												
+				// Calculate DISCLAIMER height.							
+									
+				// DISCLAIMER
+				{										
+					content.innerHTML = template.disclaimer;										
+					maxHeight2 -= content.offsetHeight;
+				}
 				
-				content.innerHTML = content.innerHTML + template.total;
-				var totalHeight = (content.offsetHeight);
-				content.innerHTML = " ";
-				
-				
-				var offset2 = disclaimerHeight + totalHeight;
-				
-				sXUL.console.log (disclaimerHeight)
-				sXUL.console.log (totalHeight)
-
-				
-				
+				// TOTAL
 				{
-//					content.innerHTML
-
-					var customerinfo = "";
-					
-					customerinfo += main.current.customer.name +"<br>";
-					customerinfo += main.current.customer.address1 +"<br>";
+					content.innerHTML = template.total;					
+					maxHeight2 -= content.offsetHeight;
+				}
+				
+				sXUL.console.log ("maxHeight: "+ maxHeight);
+				sXUL.console.log ("maxHeight2: "+ maxHeight2);
+				
+				
+				// CUSTOMERINFO
+				{
+					var customerInfo = "";					
+					customerInfo += main.current.customer.name +"<br>";
+					customerInfo += main.current.customer.address1 +"<br>";
 					
 					if (main.current.customer.address2 != "")
 					{
-						customerinfo += main.current.customer.address1 +"<br>";					
+						customerInfo += main.current.customer.address1 +"<br>";					
 					}
 					
-					customerinfo += main.current.customer.postcode +" "+ main.current.customer.city +"<br><br>";
+					customerInfo += main.current.customer.postcode +" "+ main.current.customer.city +"<br><br>";
 					
-					customerinfo += "Kunde nr. "+ main.current.customer.no +"<br><br>"
+					customerInfo += "Kunde nr. "+ main.current.customer.no +"<br><br>"
 					
-					customerinfo += "Tlf. "+ main.current.customer.phone +"<br>";
-					customerinfo += "Email "+ main.current.customer.email +"<br><br>";
+					customerInfo += "Tlf. "+ main.current.customer.phone +"<br>";
+					customerInfo += "Email "+ main.current.customer.email +"<br><br>";
 					
-					customerinfo += "Sag: "+ main.current.title +"<br><br>";
+					customerInfo += "Sag: "+ main.current.title +"<br><br>";
 					
-					page2 = page2.replace ("%%CUSTOMERINFO%%", customerinfo);
-								
-					page2 = page2.replace ("%%CUSTOMERBANKACCOUNT%%", main.current.customer.bankregistrationno +" "+ main.current.customer.bankaccountno);
+					render = render.replace ("%%CUSTOMERINFO%%", customerInfo);					
+					content.innerHTML = render;
 				}
 				
-								
+				// CUSTOMERBANKACCOUNT
+				{
+					render = render.replace ("%%CUSTOMERBANKACCOUNT%%", main.current.customer.bankregistrationno +" "+ main.current.customer.bankaccountno);
+					content.innerHTML = render;
+				}
 				
-//				content.innerHTML = " ";
-												
-				// Add data rows.				
-				var maxrows = 20;			
-				for (var idx = from; idx < items.length; idx++)
-				{						
-					//progressmeter.value = (idx / items.length) * 100;
-						
-					var row = template.row;
-											
-					//var case_ = didius.case.load (items[idx].caseid);
-					//var customer = didius.customer.load (case_.customerid)
-					
-					// Replace template placeholders.
-					row = row.replace ("%%CATALOGNO%%", items[idx].catalogno); // CatalogNo
-					row = row.replace ("%%DESCRIPTION%%", items[idx].description); // Description						
-					
-					
-					//row = row.replace ("%%BIDAMOUNT%%", items[idx].); // AmountBid
-					row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee); // CommissionFee
-								
-					// Test if rows fit inside maxheight of page.																																																																																																																											
-					dummy += row;						
-					content.innerHTML = page2.replace ("%%ROWS%%", dummy);
-					
-//					if (idx == (items.length - 1))
-//					{
-//						content.innerHTML = content.innerHTML + template.total;
-//					}
-					
-//					content.innerHTML = content.innerHTML.replace ("%%DISCLAIMER%%", template.disclaimer);
-														
-//					if (maxrows == 0)
-//					{
-//						break;
-//					}		
-					
-//					maxrows--;									
-							
-					
-					// If rows exceed, use last amount of rows that fit.																	
-					if (content.offsetHeight > (maxHeight - offset2))
+				// ROWS
+				{
+					// Add data rows.
+					var rows = "";	
+					var count = 0;				
+					for (var idx = from; idx < items.length; idx++)
 					{							
-						content.innerHTML = page2.replace ("%%ROWS%%", rows);												
-						break;	
-					}
-															
-					rows += row;
-					count++;						
-				}									
-			
-				return count;
-			}
+						var row = template.row;
+						
+						if (items[idx].bidamount != "0.00")
+						{
+					
+						// CATALOGNO						
+						{
+							row = row.replace ("%%CATALOGNO%%", items[idx].catalogno);
+						}			
+					
+						// DESCRIPTION
+						{
+							row = row.replace ("%%DESCRIPTION%%", items[idx].description);
+						}		
+					
+						// BIDAMOUNT
+						{
+							row = row.replace ("%%BIDAMOUNT%%", items[idx].bidamount);
+						}
+					
+						// COMMISSIONFEE
+						{
+							row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee);
+						}					
+
+						content.innerHTML = render.replace ("%%ROWS%%", rows + row);
+																												
+						if (content.offsetHeight > (maxHeight2))
+						{						
+							render = render.replace ("%%ROWS%%", rows);															
+							render = render.replace ("%%TRANSFER%%", template.transfer)
+							render = render.replace ("%%TOTAL%%", "");		
+							render = render.replace ("%%DISCLAIMER%%", "");							
+							content.innerHTML = render;
+							break;	
+						}
+																			
+						totalSale += parseInt (items[idx].bidamount);
+						totalCommissionFee += parseInt (items[idx].commissionfee);
+						totalTotal = totalSale + totalCommissionFee;				
+						
+						rows += row;
+						}
+																		
+						count++;						
+					}																		
+					
+					render = render.replace ("%%ROWS%%", rows);
+					render = render.replace ("%%TRANSFER%%", "");
+					
+					content.innerHTML = render;
+				}
 				
+				// TOTAL
+				{
+					render = render.replace ("%%TOTAL%%", template.total);
+					render = render.replace ("%%TOTALSALE%%", totalSale.toFixed (2));
+					render = render.replace ("%%TOTALCOMMISSIONFEE%%", totalCommissionFee.toFixed (2));
+					render = render.replace ("%%TOTALTOTAL%%", (totalSale + totalCommissionFee).toFixed (2));
+					content.innerHTML = render;
+				}				
+												
+				// DISCLAIMER
+				{
+					render = render.replace ("%%DISCLAIMER%%", template.disclaimer);
+					content.innerHTML = render;
+				}
+				
+				return count;				
+			}
+																																																	
 			var c = 0;				
 			while (c < items.length)
 			{							
 			 	c += page (c);				 				
 			}		
-			
-		
-			
-			//progressmeter.value = 100;
-			
-//			document.getElementById ("main").hidden = false;						
-//			document.getElementById ("progress").hidden = true;
-			
-//			document.getElementById ("close").disabled = false;
-//			document.getElementById ("print").disabled = false;
-			
+						
 			var settings = PrintUtils.getPrintSettings ();
 																																									
 			settings.marginLeft = 0.5;

@@ -89,6 +89,13 @@ parsePrintTemplate : function (data)
 					continue;
 				}							
 				
+				case "#BEGINTRANFER":
+				{
+					block = "transfer";
+					result.transfer = "";
+					continue;
+				}							
+				
 				case "#BEGINTOTAL":
 				{
 					block = "total";
@@ -115,6 +122,12 @@ parsePrintTemplate : function (data)
 				}
 				
 				case "#ENDROW":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDTRANSFER":
 				{
 					block = "";
 					continue;
@@ -151,6 +164,12 @@ parsePrintTemplate : function (data)
 			case "row":
 			{
 				result.row += data[idx] +"\n";
+				break;
+			}
+			
+			case "transfer":
+			{
+				result.transfer += data[idx] +"\n";
 				break;
 			}
 			
