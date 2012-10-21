@@ -1,12 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Settlement.cs">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="106" Column="4" />
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/create.js" Line="88" Column="22" />
-      <File FileName="Didius/Application/js/app/runtime.js" Line="1" Column="1" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="2" Column="8" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="12" Column="33" />
+      <File FileName="Didius/Didius/Settlement.cs" Line="433" Column="4" />
+      <File FileName="Didius/Didius.Strings/LogDebug.cs" Line="42" Column="130" />
+      <File FileName="Didius/Didius.Strings/Exception.cs" Line="63" Column="67" />
+      <File FileName="Test/Main.cs" Line="44" Column="6" />
+      <File FileName="Didius/Didius/Bid.cs" Line="306" Column="22" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -30,23 +30,27 @@
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True">
-                      <Node name="main.js" selected="True" />
-                    </Node>
+                    <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />
                     <Node name="templates" expanded="True" />
                   </Node>
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True" />
+            <Node name="Didius" expanded="True">
+              <Node name="Settlement.cs" selected="True" />
+            </Node>
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True">
               <Node name="scripts" expanded="True" />
             </Node>
           </Node>
+          <Node name="Test" expanded="True" />
         </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

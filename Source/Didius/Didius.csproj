@@ -65,7 +65,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Addins, Version=0.6.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
       <Private>False</Private>
-      <Package>mono-addins</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +87,7 @@
     <Compile Include="Didius\Event.cs" />
     <Compile Include="Didius\LiveBider.cs" />
     <Compile Include="Didius.Addin\Function.cs" />
+    <Compile Include="Didius\Settlement.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -248,7 +248,6 @@
     <None Include="Application\xul\chrome\content\case\settlement\create.js" />
     <None Include="Application\xul\chrome\content\case\settlement\create.xul" />
     <None Include="Application\xul\chrome\content\templates\settlement.tpl" />
-    <None Include="Didius\Settlement.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

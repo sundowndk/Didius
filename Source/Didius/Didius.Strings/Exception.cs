@@ -59,11 +59,19 @@ namespace Didius.Strings
 		public static string BidFromXmlDocument = "Cannot create Bid from XmlDocument, missing {0}";
 		#endregion
 
+		public static string SettlementSave = "00610|Could not save Settlement with id: {0}";
+		public static string SettlementLoadGuid = "00610|Could not load Settlement with id: {0}.\nInner Exception:\n {1}";
+		public static string SettlementDeleteGuid = "00610|Could not delete Settlement with id: {0}";
+		public static string SettlementDeleteHasCase = "00631|Can not delete Settlement with id: {0}, since its related to a case.";
+		public static string SettlementFromXmlDocument = "00610|Cannot create Settlement from XmlDocument, missing {0}";
+
 		#region EVENTLISTENER
 		public static string EventListenerSave = "Could not save EventListener with id: {0}";
 		public static string EventListenerLoadGuid = "Could not load EventListener with id: {0}";
 		public static string EventListenerDeleteGuid = "Could not delete EventListener with id: {0}";
 		#endregion
+
+
 	}
 }
 

@@ -33,9 +33,16 @@ namespace Test
 				bool testcase = false;
 				bool testitem = false;
 
-				bool testauction = true;
+				bool testsettlement = true;
+
+				bool testauction = false;
 
 				bool testbid = false;
+
+				if (testsettlement)
+				{
+
+				}
 
 				#region CUSTOMERGROUP
 				if (testcustomergroup)
