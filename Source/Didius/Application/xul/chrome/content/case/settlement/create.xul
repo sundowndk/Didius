@@ -69,7 +69,7 @@
 		</hbox>
 		<hbox align="right" flex="1"> 
 			<button id="close" label="Luk" oncommand="main.close ();" />
-			<button id="approve" label="Godkend" oncommand="main.approve ();" />
+			<button id="approve" label="Godkend" oncommand="main.approve ();" disabled="true"/>
 		</hbox>
 	</hbox>
 </window>

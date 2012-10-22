@@ -62,6 +62,11 @@ var main =
 							document.getElementById ("totalSale").value = totalSale;
 							document.getElementById ("totalCommissionFee").value = totalCommissionFee;
 							document.getElementById ("totalTotal").value = totalTotal;
+							
+							if (totalTotal > 0)
+							{
+								document.getElementById ("approve").disabled = false;
+							}
 						};
 					
 		didius.item.list ({case: main.current, async: true, onDone: onDone});					
@@ -111,11 +116,9 @@ var main =
 						};
 					
 		//didius.item.list ({case: main.current, async: true, onDone: onDone});
-	
-		main.current.settled = true;
 		
-		didius.case.save (main.current);		
-					
+		didius.settlement.create (main.current);
+						
 		if (window.arguments[0].onApprove != null)
 		{
 			window.arguments[0].onApprove (main.current);

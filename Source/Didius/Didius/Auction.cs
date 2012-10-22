@@ -40,6 +40,8 @@ namespace Didius
 		private List<LiveBider> _livebiders;
 
 		private string _notes;
+
+		private Enums.AuctionStatus _status;
 		#endregion
 			
 		#region Public Fields
@@ -130,6 +132,19 @@ namespace Didius
 			}
 		}
 
+		public Enums.AuctionStatus Status
+		{
+			get
+			{
+				return this._status;
+			}
+
+			set
+			{
+				this._status = value;
+			}
+		}
+
 		public List<Case> Cases
 		{
 			get
@@ -158,6 +173,8 @@ namespace Didius
 			this._buyernos = string.Empty;
 
 			this._notes = string.Empty;
+
+			this._status = Enums.AuctionStatus.Open;
 		}		
 		#endregion
 
@@ -185,6 +202,8 @@ namespace Didius
 				item.Add ("buyernos", this._buyernos);
 
 				item.Add ("notes", this._notes);
+
+				item.Add ("status", this._status);
 								
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()));
 			}
@@ -230,6 +249,8 @@ namespace Didius
 			result.Add ("buyernos", this._buyernos);
 
 			result.Add ("notes", this._notes);
+
+			result.Add ("status", this._status);
 
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
@@ -290,10 +311,14 @@ namespace Didius
 					result._buyernos = (string)item["buyernos"];
 				}				
 
-
 				if (item.ContainsKey ("notes"))
 				{
 					result._notes = (string)item["notes"];
+				}				
+
+				if (item.ContainsKey ("status"))
+				{
+					result._status = SNDK.Convert.StringToEnum<Enums.AuctionStatus> ((string)item["status"]);
 				}				
 			}
 			catch (Exception exception)
@@ -424,6 +449,11 @@ namespace Didius
 			{
 				result._notes = (string)item["notes"];
 			}
+
+			if (item.ContainsKey ("status"))
+			{
+				result._status = SNDK.Convert.StringToEnum<Enums.AuctionStatus> ((string)item["status"]);
+			}	
 
 			return result;
 		}

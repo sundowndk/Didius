@@ -7,7 +7,7 @@
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
-	<script type="application/javascript" src="chrome://didius/content/case/settlement/create.js"/>	
+	<script type="application/javascript" src="chrome://didius/content/case/settlement/show.js"/>	
 			
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
@@ -43,15 +43,15 @@
 							<caption label="Total"/>							
 							<hbox align="center">
 								<label class="Label">Salg:</label>							
-								<textbox id="totalSale" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<textbox id="sales" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 							</hbox>  					
 							<hbox align="center">
 								<label class="Label">Salær:</label>								
-								<textbox id="totalCommissionFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<textbox id="commissionFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 							</hbox>  												
 							<hbox align="center">
 								<label class="Label">I alt:</label>								
-								<textbox id="totalTotal" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<textbox id="total" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 							</hbox>  					
 						</groupbox>
 					</vbox>
@@ -61,15 +61,11 @@
 	</hbox>
 	
 	<hbox class="WindowButtons">
-		<hbox id="settleBox" align="left" flex="1" collapsed="true"> 
-			<button id="settle" label="Afregn" oncommand="main.settle ();" disabled="true"/>
-		</hbox>
-		<hbox id="printSettlementBox" align="left" flex="1" collapsed="true"> 
-			<button id="printSettlement" label="Udskriv adregning" oncommand="main.printSettlement ();" disabled="true"/>
+		<hbox id="settleBox" align="left" flex="1"> 
+			<button id="print" label="Udskriv" oncommand="main.print ();" />
 		</hbox>
 		<hbox align="right" flex="1"> 
-			<button id="close" label="Luk" oncommand="main.close ();" />
-			<button id="approve" label="Godkend" oncommand="main.approve ();" disabled="true"/>
+			<button id="close" label="Luk" oncommand="main.close ();" />			
 		</hbox>
 	</hbox>
 </window>

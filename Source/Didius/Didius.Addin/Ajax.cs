@@ -301,6 +301,44 @@ namespace Didius.Addin
 				}
 				#endregion
 
+				#region Didius.Settlement
+				case "didius.settlement":
+				{	
+					switch (Method.ToLower ())
+					{						
+						case "create":
+						{
+							result.Add (new Settlement (Case.Load (request.getValue<Guid> ("caseid"))));
+							break;
+						}		
+							
+						case "load":
+						{
+							result.Add (Settlement.Load (request.getValue<Guid>("id")));
+							break;
+						}
+							
+						case "list":
+						{
+							if (request.ContainsXPath ("caseid"))
+							{
+								result.Add (Settlement.List (Case.Load (request.getValue<Guid> ("caseid"))));
+							}
+							if (request.ContainsXPath ("customerid"))
+							{
+								result.Add (Settlement.List (Customer.Load (request.getValue<Guid> ("customerid"))));
+							}
+							else
+							{
+								result.Add (Bid.List ());
+							}
+							break;
+						}
+					}
+					break;
+				}
+				#endregion
+
 				#region Didius.Helpers
 				case "didius.helpers":
 				{	

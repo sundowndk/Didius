@@ -1,5 +1,5 @@
-ajaxUrl1 : "http://sorentotest.sundown.dk/",
-ajaxUrl : "http://78.109.223.248/",
+ajaxUrl : "http://sorentotest.sundown.dk/",
+ajaxUrl1 : "http://78.109.223.248/",
 
 initialize : function ()
 {
@@ -27,6 +27,9 @@ initialize : function ()
 	app.events.onBidLoad = new sXUL.event ({id: "onBidLoad", remotePropagation: true});
 	app.events.onBidSave = new sXUL.event ({id: "onBidSave", remotePropagation: true});
 	app.events.onBidDestroy = new sXUL.event ({id: "onBidDestroy", remotePropagation: true});
+	
+	app.events.onSettlementCreate = new sXUL.event ({id: "onSettlementCreate", remotePropagation: true});
+	app.events.onSettlementLoad = new sXUL.event ({id: "onSettlementLoad", remotePropagation: true});
 	
 	app.events.onUserCreate = new sXUL.event ({id: "onUserCreate", remotePropagation: true});
 	app.events.onUserLoad = new sXUL.event ({id: "onUserLoad", remotePropagation: true});

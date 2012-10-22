@@ -36,6 +36,8 @@ namespace Didius
 		private decimal _sales;
 		private decimal _commissionfee;
 		private decimal _total;
+
+		private List<Guid> _itemids;
 		#endregion
 		
 		#region Public Fields
@@ -123,10 +125,56 @@ namespace Didius
 			this._no = 0;
 			
 			this._caseid = Case.Id;
+			this._customerid = Case.CustomerId;
 						
 			this._sales = 0;
 			this._commissionfee = 0;
 			this._total = 0;
+
+			this._itemids = new List<Guid> ();
+
+			if (!Case.Settled)
+			{
+				foreach (Item item in Item.List (Case))
+				{
+					if (!item.Settled)
+					{
+						if (item.CurrentBid != null)
+						{
+							this._sales += item.CurrentBid.Amount;
+							item.Settled = true;
+							item.Save ();
+
+							this._itemids.Add (item.Id);
+						}
+					}
+				}
+
+				this._commissionfee = (this._sales * Case.CommisionFeePercentage) / 100;
+
+				if (this._commissionfee < Case.CommisionFeeMinimum && this._commissionfee != 0)
+				{
+					this._commissionfee = Case.CommisionFeeMinimum;
+				}
+
+				this._total = this._sales + this._commissionfee;
+
+				if (this._total == 0)
+				{
+					// EXCEPTION: Exception.SettlementEmpty
+					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
+				}
+
+				Case.Settled = true;
+				Case.Save ();
+
+				Save ();
+			}
+			else
+			{
+				// EXCEPTION: Exception.SettlementCaseSettled
+				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
+			}
 		}	
 		
 		private Settlement ()
@@ -141,6 +189,8 @@ namespace Didius
 			this._sales = 0;
 			this._commissionfee = 0;
 			this._total = 0;
+
+			this._itemids = new List<Guid> ();
 		}
 		#endregion
 		
@@ -149,6 +199,11 @@ namespace Didius
 		{
 			try
 			{
+				if (this._no == 0)
+				{
+					this._no = NewSettlementNo ();
+				}
+
 				this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 				
 				Hashtable item = new Hashtable ();
@@ -159,15 +214,18 @@ namespace Didius
 
 				item.Add ("no", this._no);
 
-				item.Add ("caseid", this._customerid);		
+				item.Add ("caseid", this._caseid);		
+				item.Add ("customerid", this._customerid);
 
 				item.Add ("sales", this._sales);
 				item.Add ("commissionfee", this._commissionfee);
 				item.Add ("total", this._total);
-				
+
+				item.Add ("itemids", SNDK.Convert.ListToString<List<Guid>> (this._itemids));
+
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("caseid", this._caseid);
-				meta.Add ("caseid", this._customerid);
+				meta.Add ("customerid", this._customerid);
 				
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
 			}
@@ -191,9 +249,20 @@ namespace Didius
 
 			result.Add ("no", this._no);
 			result.Add ("caseid", this._caseid);
-			result.Add ("sale", this._sales);
+			result.Add ("case", Case.Load (this._caseid));		
+			result.Add ("customerid", this._customerid);
+			result.Add ("customer", Customer.Load (this._customerid));
+			result.Add ("sales", this._sales);
 			result.Add ("commissionfee", this._commissionfee);
 			result.Add ("total", this._total);
+
+			List<Item> items = new List<Item> ();
+			foreach (Guid itemid in this._itemids)
+			{
+				items.Add (Item.Load (itemid));
+			}
+
+			result.Add ("items", items);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
@@ -230,10 +299,15 @@ namespace Didius
 				{
 					result._caseid = new Guid ((string)item["caseid"]);
 				}				
-				
-				if (item.ContainsKey ("sale"))
+
+				if (item.ContainsKey ("customerid"))
 				{
-					result._sales = decimal.Parse ((string)item["sale"]);
+					result._customerid = new Guid ((string)item["customerid"]);
+				}				
+				
+				if (item.ContainsKey ("sales"))
+				{
+					result._sales = decimal.Parse ((string)item["sales"]);
 				}				
 
 				if (item.ContainsKey ("commissionfee"))
@@ -244,6 +318,11 @@ namespace Didius
 				if (item.ContainsKey ("total"))
 				{
 					result._total = decimal.Parse ((string)item["total"]);
+				}				
+
+				if (item.ContainsKey ("itemids"))
+				{
+					result._itemids = SNDK.Convert.StringToList<Guid> ((string)item["itemids"]);
 				}				
 			}
 			catch (Exception exception)
@@ -257,23 +336,7 @@ namespace Didius
 			
 			return result;
 		}
-		
-		public static void Delete (Guid Id)
-		{
-			try
-			{
-				SorentoLib.Services.Datastore.Delete (DatastoreAisle, Id.ToString ());
-			}
-			catch (Exception exception)
-			{
-				// LOG: LogDebug.ExceptionUnknown
-				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.SETTLEMENT", exception.Message));
 
-				// EXCEPTION: Exception.SettlementDeleteGuid
-				throw new Exception (string.Format (Strings.Exception.SettlementDeleteGuid, Id.ToString ()));
-			}			
-		}
-		
 		public static List<Settlement> List (Case Case)
 		{
 			List<Settlement> result = new List<Settlement> ();
@@ -342,82 +405,12 @@ namespace Didius
 			
 			return result;
 		}
-		
-		public static Settlement FromXmlDocument (XmlDocument xmlDocument)
-		{
-			Hashtable item;
-			Settlement result = new Settlement ();
-			
-			try
-			{
-				item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (xmlDocument.SelectSingleNode ("(//didius.settlement)[1]")));
-			}
-			catch
-			{
-				item = (Hashtable)SNDK.Convert.FromXmlDocument (xmlDocument);
-			}
-			
-			if (item.ContainsKey ("id"))
-			{
-				result._id = new Guid ((string)item["id"]);
-			}
-			else
-			{
-				throw new Exception (string.Format (Strings.Exception.ItemFromXmlDocument, "ID"));
-			}
-			
-			if (item.ContainsKey ("createtimestamp"))
-			{
-				result._createtimestamp = int.Parse ((string)item["createtimestamp"]);
-			}
-			
-			if (item.ContainsKey ("updatetimestamp"))
-			{
-				result._updatetimestamp = int.Parse ((string)item["updatetimestamp"]);
-			}
-
-			if (item.ContainsKey ("no"))
-			{
-				result._no = int.Parse ((string)item["no"]);
-			}
-			
-			if (item.ContainsKey ("caseid"))
-			{
-				result._caseid = new Guid ((string)item["caseid"]);
-			}
-			else
-			{
-				throw new Exception (string.Format (Strings.Exception.SettlementFromXmlDocument, "CASEID"));
-			}
-
-			if (item.ContainsKey ("customerid"))
-			{
-				result._customerid = new Guid ((string)item["customerid"]);
-			}
-						
-			if (item.ContainsKey ("sale"))
-			{
-				result._sales = decimal.Parse ((string)item["sale"]);
-			}				
-			
-			if (item.ContainsKey ("commissionfee"))
-			{
-				result._commissionfee = decimal.Parse ((string)item["commissionfee"]);
-			}				
-			
-			if (item.ContainsKey ("total"))
-			{
-				result._total = decimal.Parse ((string)item["total"]);
-			}				
-			
-			return result;
-		}
 		#endregion
 
 		#region Private Static Methods
 		private static int NewSettlementNo ()
 		{
-			int result = 0;
+			int result = 1;
 
 			List<Settlement> settlements = List ();
 
@@ -426,7 +419,7 @@ namespace Didius
 				settlements.Sort (delegate(Settlement s1, Settlement s2) { return s1.No.CompareTo (s2.No);});
 				settlements.Reverse ();
 
-				result = (settlements[0].No + 1)
+				result = (settlements[0].No + 1);
 			}
 
 			return result;

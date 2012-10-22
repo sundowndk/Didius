@@ -1,22 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Settlement.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/case/settlement/print.js">
     <Files>
-      <File FileName="Didius/Didius/Settlement.cs" Line="433" Column="4" />
-      <File FileName="Didius/Didius.Strings/LogDebug.cs" Line="42" Column="130" />
-      <File FileName="Didius/Didius.Strings/Exception.cs" Line="63" Column="67" />
-      <File FileName="Test/Main.cs" Line="44" Column="6" />
-      <File FileName="Didius/Didius/Bid.cs" Line="306" Column="22" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/print.js" Line="300" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
-              <Node name="js" expanded="True">
-                <Node name="app" expanded="True" />
-                <Node name="didius" expanded="True" />
-              </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
@@ -24,29 +16,24 @@
                       <Node name="catalog" expanded="True" />
                     </Node>
                     <Node name="case" expanded="True">
-                      <Node name="settlement" expanded="True" />
+                      <Node name="settlement" expanded="True">
+                        <Node name="print.js" selected="True" />
+                      </Node>
                     </Node>
                     <Node name="caseedit" expanded="True" />
-                    <Node name="customeredit" expanded="True" />
-                    <Node name="itemedit" expanded="True" />
-                    <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True" />
-                    <Node name="settings" expanded="True" />
-                    <Node name="templates" expanded="True" />
+                    <Node name="catalogedit" expanded="True" />
                   </Node>
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True">
-              <Node name="Settlement.cs" selected="True" />
-            </Node>
+            <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
+            <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True">
               <Node name="scripts" expanded="True" />
             </Node>
           </Node>
-          <Node name="Test" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

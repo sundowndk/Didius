@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window id="printsettlement" width="300" height="100" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
+	<script type="application/javascript" src="chrome://didius/content/case/settlement/print.js"/>	
+			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+
+	<vbox collapsed="true">				
+		<iframe id="printframe" style="height: 0px; width: 0px; margin: 0px; padding: 0px;">
+		</iframe>			
+	</vbox>								
+			
+	<vbox id="progress" class="Main" flex="1" collapsed="false">
+		<hbox align="center">
+			<label class="Label">Bygger:</label>
+			<progressmeter id="progressmeter" flex="1" mode="determined" value="" />
+		</hbox>					
+	</vbox>
+								
+	<hbox class="WindowButtons" align="right" >
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
+		<button id="print" label="Udskriv" oncommand="main.print ();" disabled="true"/>
+	</hbox>
+</window>

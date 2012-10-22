@@ -57,7 +57,7 @@
 							</hbox>							
 						</groupbox>						
 						
-						<groupbox>
+						<groupbox collapsed="true">
 							<caption label="Gebyr"/>
 							<hbox align="center">
 								<label class="Label">Fremstilling:</label>								
@@ -103,18 +103,11 @@
 	</hbox>
 	
 	<hbox class="WindowButtons">
-		<hbox id="settleBox" align="left" flex="1" collapsed="true"> 
-			<button id="settle" label="Afregn" oncommand="main.settlement.create ();" disabled="true"/>
+		<hbox id="createSettlementBox" align="left" flex="1" collapsed="true"> 
+			<button id="createSettlement" label="Afregn" oncommand="main.settlement.create ();" disabled="true"/>
 		</hbox>
-		<hbox id="printSettlementBox" align="left" flex="1" collapsed="true"> 
-			<button id="printSettlement" label="Udskriv afregning" oncommand="main.settlement.print ();" disabled="true"/>
-		</hbox>
-		<hbox align="printSettlementProgressmeterBox" collapsed="true">			
-			<vbox  collapsed="true">				
-				<iframe id="printframe" style="height: 0px; width: 0px; margin: 0px; padding: 0px;">
-				</iframe>			
-			</vbox>	
-			<progressmeter id="printSettlementProgressmeter" flex="1" mode="determined" value="" />
+		<hbox id="showSettlementBox" align="left" flex="1" collapsed="true"> 
+			<button id="showSettlement" label="Vis afregning" oncommand="main.settlement.show ();" disabled="true"/>
 		</hbox>		
 		<hbox align="right" flex="1"> 
 			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>

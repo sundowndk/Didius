@@ -59,6 +59,8 @@ namespace Didius.Strings
 		public static string BidFromXmlDocument = "Cannot create Bid from XmlDocument, missing {0}";
 		#endregion
 
+		public static string SettlementCaseSettled = "00601|Could not create Settlement, Case has allready been settled";
+		public static string SettlementEmpty = "00602|Could not create Settlement, no Items to settle.";
 		public static string SettlementSave = "00610|Could not save Settlement with id: {0}";
 		public static string SettlementLoadGuid = "00610|Could not load Settlement with id: {0}.\nInner Exception:\n {1}";
 		public static string SettlementDeleteGuid = "00610|Could not delete Settlement with id: {0}";

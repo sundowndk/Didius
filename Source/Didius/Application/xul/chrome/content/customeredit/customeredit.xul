@@ -19,9 +19,10 @@
 		
 			<tabs>
 				<tab label="Detaljer"/>
-				<tab label="Sager"/>				
-				<tab label="Køb"/>
+				<tab label="Sager"/>
 				<tab label="Bud"/>
+				<tab label="Afregninger"/>
+				<tab label="Faktura"/>				
 				<tab label="Noter"/>
 			</tabs>
 						
@@ -130,17 +131,7 @@
 							<button id="caseDestroy" label="Slet" oncommand="main.cases.destroy ();" disabled="true" />	
 						</vbox>	
 					</hbox>						
-				</tabpanel>				
-				<tabpanel>
-					<hbox flex="1">
-						
-					</hbox>
-					<hbox>
-						<vbox>							
-							<button id="saleShow" label="Vis" oncommand="main.cases.edit ();" disabled="true" />							
-						</vbox>	
-					</hbox>						
-				</tabpanel>				
+				</tabpanel>		
 				<tabpanel>
 					<hbox flex="1">
 						<tree id="bids" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.bids.onChange ();" seltype="single">
@@ -168,6 +159,41 @@
 						</vbox>	
 					</hbox>						
 				</tabpanel>
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="settlements" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.settlements.onChange ();" seltype="single">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="createtimestamp" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="no" label="Nr." width="50" persist="width" />
+								<splitter class="tree-splitter"/>
+								<treecol id="caseno" label="Sags nr." width="100" persist="width" />								
+								<splitter class="tree-splitter"/>
+								<treecol id="auctiontitle" label="Auktion" flex="1" persist="width" />								
+								<splitter class="tree-splitter"/>
+								<treecol id="total" label="Total" width="100" persist="width" />														
+								<splitter class="tree-splitter"/>
+							</treecols>	
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>							
+							<button id="settlementShow" label="Vis" oncommand="main.settlements.show ();" disabled="true" />	
+						</vbox>	
+					</hbox>						
+				</tabpanel>		
+				<tabpanel>
+					<hbox flex="1">
+						
+					</hbox>
+					<hbox>
+						<vbox>							
+							<button id="saleShow" label="Vis" oncommand="main.cases.edit ();" disabled="true" />							
+						</vbox>	
+					</hbox>						
+				</tabpanel>																
 				<tabpanel>
 					<textbox id="notes" flex="1" multiline="true" onkeyup="main.onChange ();"/>
 				</tabpanel>

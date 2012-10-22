@@ -294,6 +294,21 @@ namespace Didius
 			}
 		}
 
+//		public decimal CurrentBidAmount
+//		{
+//			get
+//			{
+//				decimal result = 0;
+//			
+//				if (this.CurrentBidId != Guid.Empty)
+//				{
+//					result = Bid.Load (this.CurrentBidId).Amount;
+//				}
+//
+//				return Math.Round (result, 2);		
+//			}
+//		}
+
 		public decimal BidAmount 
 		{
 			get

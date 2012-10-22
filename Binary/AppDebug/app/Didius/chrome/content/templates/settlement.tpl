@@ -188,7 +188,17 @@
 	<table class="InfoTable">
 		<tr>
 			<td valign="top" align="left" style="width: 100mm">
-				%%CUSTOMERINFO%%
+				%%CUSTOMERNAME%%<br>
+				%%CUSTOMERADDRESS%%<br>
+				%%CUSTOMERPOSTCODE%% %%CUSTOMERCITY%%<br>
+				%%CUSTOMERCOUNTRY%%<br>
+				<br>
+				Kunde nr.: %%CUSTOMERNO%%<br>
+				<br>
+				Telefon: %%CUSTOMERPHONE%%<br>
+				Email: %%CUSTOMEREMAIL%%<br>
+				<br>
+				Sag: %%CASENO%% - %%CASETITLE%%<br><br><br>			
 			</td>
 			<td valign="top" align="right" style="width: 100mm">				
 				Afregning: %%SETTLEMENTNO%%<br><br>

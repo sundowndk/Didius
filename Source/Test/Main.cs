@@ -15,7 +15,8 @@ namespace Test
 		public static void Main (string[] args)
 		{
 			SorentoLib.Services.Database.Connection = new Connection (SNDK.Enums.DatabaseConnector.Mysql,
-			                                                          "10.0.0.40",
+//			                                                          "10.0.0.40",
+			                                                          "localhost",
 			                                                          "sorentotest.sundown.dk",
 			                                                          "sorentotest",
 			                                                          "qwerty",
@@ -41,7 +42,46 @@ namespace Test
 
 				if (testsettlement)
 				{
+					Didius.Customer d1 = new Didius.Customer ();
+					d1.Name = "Rasmus Pedersen";
+					d1.Save ();
 
+					Didius.Auction d2 = new Didius.Auction ();
+					d2.Title = "Test Auktion";
+					d2.Save ();
+
+					Didius.Case d3 = new Didius.Case (d2, d1);
+					d3.Title = "Nogle ting der skal sælges";
+					d3.CommisionFeePercentage = 20;
+					d3.CommisionFeeMinimum = 100;
+					d3.Save ();
+
+					Didius.Item d4 = new Didius.Item (d3);
+					d4.Description = "Skrivebord. Brugt.";
+					d4.Save ();
+
+					Didius.Bid d5 = new Didius.Bid (d1, d4, 1500);
+					d5.Save ();
+
+					Didius.Settlement s1 = new Didius.Settlement (d3);
+
+					Console.WriteLine ("No: "+ s1.No);
+					Console.WriteLine ("Sales: "+ s1.Sales);
+					Console.WriteLine ("CommissionFee: "+ s1.CommissionFee);
+					Console.WriteLine ("Total: "+ s1.Total);
+
+					Didius.Settlement s2 = new Didius.Settlement (d3);
+					
+					Console.WriteLine ("No: "+ s2.No);
+					Console.WriteLine ("Sales: "+ s2.Sales);
+					Console.WriteLine ("CommissionFee: "+ s2.CommissionFee);
+					Console.WriteLine ("Total: "+ s2.Total);
+
+					Didius.Bid.Delete (d5.Id);
+					Didius.Item.Delete (d4.Id);
+					Didius.Case.Delete (d3.Id);
+					Didius.Auction.Delete (d2.Id);
+					Didius.Customer.Delete (d1.Id);
 				}
 
 				#region CUSTOMERGROUP

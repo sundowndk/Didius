@@ -22,6 +22,7 @@ var main =
 		
 		main.cases.init ();
 		main.bids.init ();
+		main.settlements.init ();
 		
 		// Hook events.
 		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
@@ -33,6 +34,8 @@ var main =
 		app.events.onBidCreate.addHandler (main.eventHandlers.onBidCreate);
 		app.events.onBidSave.addHandler (main.eventHandlers.onBidSave);
 		app.events.onBidDestroy.addHandler (main.eventHandlers.onBidDestroy)
+		
+		app.events.onSettlementCreate.addHandler (main.eventHandlers.onSettlementCreate);
 	},
 	
 	eventHandlers :
@@ -98,14 +101,31 @@ var main =
 				data.itemtitle = eventData.item.title;
 				data.amount = eventData.amount;
 			
-				main.bids.bidsTreeHelper.setRow ({data: data});			
+				main.bids.bidsTreeHelper.addRow ({data: data});
 			}
 		},
 		
 		onBidDestroy : function (eventData)
 		{
 			main.bids.bidsTreeHelper.removeRow ({id: eventData.id});
-		}
+		},
+		
+		onSettlementCreate : function (eventData)
+		{
+			if (main.current.id == eventData.customerid)
+			{
+				var data = {};
+			
+				data.id = eventData.id;
+				data.createtimestamp = eventData.createtimestamp;
+				data.no = eventData.no;
+				data.caseno = eventData.case.no;
+				data.auctiontitle = eventData.case.auction.title;								
+				data.total = eventData.total;
+			
+				main.settlements.settlementsTreeHelper.addRow ({data: data});			
+			}
+		},
 	},
 			
 	set : function ()
@@ -368,5 +388,70 @@ var main =
 															
 			window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", current.id, "chrome", {caseId: current.id});
 		}
-	}	
+	},
+	
+	settlements :
+	{
+		settlementsTreeHelper : null,
+		
+		init : function ()
+		{
+			main.settlements.settlementsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("settlements"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.settlements.show});			
+			main.settlements.set ();
+		},
+							
+		set : function ()
+		{
+			var onDone = 	function (items)
+							{														
+								for (idx in items)
+								{				
+									var data = {};
+									data.id = items[idx].id;
+									data.createtimestamp = items[idx].createtimestamp;
+									data.no = items[idx].no;
+									data.caseno = items[idx].case.no;
+									data.auctiontitle = items[idx].case.auction.title;
+									data.total = items[idx].total;																	
+									
+									main.settlements.settlementsTreeHelper.addRow ({data: data});
+								}
+								
+								// Enable controls
+								document.getElementById ("settlements").disabled = false;																
+								main.settlements.onChange ();
+							};
+
+				// Disable controls
+				document.getElementById ("settlements").disabled = true;					
+//				document.getElementById ("bidShow").disabled = true;				
+						
+				didius.settlement.list ({customer: main.current, async: true, onDone: onDone});
+		},
+		
+		sort : function (attributes)
+		{
+			main.cases.casesTreeHelper.sort (attributes);
+		},
+					
+		onChange : function ()
+		{
+			if (main.settlements.settlementsTreeHelper.getCurrentIndex () != -1)
+			{					
+				document.getElementById ("settlementShow").disabled = false;				
+			}
+			else
+			{												
+				document.getElementById ("settlementShow").disabled = true;				
+			}						
+		},
+																													
+		show : function ()
+		{		
+			var current = main.settlements.settlementsTreeHelper.getRow ();				
+			
+			sXUL.console.log (current.id)										
+			window.openDialog ("chrome://didius/content/case/settlement/show.xul", current.id, "chrome", {settlementId: current.id});
+		}
+	}
 }

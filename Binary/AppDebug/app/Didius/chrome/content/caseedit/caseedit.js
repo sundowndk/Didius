@@ -153,18 +153,27 @@ var main =
 			document.getElementById ("close").disabled = false;
 		}
 		
-		document.getElementById ("settle").disabled = false;
-		document.getElementById ("printSettlement").disabled = false;
-		
-		if (main.current.settled)
-		{
-			document.getElementById ("settleBox").collapsed = true;
-			document.getElementById ("printSettlementBox").collapsed = false;
+		if (main.current.auction.status == "Closed")
+		{	
+			document.getElementById ("createSettlement").disabled = false;	
+			document.getElementById ("showSettlement").disabled = false;
+			
+			if (main.current.settled)
+			{
+				document.getElementById ("createSettlementBox").collapsed = true;
+				document.getElementById ("showSettlementBox").collapsed = false;
+			}
+			else		
+			{
+				document.getElementById ("createSettlementBox").collapsed = false;
+				document.getElementById ("showSettlementBox").collapsed = true;
+			}
 		}
-		else		
+		else
 		{
-			document.getElementById ("settleBox").collapsed = false;
-			document.getElementById ("printSettlementBox").collapsed = true;
+			document.getElementById ("createSettlement").disabled = true;
+			document.getElementById ("createSettlementBox").collapsed = false;
+			document.getElementById ("showSettlementBox").collapsed = true;		
 		}
 	},
 			

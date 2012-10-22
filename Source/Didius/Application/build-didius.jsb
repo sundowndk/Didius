@@ -31,6 +31,9 @@
 			<class name="session">
 				<js file="js/didius/session.js" />	
 			</class>						
+			<class name="settlement">
+				<js file="js/didius/settlement.js" />	
+			</class>						
 		</class>
 		<js file="js/didius/other.js" />	
 	</project>	
