@@ -90,6 +90,7 @@
     <Compile Include="Didius.Addin\Function.cs" />
     <Compile Include="Didius\Settlement.cs" />
     <Compile Include="Didius.Enums\AuctionStatus.cs" />
+    <Compile Include="Didius\Invoice.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -144,6 +145,7 @@
     <Folder Include="resources\scripts\" />
     <Folder Include="Application\xul\chrome\content\case\" />
     <Folder Include="Application\xul\chrome\content\case\settlement\" />
+    <Folder Include="Application\xul\chrome\content\auction\invoice\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -255,6 +257,14 @@
     <None Include="Application\xul\chrome\content\case\settlement\show.xul" />
     <None Include="Application\xul\chrome\content\case\settlement\print.js" />
     <None Include="Application\xul\chrome\content\case\settlement\print.xul" />
+    <None Include="Application\js\didius\invoice.js" />
+    <None Include="Application\xul\chrome\content\auction\invoice\show.js" />
+    <None Include="Application\xul\chrome\content\auction\invoice\show.xul" />
+    <None Include="Application\xul\chrome\content\auction\invoice\print.js" />
+    <None Include="Application\xul\chrome\content\auction\invoice\print.xul" />
+    <None Include="Application\xul\chrome\content\templates\invoice.tpl" />
+    <None Include="Application\xul\chrome\content\auction\invoice\create.js" />
+    <None Include="Application\xul\chrome\content\auction\invoice\create.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

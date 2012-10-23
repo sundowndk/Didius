@@ -23,6 +23,7 @@ var main =
 		main.cases.init ();
 		main.bids.init ();
 		main.settlements.init ();
+		main.invoices.init ();
 		
 		// Hook events.
 		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
@@ -36,6 +37,8 @@ var main =
 		app.events.onBidDestroy.addHandler (main.eventHandlers.onBidDestroy)
 		
 		app.events.onSettlementCreate.addHandler (main.eventHandlers.onSettlementCreate);
+		
+		app.events.onInvoiceCreate.addHandler (main.eventHandlers.onInvoiceCreate);
 	},
 	
 	eventHandlers :
@@ -124,6 +127,22 @@ var main =
 				data.total = eventData.total;
 			
 				main.settlements.settlementsTreeHelper.addRow ({data: data});			
+			}
+		},
+		
+		onInvoiceCreate : function (eventData)
+		{
+			if (main.current.id == eventData.customerid)
+			{
+				var data = {};
+			
+				data.id = eventData.id;
+				data.createtimestamp = eventData.createtimestamp;
+				data.no = eventData.no;				
+				data.auctiontitle = eventData.case.auction.title;								
+				data.total = eventData.total;
+			
+				main.invoices.invoicesTreeHelper.addRow ({data: data});			
 			}
 		},
 	},
@@ -221,6 +240,14 @@ var main =
 		app.events.onCaseCreate.removeHandler (main.eventHandlers.onCaseCreate);
 		app.events.onCaseSave.removeHandler (main.eventHandlers.onCaseSave);
 		app.events.onCaseDestroy.removeHandler (main.eventHandlers.onCaseDestroy);
+		
+		app.events.onBidCreate.removeHandler (main.eventHandlers.onBidCreate);
+		app.events.onBidSave.removeHandler (main.eventHandlers.onBidSave);
+		app.events.onBidDestroy.removeHandler (main.eventHandlers.onBidDestroy)
+		
+		app.events.onSettlementCreate.removeHandler (main.eventHandlers.onSettlementCreate);
+		
+		app.events.onInvoiceCreate.removeHandler (main.eventHandlers.onInvoiceCreate);
 	
 		// Close window.
 		window.close ();
@@ -424,7 +451,7 @@ var main =
 
 				// Disable controls
 				document.getElementById ("settlements").disabled = true;					
-//				document.getElementById ("bidShow").disabled = true;				
+				document.getElementById ("settlementShow").disabled = true;				
 						
 				didius.settlement.list ({customer: main.current, async: true, onDone: onDone});
 		},
@@ -452,6 +479,68 @@ var main =
 			
 			sXUL.console.log (current.id)										
 			window.openDialog ("chrome://didius/content/case/settlement/show.xul", current.id, "chrome", {settlementId: current.id});
+		}
+	},
+	
+	invoices :
+	{
+		invoicesTreeHelper : null,
+		
+		init : function ()
+		{
+			main.invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("invoices"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.invoices.show});			
+			main.invoices.set ();
+		},
+							
+		set : function ()
+		{
+			var onDone = 	function (items)
+							{														
+								for (idx in items)
+								{				
+									var data = {};
+									data.id = items[idx].id;
+									data.createtimestamp = items[idx].createtimestamp;
+									data.no = items[idx].no;									
+									data.auctiontitle = items[idx].auction.title;
+									data.total = items[idx].total;																	
+									
+									main.invoices.invoicesTreeHelper.addRow ({data: data});
+								}
+								
+								// Enable controls
+								document.getElementById ("invoices").disabled = false;																
+								main.settlements.onChange ();
+							};
+
+				// Disable controls
+				document.getElementById ("invoices").disabled = true;					
+				document.getElementById ("invoiceShow").disabled = true;				
+						
+				didius.invoice.list ({customer: main.current, async: true, onDone: onDone});
+		},
+		
+		sort : function (attributes)
+		{
+			main.invoices.invoicesTreeHelper.sort (attributes);
+		},
+					
+		onChange : function ()
+		{
+			if (main.invoices.invoicesTreeHelper.getCurrentIndex () != -1)
+			{					
+				document.getElementById ("invoiceShow").disabled = false;				
+			}
+			else
+			{												
+				document.getElementById ("invoiceShow").disabled = true;				
+			}						
+		},
+																													
+		show : function ()
+		{		
+			var current = main.invoices.invoicesTreeHelper.getRow ();										
+			window.openDialog ("chrome://didius/content/auction/invoice/show.xul", current.id, "chrome", {invoiceId: current.id});
 		}
 	}
 }

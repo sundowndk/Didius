@@ -1,5 +1,5 @@
-ajaxUrl : "http://sorentotest.sundown.dk/",
-ajaxUrl1 : "http://78.109.223.248/",
+ajaxUrl1 : "http://sorentotest.sundown.dk/",
+ajaxUrl : "http://78.109.223.248/",
 
 initialize : function ()
 {
@@ -30,6 +30,9 @@ initialize : function ()
 	
 	app.events.onSettlementCreate = new sXUL.event ({id: "onSettlementCreate", remotePropagation: true});
 	app.events.onSettlementLoad = new sXUL.event ({id: "onSettlementLoad", remotePropagation: true});
+	
+	app.events.onInvoiceCreate = new sXUL.event ({id: "onInvoiceCreate", remotePropagation: true});
+	app.events.onInvoiceLoad = new sXUL.event ({id: "onInvoiceLoad", remotePropagation: true});
 	
 	app.events.onUserCreate = new sXUL.event ({id: "onUserCreate", remotePropagation: true});
 	app.events.onUserLoad = new sXUL.event ({id: "onUserLoad", remotePropagation: true});

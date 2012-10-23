@@ -9,7 +9,7 @@ var main =
 		
 	//	main.login.show ();													
 						
-		document.title = "Didius v1.25 - York Auktion ApS [Rasmus Pedersen] ";
+		document.title = "Didius v1.26 - York Auktion ApS [Rasmus Pedersen] ";
 				
 		main.controls.statusbar.progressmeter.setMode ("undetermined");
 		main.controls.statusbar.progressmeter.setDescription ("Arbejder");

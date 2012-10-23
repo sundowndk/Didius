@@ -63,9 +63,10 @@ namespace Didius.Strings
 		public static string SettlementEmpty = "00602|Could not create Settlement, no Items to settle.";
 		public static string SettlementSave = "00610|Could not save Settlement with id: {0}";
 		public static string SettlementLoadGuid = "00610|Could not load Settlement with id: {0}.\nInner Exception:\n {1}";
-		public static string SettlementDeleteGuid = "00610|Could not delete Settlement with id: {0}";
-		public static string SettlementDeleteHasCase = "00631|Can not delete Settlement with id: {0}, since its related to a case.";
-		public static string SettlementFromXmlDocument = "00610|Cannot create Settlement from XmlDocument, missing {0}";
+
+		public static string InvoiceEmpty = "00702|Could not create Invoice, no Items to invoice.";
+		public static string InvoiceSave = "00710|Could not save Invoice with id: {0}";
+		public static string InvoiceLoadGuid = "00710|Could not load Invoice with id: {0}.\nInner Exception:\n {1}";
 
 		#region EVENTLISTENER
 		public static string EventListenerSave = "Could not save EventListener with id: {0}";

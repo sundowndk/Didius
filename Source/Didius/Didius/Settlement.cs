@@ -142,19 +142,13 @@ namespace Didius
 						if (item.CurrentBid != null)
 						{
 							this._sales += item.CurrentBid.Amount;
+							this._commissionfee += item.CommissionFee;
 							item.Settled = true;
 							item.Save ();
 
 							this._itemids.Add (item.Id);
 						}
 					}
-				}
-
-				this._commissionfee = (this._sales * Case.CommisionFeePercentage) / 100;
-
-				if (this._commissionfee < Case.CommisionFeeMinimum && this._commissionfee != 0)
-				{
-					this._commissionfee = Case.CommisionFeeMinimum;
 				}
 
 				this._total = this._sales + this._commissionfee;

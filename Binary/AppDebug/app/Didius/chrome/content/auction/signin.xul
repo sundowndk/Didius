@@ -25,9 +25,11 @@
 								</hbox>			
 							</hbox>		
 							<hbox flex="1">		
-								<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single" height="100">
+								<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.onChange ();" seltype="single" height="100">
 									<treecols>
-										<treecol id="id" hidden="true"/>					
+										<treecol id="id" hidden="true"/>
+										<treecol id="no" hidden="true"/>
+										<treecol id="buyerno" hidden="true"/>
 										<treecol id="name" label="Navn" flex="1" persist="width"  onclick="main.sort ({column: 'name'});"/>
 										<splitter class="tree-splitter"/>
 										<treecol id="address1" label="Adresse" flex="2" persist="width"  onclick="main.sort ({column: 'address1'});"/>
@@ -50,36 +52,41 @@
 									</hbox>				
 									<hbox align="center">
 										<label class="Label">Navn:</label>
-										<textbox id="customername" flex="1" readonly="true" />					
+										<textbox id="customername" flex="1" readonly="true" onkeyup="main.customers.onChange ();"/>					
 									</hbox>				
 									<hbox align="center">
 										<label class="Label">Adresse:</label>
-										<textbox id="customeraddress1" flex="1" readonly="true" />					
+										<textbox id="customeraddress1" flex="1" readonly="true" onkeyup="main.customers.onChange ();"/>					
 									</hbox>				
 									<hbox align="center">
 										<label class="Label"></label>
-										<textbox id="customeraddress2" flex="1" readonly="true" />					
+										<textbox id="customeraddress2" flex="1" readonly="true" onkeyup="main.customers.onChange ();"/>					
 									</hbox>				
 									<hbox align="center">
 										<label class="Label">Post nr.:</label>
-										<textbox id="customerpostcode" width="60" readonly="true" />					
+										<textbox id="customerpostcode" width="60" readonly="true" onkeyup="main.customers.onChange ();"/>					
 										<label class="Label">By:</label>
-										<textbox id="customercity" flex="1" readonly="true" />					
+										<textbox id="customercity" flex="1" readonly="true" onkeyup="main.customers.onChange ();"/>					
 									</hbox>				
 									<hbox align="center">
 										<label class="Label">Telefon:</label>
-										<textbox id="customerphone" flex="1" readonly="true" />					
+										<textbox id="customerphone" flex="1" readonly="true" onkeyup="main.customers.onChange ();"/>					
 										<label class="Label">Mobil:</label>
-										<textbox id="customermobile" flex="1" readonly="true" />					
+										<textbox id="customermobile" flex="1" readonly="true" onkeyup="main.customers.onChange ();"/>					
 									</hbox>		
 									<hbox align="center">
 										<label class="Label">Email:</label>
-										<textbox id="customeremail" flex="1" readonly="true" />					
+										<textbox id="customeremail" flex="1" readonly="true" onkeyup="main.customers.onChange ();"/>					
 									</hbox>								
 									<hbox align="center"> 
-										<vbox flex="1" align="end">
+										<hbox id="customerButtonsBox1" flex="1" align="right" collapsed="false">																						
+											<button id="customerCreate" label="Opret" disabled="false" width="70" oncommand="main.customers.create ();"/>
 											<button id="customerEdit" label="Redigere" disabled="true" width="70" oncommand="main.customers.edit ();"/>
-										</vbox>
+										</hbox>
+										<hbox id="customerButtonsBox2" flex="1" align="right" collapsed="true">
+											<button id="customerClose" label="Afbryd" width="70" oncommand="main.customers.close ();"/>
+											<button id="customerSave" label="Gem" disabled="true" width="70" oncommand="main.customers.save ();"/>
+										</hbox>
 									</hbox>								
 								</groupbox>
 							</hbox>
@@ -92,12 +99,13 @@
 									</hbox>															
 									<hbox align="center">
 										<label class="Label">Title:</label>
-										<textbox id="auctiontitle" flex="1" readonly="true" />			
+										<textbox id="auctiontitle" flex="1" readonly="true" />
 									</hbox>																							
 									<hbox align="center">
 										<label class="Label">Køber nr.:</label>
-										<textbox id="buyerNo" flex="1" disabled="true" onkeyup="main.onChange ();" />
-										<button id="addBuyerNo" label="Tilføj" disabled="true" oncommand="main.buyerNo.add ();"/>
+										<textbox id="buyerNo" flex="1" disabled="true" onkeyup="main.customers.onChange ();" />
+										<button id="addBuyerNo" label="Angiv" disabled="true" oncommand="main.buyerNo.add ();"/>
+										<button id="invoiceCreate" label="Fakturere" disabled="true" width="70" oncommand="main.invoices.create ();"/>
 									</hbox>																	
 								</groupbox>
 							</hbox>
@@ -108,6 +116,6 @@
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
-		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>		
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="false"/>		
 	</hbox>
 </window>

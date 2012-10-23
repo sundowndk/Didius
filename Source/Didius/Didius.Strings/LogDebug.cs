@@ -41,6 +41,8 @@ namespace Didius.Strings
 
 		public static string SettlementList = "[DIDIUS.SETTLEMENT]: Cannot load Settlement with id: {0}, will be excluded from list.";	
 
+		public static string InvoiceList = "[DIDIUS.INVOICE]: Cannot load Invoice with id: {0}, will be excluded from list.";	
+
 	}
 }
 

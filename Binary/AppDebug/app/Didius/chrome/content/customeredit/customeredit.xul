@@ -186,11 +186,24 @@
 				</tabpanel>		
 				<tabpanel>
 					<hbox flex="1">
-						
+						<tree id="invoices" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.invoices.onChange ();" seltype="single">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="createtimestamp" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="no" label="Nr." width="50" persist="width" />
+								<splitter class="tree-splitter"/>								
+								<treecol id="auctiontitle" label="Auktion" flex="1" persist="width" />								
+								<splitter class="tree-splitter"/>
+								<treecol id="total" label="Total" width="100" persist="width" />														
+								<splitter class="tree-splitter"/>
+							</treecols>	
+						</tree>
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="saleShow" label="Vis" oncommand="main.cases.edit ();" disabled="true" />							
+							<button id="invoiceShow" label="Vis" oncommand="main.invoices.show ();" disabled="true" />							
 						</vbox>	
 					</hbox>						
 				</tabpanel>																

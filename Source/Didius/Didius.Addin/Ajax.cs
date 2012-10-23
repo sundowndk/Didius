@@ -339,6 +339,44 @@ namespace Didius.Addin
 				}
 				#endregion
 
+				#region Didius.Invoice
+				case "didius.invoice":
+				{	
+					switch (Method.ToLower ())
+					{						
+						case "create":
+						{
+							result.Add (new Invoice (Auction.Load (request.getValue<Guid> ("auctionid")), Customer.Load (request.getValue<Guid> ("customerid"))));
+							break;
+						}		
+							
+						case "load":
+						{
+							result.Add (Invoice.Load (request.getValue<Guid>("id")));
+							break;
+						}
+							
+						case "list":
+						{
+							if (request.ContainsXPath ("auctionid"))
+							{
+								result.Add (Invoice.List (Auction.Load (request.getValue<Guid> ("auctionid"))));
+							}
+							if (request.ContainsXPath ("customerid"))
+							{
+								result.Add (Invoice.List (Customer.Load (request.getValue<Guid> ("customerid"))));
+							}
+							else
+							{
+								result.Add (Invoice.List ());
+							}
+							break;
+						}
+					}
+					break;
+				}
+				#endregion
+
 				#region Didius.Helpers
 				case "didius.helpers":
 				{	
