@@ -10,6 +10,10 @@
 	
 	<script type="application/javascript" src="chrome://didius/content/auction/signin.js"/>	
 			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>				
+			
 	<hbox class="WindowInnerPadding" flex="1">
 		<tabbox selectedIndex="0" flex="1">		
 			<tabs>
@@ -28,8 +32,11 @@
 								<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.onChange ();" seltype="single" height="100">
 									<treecols>
 										<treecol id="id" hidden="true"/>
+										<splitter class="tree-splitter" hidden="true"/>
 										<treecol id="no" hidden="true"/>
+										<splitter class="tree-splitter" hidden="true"/>
 										<treecol id="buyerno" hidden="true"/>
+										<splitter class="tree-splitter" hidden="true"/>
 										<treecol id="name" label="Navn" flex="1" persist="width"  onclick="main.sort ({column: 'name'});"/>
 										<splitter class="tree-splitter"/>
 										<treecol id="address1" label="Adresse" flex="2" persist="width"  onclick="main.sort ({column: 'address1'});"/>

@@ -1,15 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/signin.xul">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.xul">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/signin.js" Line="556" Column="153" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/signin.xul" Line="91" Column="18" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="141" Column="66" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.xul" Line="52" Column="45" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="12" Column="33" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="5" Column="2" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/show.js" Line="50" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/create.xul" Line="38" Column="16" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="87" Column="61" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul" Line="184" Column="109" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/signin.js" Line="94" Column="27" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="63" Column="26" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -25,15 +21,17 @@
                     <Node name="auction" expanded="True">
                       <Node name="catalog" expanded="True" />
                       <Node name="invoice" expanded="True" />
-                      <Node name="signin.xul" selected="True" />
                     </Node>
+                    <Node name="auctionrun" expanded="True" />
                     <Node name="case" expanded="True">
                       <Node name="settlement" expanded="True" />
                     </Node>
                     <Node name="caseedit" expanded="True" />
                     <Node name="catalogedit" expanded="True" />
                     <Node name="customeredit" expanded="True" />
-                    <Node name="main" expanded="True" />
+                    <Node name="main" expanded="True">
+                      <Node name="main.xul" selected="True" />
+                    </Node>
                     <Node name="templates" expanded="True" />
                   </Node>
                 </Node>

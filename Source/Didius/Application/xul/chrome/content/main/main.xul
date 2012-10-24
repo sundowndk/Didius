@@ -100,7 +100,7 @@
 							<button id="test" label="Test" disabled="false" oncommand="main.test ();"/>														
 
 							<button id="auctionSignin" label="Registering" disabled="true" oncommand="main.auctions.signin ();"/>	
-							<button id="auctionRun" label="Afvikle" disabled="true" oncommand="main.auctions.run ();"/>																					
+							<button id="auctionRun" label="Afvikling" disabled="true" oncommand="main.auctions.run ();"/>																					
 						</vbox>
 					</hbox>					
 				</tabpanel>			

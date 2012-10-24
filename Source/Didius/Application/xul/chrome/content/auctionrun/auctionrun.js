@@ -15,13 +15,13 @@ var main =
 		{
 			main.current = didius.auction.load (window.arguments[0].auctionId);
 			
-			var test = main.current.buyernos.split ("|");
-			for (idx in test)
+			var buyernos = main.current.buyernos.split ("|");
+			for (idx in buyernos)
 			{
 				try
 				{
-					var buyerno = test[idx].split (":")[0];
-					var customerid = test[idx].split (":")[1];
+					var buyerno = buyernos[idx].split (":")[0];
+					var customerid = buyernos[idx].split (":")[1];
 			
 					main.buyernos[buyerno] = customerid;
 				}
@@ -41,52 +41,11 @@ var main =
 		main.set ();
 		
 		// Hook events.			
-		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);
-		
-		app.events.onCaseCreate.addHandler (main.eventHandlers.onCaseCreate);
-		app.events.onCaseSave.addHandler (main.eventHandlers.onCaseSave);
-		app.events.onCaseDestroy.addHandler (main.eventHandlers.onCaseDestroy);				
-		
-		app.events.onItemCreate.addHandler (main.eventHandlers.onItemCreate);
-		app.events.onItemSave.addHandler (main.eventHandlers.onItemSave);
-		app.events.onItemDestroy.addHandler (main.eventHandlers.onItemDestroy);				
+		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);				
 	},
 	
 	eventHandlers : 
-	{
-		onItemCreate : function (eventData)
-		{					
-		},
-		
-		onItemSave : function (eventData)
-		{			
-		},
-		
-		onItemDestroy : function (eventData)
-		{
-		},
-		
-		onCaseCreate : function (eventData)
-		{		
-			if (main.current.id == eventData.auctionid)
-			{	
-				
-			}
-		},
-		
-		onCaseSave : function (eventData)
-		{			
-			if (main.current.id == eventData.auctionid)
-			{	
-				
-			}
-		},
-		
-		onCaseDestroy : function (eventData)
-		{
-			
-		},		
-		
+	{								
 		onAuctionDestroy : function (eventData)
 		{
 			if (main.current.id == eventData.id)
@@ -104,11 +63,42 @@ var main =
 		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
 	
 		document.getElementById ("title").value = main.current.title;		
-												
-//		main.cases.init ();
-//		main.items.init ();
-							
-//		main.onChange ();
+		
+		switch (main.current.status)
+		{
+			case "Open":
+			{
+				document.getElementById ("auctionControl").disabled = true;
+				document.getElementById ("auctionBid").disabled = true;
+				document.getElementById ("auctionStart").collapsed = false;
+				document.getElementById ("auctionStart").disabled = false;				
+				document.getElementById ("auctionStop").collapsed = true;
+				document.getElementById ("auctionStop").disabled = true;				
+				break;
+			}
+			
+			case "Closed":
+			{
+				document.getElementById ("auctionControl").disabled = true;
+				document.getElementById ("auctionBid").disabled = true;
+				document.getElementById ("auctionStart").collapsed = true;
+				document.getElementById ("auctionStart").disabled = true;				
+				document.getElementById ("auctionStop").collapsed = true;
+				document.getElementById ("auctionStop").disabled = true;	
+				break;
+			}
+			
+			case "Running":
+			{
+				document.getElementById ("auctionControl").disabled = false;
+				document.getElementById ("auctionBid").disabled = false;				
+				document.getElementById ("auctionStart").collapsed = true;
+				document.getElementById ("auctionStart").disabled = true;				
+				document.getElementById ("auctionStop").collapsed = false;
+				document.getElementById ("auctionStop").disabled = false;				
+				break;
+			}
+		}
 	},
 	
 	get : function ()
@@ -122,17 +112,23 @@ var main =
 	
 	start : function ()
 	{
-		document.getElementById ("buttons").collapsed = true;
-		document.getElementById ("auctionrun").collapsed = false;
+		main.current.status = "Running";
+		didius.auction.save (main.current);
 		
-		main.items = didius.item.list ({auction: main.current, async: false});
+		main.set ();
 		
-		document.getElementById ("tester").label = "Effekt 1 af "+ main.items.length;
+//		main.items = didius.item.list ({auction: main.current, async: false});
+				
+//		document.getElementById ("runCounter").label = "Effekt 1 af "+ main.items.length;																		
+//		main.setItem (1);	
+	},
+	
+	stop : function ()
+	{
+		main.current.status = "Open";
+		didius.auction.save (main.current);
 		
-		
-		
-		
-		main.setItem (1);	
+		main.set ();
 	},
 
 	getBid : function ()
@@ -189,44 +185,39 @@ var main =
 	{									
 		main.currentCatalogNo = catalogNo;
 	
-		document.getElementById ("tester").label = "Effekt "+ catalogNo +" af "+ main.items.length;
+		document.getElementById ("runCounter").label = "Effekt "+ catalogNo +" af "+ main.items.length;
 		
 		catalogNo--;
 	
-		document.getElementById ("itemDescription").value = main.items[catalogNo].description;
+		document.getElementById ("runItemDescription").value = main.items[catalogNo].description;
 		
-		document.getElementById ("itemMinimumBid").value = main.items[catalogNo].minimumbid;
-		document.getElementById ("itemAppraisal1").value = main.items[catalogNo].appraisal1;
-		document.getElementById ("itemAppraisal2").value = main.items[catalogNo].appraisal2;
-		document.getElementById ("itemAppraisal3").value = main.items[catalogNo].appraisal3;
+		document.getElementById ("runItemMinimumBid").value = main.items[catalogNo].minimumbid;
+		document.getElementById ("runItemAppraisal1").value = main.items[catalogNo].appraisal1;
+		document.getElementById ("runItemAppraisal2").value = main.items[catalogNo].appraisal2;
+		document.getElementById ("runItemAppraisal3").value = main.items[catalogNo].appraisal3;
 			
 		if (main.items[catalogNo].pictureid != SNDK.tools.emptyGuid)
 		{
-			document.getElementById ("picture").src = "http://sorentotest.sundown.dk/getmedia/" + main.items[catalogNo].pictureid;
+			document.getElementById ("runItemPicture").src = "http://sorentotest.sundown.dk/getmedia/" + main.items[catalogNo].pictureid;
 		}
 		else
 		{
-			document.getElementById ("picture").src = "chrome://didius/content/icons/noimage.jpg";
+			document.getElementById ("runItemPicture").src = "chrome://didius/content/icons/noimage.jpg";
 		}
 		
 		if (main.items[catalogNo].currentbidid != SNDK.tools.emptyGuid)
 		{
 			var bid = didius.bid.load (main.items[catalogNo].currentbidid);
 		
-			document.getElementById ("itemCurrentBidCustomer").value = bid.customer.name;
-			document.getElementById ("itemCurrentBidAmount").value = bid.amount;
+			document.getElementById ("runItemCurrentBidCustomer").value = bid.customer.name;
+			document.getElementById ("runItemCurrentBidAmount").value = bid.amount;
 		}
 		else
 		{
-			document.getElementById ("itemCurrentBidCustomer").value = "";
-			document.getElementById ("itemCurrentBidAmount").value = "";
+			document.getElementById ("runItemCurrentBidCustomer").value = "";
+			document.getElementById ("runItemCurrentBidAmount").value = "";
 		}
-		
-		document.getElementById ("bidBuyerNo").value = 0;
-		document.getElementById ("bidAmount").value = 0;
-		
-		document.getElementById ("bidBuyerNo").focus ();
-		
+						
 		main.onChange ();
 	},
 	
@@ -249,15 +240,7 @@ var main =
 	{							
 		// Unhook events.						
 		app.events.onAuctionDestroy.removeHandler (main.eventHandlers.onAuctionDestroy);
-		
-		app.events.onCaseCreate.removeHandler (main.eventHandlers.onCaseCreate);
-		app.events.onCaseSave.removeHandler (main.eventHandlers.onCaseSave);
-		app.events.onCaseDestroy.removeHandler (main.eventHandlers.onCaseDestroy);
-		
-		app.events.onItemCreate.removeHandler (main.eventHandlers.onItemCreate);
-		app.events.onItemSave.removeHandler (main.eventHandlers.onItemSave);
-		app.events.onItemDestroy.removeHandler (main.eventHandlers.onItemDestroy);
-			
+							
 		// Close window.		
 		window.close ();
 	},

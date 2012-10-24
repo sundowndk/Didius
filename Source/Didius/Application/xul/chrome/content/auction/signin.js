@@ -79,6 +79,7 @@ var main =
 								
 			for (idx2 in main.buyernos)
 			{							
+				data.buyerno = "";
 				if (main.buyernos[idx2] == main.customer.id)
 				{
 					data.buyerno = "#"+ idx2;
@@ -124,6 +125,7 @@ var main =
 								
 								for (idx2 in main.buyernos)
 								{							
+									data.buyerno = "";
 									if (main.buyernos[idx2] == items[idx].id)
 									{
 										data.buyerno = "#"+ idx2;
