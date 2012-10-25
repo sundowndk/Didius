@@ -68,19 +68,30 @@ var main =
 		{
 			case "Open":
 			{
-				document.getElementById ("auctionControl").disabled = true;
-				document.getElementById ("auctionBid").disabled = true;
 				document.getElementById ("auctionStart").collapsed = false;
 				document.getElementById ("auctionStart").disabled = false;				
 				document.getElementById ("auctionStop").collapsed = true;
 				document.getElementById ("auctionStop").disabled = true;				
+				document.getElementById ("auctionDisplay").collapsed = true;
+				document.getElementById ("auctionDisplay").disabled = true;
+				
+				document.getElementById ("counter").label = "Effekt 0 af 0";
+				
+				document.getElementById ("itemDescription").value = "";
+				document.getElementById ("itemPicture").src = "chrome://didius/content/icons/noimage.jpg";
+				document.getElementById ("itemMinimumBid").value = "";
+				document.getElementById ("itemAppraisal1").value = "";
+				document.getElementById ("itemAppraisal2").value = "";
+				document.getElementById ("itemAppraisal3").value = "";
+				
+				document.getElementById ("itemNext").disabled = true;
+				document.getElementById ("itemPrev").disabled = true;
+								
 				break;
 			}
 			
 			case "Closed":
 			{
-				document.getElementById ("auctionControl").disabled = true;
-				document.getElementById ("auctionBid").disabled = true;
 				document.getElementById ("auctionStart").collapsed = true;
 				document.getElementById ("auctionStart").disabled = true;				
 				document.getElementById ("auctionStop").collapsed = true;
@@ -90,12 +101,12 @@ var main =
 			
 			case "Running":
 			{
-				document.getElementById ("auctionControl").disabled = false;
-				document.getElementById ("auctionBid").disabled = false;				
 				document.getElementById ("auctionStart").collapsed = true;
 				document.getElementById ("auctionStart").disabled = true;				
 				document.getElementById ("auctionStop").collapsed = false;
 				document.getElementById ("auctionStop").disabled = false;				
+				document.getElementById ("auctionDisplay").collapsed = false;
+				document.getElementById ("auctionDisplay").disabled = false;				
 				break;
 			}
 		}
@@ -116,19 +127,24 @@ var main =
 		didius.auction.save (main.current);
 		
 		main.set ();
-		
-//		main.items = didius.item.list ({auction: main.current, async: false});
+						
+		main.items = didius.item.list ({auction: main.current, async: false});
 				
-//		document.getElementById ("runCounter").label = "Effekt 1 af "+ main.items.length;																		
-//		main.setItem (1);	
+		document.getElementById ("counter").label = "Effekt 1 af "+ main.items.length;
+		main.setItem (1);	
 	},
-	
+		
 	stop : function ()
 	{
 		main.current.status = "Open";
 		didius.auction.save (main.current);
 		
 		main.set ();
+	},
+	
+	display : function ()
+	{
+		window.openDialog ("chrome://didius/content/auctionrun/display.xul", "display-"+ main.current.id, "chrome,  modal", {auctionId: main.current.id});
 	},
 
 	getBid : function ()
@@ -185,57 +201,42 @@ var main =
 	{									
 		main.currentCatalogNo = catalogNo;
 	
-		document.getElementById ("runCounter").label = "Effekt "+ catalogNo +" af "+ main.items.length;
+		document.getElementById ("counter").label = "Effekt "+ catalogNo +" af "+ main.items.length;
 		
 		catalogNo--;
 	
-		document.getElementById ("runItemDescription").value = main.items[catalogNo].description;
+		document.getElementById ("itemDescription").value = main.items[catalogNo].description;
 		
-		document.getElementById ("runItemMinimumBid").value = main.items[catalogNo].minimumbid;
-		document.getElementById ("runItemAppraisal1").value = main.items[catalogNo].appraisal1;
-		document.getElementById ("runItemAppraisal2").value = main.items[catalogNo].appraisal2;
-		document.getElementById ("runItemAppraisal3").value = main.items[catalogNo].appraisal3;
+		document.getElementById ("itemMinimumBid").value = main.items[catalogNo].minimumbid;
+		document.getElementById ("itemAppraisal1").value = main.items[catalogNo].appraisal1;
+		document.getElementById ("itemAppraisal2").value = main.items[catalogNo].appraisal2;
+		document.getElementById ("itemAppraisal3").value = main.items[catalogNo].appraisal3;
 			
 		if (main.items[catalogNo].pictureid != SNDK.tools.emptyGuid)
 		{
-			document.getElementById ("runItemPicture").src = "http://sorentotest.sundown.dk/getmedia/" + main.items[catalogNo].pictureid;
+			document.getElementById ("itemPicture").src = "http://sorentotest.sundown.dk/getmedia/" + main.items[catalogNo].pictureid;
 		}
 		else
 		{
-			document.getElementById ("runItemPicture").src = "chrome://didius/content/icons/noimage.jpg";
+			document.getElementById ("itemPicture").src = "chrome://didius/content/icons/noimage.jpg";
 		}
 		
 		if (main.items[catalogNo].currentbidid != SNDK.tools.emptyGuid)
 		{
 			var bid = didius.bid.load (main.items[catalogNo].currentbidid);
 		
-			document.getElementById ("runItemCurrentBidCustomer").value = bid.customer.name;
-			document.getElementById ("runItemCurrentBidAmount").value = bid.amount;
+			document.getElementById ("itemCurrentBidCustomer").value = bid.customer.name;
+			document.getElementById ("itemCurrentBidAmount").value = bid.amount;
 		}
 		else
 		{
-			document.getElementById ("runItemCurrentBidCustomer").value = "";
-			document.getElementById ("runItemCurrentBidAmount").value = "";
+			document.getElementById ("itemCurrentBidCustomer").value = "";
+			document.getElementById ("itemCurrentBidAmount").value = "";
 		}
 						
 		main.onChange ();
 	},
-	
-	save : function ()
-	{			
-		main.get ();
-		
-		didius.auction.save (main.current);
-				
-		main.checksum = SNDK.tools.arrayChecksum (main.current);
-		main.onChange ();
-		
-		if (window.arguments[0].onSave != null)
-		{
-			window.arguments[0].onSave (main.current);
-		}
-	},
-	
+			
 	close : function (force)
 	{							
 		// Unhook events.						
@@ -266,8 +267,7 @@ var main =
 		}
 			
 		
-	
-	
+		
 //		main.get ();
 	
 //		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
@@ -284,194 +284,5 @@ var main =
 //			document.getElementById ("save").disabled = true;
 //			document.getElementById ("close").disabled = false;
 //		}
-	},
-	
-	items :
-	{
-		itemsTreeHelper : null,
-		
-		init : function ()
-		{
-			main.items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: main.items.edit});
-			main.items.set ();		
-		},
-		
-		set : function ()
-		{
-			var onDone = 	function (items)
-							{
-								for (idx in items)
-								{									
-									main.items.itemsTreeHelper.addRow ({data: items[idx]});
-								}
-								
-								// Enable controls
-								document.getElementById ("items").disabled = false;																
-								main.items.onChange ();
-							};
-
-			// Disable controls
-			document.getElementById ("items").disabled = true;								
-			document.getElementById ("itemEdit").disabled = true;
-			document.getElementById ("itemDestroy").disabled = true;
-						
-			didius.item.list ({auction: main.current, async: true, onDone: onDone});				
-		},
-		
-		onChange : function ()
-		{
-			if (main.items.itemsTreeHelper.getCurrentIndex () != -1)
-			{										
-				document.getElementById ("itemEdit").disabled = false;
-				document.getElementById ("itemDestroy").disabled = false;
-			}
-			else
-			{				
-				document.getElementById ("itemEdit").disabled = true;
-				document.getElementById ("itemDestroy").disabled = true;
-			}
-		},
-		
-		sort : function (attributes)
-		{
-			main.items.itemsTreeHelper.sort (attributes);
-		},
-							
-		edit : function ()
-		{		
-			var current = main.items.itemsTreeHelper.getRow ();
-						
-			var onSave = function (result)
-			{				
-				if (result != null)
-				{
-					main.items.itemsTreeHelper.setRow ({data :result});					
-				}													
-			}
-							
-			window.openDialog ("chrome://didius/content/itemedit/itemedit.xul", current.id, "chrome", {itemId: current.id, onSave: onSave});
-		},
-		
-		destroy : function ()
-		{
-			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-			var result = prompts.confirm (null, "Slet effekt", "Er du sikker på du vil slette denne effekt ?");
-			
-			if (result)
-			{
-				try
-				{
-					didius.item.destroy (main.items.itemsTreeHelper.getRow ().id);					
-				}
-				catch (error)
-				{
-					app.error ({exception: error})
-				}								
-			}
-		}
-	},
-	
-	catalog : 
-	{
-		print : function ()
-		{
-			window.openDialog ("chrome://didius/content/auction/catalog/print.xul", "printcatalog", "chrome, modal", {auctionId: main.current.id});	
-		}
-	},
-	
-	cases :
-	{
-		casesTreeHelper : null,
-	
-		init : function ()
-		{
-			main.cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: main.cases.edit});
-			main.cases.set ();	
-		},
-		
-		set : function ()
-		{
-			var onDone = 	function (items)
-							{
-								for (idx in items)
-								{												
-									main.cases.casesTreeHelper.addRow ({data: items[idx]});
-								}
-								
-								// Enable controls
-								document.getElementById ("cases").disabled = false;																
-								main.cases.onChange ();
-							};
-
-			// Disable controls
-			document.getElementById ("cases").disabled = true;					
-			document.getElementById ("caseCreate").disabled = true;
-			document.getElementById ("caseEdit").disabled = true;
-			document.getElementById ("caseDestroy").disabled = true;
-					
-			didius.case.list ({auction: main.current, async: true, onDone: onDone});			
-		},
-		
-		onChange : function ()
-		{					
-			if (main.cases.casesTreeHelper.getCurrentIndex () != -1)
-			{										
-				document.getElementById ("caseCreate").disabled = false;
-				document.getElementById ("caseEdit").disabled = false;
-				document.getElementById ("caseDestroy").disabled = false;
-			}
-			else
-			{									
-				document.getElementById ("caseCreate").disabled = false;
-				document.getElementById ("caseEdit").disabled = true;
-				document.getElementById ("caseDestroy").disabled = true;
-			}		
-		},
-		
-		sort : function (attributes)
-		{
-			main.cases.casesTreeHelper.sort (attributes);
-		},
-		
-		create : function ()
-		{
-			var onDone =	function (result)
-							{
-								if (result)
-								{
-									var case_ = didius.case.create (main.current, result);
-									didius.case.save (case_);
-																									
-									window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", case_.id, "chrome", {caseId: case_.id});
-								}
-							};
-														
-			app.choose.customer ({onDone: onDone});
-		},
-									
-		edit : function ()
-		{		
-			var current = main.cases.casesTreeHelper.getRow ();
-															
-			window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", current.id, "chrome", {caseId: current.id});
-		},
-		
-		destroy : function ()
-		{
-			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-			var result = prompts.confirm (null, "Slet sag", "Er du sikker på du vil slette denne sag ?");
-			
-			if (result)
-			{
-				try
-				{
-					didius.case.destroy (main.cases.casesTreeHelper.getRow ().id);										
-				}
-				catch (error)
-				{					
-					app.error ({exception: error})
-				}								
-			}
-		}
-	}			
+	}	
 }

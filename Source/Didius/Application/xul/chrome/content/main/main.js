@@ -17,6 +17,8 @@ var main =
 		main.customers.init ();		
 		main.auctions.init ();		
 		
+	//	setTimeout('window.fullScreen = true;',1);
+		
 		//	main.settings ();	
 					
 		main.controls.statusbar.progressmeter.setMode ("determined");

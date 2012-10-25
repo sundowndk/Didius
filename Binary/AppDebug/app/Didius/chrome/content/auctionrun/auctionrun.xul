@@ -24,23 +24,25 @@
 			<tabpanels flex="1">
 				<tabpanel>
 					<vbox flex="1">
-						<groupbox>
-							<caption label="Meta"/>							
-							<hbox align="center">
-								<label class="Label">Auktion nr.:</label>
-								<textbox id="no" flex="1" disabled="true"  />
-								<label class="Label">Oprettet:</label>
-								<datepicker id="createdate" type="normal" disabled="true"/>
-							</hbox>							
-							<hbox align="center">
-								<label class="Label">Title:</label>
-								<textbox id="title" flex="1" disabled="true" />
-							</hbox>							
-						</groupbox>
+						<vbox>		
+							<groupbox>
+								<caption label="Meta"/>							
+								<hbox align="center">
+									<label class="Label">Auktion nr.:</label>
+									<textbox id="no" flex="1" disabled="true"  />
+									<label class="Label">Oprettet:</label>
+									<datepicker id="createdate" type="normal" disabled="true"/>
+								</hbox>							
+								<hbox align="center">
+									<label class="Label">Title:</label>
+									<textbox id="title" flex="1" disabled="true" />
+								</hbox>							
+							</groupbox>
+						</vbox>
 
-						<vbox id="auctioncontrol" collapsed="true">																								
+						<vbox>	
 							<groupbox >
-								<caption id="runCounter" label="Effekt ? af ?"/>
+								<caption id="counter" label="Effekt 0 af 0"/>
 								<grid>
 									<rows>
     									<row>      																			
@@ -52,14 +54,14 @@
     										<vbox>																		
 												<hbox align="top">
 													<label class="Label">Beskrivelse:</label>
-													<textbox id="runItemDescription" flex="1" multiline="true" height="176" disabled="true"/>
+													<textbox id="itemDescription" flex="1" multiline="true" height="176" disabled="true"/>
 												</hbox>				
 											</vbox>
     									</column>
 	    								<column >
     										<vbox flex="1">		
     											<hbox>
-    												<image class="ItemImage" id="runItemPicture" src='chrome://didius/content/icons/noimage.jpg' maxwidth="300" maxheight="176"/>
+    												<image class="ItemImage" id="itemPicture" src='chrome://didius/content/icons/noimage.jpg' maxwidth="300" maxheight="176"/>
     											</hbox>    										
     										</vbox>
     									</column>
@@ -68,39 +70,33 @@
 								<separator class="groove-thin"/>
 								<hbox align="center">
 									<label class="Label">Min bud:</label>
-									<textbox id="runItemMinimumBid" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
+									<textbox id="itemMinimumBid" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
 									<label class="Label">Vurdering 1:</label>
-									<textbox id="runItemAppraisal1" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
+									<textbox id="itemAppraisal1" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
 								</hbox>							
 								<hbox align="center">
 									<label class="Label">Vurdering 2:</label>
-									<textbox id="runItemAppraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
+									<textbox id="itemAppraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
 									<label class="Label">Vurdering 3:</label>
-									<textbox id="runItemAppraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
+									<textbox id="itemAppraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
 								</hbox>							
 							</groupbox>
 							<groupbox >
-								<caption id="tester" label="Nuværende bud"/>			
+								<caption label="Nuværende bud"/>			
 								<hbox align="center">
 									<label class="Label">Kunde:</label>
-									<textbox id="runItemCurrentBidCustomer" flex="1" readonly="true"/>
+									<textbox id="itemCurrentBidCustomer" flex="1" disabled="true"/>
 									<label class="Label">Bud:</label>
-									<textbox id="runItemCurrentBidAmount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
+									<textbox id="itemCurrentBidAmount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
 								</hbox>																		
 							</groupbox>		
 							<separator class="groove-thin"/>
 							<separator class="groove-thin"/>
 							<hbox align="center">
-								<button id="runItemPrev" label="Forrige" style="height: 60px;" flex="1" disabled="true" oncommand="main.itemPrev ();"/>
-								<button id="runItemNext" label="Næste" style="height: 60px;" flex="1" disabled="true" oncommand="main.itemNext ();"/>
+								<button id="itemPrev" label="Forrige" style="height: 60px;" flex="1" disabled="true" oncommand="main.itemPrev ();"/>
+								<button id="itemNext" label="Næste" style="height: 60px;" flex="1" disabled="true" oncommand="main.itemNext ();"/>
 							</hbox>																			
-						</vbox>
-									
-						<groupbox id="options">										
-							<separator class="groove-thin"/>							
-							<button id="auctionControl" label="Auktions styring" height="80" oncommand="main.stop ();" disabled="false"/>
-							<button id="auctionBid" label="Bud notering" height="80" oncommand="main.stop ();" disabled="false"/>
-						</groupbox>						
+						</vbox>													
 					</vbox>
     			</tabpanel>
     			
@@ -183,6 +179,7 @@
 		<hbox class="WindowButtons" flex="1" align="left">		
 			<button id="auctionStart" label="Start auktion" oncommand="main.start ();" disabled="true" collapsed="true"/>		
 			<button id="auctionStop" label="Stop auktion" oncommand="main.stop ();" disabled="true" collapsed="true"/>		
+			<button id="auctionDisplay" label="Vis display" oncommand="main.display ();" disabled="true" collapsed="true"/>
 		</hbox>
 		<hbox class="WindowButtons" flex="1" align="right">		
 			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>		
