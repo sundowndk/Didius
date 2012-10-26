@@ -144,7 +144,18 @@ var main =
 	
 	display : function ()
 	{
-		window.openDialog ("chrome://didius/content/auctionrun/display.xul", "display-"+ main.current.id, "chrome,  modal", {auctionId: main.current.id});
+//		var watcher = Components.classes["@mozilla.org/embedcomp/window-watcher;1"].getService(Components.interfaces.nsIWindowWatcher);
+ 
+// var args = {
+//  param1: true,
+//  param2: 42
+//};
+ 
+//args.wrappedJSObject = args;
+ 
+//		watcher.openWindow (null, "chrome://didius/content/auctionrun/display.xul", "BLA", "chrome", args);
+	
+		window.openDialog ("chrome://didius/content/auctionrun/display.xul", "display-"+ main.current.id, "chrome, resizable, dialog=no", {auctionId: main.current.id});
 	},
 
 	getBid : function ()
@@ -182,6 +193,13 @@ var main =
 			document.getElementById ("itemPrev").disabled = true;
 			document.getElementById ("itemNext").disabled = true;
 			main.setItem ((main.currentCatalogNo - 1));
+			
+			var eventData = {};
+			eventData.auctionid = main.current.id;
+			eventData.action = "previtem";
+			eventData.actiondata = main.items[main.currentCatalogNo].id;
+	
+			app.events.onAuctionControl.execute (eventData);
 		}
 	},
 			
@@ -194,6 +212,13 @@ var main =
 			document.getElementById ("itemPrev").disabled = true;
 			document.getElementById ("itemNext").disabled = true;
 			main.setItem ((main.currentCatalogNo + 1));
+							
+			var eventData = {};
+			eventData.auctionid = main.current.id;
+			eventData.action = "nextitem";
+			eventData.actiondata = main.items[main.currentCatalogNo].id;
+	
+			app.events.onAuctionControl.execute (eventData);
 		}
 	},
 				

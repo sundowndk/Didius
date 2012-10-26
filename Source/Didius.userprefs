@@ -1,14 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/templates/display.tpl">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="127" Column="38" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/display.js" Line="29" Column="17" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul" Line="177" Column="2" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/display.js" Line="59" Column="2" />
+      <File FileName="Didius/Application/xul/chrome/content/templates/display.tpl" Line="21" Column="16" />
       <File FileName="Didius/Application/xul/chrome/content/auctionrun/display.xul" Line="21" Column="10" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="242" Column="69" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul" Line="177" Column="2" />
       <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="20" Column="41" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/print.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/print.js" Line="52" Column="52" />
       <File FileName="Didius/Application/xul/chrome/content/auction/invoice/print.xul" Line="18" Column="1" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="1" Column="8" />
+      <File FileName="Didius/Application/js/didius/case.js" Line="50" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/templates/settlement.tpl" Line="320" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -25,9 +29,7 @@
                       <Node name="catalog" expanded="True" />
                       <Node name="invoice" expanded="True" />
                     </Node>
-                    <Node name="auctionrun" expanded="True">
-                      <Node name="auctionrun.js" selected="True" />
-                    </Node>
+                    <Node name="auctionrun" expanded="True" />
                     <Node name="case" expanded="True">
                       <Node name="settlement" expanded="True" />
                     </Node>
@@ -35,7 +37,9 @@
                     <Node name="catalogedit" expanded="True" />
                     <Node name="customeredit" expanded="True" />
                     <Node name="main" expanded="True" />
-                    <Node name="templates" expanded="True" />
+                    <Node name="templates" expanded="True">
+                      <Node name="display.tpl" selected="True" />
+                    </Node>
                   </Node>
                 </Node>
               </Node>

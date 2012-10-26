@@ -267,6 +267,7 @@
     <None Include="Application\xul\chrome\content\auction\invoice\create.xul" />
     <None Include="Application\xul\chrome\content\auctionrun\display.xul" />
     <None Include="Application\xul\chrome\content\auctionrun\display.js" />
+    <None Include="Application\xul\chrome\content\templates\display.tpl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

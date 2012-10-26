@@ -2,20 +2,20 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="runauction" minwidth="750" minheight="600" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
+<window id="runauction" minwidth="750" minheight="600" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
 				
-	<script type="application/javascript" src="chrome://didius/content/auctionrun/display.js"/>							
+	<script type="application/javascript" src="chrome://didius/content/auctionrun/display.js"/>
 										
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
 	</keyset>			
 			
 	<hbox flex="1">
-		<iframe id="display" flex="1" style="height: 100%; width: 100%; margin: 0px; padding: 0px;" src="http://www.google.com">
+		<iframe id="display" flex="1" style="height: 100%; width: 100%; margin: 0px; padding: 0px;" scrolling="no">
 		</iframe>
 	</hbox>
 </window>

@@ -38,6 +38,8 @@ initialize : function ()
 	app.events.onUserLoad = new sXUL.event ({id: "onUserLoad", remotePropagation: true});
 	app.events.onUserSave = new sXUL.event ({id: "onUserSave", remotePropagation: true});
 	app.events.onUserDestroy = new sXUL.event ({id: "onUserDestroy", remotePropagation: true});			
+	
+	app.events.onAuctionControl = new sXUL.event ({id: "onAuctionControl", remotePropagation: true});
 }
 
 
