@@ -132,29 +132,31 @@ var main =
 				
 		document.getElementById ("counter").label = "Effekt 1 af "+ main.items.length;
 		main.setItem (1);	
+		
+		var eventData = {};
+		eventData.auctionid = main.current.id;
+		eventData.action = "auctionstart";
+		eventData.actiondata = main.items[0].id;
+	
+		app.events.onAuctionControl.execute (eventData);
 	},
 		
 	stop : function ()
 	{
 		main.current.status = "Open";
 		didius.auction.save (main.current);
-		
+						
 		main.set ();
+		
+		var eventData = {};
+		eventData.auctionid = main.current.id;
+		eventData.action = "auctionstop";	
+		
+		app.events.onAuctionControl.execute (eventData);	
 	},
 	
 	display : function ()
 	{
-//		var watcher = Components.classes["@mozilla.org/embedcomp/window-watcher;1"].getService(Components.interfaces.nsIWindowWatcher);
- 
-// var args = {
-//  param1: true,
-//  param2: 42
-//};
- 
-//args.wrappedJSObject = args;
- 
-//		watcher.openWindow (null, "chrome://didius/content/auctionrun/display.xul", "BLA", "chrome", args);
-	
 		window.openDialog ("chrome://didius/content/auctionrun/display.xul", "display-"+ main.current.id, "chrome, resizable, dialog=no", {auctionId: main.current.id});
 	},
 
@@ -196,8 +198,8 @@ var main =
 			
 			var eventData = {};
 			eventData.auctionid = main.current.id;
-			eventData.action = "previtem";
-			eventData.actiondata = main.items[main.currentCatalogNo].id;
+			eventData.action = "itemprev";
+			eventData.actiondata = main.items[main.currentCatalogNo - 1].id;
 	
 			app.events.onAuctionControl.execute (eventData);
 		}
@@ -215,9 +217,9 @@ var main =
 							
 			var eventData = {};
 			eventData.auctionid = main.current.id;
-			eventData.action = "nextitem";
-			eventData.actiondata = main.items[main.currentCatalogNo].id;
-	
+			eventData.action = "itemnext";
+			eventData.actiondata = main.items[main.currentCatalogNo - 1].id;
+	 
 			app.events.onAuctionControl.execute (eventData);
 		}
 	},
@@ -290,24 +292,5 @@ var main =
 		{
 			document.getElementById ("itemNext").disabled = true;
 		}
-			
-		
-		
-//		main.get ();
-	
-//		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
-//		{
-//			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"] *";
-//		
-//			document.getElementById ("save").disabled = false;
-//			document.getElementById ("close").disabled = false;
-//		}
-//		else
-//		{
-//			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"]";
-//		
-//			document.getElementById ("save").disabled = true;
-//			document.getElementById ("close").disabled = false;
-//		}
 	}	
 }

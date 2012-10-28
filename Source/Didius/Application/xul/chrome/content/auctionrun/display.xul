@@ -12,6 +12,7 @@
 										
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="shortcut-quit"  keycode="VK_F11" oncommand="main.fullscreen ();"/>
 	</keyset>			
 			
 	<hbox flex="1">

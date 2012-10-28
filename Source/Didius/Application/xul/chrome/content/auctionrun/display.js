@@ -18,8 +18,6 @@ var main =
 		}								
 	
 		main.set ();
-					
-	//setTimeout( function () {window.fullScreen = true}, 1);
 		
 		// Hook events.			
 		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);				
@@ -39,9 +37,32 @@ var main =
 		
 		onAuctionControl : function (eventData)
 		{
+			switch (eventData.action)
+			{
+				case "auctionstart":
+				{
+					main.setItem (eventData.actiondata);		
+					break;
+				}
+				
+				case "auctionstop":
+				{
+					main.setItem ();		
+					break;
+				}			
 			
-			
-			main.setItem (eventData.actiondata);
+				case "itemnext":
+				{
+					main.setItem (eventData.actiondata);		
+					break;
+				}
+				
+				case "itemprev":
+				{
+					main.setItem (eventData.actiondata);
+					break;
+				}				
+			}					
 		}
 	},
 		
@@ -63,26 +84,25 @@ var main =
 																	
 		// Add inital content.
 		var render = template.page;
-		content.innerHTML = render;	
-		
-		
-
+		content.innerHTML = render;				
 	},
 	
 	setItem : function  (itemId)
 	{
-		var item = didius.item.load (itemId);
+		if (itemId != null)
+		{	
+			var item = didius.item.load (itemId);
 	
-		document.getElementById ("display").contentDocument.getElementById ("ItemPicture").src = didius.runtime.ajaxUrl +"getmedia/"+ item.pictureid;
-		
-		document.getElementById ("display").contentDocument.getElementById ("ItemCatalogNo").innerHTML = item.catalogno;
-		
-		sXUL.console.log (didius.runtime.ajaxUrl +"getmedia/"+ item.pictureid)
-//			sXUL.console.log (eventData.actiondata);
-		
-//					document.getElementById ("itemPicture").src = "http://sorentotest.sundown.dk/getmedia/" + main.items[catalogNo].pictureid;
-		
-		
+			document.getElementById ("display").contentDocument.getElementById ("ItemPicture").src = didius.runtime.ajaxUrl +"getmedia/"+ item.pictureid;		
+			document.getElementById ("display").contentDocument.getElementById ("ItemCatalogNo").innerHTML = item.catalogno;				
+			document.getElementById ("display").contentDocument.getElementById ("ContainerItemCatalogNo").style.display = "block";				
+		}
+		else
+		{
+			document.getElementById ("display").contentDocument.getElementById ("ItemPicture").src = "";
+			document.getElementById ("display").contentDocument.getElementById ("ItemCatalogNo").innerHTML = " ";				
+			document.getElementById ("display").contentDocument.getElementById ("ContainerItemCatalogNo").style.display = "none";				
+		}
 	},
 				
 	close : function (force)
@@ -94,5 +114,17 @@ var main =
 							
 		// Close window.		
 		window.close ();
-	}	
+	},
+	
+	fullscreen : function ()
+	{
+		if (!window.fullScreen)
+		{
+			window.fullScreen = true;
+		}
+		else
+		{
+			window.fullScreen = false;
+		}
+	}
 }

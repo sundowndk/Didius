@@ -1,55 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/templates/display.tpl">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/display.js" Line="59" Column="2" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/display.tpl" Line="21" Column="16" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/display.xul" Line="21" Column="10" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="242" Column="69" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.xul" Line="177" Column="2" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="20" Column="41" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/print.js" Line="52" Column="52" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/print.xul" Line="18" Column="1" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="1" Column="8" />
-      <File FileName="Didius/Application/js/didius/case.js" Line="50" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/settlement.tpl" Line="320" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/display.js" Line="21" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/display.xul" Line="15" Column="73" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="39" Column="12" />
+      <File FileName="Didius/Application/xul/chrome/content/templates/display.tpl" Line="45" Column="11" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
-              <Node name="js" expanded="True">
-                <Node name="didius" expanded="True" />
-              </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="auction" expanded="True">
-                      <Node name="catalog" expanded="True" />
-                      <Node name="invoice" expanded="True" />
+                    <Node name="auctionrun" expanded="True">
+                      <Node name="auctionrun.js" selected="True" />
                     </Node>
-                    <Node name="auctionrun" expanded="True" />
-                    <Node name="case" expanded="True">
-                      <Node name="settlement" expanded="True" />
-                    </Node>
-                    <Node name="caseedit" expanded="True" />
-                    <Node name="catalogedit" expanded="True" />
-                    <Node name="customeredit" expanded="True" />
-                    <Node name="main" expanded="True" />
-                    <Node name="templates" expanded="True">
-                      <Node name="display.tpl" selected="True" />
-                    </Node>
+                    <Node name="templates" expanded="True" />
                   </Node>
                 </Node>
               </Node>
-            </Node>
-            <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True" />
-            <Node name="Didius.Enums" expanded="True" />
-            <Node name="Didius.Strings" expanded="True" />
-            <Node name="resources" expanded="True">
-              <Node name="scripts" expanded="True" />
             </Node>
           </Node>
         </State>

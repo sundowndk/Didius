@@ -42,7 +42,7 @@ body
 
 // Header
 <div>	
-	<div class="ItemCatalogNo">
+	<div id="ContainerItemCatalogNo" class="ItemCatalogNo">
 		Katalog nr.:<span id="ItemCatalogNo"></span>
 	</div>
 	

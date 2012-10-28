@@ -7,4 +7,4 @@ ID=xulapp@xultest.org
 
 [Gecko]
 MinVersion=1.*
-MaxVersion=15.*
+MaxVersion=16.*
