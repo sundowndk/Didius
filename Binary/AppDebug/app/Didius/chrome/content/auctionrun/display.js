@@ -37,32 +37,35 @@ var main =
 		
 		onAuctionControl : function (eventData)
 		{
-			switch (eventData.action)
-			{
-				case "auctionstart":
+			if (eventData.auctionid == main.current.id)
+			{		
+				switch (eventData.action)
 				{
-					main.setItem (eventData.actiondata);		
-					break;
-				}
+					case "auctionstart":
+					{
+						main.setItem (eventData.actiondata);		
+						break;
+					}
+					
+					case "auctionstop":
+					{
+						main.setItem ();		
+						break;
+					}			
 				
-				case "auctionstop":
-				{
-					main.setItem ();		
-					break;
-				}			
-			
-				case "itemnext":
-				{
-					main.setItem (eventData.actiondata);		
-					break;
-				}
-				
-				case "itemprev":
-				{
-					main.setItem (eventData.actiondata);
-					break;
-				}				
-			}					
+					case "itemnext":
+					{
+						main.setItem (eventData.actiondata);		
+						break;
+					}
+					
+					case "itemprev":
+					{
+						main.setItem (eventData.actiondata);
+						break;
+					}				
+				}					
+			}
 		}
 	},
 		

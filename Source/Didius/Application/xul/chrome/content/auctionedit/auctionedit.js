@@ -355,6 +355,9 @@ var main =
 								if (result)
 								{
 									var case_ = didius.case.create (main.current, result);
+																		
+									case_.commisionfeepercentage = app.config.commisionfeepercentage;
+									case_.commisionfeeminimum = app.config.commisionfeeminimum;
 									didius.case.save (case_);
 																									
 									window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", case_.id, "chrome", {caseId: case_.id});

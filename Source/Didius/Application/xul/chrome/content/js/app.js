@@ -49,7 +49,9 @@ var app =
 	},
 
 	events : new Array (),	
-
+	
+	config : new Array (),
+	
 	startup : function (mainWindow)
 	{
 		// Make so everybody can get to the main window.

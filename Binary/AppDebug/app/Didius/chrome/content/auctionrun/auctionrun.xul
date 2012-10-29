@@ -178,8 +178,7 @@
 	<hbox flex="1">
 		<hbox class="WindowButtons" flex="1" align="left">		
 			<button id="auctionStart" label="Start auktion" oncommand="main.start ();" disabled="true" collapsed="true"/>		
-			<button id="auctionStop" label="Stop auktion" oncommand="main.stop ();" disabled="true" collapsed="true"/>					
-			<button id="auctionDisplay" label="Åben display" oncommand="main.display ();" disabled="true" collapsed="true"/>
+			<button id="auctionStop" label="Stop auktion" oncommand="main.stop ();" disabled="true" collapsed="true"/>								
 		</hbox>
 		<hbox class="WindowButtons" flex="1" align="right">		
 			<button id="close" label="Luk" oncommand="main.close ();" />		

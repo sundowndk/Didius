@@ -37,6 +37,9 @@
 			<class name="invoice">
 				<js file="js/didius/invoice.js" />	
 			</class>						
+			<class name="config">
+				<js file="js/didius/config.js" />	
+			</class>						
 		</class>
 		<js file="js/didius/other.js" />	
 	</project>	

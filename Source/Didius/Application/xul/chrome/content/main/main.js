@@ -362,6 +362,7 @@ var main =
 				document.getElementById ("auctionSignin").disabled = false;
 				document.getElementById ("auctionBidNotation").disabled = false;
 				document.getElementById ("auctionRun").disabled = false;
+				document.getElementById ("auctionDisplay").disabled = false;
 			}
 			else
 			{				
@@ -371,6 +372,7 @@ var main =
 				document.getElementById ("auctionSignin").disabled = true;
 				document.getElementById ("auctionBidNotation").disabled = true;
 				document.getElementById ("auctionRun").disabled = true;
+				document.getElementById ("auctionDisplay").disabled = true;
 			}
 		},	
 		
@@ -429,6 +431,12 @@ var main =
 		{
 			var current = main.auctions.auctionsTreeHelper.getRow ();
 			app.window.open (window, "chrome://didius/content/auction/bidnotation.xul", "bidnotation-"+ current.id, "chrome", {auctionId: current.id});
+		},
+		
+		display : function ()
+		{
+			var current = main.auctions.auctionsTreeHelper.getRow ();
+			app.window.open (window, "chrome://didius/content/auctionrun/display.xul", "display-"+ current.id, "chrome, resizable, dialog=no", {auctionId: current.id});
 		}
 	}	
 }

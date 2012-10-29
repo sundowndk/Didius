@@ -40,6 +40,14 @@ initialize : function ()
 	app.events.onUserDestroy = new sXUL.event ({id: "onUserDestroy", remotePropagation: true});			
 	
 	app.events.onAuctionControl = new sXUL.event ({id: "onAuctionControl", remotePropagation: true});
+	
+	
+	// Load Config
+	//app.config.commissionFeePercentage = sXUL.config.get ({key: "companyname"});
+	
+	app.config =  didius.config.load ();
+	
+	//sXUL.console.log (app.config.current.companyName);
 }
 
 

@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: didius
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -53,6 +53,14 @@ var didius =
 			app.events.onUserDestroy = new sXUL.event ({id: "onUserDestroy", remotePropagation: true});			
 			
 			app.events.onAuctionControl = new sXUL.event ({id: "onAuctionControl", remotePropagation: true});
+			
+			
+			// Load Config
+			//app.config.commissionFeePercentage = sXUL.config.get ({key: "companyname"});
+			
+			app.config =  didius.config.load ();
+			
+			//sXUL.console.log (app.config.current.companyName);
 		}
 		
 		
@@ -1193,6 +1201,39 @@ var didius =
 		
 		
 		
+	},
+
+	// ---------------------------------------------------------------------------------------------------------------
+	// CLASS: config
+	// ---------------------------------------------------------------------------------------------------------------
+	config :
+	{
+		load : function ()
+		{
+			var result = new Array ();
+		
+			result.companyname = sXUL.config.get ({key: "companyname"});
+			result.companyaddress = sXUL.config.get ({key: "companyaddress"});
+			result.companypostcode = sXUL.config.get ({key: "companypostcode"});
+			result.companycity = sXUL.config.get ({key: "companycity"});
+			result.companyphone = sXUL.config.get ({key: "companyphone"});
+			result.companyemail = sXUL.config.get ({key: "companyemail"});
+			
+			result.commisionfeepercentage = sXUL.config.get ({key: "commisionfeepercentage"});
+			result.commisionfeeminimum = sXUL.config.get ({key: "commisionfeeminimum"});
+			
+			return result;
+		},
+		
+		save : function (config)
+		{
+			for (idx in config)
+			{		
+				sXUL.console.log (idx +" "+ config[idx])
+			
+				sXUL.config.set ({key: idx, value: config[idx]});
+			}
+		}			
 	}
 }
 

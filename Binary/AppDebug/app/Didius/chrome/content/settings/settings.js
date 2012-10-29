@@ -35,13 +35,35 @@ var main =
 				
 	set : function ()
 	{
-		main.current = {};
+		main.current = app.config;
 		
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
 	
 		this.access.init ();		
 	
 		document.getElementById ("settingsMenu").selectedIndex = 0;					
+		
+		// COMPANY
+		document.getElementById ("companyName").value = main.current.companyname;
+		document.getElementById ("companyAddress").value = main.current.companyaddress;
+		document.getElementById ("companyPostcode").value = main.current.companypostcode;
+		document.getElementById ("companyCity").value = main.current.companycity;
+		document.getElementById ("companyPhone").value = main.current.companyphone;
+		document.getElementById ("companyEmail").value = main.current.companyemail;
+		
+		// TEXTS
+//		main.current.auctiontext = document.getElementById ("auctionText").value;
+		
+		// VALUES
+		document.getElementById ("commisionFeePercentage").value = main.current.commisionfeepercentage;
+		document.getElementById ("commisionFeeMinimum").value = main.current.commisionfeeminimum;			
+		
+		// EMAIL
+//		main.current.emailsender = document.getElementById ("emailSender").value;
+//		main.current.emailtextbidwon = document.getElementById ("emailTextBidWon").value;
+//		main.current.emailtextoutbid = document.getElementById ("emailTextOutBid").value;
+//		main.current.emailtextinvoice = document.getElementById ("emailTextInvoice").value;
+//		main.current.emailtextsettlement = document.getElementById ("emailTextSettlement").value;
 	},
 	
 	get : function ()
@@ -57,8 +79,7 @@ var main =
 		// TEXTS
 		main.current.auctiontext = document.getElementById ("auctionText").value;
 		
-		// VALUES
-		main.current.preparationfee = document.getElementById ("preparationFee").value;
+		// VALUES		
 		main.current.commisionfeepercentage = document.getElementById ("commisionFeePercentage").value;
 		main.current.commisionfeeminimum = document.getElementById ("commisionFeeMinimum").value;			
 		
@@ -136,7 +157,10 @@ var main =
 	
 	save : function ()
 	{
-		main.get ()
+		main.get ();
+		
+		didius.config.save (main.current);
+		
 		
 		main.onChange ();
 	},

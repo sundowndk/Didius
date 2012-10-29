@@ -100,6 +100,7 @@
 							<button id="auctionSignin" label="Registering" disabled="true" oncommand="main.auctions.signin ();"/>								
 							<button id="auctionBidNotation" label="Budnotering" disabled="true" oncommand="main.auctions.bidNotation ();"/>
 							<button id="auctionRun" label="Afvikling" disabled="true" oncommand="main.auctions.run ();"/>
+							<button id="auctionDisplay" label="Display" disabled="true" oncommand="main.auctions.display ();"/>
 						</vbox>
 					</hbox>					
 				</tabpanel>			

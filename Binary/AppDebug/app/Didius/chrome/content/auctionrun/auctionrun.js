@@ -73,8 +73,6 @@ var main =
 				document.getElementById ("auctionStart").disabled = false;				
 				document.getElementById ("auctionStop").collapsed = true;
 				document.getElementById ("auctionStop").disabled = true;				
-				document.getElementById ("auctionDisplay").collapsed = true;
-				document.getElementById ("auctionDisplay").disabled = true;
 				
 				document.getElementById ("counter").label = "Effekt 0 af 0";
 				
@@ -106,8 +104,6 @@ var main =
 				document.getElementById ("auctionStart").disabled = true;				
 				document.getElementById ("auctionStop").collapsed = false;
 				document.getElementById ("auctionStop").disabled = false;								
-				document.getElementById ("auctionDisplay").collapsed = false;
-				document.getElementById ("auctionDisplay").disabled = false;				
 				break;
 			}
 		}
@@ -156,7 +152,7 @@ var main =
 	
 	display : function ()
 	{				
-		app.window.open (window, "chrome://didius/content/auctionrun/display.xul", "display-"+ main.current.id, "chrome, resizable, dialog=no", {auctionId: main.current.id, itemId: main.items[main.currentCatalogNo - 1].id});
+	//	app.window.open (window, "chrome://didius/content/auctionrun/display.xul", "display-"+ main.current.id, "chrome, resizable, dialog=no", {auctionId: main.current.id, itemId: main.items[main.currentCatalogNo - 1].id});
 	
 		//window.openDialog ("chrome://didius/content/auctionrun/display.xul", "display-"+ main.current.id, "chrome, resizable, dialog=no", {auctionId: main.current.id});
 	},

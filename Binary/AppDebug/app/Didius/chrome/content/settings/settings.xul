@@ -127,16 +127,7 @@
 				<hbox class="SettingsHeader">
 					<label>Værdier</label>
 				</hbox>
-				<vbox flex="1" style="overflow:auto">
-					<hbox>
-						<groupbox flex="1">
-							<caption label="Gebyr"/>
-							<hbox align="center">
-								<label class="Label">Fremstilling:</label>								
-								<textbox id="preparationFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
-							</hbox>														
-						</groupbox>
-					</hbox>				
+				<vbox flex="1" style="overflow:auto">					
 					<hbox>	
 						<groupbox flex="1">
 							<caption label="Salær"/>							
@@ -161,9 +152,9 @@
 				<vbox flex="1" style="overflow:auto">
 					<hbox>
 						<groupbox flex="1">
-							<caption label="Gebyr"/>
+							<caption label="Generelt"/>
 							<hbox align="center">
-								<label class="Label">Generalt:</label>								
+								<label class="Label">Afsender:</label>								
 								<textbox id="emailSender" flex="1" onchange="main.onChange ();" />
 							</hbox>														
 						</groupbox>
