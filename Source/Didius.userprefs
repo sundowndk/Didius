@@ -2,22 +2,33 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/display.js" Line="21" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/display.xul" Line="15" Column="73" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="39" Column="12" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/display.tpl" Line="45" Column="11" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="129" Column="68" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="25" Column="11" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="33" Column="2" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="31" Column="51" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="212" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
+              <Node name="js" expanded="True">
+                <Node name="didius" expanded="True" />
+              </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
+                    <Node name="auction" expanded="True">
+                      <Node name="catalog" expanded="True" />
+                    </Node>
+                    <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True">
                       <Node name="auctionrun.js" selected="True" />
                     </Node>
+                    <Node name="customeredit" expanded="True" />
+                    <Node name="js" expanded="True" />
+                    <Node name="main" expanded="True" />
                     <Node name="templates" expanded="True" />
                   </Node>
                 </Node>

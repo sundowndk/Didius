@@ -14,6 +14,7 @@ var main =
 		try
 		{
 			main.current = didius.auction.load (window.arguments[0].auctionId);
+			main.items = didius.item.list ({auction: main.current, async: false});
 			
 			var buyernos = main.current.buyernos.split ("|");
 			for (idx in buyernos)
@@ -104,7 +105,7 @@ var main =
 				document.getElementById ("auctionStart").collapsed = true;
 				document.getElementById ("auctionStart").disabled = true;				
 				document.getElementById ("auctionStop").collapsed = false;
-				document.getElementById ("auctionStop").disabled = false;				
+				document.getElementById ("auctionStop").disabled = false;								
 				document.getElementById ("auctionDisplay").collapsed = false;
 				document.getElementById ("auctionDisplay").disabled = false;				
 				break;
@@ -127,9 +128,7 @@ var main =
 		didius.auction.save (main.current);
 		
 		main.set ();
-						
-		main.items = didius.item.list ({auction: main.current, async: false});
-				
+											
 		document.getElementById ("counter").label = "Effekt 1 af "+ main.items.length;
 		main.setItem (1);	
 		
@@ -156,8 +155,10 @@ var main =
 	},
 	
 	display : function ()
-	{
-		window.openDialog ("chrome://didius/content/auctionrun/display.xul", "display-"+ main.current.id, "chrome, resizable, dialog=no", {auctionId: main.current.id});
+	{				
+		app.window.open (window, "chrome://didius/content/auctionrun/display.xul", "display-"+ main.current.id, "chrome, resizable, dialog=no", {auctionId: main.current.id, itemId: main.items[main.currentCatalogNo - 1].id});
+	
+		//window.openDialog ("chrome://didius/content/auctionrun/display.xul", "display-"+ main.current.id, "chrome, resizable, dialog=no", {auctionId: main.current.id});
 	},
 
 	getBid : function ()
@@ -241,7 +242,7 @@ var main =
 			
 		if (main.items[catalogNo].pictureid != SNDK.tools.emptyGuid)
 		{
-			document.getElementById ("itemPicture").src = "http://sorentotest.sundown.dk/getmedia/" + main.items[catalogNo].pictureid;
+			document.getElementById ("itemPicture").src = didius.runtime.ajaxUrl +"getmedia/" + main.items[catalogNo].pictureid;
 		}
 		else
 		{
@@ -266,8 +267,23 @@ var main =
 			
 	close : function (force)
 	{							
+		if ((main.current.status == "Running"))
+		{
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+			var result = prompts.confirm (null, "Auktionen er i gang", "Er du sikker på du vil stoppe den igangværende auktion ?");
+			
+			sXUL.console.log (result)
+			
+			if (!result)
+			{
+				return false;
+			}	
+		}
+		
 		// Unhook events.						
 		app.events.onAuctionDestroy.removeHandler (main.eventHandlers.onAuctionDestroy);
+							
+		main.stop ();
 							
 		// Close window.		
 		window.close ();

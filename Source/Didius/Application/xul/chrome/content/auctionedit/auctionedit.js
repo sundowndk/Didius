@@ -111,6 +111,7 @@ var main =
 		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
 	
 		document.getElementById ("title").value = main.current.title;		
+		document.getElementById ("status").value = main.current.status;		
 		document.getElementById ("auctiondate").dateValue = new Date (Date.parse (main.current.auctiondate));
 		document.getElementById ("description").value = main.current.description;						
 		
@@ -125,6 +126,7 @@ var main =
 	get : function ()
 	{
 		main.current.title = document.getElementById ("title").value;		
+		main.current.status = document.getElementById ("status").value;		
 		main.current.auctiondate = SNDK.tools.dateToYMD (document.getElementById ("auctiondate").dateValue);
 		main.current.description = document.getElementById ("description").value;				
 		

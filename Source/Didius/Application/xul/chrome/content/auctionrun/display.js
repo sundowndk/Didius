@@ -84,7 +84,9 @@ var main =
 																	
 		// Add inital content.
 		var render = template.page;
-		content.innerHTML = render;				
+		content.innerHTML = render;
+		
+		main.setItem (window.arguments[0].itemId);			
 	},
 	
 	setItem : function  (itemId)

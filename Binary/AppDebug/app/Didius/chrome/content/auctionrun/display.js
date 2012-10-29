@@ -18,8 +18,6 @@ var main =
 		}								
 	
 		main.set ();
-					
-	//setTimeout( function () {window.fullScreen = true}, 1);
 		
 		// Hook events.			
 		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);				
@@ -63,11 +61,8 @@ var main =
 				{
 					main.setItem (eventData.actiondata);
 					break;
-				}
-				
-			}
-			
-			
+				}				
+			}					
 		}
 	},
 		
@@ -89,7 +84,9 @@ var main =
 																	
 		// Add inital content.
 		var render = template.page;
-		content.innerHTML = render;				
+		content.innerHTML = render;
+		
+		main.setItem (window.arguments[0].itemId);			
 	},
 	
 	setItem : function  (itemId)

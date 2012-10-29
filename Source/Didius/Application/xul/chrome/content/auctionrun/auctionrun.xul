@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="runauction" minwidth="750" minheight="600" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
+<window id="runauction" minwidth="750" minheight="600" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="return main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
@@ -178,11 +178,11 @@
 	<hbox flex="1">
 		<hbox class="WindowButtons" flex="1" align="left">		
 			<button id="auctionStart" label="Start auktion" oncommand="main.start ();" disabled="true" collapsed="true"/>		
-			<button id="auctionStop" label="Stop auktion" oncommand="main.stop ();" disabled="true" collapsed="true"/>		
-			<button id="auctionDisplay" label="Vis display" oncommand="main.display ();" disabled="true" collapsed="true"/>
+			<button id="auctionStop" label="Stop auktion" oncommand="main.stop ();" disabled="true" collapsed="true"/>					
+			<button id="auctionDisplay" label="Åben display" oncommand="main.display ();" disabled="true" collapsed="true"/>
 		</hbox>
 		<hbox class="WindowButtons" flex="1" align="right">		
-			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>		
+			<button id="close" label="Luk" oncommand="main.close ();" />		
 		</hbox>
 	</hbox>
 </window>

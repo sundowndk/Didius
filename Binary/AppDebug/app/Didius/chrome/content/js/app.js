@@ -97,6 +97,30 @@ var app =
 		}	
 	},
 	
+	window :
+	{
+		open : function (window, url, name, features, args)
+		{
+			var openNewWindow = true;
+			var windowManager = Components.classes['@mozilla.org/appshell/window-mediator;1'].getService(Components.interfaces.nsIWindowMediator);
+			var test = windowManager.getEnumerator (null);
+
+			while(test.hasMoreElements()) 
+			{
+  				var win = test.getNext().QueryInterface( Components.interfaces.nsIDOMChromeWindow );
+  				if( win.name == name) 
+  				{
+    				openNewWindow = false;
+  				}
+			}
+
+			if (openNewWindow) 
+			{
+  				var win = window.openDialog (url, name, features, args);
+			}		
+		}
+	},
+	
 	error : function (attributes)
 	{			
 		var text = "";

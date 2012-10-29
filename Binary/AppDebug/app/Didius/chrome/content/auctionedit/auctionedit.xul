@@ -20,6 +20,7 @@
 				<tab label="Detaljer"/>
 				<tab label="Sager"/>							
 				<tab label="Katalog"/>
+				<tab label="Bud"/>
 				<tab label="Noter"/>
 			</tabs>
 						
@@ -44,9 +45,19 @@
 								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
 							</hbox>				
 							<hbox align="center">
+								<label class="Label">Status:</label>
+								<menulist id="status" oncommand="main.onChange ();" flex="1">
+  									<menupopup>
+    									<menuitem label="Åben" value="Open"/>
+    									<menuitem label="Lukket" value="Closed"/>
+	  								</menupopup>
+								</menulist>				
+							</hbox>				
+							<hbox align="center">
 								<label class="Label">Aukt. dato:</label>
 								<datepicker id="auctiondate" type="popup" onchange="main.onChange ();"/>
 							</hbox>				
+							
 							<hbox align="top">
 								<label class="Label">Tekst:</label>
 								<textbox id="description" flex="1" rows="12" multiline="true" onkeyup="main.onChange ();"/>
@@ -93,9 +104,32 @@
 							</vbox>																			
 					</hbox>										
 				</tabpanel>
+				
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="bids" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.cases.onChange ();" seltype="single" >
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<treecol id="no" label="Sags nr." width="140" persist="width" onclick="main.cases.sort ({column: 'no'});"/>
+								<treecol id="title" label="Title" flex="2"  persist="width" onclick="main.cases.sort ({column: 'title'});"/>
+								<treecol id="customer" label="Kunde" flex="2" persist="width" onclick="main.cases.sort ({column: 'customer'});"/>
+							</treecols>								
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>							
+							<button id="caseCreate" label="Opret" disabled="true" oncommand="main.cases.create ();"/>
+							<button id="caseEdit" label="Redigere" disabled="true" oncommand="main.cases.edit ();"/>
+							<button id="caseDestroy" label="Slet" disabled="true" oncommand="main.cases.destroy ();"/>	
+						</vbox>	
+					</hbox>						
+				</tabpanel>				
+				
 				<tabpanel>
 					<textbox id="notes" flex="1" multiline="true" onkeyup="main.onChange ();"/>
 				</tabpanel>
+				
+				
 			</tabpanels>
 		</tabbox>
 	</hbox>

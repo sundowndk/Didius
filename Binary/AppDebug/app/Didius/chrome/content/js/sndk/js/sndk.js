@@ -19221,7 +19221,8 @@ var SNDK =
 						
 						case "hashtable":
 						{
-							var hashtable = new Array ();					
+							//var hashtable = new Array ();
+							var hashtable = {};
 							
 							parseResponsRecursive (node.childNodes, hashtable);
 							
@@ -19429,7 +19430,7 @@ var SNDK =
 							if (data[index].constructor == Array)
 							{
 								
-								var islist = true;						
+								var islist = true;
 								for (index2 in data[index])
 								{
 									if (isNaN (index2))
