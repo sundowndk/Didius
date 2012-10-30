@@ -52,12 +52,12 @@ namespace Didius.Strings
 		public static string AuctionFromXmlDocument = "00510|Cannot create Auction from XmlDocument, missing {0}";
 		#endregion
 
-		#region BID
-		public static string BidSave = "Could not save Bid with id: {0}";
-		public static string BidLoadGuid = "Could not load Bid with id: {0}";
-		public static string BidDeleteGuid = "Could not delete Bid with id: {0}";
-		public static string BidFromXmlDocument = "Cannot create Bid from XmlDocument, missing {0}";
-		#endregion
+		public static string BidSave = "SRV00810|Could not save Bid with id: {0}";
+		public static string BidLoadGuid = "SRV00820|Could not load Bid with id: {0}";
+		public static string BidDeleteGuid = "SRV00830|Could not delete Bid with id: {0}";
+		public static string BidFromXmlDocument = "SRV00840|Cannot create Bid from XmlDocument, missing {0}";
+		public static string BidItemInvoiced = "SRV00880|Cannot append Bid on an Item that has been invoiced.";
+		public static string BidItemSettled = "SRV00881|Cannot append Bid on an Item that has been settled.";
 
 		public static string SettlementCaseSettled = "00601|Could not create Settlement, Case has allready been settled";
 		public static string SettlementEmpty = "00602|Could not create Settlement, no Items to settle.";

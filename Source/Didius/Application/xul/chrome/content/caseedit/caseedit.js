@@ -72,7 +72,6 @@ var main =
 		document.getElementById ("title").value = main.current.title;		
 		
 		document.getElementById ("customerreference").value = main.current.customerreference;		
-		document.getElementById ("preparationfee").value = main.current.preparationfee;		
 		document.getElementById ("commisionfeepercentage").value = main.current.commisionfeepercentage;		
 		document.getElementById ("commisionfeeminimum").value = main.current.commisionfeeminimum;		
 		
@@ -86,7 +85,6 @@ var main =
 		main.current.title = document.getElementById ("title").value;		
 		
 		main.current.customerreference = document.getElementById ("customerreference").value;		
-		main.current.preparationfee = document.getElementById ("preparationfee").value;		
 		main.current.commisionfeepercentage = document.getElementById ("commisionfeepercentage").value;		
 		main.current.commisionfeeminimum = document.getElementById ("commisionfeeminimum").value;		
 	},
@@ -175,6 +173,23 @@ var main =
 			document.getElementById ("createSettlementBox").collapsed = false;
 			document.getElementById ("showSettlementBox").collapsed = true;		
 		}
+		
+		if (main.current.auction.status == "Closed" || main.current.auction.status == "Running")
+		{
+			document.getElementById ("title").disabled = true;
+		
+			document.getElementById ("customerreference").disabled = true;
+			document.getElementById ("commisionfeepercentage").disabled = true;
+			document.getElementById ("commisionfeeminimum").disabled = true;
+		}
+		else
+		{
+			document.getElementById ("title").disabled = false;
+		
+			document.getElementById ("customerreference").disabled = false;
+			document.getElementById ("commisionfeepercentage").disabled = false;
+			document.getElementById ("commisionfeeminimum").disabled = false;
+		}
 	},
 			
 	items :
@@ -220,6 +235,13 @@ var main =
 			{
 				document.getElementById ("itemCreate").disabled = false;
 				document.getElementById ("itemEdit").disabled = true;
+				document.getElementById ("itemDestroy").disabled = true;
+			}
+			
+			if (main.current.auction.status == "Closed" || main.current.auction.status == "Running")
+			{
+				document.getElementById ("itemCreate").disabled = true;
+				document.getElementById ("itemEdit").disabled = false;
 				document.getElementById ("itemDestroy").disabled = true;
 			}
 		},

@@ -1,13 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/runtime.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/settings/settings.js" Line="59" Column="91" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="7" Column="27" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="48" Column="15" />
-      <File FileName="Didius/Application/js/didius/config.js" Line="13" Column="60" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="349" Column="5" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="77" Column="91" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="266" Column="5" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="63" Column="19" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.xul" Line="59" Column="13" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="24" Column="71" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,7 +14,9 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
-                <Node name="didius" expanded="True" />
+                <Node name="didius" expanded="True">
+                  <Node name="runtime.js" selected="True" />
+                </Node>
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
@@ -23,9 +24,7 @@
                     <Node name="auction" expanded="True">
                       <Node name="catalog" expanded="True" />
                     </Node>
-                    <Node name="auctionedit" expanded="True">
-                      <Node name="auctionedit.js" selected="True" />
-                    </Node>
+                    <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
                     <Node name="case" expanded="True" />
                     <Node name="caseedit" expanded="True" />
@@ -38,6 +37,8 @@
                 </Node>
               </Node>
             </Node>
+            <Node name="Didius" expanded="True" />
+            <Node name="Didius.Strings" expanded="True" />
           </Node>
         </State>
       </Pad>

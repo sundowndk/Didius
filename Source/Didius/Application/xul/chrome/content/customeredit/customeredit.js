@@ -174,6 +174,8 @@ var main =
 		document.getElementById ("bankaccountno").value = main.current.bankaccountno;
 		
 		document.getElementById ("notes").value = main.current.notes;
+		
+		document.getElementById ("name").focus ();
 							
 		main.onChange ();
 	},

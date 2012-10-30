@@ -143,6 +143,8 @@ var main =
 		document.getElementById ("customers").disabled = true;			
 						
 		didius.customer.list ({async: true, onDone: onDone});		
+		
+		document.title = "Auktions registering: "+ main.auction.title +" ["+ main.auction.no +"]";
 	},
 	
 	sort : function (attributes)

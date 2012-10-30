@@ -52,18 +52,18 @@ var main =
 		document.getElementById ("companyEmail").value = main.current.companyemail;
 		
 		// TEXTS
-//		main.current.auctiontext = document.getElementById ("auctionText").value;
+		document.getElementById ("auctionDescription").value = main.current.auctiondescription;
 		
 		// VALUES
 		document.getElementById ("commisionFeePercentage").value = main.current.commisionfeepercentage;
 		document.getElementById ("commisionFeeMinimum").value = main.current.commisionfeeminimum;			
 		
 		// EMAIL
-//		main.current.emailsender = document.getElementById ("emailSender").value;
-//		main.current.emailtextbidwon = document.getElementById ("emailTextBidWon").value;
-//		main.current.emailtextoutbid = document.getElementById ("emailTextOutBid").value;
-//		main.current.emailtextinvoice = document.getElementById ("emailTextInvoice").value;
-//		main.current.emailtextsettlement = document.getElementById ("emailTextSettlement").value;
+		document.getElementById ("emailSender").value = main.current.emailsender;
+		document.getElementById ("emailTextBidWon").value = main.current.emailtextbidwon;
+		document.getElementById ("emailTextBidLost").value = main.current.emailtextbidlost;
+		document.getElementById ("emailTextInvoice").value = main.current.emailtextinvoice;
+		document.getElementById ("emailTextSettlement").value = main.current.emailtextsettlement;
 	},
 	
 	get : function ()
@@ -77,7 +77,7 @@ var main =
 		main.current.companyemail = document.getElementById ("companyEmail").value;
 		
 		// TEXTS
-		main.current.auctiontext = document.getElementById ("auctionText").value;
+		main.current.auctiondescription = document.getElementById ("auctionDescription").value;
 		
 		// VALUES		
 		main.current.commisionfeepercentage = document.getElementById ("commisionFeePercentage").value;
@@ -86,7 +86,7 @@ var main =
 		// EMAIL
 		main.current.emailsender = document.getElementById ("emailSender").value;
 		main.current.emailtextbidwon = document.getElementById ("emailTextBidWon").value;
-		main.current.emailtextoutbid = document.getElementById ("emailTextOutBid").value;
+		main.current.emailtextbidlost = document.getElementById ("emailTextBidLost").value;
 		main.current.emailtextinvoice = document.getElementById ("emailTextInvoice").value;
 		main.current.emailtextsettlement = document.getElementById ("emailTextSettlement").value;
 	},
@@ -160,6 +160,11 @@ var main =
 		main.get ();
 		
 		didius.config.save (main.current);
+		
+		main.checksum = SNDK.tools.arrayChecksum (main.current);
+		
+		app.config = main.current;
+
 		
 		
 		main.onChange ();

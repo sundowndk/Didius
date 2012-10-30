@@ -70,7 +70,17 @@ var main =
 		document.getElementById ("items").disabled = false;																
 		//main.items.onChange ();
 		
-		main.setItem (1);
+		document.title = "Auktion budnotering: "+ main.current.title +" ["+ main.current.no +"]";
+		
+		if (main.items.length > 0)
+		{
+			main.setItem (1);
+		}	
+		else
+		{
+			document.getElementById ("bidBuyerNo").disabled = true;
+			document.getElementById ("bidAmount").disabled = true;		
+		}	
 	},
 	
 	get : function ()
@@ -198,6 +208,17 @@ var main =
 		
 		document.getElementById ("bidBuyerNo").value = "";
 		document.getElementById ("bidAmount").value = "";
+		
+		if (!main.items[catalogNo].invoiced)
+		{
+			document.getElementById ("bidBuyerNo").disabled = false;
+			document.getElementById ("bidAmount").disabled = false;
+		}
+		else
+		{
+			document.getElementById ("bidBuyerNo").disabled = true;
+			document.getElementById ("bidAmount").disabled = true;
+		}
 		
 		document.getElementById ("bidAmount").focus ();
 	},	

@@ -77,7 +77,13 @@ var main =
 		{		
 			if (main.current.id == eventData.auctionid)
 			{	
-				main.cases.casesTreeHelper.addRow ({data: eventData});
+				var data = {};
+				data.id = eventData.id;
+				data.no = eventData.no;
+				data.title = eventData.title;
+				data.customer = eventData.customer.name;
+			
+				main.cases.casesTreeHelper.addRow ({data: data});
 			}
 		},
 		
@@ -85,7 +91,13 @@ var main =
 		{			
 			if (main.current.id == eventData.auctionid)
 			{	
-				main.cases.casesTreeHelper.setRow ({data: eventData});
+				var data = {};
+				data.id = eventData.id;
+				data.no = eventData.no;
+				data.title = eventData.title;
+				data.customer = eventData.customer.name;
+			
+				main.cases.casesTreeHelper.setRow ({data: data});
 			}
 		},
 		
@@ -110,7 +122,7 @@ var main =
 		document.getElementById ("no").value = main.current.no;
 		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
 	
-		document.getElementById ("title").value = main.current.title;		
+		document.getElementById ("title").value = main.current.title;				
 		document.getElementById ("status").value = main.current.status;		
 		document.getElementById ("auctiondate").dateValue = new Date (Date.parse (main.current.auctiondate));
 		document.getElementById ("description").value = main.current.description;						
@@ -119,6 +131,8 @@ var main =
 						
 		main.cases.init ();
 		main.items.init ();
+							
+		document.getElementById ("title").focus ();		
 							
 		main.onChange ();
 	},
@@ -199,6 +213,8 @@ var main =
 			document.getElementById ("save").disabled = true;
 			document.getElementById ("close").disabled = false;
 		}
+		
+		main.cases.onChange ();
 	},
 	
 	items :
@@ -243,6 +259,11 @@ var main =
 			else
 			{				
 				document.getElementById ("itemEdit").disabled = true;
+				document.getElementById ("itemDestroy").disabled = true;
+			}
+			
+			if (main.current.status == "Closed" || main.current.status == "Running")
+			{				
 				document.getElementById ("itemDestroy").disabled = true;
 			}
 		},
@@ -307,10 +328,16 @@ var main =
 		set : function ()
 		{
 			var onDone = 	function (items)
-							{
+							{															
 								for (idx in items)
-								{												
-									main.cases.casesTreeHelper.addRow ({data: items[idx]});
+								{	
+									var data = {};
+									data.id = items[idx].id;
+									data.no = items[idx].no;
+									data.title = items[idx].title;
+									data.customer = items[idx].customer.name;
+																							
+									main.cases.casesTreeHelper.addRow ({data: data});
 								}
 								
 								// Enable controls
@@ -341,6 +368,12 @@ var main =
 				document.getElementById ("caseEdit").disabled = true;
 				document.getElementById ("caseDestroy").disabled = true;
 			}		
+			
+			if (main.current.status == "Closed" || main.current.status == "Running")
+			{
+				document.getElementById ("caseCreate").disabled = true;
+				document.getElementById ("caseDestroy").disabled = true;
+			}
 		},
 		
 		sort : function (attributes)

@@ -88,6 +88,8 @@ var main =
 		// Add inital content.
 		var render = template.page;
 		content.innerHTML = render;
+				
+		document.title = "Auktion display: "+ main.current.title +" ["+ main.current.no +"] - Tryk F11 for fuldskærm";
 		
 		main.setItem (window.arguments[0].itemId);			
 	},

@@ -97,6 +97,17 @@ namespace Didius
 			this._itemid = Item.Id;
 
 			this._amount = Amount;
+
+			if (Item.Invoiced)
+			{
+				// EXCEPTION: Exception.BidItemInvoiced
+				throw new Exception (Strings.Exception.BidItemInvoiced);
+			}
+			else if (Item.Settled)
+			{
+				// EXCEPTION: Exception.BidItemSettled
+				throw new Exception (Strings.Exception.BidItemSettled);
+			}
 		}	
 
 		private Bid ()

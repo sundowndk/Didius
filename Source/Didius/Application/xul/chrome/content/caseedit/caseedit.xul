@@ -56,15 +56,7 @@
 								<textbox id="customerreference" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>							
 						</groupbox>						
-						
-						<groupbox collapsed="true">
-							<caption label="Gebyr"/>
-							<hbox align="center">
-								<label class="Label">Fremstilling:</label>								
-								<textbox id="preparationfee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
-							</hbox>														
-						</groupbox>
-						
+																		
 						<groupbox>
 							<caption label="Salær"/>							
 							<hbox align="center">

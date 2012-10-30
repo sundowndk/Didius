@@ -107,6 +107,8 @@ var main =
 				break;
 			}
 		}
+		
+		document.title = "Auktion afvikling: "+ main.current.title +" ["+ main.current.no +"]";
 	},
 	
 	get : function ()

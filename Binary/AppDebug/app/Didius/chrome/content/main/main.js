@@ -9,7 +9,7 @@ var main =
 		
 	//	main.login.show ();													
 						
-		document.title = "Didius v1.27 - York Auktion ApS [Rasmus Pedersen] ";
+		document.title = "Didius v1.28 - York Auktion ApS [Rasmus Pedersen] ";
 				
 		main.controls.statusbar.progressmeter.setMode ("undetermined");
 		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
@@ -233,8 +233,7 @@ var main =
 								
 		create : function ()
 		{		
-			var current = didius.customer.create ();			
-			current.name = "Unavngiven kunde";
+			var current = didius.customer.create ();						
 			didius.customer.save (current);																								
 																											
 			window.openDialog ("chrome://didius/content/customeredit/customeredit.xul", "customeredit:"+ current.id, "chrome", {customerId: current.id});
@@ -383,8 +382,9 @@ var main =
 			
 		create : function ()
 		{		
-			var current = didius.auction.create ();			
-			current.title = "Unavngiven auktion";			
+			var current = didius.auction.create ();						
+			current.description = app.config.auctiondescription;
+			
 			didius.auction.save (current);																												
 																	
 			window.openDialog ("chrome://didius/content/auctionedit/auctionedit.xul", current.id, "chrome", {auctionId: current.id});

@@ -154,11 +154,11 @@
 								<separator class="groove-thin"/>
 								<hbox align="center">
 									<label class="Label">Køber nr.:</label>
-									<textbox id="bidBuyerNo" flex="1" type="number" hidespinbuttons="true" style="font-size: 25px;"/>
+									<textbox id="bidBuyerNo" flex="1" type="number" hidespinbuttons="true" style="font-size: 25px;" disabled="true"/>
 								</hbox>																		
 								<hbox align="center">
 									<label class="Label">Pris:</label>
-									<textbox id="bidAmount" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" style="font-size: 25px;"/>
+									<textbox id="bidAmount" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" style="font-size: 25px;" disabled="true"/>
 								</hbox>																		
 							</groupbox>		
 							<separator class="groove-thin"/>

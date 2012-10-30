@@ -3,8 +3,7 @@
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
 <window id="main" title="Indstillinger" minwidth="700" minheight="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
-	
-	
+		
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
@@ -113,8 +112,8 @@
 						<groupbox flex="1">
 							<caption label="Auktion"/>														
 							<hbox align="top">
-								<label class="Label">Text:</label>
-								<textbox id="auctionText" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+								<label class="Label">Beskrivelse:</label>
+								<textbox id="auctionDescription" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
 							</hbox>												
 						</groupbox>
 					</hbox>				
@@ -168,7 +167,7 @@
 							</hbox>							
 							<hbox align="top">
 								<label class="Label">Over budt:</label>
-								<textbox id="emailTextOutBid" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+								<textbox id="emailTextBidLost" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
 							</hbox>
 							<hbox align="top">
 								<label class="Label">Faktura:</label>

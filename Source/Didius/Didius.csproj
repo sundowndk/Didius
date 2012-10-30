@@ -48,7 +48,7 @@
     <CustomCommands>
       <CustomCommands>
         <Command type="AfterBuild" command="Application/build.sh ${TargetDir}" />
-        <Command type="Execute" command="xulrunner app/Didius/application -purgecaches -jsconsole" workingdir="${TargetDir}" />
+        <Command type="Execute" command="xulrunner app/Didius/application -purrgecaches -jsconsole" workingdir="${TargetDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
