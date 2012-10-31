@@ -3,9 +3,22 @@ Components.utils.import("resource://didius/js/app.js");
 var main = 
 {
 	templateName : "internal",
+	current : null,
 
 	init : function ()
 	{
+		try
+		{
+			main.current = didius.auction.load (window.arguments[0].auctionId);
+		}
+		catch (error)
+		{
+			app.error ({exception: error})
+			main.close ();
+			return;
+		}							
+	
+	
 		main.set ();					
 	},
 	
@@ -116,6 +129,18 @@ var main =
 				row = row.replace ("%%CUSTOMERNO%%", items[idx].case.customer.no); // CustomerNo
 				row = row.replace ("%%CUSTOMERPHONE%%", items[idx].case.customer.phone); // CustomerPhome
 				row = row.replace ("%%CUSTOMEREMAIL%%", items[idx].case.customer.email); // CustomerEmail
+								
+				if (items[idx].currentbidid != SNDK.tools.guidEmpty)
+				{
+					var bid = didius.bid.load (items[idx].currentbidid);
+					row = row.replace ("%%BIDCUSTOMERNAME%%", bid.customer.name); // BIDCUSTOMERNAME
+					row = row.replace ("%%BIDCUSTOMERNO%%", bid.customer.no); // BIDCUSTOMERNO
+					row = row.replace ("%%BIDAMOUNT%%", bid.amount); // BIDAMOUNT
+				}
+				
+								
+				
+				
 							
 				// Test if rows fit inside maxheight of page.																																																																																																																											
 				dummy += row;						

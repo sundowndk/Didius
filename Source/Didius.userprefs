@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/runtime.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/bidnotation.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="266" Column="5" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="1" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="63" Column="19" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.xul" Line="59" Column="13" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="24" Column="71" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.js" Line="101" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="280" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="81" Column="67" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="20" Column="3" />
+      <File FileName="Didius/Application/js/didius/bid.js" Line="8" Column="1" />
+      <File FileName="Didius/Didius/Bid.cs" Line="208" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,20 +15,20 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
-                <Node name="didius" expanded="True">
-                  <Node name="runtime.js" selected="True" />
-                </Node>
+                <Node name="didius" expanded="True" />
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
                       <Node name="catalog" expanded="True" />
+                      <Node name="bidnotation.js" selected="True" />
                     </Node>
                     <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
                     <Node name="case" expanded="True" />
                     <Node name="caseedit" expanded="True" />
+                    <Node name="css" expanded="True" />
                     <Node name="customeredit" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />

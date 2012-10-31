@@ -4,7 +4,7 @@ create : function (customer, item, amount)
 	content.customerid = customer.id;
 	content.itemid = item.id;
 	content.amount = amount;
-
+	
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Create", "data", "POST", false);	
 	request.send (content);
 	

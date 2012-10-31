@@ -12,8 +12,8 @@ var didius =
 	// ---------------------------------------------------------------------------------------------------------------
 	runtime :
 	{
-		ajaxUrl1 : "http://sorentotest.sundown.dk/",
-		ajaxUrl : "http://78.109.223.248/",
+		ajaxUrl : "http://sorentotest.sundown.dk/",
+		ajaxUrl1 : "http://78.109.223.248/",
 		
 		initialize : function ()
 		{
@@ -471,7 +471,7 @@ var didius =
 			content.customerid = customer.id;
 			content.itemid = item.id;
 			content.amount = amount;
-		
+			
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Create", "data", "POST", false);	
 			request.send (content);
 			

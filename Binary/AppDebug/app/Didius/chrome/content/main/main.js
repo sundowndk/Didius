@@ -17,6 +17,10 @@ var main =
 		main.customers.init ();		
 		main.auctions.init ();		
 		
+//		float test = 10.10;
+		
+//		sXUL.console.log (typeof(test))
+		
 	//	setTimeout('window.fullScreen = true;',1);
 		
 		//	main.settings ();	

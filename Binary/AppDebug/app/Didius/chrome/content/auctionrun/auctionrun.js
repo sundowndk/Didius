@@ -234,6 +234,12 @@ var main =
 		document.getElementById ("itemDescription").value = main.items[catalogNo].description;
 		
 		document.getElementById ("itemMinimumBid").value = main.items[catalogNo].minimumbid;
+		
+//		if (main.items[catalogNo].minimumbid > 0)
+//		{
+			//document.getElementById ("itemMinimumBid").className = "TextboxRed";
+//		}
+		
 		document.getElementById ("itemAppraisal1").value = main.items[catalogNo].appraisal1;
 		document.getElementById ("itemAppraisal2").value = main.items[catalogNo].appraisal2;
 		document.getElementById ("itemAppraisal3").value = main.items[catalogNo].appraisal3;

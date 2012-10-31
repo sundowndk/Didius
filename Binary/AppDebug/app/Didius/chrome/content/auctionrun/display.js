@@ -102,13 +102,17 @@ var main =
 	
 			document.getElementById ("display").contentDocument.getElementById ("ItemPicture").src = didius.runtime.ajaxUrl +"getmedia/"+ item.pictureid;		
 			document.getElementById ("display").contentDocument.getElementById ("ItemCatalogNo").innerHTML = item.catalogno;				
+			document.getElementById ("display").contentDocument.getElementById ("ItemDescription").innerHTML = item.description;
 			document.getElementById ("display").contentDocument.getElementById ("ContainerItemCatalogNo").style.display = "block";				
+			document.getElementById ("display").contentDocument.getElementById ("ContainerItemDescription").style.display = "block";				
 		}
 		else
 		{
 			document.getElementById ("display").contentDocument.getElementById ("ItemPicture").src = "";
 			document.getElementById ("display").contentDocument.getElementById ("ItemCatalogNo").innerHTML = " ";				
+			document.getElementById ("display").contentDocument.getElementById ("ItemDescription").innerHTML = " ";			
 			document.getElementById ("display").contentDocument.getElementById ("ContainerItemCatalogNo").style.display = "none";				
+			document.getElementById ("display").contentDocument.getElementById ("ContainerItemDescription").style.display = "none";				
 		}
 	},
 				

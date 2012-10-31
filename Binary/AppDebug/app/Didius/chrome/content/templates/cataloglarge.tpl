@@ -3,6 +3,8 @@
 {				
 	width: 								200mm; 
 	height: 							287mm; 
+	
+	font-family: verdana;
 }
 
 .Page
@@ -77,16 +79,16 @@
 
 .InnerTableCellLabel
 {
-	width: 							80px;
+	width: 							140px;
 
-	font-size: 						10px;		
+	font-size: 						14px;		
 }
 
 .InnerTableCellValue
 {
-	width: 							150px;
+	width: 							180px;
 	
-	font-size: 						10px;	
+	font-size: 						14px;	
 }
 	
 	
@@ -95,6 +97,8 @@
 	width:							15mm;	
 	
 	vertical-align: 				top; 
+	
+	font-size: 						14px;
 }
 
 .CellBidder
@@ -102,6 +106,8 @@
 	width:							15mm;	
 	
 	vertical-align: 				top; 
+	
+	font-size: 						14px;
 }
 #ENDSTYLES
 
@@ -239,10 +245,13 @@
 
 // Bid
 		<td class="CellBid">							
+			%%BIDAMOUNT%%
 		</td>		
 
 // Bidder		
 		<td class="CellBidder">							
+			%%BIDCUSTOMERNAME%%<br>
+			%%BIDCUSTOMERNO%%			
 		</td>		
 	</tr>
 #ENDROW

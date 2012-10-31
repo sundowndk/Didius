@@ -106,23 +106,50 @@ var main =
 		{
 			var buyerno = document.getElementById ("bidBuyerNo").value;
 			var amount = document.getElementById ("bidAmount").value;
-		
+									
 			for (idx in main.buyernos)
 			{							
 				if (idx == buyerno)
-				{
+				{									
 					var customer = didius.customer.load (main.buyernos[idx]);
 					var item = main.items[(main.currentCatalogNo - 1)];
+														
+					if (amount <= item.bidamount)
+					{
+						var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+						prompts.alert (null, "Bud", "Budet er ikke større end nuværende bud, og kan derfor ikke accepteres");
+						return false;
+					}
+					
+					if (amount < item.minimumbid )
+					{
+						var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+						var result = prompts.confirm (null, "Minimums bud", "Budet er mindre end effektens minimumsbuds grænse, vil du fjerne denne grænse og tillade budet ?");
+												
+						if (!result)
+						{
+							return false;
+						}	
+						
+						item.minimumbid = 0;
+						didius.item.save (item);						
+					}
 				
 					var bid = didius.bid.create (customer, item, amount);
 					didius.bid.save (bid);			
 					
 					main.items[(main.currentCatalogNo - 1)] = didius.item.load (item.id);
-					return;		
+					return true;		
 				}
 			}
 			
 			app.error ({errorCode: "APP00280"});
+			
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	},
 	
@@ -138,10 +165,10 @@ var main =
 	{
 		if (event.keyCode == 13)
 		{
-			main.getBid ();
-			main.itemNext ();		
-			
-								
+			if (main.getBid ())
+			{
+				main.itemNext ();		
+			}
 		}
 	},
 
@@ -149,11 +176,11 @@ var main =
 	{
 		if (main.currentCatalogNo > 1)
 		{					
-			main.getBid ();
-		
-			document.getElementById ("itemPrev").disabled = true;
-			document.getElementById ("itemNext").disabled = true;
 			main.setItem ((main.currentCatalogNo - 1));						
+		}
+		else
+		{
+			main.setItem ((main.currentCatalogNo));						
 		}
 	},
 			
@@ -161,11 +188,11 @@ var main =
 	{
 		if (main.currentCatalogNo < main.items.length)
 		{
-			main.getBid ();
-		
-			document.getElementById ("itemPrev").disabled = true;
-			document.getElementById ("itemNext").disabled = true;
 			main.setItem ((main.currentCatalogNo + 1));										
+		}
+		else
+		{
+			main.setItem ((main.currentCatalogNo));
 		}
 	},
 	
