@@ -48,7 +48,7 @@
     <CustomCommands>
       <CustomCommands>
         <Command type="AfterBuild" command="Application/build.sh ${TargetDir}" />
-        <Command type="Execute" command="xulrunner app/Didius/application -purgecaches -jsconsole" workingdir="${TargetDir}" />
+        <Command type="Execute" command="xulrunner app/Didius/application.ini -purgecaches -jsconsole" workingdir="${TargetDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -179,7 +179,6 @@
     <None Include="Application\xul\defaults\preferences\prefs.js" />
     <None Include="Application\xul\chrome\chrome.manifest" />
     <None Include="Application\xul\chrome.manifest" />
-    <None Include="Application\xul\application" />
     <None Include="Application\xul\chrome\content\icons\customers.png" />
     <None Include="Application\xul\chrome\content\icons\auctions.png" />
     <None Include="Application\build.sh" />
@@ -270,6 +269,7 @@
     <None Include="Application\xul\chrome\content\auction\bidnotation.js" />
     <None Include="Application\xul\chrome\content\auction\bidnotation.xul" />
     <None Include="Application\js\didius\config.js" />
+    <None Include="Application\xul\application.ini" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

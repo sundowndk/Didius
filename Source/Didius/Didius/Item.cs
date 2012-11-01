@@ -347,6 +347,7 @@ namespace Didius
 				return Math.Round (result, 2);
 			}
 		}
+
 		#endregion
 		
 		#region Constructor

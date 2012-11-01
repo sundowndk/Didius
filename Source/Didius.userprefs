@@ -1,13 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/bidnotation.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Settlement.cs">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.js" Line="101" Column="4" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="280" Column="4" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="81" Column="67" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="20" Column="3" />
-      <File FileName="Didius/Application/js/didius/bid.js" Line="8" Column="1" />
-      <File FileName="Didius/Didius/Bid.cs" Line="208" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/create.js" Line="65" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.js" Line="69" Column="47" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="16" Column="30" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/create.xul" Line="32" Column="32" />
+      <File FileName="Didius/Didius/Bid.cs" Line="86" Column="1" />
+      <File FileName="Didius/Didius/Item.cs" Line="351" Column="1" />
+      <File FileName="Didius/Didius/Settlement.cs" Line="195" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,16 +21,16 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="auction" expanded="True">
-                      <Node name="catalog" expanded="True" />
-                      <Node name="bidnotation.js" selected="True" />
-                    </Node>
+                    <Node name="auction" expanded="True" />
                     <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
-                    <Node name="case" expanded="True" />
+                    <Node name="case" expanded="True">
+                      <Node name="settlement" expanded="True" />
+                    </Node>
                     <Node name="caseedit" expanded="True" />
                     <Node name="css" expanded="True" />
                     <Node name="customeredit" expanded="True" />
+                    <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />
@@ -38,7 +39,9 @@
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True" />
+            <Node name="Didius" expanded="True">
+              <Node name="Settlement.cs" selected="True" />
+            </Node>
             <Node name="Didius.Strings" expanded="True" />
           </Node>
         </State>

@@ -95,6 +95,10 @@
 								<label class="Label">Vurdering 3:</label>
 								<textbox id="appraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
 							</hbox>							
+							<hbox align="center">
+								<label class="Label">Moms på effekt:</label>
+								<checkbox id="vat" oncommand="main.onChange ();"/>						
+							</hbox>							
 						</groupbox>						
 					</vbox>
     			</tabpanel>

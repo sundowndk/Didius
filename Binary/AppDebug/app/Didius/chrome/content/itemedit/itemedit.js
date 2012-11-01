@@ -119,6 +119,7 @@ var main =
 		document.getElementById ("appraisal1").value = main.current.appraisal1;
 		document.getElementById ("appraisal2").value = main.current.appraisal2;
 		document.getElementById ("appraisal3").value = main.current.appraisal3;
+		document.getElementById ("vat").checked = main.current.vat;
 				
 		if (main.current.pictureid != SNDK.tools.emptyGuid)
 		{
@@ -142,6 +143,7 @@ var main =
 		main.current.appraisal1 = document.getElementById ("appraisal1").value;	
 		main.current.appraisal2 = document.getElementById ("appraisal2").value;	
 		main.current.appraisal3 = document.getElementById ("appraisal3").value;	
+		main.current.vat = document.getElementById ("vat").checked;
 		
 		main.getDataFields ();
 	},

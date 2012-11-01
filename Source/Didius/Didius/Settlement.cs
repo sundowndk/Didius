@@ -34,6 +34,7 @@ namespace Didius
 		private Guid _customerid;
 		
 		private decimal _sales;
+		private decimal _vat;
 		private decimal _commissionfee;
 		private decimal _total;
 
@@ -97,6 +98,14 @@ namespace Didius
 			}
 		}
 
+		public decimal Vat
+		{
+			get
+			{
+				return this._vat;
+			}
+		}
+
 		public decimal CommissionFee
 		{
 			get
@@ -128,10 +137,17 @@ namespace Didius
 			this._customerid = Case.CustomerId;
 						
 			this._sales = 0;
+			this._vat = 0;
 			this._commissionfee = 0;
 			this._total = 0;
 
 			this._itemids = new List<Guid> ();
+
+		}	
+
+		private static Settlement Simulate (Case Case)
+		{
+			Settlement result = new Settlement (Case);
 
 			if (!Case.Settled)
 			{
@@ -141,27 +157,75 @@ namespace Didius
 					{
 						if (item.CurrentBid != null)
 						{
+							if (item.Vat)
+							{
+								this._vat += (item.CurrentBid.Amount * 0.25m);
+							}
+							
 							this._sales += item.CurrentBid.Amount;
 							this._commissionfee += item.CommissionFee;
-							item.Settled = true;
-							item.Save ();
 
 							this._itemids.Add (item.Id);
 						}
 					}
 				}
-
-				this._total = this._sales + this._commissionfee;
-
+				
+				this._vat = this._vat - (this._commissionfee * 0.25m);
+				this._total = this._sales + this._commissionfee + this._vat;
+				
 				if (this._total == 0)
 				{
 					// EXCEPTION: Exception.SettlementEmpty
 					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
 				}
+			}
+			else
+			{
+				// EXCEPTION: Exception.SettlementCaseSettled
+				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
+			}
 
+			return result;
+		}
+
+		private static Settlement Create (Case Case)
+		{
+			Settlement result = new Settlement (Case);
+
+			if (!Case.Settled)
+			{
+				foreach (Item item in Item.List (Case))
+				{
+					if (!item.Settled)
+					{
+						if (item.CurrentBid != null)
+						{
+							if (item.Vat)
+							{
+								this._vat += (item.CurrentBid.Amount * 0.25m);
+							}
+							
+							this._sales += item.CurrentBid.Amount;
+							this._commissionfee += item.CommissionFee;
+							this._itemids.Add (item.Id);
+
+							item.Settled = true;
+							item.Save ();
+						}
+					}
+				}
+				
+				this._vat = this._vat - (this._commissionfee * 0.25m);
+				this._total = this._sales + this._commissionfee + this._vat;
+				
+				if (this._total == 0)
+				{
+					// EXCEPTION: Exception.SettlementEmpty
+					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
+				}
+				
 				Case.Settled = true;
-				Case.Save ();
-
+				Case.Save ();				
 				Save ();
 			}
 			else
@@ -169,7 +233,9 @@ namespace Didius
 				// EXCEPTION: Exception.SettlementCaseSettled
 				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
 			}
-		}	
+
+			return result;
+		}
 		
 		private Settlement ()
 		{
@@ -181,6 +247,7 @@ namespace Didius
 			this._caseid = Guid.Empty;
 
 			this._sales = 0;
+			this._vat = 0;
 			this._commissionfee = 0;
 			this._total = 0;
 
@@ -212,6 +279,7 @@ namespace Didius
 				item.Add ("customerid", this._customerid);
 
 				item.Add ("sales", this._sales);
+				item.Add ("vat", this._vat);
 				item.Add ("commissionfee", this._commissionfee);
 				item.Add ("total", this._total);
 
@@ -247,6 +315,7 @@ namespace Didius
 			result.Add ("customerid", this._customerid);
 			result.Add ("customer", Customer.Load (this._customerid));
 			result.Add ("sales", this._sales);
+			result.Add ("vat", this._vat);
 			result.Add ("commissionfee", this._commissionfee);
 			result.Add ("total", this._total);
 
@@ -302,6 +371,11 @@ namespace Didius
 				if (item.ContainsKey ("sales"))
 				{
 					result._sales = decimal.Parse ((string)item["sales"]);
+				}				
+
+				if (item.ContainsKey ("vat"))
+				{
+					result._vat = decimal.Parse ((string)item["vat"]);
 				}				
 
 				if (item.ContainsKey ("commissionfee"))

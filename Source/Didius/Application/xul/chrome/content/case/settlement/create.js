@@ -6,7 +6,7 @@ var main =
 	current : null,
 
 	init : function ()
-	{	 	
+	{	 		
 		try
 		{
 			main.current = didius.case.load (window.arguments[0].caseId);
@@ -26,9 +26,10 @@ var main =
 	set : function ()
 	{		
 		var onDone = 	function (items)
-						{
+						{					
 							var totalSale = 0;
 							var totalCommissionFee = 0;							
+							var totalVat = 0;
 							var totalTotal = 0;
 						
 							for (idx in items)
@@ -44,23 +45,33 @@ var main =
 								{
 									bidAmount = didius.bid.load (items[idx].currentbidid).amount;
 								}
-								
+																								
 								if (bidAmount == 0)
 								{
 									continue;
 								}				
+																								
 								data["bidamount"] = bidAmount;								
 								data["commissionfee"] = items[idx].commissionfee;
-																
+																															
 								totalSale += parseInt (bidAmount);
 								totalCommissionFee += parseInt (items[idx].commissionfee);
-								totalTotal = totalSale + totalCommissionFee;																								
-																							
+								
+								if (items[idx].vat)
+								{
+									totalVat += (bidAmount * 0.25)
+								}
+																								
 								main.itemsTreeHelper.addRow ({data: data});
-							}												
+							}	
+							
+							totalVat += (totalVat - (totalCommissionFee * 0.25));
+							
+							totalTotal = totalSale + totalCommissionFee + totalVat;
 							
 							document.getElementById ("totalSale").value = totalSale;
 							document.getElementById ("totalCommissionFee").value = totalCommissionFee;
+							document.getElementById ("totalVat").value = totalVat;
 							document.getElementById ("totalTotal").value = totalTotal;
 							
 							if (totalTotal > 0)

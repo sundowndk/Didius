@@ -48,7 +48,11 @@
 							<hbox align="center">
 								<label class="Label">Salær:</label>								
 								<textbox id="totalCommissionFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
-							</hbox>  												
+							</hbox> 
+							<hbox align="center">
+								<label class="Label">Moms:</label>								
+								<textbox id="totalVat" type="number" min="-Infinity" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+							</hbox> 
 							<hbox align="center">
 								<label class="Label">I alt:</label>								
 								<textbox id="totalTotal" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
