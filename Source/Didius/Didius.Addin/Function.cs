@@ -76,6 +76,8 @@ namespace Didius.Addin
 
 							if (allowedfiletypes.Contains (Session.Request.QueryJar.Get ("image").BinaryContentType))
 							{
+
+								Console.WriteLine ("BLA");
 								SorentoLib.Media image = new SorentoLib.Media ("/media/didius/app/"+ Guid.NewGuid ().ToString (), Session.Request.QueryJar.Get ("image").BinaryData);
 								image.Type = SorentoLib.Enums.MediaType.Restricted;
 								image.Save ();

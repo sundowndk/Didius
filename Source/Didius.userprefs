@@ -1,14 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Settlement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/itemedit/itemedit.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/create.js" Line="65" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.js" Line="69" Column="47" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="16" Column="30" />
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/create.xul" Line="32" Column="32" />
-      <File FileName="Didius/Didius/Bid.cs" Line="86" Column="1" />
+      <File FileName="Didius/Didius.addin.xml" Line="21" Column="37" />
+      <File FileName="Didius/Didius.Addin/Render.cs" Line="143" Column="48" />
       <File FileName="Didius/Didius/Item.cs" Line="351" Column="1" />
-      <File FileName="Didius/Didius/Settlement.cs" Line="195" Column="5" />
+      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="231" Column="28" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -30,7 +27,9 @@
                     <Node name="caseedit" expanded="True" />
                     <Node name="css" expanded="True" />
                     <Node name="customeredit" expanded="True" />
-                    <Node name="itemedit" expanded="True" />
+                    <Node name="itemedit" expanded="True">
+                      <Node name="itemedit.js" selected="True" />
+                    </Node>
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />
@@ -39,9 +38,8 @@
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True">
-              <Node name="Settlement.cs" selected="True" />
-            </Node>
+            <Node name="Didius" expanded="True" />
+            <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
           </Node>
         </State>

@@ -145,97 +145,97 @@ namespace Didius
 
 		}	
 
-		private static Settlement Simulate (Case Case)
-		{
-			Settlement result = new Settlement (Case);
+//		private static Settlement Simulate (Case Case)
+//		{
+//			Settlement result = new Settlement (Case);
+//
+//			if (!Case.Settled)
+//			{
+//				foreach (Item item in Item.List (Case))
+//				{
+//					if (!item.Settled)
+//					{
+//						if (item.CurrentBid != null)
+//						{
+//							if (item.Vat)
+//							{
+//								this._vat += (item.CurrentBid.Amount * 0.25m);
+//							}
+//							
+//							this._sales += item.CurrentBid.Amount;
+//							this._commissionfee += item.CommissionFee;
+//
+//							this._itemids.Add (item.Id);
+//						}
+//					}
+//				}
+//				
+//				this._vat = this._vat - (this._commissionfee * 0.25m);
+//				this._total = this._sales + this._commissionfee + this._vat;
+//				
+//				if (this._total == 0)
+//				{
+//					// EXCEPTION: Exception.SettlementEmpty
+//					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
+//				}
+//			}
+//			else
+//			{
+//				// EXCEPTION: Exception.SettlementCaseSettled
+//				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
+//			}
+//
+//			return result;
+//		}
 
-			if (!Case.Settled)
-			{
-				foreach (Item item in Item.List (Case))
-				{
-					if (!item.Settled)
-					{
-						if (item.CurrentBid != null)
-						{
-							if (item.Vat)
-							{
-								this._vat += (item.CurrentBid.Amount * 0.25m);
-							}
-							
-							this._sales += item.CurrentBid.Amount;
-							this._commissionfee += item.CommissionFee;
-
-							this._itemids.Add (item.Id);
-						}
-					}
-				}
-				
-				this._vat = this._vat - (this._commissionfee * 0.25m);
-				this._total = this._sales + this._commissionfee + this._vat;
-				
-				if (this._total == 0)
-				{
-					// EXCEPTION: Exception.SettlementEmpty
-					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
-				}
-			}
-			else
-			{
-				// EXCEPTION: Exception.SettlementCaseSettled
-				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
-			}
-
-			return result;
-		}
-
-		private static Settlement Create (Case Case)
-		{
-			Settlement result = new Settlement (Case);
-
-			if (!Case.Settled)
-			{
-				foreach (Item item in Item.List (Case))
-				{
-					if (!item.Settled)
-					{
-						if (item.CurrentBid != null)
-						{
-							if (item.Vat)
-							{
-								this._vat += (item.CurrentBid.Amount * 0.25m);
-							}
-							
-							this._sales += item.CurrentBid.Amount;
-							this._commissionfee += item.CommissionFee;
-							this._itemids.Add (item.Id);
-
-							item.Settled = true;
-							item.Save ();
-						}
-					}
-				}
-				
-				this._vat = this._vat - (this._commissionfee * 0.25m);
-				this._total = this._sales + this._commissionfee + this._vat;
-				
-				if (this._total == 0)
-				{
-					// EXCEPTION: Exception.SettlementEmpty
-					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
-				}
-				
-				Case.Settled = true;
-				Case.Save ();				
-				Save ();
-			}
-			else
-			{
-				// EXCEPTION: Exception.SettlementCaseSettled
-				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
-			}
-
-			return result;
-		}
+//		private static Settlement Create (Case Case)
+//		{
+//			Settlement result = new Settlement (Case);
+//
+//			if (!Case.Settled)
+//			{
+//				foreach (Item item in Item.List (Case))
+//				{
+//					if (!item.Settled)
+//					{
+//						if (item.CurrentBid != null)
+//						{
+//							if (item.Vat)
+//							{
+//								this._vat += (item.CurrentBid.Amount * 0.25m);
+//							}
+//							
+//							this._sales += item.CurrentBid.Amount;
+//							this._commissionfee += item.CommissionFee;
+//							this._itemids.Add (item.Id);
+//
+//							item.Settled = true;
+//							item.Save ();
+//						}
+//					}
+//				}
+//				
+//				this._vat = this._vat - (this._commissionfee * 0.25m);
+//				this._total = this._sales + this._commissionfee + this._vat;
+//				
+//				if (this._total == 0)
+//				{
+//					// EXCEPTION: Exception.SettlementEmpty
+//					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
+//				}
+//				
+//				Case.Settled = true;
+//				Case.Save ();				
+//				Save ();
+//			}
+//			else
+//			{
+//				// EXCEPTION: Exception.SettlementCaseSettled
+//				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
+//			}
+//
+//			return result;
+//		}
 		
 		private Settlement ()
 		{

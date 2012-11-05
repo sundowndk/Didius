@@ -16,7 +16,11 @@
 	<Extension path = "/SorentoLib/Init">
 		<Type type="Didius.Addin.Init"/>
 	</Extension>			
-										
+								
+	<Extension path = "/SorentoLib/Resolver/Renders">
+		<Type type="Didius.Addin.Render"/>
+	</Extension>	
+														
 	<Extension path = "/SorentoLib/Resolver/Ajaxes">
 		<Type type="Didius.Addin.Ajax"/>
 	</Extension>				

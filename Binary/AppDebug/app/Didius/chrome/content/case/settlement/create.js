@@ -62,9 +62,6 @@ var main =
 									totalVat += (bidAmount * 0.25)
 								}
 																								
-								
-								
-								
 								main.itemsTreeHelper.addRow ({data: data});
 							}	
 							
