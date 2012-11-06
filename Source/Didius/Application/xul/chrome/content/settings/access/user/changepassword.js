@@ -8,9 +8,7 @@ var main =
 	init : function ()
 	{				
 		main.current.userid = window.arguments[0].userId;
-							
-		sXUL.console.log (main.current.userid)
-							
+																
 		main.set ();
 	},
 			
@@ -18,7 +16,12 @@ var main =
 	{	
 		main.get ();
 			
-		didius.user.changePassword (main.current.userid, main.current.passwordnew, main.current.passwordold);
+		if (!didius.user.changePassword (main.current.userid, main.current.passwordnew, main.current.passwordold))
+		{
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+			prompts.alert(null, "Ændring af adgangskode", "Der skete en fejl under ændring af adgangskode, forsøg igen.");
+			return;
+		}
 		
 		if (window.arguments[0].onSave != null)
 		{
@@ -52,7 +55,7 @@ var main =
 	{
 		main.get ();
 	
-		if ((main.current.passwordold != "") && (main.current.passwordnew != ""))
+		if ((main.current.passwordnew != ""))
 		{					
 			document.getElementById ("save").disabled = false;
 			document.getElementById ("close").disabled = false;

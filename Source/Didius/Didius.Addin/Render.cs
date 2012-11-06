@@ -117,7 +117,12 @@ namespace Didius.Addin
 						{
 							return ((Didius.Item)Variable).Id;
 						}
-							
+						
+						case "auctionid":
+						{
+							return ((Didius.Item)Variable).Case.Auction.Id;
+						}
+
 						case "no":
 						{
 							return ((Didius.Item)Variable).No;
@@ -170,23 +175,42 @@ namespace Didius.Addin
 							
 						case "list":
 						{
-							switch (Parameters.Type (0).Name.ToLower())
+							if (Parameters.Count == 1)
 							{
-								case "auction":
+								switch (Parameters.Type (0).Name.ToLower())
 								{
-									return Didius.Item.List (Parameters.Get<Didius.Auction>(0));
-								}
-
-								default:
-								{
-									return Didius.Item.List ();
+									case "auction":
+									{
+										return Didius.Item.List (Parameters.Get<Didius.Auction>(0));
+									}
+										
+									default:
+									{
+										return Didius.Item.List ();
+									}
 								}
 							}
+							else if (Parameters.Count == 3)
+							{
+								switch (Parameters.Type (0).Name.ToLower())
+								{
+									case "auction":
+									{
+										return Didius.Item.List (Parameters.Get<Didius.Auction>(0)).GetRange (Parameters.Get<int> (1), Parameters.Get<int> (2));
+									}
+										
+									default:
+									{
+										return Didius.Item.List ().GetRange (Parameters.Get<int> (1), Parameters.Get<int> (2));
+									}
+								}
+							}
+							break;
 						}
 					}
 					break;
 				}
-					#endregion				
+				#endregion				
 			}
 			
 			throw new SorentoLib.Exceptions.RenderExceptionMemberNotFound ();

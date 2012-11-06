@@ -1,5 +1,5 @@
-ajaxUrl1 : "http://sorentotest.sundown.dk/",
-ajaxUrl : "http://78.109.223.248/",
+ajaxUrl : "http://sorentotest.sundown.dk/",
+ajaxUrl1 : "http://78.109.223.248/",
 
 initialize : function ()
 {

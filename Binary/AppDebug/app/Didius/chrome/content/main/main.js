@@ -7,7 +7,7 @@ var main =
 		app.startup (window);			
 		didius.runtime.initialize ();				
 		
-	//	main.login.show ();													
+		main.login.show ();													
 						
 		document.title = "Didius v1.29 - York Auktion ApS";
 				

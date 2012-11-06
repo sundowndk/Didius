@@ -454,6 +454,35 @@ namespace Didius
 			try
 			{
 				this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
+
+				if (this._userid == Guid.Empty)
+				{
+					if (this._email != string.Empty)
+					{
+						SorentoLib.User user = new SorentoLib.User (this._email);
+						user.Email = this._email;
+						user.Realname = this._name;
+						user.Status = SorentoLib.Enums.UserStatus.Enabled;
+						user.Save ();
+						this._userid = user.Id;
+					}
+				}
+				else
+				{
+					if (this._email != string.Empty)
+					{
+						SorentoLib.User user = SorentoLib.User.Load (this._userid);
+						user.Username = this._email;
+						user.Email = this._email;
+						user.Realname = this._name;
+						user.Save ();
+					}
+					else
+					{
+						SorentoLib.User.Delete (this._userid);
+						this._userid = Guid.Empty;
+					}
+				}
 				
 				Hashtable item = new Hashtable ();
 				
@@ -703,6 +732,8 @@ namespace Didius
 
 			try
 			{
+				SorentoLib.User.Delete (Customer.Load (Id)._userid);
+
 				SorentoLib.Services.Datastore.Delete (DatastoreAisle, Id.ToString ());
 			}
 			catch (Exception exception)

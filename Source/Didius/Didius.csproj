@@ -268,9 +268,9 @@
     <None Include="Application\xul\chrome\content\auctionrun\display.js" />
     <None Include="Application\xul\chrome\content\templates\display.tpl" />
     <None Include="Application\xul\chrome\content\auction\bidnotation.js" />
-    <None Include="Application\xul\chrome\content\auction\bidnotation.xul" />
     <None Include="Application\js\didius\config.js" />
     <None Include="Application\xul\application.ini" />
+    <None Include="Application\xul\chrome\content\settings\access\bidnotation.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />
