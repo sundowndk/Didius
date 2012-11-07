@@ -40,7 +40,15 @@ namespace Didius.Addin
 
 						case "load":
 						{
-							result.Add (Customer.Load (request.getValue<Guid>("id")));
+							if (request.ContainsXPath ("id"))
+							{
+								result.Add (Customer.Load (request.getValue<Guid>("id")));
+							}
+							else if (request.ContainsXPath ("userid"))
+							{
+								result.Add (Customer.Load (SorentoLib.User.Load (request.getValue<Guid>("userid"))));
+							}
+
 							break;
 						}
 

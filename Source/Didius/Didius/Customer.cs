@@ -507,7 +507,6 @@ namespace Didius
 				item.Add ("mobile", this._mobile);
 				item.Add ("email", this._email);
 
-
 				item.Add ("vat", this._vat);
 				item.Add ("vatno", this._vatno);
 
@@ -523,6 +522,7 @@ namespace Didius
 
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("customergroupids", this._groupsasstring);
+				meta.Add ("userid", this._userid);
 
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
 			}
@@ -579,13 +579,38 @@ namespace Didius
 		#endregion
 
 		#region Public Static Methods
+		public static Customer Load (SorentoLib.User User)
+		{
+			return Load (Guid.Empty, User);
+		}
+
 		public static Customer Load (Guid Id)
+		{
+			return Load (Id, null);
+		}
+
+		private static Customer Load (Guid Id, SorentoLib.User User)
 		{
 			Customer result;
 			
 			try
 			{
-				Hashtable item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.customer)[1]")));
+				Hashtable item;
+
+				if (Id != Guid.Empty)
+				{
+					Console.WriteLine ("GUID");
+
+					item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.customer)[1]")));
+				}
+				else
+				{
+					Console.WriteLine ("USERID");
+					Console.WriteLine (User.Id);
+
+					item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("userid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, User.Id)).SelectSingleNode ("(//didius.customer)[1]")));
+				}
+
 				result = new Customer ();
 				
 				result._id = new Guid ((string)item["id"]);
@@ -713,9 +738,17 @@ namespace Didius
 			{
 				// LOG: LogDebug.ExceptionUnknown
 				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CUSTOMER", exception.Message));
-				
-				// EXCEPTION: Excpetion.PageLoadName
-				throw new Exception (string.Format (Strings.Exception.CustomerLoadGuid, Id));
+
+				if (Id != Guid.Empty)
+				{
+					// EXCEPTION: Excpetion.PageLoadName
+					throw new Exception (string.Format (Strings.Exception.CustomerLoadGuid, Id));
+				}
+				else
+				{
+					// EXCEPTION: Excpetion.PageLoadName
+					throw new Exception (string.Format (Strings.Exception.CustomerLoadUserId, User.Id));
+				}
 			}	
 			
 			return result;

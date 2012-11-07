@@ -16,9 +16,9 @@ namespace Test
 		{
 			SorentoLib.Services.Database.Connection = new Connection (SNDK.Enums.DatabaseConnector.Mysql,
 //			                                                          "10.0.0.40",
-			                                                          "localhost",
-			                                                          "sorentotest.sundown.dk",
-			                                                          "sorentotest",
+			                                                          "172.20.0.34",
+			                                                          "didiustest_datastore",
+			                                                          "default",
 			                                                          "qwerty",
 			                                                          true);
 			
@@ -34,11 +34,16 @@ namespace Test
 				bool testcase = false;
 				bool testitem = false;
 
-				bool testsettlement = true;
+				bool testsettlement = false;
 
 				bool testauction = false;
 
 				bool testbid = false;
+
+				{
+
+					Didius.Customer d1 = new Didius.Customer ();
+				}
 
 				if (testsettlement)
 				{

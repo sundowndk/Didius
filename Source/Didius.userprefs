@@ -1,18 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/settings/access/user/changepassword.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js">
     <Files>
-      <File FileName="Didius/Didius.addin.xml" Line="21" Column="37" />
-      <File FileName="Didius/Didius.Addin/Render.cs" Line="124" Column="8" />
-      <File FileName="Didius/Didius/Item.cs" Line="351" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="231" Column="28" />
-      <File FileName="Didius/Didius/Customer.cs" Line="465" Column="57" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/access/user/changepassword.xul" Line="1" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/access/user/changepassword.js" Line="15" Column="22" />
-      <File FileName="Didius/Application/js/didius/user.js" Line="1" Column="1" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="2" Column="9" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="39" Column="35" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="276" Column="1" />
+      <File FileName="Didius/Didius/Customer.cs" Line="659" Column="6" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="46" Column="9" />
+      <File FileName="Didius/Application/js/didius/customer.js" Line="34" Column="25" />
+      <File FileName="Didius/Didius.Strings/Exception.cs" Line="19" Column="87" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="61" Column="3" />
+      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="202" Column="66" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -26,7 +21,9 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True" />
-                    <Node name="auctionedit" expanded="True" />
+                    <Node name="auctionedit" expanded="True">
+                      <Node name="auctionedit.js" selected="True" />
+                    </Node>
                     <Node name="auctionrun" expanded="True" />
                     <Node name="case" expanded="True">
                       <Node name="settlement" expanded="True" />
@@ -39,9 +36,7 @@
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True">
                       <Node name="access" expanded="True">
-                        <Node name="user" expanded="True">
-                          <Node name="changepassword.js" selected="True" />
-                        </Node>
+                        <Node name="user" expanded="True" />
                       </Node>
                     </Node>
                     <Node name="templates" expanded="True" />
