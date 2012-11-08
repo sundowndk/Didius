@@ -7,9 +7,9 @@ var main =
 		app.startup (window);			
 		didius.runtime.initialize ();				
 		
-		main.login.show ();													
+		//main.login.show ();													
 						
-		document.title = "Didius v1.29 - York Auktion ApS";
+		document.title = "Didius v1.30 - York Auktion ApS";
 				
 		main.controls.statusbar.progressmeter.setMode ("undetermined");
 		main.controls.statusbar.progressmeter.setDescription ("Arbejder");

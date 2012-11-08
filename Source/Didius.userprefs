@@ -1,13 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius.Addin/Render.cs">
     <Files>
-      <File FileName="Didius/Didius/Customer.cs" Line="659" Column="6" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="46" Column="9" />
-      <File FileName="Didius/Application/js/didius/customer.js" Line="34" Column="25" />
-      <File FileName="Didius/Didius.Strings/Exception.cs" Line="19" Column="87" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionrun/auctionrun.js" Line="61" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="202" Column="66" />
+      <File FileName="Didius/Didius.Addin/Render.cs" Line="153" Column="49" />
+      <File FileName="Didius/Didius/Bid.cs" Line="83" Column="40" />
+      <File FileName="Didius/Didius/Item.cs" Line="508" Column="4" />
+      <File FileName="Didius/Didius.Addin/Function.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -21,9 +19,7 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True" />
-                    <Node name="auctionedit" expanded="True">
-                      <Node name="auctionedit.js" selected="True" />
-                    </Node>
+                    <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
                     <Node name="case" expanded="True">
                       <Node name="settlement" expanded="True" />
@@ -45,7 +41,9 @@
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True" />
+            <Node name="Didius.Addin" expanded="True">
+              <Node name="Render.cs" selected="True" />
+            </Node>
             <Node name="Didius.Strings" expanded="True" />
           </Node>
         </State>

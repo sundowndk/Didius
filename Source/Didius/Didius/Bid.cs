@@ -80,7 +80,7 @@ namespace Didius
 		{
 			get
 			{
-				return this._amount;
+				return Math.Round (this._amount, 2);
 			}
 		}
 		#endregion

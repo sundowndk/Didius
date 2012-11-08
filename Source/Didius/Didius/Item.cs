@@ -502,6 +502,27 @@ namespace Didius
 		#endregion
 		
 		#region Public Static Methods
+		public static void OnlineBid (Customer Customer, Item Item)
+		{
+			decimal bidamount = 0;
+
+			if (Item.BidAmount >= 0 && Item.BidAmount < 2000)
+			{
+				bidamount = 100;
+			}
+			else if (Item.BidAmount >= 2000 && Item.BidAmount < 5000)
+			{
+				bidamount = 200;
+			}
+			else if (Item.BidAmount >= 5000)
+			{
+				bidamount = 500;
+			}
+
+			Bid bid = new Bid (Customer, Item, bidamount);
+			bid.Save ();
+		}
+
 		public static Item Load (Guid Id)
 		{
 			Item result;

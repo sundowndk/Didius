@@ -764,6 +764,13 @@ var didius =
 							result.disclaimer = "";
 							continue;
 						}							
+						
+						case "#BEGINHASVATNO":
+						{
+							block = "hasvatno";
+							result.hasvatno = "";
+							continue;
+						}							
 					}					
 				}
 				else
@@ -795,6 +802,12 @@ var didius =
 						}
 						
 						case "#ENDDISCLAIMER":
+						{
+							block = "";
+							continue;
+						}
+						
+						case "#ENDHASVATNO":
 						{
 							block = "";
 							continue;
@@ -837,6 +850,12 @@ var didius =
 					case "disclaimer":
 					{
 						result.disclaimer += data[idx] +"\n";
+						break;
+					}
+					
+					case "hasvatno":
+					{
+						result.hasvatno += data[idx] +"\n";
 						break;
 					}
 				}				

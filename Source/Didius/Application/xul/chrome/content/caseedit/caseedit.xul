@@ -95,11 +95,16 @@
 	</hbox>
 	
 	<hbox class="WindowButtons">
-		<hbox id="createSettlementBox" align="left" flex="1" collapsed="true"> 
+		<hbox id="createSettlementBox" align="left"  collapsed="true"> 
 			<button id="createSettlement" label="Afregn" oncommand="main.settlement.create ();" disabled="true"/>
 		</hbox>
-		<hbox id="showSettlementBox" align="left" flex="1" collapsed="true"> 
+		<hbox id="showSettlementBox" align="left" collapsed="true"> 
 			<button id="showSettlement" label="Vis afregning" oncommand="main.settlement.show ();" disabled="true"/>
+		</hbox>		
+		<hbox align="left"> 
+			<iframe id="printframe" style="height: 0px; width: 0px; margin: 0px; padding: 0px;" collapsed="true">
+			</iframe>		
+			<button id="printSalesAgreement" label="Udskriv salgsaftale" oncommand="main.salesAgreement.print ();"/>
 		</hbox>		
 		<hbox align="right" flex="1"> 
 			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>

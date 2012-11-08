@@ -148,18 +148,17 @@ namespace Didius.Addin
 							return ((Didius.Item)Variable).PictureId;
 						}
 
-//						case "picture":
-//						{
-//							if (((Didius.Item)Variable).PictureId != Guid.Empty)
-//							{
-//								return SorentoLib.Media.Load (((Didius.Item)Variable).PictureId);
-//							}
-//							else
-//							{
-//								return SorentoLib.Media.Default ();
-//							}
-//						}
-							
+						case "bidamount":
+						{
+							return ((Didius.Item)Variable).BidAmount;
+						}
+
+						case "onlinebid":
+						{
+							Didius.Item.OnlineBid (Parameters.Get<Didius.Customer>(0), Parameters.Get<Didius.Item>(1));
+							break;
+						}
+
 						case "load":
 						{
 							switch (Parameters.Type (0).Name.ToLower())
@@ -210,7 +209,71 @@ namespace Didius.Addin
 					}
 					break;
 				}
-				#endregion				
+				#endregion	
+
+				#region Didius.Bid
+				case "didius.bid":
+				{
+					switch (Method)
+					{
+						case "":
+						{
+							return ((Didius.Bid)Variable);
+						}
+							
+						case "id":
+						{
+							return ((Didius.Bid)Variable).Id;
+						}
+							
+						case "itemid":
+						{
+							return ((Didius.Bid)Variable).ItemId;
+						}
+							
+						case "customerid":
+						{
+							return ((Didius.Bid)Variable).CustomerId;
+						}
+							
+						case "amount":
+						{
+							return ((Didius.Bid)Variable).Amount;
+						}
+													
+						case "load":
+						{
+							switch (Parameters.Type (0).Name.ToLower())
+							{
+								case "guid":							
+									return Didius.Bid.Load (Parameters.Get<Guid>(0));
+									
+								case "string":
+									return Didius.Bid.Load (new Guid (Parameters.Get<string>(0)));
+							}
+							break;
+						}
+							
+						case "list":
+						{
+							switch (Parameters.Type (0).Name.ToLower())
+							{
+								case "item":
+								{
+									return Didius.Bid.List (Parameters.Get<Didius.Item>(0));
+								}
+										
+								default:
+								{
+									return Didius.Item.List ();
+								}
+							}						
+							break;
+						}
+					}
+					break;
+				}
+					#endregion				
 			}
 			
 			throw new SorentoLib.Exceptions.RenderExceptionMemberNotFound ();

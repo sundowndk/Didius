@@ -109,6 +109,13 @@ parsePrintTemplate : function (data)
 					result.disclaimer = "";
 					continue;
 				}							
+				
+				case "#BEGINHASVATNO":
+				{
+					block = "hasvatno";
+					result.hasvatno = "";
+					continue;
+				}							
 			}					
 		}
 		else
@@ -140,6 +147,12 @@ parsePrintTemplate : function (data)
 				}
 				
 				case "#ENDDISCLAIMER":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDHASVATNO":
 				{
 					block = "";
 					continue;
@@ -182,6 +195,12 @@ parsePrintTemplate : function (data)
 			case "disclaimer":
 			{
 				result.disclaimer += data[idx] +"\n";
+				break;
+			}
+			
+			case "hasvatno":
+			{
+				result.hasvatno += data[idx] +"\n";
 				break;
 			}
 		}				
