@@ -1,11 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius.Addin/Render.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/item.js">
     <Files>
-      <File FileName="Didius/Didius.Addin/Render.cs" Line="153" Column="49" />
       <File FileName="Didius/Didius/Bid.cs" Line="83" Column="40" />
-      <File FileName="Didius/Didius/Item.cs" Line="508" Column="4" />
+      <File FileName="Didius/Didius/Item.cs" Line="521" Column="4" />
       <File FileName="Didius/Didius.Addin/Function.cs" Line="1" Column="1" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="55" Column="3" />
+      <File FileName="Didius/Application/js/didius/item.js" Line="63" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,7 +14,9 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
-                <Node name="didius" expanded="True" />
+                <Node name="didius" expanded="True">
+                  <Node name="item.js" selected="True" />
+                </Node>
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
@@ -41,9 +44,7 @@
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True">
-              <Node name="Render.cs" selected="True" />
-            </Node>
+            <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
           </Node>
         </State>

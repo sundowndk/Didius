@@ -8,7 +8,8 @@ create : function (Case)
 	
 	var result = request.respons ()["didius.item"];
 	
-	app.events.onItemCreate.execute (result);
+	if (!didius.runtime.browserMode)	
+		app.events.onItemCreate.execute (result);
 	
 	return result;
 },
@@ -23,7 +24,8 @@ load : function (id)
 
 	var result = request.respons ()["didius.item"];
 	
-	app.events.onItemLoad.execute (result);
+	if (!didius.runtime.browserMode)	
+		app.events.onItemLoad.execute (result);
 
 	return result;
 },
@@ -36,7 +38,8 @@ save : function (item)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Save", "data", "POST", false);	
 	request.send (content);
 
-	app.events.onItemSave.execute (item);
+	if (!didius.runtime.browserMode)	
+		app.events.onItemSave.execute (item);
 },		
 
 destroy : function (id)
@@ -49,8 +52,9 @@ destroy : function (id)
 	
 	var data = {}
 	data.id = id;
-			
-	app.events.onItemDestroy.execute (data);
+		
+	if (!didius.runtime.browserMode)		
+		app.events.onItemDestroy.execute (data);
 },				
 		
 list : function (attributes)
