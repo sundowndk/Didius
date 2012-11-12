@@ -191,13 +191,21 @@ var SNDK =
 			
 		dateToYMD : function (date)
 		{
-		    var d = date.getDate();
-		    var m = date.getMonth()+1;
-		    var y = date.getFullYear();
+		    var d = date.getDate ();
+		    var m = date.getMonth ()+1;
+		    var y = date.getFullYear ();    
 		    return '' + y +'/'+ (m<=9?'0'+m:m) +'/'+ (d<=9?'0'+d:d);
 		},
 		
-		
+		dateToYMDHM : function (date)
+		{
+		    var d = date.getDate ();
+		    var m = date.getMonth ()+1;
+		    var y = date.getFullYear ();
+		    var H = date.getHours ();
+		    var M = date.getMinutes ();
+		    return '' + y +'/'+ (m<=9?'0'+m:m) +'/'+ (d<=9?'0'+d:d) +" "+ (H<=9?'0'+H:H) +":"+ (M<=9?'0'+M:M);       
+		},
 		dateToTimestamp : function (date)
 		{	
 			return Math.round (date/1000);
@@ -2646,7 +2654,8 @@ var SNDK =
 						randomize: false,
 						delay: 2000,
 						width: "100px",
-						height: "100px"
+						height: "100px",
+						
 					};
 					
 			var _temp =	{	timer: null,
@@ -2669,7 +2678,29 @@ var SNDK =
 			function init ()
 			{
 				// Container
-				_elements["container"] = SNDK.SUI.helpers.getContainer (_options);
+				if (_options.element)
+				{			
+					_elements["container"] = SNDK.SUI.helpers.getContainer ({element: _options.element});
+				}
+					
+				if (_options.appendTo)		
+				{
+					_elements["container"] = SNDK.SUI.helpers.getContainer ({appendTo: _options.appendTo});
+				}
+					
+					
+				if (_options.imageElement)
+				{
+					_elements["container"] = SNDK.SUI.helpers.getContainer ({element: _options.imageElement});
+				}
+					
+				if (_options.htmlElement)
+				{
+					_elements["container2"] = SNDK.SUI.helpers.getContainer ({element: _options.htmlElement});
+					_options.hasHTML = true;
+					_options.fadeDouble = true;
+				}
+							
 			
 		//		// Container
 		//		if (options.appendTo)
@@ -2699,6 +2730,17 @@ var SNDK =
 						_elements["image_to"] = SNDK.tools.newElement ("img", {appendTo: _elements["container"]});
 						_elements["image_to"].style.position = "absolute";
 						SNDK.tools.opacityChange (_elements["image_to"], 0)
+						
+						if (_options.hasHTML)
+						{
+							_elements["html_from"] = SNDK.tools.newElement ("div", {appendTo: _elements["container2"]});
+							_elements["html_from"].style.position = "absolute";
+							SNDK.tools.opacityChange (_elements["html_from"], 0);
+							
+							_elements["html_to"] = SNDK.tools.newElement ("div", {appendTo: _elements["container2"]});
+							_elements["html_to"].style.position = "absolute";	
+							SNDK.tools.opacityChange (_elements["html_to"], 0)
+						}
 					
 						break;									
 				}	
@@ -2727,6 +2769,14 @@ var SNDK =
 								_elements["image_to"].src = "";						
 								SNDK.tools.opacityChange (_elements["image_to"], 0);
 						
+								if (_options.hasHTML)
+								{
+									_elements["html_from"].innerHTML = _options.htmls[_temp.currentImage].content;
+									SNDK.tools.opacityChange (_elements["html_from"], 100);
+						
+									_elements["html_to"].innerHTML = " ";
+									SNDK.tools.opacityChange (_elements["html_to"], 0);						
+								}				
 						
 								_temp.nextRotation = setTimeout (function () {rotate (false)}, _options.delay);
 								_temp.inTransition = false;
@@ -2750,14 +2800,26 @@ var SNDK =
 								}
 					
 								_elements["image_to"].src = _options.images[_temp.currentImage].src;
+								
+								if (_options.hasHTML)
+								{							
+									_elements["html_to"].innerHTML = _options.htmls[_temp.currentImage].content;
+									SNDK.animation.opacityFade (_elements["html_to"], 0, 100, _options.fadeDelay);
+								}
+								
 		
 								SNDK.animation.opacityFade (_elements["image_to"], 0, 100, _options.fadeDelay);
+								
 								if (_options.fadeDouble)
 								{
 									SNDK.animation.opacityFade (_elements["image_from"], 100, 0, _options.fadeDelay);
+									
+									if (_options.hasHTML)
+									{							
+										SNDK.animation.opacityFade (_elements["html_from"], 100, 0, _options.fadeDelay);								
+									}
 								}
-						
-		
+								
 								setTimeout (function () {rotate (true)}, _options.fadeDelay + 10);
 							}
 						break;

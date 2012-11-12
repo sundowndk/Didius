@@ -92,6 +92,7 @@
     <Compile Include="Didius.Enums\AuctionStatus.cs" />
     <Compile Include="Didius\Invoice.cs" />
     <Compile Include="Didius.Addin\Render.cs" />
+    <Compile Include="Didius.Enums\AuctionType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

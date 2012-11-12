@@ -32,7 +32,13 @@ namespace Didius
 		private string _no;
 
 		private string _title;
-		private int _auctiondate;
+
+		private int _begin;
+		private int _end;
+		private int _deadline;
+
+		private string _location;
+
 		private string _description;
 
 		private string _buyernos;
@@ -41,6 +47,7 @@ namespace Didius
 
 		private string _notes;
 
+		private Enums.AuctionType _type;
 		private Enums.AuctionStatus _status;
 		#endregion
 			
@@ -90,13 +97,43 @@ namespace Didius
 			}
 		}
 
-		public DateTime AuctionDate
+		public DateTime Begin
 		{
 			get
 			{
-				return SNDK.Date.TimestampToDateTime (this._auctiondate);
+				return SNDK.Date.TimestampToDateTime (this._begin);
 			}
 		}
+
+		public DateTime End
+		{
+			get
+			{
+				return SNDK.Date.TimestampToDateTime (this._end);
+			}
+		}
+
+		public DateTime Deadline
+		{
+			get
+			{
+				return SNDK.Date.TimestampToDateTime (this._deadline);
+			}
+		}
+
+		public string Location
+		{
+			get
+			{
+				return this._location;
+			}
+
+			set
+			{
+				this._location = value;
+			}
+		}
+
 
 		public string Description
 		{
@@ -129,6 +166,19 @@ namespace Didius
 			set
 			{
 				this._notes = value;
+			}
+		}
+
+		public Enums.AuctionType Type
+		{
+			get
+			{
+				return this._type;
+			}
+			
+			set
+			{
+				this._type = value;
 			}
 		}
 
@@ -165,7 +215,13 @@ namespace Didius
 			this._no = Helpers.NewNo ();
 
 			this._title = string.Empty;
-			this._auctiondate = SNDK.Date.CurrentDateTimeToTimestamp ();
+
+			this._begin = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._end = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._deadline = SNDK.Date.CurrentDateTimeToTimestamp ();
+
+			this._location = string.Empty;
+
 			this._description = string.Empty;
 
 			this._livebiders = new List<LiveBider> ();
@@ -174,7 +230,8 @@ namespace Didius
 
 			this._notes = string.Empty;
 
-			this._status = Enums.AuctionStatus.Open;
+			this._type = Enums.AuctionType.Live;
+			this._status = Enums.AuctionStatus.Hidden;
 		}		
 		#endregion
 
@@ -194,7 +251,13 @@ namespace Didius
 				item.Add ("no", this._no);	
 
 				item.Add ("title", this._title);
-				item.Add ("auctiondate", this._auctiondate);
+
+				item.Add ("begin", this._begin);
+				item.Add ("end", this._end);
+				item.Add ("deadline", this._deadline);
+
+				item.Add ("location", this._location);
+
 				item.Add ("description", this._description);
 
 				item.Add ("livebiders", this._livebiders);
@@ -203,6 +266,7 @@ namespace Didius
 
 				item.Add ("notes", this._notes);
 
+				item.Add ("type", this._type);
 				item.Add ("status", this._status);
 								
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()));
@@ -241,7 +305,13 @@ namespace Didius
 			result.Add ("no", this._no);
 
 			result.Add ("title", this._title);
-			result.Add ("auctiondate", String.Format("{0:yyyy/MM/dd}", SNDK.Date.TimestampToDateTime (this._auctiondate)));
+
+			result.Add ("begin", String.Format("{0:yyyy/MM/dd HH:mm}", SNDK.Date.TimestampToDateTime (this._begin)));
+			result.Add ("end", String.Format("{0:yyyy/MM/dd HH:mm}", SNDK.Date.TimestampToDateTime (this._end)));
+			result.Add ("deadline", String.Format("{0:yyyy/MM/dd HH:mm}", SNDK.Date.TimestampToDateTime (this._deadline)));
+
+			result.Add ("location", this._location);
+
 			result.Add ("description", this._description);
 
 			result.Add ("livebiders", this._livebiders);
@@ -250,6 +320,7 @@ namespace Didius
 
 			result.Add ("notes", this._notes);
 
+			result.Add ("type", this._type);
 			result.Add ("status", this._status);
 
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
@@ -288,9 +359,24 @@ namespace Didius
 					result._title = (string)item["title"];
 				}			
 
-				if (item.ContainsKey ("auctiondate"))
+				if (item.ContainsKey ("begin"))
 				{
-					result._auctiondate = int.Parse ((string)item["auctiondate"]);
+					result._begin = int.Parse ((string)item["begin"]);
+				}			
+
+				if (item.ContainsKey ("end"))
+				{
+					result._end = int.Parse ((string)item["end"]);
+				}			
+
+				if (item.ContainsKey ("deadline"))
+				{
+					result._deadline = int.Parse ((string)item["deadline"]);
+				}			
+
+				if (item.ContainsKey ("location"))
+				{
+					result._location = (string)item["location"];
 				}			
 
 				if (item.ContainsKey ("description"))
@@ -315,6 +401,11 @@ namespace Didius
 				{
 					result._notes = (string)item["notes"];
 				}				
+
+				if (item.ContainsKey ("type"))
+				{
+					result._type = SNDK.Convert.StringToEnum<Enums.AuctionType> ((string)item["type"]);
+				}
 
 				if (item.ContainsKey ("status"))
 				{
@@ -422,9 +513,24 @@ namespace Didius
 				result._title = (string)item["title"];
 			}
 
-			if (item.ContainsKey ("auctiondate"))
+			if (item.ContainsKey ("begin"))
 			{			
-				result._auctiondate = SNDK.Date.DateTimeToTimestamp (DateTime.ParseExact ((string)item["auctiondate"], "yyyy/MM/dd", null));
+				result._begin = SNDK.Date.DateTimeToTimestamp (DateTime.ParseExact ((string)item["begin"], "yyyy/MM/dd HH:mm", null));
+			}
+
+			if (item.ContainsKey ("end"))
+			{			
+				result._end = SNDK.Date.DateTimeToTimestamp (DateTime.ParseExact ((string)item["end"], "yyyy/MM/dd HH:mm", null));
+			}
+
+			if (item.ContainsKey ("deadline"))
+			{			
+				result._deadline = SNDK.Date.DateTimeToTimestamp (DateTime.ParseExact ((string)item["deadline"], "yyyy/MM/dd HH:mm", null));
+			}
+
+			if (item.ContainsKey ("location"))
+			{			
+				result._location = (string)item["location"];
 			}
 
 			if (item.ContainsKey ("description"))
@@ -449,6 +555,11 @@ namespace Didius
 			{
 				result._notes = (string)item["notes"];
 			}
+
+			if (item.ContainsKey ("type"))
+			{
+				result._type = SNDK.Convert.StringToEnum<Enums.AuctionType> ((string)item["type"]);
+			}	
 
 			if (item.ContainsKey ("status"))
 			{

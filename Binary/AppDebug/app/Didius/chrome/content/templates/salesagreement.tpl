@@ -331,7 +331,7 @@ li
 <span class="Disclaimer">
 <ul>
 	<li>
-		Ovenstående effekter/maskiner bortsælges på auktion d. <b>%%AUCTIONDATE%%</b> kl. <b>%%AUCTIONTIME%%</b>.
+		Ovenstående effekter/maskiner bortsælges på auktion d. <b>%%AUCTIONBEGIN%%</b> kl. <b>%%AUCTIONBEGINTIME%%</b>
 	</li>
 	<li>
 		Auktionsadresse: %%AUCTIONLOCATION%%
@@ -340,10 +340,10 @@ li
 		<b>%%CASECOMMISIONFEEPERCENTAGE%%%</b> af budsummen + moms tilfalder <b>York-auktion ApS</b>, dog min. <b>%%CASECOMMISIONFEEMINIMUM%% kr.</b> pr. katalog nummer.
 	</li>
 	<li>
-		Effekter skal være Auktionsfirmaet i hænde senest d. <b>%%AUCTIONDEADLINEDATE%%</b> kl. <b>%%AUCTIONDEADLINETIME%%</b>.
+		Effekter skal være Auktionsfirmaet i hænde senest d. <b>%%AUCTIONDEADLINE%%</b> kl. <b>%%AUCTIONDEADLINETIME%%</b>
 	</li>
 	<li>
-		Såfremt effekterne / maskinerne ikke bortsælges p.g.a ikke opnået evt. mindstepris, beregnes et fremstillingsgebyr på kr. 100 + moms pr. katalog nummer.
+		Såfremt effekterne / maskinerne ikke bortsælges p.g.a ikke opnået evt. mindstepris, beregnes et fremstillingsgebyr på <b>kr. 100</b> + moms pr. katalog nummer.
 	</li>
 	<li>
 		Såfremt rekvirent har indsat effekterne/maskinerne til mindste pris og selv byder med under auktionen, slettes mindsteprisen, og rekvirent skal herefter betale salgs- og købsalær af opnået budsum.

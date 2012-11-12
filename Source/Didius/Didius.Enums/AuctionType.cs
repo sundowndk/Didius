@@ -1,5 +1,5 @@
 // 
-//  AuctionStatus.cs
+//  AuctionType.cs
 //  
 //  Author:
 //      Rasmus Pedersen (rvp@qnax.net)
@@ -11,11 +11,10 @@ using System;
 
 namespace Didius.Enums
 {
-	public enum AuctionStatus
+	public enum AuctionType
 	{
-		Hidden,
-		Open,
-		Running,
-		Closed
+		Live,
+		Web,
+		LiveWeb
 	}
 }

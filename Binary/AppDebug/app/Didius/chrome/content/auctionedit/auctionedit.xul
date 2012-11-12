@@ -48,16 +48,44 @@
 								<label class="Label">Status:</label>
 								<menulist id="status" oncommand="main.onChange ();" flex="1">
   									<menupopup>
+  										<menuitem label="Skjult" value="Hidden"/>
     									<menuitem label="Åben" value="Open"/>
     									<menuitem label="Lukket" value="Closed"/>
 	  								</menupopup>
 								</menulist>				
 							</hbox>				
 							<hbox align="center">
-								<label class="Label">Aukt. dato:</label>
-								<datepicker id="auctiondate" type="popup" onchange="main.onChange ();"/>
+								<label class="Label">Type:</label>
+								<menulist id="type" oncommand="main.onChange ();" flex="1">
+  									<menupopup>
+    									<menuitem label="Almindelig auktion" value="Live"/>
+    									<menuitem label="Online auktion" value="Web"/>
+    									<menuitem label="Almindelig og online auktion" value="LiveWeb"/>
+	  								</menupopup>
+								</menulist>				
 							</hbox>				
-							
+							<hbox align="center">
+								<label class="Label">Start:</label>
+								<datepicker id="begin" type="popup" onchange="main.onChange ();"/>
+								<label class="Label" width="25">kl.:</label>
+								<textbox id="begintime" width="50" maxlength="5" onkeyup="main.onChange ();" />
+							</hbox>				
+							<hbox align="center">
+								<label class="Label">Slut:</label>
+								<datepicker id="end" type="popup" onchange="main.onChange ();"/>
+								<label class="Label" width="25">kl.:</label>
+								<textbox id="endtime" width="50" maxlength="5" onkeyup="main.onChange ();" />
+							</hbox>				
+							<hbox align="center">
+								<label class="Label">Deadline:</label>
+								<datepicker id="deadline" type="popup" onchange="main.onChange ();"/>
+								<label class="Label" width="25">kl. :</label>
+								<textbox id="deadlinetime" width="50" maxlength="5" onkeyup="main.onChange ();" />
+							</hbox>				
+							<hbox align="center">
+								<label class="Label">Lokation:</label>							
+								<textbox id="location" flex="1" onkeyup="main.onChange ();" />
+							</hbox>											
 							<hbox align="top">
 								<label class="Label">Tekst:</label>
 								<textbox id="description" flex="1" rows="12" multiline="true" onkeyup="main.onChange ();"/>

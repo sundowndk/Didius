@@ -529,7 +529,7 @@ var main =
 						content.innerHTML = render;
 					}		
 					
-// CUSTOMERNAME
+				// CUSTOMERNAME
 				{
 					render = render.replace ("%%CUSTOMERNAME%%", main.current.customer.name);
 					content.innerHTML = render;
@@ -566,12 +566,54 @@ var main =
 					content.innerHTML = render;
 				}			
 				
+				
+				// AUCTIONLOCATION
+				{
+					render = render.replace ("%%AUCTIONLOCATION%%", main.current.auction.location);
+					content.innerHTML = render;
+				}			
+				
+				// AUCTIONBEGIN
+				{
+					var begin = new Date (Date.parse (main.current.auction.begin));													
+					render = render.replace ("%%AUCTIONBEGIN%%", begin.getDate () +"-"+ begin.getMonth () +"-"+ begin.getFullYear ());
+					content.innerHTML = render;
+				}			
+				
+				// AUCTIONBEGINTIME
+				{
+					var begin = new Date (Date.parse (main.current.auction.begin));													
+					render = render.replace ("%%AUCTIONBEGINTIME%%", begin.getHours () +":"+ begin.getMinutes ());
+					content.innerHTML = render;
+				}			
+				
+				// AUCTIONDEADLINE
+				{
+					var deadline = new Date (Date.parse (main.current.auction.deadline));	
+					render = render.replace ("%%AUCTIONDEADLINE%%", deadline.getDate () +"-"+ deadline.getMonth () +"-"+ deadline.getFullYear ());
+					content.innerHTML = render;
+				}			
+				
+				// AUCTIONDEADLINETIME
+				{
+					var deadline = new Date (Date.parse (main.current.auction.deadline));													
+					render = render.replace ("%%AUCTIONDEADLINETIME%%", deadline.getHours () +":"+ deadline.getMinutes ());
+					content.innerHTML = render;
+				}			
+				
 				// DATE
 				{					
-					var now = new Date();
-					render = render.replace ("%%DATE%%", now.getDay () +"-"+ now.getMonth () +"-"+ now.getFullYear ());
+					var now = new Date ();
+					render = render.replace ("%%DATE%%", now.getDate () +"-"+ now.getMonth () +"-"+ now.getFullYear ());
 					content.innerHTML = render;				
 				}						
+				
+				// DATE
+//				{					
+//					var now = new Date();
+//					render = render.replace ("%%DATE%%", now.getDay () +"-"+ now.getMonth () +"-"+ now.getFullYear ());
+//					content.innerHTML = render;				
+//				}						
 					
 					// HASVATNO
 					{

@@ -124,7 +124,22 @@ var main =
 	
 		document.getElementById ("title").value = main.current.title;				
 		document.getElementById ("status").value = main.current.status;		
-		document.getElementById ("auctiondate").dateValue = new Date (Date.parse (main.current.auctiondate));
+		document.getElementById ("type").value = main.current.type;		
+		
+		var begin = new Date (Date.parse (main.current.begin));
+		document.getElementById ("begin").dateValue = begin;
+		document.getElementById ("begintime").value = begin.getHours () +":"+ begin.getMinutes ();
+		
+		var end = new Date (Date.parse (main.current.end));
+		document.getElementById ("end").dateValue = end;
+		document.getElementById ("endtime").value = end.getHours () +":"+ end.getMinutes ();
+		
+		var deadline = new Date (Date.parse (main.current.deadline));
+		document.getElementById ("deadline").dateValue = deadline;
+		document.getElementById ("deadlinetime").value = deadline.getHours () +":"+ deadline.getMinutes ();
+		
+		document.getElementById ("location").value = main.current.location;						
+		
 		document.getElementById ("description").value = main.current.description;						
 		
 		document.getElementById ("notes").value = main.current.notes;		
@@ -140,8 +155,29 @@ var main =
 	get : function ()
 	{
 		main.current.title = document.getElementById ("title").value;		
+		
 		main.current.status = document.getElementById ("status").value;		
-		main.current.auctiondate = SNDK.tools.dateToYMD (document.getElementById ("auctiondate").dateValue);
+		main.current.type = document.getElementById ("type").value;		
+		
+		var begin = document.getElementById ("begin").dateValue;
+		begin.setHours (document.getElementById ("begintime").value.split (":")[0]);
+		begin.setMinutes (document.getElementById ("begintime").value.split (":")[1]);						
+		main.current.begin = SNDK.tools.dateToYMDHM (begin);		
+		
+		var end = document.getElementById ("end").dateValue;
+		end.setHours (document.getElementById ("endtime").value.split (":")[0]);
+		end.setMinutes (document.getElementById ("endtime").value.split (":")[1]);										
+		main.current.end = SNDK.tools.dateToYMDHM (end);
+		
+		var deadline = document.getElementById ("deadline").dateValue;
+		deadline.setHours (document.getElementById ("deadlinetime").value.split (":")[0]);
+		deadline.setMinutes (document.getElementById ("deadlinetime").value.split (":")[1]);
+		main.current.deadline = SNDK.tools.dateToYMDHM (deadline);
+		
+		sXUL.console.log (SNDK.tools.dateToYMDHM (deadline))
+		
+		main.current.location = document.getElementById ("location").value;				
+		
 		main.current.description = document.getElementById ("description").value;				
 		
 		main.current.notes = document.getElementById ("notes").value;				
@@ -212,6 +248,17 @@ var main =
 		
 			document.getElementById ("save").disabled = true;
 			document.getElementById ("close").disabled = false;
+		}
+		
+		if (main.current.type == "Web" || main.current.type == "LiveWeb")
+		{
+			document.getElementById ("end").disabled = false;
+			document.getElementById ("endtime").disabled = false;
+		}
+		else
+		{
+			document.getElementById ("end").disabled = true;
+			document.getElementById ("endtime").disabled = true;
 		}
 		
 		main.cases.onChange ();
