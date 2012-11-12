@@ -5,6 +5,11 @@ namespace Didius
 {
 	public class Helpers
 	{
+		public static void VerificationEmail (SorentoLib.User User)
+		{
+//			SorentoLib.Tools.Helpers.SendMail ("test@test.dk", User.Email, "Bla bla bla bla");
+		}
+
 		public static string NewNo ()
 		{
 			return (DateTime.Now.Second.ToString () + DateTime.Now.Day.ToString () + DateTime.Now.Month.ToString () + DateTime.Now.Hour.ToString () + DateTime.Now.Minute.ToString ()).PadRight (10, '0');

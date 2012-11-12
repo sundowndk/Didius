@@ -1,6 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Helpers.cs">
     <Files>
       <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="51" Column="51" />
       <File FileName="Didius/Didius.Enums/AuctionType.cs" Line="18" Column="10" />
@@ -9,8 +9,11 @@
       <File FileName="Didius/Application/xul/chrome/content/templates/salesagreement.tpl" Line="346" Column="134" />
       <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="607" Column="54" />
       <File FileName="Didius/Application/js/didius/runtime.js" Line="2" Column="9" />
-      <File FileName="Didius/Application/xul/application.ini" Line="4" Column="13" />
       <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="32" Column="18" />
+      <File FileName="Didius/Application/js/didius/customer.js" Line="39" Column="48" />
+      <File FileName="Didius/Application/js/didius/item.js" Line="12" Column="1" />
+      <File FileName="Didius/Didius/Customer.cs" Line="466" Column="20" />
+      <File FileName="Didius/Didius/Helpers.cs" Line="10" Column="36" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -34,9 +37,7 @@
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True">
-                      <Node name="main.js" selected="True" />
-                    </Node>
+                    <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True">
                       <Node name="access" expanded="True">
                         <Node name="user" expanded="True" />
@@ -47,7 +48,9 @@
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True" />
+            <Node name="Didius" expanded="True">
+              <Node name="Helpers.cs" selected="True" />
+            </Node>
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />

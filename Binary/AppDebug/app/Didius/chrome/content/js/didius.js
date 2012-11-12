@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: didius
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -85,7 +85,8 @@ var didius =
 			
 			var result = request.respons ()["didius.customer"];
 				
-			app.events.onCustomerCreate.execute (result);
+			if (!didius.runtime.browserMode)			
+				app.events.onCustomerCreate.execute (result);
 			
 			return result;
 		},
@@ -100,7 +101,8 @@ var didius =
 		
 			var result = request.respons ()["didius.customer"];
 			
-			app.events.onCustomerLoad.execute (result);
+			if (!didius.runtime.browserMode)		
+				app.events.onCustomerLoad.execute (result);
 		
 			return result;
 		},
@@ -113,7 +115,8 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.Save", "data", "POST", false);		
 			request.send (content);
 			
-			app.events.onCustomerSave.execute (customer);
+			if (!didius.runtime.browserMode)	
+				app.events.onCustomerSave.execute (customer);
 		},		
 		
 		destroy : function (id)
@@ -127,7 +130,8 @@ var didius =
 			var data = {};
 			data.id = id;
 			
-			app.events.onCustomerDestroy.execute (data);
+			if (!didius.runtime.browserMode)	
+				app.events.onCustomerDestroy.execute (data);
 		},				
 				
 		list : function (attributes)
