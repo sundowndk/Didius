@@ -1,19 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Helpers.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius.Addin/Render.cs">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.xul" Line="51" Column="51" />
-      <File FileName="Didius/Didius.Enums/AuctionType.cs" Line="18" Column="10" />
-      <File FileName="Didius/Didius/Auction.cs" Line="207" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/auctionedit/auctionedit.js" Line="131" Column="93" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/salesagreement.tpl" Line="346" Column="134" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="607" Column="54" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="2" Column="9" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="32" Column="18" />
-      <File FileName="Didius/Application/js/didius/customer.js" Line="39" Column="48" />
-      <File FileName="Didius/Application/js/didius/item.js" Line="12" Column="1" />
-      <File FileName="Didius/Didius/Customer.cs" Line="466" Column="20" />
-      <File FileName="Didius/Didius/Helpers.cs" Line="10" Column="36" />
+      <File FileName="Didius/Didius/Auction.cs" Line="275" Column="5" />
+      <File FileName="Didius/Didius/Customer.cs" Line="608" Column="6" />
+      <File FileName="Didius/Didius/EventListener.cs" Line="187" Column="49" />
+      <File FileName="Didius/Didius/Item.cs" Line="332" Column="29" />
+      <File FileName="Didius/Didius.Addin/Render.cs" Line="162" Column="8" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -48,10 +41,10 @@
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True">
-              <Node name="Helpers.cs" selected="True" />
+            <Node name="Didius" expanded="True" />
+            <Node name="Didius.Addin" expanded="True">
+              <Node name="Render.cs" selected="True" />
             </Node>
-            <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
           </Node>

@@ -55,7 +55,16 @@ destroy : function (id)
 		
 	if (!didius.runtime.browserMode)		
 		app.events.onItemDestroy.execute (data);
-},				
+},		
+
+bid : function (item)
+{
+	var content = new Array ();
+	content.itemid = item.id;	
+
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Bid", "data", "POST", false);		
+	request.send (content);
+},		
 		
 list : function (attributes)
 {

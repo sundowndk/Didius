@@ -66,6 +66,26 @@ namespace Didius.Addin
 							return ((Didius.Auction)Variable).No;
 						}
 
+						case "begin":
+						{
+							return ((Didius.Auction)Variable).Begin;
+						}
+
+						case "end":
+						{
+							return ((Didius.Auction)Variable).End;
+						}
+
+						case "location":
+						{
+							return ((Didius.Auction)Variable).Location;
+						}
+
+						case "deadline":
+						{
+							return ((Didius.Auction)Variable).Deadline;
+						}
+
 						case "title":
 						{
 							return ((Didius.Auction)Variable).Title;
@@ -74,6 +94,11 @@ namespace Didius.Addin
 						case "description":
 						{
 							return ((Didius.Auction)Variable).Description;
+						}
+
+						case "type":
+						{
+							return ((Didius.Auction)Variable).Type;
 						}
 
 						case "status":
@@ -103,6 +128,43 @@ namespace Didius.Addin
 				}
 				#endregion				
 
+				#region Didius.Case
+				case "didius.case":
+				{
+					switch (Method)
+					{
+						case "":
+						{
+							return ((Didius.Case)Variable);
+						}
+							
+						case "id":
+						{
+							return ((Didius.Case)Variable).Id;
+						}
+							
+						case "auctionid":
+						{
+							return ((Didius.Case)Variable).AuctionId;
+						}
+																				
+						case "load":
+						{
+							switch (Parameters.Type (0).Name.ToLower())
+							{
+								case "guid":							
+									return Didius.Case.Load (Parameters.Get<Guid>(0));
+									
+								case "string":
+									return Didius.Case.Load (new Guid (Parameters.Get<string>(0)));
+							}
+							break;
+						}												
+					}
+					break;
+				}
+					#endregion	
+
 				#region Didius.Item
 				case "didius.item":
 				{
@@ -118,11 +180,16 @@ namespace Didius.Addin
 							return ((Didius.Item)Variable).Id;
 						}
 						
+						case "caseid":
+						{
+							return ((Didius.Item)Variable).CaseId;
+						}
+
 						case "auctionid":
 						{
 							return ((Didius.Item)Variable).Case.Auction.Id;
 						}
-
+													
 						case "no":
 						{
 							return ((Didius.Item)Variable).No;
@@ -151,6 +218,11 @@ namespace Didius.Addin
 						case "bidamount":
 						{
 							return ((Didius.Item)Variable).BidAmount;
+						}
+
+						case "nextbidamount":
+						{
+							return ((Didius.Item)Variable).NextBidAmount;
 						}
 
 						case "onlinebid":

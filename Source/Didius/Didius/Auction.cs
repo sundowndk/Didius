@@ -273,7 +273,6 @@ namespace Didius
 			}
 			catch (Exception exception)
 			{
-				Console.WriteLine (exception);
 				// LOG: LogDebug.ExceptionUnknown
 				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUCTION", exception.Message));
 				

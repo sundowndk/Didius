@@ -324,6 +324,30 @@ namespace Didius
 			}
 		}
 
+		public decimal NextBidAmount
+		{
+			get
+			{
+				decimal result = 0;
+				decimal bidamount = this.BidAmount;
+				
+				if (bidamount >= 0 && bidamount < 2000)
+				{
+					result = 100;
+				}
+				else if (bidamount >= 2000 && bidamount < 5000)
+				{
+					result = 200;
+				}
+				else if (bidamount >= 5000)
+				{
+					result = 500;
+				}
+				
+				return result + bidamount;
+			}
+		}
+
 		public decimal CommissionFee
 		{
 			get
@@ -495,6 +519,7 @@ namespace Didius
 
 			result.Add ("currentbidid", this.CurrentBidId);
 			result.Add ("bidamount", this.BidAmount);
+			result.Add ("nextbidamount", this.NextBidAmount);
 			result.Add ("commissionfee", this.CommissionFee);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
@@ -504,22 +529,7 @@ namespace Didius
 		#region Public Static Methods
 		public static void OnlineBid (Customer Customer, Item Item)
 		{
-			decimal bidamount = 0;
-
-			if (Item.BidAmount >= 0 && Item.BidAmount < 2000)
-			{
-				bidamount = 100;
-			}
-			else if (Item.BidAmount >= 2000 && Item.BidAmount < 5000)
-			{
-				bidamount = 200;
-			}
-			else if (Item.BidAmount >= 5000)
-			{
-				bidamount = 500;
-			}
-
-			Bid bid = new Bid (Customer, Item, bidamount);
+			Bid bid = new Bid (Customer, Item, Item.NextBidAmount);
 			bid.Save ();
 		}
 

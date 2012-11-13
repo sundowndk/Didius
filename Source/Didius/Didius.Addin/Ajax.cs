@@ -198,6 +198,12 @@ namespace Didius.Addin
 							Item.Delete (request.getValue<Guid> ("id"));
 							break;
 						}
+
+						case "bid":
+						{
+							Item.OnlineBid (Customer.Load (Session.User), Item.Load (request.getValue<Guid> ("itemid")));
+							break;
+						}
 							
 						case "list":
 						{

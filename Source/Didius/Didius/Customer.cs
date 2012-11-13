@@ -598,15 +598,10 @@ namespace Didius
 
 				if (Id != Guid.Empty)
 				{
-					Console.WriteLine ("GUID");
-
 					item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.customer)[1]")));
 				}
 				else
-				{
-					Console.WriteLine ("USERID");
-					Console.WriteLine (User.Id);
-
+				{				
 					item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("userid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, User.Id)).SelectSingleNode ("(//didius.customer)[1]")));
 				}
 
