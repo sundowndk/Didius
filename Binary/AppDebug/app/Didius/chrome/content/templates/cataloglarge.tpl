@@ -34,7 +34,7 @@
 	width: 							200mm;
 	
 	text-align: 					center;	
-	font-size: 						14px;
+	font-size: 						12px;
 	font-weight:					bold;
 }
 

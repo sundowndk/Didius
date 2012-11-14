@@ -28,11 +28,11 @@
 {
 	position:						absolute;		
 	bottom: 						-30px;	
-
+	margin-top: 5mm;
 	width: 							200mm;
 	
 	text-align: 					center;	
-	font-size: 						14px;
+	font-size: 						12px;
 	font-weight:					bold;
 }
 
@@ -78,7 +78,7 @@
 
 // Header
 <div id="PageHeader" class="PageHeader">
-	Auktionskatalog, Waldemarsvej 1, 4296 Nyrup Sjælland<br>%%AUCTIONDATE%%
+	Auktionskatalog, Waldemarsvej 1, 4296 Nyrup Sjælland<br>%%AUCTIONBEGIN%% kl. %%AUCTIONBEGINTIME%%
 </div>
 
 // Table

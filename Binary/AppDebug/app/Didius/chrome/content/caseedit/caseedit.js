@@ -576,7 +576,7 @@ var main =
 				// AUCTIONBEGIN
 				{
 					var begin = new Date (Date.parse (main.current.auction.begin));													
-					render = render.replace ("%%AUCTIONBEGIN%%", begin.getDate () +"-"+ begin.getMonth () +"-"+ begin.getFullYear ());
+					render = render.replace ("%%AUCTIONBEGIN%%", begin.getDate () +"-"+ (begin.getMonth () + 1)  +"-"+ begin.getFullYear ());
 					content.innerHTML = render;
 				}			
 				
@@ -590,7 +590,7 @@ var main =
 				// AUCTIONDEADLINE
 				{
 					var deadline = new Date (Date.parse (main.current.auction.deadline));	
-					render = render.replace ("%%AUCTIONDEADLINE%%", deadline.getDate () +"-"+ deadline.getMonth () +"-"+ deadline.getFullYear ());
+					render = render.replace ("%%AUCTIONDEADLINE%%", deadline.getDate () +"-"+ (deadline.getMonth () + 1) +"-"+ deadline.getFullYear ());
 					content.innerHTML = render;
 				}			
 				
@@ -604,7 +604,7 @@ var main =
 				// DATE
 				{					
 					var now = new Date ();
-					render = render.replace ("%%DATE%%", now.getDate () +"-"+ now.getMonth () +"-"+ now.getFullYear ());
+					render = render.replace ("%%DATE%%", now.getDate () +"-"+ (now.getMonth () + 1) +"-"+ now.getFullYear ());
 					content.innerHTML = render;				
 				}						
 				

@@ -87,20 +87,15 @@ var main =
 			window.arguments[0].onDone (main.customersTreeHelper.getRow ());
 		}
 		
-		window.close ();
+		main.close ();				
 	},
 	
 	close : function ()
-	{
-		if (window.arguments[0].onDone != null)
-		{
-			window.arguments[0].onDone (null);
-		}
-		
+	{					
 		// Unhook events.
 		app.events.onCustomerCreate.removeHandler (main.eventHandlers.onCustomerCreate);		
 		app.events.onCustomerSave.removeHandler (main.eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.removeHandler (main.eventHandlers.onCustomerDestroy);
+		app.events.onCustomerDestroy.removeHandler (main.eventHandlers.onCustomerDestroy);			
 	
 		// Close window.
 		window.close ();

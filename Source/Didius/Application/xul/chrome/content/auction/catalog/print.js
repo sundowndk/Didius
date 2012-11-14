@@ -91,12 +91,16 @@ var main =
 			content.className = "PrintContent";
 			page.appendChild (content);
 																		
-			// Add inital content.
-			var page2 = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
+			// Add inital content.					
+			var page2 = template.page.replace ("%%PAGENUMBER%%", pageCount++);								
 			content.innerHTML = page2;
 			
+			var hest = print.contentDocument.getElementById ("PageFooter").offsetHeight;
+			
+			
+			
 			// Caluculate page maxheight for printing.										
-			var maxHeight = page.offsetHeight 
+			var maxHeight = page.offsetHeight - hest;
 															
 			var count = 0;					
 			var rows = "";
@@ -106,7 +110,9 @@ var main =
 								
 			// Add data rows.																																					
 			for (var idx = from; idx < items.length; idx++)
-			{						
+			{				
+				var e = (idx / items.length) * 100;
+			
 				progressmeter.value = (idx / items.length) * 100;
 					
 				var row = template.row;
@@ -115,7 +121,7 @@ var main =
 				//var customer = didius.customer.load (case_.customerid)
 				
 				// Replace template placeholders.
-				row = row.replace ("%%AUCTIONDATE%%", ""); // AuctionDate						
+				//row = row.replace ("%%AUCTIONDATE%%", ""); // AuctionDate						
 				
 				row = row.replace ("%%CATALOGNO%%", items[idx].catalogno); // CatalogNo
 				row = row.replace ("%%DESCRIPTION%%", items[idx].description); // Description						
@@ -130,12 +136,19 @@ var main =
 				row = row.replace ("%%CUSTOMERPHONE%%", items[idx].case.customer.phone); // CustomerPhome
 				row = row.replace ("%%CUSTOMEREMAIL%%", items[idx].case.customer.email); // CustomerEmail
 								
-				if (items[idx].currentbidid != SNDK.tools.guidEmpty)
+			
+				if (items[idx].currentbidid != SNDK.tools.emptyGuid)
 				{
 					var bid = didius.bid.load (items[idx].currentbidid);
 					row = row.replace ("%%BIDCUSTOMERNAME%%", bid.customer.name); // BIDCUSTOMERNAME
 					row = row.replace ("%%BIDCUSTOMERNO%%", bid.customer.no); // BIDCUSTOMERNO
 					row = row.replace ("%%BIDAMOUNT%%", bid.amount); // BIDAMOUNT
+				}
+				else
+				{
+					row = row.replace ("%%BIDCUSTOMERNAME%%", ""); // BIDCUSTOMERNAME
+					row = row.replace ("%%BIDCUSTOMERNO%%", ""); // BIDCUSTOMERNO
+					row = row.replace ("%%BIDAMOUNT%%", ""); // BIDAMOUNT
 				}
 				
 								
