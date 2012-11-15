@@ -1,0 +1,247 @@
+.shortcuts 
+{
+	display: none;
+	position: absolute;
+	z-index: 99;
+	top: 36px;
+	left: 10px;
+	margin: 0;
+	width: 240px;
+	list-style-type: none;
+	padding: 15px 4px 5px 14px;
+	*padding-bottom: 25px;
+	border: 1px solid white;
+	background: #d9d9d9 url(../img/old-browsers/style/bg_shortcuts.png) repeat-x;
+	-webkit-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	-o-background-size: 100% 100%;
+	background-size: 100% 100%;
+	background: -webkit-gradient(linear, left top, left bottom, from(white), to(#d9d9d9));
+	background: -webkit-linear-gradient( white, #d9d9d9 );
+	background: -moz-linear-gradient( white, #d9d9d9 );
+	background: -ms-linear-gradient( white, #d9d9d9 );
+	background: -o-linear-gradient( white, #d9d9d9 );
+	background: linear-gradient( white, #d9d9d9 );
+	-webkit-background-clip: padding-box;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 1px 7px rgba(0, 0, 0, 0.8);
+	-moz-box-shadow: 0 1px 7px rgba(0, 0, 0, 0.8);
+	box-shadow: 0 1px 7px rgba(0, 0, 0, 0.8);
+}
+	
+.shortcuts > li 
+{
+	width: 70px;
+	height: 70px;
+	float: left;
+	margin: -5px 10px 25px 0;
+}
+
+.shortcuts > li > a, .shortcuts > li > span 
+{
+	display: block;
+
+	background-repeat: no-repeat;
+	width: 70px;
+	height: 5px;
+	padding-top: 65px;
+	color: #666666;
+	text-align: center;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+			#shortcuts > li > span {
+				color: #999999;
+			}
+			#shortcuts > li.current > a {
+				color: #3399cc;
+			}
+			
+
+
+
+.shortcuts {
+	position: 	fixed;
+	
+
+	
+	
+	bottom: 	0;
+	left: 		0;
+
+	margin: 	0;
+	
+	padding: 	0;
+
+	border: 	0;
+	
+	width: 		68px;
+	
+	
+	display: 	block;
+
+	color: white;
+	-webkit-background-size: auto;
+	-moz-background-size: auto;
+	-o-background-size: auto;
+	background-size: auto;
+	background: #3c4044 url(../img/textures/grid.png);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.4)), to(rgba(0, 0, 0, 0))), #3c4044 url(../img/textures/grid.png);
+	background: -webkit-linear-gradient( top, rgba(0,0,0,0.4), rgba(0,0,0,0)), #3c4044 url(../img/textures/grid.png);
+	background: -moz-linear-gradient( top, rgba(0,0,0,0.4), rgba(0,0,0,0)), #3c4044 url(../img/textures/grid.png);
+	background: -ms-linear-gradient( top, rgba(0,0,0,0.4), rgba(0,0,0,0)), #3c4044 url(../img/textures/grid.png);
+	background: -o-linear-gradient( top, rgba(0,0,0,0.4), rgba(0,0,0,0)), #3c4044 url(../img/textures/grid.png);
+	background: linear-gradient( top, rgba(0,0,0,0.4), rgba(0,0,0,0)), #3c4044 url(../img/textures/grid.png);
+	-webkit-box-shadow: inset -5px 5px 20px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: inset -5px 5px 20px rgba(0, 0, 0, 0.75);
+	box-shadow: inset -5px 5px 20px rgba(0, 0, 0, 0.75);
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	
+	cursor: pointer;
+	}
+	
+	
+	.shortcuts > li {
+		width: 68px;
+		height: auto;
+		float: none;
+		margin: 0;
+		overflow: hidden;
+		position: relative;
+		}
+
+		.shortcuts > li > a,
+		.shortcuts > li > span {
+			overflow: hidden;
+
+			width: auto;
+			height: 70px;
+			padding: 0;
+			text-align: left;
+		}
+		
+		.shortcuts > li > a > #icon1
+		{
+			position: absolute;
+		
+			left: 14px;
+			top: 25px;
+		}
+		
+		.shortcuts > li > a > #icon2
+		{
+			position: absolute;
+		
+			right: 13px;
+			top: 25px;
+		}
+		
+		
+		.shortcuts > li > a {
+			width: 136px;
+			-webkit-transition: margin-left 200ms;
+			-moz-transition: margin-left 200ms;
+			-o-transition: margin-left 200ms;
+			transition: margin-left 200ms;
+			
+			overflow: hidden;
+			position: relative;
+			}
+			body.reversed #shortcuts > li > a {
+				margin-left: -68px;
+			}
+			
+			.shortcuts > li > a:before,
+			.shortcuts > li:after {
+				display: block;
+				content: ' ';
+				position: absolute;
+				top: 5px;
+				bottom: 5px;
+				}
+				.shortcuts > li > a:before {
+					background-color: white;
+					
+					right: 0;
+					width: 64px;
+					-webkit-border-radius: 7px 0 0 7px;
+					-moz-border-radius: 7px 0 0 7px;
+					border-radius: 7px 0 0 7px;
+					}
+					body.reversed #shortcuts > li > a:before {
+						left: 0;
+						right: auto;
+						-webkit-border-radius: 0 7px 7px 0;
+						-moz-border-radius: 0 7px 7px 0;
+						border-radius: 0 7px 7px 0;
+					}
+				.shortcuts > li:after {
+					right: 0;
+					width: 6px;
+					opacity: 0;
+					pointer-events: none;
+					background: url(../img/old-browsers/768/bg_shortcuts_li_after.png) repeat-y;
+					-webkit-background-size: 100% 100%;
+					-moz-background-size: 100% 100%;
+					-o-background-size: 100% 100%;
+					background-size: 100% 100%;
+					background: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.75)), color-stop(0.5, rgba(0, 0, 0, 0.2)), color-stop(0.75, rgba(0, 0, 0, 0.3)), color-stop(0.9, rgba(0, 0, 0, 0.5)));
+					background: -webkit-linear-gradient( left, rgba(0,0,0,0), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,0.75));
+					background: -moz-linear-gradient( left, rgba(0,0,0,0), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,0.75));
+					background: -ms-linear-gradient( left, rgba(0,0,0,0), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,0.75));
+					background: -o-linear-gradient( left, rgba(0,0,0,0), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,0.75));
+					background: linear-gradient( left, rgba(0,0,0,0), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,0.75));
+					}
+					body.reversed #shortcuts > li:after {
+						left: 0;
+						right: auto;
+						background: url(../img/old-browsers/768/bg_body_reversed_shortcuts_li_after.png) repeat-y right top;
+						-webkit-background-size: 100% 100%;
+						-moz-background-size: 100% 100%;
+						-o-background-size: 100% 100%;
+						background-size: 100% 100%;
+						background: -webkit-gradient(linear, right top, left top, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.75)), color-stop(0.5, rgba(0, 0, 0, 0.2)), color-stop(0.75, rgba(0, 0, 0, 0.3)), color-stop(0.9, rgba(0, 0, 0, 0.5)));
+						background: -webkit-linear-gradient( right, rgba(0,0,0,0), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,0.75));
+						background: -moz-linear-gradient( right, rgba(0,0,0,0), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,0.75));
+						background: -ms-linear-gradient( right, rgba(0,0,0,0), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,0.75));
+						background: -o-linear-gradient( right, rgba(0,0,0,0), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,0.75));
+						background: linear-gradient( right, rgba(0,0,0,0), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 90%, rgba(0,0,0,0.75));
+					}
+					.shortcuts > li.current:after {
+						display: none;
+					}
+					.shortcuts > li:hover:after {
+						opacity: 1;
+						-webkit-transition: none;
+						-moz-transition: none;
+						-o-transition: none;
+						transition: none;
+					}
+
+			.no-generatedcontent .shortcuts > li.current > a {
+				background-color: white;
+			}
+			.shortcuts:hover > li.current > a {
+				margin-left: -60px;
+				}
+				.no-generatedcontent #shortcuts:hover > li.current > a {
+					margin-left: -68px;
+				}
+				body.reversed #shortcuts:hover > li.current > a {
+					margin-left: 0;
+					margin-right: -60px;
+					}
+					body.reversed.no-generatedcontent #shortcuts:hover > li.current > a {
+						margin-right: -68px;
+					}
+			.shortcuts > li > a:hover,
+			.shortcuts > li.current > a,
+			.shortcuts:hover > li.current:hover > a {
+				margin-left: -68px;
+				}
+
+

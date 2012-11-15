@@ -2901,6 +2901,289 @@ var SNDK =
 			}		
 		}	,
 	
+		// ------------------------------------
+		// rotator
+		// ------------------------------------		
+		/**
+		 * @constructor
+		 */
+		rotator2 : function (options)
+		{
+			var _initialized = false;
+			var _id = SNDK.tools.newGuid ();
+			var _elements = new Array ();
+			var _options = options;	
+			var _attributes = options;
+			var _defaults = {	stylesheet: "SNDK-Rotator",
+						fadeDelay: 500,
+						fadeDouble: false,
+						randomize: false,
+						delay: 2000,
+						width: "100px",
+						height: "100px",
+						
+					};
+					
+			var _temp =	{	
+							timer: null,
+							currentContent: -1,
+							currentImage: -1,
+							nextRotation: null,
+							inTransition: false,
+							stopped: false
+						};
+													
+			setOptions ();
+		
+			this.play = functionPlay;
+			this.stop = functionStop;		
+			this.prev = functionPrev;
+			this.next = functionNext;
+		
+			// Initialize
+			window.onDomReady (init);				
+		
+			function init ()
+			{		
+				for (idx in _attributes.data)
+				{
+					var data = _attributes.data[idx];
+				
+					if (data.element)
+					{
+						_elements["container"+ idx] = SNDK.SUI.helpers.getContainer ({element: data.element});
+					}
+					else if (data.appendTo)
+					{
+						_elements["container"+ idx] = SNDK.SUI.helpers.getContainer ({element: data.appendTo});
+					}
+					else
+					{
+						throw ("sndk.widgets.rotator: Neither element or appendTo is specified in data. Cannot create rotator.");
+					}					
+					
+					switch (data.type.toLowerCase ())
+					{
+						case "fade":
+						{
+							// FROM
+							_elements["from"+ idx] = SNDK.tools.newElement ("div", {appendTo: _elements["container"+ idx]});
+							_elements["from"+ idx].style.position = "absolute";					
+							SNDK.tools.opacityChange (_elements["from"+ idx], 100);	
+							
+							// TO
+							_elements["to"+ idx] = SNDK.tools.newElement ("div", {appendTo: _elements["container"+ idx]});
+							_elements["to"+ idx].style.position = "absolute";
+							SNDK.tools.opacityChange (_elements["from"+ idx], 0);	
+							break;
+						}
+					}
+				}
+			
+			//	rotate (false);		
+			}
+		
+			function rotate (done)
+			{
+				for (idx in _attributes.data)
+				{		
+					var data = _attributes.data[idx];
+					
+					switch (data.type.toLowerCase ())
+					{
+						case "fade":
+						{		
+							clearTimeout (_temp.nextRotation);
+				
+							if (done)
+							{
+								_elements["from"+ idx].innerHTML = data.content[_temp.currentContent].html;
+								SNDK.tools.opacityChange (_elements["from"+ idx], 100);
+						
+								_elements["to"+ idx].innerHTML = " ";		
+								SNDK.tools.opacityChange (_elements["to"+ idx], 0);
+										
+								_temp.nextRotation = setTimeout (function () {rotate (false)}, _attributes.delay);
+								_temp.inTransition = false;
+							}
+							else
+							{	
+								_temp.inTransition = true;					
+					
+								if (_temp.currentContent == data.content.length -1)
+								{
+									_temp.currentContent = 0;												
+								}				
+								else
+								{
+									_temp.currentContent++;
+								}
+					
+								_elements["to"+ idx].innerHTML = data.content[_temp.currentContent].html;
+														
+								SNDK.animation.opacityFade (_elements["to"+ idx], 0, 100, data.fadeDelay);
+								
+								if (data.fadeDouble)
+								{
+									SNDK.animation.opacityFade (_elements["from"+ idx], 100, 0, data.fadeDelay);														
+								}
+								
+								setTimeout (function () {rotate (true)}, data.fadeDelay + 10);
+							}								
+						
+							break;
+						}
+					}
+				}	
+			}
+		
+			function rotateold (done)
+			{			
+				switch (_options.type)
+				{
+					case "fade":
+				
+							clearTimeout (_temp.nextRotation);
+				
+							if (done)
+							{
+								_elements["image_from"].src = _options.images[_temp.currentImage].src;
+								SNDK.tools.opacityChange (_elements["image_from"], 100);
+						
+								_elements["image_to"].src = "";						
+								SNDK.tools.opacityChange (_elements["image_to"], 0);
+						
+								if (_options.hasHTML)
+								{
+									_elements["html_from"].innerHTML = _options.htmls[_temp.currentImage].content;
+									SNDK.tools.opacityChange (_elements["html_from"], 100);
+						
+									_elements["html_to"].innerHTML = " ";
+									SNDK.tools.opacityChange (_elements["html_to"], 0);						
+								}				
+						
+								_temp.nextRotation = setTimeout (function () {rotate (false)}, _options.delay);
+								_temp.inTransition = false;
+							}
+							else
+							{	
+								_temp.inTransition = true;					
+					
+								if (_temp.currentImage == _options.images.length-1)
+								{
+									_temp.currentImage = 0;
+							
+									if (_options.randomize)
+									{
+										_options.images.sort(function() {return 0.5 - Math.random();})				
+									}
+								}				
+								else
+								{
+									_temp.currentImage++;
+								}
+					
+								_elements["image_to"].src = _options.images[_temp.currentImage].src;
+								
+								if (_options.hasHTML)
+								{							
+									_elements["html_to"].innerHTML = _options.htmls[_temp.currentImage].content;
+									SNDK.animation.opacityFade (_elements["html_to"], 0, 100, _options.fadeDelay);
+								}
+								
+		
+								SNDK.animation.opacityFade (_elements["image_to"], 0, 100, _options.fadeDelay);
+								
+								if (_options.fadeDouble)
+								{
+									SNDK.animation.opacityFade (_elements["image_from"], 100, 0, _options.fadeDelay);
+									
+									if (_options.hasHTML)
+									{							
+										SNDK.animation.opacityFade (_elements["html_from"], 100, 0, _options.fadeDelay);								
+									}
+								}
+								
+								setTimeout (function () {rotate (true)}, _options.fadeDelay + 10);
+							}
+						break;
+				}			
+			}
+				
+			function setOptions ()
+			{
+				// stylesheet
+				if (_options.stylesheet == null)
+					_options.stylesheet = _defaults.stylesheet;			
+		
+				// fadeDelay
+				if (_options.fadeDelay == null)
+					_options.fadeDelay = _defaults.fadeDelay;		
+		
+				// fadeDelay
+				if (_options.delay == null)
+					_options.delay = _defaults.delay;
+				
+				// fadeDouble
+				if (_options.fadeDouble == null)
+					_options.fadeDouble = _defaults.fadeDouble;				
+		
+				// randomize
+				if (_options.randomize == null)
+					_options.randomize = _defaults.randomize;
+				
+				// images
+				if (_options.images != null)
+				{
+					var temp = new Array ();
+					for (var index in _options.images)
+					{
+						temp[index] = _options.images[index];
+					}
+				
+					_options.images = temp;
+				}												
+			}
+			
+			function functionPrev ()
+			{
+				if (!_temp.inTransition)
+				{
+					rotate (true);
+		
+					_temp.currentImage--;
+					if (_temp.currentImage == -1)
+					{
+						_temp.currentImage = _options.images.length-1;
+					}			
+					_temp.currentImage--;
+			
+					rotate (false);	
+				}
+			}
+			
+			function functionNext ()
+			{
+				if (!_temp.inTransition)
+				{
+					rotate (true);
+					rotate (false);
+				}			
+			}
+		
+			function functionStop ()
+			{
+				clearTimeout (_temp.nextRotation);
+				_temp.stopped = true;
+			}
+		
+			function functionPlay ()
+			{
+				_temp.nextRotation = setTimeout (function () {rotate (false)}, _options.delay);
+				_temp.stopped = false;
+			}		
+		}	,
+	
 		// ------------------------------------------------------------------------------------------------------------------------
 		// blobMenu (options)
 		// ------------------------------------------------------------------------------------------------------------------------
@@ -8794,7 +9077,7 @@ var SNDK =
 				updateCache ();		
 				
 				_attributes.heightType = "pixel";
-				_attributes.height = _temp.cache["containerBoxDimensions"]["vertical"] + _temp.cache["containerHeight"];		
+				_attributes.height = _temp.cache["containerBoxDimensions"]["vertical"] + _temp.cache["containerHeight"];			
 			}
 			
 			// ------------------------------------
@@ -8840,7 +9123,7 @@ var SNDK =
 				_elements["input"].onkeyup = eventOnKeyUp;	
 				_elements["input"].onkeypress = eventOnKeyPress;
 				
-				window.addEvent (window, 'SUIREFRESH', refresh);						
+				window.addEvent (window, 'SUIREFRESH', refresh);							 
 			}		
 					
 			// ------------------------------------
@@ -8861,8 +9144,7 @@ var SNDK =
 					{
 						if (_attributes.focus)
 						{	
-							_elements["container"].className = _attributes.stylesheet +" focus";								
-							//_elements["container"].className = _attributes.stylesheet +" "+ _attributes.stylesheet+"Focus";					
+							_elements["container"].className = _attributes.stylesheet +" focus";				
 							setFocus ();
 						}
 						else
@@ -8907,23 +9189,23 @@ var SNDK =
 			// ------------------------------------		
 			function updateCache ()
 			{
-				_temp.cache["containerBoxDimensions"] = SNDK.tools.getElementStyledBoxSize (_elements["container"]);
-				_temp.cache["inputBoxDimensions"] = SNDK.tools.getElementStyledBoxSize (_elements["input"]);
+				_temp.cache.containerBoxDimensions = SNDK.tools.getElementStyledBoxSize (_elements["container"]);
+				_temp.cache.inputBoxDimensions = SNDK.tools.getElementStyledBoxSize (_elements["input"]);
 				_temp.cache.containerBoxDimensions.horizontal += _temp.cache.inputBoxDimensions.horizontal;
 					
 				if (_attributes.icon)
 				{
-					_temp.cache["iconWidth"] = _elements["icon"].offsetWidth;
-					_temp.cache.containerBoxDimensions.horizontal += _temp.cache.iconWidth;
+					_temp.cache.iconWidth = _elements["iconcontainer"].offsetWidth;			
+					_temp.cache.containerBoxDimensions.horizontal += _temp.cache.iconWidth;		
 				}
 					
 				if (_attributes.infoBubble)
 				{
-					_temp.cache["infoBubbleWidth"] = _elements["infospot"].offsetWidth;
+					_temp.cache.infoBubbleWidth = _elements["infospot"].offsetWidth;	
 					_temp.cache.containerBoxDimensions.horizontal += _temp.cache.infoBubbleWidth;
 				}
 				
-				_temp.cache["containerHeight"] = SNDK.tools.getElementStyledHeight (_elements["container"]);
+				_temp.cache.containerHeight = SNDK.tools.getElementStyledHeight (_elements["container"]);
 			}		
 				
 			// ------------------------------------
@@ -9099,14 +9381,13 @@ var SNDK =
 				if (_attributes.infoBubble != null)
 				{		
 					var icon = _attributes.infoBubble.split (";")[0];
-					var color = _attributes.infoBubble.split (";")[1];
-					var text = _attributes.infoBubble.split (";")[2];
+					var text = _attributes.infoBubble.split (";")[1];
 			
 					_elements["infospot"] = SNDK.tools.newElement ("span", {appendTo: _elements["infobubblecontainer"]});
 					_elements["infospot"].className = "info-spot";
 			
 					_elements["infoicon"] = SNDK.tools.newElement ("span", {appendTo: _elements["infospot"]});
-					_elements["infoicon"].className = "icon-"+ icon +" "+ color;
+					_elements["infoicon"].className = "icon-"+ icon; 
 					
 					_elements["infobubble"] = SNDK.tools.newElement ("span", {appendTo: _elements["infospot"]});
 					_elements["infobubble"].className = "info-bubble";
@@ -9208,18 +9489,18 @@ var SNDK =
 					{
 						return _attributes[attribute];			
 					}
-					
-					case "focus":
-					{
-						return _attributes[attribute];			
-					}
-			
+							
 					case "password":
 					{
 						return _attributes[attribute];			
 					}
 					
 					case "textTransform":
+					{
+						return _attributes[attribute];			
+					}
+					
+					case "focus":
 					{
 						return _attributes[attribute];			
 					}
@@ -9249,16 +9530,16 @@ var SNDK =
 						return _attributes[attribute];
 					}
 			
-					case "value":
-					{
-						return getValue ();
-					}
-					
 					case "tabIndex":
 					{
 						return _attributes[attribute];
 					}
-							
+			
+					case "value":
+					{
+						return getValue ();
+					}
+								
 					default:
 					{
 						throw "No attribute with the name '"+ attribute +"' exist in this object";
@@ -9361,13 +9642,6 @@ var SNDK =
 						break;
 					}
 					
-					case "focus":
-					{
-						_attributes[attribute] = value;
-						refresh ();
-						break;
-					}
-			
 					case "password":
 					{
 						_attributes[attribute] = value;
@@ -9376,6 +9650,13 @@ var SNDK =
 					}
 					
 					case "textTransform":
+					{
+						_attributes[attribute] = value;
+						refresh ();
+						break;
+					}
+					
+					case "focus":
 					{
 						_attributes[attribute] = value;
 						refresh ();
@@ -9412,6 +9693,12 @@ var SNDK =
 						break;
 					}
 			
+					case "tabIndex":
+					{
+						_attributes[attribute] = value;
+						refresh ();
+					}
+			
 					case "value":
 					{
 						_attributes[attribute] = value;
@@ -9421,13 +9708,7 @@ var SNDK =
 							eventOnChange ();
 						}
 						break;
-					}
-					
-					case "tabIndex":
-					{
-						_attributes[attribute] = value;
-						refresh ();
-					}
+					}		
 							
 					default:
 					{

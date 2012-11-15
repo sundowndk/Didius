@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<title>			
+		</title>
+		
+		<link rel="stylesheet" href="css/sndk.css" type="text/css">
+		<script type="text/javascript" src="js/sndk.js"></script>					
+	</head>
+
+	<script language="JavaScript">
+				
+	
+		var data = new Array ();
+		data[0] = 	{
+						element : "rotator1",						
+						type : "fade",
+						fadeDelay : 500,
+						fadeDouble : true,
+						
+						content : 	[
+										{html : "Content #1.1"}, 
+										{html : "Content #1.2"}
+									]					
+					};
+					
+		data[1] = 	{
+						element : "rotator2",						
+						type : "fade",
+						fadeDelay : 500,
+						fadeDouble : true,
+						
+						content : 	[
+										{html : "Content #2.1"}, 
+										{html : "Content #2.2"}
+									]					
+					};					
+					
+					
+					
+//		data[0].element = "rotator";		
+//		data[0].appendTo = "rotator";
+//		data[0].type = "fade";
+//		data[0].fadeDelay = 500;
+//		data[0].fadeDouble = true;
+//		data[0].fadeIn = false;
+//		data[0].content = new Array ();
+//		data[0].content[0] = {};
+//		data[0].content[0].html = "Content #1.1";
+//		data[0].content[1] = {};
+//		data[0].content[1].html = "Content #1.2";
+//		data[0].content[2] = {};
+//		data[0].content[2].html = "Content #1.3";				
+		
+		var rotator = new SNDK.widgets.rotator2 ({data: data, delay: 8000, randomize: false});
+								                             						                             						                             
+		//var rotator = new SNDK.widgets.rotator ({imageElement: "rotator", htmlElement: "rotator-html", images: images, htmls: texts, type: "fade", fadeDelay: 500, delay: 8000, randomize: false});
+		
+	</script>
+			
+	<body>	
+		<div id="rotator1" style="width: 500px; height: 500px; margin: 20px;">		
+		</div>
+		<div id="rotator2" style="width: 500px; height: 500px; margin: 20px;">		
+		</div>
+	</body>
+</html>

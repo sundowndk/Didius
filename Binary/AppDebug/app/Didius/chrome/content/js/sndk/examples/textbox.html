@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<title>			
+		</title>
+		
+		<link rel="stylesheet" href="css/sndk.css" type="text/css">
+		<script type="text/javascript" src="js/sndk.js"></script>					
+	</head>
+
+	<script language="JavaScript">
+		var normal = new SNDK.SUI.textbox ({appendTo: "normal", width: "300px", value: "Normal"});
+		var disabled = new SNDK.SUI.textbox ({appendTo: "disabled", width: "300px", disabled: true, value: "Disabled"});
+		var readonly = new SNDK.SUI.textbox ({appendTo: "readonly", width: "300px", readOnly: true, value: "ReadOnly"});
+		var password = new SNDK.SUI.textbox ({appendTo: "password", width: "300px", password: true, value: "Password"});
+		var texttransform1 = new SNDK.SUI.textbox ({appendTo: "texttransform1", width: "300px", textTransform: "uppercase", value: "Text Transform uppercase"});
+		var texttransform2 = new SNDK.SUI.textbox ({appendTo: "texttransform2", width: "300px", textTransform: "lowercase", value: "Text Transform lowercase"});
+				
+		var infobubble = new SNDK.SUI.textbox ({appendTo: "infobubble", width: "300px", infoBubble: "info-round;This is an infobubble, nice right!?", value: "Infobubble"});
+		var icon = new SNDK.SUI.textbox ({appendTo: "icon", width: "300px", icon: "lock;black", value: "Icon"});
+		SNDK.SUI.init ();
+	</script>
+			
+	<body>	
+		<div id="ui" style="height: 100%; margin: 20px;">
+			<div style="float: left; margin: 20px; width: 400px;">
+				TEXTBOX:NORMAL
+				<div id="normal"></div><br>
+				TEXTBOX:DISABLED
+				<div id="disabled"></div><br>
+				TEXTBOX:READONLY
+				<div id="readonly"></div><br>
+				TEXTBOX:PASSWORD
+				<div id="password"></div><br>				
+			</div>
+			
+			<div style="float: left; margin: 20px; width: 400px;">
+				TEXTBOX:TEXTTRANSFORM:UPPERCASE
+				<div id="texttransform1"></div><br>
+				TEXTBOX:TEXTTRANSFORM:LOWERCASE
+				<div id="texttransform2"></div><br>
+				TEXTBOX:INFOBUBBLE
+				<div id="infobubble"></div><br>				
+				TEXTBOX:ICON
+				<div id="icon"></div><br>				
+			</div>		
+		</div>
+	</body>
+</html>

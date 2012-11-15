@@ -7,7 +7,7 @@
       <File FileName="Didius/Application/xul/chrome/content/templates/catalogsmall.tpl" Line="82" Column="7" />
       <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="602" Column="9" />
       <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="12" Column="33" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="20" Column="24" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
