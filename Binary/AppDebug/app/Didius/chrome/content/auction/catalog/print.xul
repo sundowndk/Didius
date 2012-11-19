@@ -26,6 +26,7 @@
   				<menupopup>
     				<menuitem label="Internt katalog" value="internal"/>
     				<menuitem label="Køber katalog" value="buyer"/>
+    				<menuitem label="Labels" value="label"/>
   				</menupopup>
 			</menulist>				
 		</hbox>					

@@ -1,13 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/templates/label.tpl">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="101" Column="4" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/cataloglarge.tpl" Line="37" Column="21" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/catalogsmall.tpl" Line="82" Column="7" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="602" Column="9" />
-      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="20" Column="24" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="81" Column="6" />
+      <File FileName="Didius/Application/xul/chrome/content/templates/label.tpl" Line="62" Column="19" />
+      <File FileName="Didius/Application/xul/chrome/content/templates/catalogsmall.tpl" Line="79" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -34,15 +31,15 @@
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True">
-                      <Node name="main.js" selected="True" />
-                    </Node>
+                    <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True">
                       <Node name="access" expanded="True">
                         <Node name="user" expanded="True" />
                       </Node>
                     </Node>
-                    <Node name="templates" expanded="True" />
+                    <Node name="templates" expanded="True">
+                      <Node name="label.tpl" selected="True" />
+                    </Node>
                   </Node>
                 </Node>
               </Node>

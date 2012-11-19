@@ -3,65 +3,117 @@
 	<head>
 		<title>			
 		</title>
-		
+						
 		<link rel="stylesheet" href="css/sndk.css" type="text/css">
 		<script type="text/javascript" src="js/sndk.js"></script>					
+		
+		<style>
+			
+			#rotatorcontainer
+			{
+				position: relative;
+				margin: 20px;
+			}
+			
+			#rotator1
+			{				
+				width: 565px;
+				height: 290px;
+			}
+			
+			#rotator2
+			{
+				position: absolute;
+				bottom: 0px;
+				padding: 5px;
+				width: 555px;
+				height: 50px;							
+				background-color: #000;
+			}
+		</style>
 	</head>
 
 	<script language="JavaScript">
-				
-	
+					
 		var data = new Array ();
 		data[0] = 	{
 						element : "rotator1",						
-						type : "fade",
-						fadeDelay : 500,
-						fadeDouble : true,
-						
+						type : "fade",						
+						fadeDouble : true,						
 						content : 	[
-										{html : "Content #1.1"}, 
-										{html : "Content #1.2"}
+										{
+											html : "<img src='images/rotator/image1.jpg'>"
+										}, 										
+										{
+											html : "<img src='images/rotator/image2.jpg'>"
+										},
+										{
+											html : "<img src='images/rotator/image3.jpg'>"
+										},
+										{
+											html : "<img src='images/rotator/image4.jpg'>"
+										},
+										{
+											html : "<img src='images/rotator/image5.jpg'>"
+										},
+										{
+											html : "<img src='images/rotator/image6.jpg'>"
+										},
+										{
+											html : "<img src='images/rotator/image7.jpg'>"
+										},
+										{
+											html : "<img src='images/rotator/image8.jpg'>"
+										}
 									]					
 					};
 					
 		data[1] = 	{
-						element : "rotator2",						
-						type : "fade",
-						fadeDelay : 500,
-						fadeDouble : true,
-						
+						element : "rotator2",
+						type : "fade",						
+						fadeDouble : true,						
 						content : 	[
-										{html : "Content #2.1"}, 
-										{html : "Content #2.2"}
+										{
+											html : "<h1>Suspendisse</h1><p>Curabitur metus lacus, tempus dapibus vulputate et, varius at neque. Praesent elementum adipiscing sem, at pellentesque nulla scelerisque nec. </p>"
+										}, 										
+										{
+											html : "<h1>Vestibulum consequat</h1><p>Praesent convallis metus eget lacus lobortis in tristique metus molestie. Morbi sit amet tellus at tellus gravida feugiat sit amet non sem.</p>"
+										},
+										{
+											html : "<h1>Lorem ipsum dolor sit amet</h1><p>Sed sed libero sit amet libero ullamcorper tincidunt a nec urna.</p>"
+										},
+										{
+											html : "<h1>Praesent convallis</h1><p>Nulla in lorem pharetra magna dapibus blandit sed at mi. Integer hendrerit luctus erat at aliquam.</p>"
+										},
+										{
+											html : "<h1>Praesent elementum adipiscing sem</h1><p>Nam fringilla posuere dui, sed facilisis dolor consectetur a. Phasellus ultricies tempus cursus.</p>"
+										},
+										{
+											html : "<h1>Mauris id mi magna</h1><p>Pellentesque pellentesque ante quis risus convallis in elementum eros ornare. Quisque aliquet odio eu neque fringilla semper.</p>"
+										},
+										{
+											html : "<h1>Donec rutrum adipiscing</h1><p> Aenean vel urna vestibulum augue porta varius ac vel quam. </p>"
+										},
+										{
+											html : "<h1>Aliquam erat volutpat</h1><p> Morbi nec metus ut nibh semper porta ac at ligula. Nulla facilisi. Phasellus imperdiet ullamcorper justo, et hendrerit enim malesuada ut. </p>"
+										}
 									]					
-					};					
-					
-					
-					
-//		data[0].element = "rotator";		
-//		data[0].appendTo = "rotator";
-//		data[0].type = "fade";
-//		data[0].fadeDelay = 500;
-//		data[0].fadeDouble = true;
-//		data[0].fadeIn = false;
-//		data[0].content = new Array ();
-//		data[0].content[0] = {};
-//		data[0].content[0].html = "Content #1.1";
-//		data[0].content[1] = {};
-//		data[0].content[1].html = "Content #1.2";
-//		data[0].content[2] = {};
-//		data[0].content[2].html = "Content #1.3";				
-		
-		var rotator = new SNDK.widgets.rotator2 ({data: data, delay: 8000, randomize: false});
-								                             						                             						                             
-		//var rotator = new SNDK.widgets.rotator ({imageElement: "rotator", htmlElement: "rotator-html", images: images, htmls: texts, type: "fade", fadeDelay: 500, delay: 8000, randomize: false});
-		
+					};																	
+											
+		var rotator = new SNDK.widgets.rotator2 ({data: data, transitionTime: 500, delay: 2000, randomize: true});			
 	</script>
 			
 	<body>	
-		<div id="rotator1" style="width: 500px; height: 500px; margin: 20px;">		
+		<div id="rotatorcontainer">
+			<div id="rotator1">		
+			</div>
+			<div id="rotator2">		
+			</div>			
 		</div>
-		<div id="rotator2" style="width: 500px; height: 500px; margin: 20px;">		
-		</div>
+		<br>
+		<div onclick="rotator.previous ();">PREV</div>
+		<div onclick="rotator.next ();">NEXT</div>
+		<div onclick="rotator.stop ();">STOP</div>
+		<div onclick="rotator.play ();">PLAY</div>
 	</body>
 </html>

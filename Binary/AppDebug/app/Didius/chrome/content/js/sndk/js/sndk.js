@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: sndk
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -130,16 +130,16 @@ var SNDK =
 		{
 			if (element)
 			{
-				if (element.childNodes[0])
-				{
+				if (element.value)
+				{		
+					element.value = text;		
+				}
+				else if (element.childNodes[0])
+				{		
 					element.childNodes[0].nodeValue = text;
 				}
-				else if (element.value)
-				{
-					element.value = text;
-				}
 				else
-				{
+				{		
 					element.innerHTML = text;
 				}
 			}
@@ -2906,37 +2906,27 @@ var SNDK =
 		/**
 		 * @constructor
 		 */
-		rotator2 : function (options)
+		rotator2 : function (attributes)
 		{
 			var _initialized = false;
 			var _id = SNDK.tools.newGuid ();
-			var _elements = new Array ();
-			var _options = options;	
-			var _attributes = options;
-			var _defaults = {	stylesheet: "SNDK-Rotator",
-						fadeDelay: 500,
-						fadeDouble: false,
-						randomize: false,
-						delay: 2000,
-						width: "100px",
-						height: "100px",
-						
-					};
+			var _elements = new Array ();	
+			var _attributes = attributes;	
 					
 			var _temp =	{	
 							timer: null,
-							currentContent: -1,
-							currentImage: -1,
+							length: -1,
+							currentContent: -1,					
+							lastContentIndex: -1,
 							nextRotation: null,
 							inTransition: false,
 							stopped: false
 						};
-													
-			setOptions ();
-		
+															
+			this.type = "ROTATOR";
 			this.play = functionPlay;
 			this.stop = functionStop;		
-			this.prev = functionPrev;
+			this.previous = functionPrevious;
 			this.next = functionNext;
 		
 			// Initialize
@@ -2955,11 +2945,24 @@ var SNDK =
 					else if (data.appendTo)
 					{
 						_elements["container"+ idx] = SNDK.SUI.helpers.getContainer ({element: data.appendTo});
-					}
+					}			
 					else
 					{
 						throw ("sndk.widgets.rotator: Neither element or appendTo is specified in data. Cannot create rotator.");
-					}					
+					}
+					
+					if (_temp.length == -1)
+					{
+						_temp.length = data.content.length;
+					}
+					else if (_temp.length != data.content.length)
+					{
+						throw ("sndk.widgets.rotator: All data must containe the same amount of content.");
+					}
+					else if (data.content.length == 0)
+					{
+						return;
+					}
 					
 					switch (data.type.toLowerCase ())
 					{
@@ -2968,7 +2971,7 @@ var SNDK =
 							// FROM
 							_elements["from"+ idx] = SNDK.tools.newElement ("div", {appendTo: _elements["container"+ idx]});
 							_elements["from"+ idx].style.position = "absolute";					
-							SNDK.tools.opacityChange (_elements["from"+ idx], 100);	
+							SNDK.tools.opacityChange (_elements["from"+ idx], 0);	
 							
 							// TO
 							_elements["to"+ idx] = SNDK.tools.newElement ("div", {appendTo: _elements["container"+ idx]});
@@ -2979,14 +2982,72 @@ var SNDK =
 					}
 				}
 			
-			//	rotate (false);		
+				rotate (false);		
+			}
+		
+			function getNextContentIndex ()
+			{
+				var result = _temp.currentContent;
+				
+				if (_attributes.randomize && _temp.length > 2)
+				{			
+					while (_temp.currentContent == result)
+					{
+						result = Math.floor ((Math.random () * (_temp.length -1 ))+1); 
+					}
+				}
+				else
+				{
+					if (result == (_temp.length - 1))
+					{
+						result = 0;												
+					}				
+					else
+					{
+						result++;
+					}
+				}
+				
+				return result;
+			}
+			
+			function getPreviousContentIndex ()
+			{
+				var result = _temp.currentContent;
+				
+				if (_attributes.randomize && _temp.length > 2)
+				{			
+					while (_temp.currentContent == result)
+					{
+						result = Math.floor ((Math.random () * (_temp.length -1 ))+1); 
+					}
+				}
+				else
+				{
+					if (result == (_temp.length - 1))
+					{
+						result = 0;												
+					}				
+					else
+					{
+						result++;
+					}
+				}
+				
+				return result;
 			}
 		
 			function rotate (done)
 			{
+				if (!done)
+				{		
+					_temp.lastContentIndex = _temp.currentContent;
+					_temp.currentContent = getNextContentIndex ();
+				}
+				
 				for (idx in _attributes.data)
 				{		
-					var data = _attributes.data[idx];
+					var data = _attributes.data[idx];					
 					
 					switch (data.type.toLowerCase ())
 					{
@@ -3008,26 +3069,17 @@ var SNDK =
 							else
 							{	
 								_temp.inTransition = true;					
-					
-								if (_temp.currentContent == data.content.length -1)
-								{
-									_temp.currentContent = 0;												
-								}				
-								else
-								{
-									_temp.currentContent++;
-								}
-					
+														
 								_elements["to"+ idx].innerHTML = data.content[_temp.currentContent].html;
 														
-								SNDK.animation.opacityFade (_elements["to"+ idx], 0, 100, data.fadeDelay);
+								SNDK.animation.opacityFade (_elements["to"+ idx], 0, 100, _attributes.transitionTime);
 								
 								if (data.fadeDouble)
 								{
-									SNDK.animation.opacityFade (_elements["from"+ idx], 100, 0, data.fadeDelay);														
+									SNDK.animation.opacityFade (_elements["from"+ idx], 100, 0, _attributes.transitionTime);														
 								}
 								
-								setTimeout (function () {rotate (true)}, data.fadeDelay + 10);
+								setTimeout (function () {rotate (true)}, _attributes.transitionTime + 10);
 							}								
 						
 							break;
@@ -3035,116 +3087,8 @@ var SNDK =
 					}
 				}	
 			}
-		
-			function rotateold (done)
-			{			
-				switch (_options.type)
-				{
-					case "fade":
-				
-							clearTimeout (_temp.nextRotation);
-				
-							if (done)
-							{
-								_elements["image_from"].src = _options.images[_temp.currentImage].src;
-								SNDK.tools.opacityChange (_elements["image_from"], 100);
-						
-								_elements["image_to"].src = "";						
-								SNDK.tools.opacityChange (_elements["image_to"], 0);
-						
-								if (_options.hasHTML)
-								{
-									_elements["html_from"].innerHTML = _options.htmls[_temp.currentImage].content;
-									SNDK.tools.opacityChange (_elements["html_from"], 100);
-						
-									_elements["html_to"].innerHTML = " ";
-									SNDK.tools.opacityChange (_elements["html_to"], 0);						
-								}				
-						
-								_temp.nextRotation = setTimeout (function () {rotate (false)}, _options.delay);
-								_temp.inTransition = false;
-							}
-							else
-							{	
-								_temp.inTransition = true;					
 					
-								if (_temp.currentImage == _options.images.length-1)
-								{
-									_temp.currentImage = 0;
-							
-									if (_options.randomize)
-									{
-										_options.images.sort(function() {return 0.5 - Math.random();})				
-									}
-								}				
-								else
-								{
-									_temp.currentImage++;
-								}
-					
-								_elements["image_to"].src = _options.images[_temp.currentImage].src;
-								
-								if (_options.hasHTML)
-								{							
-									_elements["html_to"].innerHTML = _options.htmls[_temp.currentImage].content;
-									SNDK.animation.opacityFade (_elements["html_to"], 0, 100, _options.fadeDelay);
-								}
-								
-		
-								SNDK.animation.opacityFade (_elements["image_to"], 0, 100, _options.fadeDelay);
-								
-								if (_options.fadeDouble)
-								{
-									SNDK.animation.opacityFade (_elements["image_from"], 100, 0, _options.fadeDelay);
-									
-									if (_options.hasHTML)
-									{							
-										SNDK.animation.opacityFade (_elements["html_from"], 100, 0, _options.fadeDelay);								
-									}
-								}
-								
-								setTimeout (function () {rotate (true)}, _options.fadeDelay + 10);
-							}
-						break;
-				}			
-			}
-				
-			function setOptions ()
-			{
-				// stylesheet
-				if (_options.stylesheet == null)
-					_options.stylesheet = _defaults.stylesheet;			
-		
-				// fadeDelay
-				if (_options.fadeDelay == null)
-					_options.fadeDelay = _defaults.fadeDelay;		
-		
-				// fadeDelay
-				if (_options.delay == null)
-					_options.delay = _defaults.delay;
-				
-				// fadeDouble
-				if (_options.fadeDouble == null)
-					_options.fadeDouble = _defaults.fadeDouble;				
-		
-				// randomize
-				if (_options.randomize == null)
-					_options.randomize = _defaults.randomize;
-				
-				// images
-				if (_options.images != null)
-				{
-					var temp = new Array ();
-					for (var index in _options.images)
-					{
-						temp[index] = _options.images[index];
-					}
-				
-					_options.images = temp;
-				}												
-			}
-			
-			function functionPrev ()
+			function functionPrevious ()
 			{
 				if (!_temp.inTransition)
 				{
@@ -3178,7 +3122,7 @@ var SNDK =
 		
 			function functionPlay ()
 			{
-				_temp.nextRotation = setTimeout (function () {rotate (false)}, _options.delay);
+				rotate (true);		
 				_temp.stopped = false;
 			}		
 		}	,
@@ -5985,9 +5929,17 @@ var SNDK =
 									{
 										elements[attributes.tag] = new SNDK.SUI.textbox (attributes);
 										Parent.addUIElement (elements[attributes.tag]);			
-											continue;			
+										continue;			
 										break;
 									}						
+									
+									case "credentials":
+									{
+										elements[attributes.tag] = new SNDK.SUI.credentials (attributes);
+										Parent.addUIElement (elements[attributes.tag]);			
+										continue;			
+										break;
+									}
 			
 									case "label":
 									{
@@ -6247,10 +6199,16 @@ var SNDK =
 					throw "Nowhere to park control.";
 				}
 				
-				element.setAttribute ("id", options.id);
+				if (options.id)
+				{
+					element.setAttribute ("id", options.id);
+				}
 			
 				// TODO: remove this.	
-				element.className = options.stylesheet;	
+				if (options.stylesheet)
+				{
+					element.className = options.stylesheet;	
+				}
 				
 				return element;
 			}
@@ -9041,7 +8999,7 @@ var SNDK =
 			var _attributes = attributes;
 					
 			var _temp = 	{ initialized: false,
-				  	  cache: new Array ()
+				  	  
 					};
 										
 			setAttributes ();		
@@ -9073,7 +9031,7 @@ var SNDK =
 			// ------------------------------------			
 			function init ()
 			{
-				updateCache ();		
+				updateCache ();
 				
 				_attributes.heightType = "pixel";
 				_attributes.height = _temp.cache["containerBoxDimensions"]["vertical"] + _temp.cache["containerHeight"];			
@@ -9097,9 +9055,15 @@ var SNDK =
 				{
 					type = "password";
 				}
-			
+				
 				_elements["input"] = SNDK.tools.newElement ("input", {type: type, appendTo: _elements["container"]});
 				_elements["input"].className = "input-unstyled";
+				
+				if (_attributes.placeholder != null)
+				{
+					_elements["input"].placeholder = _attributes.placeholder;
+				} 
+				
 				
 				if (_attributes.textTransform)
 				{
@@ -9118,7 +9082,7 @@ var SNDK =
 				// Hook Events
 				_elements["input"].onfocus = eventOnFocus;
 				_elements["input"].onblur = eventOnBlur;
-				_elements["input"].onchange = eventOnChange;
+				_elements["input"].onchange = eventOnChange;	
 				_elements["input"].onkeyup = eventOnKeyUp;	
 				_elements["input"].onkeypress = eventOnKeyPress;
 				
@@ -9188,6 +9152,7 @@ var SNDK =
 			// ------------------------------------		
 			function updateCache ()
 			{
+				_temp.cache = {};
 				_temp.cache.containerBoxDimensions = SNDK.tools.getElementStyledBoxSize (_elements["container"]);
 				_temp.cache.inputBoxDimensions = SNDK.tools.getElementStyledBoxSize (_elements["input"]);
 				_temp.cache.containerBoxDimensions.horizontal += _temp.cache.inputBoxDimensions.horizontal;
@@ -9725,6 +9690,15 @@ var SNDK =
 			// ------------------------------------			
 			function eventOnKeyPress (event)
 			{
+			
+				_attributes.value = _elements["input"].value;			
+										
+				
+			}
+			
+			function eventOnKeyDown ()
+			{
+				
 				_attributes.value = _elements["input"].value;			
 										
 				
@@ -9769,10 +9743,8 @@ var SNDK =
 				var result = true;
 					
 				var key = keyHandler (event);
-				
-				
-			
-				//_attributes.value = _elements["input"].value;				
+					
+			//	_attributes.value = _elements["input"].value;				
 							
 				if (_attributes.onKeyUp != null)
 				{
@@ -9844,9 +9816,1255 @@ var SNDK =
 					
 				if (_attributes.onChange != null)
 				{	
-					setTimeout( function () { _attributes.onChange (_attributes.tag); }, 1);
+					setTimeout( function () { _attributes.onChange (this); }, 1);
 				}
 			}
+		},
+	
+		/**
+		* @constructor
+		*/
+		button : function (attributes)
+		{
+			var _elements = new Array ();			
+			var _attributes = attributes;				
+			
+			var _temp = 	{ 
+								initialized: false,
+					  			mouseDown: false,
+					  			mouseOver: false,
+					  			enterDown: false,
+					  			cache: new Array ()
+							};
+			
+			_attributes.id = SNDK.tools.newGuid ();				
+			
+			setAttributes ();	
+					
+			// Private functions
+			this._attributes = _attributes;
+			this._elements = _elements;
+			this._temp = _temp;	
+			this._init = init;			
+						
+			// Functions
+			this.type = "BUTTON";
+			this.refresh = functionRefresh;
+			this.dispose = functionDispose;
+			this.getAttribute = functionGetAttribute;
+			this.setAttribute = functionSetAttribute;	
+											
+			// Construct
+			construct ();
+						
+			// Init Control
+			SNDK.SUI.addInit (this);	
+			// ------------------------------------
+				// Private functions
+				// ------------------------------------
+				function init ()
+				{
+					updateCache ();
+			
+					_attributes.heightType = "pixel";
+					_attributes.height = _temp.cache["containerBoxSize"]["vertical"] + _temp.cache["containerHeight"] +"px";
+				}
+				
+				// ------------------------------------
+				// construct
+				// ------------------------------------	
+				function construct ()
+				{					
+					// Container					
+					_elements["container"] = SNDK.tools.newElement ("button", {});
+					_elements["container"].className = _attributes.stylesheet;
+					
+					// Icon
+					if (_attributes.icon != null)
+					{						
+						_elements["button-icon"] = SNDK.tools.newElement ("span", {appendTo: _elements["container"]});
+						
+						_elements["button-icon"].className = "button-icon "+ _attributes.icon.split (";")[1];
+						_elements["button-icon"].style.cssFloat = "left";
+					
+						_elements["icon"] = SNDK.tools.newElement ("span", {appendTo: _elements["button-icon"]});
+						_elements["icon"].className = "icon-"+ _attributes.icon.split (";")[0];
+					}	
+					
+					_elements["label"] = SNDK.tools.newElement ("span", {appendTo: _elements["container"]});			
+																						
+					// Hook events	
+					_elements["container"].onfocus = eventOnFocus;
+					_elements["container"].onblur = eventOnBlur;
+					_elements["container"].onclick = eventOnClick;				
+					_elements["container"].onkeydown = eventOnKeyDown;
+					
+					window.addEvent (window, 'SUIREFRESH', refresh);			
+				}		
+					
+				// ------------------------------------
+				// refresh
+				// ------------------------------------	
+				function refresh ()
+				{
+					if (_temp.initialized)
+					{
+						var style = _attributes.stylesheet +" "+ _attributes.color +" "+ _attributes.size;
+								
+						if (_attributes.disabled)
+						{
+							_elements["container"].disabled = true;
+							_attributes.focus = false;
+							eventOnBlur ();				
+						}
+						else
+						{				
+							_elements["container"].disabled = false;
+						
+							if (_attributes.active)
+							{	
+								style += " active";						
+								_attributes.active = false;
+								setTimeout (refresh, 100);					
+							}				
+															
+							if (_attributes.focus)
+							{	
+								style += " focus";								
+								setFocus ();			
+							}
+							
+							_elements["container"].tabIndex = _attributes.tabIndex;
+						}	
+									
+						_elements["label"].innerHTML = _attributes.label;		
+									
+						_elements["container"].className = style;
+					
+						setDimensions ();
+					}		
+				}	
+				
+				// ------------------------------------
+				// dispose
+				// ------------------------------------			
+				function dispose ()
+				{
+					window.removeEvent (window, 'SUIREFRESH', refresh);				
+				}	
+				
+				// ------------------------------------
+				// updateCache
+				// ------------------------------------		
+				function updateCache ()
+				{
+					if (!_temp.cacheUpdated)
+					{
+						_temp.cache["containerBoxSize"] = SNDK.tools.getElementStyledBoxSize (_elements["container"]);			
+						_temp.cache["containerHeight"] = SNDK.tools.getElementStyledHeight (_elements["container"]);
+					}
+					
+					_temp.cacheUpdated = true;	
+				}	
+			
+				// -------------------------------------
+				// setAttributes
+				// -------------------------------------
+				function setAttributes ()
+				{					
+					// Stylesheet
+					if (!_attributes.stylesheet)
+						_attributes.stylesheet = "button";			
+						
+					if (!_attributes.size)
+						_attributes.size = "";
+						
+					// Managed
+					if (!_attributes.managed)
+						_attributes.managed = false;								
+								
+					// Width
+					if (!_attributes.width) 
+						_attributes.width = "100%";				
+						
+					if (_attributes.width.substring (_attributes.width.length - 1) == "%")
+					{
+						_attributes.widthType = "percent";
+						_attributes.width = _attributes.width.substring (0, _attributes.width.length - 1)			
+					}
+					else
+					{
+						_attributes.widthType = "pixel";
+						_attributes.width = _attributes.width.substring (0, _attributes.width.length - 2)
+					}						
+																								
+					// Label
+					if (!_attributes.label)
+						_attributes.label = "BUTTON";	
+				
+					// Disabled
+					if (!_attributes.disabled)
+						_attributes.disabled = false;		
+						
+					// Focus	
+					if (!_attributes.focus)
+						_attributes.focus = false;
+						
+					// Active
+					if (!_attributes.active)
+						_attributes.active = false;
+						
+					// TabIndex
+					if (!_attributes.tabIndex)
+						_attributes.tabIndex = 0;
+				}
+						
+				// -------------------------------------
+				// setDimensions
+				// -------------------------------------
+				function setDimensions ()
+				{
+					if (_temp.initialized)
+					{
+						var width = 0;
+					
+						//if (!_attributes.managed && _attributes.widthType != "pixel")
+						if (_attributes.widthType != "pixel")
+						{
+						//	console.log (SNDK.tools.getElementInnerWidth (_elements["container"].parentNode))
+							
+																														
+							width = ((SNDK.tools.getElementInnerWidth (_elements["container"].parentNode) * _attributes.width) / 100);
+							
+						//	console.log (width)
+						}
+						else
+						{	
+							width = _attributes.width ;
+						}	
+						
+						_elements["container"].style.width = width - _temp.cache.containerBoxSize["horizontal"] +"px";
+						
+						//console.log (_temp.cache.containerBoxSize["horizontal"])
+						
+					}
+				}
+				
+				// ------------------------------------
+				// setFocus
+				// ------------------------------------				
+				function setFocus ()
+				{
+					_elements["container"].focus ()
+					//setTimeout ( function () { _elements["container"].focus (); }, 2);	
+				}	
+				
+				// ------------------------------------
+				// setBlur
+				// ------------------------------------				
+				function setBlur ()
+				{
+					setTimeout ( function () { _elements["container"].blur (); }, 2);	
+				}		
+						
+				// -------------------------------------
+				// keyHandler
+				// -------------------------------------
+				function keyHandler (event)
+				{		
+					var key;
+					if (!event && window.event) 
+					{
+						event = window.event;
+					}
+						
+					if (event) 
+					{
+						key = event.keyCode;
+					}
+					else
+					{
+						key = event.which;	
+					}
+					
+					if (key == 13)						// Enter			
+					{
+						eventOnKeyPressEnter ();
+					}		
+				 }
+			// ------------------------------------
+				// Public functions
+				// ------------------------------------
+				// ------------------------------------
+				// refresh
+				// ------------------------------------				
+				function functionRefresh ()
+				{
+					refresh ();
+				}		
+				
+				// ------------------------------------
+				// dispose
+				// ------------------------------------				
+				function functionDispose ()
+				{
+					dispose ();
+				}	
+					
+				// ------------------------------------
+				// getAttribute
+				// ------------------------------------						
+				function functionGetAttribute (attribute)
+				{
+					switch (attribute)
+					{
+						case "id":
+						{
+							return _attributes[attribute];
+						}
+						
+						case "tag":
+						{
+							return _attributes[attribute];
+						}
+						
+						case "stylesheet":
+						{
+							return _attributes[attribute];
+						}
+						
+						case "width":
+						{
+							if (_attributes.widthType == "percent")
+							{
+								return _attributes.width + "%";
+							}
+			
+							if (_attributes.widthType == "pixel")
+							{
+								return _attributes.width + "px";
+							}
+						}
+						
+						case "height":
+						{
+							if (_attributes.heightType == "percent")
+							{
+								return _attributes.height + "%";
+							}
+			
+							if (_attributes.heightType == "pixel")
+							{
+								return _attributes.height + "px";
+							}
+						}
+						
+						case "appendTo":
+						{
+							return _attributes[attribute];			
+						}			
+						
+						case "managed":
+						{
+							return _attributes[attribute];			
+						}
+			
+						case "disabled":
+						{
+							return _attributes[attribute];			
+						}
+						
+						case "focus":
+						{
+							return _attributes[attribute];			
+						}
+			
+						case "onFocus":
+						{
+							return _attributes[attribute];			
+						}
+			
+						case "onBlur":
+						{
+							return _attributes[attribute];			
+						}
+			
+						case "onClick":
+						{
+							return _attributes[attribute];			
+						}
+			
+						case "label":
+						{
+							return _attributes[attribute];			
+						}
+						
+						case "tabIndex":
+						{
+							return _attributes[attribute];
+						}
+								
+						default:
+						{
+							throw "No attribute with the name '"+ attribute +"' exist in this object";
+						}
+					}	
+				}
+				
+				// ------------------------------------
+				// setAttribute
+				// ------------------------------------						
+				function functionSetAttribute (attribute, value)
+				{
+					switch (attribute)
+					{
+						case "id":
+						{
+							throw "Attribute with name ID is ready only.";
+							break;
+						}
+						
+						case "tag":
+						{
+							_attributes[attribute] = value;
+							break;
+						}
+						
+						case "stylesheet":
+						{
+							_attributes[attribute] = value;
+							break;				
+						}
+						
+						case "width":
+						{
+							if (value.substring (value.width.length, 3) == "%")
+							{
+								_attributes.widthType = "percent";
+								_attributes.width = value.width.substring (0, value.width.length - 1)			
+							}
+							else
+							{
+								_attributes.widthType = "pixel";
+								_attributes.width = value.width.substring (0, value.width.length - 2)
+							}	
+							break;			
+						}
+			
+						case "height":
+						{
+							throw "Attribute with name HEIGHT is ready only.";
+							break;			
+						}
+			
+						
+						case "appendTo":
+						{
+							_attributes[attribute] = value;	
+							_attributes.appendTo.appendChild (_elements["container"]);			
+							break;
+						}			
+						
+						case "managed":
+						{
+							_attributes[attribute] = value;
+			
+							if (value)
+							{
+								window.removeEvent (window, 'SUIREFRESH', refresh);		
+							}
+							else
+							{
+								window.addEvent (window, 'SUIREFRESH', refresh);
+							}
+			
+							break;
+						}
+			
+						case "disabled":
+						{
+							_attributes[attribute] = value;
+							refresh ();
+							break;
+						}
+						
+						case "focus":
+						{
+							_attributes[attribute] = value;
+							refresh ();
+							break;
+						}
+			
+						case "onFocus":
+						{
+							_attributes[attribute] = value;
+							break;
+						}
+			
+						case "onBlur":
+						{
+							_attributes[attribute] = value;
+							break;
+						}
+			
+						case "onClick":
+						{
+							_attributes[attribute] = value;
+							break;
+						}
+			
+						case "label":
+						{
+							_attributes[attribute] = value;
+							refresh ();
+							break;
+						}
+						
+						case "tabIndex":
+						{
+							_attributes[attribute] = value;
+							refresh ();
+							break;
+						}			
+								
+						default:
+						{
+							throw "No attribute with the name '"+ attribute +"' exist in this object";
+						}
+					}	
+				}				
+			// ------------------------------------
+				// Events
+				// ------------------------------------
+				// ------------------------------------
+				// eventOnKeyUp
+				// ------------------------------------	
+				function eventOnKeyUp (event)
+				{
+					keyHandler(event);
+				}
+			
+				// ------------------------------------
+				// eventOnKeyDown
+				// ------------------------------------	
+				function eventOnKeyDown (event)
+				{
+					keyHandler (event);
+				}
+					
+				// ------------------------------------
+				// eventOnEnter
+				// ------------------------------------	
+				function eventOnKeyPressEnter ()
+				{	
+					if (!attributes.disabled)
+					{
+						_attributes.active = true;
+						refresh ();		
+					}	
+				}
+			
+				// ------------------------------------
+				// onFocus
+				// ------------------------------------		
+				function eventOnFocus ()
+				{
+					if (!_attributes.disabled)
+					{
+						if (!_attributes.focus)
+						{
+							_attributes.focus = true;
+							refresh ();
+							
+							if (_attributes.onFocus != null)
+							{
+								setTimeout( function () { _attributes.onFocus (_attributes.name); }, 1);
+							}					
+						}		
+					}
+				}
+				
+				// ------------------------------------
+				// onBlur
+				// ------------------------------------		
+				function eventOnBlur ()
+				{
+					if (!_attributes.disabled)
+					{
+						if (_attributes.focus)
+						{				
+							_attributes.focus = false;
+							refresh ();
+			
+							if (_attributes.onBlur != null)
+							{
+								setTimeout( function () { _attributes.onBlur (_attributes.name); }, 1);
+							}									
+						}
+					}
+				}
+				
+				// ------------------------------------
+				// onMouseOver
+				// ------------------------------------	
+				function eventOnMouseOver ()
+				{
+					if (!_attributes.disabled)
+					{		
+						_temp.mouseOver = true;
+						refresh ();
+					}
+				}	
+				
+				// ------------------------------------
+				// onMouseOut
+				// ------------------------------------	
+				function eventOnMouseOut ()
+				{
+					if (!_attributes.disabled)
+					{
+						if (_temp.mouseDown)
+						{		
+							_temp.mouseOver = false;
+							_temp.mouseDown = false;				
+							refresh ();
+						}	
+					}
+				}	
+				
+				// ------------------------------------
+				// onMouseDown
+				// ------------------------------------		
+				function eventOnMouseDown ()
+				{
+					if (!_attributes.disabled)
+					{
+						_attributes.focus = true;
+						_temp.mouseDown = true;				
+						refresh ();
+					}
+				}				
+				
+				// ------------------------------------
+				// onMouseUp
+				// ------------------------------------	
+				function eventOnMouseUp ()
+				{
+					if (!_attributes.disabled)
+					{
+						if (_temp.mouseDown)
+						{
+							_temp.mouseDown = false;
+							refresh ();
+							
+							eventOnClick ();
+						}						
+					}
+				}
+				
+				// ------------------------------------
+				// onClick
+				// ------------------------------------	
+				function eventOnClick ()
+				{		
+					if (_attributes.onClick != null)
+					{
+						setTimeout( function () { _attributes.onClick (_attributes.name); }, 1);
+					}
+				}
+				
+				// ------------------------------------
+				// onDrag
+				// ------------------------------------		
+				function eventOnDrag ()
+				{
+					return false;
+				}			
+		},
+	
+		/**
+		* @constructor
+		*/
+		credentials : function (attributes)
+		{
+			// Private variables
+			var _attributes = attributes;
+			var _elements = new Array ();				
+			var _temp = 	{ 
+								initialized: false,
+								ready: false  			
+							};
+					
+			// Private functions
+			this._attributes = _attributes;
+			this._elements = _elements;
+			this._temp = _temp;	
+			this._init = init;			
+						
+			// Functions
+			this.type = "SNDK.SUI.CREDENTIALS";
+			this.refresh = functionRefresh;
+			this.dispose = functionDispose;
+			this.getAttribute = functionGetAttribute;
+			this.setAttribute = functionSetAttribute;	
+							
+			// Init attributes
+			setAttributes ();																											
+																																																																						
+			// Construct
+			construct ();					
+			
+			// Init Control
+			SNDK.SUI.addInit (this);
+			// ------------------------------------
+			// Private functions
+			// ------------------------------------
+			function init ()
+			{
+				updateCache ();
+			
+				_attributes.heightType = "pixel";
+				_attributes.height = _temp.cache["containerBoxDimensions"]["vertical"] + _temp.cache["containerHeight"];				
+						
+				_elements["username"]._init ();
+				_elements["password"]._init ();
+			}
+			
+			// ------------------------------------
+			// construct
+			// ------------------------------------	
+			function construct ()
+			{					
+				// Container									
+				_elements["container"] = SNDK.tools.newElement ("ul", {});
+				_elements["container"].className = _attributes.style +" "+ _attributes.color +"-input "+ _attributes.size;
+								
+				_elements["li1"] = SNDK.tools.newElement ("li", {appendTo: _elements["container"]});
+				_elements["li2"] = SNDK.tools.newElement ("li", {appendTo: _elements["container"]});
+						
+				_elements["username"] = new SNDK.SUI.textbox ({appendTo: _elements["li1"], stylesheet: "input-unstyled", width: "100%", name: _attributes.username.name, placeholder: _attributes.username.placeholder, value: _attributes.username.value, icon: _attributes.username.icon });
+				_elements["password"] = new SNDK.SUI.textbox ({appendTo: _elements["li2"], stylesheet: "input-unstyled", width: "100%", password: true, name: _attributes.username.name, placeholder: _attributes.password.placeholder, value: _attributes.password.value, icon: _attributes.password.icon });
+				
+				// Hook events			
+				_elements["username"].setAttribute ("onFocus", eventOnFocus);
+				_elements["username"].setAttribute ("onBlur", eventOnBlur);
+				_elements["username"].setAttribute ("onChange", eventOnChange);
+				_elements["username"].setAttribute ("onEnter", eventOnEnter);
+				_elements["password"].setAttribute ("onFocus", eventOnFocus);				
+				_elements["password"].setAttribute ("onBlur", eventOnBlur);
+				_elements["password"].setAttribute ("onChange", eventOnChange);
+				_elements["password"].setAttribute ("onEnter", eventOnEnter);
+							
+				window.addEvent (window, 'SUIREFRESH', refresh);			
+			}		
+			
+			// ------------------------------------
+			// dispose
+			// ------------------------------------			
+			function dispose ()
+			{
+				window.removeEvent (window, 'SUIREFRESH', refresh);				
+			}	
+			
+			// ------------------------------------
+			// updateCache
+			// ------------------------------------		
+			function updateCache ()
+			{			
+				_temp.cache = {};
+				_temp.cache.containerBoxDimensions = SNDK.tools.getElementStyledBoxSize (_elements["container"]);					
+				_temp.cache.containerHeight = SNDK.tools.getElementStyledHeight (_elements["container"]);
+			}	
+			
+			// -------------------------------------
+			// setDimensions
+			// -------------------------------------
+			function setDimensions ()
+			{
+				if (_temp.initialized)
+				{	
+					var width = 0;
+				
+					if (_attributes.widthType != "pixel")
+					{								
+						width = ((SNDK.tools.getElementInnerWidth (_elements["container"].parentNode) * _attributes.width) / 100)
+					}
+					else	
+					{			
+						width = _attributes.width;
+					}		
+				
+					_elements["container"].style.width = width - _temp.cache.containerBoxDimensions.horizontal +"px";
+					
+					_elements["username"].refresh ();
+					_elements["password"].refresh ();
+				}
+			}
+				
+			// ------------------------------------
+			// refresh
+			// ------------------------------------	
+			function refresh ()
+			{
+				if (_temp.initialized)
+				{
+					var style = _attributes.style +" "+ _attributes.color +"-input "+ _attributes.size;
+							
+					if (_attributes.disabled)
+					{
+						style += " disabled";
+					
+						_elements["username"].setAttribute ("disabled", true);
+						_elements["password"].setAttribute ("disabled", true);				
+						
+						_attributes.focus = false;
+						eventOnBlur ();				
+					}
+					else
+					{				
+						if (_attributes.focus)
+						{	
+							style += " focus";
+						}
+						
+						_elements["container"].tabIndex = _attributes.tabIndex;
+					}
+					
+					// TabIndex
+					if (_attributes.tabIndex != 0)
+					{
+						_elements["username"].setAttribute ("tabIndex", _attributes.tabIndex);
+						_elements["password"].setAttribute ("tabIndex", _(attributes.tabIndex + 1));
+					}
+			
+					_elements["container"].className = style;
+				
+					setDimensions ();
+				}		
+			}	
+			
+			// -------------------------------------
+			// setAttributes
+			// -------------------------------------
+			function setAttributes ()
+			{						
+				// Id
+				_attributes.id = SNDK.tools.newGuid ();
+							
+				// Style
+				if (!_attributes.style)
+					_attributes.style = "inputs";			
+					
+				// Width
+				if (!_attributes.width) 
+					_attributes.width = "100%";				
+					
+				if (_attributes.width.substring (_attributes.width.length - 1) == "%")
+				{
+					_attributes.widthType = "percent";
+					_attributes.width = _attributes.width.substring (0, _attributes.width.length - 1)			
+				}
+				else
+				{
+					_attributes.widthType = "pixel";
+					_attributes.width = _attributes.width.substring (0, _attributes.width.length - 2)
+				}						
+																										
+				// Disabled
+				if (!_attributes.disabled)
+					_attributes.disabled = false;		
+					
+				// Focus	
+				if (!_attributes.focus)
+					_attributes.focus = false;
+					
+				// TabIndex
+				if (!_attributes.tabIndex)
+					_attributes.tabIndex = 0;
+					
+				// Color
+				if (!_attributes.color)
+					_attributes.color = "";
+					
+				// Size
+				if (!_attributes.size)
+					_attributes.size =  "";
+					
+				// Username
+				if (!_attributes.username)
+					_attributes.username = {};
+					
+				// Username.Icon
+				if (!_attributes.username.icon)
+					_attributes.username.icon = "user;black";
+								
+				// Password					
+				if (!_attributes.password)
+					_attributes.password = {};			
+					
+				// Password.Icon
+				if (!_attributes.password.icon)
+					_attributes.password.icon = "lock;black";							
+			}
+			
+			// ------------------------------------
+			// getAttribute
+			// ------------------------------------						
+			function getAttribute (attribute)
+			{
+				switch (attribute)
+				{
+					case "id":
+					{
+						return _attributes[attribute];
+					}
+					
+					case "tag":
+					{
+						return _attributes[attribute];
+					}
+					
+					case "style":
+					{
+						return _attributes[attribute];
+					}
+					
+					case "width":
+					{
+						if (_attributes.widthType == "percent")
+						{
+							return _attributes.width + "%";
+						}
+			
+						if (_attributes.widthType == "pixel")
+						{
+							return _attributes.width + "px";
+						}
+					}
+					
+					case "height":
+					{
+						if (_attributes.heightType == "percent")
+						{
+							return _attributes.height + "%";
+						}
+			
+						if (_attributes.heightType == "pixel")
+						{
+							return _attributes.height + "px";
+						}
+					}
+					
+					case "appendTo":
+					{
+						return _attributes[attribute];			
+					}			
+					
+					case "disabled":
+					{
+						return _attributes[attribute];			
+					}
+					
+					case "focus":
+					{
+						return _attributes[attribute];			
+					}
+			
+					case "onFocus":
+					{
+						return _attributes[attribute];			
+					}
+			
+					case "onBlur":
+					{
+						return _attributes[attribute];			
+					}
+					
+					case "onChange":
+					{
+						return _attributes[attribute];
+					}
+					
+					case "onReady":
+					{
+						return _attributes[attribute];
+					}
+					
+					case "onEnter":
+					{
+						return _attributes[attribute];
+					}
+			
+					case "tabIndex":
+					{
+						return _attributes[attribute];
+					}
+					
+					case "username":
+					{
+						return _elements["username"].getAttribute ("value");
+					}
+					
+					case "password":
+					{
+						return _elements["password"].getAttribute ("value");
+					}
+							
+					default:
+					{
+						throw "BLA" +": No attribute with the name '"+ attribute +"' exist in this object";
+					}
+				}	
+			}
+			
+			// ------------------------------------
+			// setAttribute
+			// ------------------------------------						
+			function setAttribute (attribute, value)
+			{
+				switch (attribute)
+				{
+					case "id":
+					{
+						throw "Attribute with name ID is ready only.";
+						break;
+					}
+					
+					case "tag":
+					{
+						_attributes[attribute] = value;
+						break;
+					}
+					
+					case "style":
+					{
+						_attributes[attribute] = value;
+						break;				
+					}
+					
+					case "width":
+					{
+						if (value.substring (value.width.length, 3) == "%")
+						{
+							_attributes.widthType = "percent";
+							_attributes.width = value.width.substring (0, value.width.length - 1)			
+						}
+						else
+						{
+							_attributes.widthType = "pixel";
+							_attributes.width = value.width.substring (0, value.width.length - 2)
+						}	
+						break;			
+					}
+			
+					case "height":
+					{
+						throw this.type +": Attribute with name HEIGHT is ready only.";
+						break;			
+					}
+			
+					
+					case "appendTo":
+					{
+						_attributes[attribute] = value;	
+						_attributes.appendTo.appendChild (_elements["container"]);			
+						break;
+					}			
+					
+					case "disabled":
+					{
+						_attributes[attribute] = value;
+						refresh ();
+						break;
+					}
+					
+					case "focus":
+					{
+						_attributes[attribute] = value;
+						refresh ();
+						break;
+					}
+			
+					case "onFocus":
+					{
+						_attributes[attribute] = value;
+						break;
+					}
+			
+					case "onBlur":
+					{
+						_attributes[attribute] = value;
+						break;
+					}
+					
+					case "onChange":
+					{
+						_attributes[attribute] = value;
+						break;
+					}
+					
+					case "onReady":
+					{
+						_attributes[attribute] = value;
+						break;
+					}
+					
+					case "onEnter":
+					{
+						_attributes[attribute] = value;
+						break;
+					}
+			
+					case "tabIndex":
+					{
+						_attributes[attribute] = value;
+						refresh ();
+						break;
+					}			
+					
+					case "username":
+					{
+						_elements["username"].setAttribute ("value", value);
+						break;
+					}
+					
+					case "password":
+					{
+						_elements["password"].setAttribute ("value", value);
+						break;
+					}
+							
+					default:
+					{
+						throw "BLA" +": No attribute with the name '"+ attribute +"' exist in this object";
+					}
+				}	
+			}				
+			// ------------------------------------
+			// Public functions
+			// ------------------------------------
+			// ------------------------------------
+			// refresh
+			// ------------------------------------				
+			function functionRefresh ()
+			{
+				refresh ();
+			}		
+			
+			// ------------------------------------
+			// dispose
+			// ------------------------------------				
+			function functionDispose ()
+			{
+				dispose ();
+			}	
+				
+			// ------------------------------------
+			// setAttribute
+			// ------------------------------------				
+			function functionSetAttribute (attributes, value)
+			{
+				setAttribute (attributes, value);
+			}	
+				
+			// ------------------------------------
+			// getAttribute
+			// ------------------------------------				
+			function functionGetAttribute (attribute)
+			{
+				return getAttribute (attribute);
+			}
+			// ------------------------------------
+			// Events
+			// ------------------------------------		
+			// ------------------------------------
+			// eventOnChange
+			// ------------------------------------	
+			function eventOnChange ()
+			{
+				if ((_elements["username"].getAttribute ("value")) != "" && (_elements["password"].getAttribute ("value") != ""))
+				{
+					_temp.ready = true;
+					eventOnReady ();
+				}
+				else
+				{
+					_temp.ready = false;
+				}
+				
+				if (_attributes.onChange != null)
+				{
+					setTimeout( function () { _attributes.onChange (this)}, 1);
+				}
+			}
+			
+			// ------------------------------------
+			// eventOnReady
+			// ------------------------------------	
+			function eventOnReady ()
+			{						
+				if (_temp.ready)
+				{							
+					if (_attributes.onReady != null)
+					{
+						setTimeout( function () { _attributes.onReady ({username: _elements["username"].getAttribute (value), password: _elements["password"].getAttribute (value)}); }, 1);
+					}						
+				}
+			}
+			
+			// ------------------------------------
+			// eventOnEnter
+			// ------------------------------------	
+			function eventOnEnter ()
+			{	
+				if (_temp.ready)
+				{		
+					if (_attributes.onEnter != null)
+					{
+						setTimeout( function () { _attributes.onEnter ({username: _elements["username"].getAttribute ("value"), password: _elements["password"].getAttribute ("value")}); }, 1);
+					}						
+				}
+			}	
+			
+			// ------------------------------------
+			// onFocus
+			// ------------------------------------		
+			function eventOnFocus ()
+			{
+				if (!_attributes.disabled)
+				{
+					if (!_attributes.focus)
+					{
+						_attributes.focus = true;
+						refresh ();
+						
+						if (_attributes.onFocus != null)
+						{
+							setTimeout( function () { _attributes.onFocus (_attributes.name); }, 1);
+						}					
+					}		
+				}
+			}
+			
+			// ------------------------------------
+			// onBlur
+			// ------------------------------------		
+			function eventOnBlur ()
+			{
+				if (!_attributes.disabled)
+				{
+					if (_attributes.focus)
+					{				
+						_attributes.focus = false;
+						refresh ();
+			
+						if (_attributes.onBlur != null)
+						{
+							setTimeout( function () { _attributes.onBlur (_attributes.name); }, 1);
+						}									
+					}
+				}
+			}			
 		},
 	
 		// -------------------------------------------------------------------------------------------------------------------------
@@ -10949,7 +12167,7 @@ var SNDK =
 		
 				 	_temp.uiElements[count] = element;
 		 	
-				 	element.setAttribute ("managed", true);
+				 	//element.setAttribute ("managed", true);
 				 	element.setAttribute ("appendTo", _elements["container"]);
 				 	
 				 	_temp.contentHeight += parseInt (element.height); 		 	
@@ -11192,704 +12410,6 @@ var SNDK =
 			// ------------------------------------
 			// Events
 			// ------------------------------------					
-		},
-	
-		// -------------------------------------------------------------------------------------------------------------------------
-		// button ([attributes])
-		// -------------------------------------------------------------------------------------------------------------------------
-		//
-		// .refresh ()
-		// .dispose ()
-		// .getAttribute (string)
-		// .setAttribute (string, string)
-		//	
-		// 	id 			get
-		//	tag			get/set
-		//	stylesheet	get/set
-		//	width		get/set
-		//	height		get
-		//	appendTo	get/set
-		//	managed		get/set
-		//	disabled	get/set
-		//	focus		get/set
-		//	onFocus		get/set
-		//	onBlur		get/set
-		//	onClick		get/set
-		//	label		get/set
-		//	tabIndex	get/set
-		//
-		/**
-		 * @constructor
-		 */
-		button : function (attributes)
-		{	
-			var _elements = new Array ();			
-			var _attributes = attributes;				
-		
-			var _temp = 	{ 
-								initialized: false,
-					  			mouseDown: false,
-					  			mouseOver: false,
-					  			enterDown: false,
-					  			cache: new Array ()
-							};
-			
-			_attributes.id = SNDK.tools.newGuid ();				
-			
-			setAttributes ();	
-					
-			// Private functions
-			this._attributes = _attributes;
-			this._elements = _elements;
-			this._temp = _temp;	
-			this._init = init;			
-						
-			// Functions
-			this.type = "BUTTON";
-			this.refresh = functionRefresh;
-			this.dispose = functionDispose;
-			this.getAttribute = functionGetAttribute;
-			this.setAttribute = functionSetAttribute;	
-											
-			// Construct
-			construct ();
-						
-			// Init Control
-			SNDK.SUI.addInit (this);		
-			
-			// ------------------------------------
-			// Private functions
-			// ------------------------------------
-			function init ()
-			{
-				updateCache ();
-		
-				_attributes.heightType = "pixel";
-				_attributes.height = _temp.cache["containerBoxSize"]["vertical"] + _temp.cache["containerHeight"] +"px";
-			}
-			
-			// ------------------------------------
-			// construct
-			// ------------------------------------	
-			function construct ()
-			{					
-				// Container					
-				_elements["container"] = SNDK.tools.newElement ("button", {});
-				_elements["container"].className = _attributes.stylesheet;
-				
-				// Icon
-				if (_attributes.icon)
-				{						
-					_elements["button-icon"] = SNDK.tools.newElement ("span", {appendTo: _elements["container"]});
-					
-					_elements["button-icon"].className = "button-icon "+ _attributes.iconColor;
-					_elements["button-icon"].style.cssFloat = "left";
-				
-					_elements["icon"] = SNDK.tools.newElement ("span", {appendTo: _elements["button-icon"]});
-					_elements["icon"].className = "icon-"+ _attributes.iconName;
-				}	
-																					
-				// Hook events	
-				_elements["container"].onfocus = eventOnFocus;
-				_elements["container"].onblur = eventOnBlur;
-				_elements["container"].onclick = eventOnClick;				
-				_elements["container"].onkeydown = eventOnKeyDown;
-				
-				window.addEvent (window, 'SUIREFRESH', refresh);			
-			}		
-				
-			// ------------------------------------
-			// refresh
-			// ------------------------------------	
-			function refresh ()
-			{
-				if (_temp.initialized)
-				{
-					var style = _attributes.stylesheet;
-							
-					if (_attributes.disabled)
-					{
-						_elements["container"].disabled = true;
-						_attributes.focus = false;
-						eventOnBlur ();				
-					}
-					else
-					{				
-						_elements["container"].disabled = false;
-					
-						if (_attributes.active)
-						{	
-							style += " active";						
-							_attributes.active = false;
-							setTimeout (refresh, 100);					
-						}				
-														
-						if (_attributes.focus)
-						{	
-							style += " focus";								
-							setFocus ();			
-						}
-						
-						_elements["container"].tabIndex = _attributes.tabIndex;
-					}	
-								
-					SNDK.tools.setButtonLabel (_elements["container"], _attributes.label);						
-					
-					_elements["container"].className = style;
-				
-					setDimensions ();
-				}		
-			}	
-			
-			// ------------------------------------
-			// dispose
-			// ------------------------------------			
-			function dispose ()
-			{
-				window.removeEvent (window, 'SUIREFRESH', refresh);				
-			}	
-			
-			// ------------------------------------
-			// updateCache
-			// ------------------------------------		
-			function updateCache ()
-			{
-				if (!_temp.cacheUpdated)
-				{
-					_temp.cache["containerBoxSize"] = SNDK.tools.getElementStyledBoxSize (_elements["container"]);			
-					_temp.cache["containerHeight"] = SNDK.tools.getElementStyledHeight (_elements["container"]);
-				}
-				
-				_temp.cacheUpdated = true;	
-			}	
-		
-			// -------------------------------------
-			// setAttributes
-			// -------------------------------------
-			function setAttributes ()
-			{					
-				// Stylesheet
-				if (!_attributes.stylesheet)
-					_attributes.stylesheet = "button";			
-					
-				// Managed
-				if (!_attributes.managed)
-					_attributes.managed = false;								
-							
-				// Width
-				if (!_attributes.width) 
-					_attributes.width = "100%";				
-					
-				if (_attributes.width.substring (_attributes.width.length - 1) == "%")
-				{
-					_attributes.widthType = "percent";
-					_attributes.width = _attributes.width.substring (0, _attributes.width.length - 1)			
-				}
-				else
-				{
-					_attributes.widthType = "pixel";
-					_attributes.width = _attributes.width.substring (0, _attributes.width.length - 2)
-				}						
-										
-				// Icon
-				if (!_attributes.icon)
-				{
-					_attributes.icon = false;
-				}
-				else
-				{
-					_attributes.iconName = _attributes.icon;
-					_attributes.icon = true;
-				}	
-					
-				// IconColor
-				if (!_attributes.iconColor)
-					_attributes.iconColor = "";	
-										
-				// Label
-				if (!_attributes.label)
-					_attributes.label = "BUTTON";	
-			
-				// Disabled
-				if (!_attributes.disabled)
-					_attributes.disabled = false;		
-					
-				// Focus	
-				if (!_attributes.focus)
-					_attributes.focus = false;
-					
-				// Active
-				if (!_attributes.active)
-					_attributes.active = false;
-					
-				// TabIndex
-				if (!_attributes.tabIndex)
-					_attributes.tabIndex = 0;
-			}
-					
-			// -------------------------------------
-			// setDimensions
-			// -------------------------------------
-			function setDimensions ()
-			{
-				if (_temp.initialized)
-				{
-					var width = 0;
-				
-					//if (!_attributes.managed && _attributes.widthType != "pixel")
-					if (_attributes.widthType != "pixel")
-					{
-					//	console.log (SNDK.tools.getElementInnerWidth (_elements["container"].parentNode))
-						
-																													
-						width = ((SNDK.tools.getElementInnerWidth (_elements["container"].parentNode) * _attributes.width) / 100);
-						
-					//	console.log (width)
-					}
-					else
-					{	
-						width = _attributes.width ;
-					}	
-					
-					_elements["container"].style.width = width - _temp.cache.containerBoxSize["horizontal"] +"px";
-					
-					//console.log (_temp.cache.containerBoxSize["horizontal"])
-					
-				}
-			}
-			
-			// ------------------------------------
-			// setFocus
-			// ------------------------------------				
-			function setFocus ()
-			{
-				_elements["container"].focus ()
-				//setTimeout ( function () { _elements["container"].focus (); }, 2);	
-			}	
-			
-			// ------------------------------------
-			// setBlur
-			// ------------------------------------				
-			function setBlur ()
-			{
-				setTimeout ( function () { _elements["container"].blur (); }, 2);	
-			}		
-					
-			// -------------------------------------
-			// keyHandler
-			// -------------------------------------
-			function keyHandler (event)
-			{		
-				var key;
-				if (!event && window.event) 
-				{
-					event = window.event;
-				}
-					
-				if (event) 
-				{
-					key = event.keyCode;
-				}
-				else
-				{
-					key = event.which;	
-				}
-				
-				if (key == 13)						// Enter			
-				{
-					eventOnKeyPressEnter ();
-				}		
-			 }
-		
-			// ------------------------------------
-			// Public functions
-			// ------------------------------------
-			// ------------------------------------
-			// refresh
-			// ------------------------------------				
-			function functionRefresh ()
-			{
-				refresh ();
-			}		
-			
-			// ------------------------------------
-			// dispose
-			// ------------------------------------				
-			function functionDispose ()
-			{
-				dispose ();
-			}	
-				
-			// ------------------------------------
-			// getAttribute
-			// ------------------------------------						
-			function functionGetAttribute (attribute)
-			{
-				switch (attribute)
-				{
-					case "id":
-					{
-						return _attributes[attribute];
-					}
-					
-					case "tag":
-					{
-						return _attributes[attribute];
-					}
-					
-					case "stylesheet":
-					{
-						return _attributes[attribute];
-					}
-					
-					case "width":
-					{
-						if (_attributes.widthType == "percent")
-						{
-							return _attributes.width + "%";
-						}
-		
-						if (_attributes.widthType == "pixel")
-						{
-							return _attributes.width + "px";
-						}
-					}
-					
-					case "height":
-					{
-						if (_attributes.heightType == "percent")
-						{
-							return _attributes.height + "%";
-						}
-		
-						if (_attributes.heightType == "pixel")
-						{
-							return _attributes.height + "px";
-						}
-					}
-					
-					case "appendTo":
-					{
-						return _attributes[attribute];			
-					}			
-					
-					case "managed":
-					{
-						return _attributes[attribute];			
-					}
-		
-					case "disabled":
-					{
-						return _attributes[attribute];			
-					}
-					
-					case "focus":
-					{
-						return _attributes[attribute];			
-					}
-		
-					case "onFocus":
-					{
-						return _attributes[attribute];			
-					}
-		
-					case "onBlur":
-					{
-						return _attributes[attribute];			
-					}
-		
-					case "onClick":
-					{
-						return _attributes[attribute];			
-					}
-		
-					case "label":
-					{
-						return _attributes[attribute];			
-					}
-					
-					case "tabIndex":
-					{
-						return _attributes[attribute];
-					}
-							
-					default:
-					{
-						throw "No attribute with the name '"+ attribute +"' exist in this object";
-					}
-				}	
-			}
-			
-			// ------------------------------------
-			// setAttribute
-			// ------------------------------------						
-			function functionSetAttribute (attribute, value)
-			{
-				switch (attribute)
-				{
-					case "id":
-					{
-						throw "Attribute with name ID is ready only.";
-						break;
-					}
-					
-					case "tag":
-					{
-						_attributes[attribute] = value;
-						break;
-					}
-					
-					case "stylesheet":
-					{
-						_attributes[attribute] = value;
-						break;				
-					}
-					
-					case "width":
-					{
-						if (value.substring (value.width.length, 3) == "%")
-						{
-							_attributes.widthType = "percent";
-							_attributes.width = value.width.substring (0, value.width.length - 1)			
-						}
-						else
-						{
-							_attributes.widthType = "pixel";
-							_attributes.width = value.width.substring (0, value.width.length - 2)
-						}	
-						break;			
-					}
-		
-					case "height":
-					{
-						throw "Attribute with name HEIGHT is ready only.";
-						break;			
-					}
-		
-					
-					case "appendTo":
-					{
-						_attributes[attribute] = value;	
-						_attributes.appendTo.appendChild (_elements["container"]);			
-						break;
-					}			
-					
-					case "managed":
-					{
-						_attributes[attribute] = value;
-		
-						if (value)
-						{
-							window.removeEvent (window, 'SUIREFRESH', refresh);		
-						}
-						else
-						{
-							window.addEvent (window, 'SUIREFRESH', refresh);
-						}
-		
-						break;
-					}
-		
-					case "disabled":
-					{
-						_attributes[attribute] = value;
-						refresh ();
-						break;
-					}
-					
-					case "focus":
-					{
-						_attributes[attribute] = value;
-						refresh ();
-						break;
-					}
-		
-					case "onFocus":
-					{
-						_attributes[attribute] = value;
-						break;
-					}
-		
-					case "onBlur":
-					{
-						_attributes[attribute] = value;
-						break;
-					}
-		
-					case "onClick":
-					{
-						_attributes[attribute] = value;
-						break;
-					}
-		
-					case "label":
-					{
-						_attributes[attribute] = value;
-						refresh ();
-						break;
-					}
-					
-					case "tabIndex":
-					{
-						_attributes[attribute] = value;
-						refresh ();
-						break;
-					}			
-							
-					default:
-					{
-						throw "No attribute with the name '"+ attribute +"' exist in this object";
-					}
-				}	
-			}				
-										
-			// ------------------------------------
-			// Events
-			// ------------------------------------
-			// ------------------------------------
-			// eventOnKeyUp
-			// ------------------------------------	
-			function eventOnKeyUp (event)
-			{
-				keyHandler(event);
-			}
-		
-			// ------------------------------------
-			// eventOnKeyDown
-			// ------------------------------------	
-			function eventOnKeyDown (event)
-			{
-				keyHandler (event);
-			}
-				
-			// ------------------------------------
-			// eventOnEnter
-			// ------------------------------------	
-			function eventOnKeyPressEnter ()
-			{	
-				if (!attributes.disabled)
-				{
-					_attributes.active = true;
-					refresh ();		
-				}	
-			}
-		
-			// ------------------------------------
-			// onFocus
-			// ------------------------------------		
-			function eventOnFocus ()
-			{
-				if (!_attributes.disabled)
-				{
-					if (!_attributes.focus)
-					{
-						_attributes.focus = true;
-						refresh ();
-						
-						if (_attributes.onFocus != null)
-						{
-							setTimeout( function () { _attributes.onFocus (_attributes.name); }, 1);
-						}					
-					}		
-				}
-			}
-			
-			// ------------------------------------
-			// onBlur
-			// ------------------------------------		
-			function eventOnBlur ()
-			{
-				if (!_attributes.disabled)
-				{
-					if (_attributes.focus)
-					{				
-						_attributes.focus = false;
-						refresh ();
-		
-						if (_attributes.onBlur != null)
-						{
-							setTimeout( function () { _attributes.onBlur (_attributes.name); }, 1);
-						}									
-					}
-				}
-			}
-			
-			// ------------------------------------
-			// onMouseOver
-			// ------------------------------------	
-			function eventOnMouseOver ()
-			{
-				if (!_attributes.disabled)
-				{		
-					_temp.mouseOver = true;
-					refresh ();
-				}
-			}	
-			
-			// ------------------------------------
-			// onMouseOut
-			// ------------------------------------	
-			function eventOnMouseOut ()
-			{
-				if (!_attributes.disabled)
-				{
-					if (_temp.mouseDown)
-					{		
-						_temp.mouseOver = false;
-						_temp.mouseDown = false;				
-						refresh ();
-					}	
-				}
-			}	
-			
-			// ------------------------------------
-			// onMouseDown
-			// ------------------------------------		
-			function eventOnMouseDown ()
-			{
-				if (!_attributes.disabled)
-				{
-					_attributes.focus = true;
-					_temp.mouseDown = true;				
-					refresh ();
-				}
-			}				
-			
-			// ------------------------------------
-			// onMouseUp
-			// ------------------------------------	
-			function eventOnMouseUp ()
-			{
-				if (!_attributes.disabled)
-				{
-					if (_temp.mouseDown)
-					{
-						_temp.mouseDown = false;
-						refresh ();
-						
-						eventOnClick ();
-					}						
-				}
-			}
-			
-			// ------------------------------------
-			// onClick
-			// ------------------------------------	
-			function eventOnClick ()
-			{		
-				if (_attributes.onClick != null)
-				{
-					setTimeout( function () { _attributes.onClick (_attributes.name); }, 1);
-				}
-			}
-			
-			// ------------------------------------
-			// onDrag
-			// ------------------------------------		
-			function eventOnDrag ()
-			{
-				return false;
-			}			
 		},
 	
 		// -------------------------------------------------------------------------------------------------------------------------
@@ -20523,7 +21043,7 @@ function bla ()
 This function calculates window.scrollbarWidth and window.scrollbarHeight
 
 This must be called
-?onload? to work correctly (or on ?DOM ready?, if you?re using
+“onload” to work correctly (or on “DOM ready”, if you’re using
 a framework that provides such an event)
 */
 

@@ -273,6 +273,7 @@
     <None Include="Application\xul\application.ini" />
     <None Include="Application\xul\chrome\content\settings\access\bidnotation.xul" />
     <None Include="Application\xul\chrome\content\templates\salesagreement.tpl" />
+    <None Include="Application\xul\chrome\content\templates\label.tpl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

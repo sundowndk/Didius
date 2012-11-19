@@ -67,6 +67,138 @@ var main =
 		{
 			template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/catalogsmall.tpl"));
 		}
+		else if (main.templateName == "label")
+		{
+			template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
+		}
+																																		
+		var pageCount = 1;			
+												
+		var printDocument = document.getElementById ("printframe").contentDocument;		
+		printDocument.body.innerHTML = " ";
+		
+		var page = function (from)
+		{		
+			// Add styles.																		
+			var styles = printDocument.createElement ("style");					
+			printDocument.body.appendChild (styles);					
+			styles.innerHTML = template.styles;
+					
+			// Create page.				
+			var page = printDocument.createElement ("div");
+			page.className = "A4";
+			printDocument.body.appendChild (page);
+			
+			// Add content holder.																																												
+			var content = printDocument.createElement ("div")
+			content.className = "Page";
+			page.appendChild (content);
+																		
+			// Add inital content.					
+			var render = template.page;			
+			content.innerHTML = render;
+									
+			// Caluculate page maxheight for content.
+			var maxHeight = page.offsetHeight;
+																			
+			var count = 0;					
+			var rows = "";
+			var dummy = "";
+			
+			progressmeter.value = 0;
+				
+			sXUL.console.log ("Content maxHeight: "+ maxHeight);
+																
+			// Add data rows.																																					
+			for (var idx = from; idx < items.length; idx++)
+			{																			
+				var item = items[idx];				
+				var row = template.row;
+																			
+				// Test if rows fit inside maxheight of page.
+				content.innerHTML = render.replace ("%%ROWS%%", rows + row);
+				
+				sXUL.console.log ("Content height: "+ content.offsetHeight)
+																																																																																														
+				// If rows exceed, use last amount of rows that fit.					
+				if (content.offsetHeight > maxHeight)
+				{												
+					content.innerHTML = render.replace ("%%ROWS%%", rows);
+					break;	
+				}
+				
+				rows += row;
+				count++;						
+			}									
+			
+			//sXUL.console.log (content.innerHTML)
+			
+			return count;
+		}
+			
+		
+		var c = 0;				
+		while (c < items.length)
+		{							
+		 	c += page (c);				 				
+		}		
+		
+						
+														
+		progressmeter.value = 100;
+		
+		document.getElementById ("main").hidden = false;						
+		document.getElementById ("progress").hidden = true;
+		
+		document.getElementById ("close").disabled = false;
+		document.getElementById ("print").disabled = false;
+		
+		var settings = PrintUtils.getPrintSettings ();
+																																								
+		settings.marginLeft = 0.0;
+		settings.marginRight = 0.0;
+		settings.marginTop = 0.0;
+		settings.marginBottom = 0.0;
+		settings.shrinkToFit = true;
+		
+		settings.paperName =  "iso_a4";
+		settings.paperWidth = "210.00";
+		settings.paperHeight = "297.00";
+
+//			settings.printSilent = true;
+//			settings.printToFile = true;
+//			settings.toFileName = "/home/rvp/test.pdf";
+
+		sXUL.tools.print (document.getElementById ("printframe").contentWindow, settings);
+	},
+	
+	printold : function ()
+	{				
+		document.getElementById ("main").hidden = true;						
+		document.getElementById ("progress").hidden = false;
+
+		document.getElementById ("close").disabled = true;
+		document.getElementById ("print").disabled = true;
+		
+		var progressmeter = document.getElementById ("progressmeter");
+
+		var items = didius.item.list ({auction: main.current});			
+		SNDK.tools.sortArrayHash (items, "catalogno", "numeric");
+				
+		var template = "";
+		
+		if (main.templateName == "internal")
+		{
+			template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/cataloglarge.tpl"));
+		}
+		else if (main.templateName == "buyer")
+		{
+			template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/catalogsmall.tpl"));
+		}
+		else if (main.templateName == "label")
+		{
+			template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
+		}
 																																		
 		var pageCount = 1;			
 												
@@ -95,12 +227,15 @@ var main =
 			var page2 = template.page.replace ("%%PAGENUMBER%%", pageCount++);								
 			content.innerHTML = page2;
 			
-			var hest = print.contentDocument.getElementById ("PageFooter").offsetHeight;
+			var hest = 0;
+			if (print.contentDocument.getElementById ("PageFooter") != null)
+				hest = print.contentDocument.getElementById ("PageFooter").offsetHeight;
 			
 			
 			
 			// Caluculate page maxheight for printing.										
 			var maxHeight = page.offsetHeight - hest;
+						
 															
 			var count = 0;					
 			var rows = "";
@@ -159,6 +294,8 @@ var main =
 				dummy += row;						
 				content.innerHTML = page2.replace ("%%ROWS%%", dummy);
 															
+				sXUL.console.log (content.offsetHeight +" "+ maxHeight)															
+															
 				// If rows exceed, use last amount of rows that fit.					
 				if (content.offsetHeight > maxHeight)
 				{												
@@ -173,11 +310,14 @@ var main =
 			return count;
 		}
 			
+		
 		var c = 0;				
 		while (c < items.length)
 		{							
 		 	c += page (c);				 				
 		}		
+		
+		sXUL.console.log ("BLA BLA BLA")
 		
 		progressmeter.value = 100;
 		

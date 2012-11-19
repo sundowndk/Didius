@@ -1078,7 +1078,7 @@ li.message-menu,
 	}
 
 .white-bg,
-.white-gradient > .drop-down {
+.½ > .drop-down {
 	background: #f1f3f4;
 	color: #666666;
 	border-color: #cccccc;
@@ -1914,11 +1914,12 @@ li.message-menu,
 	font-weight: normal;
 	font-style: normal;
 	font-family: 'EntypoRegular';
-	width: 12px;
+	width: 16px;
 	font-size: 2em;
 	line-height: 1em;
 	margin: -0.5em 0.115em -0.5em -0.077em;
 	vertical-align: -0.077em;
+	text-align: center;
 	}
 	.button.icon:before, .button > .icon:before,
 	.button-icon.icon:before, .button-icon > .icon:before {
@@ -4319,6 +4320,7 @@ LabelWhite
 	-moz-box-shadow: inset 0 0 0 1px rgba(51, 153, 255, 0), inset 0 2px 5px rgba(0, 0, 0, 0.35), 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 0 rgba(51, 153, 255, 0);
 	box-shadow: inset 0 0 0 1px rgba(51, 153, 255, 0), inset 0 2px 5px rgba(0, 0, 0, 0.35), 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 0 rgba(51, 153, 255, 0);
 	outline: none;
+	margin: 2px;
 	}
 	.ie7 .input {
 		display: inline;
@@ -4541,7 +4543,7 @@ LabelWhite
 		}
 
 	.input.large {
-		padding: 0 19px;
+		padding: 0 19px;	
 		line-height: 50px;
 		}
 		input.input.large {
@@ -4551,7 +4553,7 @@ LabelWhite
 		}
 		.inputs.large > li {
 			line-height: 50px;
-			padding: 0 19px;
+			padding: 0;
 		}
 		.large > .input-unstyled, .large > li > .input-unstyled {
 			padding-top: 17px;
@@ -4559,13 +4561,12 @@ LabelWhite
 		}
 		.large > .input-unstyled:first-child,
 		.large > li > .input-unstyled:first-child {
-			margin-left: -19px;
+			
 			padding-left: 19px !important;
 		}
 		.large > .input-unstyled:last-child,
 		.large > li > .input-unstyled:last-child {
-			margin-right: -19px;
-			padding-right: 19px !important;
+			
 			}
 			/* IE7 */
 			.large > .input-unstyled.last-child,
@@ -4979,7 +4980,8 @@ button::-moz-focus-inner {
 	-webkit-appearance: none;
 	background-position: center center !important; /* This is required for glossy gradients image fallbacck*/
 	
-
+	text-overflow:ellipsis;
+	white-space:nowrap;
 	}
 	.ie7 button.button {
 		line-height: 24px;
@@ -5449,8 +5451,7 @@ button::-moz-focus-inner {
 		}
 
 /* Huge button */
-.button.huge, .huge .button {
-	padding: 0 18px;
+.button.huge, .huge .button {	
 	font-size: 18px;
 	line-height: 46px;
 	height: 46px;
@@ -5477,7 +5478,7 @@ button::-moz-focus-inner {
 	.button.huge.active, .huge .button.active,
 	.button.huge:first-child:active, .huge .button:first-child:active,
 	.button.huge.active:first-child, .huge .button.active:first-child {
-		padding: 1px 19px;
+		padding: 1px 12px 1px;
 		}
 		.button.huge:disabled, .button.huge.disabled,
 		.huge .button:disabled, .huge .button.disabled,
