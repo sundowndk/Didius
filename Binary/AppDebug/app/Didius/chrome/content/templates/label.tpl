@@ -23,61 +23,61 @@ body
 	page-break-after:					always; 
 }
 
-.Page1
-{
-	position:							relative;
-	
-	margin-top:							16mm;
-	margin-left:						5mm;
-	margin-right:						10mm;
-	margin-bottom:						10mm;
-			
-	display: 							block;
-	page-break-after:					always; 
-}
-
 .Page
 {
 	position:							relative;
 	
 	padding-top:						15mm;
-	padding-left:						6mm;
+	padding-left:						7mm;
 	padding-right:						0mm;
 	padding-bottom:						0mm;
 			
-	
+	font-family:verdana;
 }
 
 
 .Label
 {	
 	display: inline-block;
-	padding: 0px;
-	margin-left:						2mm;
-	margin-right:						2mm;
+	padding: 0px;	
+	
+	margin-right: 1mm;
+	padding: 1mm;
 
-	font-size:							13px;
+	font-size:							11px;
 	
 	width: 								62mm;
-	height: 							37mm;
+	height: 							35mm;
 	
 	overflow: hidden;
 }
-#ENDSTYLES
 
+.Label .CatalogNo
+{
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.Label .No
+{
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.Label .VAT
+{	
+	font-weight: bold;
+}
+#ENDSTYLES
 
 %%ROWS%%
 
-
 #BEGINROW
 <div class="Label">
-Linje 1 2 3 4 5 6 7 8 9 10 11 12 13<br>
-Linje 2<br>
-Linje 3<br>
-Linje 4<br>
-Linje 5<br>
-Linje 6<br>
-Linje 7<br>
+	<span class="CatalogNo">Katalog nr.: %%ITEMCATALOGNO%%</span><br>
+	<span class="No">Effekt nr.: %%ITEMNO%%</span><br>
+	%%ITEMDESCRIPTION%%<br><br>
+	<span class="VAT">%%ITEMVAT%%</span>
 </div>
 #ENDROW
 

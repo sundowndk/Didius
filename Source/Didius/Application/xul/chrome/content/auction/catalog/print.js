@@ -72,13 +72,15 @@ var main =
 			template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
 		}
 																																		
-		var pageCount = 1;			
+		var pageCount = 0;			
 												
 		var printDocument = document.getElementById ("printframe").contentDocument;		
 		printDocument.body.innerHTML = " ";
 		
 		var page = function (from)
 		{		
+			pageCount++;
+		
 			// Add styles.																		
 			var styles = printDocument.createElement ("style");					
 			printDocument.body.appendChild (styles);					
@@ -98,27 +100,88 @@ var main =
 			var render = template.page;			
 			content.innerHTML = render;
 									
-			// Caluculate page maxheight for content.
-			var maxHeight = page.offsetHeight;
-																			
+			// Caluculate page maxheight for content.			
+			var headerHeight = 0;
+			var footerHeight = 0;
+			
+			// PAGENUMBER
+			{
+				render = render.replace ("%%PAGENUMBER%%", pageCount);
+				content.innerHTML = render;
+			}
+			
+			// AUCTIONBEGIN
+			{
+				var begin = new Date (Date.parse (main.current.begin));
+				render = render.replace ("%%AUCTIONBEGIN%%", begin.getDate () +"-"+ (begin.getMonth () + 1)  +"-"+ begin.getFullYear ());
+				content.innerHTML = render;
+			}			
+				
+			// AUCTIONBEGINTIME
+			{
+				var begin = new Date (Date.parse (main.current.begin));											
+				render = render.replace ("%%AUCTIONBEGINTIME%%", begin.getHours () +":"+ begin.getMinutes ());
+				content.innerHTML = render;
+			}			
+			
+			if (printDocument.getElementById ("Header"))
+			{
+				headerHeight = printDocument.getElementById ("Header").offsetHeight;
+			}
+			
+			if (printDocument.getElementById ("Footer"))
+			{
+				printDocument.getElementById ("Footer").id = "Footer"+ pageCount;
+				footerHeight = printDocument.getElementById ("Footer"+ pageCount).offsetHeight;
+			}
+													
+			var maxHeight = page.offsetHeight - headerHeight - footerHeight;
+
+																																																			
 			var count = 0;					
 			var rows = "";
 			var dummy = "";
 			
 			progressmeter.value = 0;
-				
-			sXUL.console.log ("Content maxHeight: "+ maxHeight);
-																
+																				
 			// Add data rows.																																					
 			for (var idx = from; idx < items.length; idx++)
 			{																			
 				var item = items[idx];				
 				var row = template.row;
+				
+				// ITEMCATALOGNO
+				{
+					row = row.replace ("%%ITEMCATALOGNO%%", item.catalogno);
+				}
+				
+				// ITEMNO
+				{
+					row = row.replace ("%%ITEMNO%%", item.no);
+				}
+				
+				// ITEMDESCRIPTION
+				{
+					row = row.replace ("%%ITEMDESCRIPTION%%", item.description);
+				}
+				
+				// ITEMVAT
+				{
+					var vat = "Ikke momsfri";
+					if (item.vat)
+					{					
+						row = row.replace ("%%ITEMVAT%%", "Ikke momsfri");
+					}
+					else
+					{
+						row = row.replace ("%%ITEMVAT%%", "Momsfri");
+					}
+				}
 																			
 				// Test if rows fit inside maxheight of page.
 				content.innerHTML = render.replace ("%%ROWS%%", rows + row);
 				
-				sXUL.console.log ("Content height: "+ content.offsetHeight)
+		//		sXUL.console.log (idx +" Content height: "+ content.offsetHeight)
 																																																																																														
 				// If rows exceed, use last amount of rows that fit.					
 				if (content.offsetHeight > maxHeight)
@@ -130,6 +193,17 @@ var main =
 				rows += row;
 				count++;						
 			}									
+			
+			sXUL.console.log ("Content headerHeight: "+ headerHeight);
+			sXUL.console.log ("Content footerHeight: "+ footerHeight);
+			
+			
+			
+			var bla = page.offsetHeight - footerHeight - headerHeight;
+			
+			sXUL.console.log ("Content: "+ bla);
+			
+			content.style.height = bla  + "px";
 			
 			//sXUL.console.log (content.innerHTML)
 			

@@ -1,40 +1,16 @@
 #BEGINSTYLES
-html
-{
-	margin: 						0px;
-	padding: 						0px;		
-}
-
-body
-{
-	margin: 						0px;
-	padding: 						0px;
-}
-
 .A4
-{
-	position:						relative;
-	
-	width: 							210mm; 
-	height: 						296mm; 
-	
-	overflow: hidden;
-	
-	display: 						block;
-	page-break-after:				always; 
+{				
+	width: 								200mm; 
+	height: 							287mm; 
 }
 
 .Page
 {
-	position:						relative;
-	
-	padding-top:					15mm;
-	padding-left:					10mm;
-	padding-right:					10mm;
-	padding-bottom:					10mm;					
-	
-	font-family:					verdana;	
-	font-size:						11px;
+	position:							relative;
+			
+	display: 							block;
+	page-break-after:					always; 
 }
 
 .PageHeader
@@ -51,17 +27,13 @@ body
 .PageFooter
 {
 	position:						absolute;		
-	
-	bottom: 10mm;
-		
-	width:							190mm;
-	height: 						8mm;
+	bottom: 						-30px;	
+	margin-top: 5mm;
+	width: 							200mm;
 	
 	text-align: 					center;	
 	font-size: 						12px;
 	font-weight:					bold;
-	
-	overflow: 						hidden;
 }
 
 .OuterTable, td, th
@@ -72,7 +44,9 @@ body
 	border: 						1px solid black;
 	border-collapse:				collapse;
 				
-	width: 							100%;						
+	width: 							100%;
+					
+	font-size: 						14px;
 }
 
 .ColumnHeader
@@ -82,7 +56,7 @@ body
 
 .CellCatalogNo
 {			
-	width: 							20mm;
+	width: 							15mm;
 
 	vertical-align: 				top; 
 }
@@ -103,15 +77,14 @@ body
 #ENDSTYLES
 
 // Header
-<div id="Header" class="PageHeader">
+<div id="PageHeader" class="PageHeader">
 	Auktionskatalog, Waldemarsvej 1, 4296 Nyrup Sjælland<br>%%AUCTIONBEGIN%% kl. %%AUCTIONBEGINTIME%%
 </div>
 
 // Table
 <table class="OuterTable">
 // ColumnHeader
-	<tr>	
-					
+	<tr>					
 // CatalogNo
 		<td class="CellCatalogNo ColumnHeader">
 			Kat. nr.
@@ -135,12 +108,12 @@ body
 	<tr>
 // CatalogNo
 		<td class="CellCatalogNo">
-			%%ITEMCATALOGNO%%
+			%%CATALOGNO%%
 		</td>
 
 // Description
 		<td class="CellDescription">
-			%%ITEMDESCRIPTION%% - %%ITEMVAT%%
+			%%DESCRIPTION%%
 		</td>
 
 // Notes
@@ -152,6 +125,6 @@ body
 </table>
 
 // Footer
-<div id="Footer" class="PageFooter">
+<div id="PageFooter" class="PageFooter">
 	Tilmeld dig vores nyhedsmail på www.york-auktion.dk, så for du automatisk besked om næste auktion<br>Side %%PAGENUMBER%%
 </div>

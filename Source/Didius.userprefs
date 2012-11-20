@@ -1,10 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/templates/label.tpl">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/catalog/print.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="81" Column="6" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/label.tpl" Line="62" Column="19" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/catalogsmall.tpl" Line="79" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="96" Column="31" />
+      <File FileName="Didius/Application/xul/chrome/content/templates/catalogsmall.tpl" Line="21" Column="19" />
+      <File FileName="Didius/Application/xul/chrome/content/templates/catalogsmall-old.tpl" Line="79" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="588" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,7 +19,9 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
-                      <Node name="catalog" expanded="True" />
+                      <Node name="catalog" expanded="True">
+                        <Node name="print.js" selected="True" />
+                      </Node>
                     </Node>
                     <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
@@ -37,9 +40,7 @@
                         <Node name="user" expanded="True" />
                       </Node>
                     </Node>
-                    <Node name="templates" expanded="True">
-                      <Node name="label.tpl" selected="True" />
-                    </Node>
+                    <Node name="templates" expanded="True" />
                   </Node>
                 </Node>
               </Node>

@@ -240,7 +240,6 @@
     <None Include="Application\xul\chrome\content\printing\test.html" />
     <None Include="Application\xul\chrome\content\printing\test.css" />
     <None Include="Application\xul\chrome\content\templates\cataloglarge.tpl" />
-    <None Include="Application\xul\chrome\content\templates\catalogsmall.tpl" />
     <None Include="Application\xul\chrome\content\auction\signin.xul" />
     <None Include="Application\xul\chrome\content\auction\signin.js" />
     <None Include="Application\xul\chrome\content\bid\edit.xul" />
@@ -274,6 +273,8 @@
     <None Include="Application\xul\chrome\content\settings\access\bidnotation.xul" />
     <None Include="Application\xul\chrome\content\templates\salesagreement.tpl" />
     <None Include="Application\xul\chrome\content\templates\label.tpl" />
+    <None Include="Application\xul\chrome\content\templates\catalogsmall-old.tpl" />
+    <None Include="Application\xul\chrome\content\templates\catalogsmall.tpl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />
