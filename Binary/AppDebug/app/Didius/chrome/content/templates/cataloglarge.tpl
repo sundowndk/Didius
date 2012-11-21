@@ -1,18 +1,40 @@
 #BEGINSTYLES
+html
+{
+	margin: 						0px;
+	padding: 						0px;		
+}
+
+body
+{
+	margin: 						0px;
+	padding: 						0px;
+}
+
 .A4
-{				
-	width: 								200mm; 
-	height: 							287mm; 
+{
+	position:						relative;
 	
-	font-family: verdana;
+	width: 							210mm; 
+	height: 						296mm; 
+	
+	overflow: hidden;
+	
+	display: 						block;
+	page-break-after:				always; 
 }
 
 .Page
 {
-	position:							relative;
-			
-	display: 							block;
-	page-break-after:					always; 
+	position:						relative;
+	
+	padding-top:					15mm;
+	padding-left:					10mm;
+	padding-right:					10mm;
+	padding-bottom:					10mm;					
+	
+	font-family:					verdana;	
+	font-size:						11px;
 }
 
 .PageHeader
@@ -29,13 +51,17 @@
 .PageFooter
 {
 	position:						absolute;		
-	bottom: 						-30px;	
-
-	width: 							200mm;
+	
+	bottom: 						30mm;
+		
+	width:							190mm;
+	height: 						8mm;
 	
 	text-align: 					center;	
 	font-size: 						12px;
 	font-weight:					bold;
+	
+	overflow: 						hidden;
 }
 
 .OuterTable, td, th
@@ -47,8 +73,9 @@
 	border-collapse:				collapse;
 				
 	width: 							100%;
+	
+	font-size: 11px;
 					
-	font-size: 						14px;
 }
 
 .ColumnHeader
@@ -80,15 +107,14 @@
 .InnerTableCellLabel
 {
 	width: 							140px;
-
-	font-size: 						14px;		
+	
 }
 
 .InnerTableCellValue
 {
 	width: 							180px;
 	
-	font-size: 						14px;	
+
 }
 	
 	
@@ -98,7 +124,6 @@
 	
 	vertical-align: 				top; 
 	
-	font-size: 						14px;
 }
 
 .CellBidder
@@ -107,13 +132,12 @@
 	
 	vertical-align: 				top; 
 	
-	font-size: 						14px;
 }
 #ENDSTYLES
 
 // Header
-<div id="PageHeader" class="PageHeader">
-	Auktionskatalog, Waldemarsvej 1, 4296 Nyrup Sjælland<br>%%AUCTIONDATE%%
+<div id="Header" class="PageHeader">
+	Auktionskatalog, Waldemarsvej 1, 4296 Nyrup Sjælland<br>%%AUCTIONBEGIN%% kl. %%AUCTIONBEGINTIME%%
 </div>
 
 // Table
@@ -148,7 +172,7 @@
 	<tr>
 // CatalogNo
 		<td class="CellCatalogNo">
-			%%CATALOGNO%%
+			%%ITEMCATALOGNO%%
 		</td>
 
 // Description
@@ -160,7 +184,7 @@
 // ROW 1
 				<tr>
 					<td colspan="4">
-						%%DESCRIPTION%%
+						%%ITEMDESCRIPTION%%
 					</td>
 				</tr>
 
@@ -171,7 +195,7 @@
 					</td>
 
 					<td class="InnerTableCellValue">
-						%%APPRAISAL1%%
+						%%ITEMAPPRAISAL1%%
 					</td>
 
 					<td class="InnerTableCellLabel">
@@ -179,7 +203,7 @@
 					</td>
 
 					<td class="InnerTableCellValue">
-						%%APPRAISAL2%%
+						%%ITEMAPPRAISAL2%%
 					</td>					
 				</tr>
 
@@ -190,7 +214,7 @@
 					</td>
 
 					<td class="InnerTableCellValue">
-						%%APPRAISAL3%%
+						%%ITEMAPPRAISAL3%%
 					</td>
 
 					<td class="InnerTableCellLabel">
@@ -198,7 +222,7 @@
 					</td>
 		
 					<td class="InnerTableCellValue">
-						%%MINIMUMBID%%
+						%%ITEMMINIMUMBID%%
 					</td>					
 				</tr>
 
@@ -259,6 +283,6 @@
 </table>
 
 // Footer
-<div id="PageFooter" class="PageFooter">
+<div id="Footer" class="PageFooter">
 	Tilmeld dig vores nyhedsmail på www.york-auktion.dk, så for du automatisk besked om næste auktion<br>Side %%PAGENUMBER%%
 </div>

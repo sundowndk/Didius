@@ -5,7 +5,7 @@
 <window id="editcustomer" minwidth="750" minheight="650" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY width height">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
-	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/> 
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/> 	
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
 		
 	<script type="application/javascript" src="chrome://didius/content/customeredit/customeredit.js"/>	

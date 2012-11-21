@@ -120,7 +120,8 @@ var main =
 			// AUCTIONBEGINTIME
 			{
 				var begin = new Date (Date.parse (main.current.begin));											
-				render = render.replace ("%%AUCTIONBEGINTIME%%", begin.getHours () +":"+ begin.getMinutes ());
+				
+				render = render.replace ("%%AUCTIONBEGINTIME%%", SNDK.tools.padLeft (begin.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (begin.getMinutes (), 2, "0"));
 				content.innerHTML = render;
 			}			
 			
@@ -135,12 +136,11 @@ var main =
 				footerHeight = printDocument.getElementById ("Footer"+ pageCount).offsetHeight;
 			}
 													
-			var maxHeight = page.offsetHeight - headerHeight - footerHeight;
-
+			//var maxHeight = page.offsetHeight - headerHeight - footerHeight;
+			var maxHeight = page.offsetHeight;
 																																																			
 			var count = 0;					
 			var rows = "";
-			var dummy = "";
 			
 			progressmeter.value = 0;
 																				
@@ -177,35 +177,96 @@ var main =
 						row = row.replace ("%%ITEMVAT%%", "Momsfri");
 					}
 				}
-																			
+				
+				// ITEMAPPRAISAL1
+				{
+					row = row.replace ("%%ITEMAPPRAISAL1%%", items[idx].appraisal1);
+				}
+				
+				// ITEMAPPRAISAL2
+				{
+					row = row.replace ("%%ITEMAPPRAISAL2%%", items[idx].appraisal2);
+				}
+				
+				// ITEMAPPRAISAL3
+				{
+					row = row.replace ("%%ITEMAPPRAISAL3%%", items[idx].appraisal3);
+				}
+				
+				// ITEMMINIMUMBID
+				{
+					row = row.replace ("%%ITEMMINIMUMBID%%", items[idx].minimumbid);
+				}
+				
+				// CUSTOMERNAME
+				{
+					row = row.replace ("%%CUSTOMERNAME%%", items[idx].case.customer.name);
+				}
+				
+				// CUSTOMERNO
+				{
+					row = row.replace ("%%CUSTOMERNO%%", items[idx].case.customer.no);
+				}
+				
+				// CUSTOMERPHONE
+				{
+					row = row.replace ("%%CUSTOMERPHONE%%", items[idx].case.customer.phone);
+				}
+				
+				// CUSTOMEREMAIL
+				{
+					row = row.replace ("%%CUSTOMEREMAIL%%", items[idx].case.customer.email);
+				}
+								
+			
+				// BID / BUYER
+				{
+					var bidcustomername = "";
+					var bidcustomerno = "";
+					var bidamount = "";
+				
+					if (items[idx].currentbidid != SNDK.tools.emptyGuid)
+					{
+						var bid = didius.bid.load (items[idx].currentbidid);
+						
+						bidcustomername = bid.customer.name;
+						bidcustomerno = bid.customer.no;
+						bidamount = bid.amount;
+					}
+					
+					// BIDCUSTOMERNAME
+					{
+						row = row.replace ("%%BIDCUSTOMERNAME%%", bidcustomername);
+					}
+						
+					// BIDCUSTOMERNO
+					{						
+						row = row.replace ("%%BIDCUSTOMERNO%%", bidcustomerno);
+					}
+						
+					// BIDAMOUNT
+					{
+						row = row.replace ("%%BIDAMOUNT%%", bidamount);
+					}
+				}
+																							
 				// Test if rows fit inside maxheight of page.
 				content.innerHTML = render.replace ("%%ROWS%%", rows + row);
 				
-		//		sXUL.console.log (idx +" Content height: "+ content.offsetHeight)
-																																																																																														
 				// If rows exceed, use last amount of rows that fit.					
 				if (content.offsetHeight > maxHeight)
 				{												
 					content.innerHTML = render.replace ("%%ROWS%%", rows);
 					break;	
 				}
-				
+																
 				rows += row;
-				count++;						
+				count++;	
+				
+				progressmeter.value = (count / items.length) * 100;					
 			}									
 			
-			sXUL.console.log ("Content headerHeight: "+ headerHeight);
-			sXUL.console.log ("Content footerHeight: "+ footerHeight);
-			
-			
-			
-			var bla = page.offsetHeight - footerHeight - headerHeight;
-			
-			sXUL.console.log ("Content: "+ bla);
-			
-			content.style.height = bla  + "px";
-			
-			//sXUL.console.log (content.innerHTML)
+			content.style.height = maxHeight  + "px";
 			
 			return count;
 		}
@@ -216,7 +277,6 @@ var main =
 		{							
 		 	c += page (c);				 				
 		}		
-		
 						
 														
 		progressmeter.value = 100;

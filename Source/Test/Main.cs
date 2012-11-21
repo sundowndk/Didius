@@ -42,7 +42,7 @@ namespace Test
 
 				{
 
-					Didius.Customer d1 = new Didius.Customer ();
+//					Didius.Customer d1 = new Didius.Customer ();
 				}
 
 				if (testsettlement)

@@ -997,7 +997,7 @@ var didius =
 		
 		isUsernameInUse : function (username, id)
 		{
-			var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=SorentoLib.User.IsUsernameInUse", "data", "POST", false);	
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=SorentoLib.User.IsUsernameInUse", "data", "POST", false);	
 		
 			var content = new Array ();	
 			content['username'] = username;		
@@ -1013,7 +1013,7 @@ var didius =
 		
 		isEmailInUse : function (email, id)
 		{
-			var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=SorentoLib.User.IsEmailInUse", "data", "POST", false);	
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=SorentoLib.User.IsEmailInUse", "data", "POST", false);	
 		
 			var content = new Array ();
 		

@@ -52,7 +52,7 @@ body
 {
 	position:						absolute;		
 	
-	bottom: 10mm;
+	bottom: 						30mm;
 		
 	width:							190mm;
 	height: 						8mm;
@@ -73,6 +73,8 @@ body
 	border-collapse:				collapse;
 				
 	width: 							100%;						
+	
+	font-size: 11px;
 }
 
 .ColumnHeader

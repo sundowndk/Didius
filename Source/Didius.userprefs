@@ -1,11 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/catalog/print.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="96" Column="31" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/catalogsmall.tpl" Line="21" Column="19" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/catalogsmall-old.tpl" Line="79" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="588" Column="9" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="462" Column="31" />
+      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.js" Line="211" Column="72" />
+      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.xul" Line="7" Column="93" />
+      <File FileName="Didius/Application/build.sh" Line="42" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/settings/access/user/changepassword.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/js/didius/user.js" Line="123" Column="27" />
+      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="29" Column="52" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -19,9 +23,7 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
-                      <Node name="catalog" expanded="True">
-                        <Node name="print.js" selected="True" />
-                      </Node>
+                      <Node name="catalog" expanded="True" />
                     </Node>
                     <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
@@ -34,7 +36,9 @@
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True" />
+                    <Node name="main" expanded="True">
+                      <Node name="main.js" selected="True" />
+                    </Node>
                     <Node name="settings" expanded="True">
                       <Node name="access" expanded="True">
                         <Node name="user" expanded="True" />

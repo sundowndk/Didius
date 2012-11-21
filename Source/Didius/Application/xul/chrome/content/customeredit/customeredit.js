@@ -208,6 +208,15 @@ var main =
 	{			
 		main.get ();
 		
+		if (didius.user.isEmailInUse (main.current.email, main.current.userid))
+		{
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+			
+			prompts.alert (null, "Email adresse", "Den angivende email adresse er allerede registret med en anden kunde.")
+			
+			return;
+		}			
+		
 		didius.customer.save (main.current);
 				
 		main.checksum = SNDK.tools.arrayChecksum (main.current);

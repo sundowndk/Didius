@@ -464,6 +464,7 @@ namespace Didius
 						user.Realname = this._name;
 						user.Status = SorentoLib.Enums.UserStatus.Enabled;
 						user.Save ();
+						this._userid = user.Id;
 					}
 				}
 				else

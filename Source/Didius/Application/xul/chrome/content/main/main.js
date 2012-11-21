@@ -9,7 +9,7 @@ var main =
 		
 		//main.login.show ();													
 						
-		document.title = "Didius v1.32 - York Auktion ApS";
+		document.title = "Didius v1.33 - York Auktion ApS";
 				
 		main.controls.statusbar.progressmeter.setMode ("undetermined");
 		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
@@ -24,6 +24,9 @@ var main =
 	//	setTimeout('window.fullScreen = true;',1);
 		
 		//	main.settings ();	
+					
+		//sXUL.console.log (main.padLeft ("1", 5, "0"));
+//		sXUL.console.log (main.padRight ("1", 5, "0"));
 					
 		main.controls.statusbar.progressmeter.setMode ("determined");
 		main.controls.statusbar.progressmeter.setValue (100);
@@ -40,6 +43,8 @@ var main =
 		app.events.onAuctionSave.addHandler (main.eventHandlers.onAuctionSave);
 		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
 	},
+	
+
 	
 	test : function ()
 	{

@@ -100,7 +100,7 @@ changePassword : function (userid, newPassword, oldPassword)
 
 isUsernameInUse : function (username, id)
 {
-	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=SorentoLib.User.IsUsernameInUse", "data", "POST", false);	
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=SorentoLib.User.IsUsernameInUse", "data", "POST", false);	
 
 	var content = new Array ();	
 	content['username'] = username;		
@@ -116,7 +116,7 @@ isUsernameInUse : function (username, id)
 
 isEmailInUse : function (email, id)
 {
-	var request = new SNDK.ajax.request ("/", "cmd=Ajax;cmd.function=SorentoLib.User.IsEmailInUse", "data", "POST", false);	
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=SorentoLib.User.IsEmailInUse", "data", "POST", false);	
 
 	var content = new Array ();
 
