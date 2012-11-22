@@ -259,6 +259,7 @@ var main =
 				render = render.replace ("%%TOTAL%%", template.total);
 				render = render.replace ("%%TOTALSALE%%", parseInt (main.current.sales).toFixed (2));
 				render = render.replace ("%%TOTALCOMMISSIONFEE%%", parseInt (main.current.commissionfee).toFixed (2));
+				render = render.replace ("%%TOTALVAT%%", parseInt (main.current.vat).toFixed (2));
 				render = render.replace ("%%TOTALTOTAL%%", parseInt (main.current.total).toFixed (2));
 				content.innerHTML = render;
 			}				

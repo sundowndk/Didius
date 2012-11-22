@@ -1,15 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/js/app.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="462" Column="31" />
-      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.js" Line="211" Column="72" />
-      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.xul" Line="7" Column="93" />
-      <File FileName="Didius/Application/build.sh" Line="42" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/access/user/changepassword.js" Line="1" Column="1" />
-      <File FileName="Didius/Application/js/didius/user.js" Line="123" Column="27" />
-      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="29" Column="52" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/create.js" Line="33" Column="67" />
+      <File FileName="Didius/Didius/Settlement.cs" Line="266" Column="1" />
+      <File FileName="Didius/Application/js/didius/settlement.js" Line="32" Column="38" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="348" Column="12" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.js" Line="17" Column="51" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/print.js" Line="236" Column="23" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.xul" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="671" Column="95" />
+      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.js" Line="492" Column="85" />
+      <File FileName="Didius/Didius.Strings/Exception.cs" Line="63" Column="1" />
+      <File FileName="Didius/Application/js/app/app.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/js/app.js" Line="235" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,6 +21,7 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
+                <Node name="app" expanded="True" />
                 <Node name="didius" expanded="True" />
               </Node>
               <Node name="xul" expanded="True">
@@ -35,10 +40,10 @@
                     <Node name="css" expanded="True" />
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
-                    <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True">
-                      <Node name="main.js" selected="True" />
+                    <Node name="js" expanded="True">
+                      <Node name="app.js" selected="True" />
                     </Node>
+                    <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True">
                       <Node name="access" expanded="True">
                         <Node name="user" expanded="True" />

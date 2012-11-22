@@ -25,110 +25,25 @@ var main =
 			
 	set : function ()
 	{		
-		var onDone = 	function (items)
-						{					
-							var totalSale = 0;
-							var totalCommissionFee = 0;							
-							var totalVat = 0;
-							var totalTotal = 0;
-						
-							for (idx in items)
-							{					
-								var data = {};
-								data["id"] = items[idx].id;
-								data["catalogno"] = items[idx].catalogno;
-								data["no"] = items[idx].no;
-								data["title"] = items[idx].title;
-								
-								var bidAmount = 0;
-								if (items[idx].currentbidid != SNDK.tools.emptyGuid)
-								{
-									bidAmount = didius.bid.load (items[idx].currentbidid).amount;
-								}
-																								
-								if (bidAmount == 0)
-								{
-									continue;
-								}				
-																								
-								data["bidamount"] = bidAmount;								
-								data["commissionfee"] = items[idx].commissionfee;
-																															
-								totalSale += parseInt (bidAmount);
-								totalCommissionFee += parseInt (items[idx].commissionfee);
-								
-								if (items[idx].vat)
-								{
-									totalVat += (bidAmount * 0.25)
-								}
-																								
-								main.itemsTreeHelper.addRow ({data: data});
-							}	
-							
-							totalVat += (totalVat - (totalCommissionFee * 0.25));
-							
-							totalTotal = totalSale + totalCommissionFee + totalVat;
-							
-							document.getElementById ("totalSale").value = totalSale;
-							document.getElementById ("totalCommissionFee").value = totalCommissionFee;
-							document.getElementById ("totalVat").value = totalVat;
-							document.getElementById ("totalTotal").value = totalTotal;
-							
-							if (totalTotal > 0)
-							{
-								document.getElementById ("approve").disabled = false;
-							}
-						};
-					
-		didius.item.list ({case: main.current, async: true, onDone: onDone});					
+		var settlement = didius.settlement.create (main.current, true);
+		
+		document.getElementById ("totalSale").value = settlement.sales;
+		document.getElementById ("totalCommissionFee").value = settlement.commissionfee;
+		document.getElementById ("totalVat").value = settlement.vat;
+		document.getElementById ("totalTotal").value = settlement.total;
+			
+		for (idx in settlement.items)
+		{
+			var item = settlement.items[idx];
+			main.itemsTreeHelper.addRow ({data: item});					
+		}
+		
+		document.getElementById ("approve").disabled = false;
 	},
 		
 	approve : function ()
 	{			
-		var onDone = 	function (items)
-						{
-//							var totalSale = 0;
-//							var totalCommissionFee = 0;							
-//							var totalTotal = 0;
-						
-							for (idx in items)
-							{					
-								
-							
-//								var data = {};
-//								data["id"] = items[idx].id;
-//								data["catalogno"] = items[idx].catalogno;
-//								data["no"] = items[idx].no;
-//								data["title"] = items[idx].title;
-								
-//								var bidAmount = 0;
-//								if (items[idx].currentbidid != SNDK.tools.emptyGuid)
-//								{
-//									bidAmount = didius.bid.load (items[idx].currentbidid).amount;
-//								}
-								
-//								if (bidAmount == 0)
-//								{
-//									continue;
-//								}				
-//								data["bidamount"] = bidAmount;								
-//								data["commissionfee"] = items[idx].commissionfee;
-																
-//								totalSale += parseInt (bidAmount);
-//								totalCommissionFee += parseInt (items[idx].commissionfee);
-//								totalTotal = totalSale + totalCommissionFee;																								
-																							
-//								main.itemsTreeHelper.addRow ({data: data});
-							}												
-							
-//							document.getElementById ("totalSale").value = totalSale;
-//							document.getElementById ("totalCommissionFee").value = totalCommissionFee;
-//							document.getElementById ("totalTotal").value = totalTotal;
-						};
-					
-		//didius.item.list ({case: main.current, async: true, onDone: onDone});
-		
-		didius.settlement.create (main.current);
+		didius.settlement.create (main.current, false);
 						
 		if (window.arguments[0].onApprove != null)
 		{

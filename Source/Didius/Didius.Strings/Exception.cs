@@ -60,10 +60,10 @@ namespace Didius.Strings
 		public static string BidItemInvoiced = "SRV00880|Cannot append Bid on an Item that has been invoiced.";
 		public static string BidItemSettled = "SRV00881|Cannot append Bid on an Item that has been settled.";
 
-		public static string SettlementCaseSettled = "00601|Could not create Settlement, Case has allready been settled";
-		public static string SettlementEmpty = "00602|Could not create Settlement, no Items to settle.";
-		public static string SettlementSave = "00610|Could not save Settlement with id: {0}";
-		public static string SettlementLoadGuid = "00610|Could not load Settlement with id: {0}.\nInner Exception:\n {1}";
+		public static string SettlementCaseSettled = "SRV00601|Could not create Settlement, Case has allready been settled";
+		public static string SettlementEmpty = "SRV00602|Could not create Settlement, no Items to settle.";
+		public static string SettlementSave = "SRV00610|Could not save Settlement with id: {0}";
+		public static string SettlementLoadGuid = "SRV00610|Could not load Settlement with id: {0}.\nInner Exception:\n {1}";
 
 		public static string InvoiceEmpty = "00702|Could not create Invoice, no Items to invoice.";
 		public static string InvoiceSave = "00710|Could not save Invoice with id: {0}";

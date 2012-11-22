@@ -321,15 +321,31 @@ namespace Didius.Addin
 					switch (Method.ToLower ())
 					{						
 						case "create":
-						{
-							result.Add (new Settlement (Case.Load (request.getValue<Guid> ("caseid"))));
-							break;
-						}		
+				{
+					bool simulate = false;
+					if (request.ContainsXPath ("simulate"))
+					{
+						simulate = request.getValue<bool> ("simulate");
+					}
+
+					result.Add (Settlement.Create (Case.Load (request.getValue<Guid> ("caseid")), simulate));
+					break;
+				}		
 							
 						case "load":
 						{
+					if (request.ContainsXPath ("id"))
+					{
+
 							result.Add (Settlement.Load (request.getValue<Guid>("id")));
 							break;
+					}
+					else if (request.ContainsXPath ("caseid"))
+					{
+						result.Add (Settlement.Load (Case.Load (request.getValue<Guid> ("caseid"))));
+						break;
+					}
+					break;
 						}
 							
 						case "list":

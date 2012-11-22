@@ -124,7 +124,7 @@ namespace Didius
 		#endregion
 		
 		#region Constructor
-		public Settlement (Case Case)
+		private Settlement (Case Case)
 		{
 			this._id = Guid.NewGuid ();
 			
@@ -144,98 +144,6 @@ namespace Didius
 			this._itemids = new List<Guid> ();
 
 		}	
-
-//		private static Settlement Simulate (Case Case)
-//		{
-//			Settlement result = new Settlement (Case);
-//
-//			if (!Case.Settled)
-//			{
-//				foreach (Item item in Item.List (Case))
-//				{
-//					if (!item.Settled)
-//					{
-//						if (item.CurrentBid != null)
-//						{
-//							if (item.Vat)
-//							{
-//								this._vat += (item.CurrentBid.Amount * 0.25m);
-//							}
-//							
-//							this._sales += item.CurrentBid.Amount;
-//							this._commissionfee += item.CommissionFee;
-//
-//							this._itemids.Add (item.Id);
-//						}
-//					}
-//				}
-//				
-//				this._vat = this._vat - (this._commissionfee * 0.25m);
-//				this._total = this._sales + this._commissionfee + this._vat;
-//				
-//				if (this._total == 0)
-//				{
-//					// EXCEPTION: Exception.SettlementEmpty
-//					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
-//				}
-//			}
-//			else
-//			{
-//				// EXCEPTION: Exception.SettlementCaseSettled
-//				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
-//			}
-//
-//			return result;
-//		}
-
-//		private static Settlement Create (Case Case)
-//		{
-//			Settlement result = new Settlement (Case);
-//
-//			if (!Case.Settled)
-//			{
-//				foreach (Item item in Item.List (Case))
-//				{
-//					if (!item.Settled)
-//					{
-//						if (item.CurrentBid != null)
-//						{
-//							if (item.Vat)
-//							{
-//								this._vat += (item.CurrentBid.Amount * 0.25m);
-//							}
-//							
-//							this._sales += item.CurrentBid.Amount;
-//							this._commissionfee += item.CommissionFee;
-//							this._itemids.Add (item.Id);
-//
-//							item.Settled = true;
-//							item.Save ();
-//						}
-//					}
-//				}
-//				
-//				this._vat = this._vat - (this._commissionfee * 0.25m);
-//				this._total = this._sales + this._commissionfee + this._vat;
-//				
-//				if (this._total == 0)
-//				{
-//					// EXCEPTION: Exception.SettlementEmpty
-//					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
-//				}
-//				
-//				Case.Settled = true;
-//				Case.Save ();				
-//				Save ();
-//			}
-//			else
-//			{
-//				// EXCEPTION: Exception.SettlementCaseSettled
-//				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
-//			}
-//
-//			return result;
-//		}
 		
 		private Settlement ()
 		{
@@ -332,13 +240,32 @@ namespace Didius
 		#endregion
 		
 		#region Public Static Methods
+		public static Settlement Load (Case Case)
+		{
+			return Load (Guid.Empty, Case);
+		}
+
 		public static Settlement Load (Guid Id)
+		{
+			return Load (Id, null);
+		}
+
+		private static Settlement Load (Guid Id, Case Case)
 		{
 			Settlement result;
 			
 			try
 			{
-				Hashtable item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.settlement)[1]")));
+				Hashtable item = null;
+				if (Id != Guid.Empty)
+				{
+					item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.settlement)[1]")));
+				}
+				else if (Case != null)
+				{
+					item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("caseid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Case.Id)).SelectSingleNode ("(//didius.settlement)[1]")));
+				}
+
 				result = new Settlement ();
 				
 				result._id = new Guid ((string)item["id"]);
@@ -469,6 +396,66 @@ namespace Didius
 					// LOG: LogDebug.SettlementList
 					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.SettlementList, id));
 				}
+			}
+			
+			return result;
+		}
+
+		public static Settlement Create (Case Case)
+		{
+			return Create (Case, false);
+		}
+		
+		public static Settlement Create (Case Case, bool Simulate)
+		{
+			Settlement result = new Settlement (Case);
+			
+			if (!Case.Settled)
+			{
+				foreach (Item item in Item.List (Case))
+				{
+					if (!item.Settled)
+					{
+						if (item.CurrentBid != null)
+						{
+							if (item.Vat)
+							{
+								result._vat += (item.CurrentBid.Amount * 0.25m);
+							}
+							
+							result._sales += item.CurrentBid.Amount;
+							result._commissionfee += item.CommissionFee;
+							result._itemids.Add (item.Id);
+							
+							if (!Simulate)
+							{
+								item.Settled = true;
+								item.Save ();
+							}
+						}
+					}
+				}
+				
+				result._vat = result._vat - (result._commissionfee * 0.25m);
+				result._total = result._sales + result._commissionfee + result._vat;
+				
+				if (result._total == 0)
+				{
+					// EXCEPTION: Exception.SettlementEmpty
+					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
+				}
+				
+				if (!Simulate)
+				{
+					Case.Settled = true;
+					Case.Save ();				
+					result.Save ();
+				}
+			}
+			else
+			{
+				// EXCEPTION: Exception.SettlementCaseSettled
+				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
 			}
 			
 			return result;

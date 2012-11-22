@@ -43,15 +43,19 @@
 							<caption label="Total"/>							
 							<hbox align="center">
 								<label class="Label">Salg:</label>							
-								<textbox id="sales" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<textbox id="totalSale" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 							</hbox>  					
 							<hbox align="center">
 								<label class="Label">Salær:</label>								
-								<textbox id="commissionFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
-							</hbox>  												
+								<textbox id="totalCommissionFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+							</hbox> 
+							<hbox align="center">
+								<label class="Label">Moms:</label>								
+								<textbox id="totalVat" type="number" min="-Infinity" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+							</hbox> 
 							<hbox align="center">
 								<label class="Label">I alt:</label>								
-								<textbox id="total" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<textbox id="totalTotal" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 							</hbox>  					
 						</groupbox>
 					</vbox>

@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: didius
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -1069,10 +1069,19 @@ var didius =
 	// ---------------------------------------------------------------------------------------------------------------
 	settlement :
 	{
-		create : function (Case)
+		create : function (Case, simulate)
 		{
 			var content = new Array ();
 			content.caseid = Case.id;
+			
+			if (simulate != null)
+			{
+				content.simulate = simulate;
+			}
+			else
+			{
+				content.simulate = false;
+			}
 		
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Settlement.Create", "data", "POST", false);	
 			request.send (content);
@@ -1084,10 +1093,17 @@ var didius =
 			return result;
 		},
 			
-		load : function (id)
+		load : function (attributes)
 		{
 			var content = new Array ();
-			content.id = id;
+			if (attributes.id)
+				content.id = attributes.id;
+			
+			if (attributes.case)
+				content.caseid = attributes.case.id;
+				
+			if (attributes.caseId)
+				content.caseid = attributes.caseId;
 		
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Settlement.Load", "data", "POST", false);		
 			request.send (content);

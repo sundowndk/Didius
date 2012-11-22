@@ -291,6 +291,14 @@
 	</tr>
 	<tr>
 		<td class="CellTotalDescription">
+			Moms
+		</td>
+		<td class="CellTotalValue" colspan="3">
+			%%TOTALVAT%%
+		</td>
+	</tr>	
+	<tr>
+		<td class="CellTotalDescription">
 			I alt
 		</td>
 		<td class="CellTotalValue" colspan="3">
@@ -307,8 +315,6 @@ Effekterne afregnes under forudsætning af at ovennævnte er fri og ubehæftet af n
 Beløbet bankoverføres til den opgivne bankkonto. (3 - 5 bankdage fra modtagelse af denne opgørelse)<br>
 Skulle der være tvivlsspørgsmål i afregningen, bedes du kontakte os inden 3 hverdage fra modtagelsen af denne
 afregning på jm@york-auktion.dk, herefter vil beløbet blive overført til din konto.<br><br>
-
-Næste auktion i Nyrup: %%NEXTAUCTIONDATE%%<br><br>
 #ENDDISCLAIMER
 
 // Footer

@@ -209,7 +209,29 @@ var app =
 					text = "Kan ikke slette auktion da denne har tilknyttet sager. Slet sagerne og forsøg igen.";
 					break;
 				}
-							
+				
+				case "SERV00601":
+				{
+					text = "Kan ikke lave afregning, da denne sag allerede er blevet afregnet.";
+					break;
+				}
+				
+				case "SERV00602":
+				{
+					text = "Kan ikke lave afregning, da der ingen effekter er som kan afregnes.";
+					break;
+				}
+				
+				case "SERV00610":
+				{
+					break;
+				}
+				
+				case "SERV00620":
+				{
+					text = "Kan ikke hente afrening."
+					break;
+				}
 				
 				// DEFAULT
 				default:

@@ -666,6 +666,11 @@ var main =
 			window.openDialog ("chrome://didius/content/case/settlement/create.xul", "settlement-"+ main.current.id, "chrome, modal", {caseId: main.current.id, onApprove: onApprove});
 		},
 		
+		show : function ()
+		{								
+			window.openDialog ("chrome://didius/content/case/settlement/show.xul", "settlement-"+ main.current.id, "chrome", {caseId: main.current.id});
+		},
+		
 		print : function ()
 		{					
 			var items = didius.item.list ({case: main.current});			
