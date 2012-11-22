@@ -321,31 +321,31 @@ namespace Didius.Addin
 					switch (Method.ToLower ())
 					{						
 						case "create":
-				{
-					bool simulate = false;
-					if (request.ContainsXPath ("simulate"))
-					{
-						simulate = request.getValue<bool> ("simulate");
-					}
+						{
+							bool simulate = false;
+							if (request.ContainsXPath ("simulate"))
+							{
+								simulate = request.getValue<bool> ("simulate");
+							}
 
-					result.Add (Settlement.Create (Case.Load (request.getValue<Guid> ("caseid")), simulate));
-					break;
-				}		
+							result.Add (Settlement.Create (Case.Load (request.getValue<Guid> ("caseid")), simulate));
+							break;
+						}		
 							
 						case "load":
 						{
-					if (request.ContainsXPath ("id"))
-					{
+							if (request.ContainsXPath ("id"))
+							{
 
-							result.Add (Settlement.Load (request.getValue<Guid>("id")));
+								result.Add (Settlement.Load (request.getValue<Guid>("id")));
+								break;
+							}
+							else if (request.ContainsXPath ("caseid"))
+							{
+								result.Add (Settlement.Load (Case.Load (request.getValue<Guid> ("caseid"))));
+								break;
+							}
 							break;
-					}
-					else if (request.ContainsXPath ("caseid"))
-					{
-						result.Add (Settlement.Load (Case.Load (request.getValue<Guid> ("caseid"))));
-						break;
-					}
-					break;
 						}
 							
 						case "list":
@@ -376,7 +376,7 @@ namespace Didius.Addin
 					{						
 						case "create":
 						{
-							result.Add (new Invoice (Auction.Load (request.getValue<Guid> ("auctionid")), Customer.Load (request.getValue<Guid> ("customerid"))));
+							result.Add (Invoice.Create (Auction.Load (request.getValue<Guid> ("auctionid")), Customer.Load (request.getValue<Guid> ("customerid")), request.getValue<bool> ("simulate")));
 							break;
 						}		
 							

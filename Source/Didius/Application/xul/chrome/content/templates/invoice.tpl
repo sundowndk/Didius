@@ -288,6 +288,14 @@
 	</tr>
 	<tr>
 		<td class="CellTotalDescription">
+			Moms
+		</td>
+		<td class="CellTotalValue" colspan="3">
+			%%TOTALVAT%%
+		</td>
+	</tr>
+	<tr>
+		<td class="CellTotalDescription">
 			I alt
 		</td>
 		<td class="CellTotalValue" colspan="3">

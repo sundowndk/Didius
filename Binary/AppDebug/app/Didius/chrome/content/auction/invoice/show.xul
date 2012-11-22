@@ -63,6 +63,7 @@
 	<hbox class="WindowButtons">
 		<hbox id="settleBox" align="left" flex="1"> 
 			<button id="print" label="Udskriv" oncommand="main.print ();" />
+			<button id="mail" label="Send på mail" oncommand="main.mail ();" disabled="true"/>
 		</hbox>
 		<hbox align="right" flex="1"> 
 			<button id="close" label="Luk" oncommand="main.close ();" />			

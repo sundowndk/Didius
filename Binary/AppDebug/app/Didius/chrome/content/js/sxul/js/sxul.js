@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: sxul
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -849,7 +849,7 @@ var sXUL =
 		  	return str;
 		},
 		
-		print : function (contentWindow, nsiPrintSettings)
+		print : function (contentWindow, nsiPrintSettings, listener)
 		{
 			nsiPrintSettings.headerStrLeft = "";
 			nsiPrintSettings.headerStrCenter = "";
@@ -861,7 +861,14 @@ var sXUL =
 		  	var req = contentWindow.QueryInterface(Components.interfaces.nsIInterfaceRequestor);
 		    var wbprint = req.getInterface(Components.interfaces.nsIWebBrowserPrint);
 		    
-		    wbprint.print(nsiPrintSettings, null);				
+		    wbprint.print(nsiPrintSettings, listener);				
+		},
+		
+		getLocalDirectory : function () 
+		{ 
+		    var directoryService = Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties); 
+		    var localDir = directoryService.get("ProfD", Components.interfaces.nsIFile); 
+		    return localDir; 
 		},
 		
 		fileUpload : function (attributes)
@@ -880,7 +887,7 @@ var sXUL =
 			
 			if (!attributes.additionalFields)
 				attributes.additionalFields = {};
-					
+											
 			var data = new FormData ();
 			
 			try
@@ -908,7 +915,9 @@ var sXUL =
 			request.upload.addEventListener ("error", function (event) { if (attributes.onError != null) attributes.onError (event); }, false);	
 		  								
 		  	// Send request							
-		  	request.send (data);  									
+		  	request.send (data);
+		  	
+		  	  									sXUL.console.log ("yes")  									
 		}
 	},
 

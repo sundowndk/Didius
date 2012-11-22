@@ -55,7 +55,8 @@ namespace Didius.Addin
 		
 		public bool Process (SorentoLib.Session Session, string Fullname, string Method)
 		{
-			
+
+
 			switch (Fullname.ToLower ())
 			{
 				#region Item
@@ -100,6 +101,49 @@ namespace Didius.Addin
 							return false;
 					}
 				#endregion
+
+					#region Invoice
+				case "didius.invoice":
+					switch (Method.ToLower ())
+					{
+						case "mailto":
+							List<string> allowedfiletypes = new List<string> ();							
+							//allowedfiletypes.Add ("application/pdf");
+							//allowedfiletypes.Add ("image/gif");
+							
+							Console.WriteLine (Session.Request.QueryJar.Get ("pdf").BinaryContentType);
+							
+//							if (allowedfiletypes.Contains (Session.Request.QueryJar.Get ("image").BinaryContentType))
+//							{
+								
+							Console.WriteLine ("customerid: "+ Session.Request.QueryJar.Get ("customerid").Value);
+
+							Customer customer = Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value));
+
+							SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", customer.Email, "Bla bla bla", "Bla bla bla bla lba");
+
+								//SorentoLib.Media image = new SorentoLib.Media ("/media/didius/app/"+ Guid.NewGuid ().ToString (), Session.Request.QueryJar.Get ("image").BinaryData);
+								//image.Type = SorentoLib.Enums.MediaType.Restricted;
+								//image.Save ();
+								
+								//MediaTransformation.Transform (image, SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_script) + "didius/item_picture_resize.xml");
+								
+								//								Session.Page.Variables.Add ("mediaid", image.Id);
+								//								Session.Page.Variables.Add ("mediasoftpath", image.Path);
+								//								Session.Page.Variables.Add ("uploadsuccess", "true");
+								
+								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");
+								
+								return true;
+//							}
+							
+//							Session.Page.Lines.Add ("ERROR");
+//							return true;
+							
+						default:
+							return false;
+					}
+#endregion
 			}
 			
 			return false;

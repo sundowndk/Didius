@@ -29,57 +29,29 @@ var main =
 			
 	set : function ()
 	{		
-		var onDone = 	function (items)
-						{
-							var totalSale = 0;
-							var totalCommissionFee = 0;							
-							var totalTotal = 0;
-						
-							for (idx in items)
-							{	
-								if (items[idx].currentbidid != SNDK.tools.emptyGuid)
-								{
-									var bid = didius.bid.load (items[idx].currentbidid);
-									
-									if ((bid.customerid == main.customer.id) && (items[idx].invoiced == false))
-									{
-									sXUL.console.log ("customerid1:"+ bid.customerid);
-									sXUL.console.log ("customerid2:"+ main.customer.id);
-									sXUL.console.log ("invoiced:"+ items[idx].invoiced);
-										var data = {};
-										data["id"] = items[idx].id;
-										data["catalogno"] = items[idx].catalogno;
-										data["no"] = items[idx].no;
-										data["title"] = items[idx].title;
-										
-										data["bidamount"] = bid.amount;
-										data["commissionfee"] = items[idx].commissionfee;
-																				
-										main.itemsTreeHelper.addRow ({data: data});																														
-																																																		
-										totalSale += parseInt (bid.amount);
-										totalCommissionFee += parseInt (items[idx].commissionfee);
-										totalTotal = totalSale + totalCommissionFee;
-									}									
-								}
-							}												
-							
-							document.getElementById ("totalSale").value = totalSale;
-							document.getElementById ("totalCommissionFee").value = totalCommissionFee;
-							document.getElementById ("totalTotal").value = totalTotal;
-							
-							if (totalTotal > 0)
-							{
-								document.getElementById ("approve").disabled = false;
-							}
-						};
-					
-		didius.item.list ({auction: main.auction, async: true, onDone: onDone});
+		var invoice = didius.invoice.create ({auction: main.auction, customer: main.customer, simulate: true});
+	
+		for (idx in invoice.items)
+		{
+			var item = invoice.items[idx];
+			
+			main.itemsTreeHelper.addRow ({data: item});
+		}
+	
+		document.getElementById ("totalSale").value = invoice.sales;
+		document.getElementById ("totalCommissionFee").value = invoice.commissionfee;
+		document.getElementById ("totalVat").value = invoice.vat;
+		document.getElementById ("totalTotal").value = invoice.total;
+		
+		if (invoice.total > 0)
+		{
+			document.getElementById ("approve").disabled = false;
+		}
 	},
 		
 	approve : function ()
 	{					
-		var current = didius.invoice.create (main.auction, main.customer);
+		var current = didius.invoice.create ({auction: main.auction, customer: main.customer, simulate: false});
 						
 		if (window.arguments[0].onApprove != null)
 		{

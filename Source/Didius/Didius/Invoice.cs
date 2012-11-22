@@ -140,39 +140,10 @@ namespace Didius
 			this._commissionfee = 0;
 			this._vat = 0;
 			this._total = 0;
-			
+
 			this._itemids = new List<Guid> ();
-			
-			foreach (Item item in Item.List (Auction))
-			{
-				if (!item.Invoiced)
-				{
-					if (item.CurrentBid != null)
-					{
-						if (item.CurrentBid.CustomerId == Customer.Id)
-						{
-							this._sales += item.CurrentBid.Amount;
-							this._commissionfee += item.CommissionFee;
-							this._itemids.Add (item.Id);
-
-							item.Invoiced = true;
-							item.Save ();
-						}
-					}
-				}
-			}
-				
-			this._total = this._sales + this._commissionfee;
-				
-			if (this._total == 0)
-			{
-				// EXCEPTION: Exception.InvoiceEmpty
-				throw new Exception (string.Format (Strings.Exception.InvoiceEmpty));
-			}
-
-			Save ();
 		}	
-		
+				
 		private Invoice ()
 		{
 			this._createtimestamp = 0;
@@ -406,6 +377,59 @@ namespace Didius
 					// LOG: LogDebug.InvoiceList
 					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.InvoiceList, id));
 				}
+			}
+			
+			return result;
+		}
+
+		public static Invoice Create (Auction Auction, Customer Customer)
+		{
+			return Create (Auction, Customer, false);
+		}
+		
+		public static Invoice Create (Auction Auction, Customer Customer, bool Simulate)
+		{
+			Invoice result = new Invoice (Auction, Customer);
+			
+			foreach (Item item in Item.List (Auction))
+			{
+				if (!item.Invoiced)
+				{
+					if (item.CurrentBid != null)
+					{
+						if (item.CurrentBid.CustomerId == Customer.Id)
+						{
+							if (item.Vat)
+							{
+								result._vat += (item.CurrentBid.Amount * 0.25m);
+							}
+							
+							result._sales += item.CurrentBid.Amount;
+							result._commissionfee += item.CommissionFee;
+							result._itemids.Add (item.Id);
+							
+							if (!Simulate)
+							{
+								item.Invoiced = true;
+								item.Save ();
+							}
+						}
+					}
+				}
+			}
+			
+			result._vat = result._vat + (result._commissionfee * 0.25m);
+			result._total = result._sales + result._commissionfee + result._vat;
+			
+			if (result._total == 0)
+			{
+				// EXCEPTION: Exception.InvoiceEmpty
+				throw new Exception (string.Format (Strings.Exception.InvoiceEmpty));
+			}
+			
+			if (!Simulate)
+			{
+				result.Save ();
 			}
 			
 			return result;

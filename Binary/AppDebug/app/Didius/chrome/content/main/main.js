@@ -21,6 +21,14 @@ var main =
 		
 //		sXUL.console.log (typeof(test))
 		
+		var environment = Components.classes["@mozilla.org/process/environment;1"].getService(Components.interfaces.nsIEnvironment);
+
+//		var path = environment.get("TEMP");
+
+		
+		main.createTempFolder ();		
+//		sXUL.console.log ("BLA:"+ main.getLocalDirectory ());
+		
 	//	setTimeout('window.fullScreen = true;',1);
 		
 		//	main.settings ();	
@@ -44,6 +52,19 @@ var main =
 		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
 	},
 	
+	createTempFolder : function ()
+	{
+		var localDir = sXUL.tools.getLocalDirectory ();
+		
+		sXUL.console.log (localDir.path);
+		
+		localDir.append ("temp");
+		if (!localDir.exists() || !localDir.isDirectory())  
+ 			localDir.create (Components.interfaces.nsIFile.DIRECTORY_TYPE, 0774); 
+ 	
+	},
+	
+
 
 	
 	test : function ()

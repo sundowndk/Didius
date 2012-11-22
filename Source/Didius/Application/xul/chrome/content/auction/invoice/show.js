@@ -42,6 +42,16 @@ var main =
 		document.getElementById ("sales").value = main.current.sales;
 		document.getElementById ("commissionFee").value = main.current.commissionfee;
 		document.getElementById ("total").value = main.current.total;
+		
+		if (main.current.customer.email != "")
+		{
+			document.getElementById ("mail").disabled = false;
+		}
+	},
+	
+	mail : function ()
+	{
+		window.openDialog ("chrome://didius/content/auction/invoice/print.xul", "invoiceprint-"+ main.current.id, "chrome, modal", {invoiceId: main.current.id, mailto: main.current.customer.email});
 	},
 	
 	print : function ()

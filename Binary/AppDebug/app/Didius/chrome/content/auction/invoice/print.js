@@ -1,4 +1,8 @@
 Components.utils.import("resource://didius/js/app.js");
+var Cc = Components.classes;
+var Ci = Components.interfaces;
+var Cu = Components.utils;
+var Cr = Components.results;
 
 var main = 
 {
@@ -219,7 +223,7 @@ var main =
 					if (content.offsetHeight > (maxHeight2))
 					{						
 						render = render.replace ("%%ROWS%%", rows);															
-						render = render.replace ("%%TRANSFER%%", template.transfer)
+						render = render.replace ("%%TRANSFER%%", template.transfer)						
 						render = render.replace ("%%TOTAL%%", "");		
 						render = render.replace ("%%DISCLAIMER%%", "");							
 						content.innerHTML = render;
@@ -241,6 +245,7 @@ var main =
 				render = render.replace ("%%TOTAL%%", template.total);
 				render = render.replace ("%%TOTALSALE%%", parseInt (main.current.sales).toFixed (2));
 				render = render.replace ("%%TOTALCOMMISSIONFEE%%", parseInt (main.current.commissionfee).toFixed (2));
+				render = render.replace ("%%TOTALVAT%%", parseInt (main.current.vat).toFixed (2));
 				render = render.replace ("%%TOTALTOTAL%%", parseInt (main.current.total).toFixed (2));
 				content.innerHTML = render;
 			}				
@@ -271,11 +276,91 @@ var main =
 		settings.paperName =  "iso_a4";
 		settings.paperWidth = "210.00";
 		settings.paperHeight = "297.00";
+		
+		if (window.arguments[0].mailto != null) 
+		{
+			var localDir = sXUL.tools.getLocalDirectory ();
+					
+    		settings.printSilent = true;
+    		settings.showPrintProgress = false;
+		    settings.printToFile = true;    		
+    		settings.printFrameType = 1;
+    		settings.outputFormat = 2;
 
-//			settings.printSilent = true;
-//			settings.printToFile = true;
-//			settings.toFileName = "/home/rvp/test.pdf";
+			//sXUL.console.log (localDir.path+ "\\"+ "test.pdf");
+			settings.toFileName = localDir.path + "/test.pdf";
+			//settings.toFileName = "c:\\"+ main.current.id +".pdf";
+			
+			var onLoad = 		function (respons)
+								{
+									sXUL.console.log ("blablalbal")
+								
+									var respons = respons.replace ("\n","").split (":");
+							
+									switch (respons[0].toLowerCase ())
+									{
+										case "success":
+										{											
+											break;
+										}
+								
+										default:
+										{
+											app.error ({errorCode: "APP00480"});
+											break;
+										}							
+									}																			
+								}
+						
+			var onProgress =	function (event)
+								{
+								
+//										document.getElementById ("pictureUploadProgressmeter").value = (event.loaded / event.total) * 100;										
+								};
+							
+			var onError =		function (event)
+								{
+								
+									app.error ({errorCode: "APP00001"});
+								};
+			
+			
+			var test = false;
+		    var listener = {
+      						  onStateChange: function(aWebProgress, aRequest, aStateFlags, aStatus) 
+      						  {
+      						  	//sXUL.console.log (aStateFlags)
+            						if (aStateFlags & Ci.nsIWebProgressListener.STATE_STOP) 
+            						{
+            							if (!test)
+            							{
+            								test = true;
+        									sXUL.console.log ("SENDING");
+        									sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "pdf", filePath: localDir.path + "/test.pdf", additionalFields: {cmd: "function", "cmd.function": "Didius.Invoice.MailTo", customerid: main.current.customer.id}, onLoad: onLoad, onProgress: onProgress, onError: onError})
+        									sXUL.console.log ("SENT");
+        								}
+                					//sendAsyncMessage("Browser:SaveAs:Return", { type: json.type, id: json.id, referrer: json.referrer });
+            						}
+        						},		
+        						onProgressChange : function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress) 
+        						{
+        						},
 
-		sXUL.tools.print (print.contentWindow, settings);				
+        // stubs for the nsIWebProgressListener interfaces which nsIWebBrowserPrint doesn't use.
+        onLocationChange : function() { throw "Unexpected onLocationChange"; },
+        onStatusChange     : function() { throw "Unexpected onStatusChange";     },
+        onSecurityChange : function() { throw "Unexpected onSecurityChange"; }
+    };
+			
+			
+			sXUL.tools.print (print.contentWindow, settings, listener);
+			
+			
+		}
+		else
+		{
+			sXUL.tools.print (print.contentWindow, settings);				
+		}
+		
 	}
 }

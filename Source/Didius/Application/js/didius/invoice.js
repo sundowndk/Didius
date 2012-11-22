@@ -1,9 +1,24 @@
-create : function (Auction, Customer)
+create : function (attributes)
 {
 	var content = new Array ();
-	content.auctionid = Auction.id;
-	content.customerid = Customer.id;
-
+	
+	if (attributes.auctionId)
+		content.auctionid = attributes.auctionId;
+		
+	if (attributes.auction)
+		content.auctionid = attributes.auction.id;
+		
+	if (attributes.customerId)
+		content.customerid = attributes.customerId;		
+	
+	if (attributes.customer)
+		content.customerid = attributes.customer.id;
+		
+	content.simulate = false;	
+	
+	if (attributes.simulate)
+		content.simulate = attributes.simulate;
+			
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Invoice.Create", "data", "POST", false);	
 	request.send (content);
 	
@@ -74,6 +89,7 @@ list : function (attributes)
 		return request.respons ()["didius.invoices"];		
 	}
 }	
+
 
 
 

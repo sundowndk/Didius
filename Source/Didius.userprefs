@@ -1,19 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/js/app.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius.Addin/Function.cs">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/create.js" Line="33" Column="67" />
-      <File FileName="Didius/Didius/Settlement.cs" Line="266" Column="1" />
-      <File FileName="Didius/Application/js/didius/settlement.js" Line="32" Column="38" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="348" Column="12" />
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.js" Line="17" Column="51" />
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/print.js" Line="236" Column="23" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.xul" Line="1" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="671" Column="95" />
-      <File FileName="Didius/Application/xul/chrome/content/customeredit/customeredit.js" Line="492" Column="85" />
-      <File FileName="Didius/Didius.Strings/Exception.cs" Line="63" Column="1" />
-      <File FileName="Didius/Application/js/app/app.js" Line="1" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/js/app.js" Line="235" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/show.js" Line="54" Column="161" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/show.xul" Line="66" Column="20" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/print.xul" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/print.js" Line="338" Column="47" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="61" Column="28" />
+      <File FileName="Didius/Didius.Addin/Render.cs" Line="1" Column="1" />
+      <File FileName="Didius/Didius.Addin/Function.cs" Line="119" Column="92" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -28,7 +23,7 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
-                      <Node name="catalog" expanded="True" />
+                      <Node name="invoice" expanded="True" />
                     </Node>
                     <Node name="auctionedit" expanded="True" />
                     <Node name="auctionrun" expanded="True" />
@@ -40,9 +35,7 @@
                     <Node name="css" expanded="True" />
                     <Node name="customeredit" expanded="True" />
                     <Node name="itemedit" expanded="True" />
-                    <Node name="js" expanded="True">
-                      <Node name="app.js" selected="True" />
-                    </Node>
+                    <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True">
                       <Node name="access" expanded="True">
@@ -55,7 +48,9 @@
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True" />
+            <Node name="Didius.Addin" expanded="True">
+              <Node name="Function.cs" selected="True" />
+            </Node>
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
           </Node>
