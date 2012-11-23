@@ -29,7 +29,7 @@ var main =
 		{
 			sXUL.console.log (exception);
 		}
-		main.close ();
+		//main.close ();
 	},
 					
 	close : function ()
@@ -280,6 +280,7 @@ var main =
 		if (window.arguments[0].mailto != null) 
 		{
 			var localDir = sXUL.tools.getLocalDirectory ();
+			var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
 					
     		settings.printSilent = true;
     		settings.showPrintProgress = false;
@@ -287,80 +288,61 @@ var main =
     		settings.printFrameType = 1;
     		settings.outputFormat = 2;
 
-			//sXUL.console.log (localDir.path+ "\\"+ "test.pdf");
-			settings.toFileName = localDir.path + "/test.pdf";
-			//settings.toFileName = "c:\\"+ main.current.id +".pdf";
+			settings.toFileName = filename;
 			
-			var onLoad = 		function (respons)
+			var onDone =		function ()
 								{
-									sXUL.console.log ("blablalbal")
-								
-									var respons = respons.replace ("\n","").split (":");
+									var onLoad = 		function (respons)
+														{
+															var respons = respons.replace ("\n","").split (":");
 							
-									switch (respons[0].toLowerCase ())
-									{
-										case "success":
-										{											
-											break;
-										}
-								
-										default:
-										{
-											app.error ({errorCode: "APP00480"});
-											break;
-										}							
-									}																			
-								}
+															switch (respons[0].toLowerCase ())
+															{
+																case "success":
+																{			
+																	try
+																	{
+																	sXUL.tools.fileDelete (filename);
+																	}
+																	catch (e)
+																	{
+																	sXUL.console.log (e);
+																	}
+																
+																	main.close ();																			
+																	break;
+																}
+									
+																default:
+																{
+																	app.error ({errorCode: "APP00001"});
+																	break;
+																}							
+															}																			
+														}
 						
-			var onProgress =	function (event)
-								{
-								
-//										document.getElementById ("pictureUploadProgressmeter").value = (event.loaded / event.total) * 100;										
-								};
+									var onProgress =	function (event)
+														{
+														};
 							
-			var onError =		function (event)
-								{
+									var onError =		function (event)
+														{
+															app.error ({errorCode: "APP00001"});
+														};								
 								
-									app.error ({errorCode: "APP00001"});
+									sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "pdf", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Invoice.MailTo", customerid: main.current.customer.id}, onLoad: onLoad, onProgress: onProgress, onError: onError});
 								};
 			
-			
-			var test = false;
-		    var listener = {
-      						  onStateChange: function(aWebProgress, aRequest, aStateFlags, aStatus) 
-      						  {
-      						  	//sXUL.console.log (aStateFlags)
-            						if (aStateFlags & Ci.nsIWebProgressListener.STATE_STOP) 
-            						{
-            							if (!test)
-            							{
-            								test = true;
-        									sXUL.console.log ("SENDING");
-        									sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "pdf", filePath: localDir.path + "/test.pdf", additionalFields: {cmd: "function", "cmd.function": "Didius.Invoice.MailTo", customerid: main.current.customer.id}, onLoad: onLoad, onProgress: onProgress, onError: onError})
-        									sXUL.console.log ("SENT");
-        								}
-                					//sendAsyncMessage("Browser:SaveAs:Return", { type: json.type, id: json.id, referrer: json.referrer });
-            						}
-        						},		
-        						onProgressChange : function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress) 
-        						{
-        						},
-
-        // stubs for the nsIWebProgressListener interfaces which nsIWebBrowserPrint doesn't use.
-        onLocationChange : function() { throw "Unexpected onLocationChange"; },
-        onStatusChange     : function() { throw "Unexpected onStatusChange";     },
-        onSecurityChange : function() { throw "Unexpected onSecurityChange"; }
-    };
-			
-			
-			sXUL.tools.print (print.contentWindow, settings, listener);
-			
-			
+			sXUL.tools.print (print.contentWindow, settings, onDone);						
 		}
 		else
 		{
-			sXUL.tools.print (print.contentWindow, settings);				
-		}
+			var onDone =	function ()
+							{
+								main.close ();
+							};
 		
+			sXUL.tools.print (print.contentWindow, settings, onDone);				
+		}		
 	}
 }

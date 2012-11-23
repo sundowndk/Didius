@@ -479,8 +479,12 @@ namespace Didius
 					}
 					else
 					{
-						SorentoLib.User.Delete (this._userid);
-						this._userid = Guid.Empty;
+						try
+						{
+							SorentoLib.User.Delete (this._userid);
+							this._userid = Guid.Empty;
+						}
+						catch {}
 					}
 				}
 				

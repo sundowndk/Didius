@@ -252,8 +252,7 @@ var main =
 		{
   			document.getElementById ("pictureUpload").collapsed = true;
   			document.getElementById ("pictureUploadProgressmeter").collapsed = false;
-  			
-  			sXUL.console.log (didius.runtime.ajaxUrl);
+  			  			
 			//sXUL.tools.fileUpload ({postUrl: "http://sorentotest.sundown.dk", fieldName: "image", filePath: filePicker.file, additionalFields: {cmd: "function", "cmd.function": "Didius.Item.ImageUpload"}, onLoad: onLoad, onProgress: onProgress, onError: onError})
 			sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "image", filePath: filePicker.file, additionalFields: {cmd: "function", "cmd.function": "Didius.Item.ImageUpload"}, onLoad: onLoad, onProgress: onProgress, onError: onError})
 		}

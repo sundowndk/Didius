@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: sxul
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -849,7 +849,15 @@ var sXUL =
 		  	return str;
 		},
 		
-		print : function (contentWindow, nsiPrintSettings, listener)
+		fileDelete : function (path)
+		{
+			var file = Components.classes['@mozilla.org/file/local;1'].createInstance (Components.interfaces.nsILocalFile);
+			file.initWithPath (path);
+			if (file.exists ())
+				file.remove (false);
+		},
+		
+		print : function (contentWindow, nsiPrintSettings, onDone, listener)
 		{
 			nsiPrintSettings.headerStrLeft = "";
 			nsiPrintSettings.headerStrCenter = "";
@@ -860,6 +868,29 @@ var sXUL =
 		
 		  	var req = contentWindow.QueryInterface(Components.interfaces.nsIInterfaceRequestor);
 		    var wbprint = req.getInterface(Components.interfaces.nsIWebBrowserPrint);
+		    
+		    if (!listener)
+		    {
+				listener = 
+				{
+					onStateChange: function(aWebProgress, aRequest, aStateFlags, aStatus) 
+		      		{
+						if (aStateFlags & Ci.nsIWebProgressListener.STATE_STOP && aStateFlags & Ci.nsIWebProgressListener.STATE_IS_NETWORK) 
+		      			{
+		      				onDone ();
+			 			}
+		        	},		
+		        						
+		        	onProgressChange : function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress) 
+		        	{
+		        	},
+		
+		       		// stubs for the nsIWebProgressListener interfaces which nsIWebBrowserPrint doesn't use.
+		        	onLocationChange : function() { throw "Unexpected onLocationChange"; },
+		        	onStatusChange     : function() { throw "Unexpected onStatusChange"; },
+		        	onSecurityChange : function() { throw "Unexpected onSecurityChange"; }
+		    	};
+		    }    
 		    
 		    wbprint.print(nsiPrintSettings, listener);				
 		},
@@ -909,15 +940,13 @@ var sXUL =
 		  	request.open ("POST", attributes.postUrl);
 		  	
 		  	// Events
-		  	request.onload = function (event) { if (attributes.onLoad != null) attributes.onLoad (event.target.responseText); };
-		  	request.onError = function (event) { if (attributes.onError != null) attributes.onError (event); };	
-			request.upload.addEventListener ("progress", function (event) { if (attributes.onProgress != null) attributes.onProgress (event); }, false);
-			request.upload.addEventListener ("error", function (event) { if (attributes.onError != null) attributes.onError (event); }, false);	
+		  	request.onload = function (event) { sXUL.console.log ("onload"); if (attributes.onLoad != null) attributes.onLoad (event.target.responseText); };
+		  	request.onError = function (event) { sXUL.console.log ("onerror"); if (attributes.onError != null) attributes.onError (event); };	
+			request.upload.addEventListener ("progress", function (event) { sXUL.console.log ("onprogress"); if (attributes.onProgress != null) attributes.onProgress (event); }, false);
+			request.upload.addEventListener ("error", function (event) { sXUL.console.log ("onerror"); if (attributes.onError != null) attributes.onError (event); }, false);	
 		  								
 		  	// Send request							
-		  	request.send (data);
-		  	
-		  	  									sXUL.console.log ("yes")  									
+		  	request.send (data);  	  	  									
 		}
 	},
 

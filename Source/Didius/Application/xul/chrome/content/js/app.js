@@ -45,6 +45,8 @@ var app =
 	{
 		loggedIn : false,
 		current : null,
+		OS : Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS,
+		pathSeperator : "/",
 		eventListenerId: null		
 	},
 
@@ -77,6 +79,19 @@ var app =
 		app.events.onAuctionLoad = new event ();
 		app.events.onAuctionSave = new event ();
 		app.events.onAuctionDestroy = new event ();
+			
+		if (app.session.OS == "Linux")
+		{
+			app.session.pathSeperator = "/";
+		}			
+		else if (app.session.OS == "WINNT")
+		{
+			app.session.pathSeperator = "\\";
+		}
+		else if (app.session.OS == "Darwin")
+		{
+			app.session.pathSeperator = "/";
+		}
 				
 		//dump("App startup!");
 	},
