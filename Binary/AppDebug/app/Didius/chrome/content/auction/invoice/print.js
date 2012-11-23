@@ -270,43 +270,72 @@ var main =
 		settings.marginLeft = 0.5;
 		settings.marginRight = 0.5;
 		settings.marginTop = 0.5;
-		settings.marginBottom = 0.5;
+		settings.marginBottom = 0.0;
 		settings.shrinkToFit = true;
 		
 		settings.paperName =  "iso_a4";
-		settings.paperWidth = "210.00";
-		settings.paperHeight = "297.00";
+		settings.paperWidth = 210;
+		settings.paperHeight = 297
+		settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
 		
 		if (window.arguments[0].mailto != null) 
 		{
 			var localDir = sXUL.tools.getLocalDirectory ();
-			var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
+			//var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
+			var filename = localDir.path + app.session.pathSeperator + main.current.id +".pdf";
+			//var filename = "F:\\test.pdf";
 					
     		settings.printSilent = true;
     		settings.showPrintProgress = false;
 		    settings.printToFile = true;    		
-    		settings.printFrameType = 1;
+		    
+		    
+    		//settings.printFrameType = 1;
+    		
     		settings.outputFormat = 2;
+    		
+settings.printSilent = true;
+    settings.showPrintProgress = false;
+    settings.printBGImages = true;
+    settings.printBGColors = true;
+    settings.printToFile = true;
+    
+    settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
+    settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+
+    //XXX we probably need a preference here, the header can be useful
+    settings.footerStrCenter = "";
+    settings.footerStrLeft     = "";
+    settings.footerStrRight    = "";
+    settings.headerStrCenter = "";
+    settings.headerStrLeft     = "";
+    settings.headerStrRight    = "";
+    settings.printBGColors = true;
+    settings.title = "Pencil printing";    		
 
 			settings.toFileName = filename;
+			
+			sXUL.console.log (filename)
 			
 			var onDone =		function ()
 								{
 									var onLoad = 		function (respons)
 														{
+															sXUL.console.log ("load");
 															var respons = respons.replace ("\n","").split (":");
 							
+											sXUL.console.log (respons);
 															switch (respons[0].toLowerCase ())
 															{
 																case "success":
 																{			
 																	try
 																	{
-																	sXUL.tools.fileDelete (filename);
+																		//sXUL.tools.fileDelete (filename);
 																	}
 																	catch (e)
 																	{
-																	sXUL.console.log (e);
+																		sXUL.console.log (e);
 																	}
 																
 																	main.close ();																			
@@ -315,22 +344,26 @@ var main =
 									
 																default:
 																{
-																	app.error ({errorCode: "APP00001"});
+																	app.error ({errorCode: "APP00001"});																	
 																	break;
 																}							
 															}																			
 														}
 						
 									var onProgress =	function (event)
-														{
+														{	
+															sXUL.console.log ("progress");
 														};
 							
 									var onError =		function (event)
 														{
+															sXUL.console.log ("error");
 															app.error ({errorCode: "APP00001"});
 														};								
 								
 									sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "pdf", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Invoice.MailTo", customerid: main.current.customer.id}, onLoad: onLoad, onProgress: onProgress, onError: onError});
+									
+									//main.close ();
 								};
 			
 			sXUL.tools.print (print.contentWindow, settings, onDone);						

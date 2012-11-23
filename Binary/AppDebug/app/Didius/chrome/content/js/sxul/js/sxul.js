@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: sxul
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -875,8 +875,42 @@ var sXUL =
 				{
 					onStateChange: function(aWebProgress, aRequest, aStateFlags, aStatus) 
 		      		{
-						if (aStateFlags & Ci.nsIWebProgressListener.STATE_STOP && aStateFlags & Ci.nsIWebProgressListener.STATE_IS_NETWORK) 
+		      		//	sXUL.console.log (aStateFlags);
+		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_REQUEST)
 		      			{
+		      				//sXUL.console.log ("STATE_IS_REQUEST")
+		      			}
+		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT)
+		      			{
+		      				//sXUL.console.log ("STATE_IS_DOCUMENT")
+		      			}
+		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK)
+		      			{
+		      				//sXUL.console.log ("STATE_IS_NETWORK")
+		      			}
+		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_WINDOW)
+		      			{
+		      				//sXUL.console.log ("STATE_IS_WINDOW")
+		      			}
+		      			
+		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_START)
+		      			{
+		      				//sXUL.console.log ("STATE_START")
+		      			}
+		      			
+		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP)
+		      			{
+		      				//sXUL.console.log ("STATE_STOP")
+		      			}
+		      			
+		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT) 
+		      			{
+		      				//onDone ();
+		      			}
+		      		
+						if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK) 
+		      			{
+		      				//sXUL.console.log ("DONE");
 		      				onDone ();
 			 			}
 		        	},		
@@ -940,10 +974,10 @@ var sXUL =
 		  	request.open ("POST", attributes.postUrl);
 		  	
 		  	// Events
-		  	request.onload = function (event) { sXUL.console.log ("onload"); if (attributes.onLoad != null) attributes.onLoad (event.target.responseText); };
-		  	request.onError = function (event) { sXUL.console.log ("onerror"); if (attributes.onError != null) attributes.onError (event); };	
-			request.upload.addEventListener ("progress", function (event) { sXUL.console.log ("onprogress"); if (attributes.onProgress != null) attributes.onProgress (event); }, false);
-			request.upload.addEventListener ("error", function (event) { sXUL.console.log ("onerror"); if (attributes.onError != null) attributes.onError (event); }, false);	
+		  	request.onload = function (event) { if (attributes.onLoad != null) attributes.onLoad (event.target.responseText); };
+		  	request.onError = function (event) { if (attributes.onError != null) attributes.onError (event); };	
+			request.upload.addEventListener ("progress", function (event) { if (attributes.onProgress != null) attributes.onProgress (event); }, false);
+			request.upload.addEventListener ("error", function (event) {  if (attributes.onError != null) attributes.onError (event); }, false);	
 		  								
 		  	// Send request							
 		  	request.send (data);  	  	  									

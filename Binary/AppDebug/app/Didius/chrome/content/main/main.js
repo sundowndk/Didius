@@ -9,7 +9,7 @@ var main =
 		
 		//main.login.show ();													
 						
-		document.title = "Didius v1.33 - York Auktion ApS";
+		document.title = "Didius v1.34 - York Auktion ApS";
 				
 		main.controls.statusbar.progressmeter.setMode ("undetermined");
 		main.controls.statusbar.progressmeter.setDescription ("Arbejder");

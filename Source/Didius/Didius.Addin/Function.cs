@@ -108,18 +108,24 @@ namespace Didius.Addin
 				{
 				case "mailto":
 				{
+							Console.WriteLine ("MAILTO");
+
 					try
 					{
 						Customer customer = Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value));
 
+								Console.WriteLine (Session.Request.QueryJar.Get ("pdf").BinaryContentType);
+
 						List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
 						attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (Session.Request.QueryJar.Get ("pdf").BinaryData, "faktura.pdf", Session.Request.QueryJar.Get ("pdf").BinaryContentType));
 
-						//SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", customer.Email, "Faktura", "Her er din faktura!", false, attatchments);
+						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", customer.Email, "Faktura", "Her er din faktura!", false, attatchments);
 
 						Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");
-					} catch
+					} catch (Exception e)
 					{
+								Console.WriteLine (e);
+
 						Session.Page.Lines.Add ("ERROR");
 						return true;
 					}
@@ -143,6 +149,8 @@ namespace Didius.Addin
 					{
 						Customer customer = Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value));
 						
+						Console.WriteLine (Session.Request.QueryJar.Get ("pdf").BinaryContentType);
+
 						List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
 						attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (Session.Request.QueryJar.Get ("pdf").BinaryData, "afregning.pdf", Session.Request.QueryJar.Get ("pdf").BinaryContentType));
 						
