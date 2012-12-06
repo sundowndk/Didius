@@ -268,7 +268,7 @@ namespace Didius
 		{
 			get
 			{
-				List<Bid> bids = Bid.List (this);
+				List<Bid> bids = Didius.Bid.List (this);
 				
 				if (bids.Count > 0)
 				{
@@ -283,7 +283,7 @@ namespace Didius
 		{
 			get
 			{
-				List<Bid> bids = Bid.List (this);
+				List<Bid> bids = Didius.Bid.List (this);
 
 				if (bids.Count > 0)
 				{
@@ -315,10 +315,18 @@ namespace Didius
 			{
 				decimal result = 0;
 
-				if (this.CurrentBidId != Guid.Empty)
+				Bid currentbid = this.CurrentBid;
+
+				if (currentbid != null)
 				{
-					result = Bid.Load (this.CurrentBidId).Amount;
+					result = currentbid.Amount;
 				}
+
+
+//				if (this.CurrentBidId != Guid.Empty)
+//				{
+//					result = Didius.Bid.Load (this.CurrentBidId).Amount;
+//				}
 
 				return Math.Round (result, 2);
 			}
@@ -343,8 +351,8 @@ namespace Didius
 				{
 					result = 500;
 				}
-				
-				return result + bidamount;
+
+				return Math.Round (result + bidamount, 2);
 			}
 		}
 
@@ -527,10 +535,146 @@ namespace Didius
 		#endregion
 		
 		#region Public Static Methods
+
+		private static decimal CalculateNextBidAmount (decimal CurrentAmount)
+		{
+			decimal result = 0;
+			decimal bidamount = CurrentAmount;
+			
+			if (bidamount >= 0 && bidamount < 2000)
+			{
+				result = 100;
+			}
+			else if (bidamount >= 2000 && bidamount < 5000)
+			{
+				result = 200;
+			}
+			else if (bidamount >= 5000)
+			{
+				result = 500;
+			}
+			
+			return Math.Round (result + bidamount, 2);
+		}
+
 		public static void OnlineBid (Customer Customer, Item Item)
 		{
 			Bid bid = new Bid (Customer, Item, Item.NextBidAmount);
 			bid.Save ();
+		}
+
+		public static void Bid (Customer Customer, Item Item)
+		{
+			Bid (Customer, Item, 0);
+		}
+
+		public static void Bid (Customer Customer, Item Item, decimal Amount)
+		{
+			if (Amount > 0 && Amount > Item.NextBidAmount)
+			{
+				// Create new AutoBud.
+				AutoBid autobid = new AutoBid (Customer, Item, Amount);
+				autobid.Save ();
+
+				// If no other bids have been made, place the first one.
+				if (Item.BidAmount == 0)
+				{
+					decimal nextbidamount = Item.NextBidAmount;
+					Bid bid = new Bid (Customer, Item, nextbidamount);
+					bid.Save ();
+				}
+				else
+				{
+//					List<AutoBid> autobids = AutoBid.List (Item);			
+//					if (autobids.Count > 0)
+//					{
+//						AutoBid high = autobids[0];
+//						decimal currentbidamount = Item.BidAmount;
+//						decimal nextbidamount = Item.NextBidAmount;
+//
+//						// If AutoBid equals the current bid amount, place a single bid.
+//						if (high.Amount == currentbidamount)
+//						{
+//							Bid bid = new Bid (Customer, Item, CalculateNextBidAmount (nextbidamount));
+//							bid.Save ();
+//						}
+//					}
+				}
+
+				SorentoLib.Services.Logging.LogDebug ("[DIDIUS.ITEM]: Autobid placed on item "+ Item.Id);
+			}
+			else if (Amount > 0 && Amount < Item.NextBidAmount)
+			{
+				Bid bid = new Bid (Customer, Item, Amount);
+				bid.Save ();
+
+				SorentoLib.Services.Logging.LogDebug ("[DIDIUS.ITEM]: Low bid placed on item "+ Item.Id);
+			}
+			else
+			{
+				decimal nextbidamount = Item.NextBidAmount;
+
+				// Place any AutoBids that equal the next bid amount.
+				{
+					List<AutoBid> autobids = AutoBid.List (Item);			
+					foreach (AutoBid autobid in autobids)
+					{
+						if (autobid.Amount == nextbidamount)
+						{
+							Bid bid = new Bid (Customer.Load (autobid.CustomerId), Item, nextbidamount);
+							bid.Save ();
+						}
+					}
+				}
+
+				// Place single bid.
+				{
+					Bid bid = new Bid (Customer, Item, nextbidamount);
+					bid.Save ();
+				}
+
+				SorentoLib.Services.Logging.LogDebug ("[DIDIUS.ITEM]: High bid placed on item "+ Item.Id);
+			}
+
+			// Place AutoBids
+			{
+				decimal nextbidamount = Item.NextBidAmount;
+				decimal currentbidamount = Item.BidAmount;
+				List<AutoBid> autobids = AutoBid.List (Item);	
+
+				// Place highest AutoBid.
+				if (autobids.Count > 0)
+				{
+					AutoBid high = autobids[0];
+					decimal low = currentbidamount;
+
+					// See if we have more than one Autobid.
+					if (autobids.Count > 1)
+					{
+						// Only AutoBids that are still above the current bid amount.
+						if (autobids[1].Amount > currentbidamount)
+						{
+							low = autobids[1].Amount;
+						}
+					}
+					
+					if (high.Amount > nextbidamount)
+					{
+						Bid bid = new Bid (Customer.Load (high.CustomerId), Item, CalculateNextBidAmount (low));
+						bid.Save ();
+					}
+				}
+
+				// Place any AutoBids that equal next bid amount.
+				foreach (AutoBid autobid in autobids)
+				{
+					if (autobid.Amount >= currentbidamount && autobid.Amount < Item.BidAmount)
+					{
+						Bid bid = new Bid (Customer.Load (autobid.CustomerId), Item, autobid.Amount);
+						bid.Save ();
+					}
+				}
+			}
 		}
 
 		public static Item Load (Guid Id)
@@ -657,7 +801,7 @@ namespace Didius
 		public static void Delete (Guid Id)
 		{
 			// We can not delete if we have bids.
-			if (Bid.List (Id).Count > 0)
+			if (Didius.Bid.List (Id).Count > 0)
 			{
 				// EXCEPTION: Exception.ItemDeleteHasBid
 				throw new Exception (string.Format (Strings.Exception.ItemDeleteHasBid, Id.ToString ()));

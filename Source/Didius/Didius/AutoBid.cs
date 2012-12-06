@@ -18,10 +18,10 @@ using SorentoLib;
 
 namespace Didius
 {
-	public class Bid
+	public class AutoBid
 	{
 		#region Public Static Fields
-		public static string DatastoreAisle = "didius_bids";
+		public static string DatastoreAisle = "didius_autobid";
 		#endregion
 		
 		#region Private Fields
@@ -29,13 +29,15 @@ namespace Didius
 		
 		private int _createtimestamp;
 		private int _updatetimestamp;
-
+		
 		private Guid _customerid;
 		private Guid _itemid;
 
 		private long _sort;
 
 		private decimal _amount;
+
+		private bool _active;
 		#endregion
 		
 		#region Public Fields
@@ -62,7 +64,7 @@ namespace Didius
 				return this._updatetimestamp;
 			}
 		}
-
+		
 		public Guid CustomerId
 		{
 			get
@@ -70,7 +72,7 @@ namespace Didius
 				return this._customerid;
 			}
 		}
-
+		
 		public Guid ItemId
 		{
 			get
@@ -86,7 +88,7 @@ namespace Didius
 				return this._sort;
 			}
 		}
-
+		
 		public decimal Amount
 		{
 			get
@@ -94,22 +96,37 @@ namespace Didius
 				return Math.Round (this._amount, 2);
 			}
 		}
+
+		public bool Active
+		{
+			get
+			{
+				return this._active;
+			}
+
+			set
+			{
+				this._active = value;
+			}
+		}
 		#endregion
 		
 		#region Constructor
-		public Bid (Customer Customer, Item Item, decimal Amount)
+		public AutoBid (Customer Customer, Item Item, decimal Amount)
 		{
 			this._id = Guid.NewGuid ();
 			
 			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
-
+			
 			this._customerid = Customer.Id;
 			this._itemid = Item.Id;
 
 			this._sort = DateTime.Now.Ticks;
 
 			this._amount = Amount;
+
+			this._active = true;
 
 			if (Item.Invoiced)
 			{
@@ -122,15 +139,28 @@ namespace Didius
 				throw new Exception (Strings.Exception.BidItemSettled);
 			}
 		}	
-
-		private Bid ()
+		
+		private AutoBid ()
 		{
 			this._createtimestamp = 0;
 			this._updatetimestamp = 0;
 			this._amount = 0;
+			this._active = true;
 		}
 		#endregion
-		
+
+//		private static bool Exist (Item item, decimal Amount)
+//		{
+//			bool result = false;
+//
+//			if (List (Item).Find (delegate (Autobid AutoBid) {if (AutoBid.Amount == Amount)	{return true;} return false;}) != null)
+//			{
+//				result = true;
+//			}
+//
+//			return result;
+//		}
+
 		#region Public Methods
 		public void Save ()
 		{
@@ -143,14 +173,16 @@ namespace Didius
 				item.Add ("id", this._id);
 				item.Add ("createtimestamp", this._createtimestamp);
 				item.Add ("updatetimestamp", this._updatetimestamp);		
-
+				
 				item.Add ("customerid", this._customerid);		
 				item.Add ("itemid", this._itemid);		
 
-				item.Add ("sort", this._sort);		
-
+				item.Add ("sort", this._sort);
+				
 				item.Add ("amount", this._amount);
 
+				item.Add ("active", this._active);
+				
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("customerid", this._customerid);
 				meta.Add ("itemid", this._itemid);
@@ -160,10 +192,10 @@ namespace Didius
 			catch (Exception exception)
 			{
 				// LOG: LogDebug.ExceptionUnknown
-				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
+				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUTOBID", exception.Message));
 				
-				// EXCEPTION: Exception.BidSave
-				throw new Exception (string.Format (Strings.Exception.BidSave, this._id.ToString ()));
+				// EXCEPTION: Exception.AutoBidSave
+				throw new Exception (string.Format (Strings.Exception.AutoBidSave, this._id.ToString ()));
 			}					
 		}
 		
@@ -174,28 +206,32 @@ namespace Didius
 			result.Add ("id", this._id);
 			result.Add ("createtimestamp", this._createtimestamp);
 			result.Add ("updatetimestamp", this._updatetimestamp);				
-
+			
 			result.Add ("customerid", this._customerid);
 			result.Add ("customer", Customer.Load (this._customerid));
 			result.Add ("itemid", this._itemid);
-			result.Add ("item", Item.Load (this._itemid));
+
 			result.Add ("sort", this._sort);
 
+			result.Add ("item", Item.Load (this._itemid));
+			
 			result.Add ("amount", this._amount);
+
+			result.Add ("active", this._active);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
 		#endregion
 		
 		#region Public Static Methods
-		public static Bid Load (Guid Id)
+		public static AutoBid Load (Guid Id)
 		{
-			Bid result;
+			AutoBid result;
 			
 			try
 			{
-				Hashtable item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.bid)[1]")));
-				result = new Bid ();
+				Hashtable item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.autobid)[1]")));
+				result = new AutoBid ();
 				
 				result._id = new Guid ((string)item["id"]);
 				
@@ -208,12 +244,12 @@ namespace Didius
 				{
 					result._updatetimestamp = int.Parse ((string)item["updatetimestamp"]);
 				}				
-
+				
 				if (item.ContainsKey ("customerid"))
 				{
 					result._customerid = new Guid ((string)item["customerid"]);
 				}				
-
+				
 				if (item.ContainsKey ("itemid"))
 				{
 					result._itemid = new Guid ((string)item["itemid"]);
@@ -221,21 +257,27 @@ namespace Didius
 
 				if (item.ContainsKey ("sort"))
 				{
-					result._sort = long.Parse((string)item["sort"]);
+					result._sort = long.Parse ((string)item["sort"]);
 				}				
-
+								
 				if (item.ContainsKey ("amount"))
 				{
 					result._amount = decimal.Parse ((string)item["amount"]);
 				}				
+
+				if (item.ContainsKey ("actibe"))
+				{
+					result._active = (bool)item["active"];
+				}				
+
 			}
 			catch (Exception exception)
 			{
 				// LOG: LogDebug.ExceptionUnknown
-				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
+				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUTOBID", exception.Message));
 				
-				// EXCEPTION: Excpetion.BidLoadGuid
-				throw new Exception (string.Format (Strings.Exception.BidLoadGuid, Id));
+				// EXCEPTION: Excpetion.AutoBidLoadGuid
+				throw new Exception (string.Format (Strings.Exception.AutoBidLoadGuid, Id));
 			}	
 			
 			return result;
@@ -250,21 +292,21 @@ namespace Didius
 			catch (Exception exception)
 			{
 				// LOG: LogDebug.ExceptionUnknown
-				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
+				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUTOBID", exception.Message));
 				
-				// EXCEPTION: Exception.BidDeleteGuid
-				throw new Exception (string.Format (Strings.Exception.BidDeleteGuid, Id.ToString ()));
+				// EXCEPTION: Exception.AutoBidDeleteGuid
+				throw new Exception (string.Format (Strings.Exception.AutoBidDeleteGuid, Id.ToString ()));
 			}			
 		}
-
-		public static List<Bid> List (Item Item)
+		
+		public static List<AutoBid> List (Item Item)
 		{
 			return List (Item.Id);
 		}
 		
-		public static List<Bid> List (Guid ItemId)
+		public static List<AutoBid> List (Guid ItemId)
 		{
-			List<Bid> result = new List<Bid> ();
+			List<AutoBid> result = new List<AutoBid> ();
 			
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, ItemId)))
 			{
@@ -275,21 +317,24 @@ namespace Didius
 				catch (Exception exception)
 				{
 					// LOG: LogDebug.ExceptionUnknown
-					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUTOBID", exception.Message));
 					
-					// LOG: LogDebug.BidList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
+					// LOG: LogDebug.AutoBidList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, id));
 				}
 			}
 
-			result = result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<Bid> ();
+			result = result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<AutoBid> ();
 
-			return  result;
+//			result.Sort (delegate(AutoBid b1, AutoBid b2) { return b1.CreateTimestamp.CompareTo (b2.CreateTimestamp); });
+//			result.Reverse ();
+			
+			return result;
 		}
-
-		public static List<Bid> List (Customer Customer)
+		
+		public static List<AutoBid> List (Customer Customer)
 		{
-			List<Bid> result = new List<Bid> ();
+			List<AutoBid> result = new List<AutoBid> ();
 			
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Customer.Id)))
 			{
@@ -300,26 +345,24 @@ namespace Didius
 				catch (Exception exception)
 				{
 					// LOG: LogDebug.ExceptionUnknown
-					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUTOBID", exception.Message));
 					
-					// LOG: LogDebug.BidList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
+					// LOG: LogDebug.AutoBidList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, id));
 				}
 			}
-			
-//			result.Sort (delegate(Bid b1, Bid b2) { return b1.Amount.CompareTo (b2.Amount); });
-//			result.Reverse ();
 
-//			result = result.OrderBy (o => o.Amount).ThenBy (o => o.CreateTimestamp);
-			
-			result = result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<Bid> ();
+			result = result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<AutoBid> ();
 
+//			result.Sort (delegate(AutoBid b1, AutoBid b2) { return b1.CreateTimestamp.CompareTo (b2.CreateTimestamp); });
+			//			result.Reverse ();
+			
 			return result;
 		}
 		
-		public static List<Bid> List ()
+		public static List<AutoBid> List ()
 		{
-			List<Bid> result = new List<Bid> ();
+			List<AutoBid> result = new List<AutoBid> ();
 			
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
 			{
@@ -330,29 +373,29 @@ namespace Didius
 				catch (Exception exception)
 				{
 					// LOG: LogDebug.ExceptionUnknown
-					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUTOBID", exception.Message));
 					
-					// LOG: LogDebug.BidList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
+					// LOG: LogDebug.AutoBidList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, id));
 				}
 			}
 
-//			result.Sort (delegate(Bid b1, Bid b2) { return b1.Amount.CompareTo (b2.Amount); });
+			result = result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<AutoBid> ();
+			
+//			result.Sort (delegate(AutoBid b1, AutoBid b2) { return b1.CreateTimestamp.CompareTo (b2.CreateTimestamp); });
 //			result.Reverse ();
 			
-			result = result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<Bid> ();
-
 			return result;
 		}
 		
-		public static Bid FromXmlDocument (XmlDocument xmlDocument)
+		public static AutoBid FromXmlDocument (XmlDocument xmlDocument)
 		{
 			Hashtable item;
-			Bid result = new Bid ();
+			AutoBid result = new AutoBid ();
 			
 			try
 			{
-				item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (xmlDocument.SelectSingleNode ("(//didius.Bid)[1]")));
+				item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (xmlDocument.SelectSingleNode ("(//didius.autobid)[1]")));
 			}
 			catch
 			{
@@ -377,7 +420,7 @@ namespace Didius
 			{
 				result._updatetimestamp = int.Parse ((string)item["updatetimestamp"]);
 			}
-
+			
 			if (item.ContainsKey ("customerid"))
 			{
 				result._customerid = new Guid ((string)item["customerid"]);
@@ -398,7 +441,7 @@ namespace Didius
 
 			if (item.ContainsKey ("sort"))
 			{
-				result._sort = long.Parse((string)item["sort"]);
+				result._sort = long.Parse ((string)item["sort"]);
 			}
 
 			if (item.ContainsKey ("amount"))
@@ -406,6 +449,11 @@ namespace Didius
 				result._amount = decimal.Parse ((string)item["amount"]);
 			}
 
+			if (item.ContainsKey ("actibe"))
+			{
+				result._active = (bool)item["active"];
+			}				
+			
 			return result;
 		}
 		#endregion

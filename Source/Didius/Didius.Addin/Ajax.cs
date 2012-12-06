@@ -201,7 +201,13 @@ namespace Didius.Addin
 
 						case "bid":
 						{
-							Item.OnlineBid (Customer.Load (Session.User), Item.Load (request.getValue<Guid> ("itemid")));
+							decimal amount = 0;
+							if (request.ContainsXPath ("amount"))
+							{
+								amount = decimal.Parse (request.getValue<string> ("amount"));
+							}
+
+							Item.Bid (Customer.Load (Session.User), Item.Load (request.getValue<Guid> ("itemid")), amount);
 							break;
 						}
 							
@@ -412,6 +418,24 @@ namespace Didius.Addin
 				{	
 					switch (Method.ToLower ())
 					{					
+						case "createprofile":
+						{
+							Didius.Helpers.CreateProfile (request.getValue<string> ("name"), request.getValue<string> ("email"));
+							break;
+						}
+
+						case "verifyprofile":
+						{
+							result.Add (Didius.Helpers.VerifiyProfile (request.getValue<Guid> ("id")));
+							break;
+						}
+
+						case "sendnewpassword":
+						{
+							result.Add (Didius.Helpers.SendNewPassword (SorentoLib.User.Load (request.getValue<string> ("email")).Id));
+							break;
+						}
+
 						case "newcatalogno":
 						{
 							result.Add (Helpers.NewCatelogNo (Auction.Load (request.getValue<Guid> ("auctionid"))));

@@ -39,6 +39,9 @@ namespace Didius.Strings
 		public static string BidList = "[DIDIUS.BID]: Cannot load Bid with id: {0}, will be excluded from list.";
 		#endregion
 
+		public static string AutoBidList = "[DIDIUS.AUTOBID]: Cannot load AutoBid with id: {0}, will be excluded from list.";
+
+
 		public static string SettlementList = "[DIDIUS.SETTLEMENT]: Cannot load Settlement with id: {0}, will be excluded from list.";	
 
 		public static string InvoiceList = "[DIDIUS.INVOICE]: Cannot load Invoice with id: {0}, will be excluded from list.";	

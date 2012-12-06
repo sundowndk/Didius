@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using System.Threading;
 
 using SNDK;
 using SNDK.DBI;
@@ -15,10 +16,11 @@ namespace Test
 		public static void Main (string[] args)
 		{
 			SorentoLib.Services.Database.Connection = new Connection (SNDK.Enums.DatabaseConnector.Mysql,
-//			                                                          "10.0.0.40",
-			                                                          "172.20.0.34",
-			                                                          "didiustest_datastore",
-			                                                          "default",
+			                                                          //			                                                          "localhost",
+			                                                          "10.0.0.40",
+			                                                          //			                                                            "sorento",
+			                                                          "sorentotest.sundown.dk",
+			                                                          "sorentotest",
 			                                                          "qwerty",
 			                                                          true);
 			
@@ -41,52 +43,170 @@ namespace Test
 				bool testbid = false;
 
 				{
+					// SETUP
+					Didius.Customer c1 = new Didius.Customer ();
+					c1.Name = "Kunde #1";
+					c1.Save ();
 
-//					Didius.Customer d1 = new Didius.Customer ();
+					Didius.Customer c2 = new Didius.Customer ();
+					c2.Name = "Kunde #2";
+					c2.Save ();
+
+					Didius.Customer c3 = new Didius.Customer ();
+					c3.Name = "Kunde #3";
+					c3.Save ();
+
+					Didius.Customer c4 = new Didius.Customer ();
+					c4.Name = "Kunde #4";
+					c4.Save ();
+
+					Didius.Auction a1 = new Didius.Auction ();
+					a1.Title = "Auktion #1";
+					a1.Save ();
+
+					Didius.Case ca1 = new Didius.Case (a1, c1);
+					ca1.Title = "Sag #1";
+					ca1.Save ();
+
+					Didius.Item i1 = new Didius.Item (ca1);
+					i1.Description = "Effekt #1";
+					i1.Save ();
+
+					Didius.Item i2 = new Didius.Item (ca1);
+					i2.Description = "Effekt #2";
+					i2.Save ();
+//
+//					Didius.Item i3 = new Didius.Item (ca1);
+//					i3.Description = "Effekt #3";
+//					i3.Save ();
+//
+//					Didius.Item i4 = new Didius.Item (ca1);
+//					i4.Description = "Effekt #4";
+//					i4.Save ();
+
+					// TEST
+
+					Didius.Item.Bid (c1, i1, 200); // 100, 200 *
+					Didius.Item.Bid (c2, i1); // 200 *
+					Didius.Item.Bid (c3, i1); // 300 *
+
+					Didius.Item.Bid (c1, i1, 500); // 400, 500 *
+					Didius.Item.Bid (c1, i1, 1600); // 700, 1000, 1100, 1600 *
+					Didius.Item.Bid (c3, i1); // 500 *
+					Didius.Item.Bid (c3, i1); // 600 *
+					Didius.Item.Bid (c2, i1, 1000); // 1000 *
+					Didius.Item.Bid (c1, i1, 1500); // 1500 *
+					Didius.Item.Bid (c3, i1, 300); // 300 *
+					Didius.Item.Bid (c2, i1, 1600); // 1600 *
+					Didius.Item.Bid (c4, i1, 2000); // 1700, 1900, 2000 *
+					Didius.Item.Bid (c1, i1); // 1800 *
+					Didius.Item.Bid (c1, i1); // 2000 *
+					Didius.Item.Bid (c1, i1); // 2200 *
+					Didius.Item.Bid (c2, i1, 3000); // 2400, 2800, 3000 *
+					Didius.Item.Bid (c3, i1); // 2600 *
+					Didius.Item.Bid (c3, i1, 3200); // 3200 *
+
+
+
+
+//					Didius.Item.Bid (c1, i2, 600);
+//					Didius.Item.Bid (c2, i2, 800);
+//					Didius.Item.Bid (c2, i1, 1200);
+//					Didius.Item.Bid (c3, i1, 8000);
+//					Didius.Item.Bid (c4, i1);
+//					Didius.Item.Bid (c2, i1);
+//					Didius.Item.Bid (c1, i1);
+
+//								foreach (Didius.AutoBid autobid in Didius.AutoBid.List (i1))
+//								{
+//									Console.WriteLine ("\t"+ Didius.Customer.Load (autobid.CustomerId).Name);
+//								}
+
+
+					foreach (Didius.Item item in Didius.Item.List (a1))
+					{
+						Console.WriteLine ("Item: "+ item.Title +" NextBidAmount: "+ item.NextBidAmount);
+
+						foreach (Didius.Bid bid in Didius.Bid.List (item))
+						{
+							Console.WriteLine ("\t"+ Didius.Customer.Load (bid.CustomerId).Name +" - "+ bid.Amount +" "+ bid.Sort); 
+						}
+					}
+
+
+
+
+					// CLEANUP
+					foreach (Didius.Item item in Didius.Item.List (a1))
+					{
+						foreach (Didius.Bid bid in Didius.Bid.List (item))
+						{
+							Didius.Bid.Delete (bid.Id);
+						}
+
+						foreach (Didius.AutoBid autobid in Didius.AutoBid.List (item))
+						{
+							Didius.AutoBid.Delete (autobid.Id);
+						}
+					}
+
+					Didius.Item.Delete (i1);
+					Didius.Item.Delete (i2);
+//					Didius.Item.Delete (i3);
+//					Didius.Item.Delete (i4);
+
+					Didius.Case.Delete (ca1.Id);
+
+					Didius.Auction.Delete (a1.Id);
+
+					Didius.Customer.Delete (c1.Id);
+					Didius.Customer.Delete (c2.Id);
+					Didius.Customer.Delete (c3.Id);
+					Didius.Customer.Delete (c4.Id);
 				}
 
 				if (testsettlement)
 				{
-					Didius.Customer d1 = new Didius.Customer ();
-					d1.Name = "Rasmus Pedersen";
-					d1.Save ();
-
-					Didius.Auction d2 = new Didius.Auction ();
-					d2.Title = "Test Auktion";
-					d2.Save ();
-
-					Didius.Case d3 = new Didius.Case (d2, d1);
-					d3.Title = "Nogle ting der skal sælges";
-					d3.CommisionFeePercentage = 20;
-					d3.CommisionFeeMinimum = 100;
-					d3.Save ();
-
-					Didius.Item d4 = new Didius.Item (d3);
-					d4.Description = "Skrivebord. Brugt.";
-					d4.Save ();
-
-					Didius.Bid d5 = new Didius.Bid (d1, d4, 1500);
-					d5.Save ();
-
-					Didius.Settlement s1 = new Didius.Settlement (d3);
-
-					Console.WriteLine ("No: "+ s1.No);
-					Console.WriteLine ("Sales: "+ s1.Sales);
-					Console.WriteLine ("CommissionFee: "+ s1.CommissionFee);
-					Console.WriteLine ("Total: "+ s1.Total);
-
-					Didius.Settlement s2 = new Didius.Settlement (d3);
-					
-					Console.WriteLine ("No: "+ s2.No);
-					Console.WriteLine ("Sales: "+ s2.Sales);
-					Console.WriteLine ("CommissionFee: "+ s2.CommissionFee);
-					Console.WriteLine ("Total: "+ s2.Total);
-
-					Didius.Bid.Delete (d5.Id);
-					Didius.Item.Delete (d4.Id);
-					Didius.Case.Delete (d3.Id);
-					Didius.Auction.Delete (d2.Id);
-					Didius.Customer.Delete (d1.Id);
+//					Didius.Customer d1 = new Didius.Customer ();
+//					d1.Name = "Rasmus Pedersen";
+//					d1.Save ();
+//
+//					Didius.Auction d2 = new Didius.Auction ();
+//					d2.Title = "Test Auktion";
+//					d2.Save ();
+//
+//					Didius.Case d3 = new Didius.Case (d2, d1);
+//					d3.Title = "Nogle ting der skal sælges";
+//					d3.CommisionFeePercentage = 20;
+//					d3.CommisionFeeMinimum = 100;
+//					d3.Save ();
+//
+//					Didius.Item d4 = new Didius.Item (d3);
+//					d4.Description = "Skrivebord. Brugt.";
+//					d4.Save ();
+//
+//					Didius.Bid d5 = new Didius.Bid (d1, d4, 1500);
+//					d5.Save ();
+//
+//					Didius.Settlement s1 = new Didius.Settlement (d3);
+//
+//					Console.WriteLine ("No: "+ s1.No);
+//					Console.WriteLine ("Sales: "+ s1.Sales);
+//					Console.WriteLine ("CommissionFee: "+ s1.CommissionFee);
+//					Console.WriteLine ("Total: "+ s1.Total);
+//
+//					Didius.Settlement s2 = new Didius.Settlement (d3);
+//					
+//					Console.WriteLine ("No: "+ s2.No);
+//					Console.WriteLine ("Sales: "+ s2.Sales);
+//					Console.WriteLine ("CommissionFee: "+ s2.CommissionFee);
+//					Console.WriteLine ("Total: "+ s2.Total);
+//
+//					Didius.Bid.Delete (d5.Id);
+//					Didius.Item.Delete (d4.Id);
+//					Didius.Case.Delete (d3.Id);
+//					Didius.Auction.Delete (d2.Id);
+//					Didius.Customer.Delete (d1.Id);
 				}
 
 				#region CUSTOMERGROUP

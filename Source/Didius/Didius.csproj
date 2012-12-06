@@ -67,6 +67,7 @@
       <Private>False</Private>
       <Package>mono-addins</Package>
     </Reference>
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Didius\Invoice.cs" />
     <Compile Include="Didius.Addin\Render.cs" />
     <Compile Include="Didius.Enums\AuctionType.cs" />
+    <Compile Include="Didius\AutoBid.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

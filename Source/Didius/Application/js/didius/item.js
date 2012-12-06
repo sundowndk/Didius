@@ -1,4 +1,4 @@
-create : function (Case)
+create : function (Case)	
 {
 	var content = new Array ();
 	content.caseid = Case.id;
@@ -57,12 +57,23 @@ destroy : function (id)
 		app.events.onItemDestroy.execute (data);
 },		
 
-bid : function (item)
+bid : function (item, amount, onDone)
 {
 	var content = new Array ();
 	content.itemid = item.id;	
-
-	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Bid", "data", "POST", false);		
+	
+	if (amount != null)
+	{
+		content.amount = amount;	
+	}
+		
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Bid", "data", "POST", true);		
+	
+	if (onDone != null)
+	{	
+		request.onLoaded (onDone);
+	}
+	
 	request.send (content);
 },		
 		

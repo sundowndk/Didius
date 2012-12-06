@@ -1,3 +1,52 @@
+createProfile : function (name, email, onDone)
+{
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.CreateProfile", "data", "POST", true);			
+	
+	var content = new Array ();
+	content["name"] = name;	
+	content["email"] = email;
+	
+	if (onDone != null)
+	{	
+		request.onLoaded (onDone);	
+	}
+	
+	request.send (content);		
+},
+
+verifyProfile : function (id, onDone)
+{
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.VerifyProfile", "data", "POST", true);			
+	
+	var content = new Array ();
+	content["id"] = id;		
+	
+	if (onDone != null)
+	{	
+		var test = function (respons)
+		{
+			onDone (respons ()["value"]);			
+		}
+	
+		request.onLoaded (onDone);	
+	}
+	
+	
+	
+	request.send (content);				
+},
+
+sendNewPassword : function (email)
+{
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.SendNewPassword", "data", "POST", false);			
+	
+	var content = new Array ();
+	content["email"] = email;		
+	request.send (content);		
+	
+	return request.respons ()["value"];
+},
+
 isCatalogNoTaken : function (attributes)
 {
 	var content = new Array ();

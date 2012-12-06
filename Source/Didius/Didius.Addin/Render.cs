@@ -340,7 +340,6 @@ namespace Didius.Addin
 									return Didius.Item.List ();
 								}
 							}						
-							break;
 						}
 					}
 					break;

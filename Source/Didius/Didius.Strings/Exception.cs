@@ -60,6 +60,11 @@ namespace Didius.Strings
 		public static string BidItemInvoiced = "SRV00880|Cannot append Bid on an Item that has been invoiced.";
 		public static string BidItemSettled = "SRV00881|Cannot append Bid on an Item that has been settled.";
 
+		public static string AutoBidSave = "SRV00810|Could not save AutoBid with id: {0}";
+		public static string AutoBidLoadGuid = "SRV00820|Could not load AutoBid with id: {0}";
+		public static string AutoBidDeleteGuid = "SRV00830|Could not delete AutoBid with id: {0}";
+		public static string AutoBidFromXmlDocument = "SRV00840|Cannot create AutoBid from XmlDocument, missing {0}";
+
 		public static string SettlementCaseSettled = "SRV00601|Could not create Settlement, Case has allready been settled";
 		public static string SettlementEmpty = "SRV00602|Could not create Settlement, no Items to settle.";
 		public static string SettlementSave = "SRV00610|Could not save Settlement with id: {0}";

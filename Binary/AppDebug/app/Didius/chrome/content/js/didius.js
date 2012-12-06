@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: didius
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -364,7 +364,7 @@ var didius =
 	// ---------------------------------------------------------------------------------------------------------------
 	item :
 	{
-		create : function (Case)
+		create : function (Case)	
 		{
 			var content = new Array ();
 			content.caseid = Case.id;
@@ -423,12 +423,23 @@ var didius =
 				app.events.onItemDestroy.execute (data);
 		},		
 		
-		bid : function (item)
+		bid : function (item, amount, onDone)
 		{
 			var content = new Array ();
 			content.itemid = item.id;	
-		
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Bid", "data", "POST", false);		
+			
+			if (amount != null)
+			{
+				content.amount = amount;	
+			}
+				
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Bid", "data", "POST", true);		
+			
+			if (onDone != null)
+			{	
+				request.onLoaded (onDone);
+			}
+			
 			request.send (content);
 		},		
 				
@@ -676,6 +687,55 @@ var didius =
 	// ---------------------------------------------------------------------------------------------------------------
 	helpers :
 	{
+		createProfile : function (name, email, onDone)
+		{
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.CreateProfile", "data", "POST", true);			
+			
+			var content = new Array ();
+			content["name"] = name;	
+			content["email"] = email;
+			
+			if (onDone != null)
+			{	
+				request.onLoaded (onDone);	
+			}
+			
+			request.send (content);		
+		},
+		
+		verifyProfile : function (id, onDone)
+		{
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.VerifyProfile", "data", "POST", true);			
+			
+			var content = new Array ();
+			content["id"] = id;		
+			
+			if (onDone != null)
+			{	
+				var test = function (respons)
+				{
+					onDone (respons ()["value"]);			
+				}
+			
+				request.onLoaded (onDone);	
+			}
+			
+			
+			
+			request.send (content);				
+		},
+		
+		sendNewPassword : function (email)
+		{
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.SendNewPassword", "data", "POST", false);			
+			
+			var content = new Array ();
+			content["email"] = email;		
+			request.send (content);		
+			
+			return request.respons ()["value"];
+		},
+		
 		isCatalogNoTaken : function (attributes)
 		{
 			var content = new Array ();

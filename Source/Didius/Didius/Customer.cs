@@ -375,6 +375,14 @@ namespace Didius
 			}
 		}
 
+		public Guid UserId
+		{
+			get
+			{
+				return this._userid;
+			}
+		}
+
 		public SorentoLib.User User
 		{
 			get
@@ -391,13 +399,16 @@ namespace Didius
 
 			set
 			{
-				if (this._status == Enums.CustomerStatus.Enabled)
+				if (value.Status != SorentoLib.Enums.UserStatus.NotVerified)
 				{
-					value.Status = SorentoLib.Enums.UserStatus.Enabled;
-				}
-				else 
-				{
-					value.Status = SorentoLib.Enums.UserStatus.Disabled;
+					if (this._status == Enums.CustomerStatus.Enabled)
+					{
+						value.Status = SorentoLib.Enums.UserStatus.Enabled;
+					}
+					else 
+					{
+						value.Status = SorentoLib.Enums.UserStatus.Disabled;
+					}
 				}
 					
 				value.Save ();
@@ -462,7 +473,16 @@ namespace Didius
 						SorentoLib.User user = new SorentoLib.User (this._email);
 						user.Email = this._email;
 						user.Realname = this._name;
-						user.Status = SorentoLib.Enums.UserStatus.Enabled;
+
+						if (this.Status == Didius.Enums.CustomerStatus.Enabled)
+						{
+							user.Status = SorentoLib.Enums.UserStatus.Enabled;
+						}
+						else
+						{
+							user.Status = SorentoLib.Enums.UserStatus.Disabled;
+						}
+
 						user.Save ();
 						this._userid = user.Id;
 					}

@@ -1,16 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius.Addin/Function.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Item.cs">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/show.js" Line="54" Column="161" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/show.xul" Line="66" Column="20" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/print.xul" Line="1" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/print.js" Line="341" Column="18" />
-      <File FileName="Didius/Application/xul/chrome/content/itemedit/itemedit.js" Line="257" Column="25" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="12" Column="33" />
-      <File FileName="Didius/Application/xul/chrome/content/js/app.js" Line="88" Column="4" />
-      <File FileName="Didius/Didius.Addin/Function.cs" Line="132" Column="8" />
-      <File FileName="Didius/Application/xul/application.ini" Line="11" Column="1" />
+      <File FileName="Test/Main.cs" Line="89" Column="29" />
+      <File FileName="Didius/Didius/Item.cs" Line="561" Column="4" />
+      <File FileName="Didius/Didius/AutoBid.cs" Line="416" Column="24" />
+      <File FileName="Didius/Didius.Strings/Exception.cs" Line="66" Column="77" />
+      <File FileName="Didius/Didius.Strings/LogDebug.cs" Line="42" Column="73" />
+      <File FileName="Didius/Application/js/didius/item.js" Line="73" Column="4" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="207" Column="69" />
+      <File FileName="Didius/Application/js/didius/helpers.js" Line="12" Column="3" />
+      <File FileName="Didius/Didius/Helpers.cs" Line="20" Column="20" />
+      <File FileName="Didius/Didius/Bid.cs" Line="285" Column="33" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -49,13 +50,14 @@
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True">
-              <Node name="Function.cs" selected="True" />
+            <Node name="Didius" expanded="True">
+              <Node name="Item.cs" selected="True" />
             </Node>
+            <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
           </Node>
+          <Node name="Test" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
