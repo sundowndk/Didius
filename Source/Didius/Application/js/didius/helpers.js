@@ -47,6 +47,17 @@ sendNewPassword : function (email)
 	return request.respons ()["value"];
 },
 
+sendConsignment : function (data)
+{
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.SendConsignment", "data", "POST", false);			
+	
+	var content = new Array ();
+	content["data"] = data;
+	request.send (content);		
+	
+	return request.respons ()["value"];
+},
+
 isCatalogNoTaken : function (attributes)
 {
 	var content = new Array ();

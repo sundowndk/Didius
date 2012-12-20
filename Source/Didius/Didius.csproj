@@ -95,6 +95,7 @@
     <Compile Include="Didius.Addin\Render.cs" />
     <Compile Include="Didius.Enums\AuctionType.cs" />
     <Compile Include="Didius\AutoBid.cs" />
+    <Compile Include="Didius.Enums\SettingsKey.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -277,6 +278,9 @@
     <None Include="Application\xul\chrome\content\templates\label.tpl" />
     <None Include="Application\xul\chrome\content\templates\catalogsmall-old.tpl" />
     <None Include="Application\xul\chrome\content\templates\catalogsmall.tpl" />
+    <None Include="Application\xul\chrome\content\auction\settle.xul" />
+    <None Include="Application\xul\chrome\content\auction\settle.js" />
+    <None Include="Application\xul\chrome\content\auction\bidnotation.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

@@ -436,6 +436,12 @@ namespace Didius.Addin
 							break;
 						}
 
+						case "sendconsignment":
+						{
+							Didius.Helpers.SendConsignment (request.getValue<string> ("data"));
+							break;
+						}
+
 						case "newcatalogno":
 						{
 							result.Add (Helpers.NewCatelogNo (Auction.Load (request.getValue<Guid> ("auctionid"))));

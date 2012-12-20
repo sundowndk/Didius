@@ -5,6 +5,67 @@ namespace Didius
 {
 	public class Helpers
 	{
+		public static List<Auction> GetAuctionsCustomerBidOn (Customer Customer)
+		{
+			List<Auction> result = new List<Auction> ();
+			List<Guid> auctionids = new List<Guid> ();
+
+			foreach (Bid bid in Bid.List (Customer))
+			{
+				Guid auctionid = Item.Load (bid.ItemId).Case.AuctionId;
+				
+				if (!auctionids.Contains (auctionid))
+				{
+					auctionids.Add (auctionid);
+				}								
+			}
+
+			foreach (Guid id in auctionids)
+			{
+				result.Add (Auction.Load (id));
+			}
+			
+			return result;
+		}
+
+		public static List<Item> GetItemsCustomerBidOn (Customer Customer, Auction Auction)
+		{
+			List<Item> result = new List<Item> ();
+			List<Guid> itemids = new List<Guid> ();
+
+			foreach (Bid bid in Bid.List (Customer))
+			{
+				if (!itemids.Contains (bid.ItemId))
+				{
+					Item item = Item.Load (bid.ItemId);
+					if (item.Case.AuctionId == Auction.Id)
+					{
+						itemids.Add (bid.ItemId);
+						result.Add (item);
+					}
+				}
+			}
+
+			return result;
+		}
+
+		public static Bid GetCustomersHighBidOnItem (Customer Customer, Item Item)
+		{
+			Bid result = null;
+
+			foreach (Bid bid in Bid.List (Item))
+			{
+				if (bid.CustomerId == Customer.Id)
+				{
+					result = bid;
+					break;
+				}
+			}
+
+			return result;
+		}
+
+
 		public static Customer CreateProfile (string Name, string Email)
 		{
 			Customer customer = new Customer ();
@@ -59,6 +120,8 @@ namespace Didius
 				user.Password = password;
 				user.Save ();
 
+
+
 				SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", user.Email, "Adgangskode til york-auktion.dk","Her er din nye adgangskode til york-auktion.dk \n\nBrugernavn: "+ user.Username +"\nAdgangskode: "+ password);
 				result = true;
 			}
@@ -69,9 +132,22 @@ namespace Didius
 			return result;
 		}
 
+		public static void SendConsignment (string Content)
+		{
+			SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", "jm@york-auktion.dk", "Indleveringsaftale", Content, true);
+		}
+
 		public static void VerificationEmail (SorentoLib.User User)
 		{
 //			SorentoLib.Tools.Helpers.SendMail ("test@test.dk", User.Email, "Bla bla bla bla");
+		}
+
+		public static void MailFileToCustomer (Customer Customer, string Filename, string EmailTemplate)
+		{
+			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
+			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (Filename), "salgsaftale.pdf", SNDK.IO.GetMimeType (Filename)));
+			
+			SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Salgsaftale", "Salgs aftale er vedhæftet.\n\nMed venlig hilsen\nYork Auktion ApS", false, attatchments);
 		}
 
 		public static string NewNo ()

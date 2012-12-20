@@ -110,7 +110,7 @@ var SNDK =
 			while (result.length < totalLength)
 			{		
 			result = padString + result;			
-		}
+			}
 			
 			return result;	
 		},

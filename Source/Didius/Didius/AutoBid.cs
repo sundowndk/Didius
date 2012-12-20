@@ -449,7 +449,7 @@ namespace Didius
 				result._amount = decimal.Parse ((string)item["amount"]);
 			}
 
-			if (item.ContainsKey ("actibe"))
+			if (item.ContainsKey ("active"))
 			{
 				result._active = (bool)item["active"];
 			}				

@@ -1,17 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Item.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius.addin.xml">
     <Files>
-      <File FileName="Test/Main.cs" Line="89" Column="29" />
-      <File FileName="Didius/Didius/Item.cs" Line="561" Column="4" />
-      <File FileName="Didius/Didius/AutoBid.cs" Line="416" Column="24" />
-      <File FileName="Didius/Didius.Strings/Exception.cs" Line="66" Column="77" />
-      <File FileName="Didius/Didius.Strings/LogDebug.cs" Line="42" Column="73" />
-      <File FileName="Didius/Application/js/didius/item.js" Line="73" Column="4" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="207" Column="69" />
-      <File FileName="Didius/Application/js/didius/helpers.js" Line="12" Column="3" />
-      <File FileName="Didius/Didius/Helpers.cs" Line="20" Column="20" />
-      <File FileName="Didius/Didius/Bid.cs" Line="285" Column="33" />
+      <File FileName="Didius/Didius/Item.cs" Line="295" Column="4" />
+      <File FileName="Test/Main.cs" Line="29" Column="16" />
+      <File FileName="Didius/Application/js/didius/helpers.js" Line="58" Column="23" />
+      <File FileName="Didius/Didius/Helpers.cs" Line="52" Column="21" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="49" Column="35" />
+      <File FileName="Didius/Didius.Addin/Render.cs" Line="281" Column="50" />
+      <File FileName="Didius/Didius/Customer.cs" Line="608" Column="27" />
+      <File FileName="Didius/Didius/Auction.cs" Line="472" Column="1" />
+      <File FileName="Didius/Didius/AutoBid.cs" Line="372" Column="6" />
+      <File FileName="Didius/Didius.Addin/Function.cs" Line="169" Column="16" />
+      <File FileName="Didius/Didius.addin.xml" Line="12" Column="38" />
+      <File FileName="Didius/Application/xul/chrome/content/caseedit/caseedit.js" Line="728" Column="9" />
+      <File FileName="Didius/Didius.Addin/Init.cs" Line="20" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -50,12 +53,11 @@
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True">
-              <Node name="Item.cs" selected="True" />
-            </Node>
+            <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
+            <Node name="Didius.addin.xml" selected="True" />
           </Node>
           <Node name="Test" expanded="True" />
         </State>

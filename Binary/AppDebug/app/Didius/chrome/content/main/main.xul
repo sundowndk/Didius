@@ -95,12 +95,13 @@
 						<vbox>
 							<button id="auctionCreate" label="Opret" disabled="true" oncommand="main.auctions.create ();"/>
 							<button id="auctionEdit" label="Redigere" disabled="true" oncommand="main.auctions.edit ();"/>
-							<button id="auctionDestroy" label="Slet" disabled="true" oncommand="main.auctions.destroy ();"/>	
+							<button id="auctionDestroy" label="Slet" disabled="true" oncommand="main.auctions.destroy ();"/>								
 							<spacer flex="1"/>							
 							<button id="auctionSignin" label="Registering" disabled="true" oncommand="main.auctions.signin ();"/>								
 							<button id="auctionBidNotation" label="Budnotering" disabled="true" oncommand="main.auctions.bidNotation ();"/>
 							<button id="auctionRun" label="Afvikling" disabled="true" oncommand="main.auctions.run ();"/>
-							<button id="auctionDisplay" label="Præsentation" disabled="true" oncommand="main.auctions.display ();"/>
+							<button id="auctionDisplay" label="Præsentation" disabled="true" oncommand="main.auctions.display ();"/>														
+							<button id="auctionSettle" label="Afregning" disabled="true" oncommand="main.auctions.settle ();"/>
 						</vbox>
 					</hbox>					
 				</tabpanel>			

@@ -138,6 +138,35 @@ namespace Didius.Addin
 					return false;
 				}
 #endregion
+				#region Helpers
+				case "didius.helpers":
+				{
+					switch (Method.ToLower ())
+					{
+						case "mailfiletocustomer":
+						{
+							try
+							{
+								string filename = SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_temp) + "/"+ Guid.NewGuid ();
+								SNDK.IO.ByteArrayToFile (filename, Session.Request.QueryJar.Get ("file").BinaryData);
+
+								Helpers.MailFileToCustomer (Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), filename, "Hej med dig!");
+
+								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");
+
+							}
+							catch (Exception e)
+							{
+								Console.WriteLine (e);
+								Session.Page.Lines.Add ("ERROR");
+								return true;
+							}
+							break;
+						}
+					}
+					break;
+				}
+					#endregion
 
 				#region Settlement
 			case "didius.settlement":

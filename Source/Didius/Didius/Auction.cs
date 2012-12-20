@@ -468,7 +468,9 @@ namespace Didius
 			
 			return result;
 		}
-		
+
+
+
 		public static Auction FromXmlDocument (XmlDocument xmlDocument)
 		{
 			Hashtable item;

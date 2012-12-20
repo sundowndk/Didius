@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: sxul
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -878,29 +878,29 @@ var sXUL =
 		      		//	sXUL.console.log (aStateFlags);
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_REQUEST)
 		      			{
-		      				//sXUL.console.log ("STATE_IS_REQUEST")
+		      				sXUL.console.log ("STATE_IS_REQUEST")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT)
 		      			{
-		      				//sXUL.console.log ("STATE_IS_DOCUMENT")
+		      				sXUL.console.log ("STATE_IS_DOCUMENT")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK)
 		      			{
-		      				//sXUL.console.log ("STATE_IS_NETWORK")
+		      				sXUL.console.log ("STATE_IS_NETWORK")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_WINDOW)
 		      			{
-		      				//sXUL.console.log ("STATE_IS_WINDOW")
+		      				sXUL.console.log ("STATE_IS_WINDOW")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_START)
 		      			{
-		      				//sXUL.console.log ("STATE_START")
+		      				sXUL.console.log ("STATE_START")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP)
 		      			{
-		      				//sXUL.console.log ("STATE_STOP")
+		      				sXUL.console.log ("STATE_STOP")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT) 
@@ -910,7 +910,7 @@ var sXUL =
 		      		
 						if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK) 
 		      			{
-		      				//sXUL.console.log ("DONE");
+		      				sXUL.console.log ("DONE");
 		      				onDone ();
 			 			}
 		        	},		
@@ -969,9 +969,12 @@ var sXUL =
 				var value = attributes.additionalFields[idx];
 				data.append (idx, value);
 			}															
+			
+		//	 var request = new XMLHttpRequest ();  	
+		 // 	request.open ("POST", attributes.postUrl, false);
 		 
-		  	var request = new XMLHttpRequest ();
-		  	request.open ("POST", attributes.postUrl);
+		  	var request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance();
+		  	request.open ("POST", attributes.postUrl, true);
 		  	
 		  	// Events
 		  	request.onload = function (event) { if (attributes.onLoad != null) attributes.onLoad (event.target.responseText); };

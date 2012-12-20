@@ -46,6 +46,67 @@ namespace Didius.Addin
 		{
 			switch (Fullname)
 			{
+				#region Didius.Customer
+				case "didius.customer":
+				{
+					switch (Method)
+					{
+						case "":
+						{
+							return ((Didius.Customer)Variable);
+						}
+							
+						case "id":
+						{
+							return ((Didius.Customer)Variable).Id;
+						}
+																				
+						case "load":
+						{
+							switch (Parameters.Type (0).Name.ToLower())
+							{
+								case "user":
+								{
+									return Didius.Customer.Load (Parameters.Get<SorentoLib.User>(0));
+								}
+
+								case "guid":							
+									return Didius.Customer.Load (Parameters.Get<Guid>(0));
+									
+								case "string":
+									return Didius.Customer.Load (new Guid (Parameters.Get<string>(0)));
+							}
+							break;
+						}												
+					}
+					break;
+				}
+				#endregion	
+
+					#region Didius.Helpers
+				case "didius.helpers":
+				{
+					switch (Method)
+					{
+						case "getauctionscustomerbidon":
+						{
+							return Didius.Helpers.GetAuctionsCustomerBidOn (Parameters.Get<Customer>(0));
+						}
+
+						case "getitemscustomerbidon":
+						{
+							return Didius.Helpers.GetItemsCustomerBidOn (Parameters.Get<Customer>(0), Parameters.Get<Auction>(1));
+						}
+
+						case "getcustomershighbidonitem":
+						{
+							return Didius.Helpers.GetCustomersHighBidOnItem (Parameters.Get<Customer>(0), Parameters.Get<Item>(1));
+						}
+					}
+					break;
+				}
+				#endregion
+
 				#region Didius.Auction
 				case "didius.auction":
 				{
@@ -163,7 +224,7 @@ namespace Didius.Addin
 					}
 					break;
 				}
-					#endregion	
+				#endregion	
 
 				#region Didius.Item
 				case "didius.item":
@@ -213,6 +274,11 @@ namespace Didius.Addin
 						case "pictureid":
 						{
 							return ((Didius.Item)Variable).PictureId;
+						}
+
+						case "currentbid":
+						{
+							return ((Didius.Item)Variable).CurrentBid;
 						}
 
 						case "bidamount":
@@ -297,6 +363,16 @@ namespace Didius.Addin
 						{
 							return ((Didius.Bid)Variable).Id;
 						}
+
+						case "createtimestamp":
+						{
+							return ((Didius.Bid)Variable).CreateTimestamp;
+						}
+
+						case "updatetimestamp":
+						{
+							return ((Didius.Bid)Variable).UpdateTimestamp;
+						}
 							
 						case "itemid":
 						{
@@ -330,21 +406,104 @@ namespace Didius.Addin
 						{
 							switch (Parameters.Type (0).Name.ToLower())
 							{
+								case "customer":
+								{
+									return Didius.Bid.List (Parameters.Get<Didius.Customer>(0));
+								}
+
 								case "item":
 								{
 									return Didius.Bid.List (Parameters.Get<Didius.Item>(0));
 								}
-										
+																	
 								default:
 								{
-									return Didius.Item.List ();
+									return Didius.Bid.List ();
 								}
 							}						
 						}
 					}
 					break;
 				}
-					#endregion				
+				#endregion	
+
+				#region Didius.AutoBid
+				case "didius.autobid":
+				{
+					switch (Method)
+					{
+						case "":
+						{
+							return ((Didius.AutoBid)Variable);
+						}
+							
+						case "id":
+						{
+							return ((Didius.AutoBid)Variable).Id;
+						}
+
+						case "createtimestamp":
+						{
+							return ((Didius.AutoBid)Variable).CreateTimestamp;
+						}
+							
+						case "updatetimestamp":
+						{
+							return ((Didius.AutoBid)Variable).UpdateTimestamp;
+						}
+							
+						case "itemid":
+						{
+							return ((Didius.AutoBid)Variable).ItemId;
+						}
+							
+						case "customerid":
+						{
+							return ((Didius.AutoBid)Variable).CustomerId;
+						}
+							
+						case "amount":
+						{
+							return ((Didius.AutoBid)Variable).Amount;
+						}
+							
+						case "load":
+						{
+							switch (Parameters.Type (0).Name.ToLower())
+							{
+								case "guid":							
+									return Didius.AutoBid.Load (Parameters.Get<Guid>(0));
+									
+								case "string":
+									return Didius.AutoBid.Load (new Guid (Parameters.Get<string>(0)));
+							}
+							break;
+						}
+							
+						case "list":
+						{
+							switch (Parameters.Type (0).Name.ToLower())
+							{
+								case "customer":
+								{
+									return Didius.AutoBid.List (Parameters.Get<Didius.Customer>(0));
+								}
+									
+								case "item":
+								{
+									return Didius.AutoBid.List (Parameters.Get<Didius.Item>(0));
+								}
+									
+								default:
+								{
+									return Didius.AutoBid.List ();
+								}
+							}						
+						}
+					}
+					break;
+				}
+				#endregion
 			}
 			
 			throw new SorentoLib.Exceptions.RenderExceptionMemberNotFound ();

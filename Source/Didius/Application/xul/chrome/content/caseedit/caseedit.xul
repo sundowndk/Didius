@@ -105,6 +105,7 @@
 			<iframe id="printframe" style="height: 0px; width: 0px; margin: 0px; padding: 0px;" collapsed="true">
 			</iframe>		
 			<button id="printSalesAgreement" label="Udskriv salgsaftale" oncommand="main.salesAgreement.print ();"/>
+			<button id="sendSalesAgreement" label="Send salgsaftale på email" oncommand="main.salesAgreement.send ();"/>
 		</hbox>		
 		<hbox align="right" flex="1"> 
 			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>

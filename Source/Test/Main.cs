@@ -86,25 +86,29 @@ namespace Test
 
 					// TEST
 
-					Didius.Item.Bid (c1, i1, 200); // 100, 200 *
-					Didius.Item.Bid (c2, i1); // 200 *
-					Didius.Item.Bid (c3, i1); // 300 *
-
-					Didius.Item.Bid (c1, i1, 500); // 400, 500 *
-					Didius.Item.Bid (c1, i1, 1600); // 700, 1000, 1100, 1600 *
-					Didius.Item.Bid (c3, i1); // 500 *
-					Didius.Item.Bid (c3, i1); // 600 *
-					Didius.Item.Bid (c2, i1, 1000); // 1000 *
-					Didius.Item.Bid (c1, i1, 1500); // 1500 *
-					Didius.Item.Bid (c3, i1, 300); // 300 *
-					Didius.Item.Bid (c2, i1, 1600); // 1600 *
-					Didius.Item.Bid (c4, i1, 2000); // 1700, 1900, 2000 *
-					Didius.Item.Bid (c1, i1); // 1800 *
-					Didius.Item.Bid (c1, i1); // 2000 *
-					Didius.Item.Bid (c1, i1); // 2200 *
-					Didius.Item.Bid (c2, i1, 3000); // 2400, 2800, 3000 *
-					Didius.Item.Bid (c3, i1); // 2600 *
-					Didius.Item.Bid (c3, i1, 3200); // 3200 *
+					Didius.Item.Bid (c1, i1);
+					Didius.Item.Bid (c2, i1);
+					Didius.Item.Bid (c1, i1, 1000);
+					Didius.Item.Bid (c2, i1);
+					Didius.Item.Bid (c2, i1);
+					Didius.Item.Bid (c2, i1);
+					Didius.Item.Bid (c2, i1);
+//
+//					Didius.Item.Bid (c1, i1, 500); // 400, 500 *
+//					Didius.Item.Bid (c1, i1, 1600); // 700, 1000, 1100, 1600 *
+//					Didius.Item.Bid (c3, i1); // 500 *
+//					Didius.Item.Bid (c3, i1); // 600 *
+//					Didius.Item.Bid (c2, i1, 1000); // 1000 *
+//					Didius.Item.Bid (c1, i1, 1500); // 1500 *
+//					Didius.Item.Bid (c3, i1, 300); // 300 *
+//					Didius.Item.Bid (c2, i1, 1600); // 1600 *
+//					Didius.Item.Bid (c4, i1, 2000); // 1700, 1900, 2000 *
+//					Didius.Item.Bid (c1, i1); // 1800 *
+//					Didius.Item.Bid (c1, i1); // 2000 *
+//					Didius.Item.Bid (c1, i1); // 2200 *
+//					Didius.Item.Bid (c2, i1, 3000); // 2400, 2800, 3000 *
+//					Didius.Item.Bid (c3, i1); // 2600 *
+//					Didius.Item.Bid (c3, i1, 3200); // 3200 *
 
 
 

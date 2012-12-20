@@ -41,7 +41,7 @@ var main =
 	
 		this.access.init ();		
 	
-		document.getElementById ("settingsMenu").selectedIndex = 0;					
+		document.getElementById ("settingsMenu").selectedIndex = 0;										
 		
 		// COMPANY
 		document.getElementById ("companyName").value = main.current.companyname;
