@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window title="Om Didius" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>	
+	<script type="application/javascript" src="chrome://didius/content/about/about.js"/>	
+			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+								
+	<hbox class="Main" flex="1">
+		<vbox>
+			<image src="chrome://didius/content/icons/logo.svg" width="200px" />
+		</vbox>
+		<vbox>
+			<description id="title" style="padding-top: 8px; font-size: 30px; font-weight: bold; display: block;">Didius</description>
+			<description id="version" style="font-size: 12px; display: block;"></description>
+			<description id="platform" style="font-size: 12px; display: block;"></description>
+			<description id="vendor" style="font-size: 12px; display: block;"></description>
+		</vbox>
+	</hbox>		
+</window>

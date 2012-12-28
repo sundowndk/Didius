@@ -11,23 +11,30 @@
 	<script type="application/javascript" src="main.js"/>	
 
 	<keyset>
-  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close (false);"/>
+  		<key id="shortcut-quit" modifiers="control" key="q" oncommand="main.close (false);"/>
 	</keyset>
 	
 	<menubar id="menubar">
 		<menu label="Filer">
 			<menupopup>
 				<menuitem label="Indstillinger" oncommand="main.settings ();" />
-				<menuitem label="Luk (Ctrl+W)" oncommand="main.close (false);" />
+				<menuitem label="Luk (Ctrl+Q)" oncommand="main.close (false);" />
+			</menupopup>
+		</menu>
+		<menu label="Hjælp">
+			<menupopup>
+				<menuitem label="Indsend fejlrapport" oncommand="main.bugReport ();" />
+				<menuitem label="Om Didius" oncommand="main.about ();" />
 			</menupopup>
 		</menu>
 	</menubar>	
 		
 	<vbox flex="1" class="WindowInnerPadding">
-		<tabbox selectedIndex="1" flex="1">		
+		<tabbox selectedIndex="0" flex="1">		
 			<tabs>
 				<tab image="chrome://didius/content/icons/customers.png"/>
 				<tab image="chrome://didius/content/icons/auctions.png"/>			
+				<tab image="chrome://didius/content/icons/newsletter.png"/>
 			</tabs>
 						
 			<tabpanels flex="1">
@@ -104,16 +111,31 @@
 							<button id="auctionSettle" label="Afregning" disabled="true" oncommand="main.auctions.settle ();"/>
 						</vbox>
 					</hbox>					
+				</tabpanel>		
+				<tabpanel>					
+					<hbox flex="1">
+						<tree id="newsletters" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.newsletters.onChange ();" seltype="single">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="createtimestamp" hidden="true" />
+								<splitter class="tree-splitter" hidden="true"/>
+								<treecol id="title" label="Title" flex="3" onclick="main.newsletters.sort ({column: 'title'});" />
+								<splitter class="tree-splitter" />
+							</treecols>								
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>
+							<button id="newsletterCreate" label="Opret" disabled="true" oncommand="main.newsletters.create ();"/>
+							<button id="newsletterEdit" label="Redigere" disabled="true" oncommand="main.newsletters.edit ();"/>
+							<button id="newsletterDestroy" label="Slet" disabled="true" oncommand="main.newsletters.destroy ();"/>						
+						</vbox>
+					</hbox>					
 				</tabpanel>			
 			</tabpanels>
 		</tabbox>			
 	</vbox>
-	<statusbar>
-		 <statusbarpanel>
-    	 	<progressmeter id="statusbarProgressmeter" mode="determined" value="" />
-    	 	<description id="statusbarProgressmeterDescription" value="Færdig" />
-    	 </statusbarpanel>  		
-    	 <statusbarpanel flex="1">    	 	
-    	 </statusbarpanel>  		
-    </statusbar>
+	<vbox id="PrintHolder" collapsed="true">						
+	</vbox>			
 </window>

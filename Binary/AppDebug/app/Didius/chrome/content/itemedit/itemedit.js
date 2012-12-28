@@ -110,7 +110,12 @@ var main =
 	
 		document.getElementById ("no").value = main.current.no;
 		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
-	
+		
+		var _case = didius.case.load (main.current.caseid);
+		var customer = didius.customer.load (_case.customerid);
+		
+		document.getElementById ("customername").value = customer.name;
+		
 		document.getElementById ("catalogno").value = main.current.catalogno;		
 		document.getElementById ("description").value = main.current.description;						
 						

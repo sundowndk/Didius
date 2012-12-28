@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window title="Indsend fejlrapport" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
+	<script type="application/javascript" src="chrome://didius/content/bug/report.js"/>	
+			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+			
+	<hbox class="Main" flex="1">
+		<tabbox selectedIndex="0" flex="1">
+		
+			
+						
+			<tabpanels flex="1">
+				<tabpanel flex="1">
+					<vbox flex="1">																		
+						<hbox align="top">
+							<label class="Label">Afsender:</label>
+							<textbox id="sender" flex="1" onkeyup="main.onChange ();"/>
+						</hbox>							
+						<hbox align="top">
+							<label class="Label">Beskrivelse:</label>
+							<textbox id="description" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+						</hbox>													
+					</vbox>
+    			</tabpanel>
+			</tabpanels>
+		</tabbox>
+	</hbox>
+	
+	<hbox class="WindowButtons">		
+		<hbox align="right" flex="1"> 
+			<button id="close" label="Luk" oncommand="main.close ();" />
+			<button id="send" label="Send" oncommand="main.send ();" disabled="true" />
+		</hbox>
+	</hbox>
+</window>

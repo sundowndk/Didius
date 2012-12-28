@@ -61,15 +61,18 @@ var main =
 		
 		if (main.templateName == "internal")
 		{
-			template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/cataloglarge.tpl"));
+			template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_cataloglarge"}));
+			//template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/cataloglarge.tpl"));
 		}
 		else if (main.templateName == "buyer")
 		{
-			template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/catalogsmall.tpl"));
+			template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_catalogsmall"}));
+			//template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/catalogsmall.tpl"));
 		}
 		else if (main.templateName == "label")
 		{
-			template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
+			template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_label"}));
+			//template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
 		}
 																																		
 		var pageCount = 0;			

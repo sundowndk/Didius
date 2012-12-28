@@ -35,7 +35,39 @@ var main =
 				
 	set : function ()
 	{
-		main.current = app.config;
+		var keys = new Array ();
+		keys[keys.length] = "didius_company_name";
+		keys[keys.length] = "didius_company_address";
+		keys[keys.length] = "didius_company_postcode";
+		keys[keys.length] = "didius_company_city";
+		keys[keys.length] = "didius_company_phone";
+		keys[keys.length] = "didius_company_email";
+		keys[keys.length] = "didius_text_auction_description";		
+		keys[keys.length] = "didius_value_seller_commission_percentage";
+		keys[keys.length] = "didius_value_seller_commission_minimum"; 
+		keys[keys.length] = "didius_value_buyer_commission_percentage";
+		keys[keys.length] = "didius_value_buyer_commission_minimum";
+		keys[keys.length] = "didius_email_sender";
+		keys[keys.length] = "didius_email_template_itemwon_subject";
+		keys[keys.length] = "didius_email_template_itemwon_body";
+		keys[keys.length] = "didius_email_template_itemwon_isbodyhtml";
+		keys[keys.length] = "didius_email_template_outbid_subject";
+		keys[keys.length] = "didius_email_template_outbid_body";
+		keys[keys.length] = "didius_email_template_outbid_isbodyhtml";
+		keys[keys.length] = "didius_email_template_invoice_subject";
+		keys[keys.length] = "didius_email_template_invoice_body";
+		keys[keys.length] = "didius_email_template_invoice_isbodyhtml";
+		keys[keys.length] = "didius_email_template_settlement_subject";
+		keys[keys.length] = "didius_email_template_settlement_body";
+		keys[keys.length] = "didius_email_template_settlement_isbodyhtml";
+		keys[keys.length] = "didius_email_template_salesagreement_subject";
+		keys[keys.length] = "didius_email_template_salesagreement_body";
+		keys[keys.length] = "didius_email_template_salesagreement_isbodyhtml";
+		keys[keys.length] = "didius_template_catalogsmall";
+		keys[keys.length] = "didius_template_cataloglarge";
+		keys[keys.length] = "didius_template_salesagreement";
+	
+		main.current = didius.settings.get ({keys: keys});
 		
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
 	
@@ -44,51 +76,84 @@ var main =
 		document.getElementById ("settingsMenu").selectedIndex = 0;										
 		
 		// COMPANY
-		document.getElementById ("companyName").value = main.current.companyname;
-		document.getElementById ("companyAddress").value = main.current.companyaddress;
-		document.getElementById ("companyPostcode").value = main.current.companypostcode;
-		document.getElementById ("companyCity").value = main.current.companycity;
-		document.getElementById ("companyPhone").value = main.current.companyphone;
-		document.getElementById ("companyEmail").value = main.current.companyemail;
+		document.getElementById ("companyName").value = main.current.didius_company_name;
+		document.getElementById ("companyAddress").value = main.current.didius_company_address;
+		document.getElementById ("companyPostcode").value = main.current.didius_company_postcode;
+		document.getElementById ("companyCity").value = main.current.didius_company_city;
+		document.getElementById ("companyPhone").value = main.current.didius_company_phone;
+		document.getElementById ("companyEmail").value = main.current.didius_company_email;
 		
 		// TEXTS
-		document.getElementById ("auctionDescription").value = main.current.auctiondescription;
+		document.getElementById ("auctionDescription").value = main.current.didius_text_auction_description;
 		
 		// VALUES
-		document.getElementById ("commisionFeePercentage").value = main.current.commisionfeepercentage;
-		document.getElementById ("commisionFeeMinimum").value = main.current.commisionfeeminimum;			
+		document.getElementById ("valueSellerCommissionPercentage").value = main.current.didius_value_seller_commission_percentage;
+		document.getElementById ("valueSellerCommissionMinimum").value = main.current.didius_value_seller_commission_minimum;			
+		document.getElementById ("valueBuyerCommissionPercentage").value = main.current.didius_value_buyer_commission_percentage;
+		document.getElementById ("valueBuyerCommissionMinimum").value = main.current.didius_value_buyer_commission_minimum;			
 		
 		// EMAIL
-		document.getElementById ("emailSender").value = main.current.emailsender;
-		document.getElementById ("emailTextBidWon").value = main.current.emailtextbidwon;
-		document.getElementById ("emailTextBidLost").value = main.current.emailtextbidlost;
-		document.getElementById ("emailTextInvoice").value = main.current.emailtextinvoice;
-		document.getElementById ("emailTextSettlement").value = main.current.emailtextsettlement;
+		document.getElementById ("emailSender").value = main.current.didius_email_sender;
+		document.getElementById ("emailTemplateItemWonSubject").value = main.current.didius_email_template_itemwon_subject;
+		document.getElementById ("emailTemplateItemWonBody").value = main.current.didius_email_template_itemwon_body;
+		
+		document.getElementById ("emailTemplateOutBidSubject").value = main.current.didius_email_template_outbid_subject;
+		document.getElementById ("emailTemplateOutBidBody").value = main.current.didius_email_template_outbid_body;
+				
+		document.getElementById ("emailTemplateInvoiceSubject").value = main.current.didius_email_template_invoice_subject;
+		document.getElementById ("emailTemplateInvoiceBody").value = main.current.didius_email_template_invoice_body;
+		
+		document.getElementById ("emailTemplateSettlementSubject").value = main.current.didius_email_template_settlement_subject;
+		document.getElementById ("emailTemplateSettlementBody").value = main.current.didius_email_template_settlement_body;
+		
+		document.getElementById ("emailTemplateSalesAgreementSubject").value = main.current.didius_email_template_salesagreement_subject;
+		document.getElementById ("emailTemplateSalesAgreementBody").value = main.current.didius_email_template_salesagreement_body;
+		
+		// TEMPLATES
+		document.getElementById ("templatesCatalogSmall").value = main.current.didius_template_catalogsmall;
+		document.getElementById ("templatesCatalogLarge").value = main.current.didius_template_cataloglarge;
+		document.getElementById ("templatesSalesAgreement").value = main.current.didius_template_salesagreement;
 	},
 	
 	get : function ()
 	{
 		// COMPANY
-		main.current.companyname = document.getElementById ("companyName").value;
-		main.current.companyaddress = document.getElementById ("companyAddress").value;
-		main.current.companypostcode = document.getElementById ("companyPostcode").value;
-		main.current.companycity = document.getElementById ("companyCity").value;
-		main.current.companyphone = document.getElementById ("companyPhone").value;
-		main.current.companyemail = document.getElementById ("companyEmail").value;
+		main.current.didius_company_name = document.getElementById ("companyName").value;
+		main.current.didius_company_address = document.getElementById ("companyAddress").value;
+		main.current.didius_company_postcode = document.getElementById ("companyPostcode").value;
+		main.current.didius_company_city = document.getElementById ("companyCity").value;
+		main.current.didius_company_phone = document.getElementById ("companyPhone").value;
+		main.current.didius_company_email = document.getElementById ("companyEmail").value;
 		
 		// TEXTS
-		main.current.auctiondescription = document.getElementById ("auctionDescription").value;
+		main.current.didius_text_auction_description = document.getElementById ("auctionDescription").value;
 		
 		// VALUES		
-		main.current.commisionfeepercentage = document.getElementById ("commisionFeePercentage").value;
-		main.current.commisionfeeminimum = document.getElementById ("commisionFeeMinimum").value;			
+		main.current.didius_value_seller_commission_percentage = document.getElementById ("valueSellerCommissionPercentage").value;
+		main.current.didius_value_seller_commission_minimum = document.getElementById ("valueSellerCommissionMinimum").value;			
 		
 		// EMAIL
-		main.current.emailsender = document.getElementById ("emailSender").value;
-		main.current.emailtextbidwon = document.getElementById ("emailTextBidWon").value;
-		main.current.emailtextbidlost = document.getElementById ("emailTextBidLost").value;
-		main.current.emailtextinvoice = document.getElementById ("emailTextInvoice").value;
-		main.current.emailtextsettlement = document.getElementById ("emailTextSettlement").value;
+		main.current.didius_email_sender = document.getElementById ("emailSender").value;
+		main.current.didius_email_template_itemwon_subject = document.getElementById ("emailTemplateItemWonSubject").value;
+		main.current.didius_email_template_itemwon_body = document.getElementById ("emailTemplateItemWonBody").value;
+		
+		main.current.didius_email_template_outbid_subject = document.getElementById ("emailTemplateOutBidSubject").value;
+		main.current.didius_email_template_outbid_body = document.getElementById ("emailTemplateOutBidBody").value;
+		
+		main.current.didius_email_template_invoice_subject = document.getElementById ("emailTemplateInvoiceSubject").value;
+		main.current.didius_email_template_invoice_body = document.getElementById ("emailTemplateInvoiceBody").value;
+		
+		main.current.didius_email_template_settlement_subject = document.getElementById ("emailTemplateSettlementSubject").value;
+		main.current.didius_email_template_settlement_body = document.getElementById ("emailTemplateSettlementBody").value;
+		
+		main.current.didius_email_template_salesagreement_subject = document.getElementById ("emailTemplateSalesAgreementSubject").value;
+		main.current.didius_email_template_salesagreement_body = document.getElementById ("emailTemplateSalesAgreementBody").value;
+		
+		// TEMPLATES
+		main.current.didius_template_catalogsmall = document.getElementById ("templatesCatalogSmall").value;		
+		main.current.didius_template_cataloglarge = document.getElementById ("templatesCatalogLarge").value;		
+		main.current.didius_template_salesagreement = document.getElementById ("templatesSalesAgreement").value;		
+		
 	},
 	
 	onChange : function ()
@@ -159,7 +224,7 @@ var main =
 	{
 		main.get ();
 		
-		didius.config.save (main.current);
+		didius.settings.set ({keys: main.current});
 		
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
 		

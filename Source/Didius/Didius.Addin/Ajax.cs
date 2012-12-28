@@ -442,6 +442,12 @@ namespace Didius.Addin
 							break;
 						}
 
+						case "bugreport":
+						{
+							Didius.Helpers.BugReport (request.getValue<string> ("sender"), request.getValue<string> ("description"));
+							break;
+						}
+
 						case "newcatalogno":
 						{
 							result.Add (Helpers.NewCatelogNo (Auction.Load (request.getValue<Guid> ("auctionid"))));
@@ -453,6 +459,12 @@ namespace Didius.Addin
 							result.Add (  Helpers.IsCatalogNoTaken (Auction.Load (request.getValue<Guid> ("auctionid")), int.Parse (request.getValue<string> ("catalogno"))));
 							break;
 						}		
+
+						case "mailbidwon":
+						{
+							Helpers.MailItemWon (Item.Load (request.getValue<Guid> ("itemid")));
+							break;
+						}
 					}
 					break;
 				}
@@ -485,6 +497,45 @@ namespace Didius.Addin
 							{
 								result.Add (EventListener.Update (request.getValue<Guid> ("eventlistenerid")));
 							}
+							break;
+						}
+					}
+					break;
+				}
+				#endregion
+
+				#region Didius.Newsletter
+				case "didius.newsletter":
+				{	
+					switch (Method.ToLower ())
+					{						
+						case "create":
+						{
+							result.Add (new Newsletter ());
+							break;
+						}		
+							
+						case "load":
+						{
+							result.Add (Newsletter.Load (request.getValue<Guid>("id")));
+							break;
+						}
+							
+						case "save":
+						{
+							request.getValue<Newsletter> ("didius.newsletter").Save ();
+							break;
+						}
+							
+						case "destroy":
+						{
+							Newsletter.Delete (request.getValue<Guid> ("id"));
+							break;
+						}
+							
+						case "list":
+						{
+							result.Add (Newsletter.List ());
 							break;
 						}
 					}

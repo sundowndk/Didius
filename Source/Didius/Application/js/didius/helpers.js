@@ -1,3 +1,22 @@
+bugReport : function (attributes)
+{
+	var content = new Array ();	
+	content.sender = attributes.sender;
+	content.description = attributes.description;
+						
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.BugReport", "data", "POST", true);			
+	request.send (content);		
+},
+
+mailBidWon : function (item)
+{	
+	var content = new Array ();	
+	content.itemid = item.id;
+						
+	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.MailBidWon", "data", "POST", true);			
+	request.send (content);		
+},
+
 createProfile : function (name, email, onDone)
 {
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.CreateProfile", "data", "POST", true);			

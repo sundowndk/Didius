@@ -1,3 +1,5 @@
+
+
 isCatalogNoTaken : function (attributes)
 {
 	var content = new Array ();

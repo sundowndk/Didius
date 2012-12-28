@@ -10,16 +10,36 @@ namespace Didius.Enums
 		didius_company_city,
 		didius_company_phone,
 		didius_company_email,
-		
-		didius_auction_description,
-		
-		didius_commissionfee_percentage,
-		didius_commissionfee_minimum,
-		
-		didius_email_from,
-		didius_email_template_bidwon,
-		didius_email_template_bidlost,
-		didius_email_template_invoice,
-		didius_email_template_settlement,
+
+		didius_text_auction_description,
+
+		didius_value_seller_commission_percentage,
+		didius_value_seller_commission_minimum,
+		didius_value_buyer_commission_percentage,
+		didius_value_buyer_commission_minimum,
+
+		didius_email_sender,
+		didius_email_template_itemwon_subject,
+		didius_email_template_itemwon_body,
+		didius_email_template_itemwon_isbodyhtml,
+		didius_email_template_outbid_subject,
+		didius_email_template_outbid_body,
+		didius_email_template_outbid_isbodyhtml,
+		didius_email_template_invoice_subject,
+		didius_email_template_invoice_body,
+		didius_email_template_invoice_isbodyhtml,
+		didius_email_template_settlement_subject,
+		didius_email_template_settlement_body,
+		didius_email_template_settlement_isbodyhtml,
+		didius_email_template_salesagreement_subject,
+		didius_email_template_salesagreement_body,
+		didius_email_template_salesagreement_isbodyhtml,
+
+		didius_template_salesagreement,
+		didius_template_catalogsmall,
+		didius_tamplate_cataloglarge
+
+
+
 	}
 }

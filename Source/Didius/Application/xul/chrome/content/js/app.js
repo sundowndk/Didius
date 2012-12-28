@@ -47,7 +47,22 @@ var app =
 		current : null,
 		OS : Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS,
 		pathSeperator : "/",
-		eventListenerId: null		
+		eventListenerId: null,
+		xulRuntime : Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime),
+		//	inSafeMode				
+		//	logConsoleErrors		
+		//	OS						
+		//	processType				
+		//	widgetToolkit
+		//	XPCOMABI
+		appInfo : Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo)
+		//	appBuildID
+		//	ID
+		//	name
+		//  platformBuildID
+		//  platformVersion
+		//	vendor
+		//	version		
 	},
 
 	events : new Array (),	
@@ -79,6 +94,11 @@ var app =
 		app.events.onAuctionLoad = new event ();
 		app.events.onAuctionSave = new event ();
 		app.events.onAuctionDestroy = new event ();
+		
+		app.events.onNewsletterCreate = new event ();
+		app.events.onNewsletterLoad = new event ();
+		app.events.onNewsletterSave = new event ();
+		app.events.onNewsletterDestroy = new event ();
 			
 		if (app.session.OS == "Linux")
 		{
@@ -92,6 +112,7 @@ var app =
 		{
 			app.session.pathSeperator = "/";
 		}
+		
 				
 		//dump("App startup!");
 	},
@@ -127,13 +148,15 @@ var app =
   				var win = test.getNext().QueryInterface( Components.interfaces.nsIDOMChromeWindow );
   				if( win.name == name) 
   				{
-    				openNewWindow = false;
+    				openNewWindow = false;    				
+    				return win;
   				}
 			}
 
 			if (openNewWindow) 
 			{
   				var win = window.openDialog (url, name, features, args);
+  				return win;
 			}		
 		}
 	},

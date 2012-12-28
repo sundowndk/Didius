@@ -53,6 +53,14 @@ namespace Didius.Strings
 		public static string AuctionFromXmlDocument = "00510|Cannot create Auction from XmlDocument, missing {0}";
 		#endregion
 
+		#region NEWSLETTER
+		public static string NewsletterSave = "00910|Could not save Newsletter with id: {0}";
+		public static string NewsletterLoadGuid = "00910|Could not load Newsletter with id: {0}.\nInner Exception:\n {1}";
+		public static string NewsletterDeleteGuid = "00910|Could not delete Newsletter with id: {0}";
+		public static string NewsletterDeleteHasCase = "00931|Can not delete Newsletter with id: {0}, since its related to a case.";
+		public static string NewsletterFromXmlDocument = "00940|Cannot create Newsletter from XmlDocument, missing {0}";
+		#endregion
+
 		public static string BidSave = "SRV00810|Could not save Bid with id: {0}";
 		public static string BidLoadGuid = "SRV00820|Could not load Bid with id: {0}";
 		public static string BidDeleteGuid = "SRV00830|Could not delete Bid with id: {0}";

@@ -69,7 +69,7 @@ list : function (attributes)
 	{
 		var onDone = 	function (respons)
 						{
-							attributes.onDone (respons["didius.customers"]);
+							setTimeout (function () { attributes.onDone (respons["didius.customers"]) }, 1);
 						};
 		
 		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.List", "data", "POST", true);

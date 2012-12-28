@@ -40,6 +40,18 @@
 			<class name="config">
 				<js file="js/didius/config.js" />	
 			</class>						
+			<class name="settings">
+				<js file="js/didius/settings.js" />	
+			</class>						
+			<class name="newsletter">
+				<js file="js/didius/newsletter.js" />	
+			</class>						
+			<class name="common">
+				<class name="print">
+					<js file="js/didius/common/print/invoice.js" />	
+					<js file="js/didius/common/print/salesagreement.js" />	
+				</class>						
+			</class>						
 		</class>
 		<js file="js/didius/other.js" />	
 	</project>	

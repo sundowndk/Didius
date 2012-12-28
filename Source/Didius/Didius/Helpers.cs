@@ -5,6 +5,125 @@ namespace Didius
 {
 	public class Helpers
 	{
+		public static void BugReport (string Sender, string Description)
+		{
+			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);			
+			string to = "rasmus@akvaservice.dk";		
+			string subject = "Bug report";
+			string body = Sender +" reported a bug:\n\n"+ Description;
+			
+			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, false);
+		}
+
+		public static void MailItemWon (Item Item)
+		{
+			if (Item.BidAmount > 0) {
+				Bid bid = Item.CurrentBid;
+				Customer customer = Customer.Load (bid.CustomerId);
+			
+				string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
+
+//				string to = customer.Email;
+				string to = "rasmus@akvaservice.dk";
+
+				string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_itemwon_subject);
+				subject = ReplacePlaceholders (customer, subject);
+				subject = ReplacePlaceholders (Item, subject);
+
+				string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_itemwon_body);
+				body = ReplacePlaceholders (customer, body);
+				body = ReplacePlaceholders (Item, body);
+				body = ReplacePlaceholders (bid, body);
+
+				bool isbodyhtml = SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_itemwon_isbodyhtml);
+
+				SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml);
+			}
+			else
+			{
+
+			}
+		}
+
+		public static void MailInvoice (Invoice Invoice, string PdfFilename)
+		{
+			Customer customer = Customer.Load (Invoice.CustomerId);
+			
+			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
+			
+//			string to = customer.Email;
+			string to = "rasmus@akvaservice.dk";
+			
+			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_invoice_subject);
+			subject = ReplacePlaceholders (customer, subject);
+			subject = ReplacePlaceholders (Invoice, subject);
+			
+			string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_invoice_body);
+			body = ReplacePlaceholders (customer, body);
+			body = ReplacePlaceholders (Invoice, body);
+			
+			bool isbodyhtml = SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_invoice_isbodyhtml);
+			
+			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
+			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (PdfFilename), "faktura"+ Invoice.No +".pdf", SNDK.IO.GetMimeType (PdfFilename)));
+			
+			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
+		}
+
+		public static void MailSalesAgreement (Customer Customer, string PdfFilename)
+		{		
+			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
+			
+			//			string to = customer.Email;
+			string to = "rasmus@akvaservice.dk";
+			
+			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_salesagreement_subject);
+			subject = ReplacePlaceholders (Customer, subject);
+			
+			string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_salesagreement_body);
+			body = ReplacePlaceholders (Customer, body);
+			
+			bool isbodyhtml = SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_salesagreement_isbodyhtml);
+			
+			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
+			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (PdfFilename), "salgsaftale.pdf", SNDK.IO.GetMimeType (PdfFilename)));
+			
+			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
+		}
+
+		public static string ReplacePlaceholders (object Source, string String)
+		{
+			string result = String;
+
+			// CUSTOMER
+			if (Source.GetType () == typeof (Didius.Customer))
+			{
+				result = result.Replace ("%%CUSTOMERNO%%", ((Didius.Customer)Source).No);
+				result = result.Replace ("%%CUSTOMERNAME%%", ((Didius.Customer)Source).Name);
+			}
+			// ITEM
+			else if (Source.GetType () == typeof (Didius.Item))
+			{
+				result = result.Replace ("%%ITEMNO%%", ((Didius.Item)Source).No);
+				result = result.Replace ("%%ITEMCATALOGNO%%", ((Didius.Item)Source).CatalogNo.ToString ());
+				result = result.Replace ("%%ITEMTITLE%%", ((Didius.Item)Source).Title);
+			}
+			// BID
+			else if (Source.GetType () == typeof (Didius.Bid))
+			{
+				result = result.Replace ("%%BIDAMOUNT%%", ((Didius.Bid)Source).Amount.ToString ());
+			}
+			// INVOICE
+			if (Source.GetType () == typeof (Didius.Invoice))
+			{
+				result = result.Replace ("%%INVOICENO%%", ((Didius.Invoice)Source).No.ToString ());
+			}
+
+			return result;
+		}
+
+
+
 		public static List<Auction> GetAuctionsCustomerBidOn (Customer Customer)
 		{
 			List<Auction> result = new List<Auction> ();
@@ -142,12 +261,14 @@ namespace Didius
 //			SorentoLib.Tools.Helpers.SendMail ("test@test.dk", User.Email, "Bla bla bla bla");
 		}
 
+
 		public static void MailFileToCustomer (Customer Customer, string Filename, string EmailTemplate)
 		{
 			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
 			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (Filename), "salgsaftale.pdf", SNDK.IO.GetMimeType (Filename)));
 			
-			SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Salgsaftale", "Salgs aftale er vedhæftet.\n\nMed venlig hilsen\nYork Auktion ApS", false, attatchments);
+			//SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Salgsaftale", "Salgs aftale er vedhæftet.\n\nMed venlig hilsen\nYork Auktion ApS", false, attatchments);
+			SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", "rasmus@akvaservice.dk", "Salgsaftale", "Salgs aftale er vedhæftet.\n\nMed venlig hilsen\nYork Auktion ApS", false, attatchments);
 		}
 
 		public static string NewNo ()

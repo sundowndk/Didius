@@ -9,7 +9,6 @@
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/javascript" src="chrome://didius/content/caseedit/caseedit.js"/>	
 	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
-
 			
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
@@ -101,11 +100,8 @@
 		<hbox id="showSettlementBox" align="left" collapsed="true"> 
 			<button id="showSettlement" label="Vis afregning" oncommand="main.settlement.show ();" disabled="true"/>
 		</hbox>		
-		<hbox align="left"> 
-			<iframe id="printframe" style="height: 0px; width: 0px; margin: 0px; padding: 0px;" collapsed="true">
-			</iframe>		
-			<button id="printSalesAgreement" label="Udskriv salgsaftale" oncommand="main.salesAgreement.print ();"/>
-			<button id="sendSalesAgreement" label="Send salgsaftale på email" oncommand="main.salesAgreement.send ();"/>
+		<hbox align="left"> 						
+			<button id="showSalesAgreement" label="Salgsaftale" oncommand="main.salesAgreement.show ();"/>
 		</hbox>		
 		<hbox align="right" flex="1"> 
 			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>

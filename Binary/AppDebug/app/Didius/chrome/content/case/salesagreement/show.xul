@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window id="main" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
+	<script type="application/javascript" src="chrome://didius/content/case/salesagreement/show.js"/>	
+			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+			
+	<hbox class="Main" flex="1">
+		<tabbox selectedIndex="0" flex="1">
+		
+			<tabs>
+				<tab label="Salgsaftale"/>
+			</tabs>
+						
+			<tabpanels flex="1">
+				<tabpanel flex="1">
+					<vbox flex="1">						
+						<groupbox>
+							<caption label="Effekter"/>	
+							<hbox align="center">
+								<tree id="items" flex="1" hidecolumnpicker="true" readonly="true" seltype="single" height="200">
+									<treecols>
+										<treecol id="id" hidden="true"/>
+										<treecol id="catalogno" label="Katalog nr." width="30" persist="width" />
+										<treecol id="no" label="Effekt nr." width="100" persist="width"/>
+										<treecol id="title" label="Title" flex="3" persist="width" />										
+										<treecol id="commissionfee" label="Salær" flex="1" persist="width" />
+									</treecols>								
+								</tree>
+							</hbox>							
+						</groupbox>																														
+					</vbox>
+    			</tabpanel>
+			</tabpanels>
+		</tabbox>
+	</hbox>
+	
+	<hbox class="WindowButtons">
+		<hbox id="settleBox" align="left" flex="1"> 
+			<button id="print" label="Udskriv" oncommand="main.print ();" />
+			<button id="mail" label="Send på mail" oncommand="main.mail ();" disabled="true"/>
+		</hbox>
+		<hbox align="right" flex="1"> 
+			<button id="close" label="Luk" oncommand="main.close ();" />			
+		</hbox>
+	</hbox>
+</window>

@@ -119,10 +119,11 @@ var sXUL =
 		tree : function (attributes)
 		{
 			var _attributes = attributes;				
-			var _elements = Array ();
-			var _rows = Array ();
+			var _elements = new Array ();
+			var _rows = new Array ();
 			
 			var _temp = {};			
+			_temp.refresh = true;
 			_temp.filterColumns = new Array ();
 			
 			this.addRow = addRow;
@@ -130,11 +131,14 @@ var sXUL =
 			
 			this.setRow = setRow;
 			this.getRow = getRow;
+			
+			this.enableRefresh = enableRefresh;
+			this.disableRefresh = disableRefresh;
 									
 			this.sort = sort;		
 			this.filter = filter;							
 			
-			this.clear = clear;
+			this.clear = clear2;
 			
 			this.getCurrentIndex = getCurrentIndex;
 			
@@ -201,10 +205,22 @@ var sXUL =
 				}
 			}
 			
+			function enableRefresh ()
+			{
+				_temp.refresh = true;
+				refresh ();
+			}
+			
+			function disableRefresh ()
+			{
+				_temp.refresh = false;
+			}
 			
 								
 			function refresh ()
-			{									
+			{				
+				if (_temp.refresh)					
+				{
 				// Clear all rows.
 				clear ();
 				
@@ -297,7 +313,8 @@ var sXUL =
 							}							
 						}
 					}
-				}				
+				}	
+				}			
 			}	
 			
 			function drawRow (attributes)
@@ -353,6 +370,14 @@ var sXUL =
 				{
 					_elements.treeChildren.removeChild (_elements.treeChildren.firstChild);
 				}
+				
+			//	_rows = new Array ();
+			}
+			
+			function clear2 ()
+			{
+				clear ()
+				_rows = new Array ();
 			}
 					
 			function sort (attributes)
@@ -878,29 +903,29 @@ var sXUL =
 		      		//	sXUL.console.log (aStateFlags);
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_REQUEST)
 		      			{
-		      				sXUL.console.log ("STATE_IS_REQUEST")
+		      			//	sXUL.console.log ("STATE_IS_REQUEST")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT)
 		      			{
-		      				sXUL.console.log ("STATE_IS_DOCUMENT")
+		      			//	sXUL.console.log ("STATE_IS_DOCUMENT")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK)
 		      			{
-		      				sXUL.console.log ("STATE_IS_NETWORK")
+		      			//	sXUL.console.log ("STATE_IS_NETWORK")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_WINDOW)
 		      			{
-		      				sXUL.console.log ("STATE_IS_WINDOW")
+		      			//	sXUL.console.log ("STATE_IS_WINDOW")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_START)
 		      			{
-		      				sXUL.console.log ("STATE_START")
+		      			//	sXUL.console.log ("STATE_START")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP)
 		      			{
-		      				sXUL.console.log ("STATE_STOP")
+		      			//	sXUL.console.log ("STATE_STOP")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT) 
@@ -910,7 +935,7 @@ var sXUL =
 		      		
 						if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK) 
 		      			{
-		      				sXUL.console.log ("DONE");
+		      			//	sXUL.console.log ("DONE");
 		      				onDone ();
 			 			}
 		        	},		

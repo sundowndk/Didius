@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window id="main" minwidth="700" minheight="600" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
+	<script type="application/javascript" src="chrome://didius/content/newsletter/edit.js"/>		
+			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+			
+	<hbox class="Main" flex="1">
+		<tabbox selectedIndex="0" flex="1">
+		
+			<tabs>
+				<tab label="Detaljer"/>
+				<tab label="indhold"/>
+			</tabs>
+						
+			<tabpanels flex="1">
+				<tabpanel flex="1">
+					<vbox flex="1">
+						<groupbox>
+							<caption label="Meta"/>
+							
+							<hbox align="center">								
+								<label class="Label">Oprettet:</label>
+								<datepicker id="createdate" type="normal" disabled="true"/>
+							</hbox>							
+						</groupbox>
+						
+						<groupbox>
+							<caption label="Andet"/>	
+							<hbox align="center">
+								<label class="Label">Title:</label>
+								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
+							</hbox>							
+						</groupbox>																													
+					</vbox>
+    			</tabpanel>
+    			
+				<tabpanel>
+				    <editor id="content" type="content" editortype="html" src="chrome://didius/content/templates/newsletter.tpl" flex="1" onchange="main.onChange ();"/>					
+				</tabpanel>
+			</tabpanels>
+		</tabbox>
+	</hbox>
+	
+	<hbox class="WindowButtons">
+		<hbox id="createSettlementBox" align="left"  collapsed="true"> 
+			<button id="createSettlement" label="Afregn" oncommand="main.settlement.create ();" disabled="true"/>
+		</hbox>		
+		<hbox align="right" flex="1"> 
+			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
+			<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+		</hbox>
+	</hbox>
+</window>

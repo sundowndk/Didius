@@ -18,19 +18,22 @@
 		<hbox>
 			<richlistbox id="settingsMenu" onselect="main.onChange ();" seltype="single">  	
 				<richlistitem align="center" class="SettingsMenuItem" value="settingsCompany">
-    				<image src="chrome://didius/content/icons/16/settings_company.svg"/><label>Firmaoplysninger</label>
+    				<image src="chrome://didius/content/icons/16/settings_company.png"/><label>Firmaoplysninger</label>
   				</richlistitem>
   				<richlistitem align="center" class="SettingsMenuItem" value="settingsAccess">
     				<image src="chrome://didius/content/icons/16/settings_access.png"/><label>Adgangskontrol</label>    			
   				</richlistitem>
   				<richlistitem align="center" class="SettingsMenuItem" value="settingsTexts">
-    				<image src="chrome://didius/content/icons/16/settings_texts.svg"/><label>Tekster</label>
+    				<image src="chrome://didius/content/icons/16/settings_texts.png"/><label>Tekster</label>
   				</richlistitem>
   				<richlistitem align="center" class="SettingsMenuItem" value="settingsValues">
-    				<image src="chrome://didius/content/icons/16/settings_values.svg"/><label>Værdier</label>
+    				<image src="chrome://didius/content/icons/16/settings_values.png"/><label>Værdier</label>
   				</richlistitem>
   				<richlistitem align="center" class="SettingsMenuItem" value="settingsEmail">
-    				<image src="chrome://didius/content/icons/16/settings_email.svg"/><label>E-mail</label>
+    				<image src="chrome://didius/content/icons/16/settings_email.png"/><label>E-mail</label>
+  				</richlistitem>
+  				<richlistitem align="center" class="SettingsMenuItem" value="settingsTemplates">
+    				<image src="chrome://didius/content/icons/16/settings_templates.png"/><label>Skabeloner</label>
   				</richlistitem>
 			</richlistbox>						
 		</hbox>
@@ -119,8 +122,7 @@
 					</hbox>				
 				</vbox>
 			</vbox>
-		</hbox>
-		
+		</hbox>		
 		<hbox flex="1" collapsed="true" id="settingsValues">
 			<vbox flex="1" >
 				<hbox class="SettingsHeader">
@@ -129,14 +131,25 @@
 				<vbox flex="1" style="overflow:auto">					
 					<hbox>	
 						<groupbox flex="1">
-							<caption label="Salær"/>							
+							<caption label="Sælger salær"/>							
 							<hbox align="center">
 								<label class="Label">Procent:</label>							
-								<textbox id="commisionFeePercentage" type="number" decimalplaces="0" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+								<textbox id="valueSellerCommissionPercentage" type="number" decimalplaces="0" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
 							</hbox>  					
 							<hbox align="center">
 								<label class="Label">Minimum:</label>								
-								<textbox id="commisionFeeMinimum" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+								<textbox id="valueSellerCommissionMinimum" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+							</hbox>  					
+						</groupbox>										
+						<groupbox flex="1">
+							<caption label="Køber salær"/>							
+							<hbox align="center">
+								<label class="Label">Procent:</label>							
+								<textbox id="valueBuyerCommissionPercentage" type="number" decimalplaces="0" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+							</hbox>  					
+							<hbox align="center">
+								<label class="Label">Minimum:</label>								
+								<textbox id="valueBuyerCommissionMinimum" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
 							</hbox>  					
 						</groupbox>										
 					</hbox>				
@@ -160,28 +173,109 @@
 					</hbox>				
 					<hbox>	
 						<groupbox flex="1">
-							<caption label="Tekster"/>
+							<caption label="Effekt vundet"/>
 							<hbox align="top">
-								<label class="Label">Vundet bud:</label>
-								<textbox id="emailTextBidWon" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+								<label class="Label">Emne:</label>
+								<textbox id="emailTemplateItemWonSubject" flex="1" onkeyup="main.onChange ();"/>
 							</hbox>							
 							<hbox align="top">
-								<label class="Label">Over budt:</label>
-								<textbox id="emailTextBidLost" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
-							</hbox>
-							<hbox align="top">
-								<label class="Label">Faktura:</label>
-								<textbox id="emailTextInvoice" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+								<label class="Label">Indhold:</label>
+								<textbox id="emailTemplateItemWonBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
 							</hbox>							
-							<hbox align="top">
-								<label class="Label">Afregning:</label>
-								<textbox id="emailTextSettlement" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
-							</hbox>
 						</groupbox>										
 					</hbox>				
+					<hbox>	
+						<groupbox flex="1">
+							<caption label="Overbudt"/>
+							<hbox align="top">
+								<label class="Label">Emne:</label>
+								<textbox id="emailTemplateOutBidSubject" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>							
+							<hbox align="top">
+								<label class="Label">Indhold:</label>
+								<textbox id="emailTemplateOutBidBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>							
+						</groupbox>										
+					</hbox>				
+					<hbox>	
+						<groupbox flex="1">
+							<caption label="Faktura"/>
+							<hbox align="top">
+								<label class="Label">Emne:</label>
+								<textbox id="emailTemplateInvoiceSubject" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>							
+							<hbox align="top">
+								<label class="Label">Indhold:</label>
+								<textbox id="emailTemplateInvoiceBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>							
+						</groupbox>										
+					</hbox>									
+					<hbox>	
+						<groupbox flex="1">
+							<caption label="Afregning"/>
+							<hbox align="top">
+								<label class="Label">Emne:</label>
+								<textbox id="emailTemplateSettlementSubject" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>							
+							<hbox align="top">
+								<label class="Label">Indhold:</label>
+								<textbox id="emailTemplateSettlementBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>							
+						</groupbox>										
+					</hbox>		
+					<hbox>	
+						<groupbox flex="1">
+							<caption label="Salgsaftale"/>
+							<hbox align="top">
+								<label class="Label">Emne:</label>
+								<textbox id="emailTemplateSalesAgreementSubject" flex="1" onkeyup="main.onChange ();"/>
+							</hbox>							
+							<hbox align="top">
+								<label class="Label">Indhold:</label>
+								<textbox id="emailTemplateSalesAgreementBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+							</hbox>							
+						</groupbox>										
+					</hbox>															
 				</vbox>
 			</vbox>
 		</hbox>
+		<hbox flex="1" collapsed="true" id="settingsTemplates">
+			<vbox flex="1" >
+				<hbox class="SettingsHeader">
+					<label>Skabeloner</label>
+				</hbox>
+				<vbox class="SettingsContent" flex="1" style="overflow:auto">				
+					<hbox flex="1">	
+						<tabbox selectedIndex="0" flex="1">
+							<tabs>
+								<tab label="Køber katalog"/>
+								<tab label="Internt katalog"/>
+								<tab label="Salgsaftale"/>
+							</tabs>
+							
+							<tabpanels flex="1">
+								<tabpanel flex="1">
+									<vbox flex="1">		
+										<textbox id="templatesCatalogSmall" flex="1" multiline="true" onkeyup="main.onChange ();"/>														
+									</vbox>
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<textbox id="templatesCatalogLarge" flex="1" multiline="true" onkeyup="main.onChange ();"/>														
+									</vbox>
+				    			</tabpanel>
+								<tabpanel flex="1">
+									<vbox flex="1">		
+										<textbox id="templatesSalesAgreement" flex="1" multiline="true" onkeyup="main.onChange ();"/>														
+									</vbox>
+				    			</tabpanel>
+							</tabpanels>
+							
+						</tabbox>
+					</hbox>										
+				</vbox>
+			</vbox>
+		</hbox>		
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >

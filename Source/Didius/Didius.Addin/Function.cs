@@ -137,7 +137,9 @@ namespace Didius.Addin
 				default:
 					return false;
 				}
+				
 #endregion
+
 				#region Helpers
 				case "didius.helpers":
 				{
@@ -154,6 +156,57 @@ namespace Didius.Addin
 
 								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");
 
+							}
+							catch (Exception e)
+							{
+								Console.WriteLine (e);
+								Session.Page.Lines.Add ("ERROR");
+								return true;
+							}
+							break;
+						}
+
+						case "mailinvoice":
+						{
+							try
+							{
+								string filename = SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_temp) + "/"+ Guid.NewGuid ();
+								SNDK.IO.ByteArrayToFile (filename, Session.Request.QueryJar.Get ("file").BinaryData);
+
+
+
+								try
+								{
+									Helpers.MailInvoice (Invoice.Load (new Guid (Session.Request.QueryJar.Get ("invoiceid").Value)), filename);
+								}
+								catch
+								{
+									// TODO: remove this.
+									Invoice invoice = Invoice.Create (Auction.Load (new Guid (Session.Request.QueryJar.Get ("auctionid").Value)), Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), true);
+									Helpers.MailInvoice (invoice, filename);
+								}
+
+								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");								
+							}
+							catch (Exception e)
+							{
+								Console.WriteLine (e);
+								Session.Page.Lines.Add ("ERROR");
+								return true;
+							}
+							break;
+						}
+
+						case "mailsalesagreement":
+						{
+							try
+							{
+								string filename = SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_temp) + "/"+ Guid.NewGuid ();
+								SNDK.IO.ByteArrayToFile (filename, Session.Request.QueryJar.Get ("file").BinaryData);
+																							
+								Helpers.MailSalesAgreement (Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), filename);
+								
+								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");								
 							}
 							catch (Exception e)
 							{

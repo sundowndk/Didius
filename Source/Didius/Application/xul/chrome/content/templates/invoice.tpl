@@ -11,6 +11,7 @@
 			
 	display: 							block;
 	page-break-after:					always; 
+	font-family: verdana;
 }
 
 .PageHeader
@@ -161,7 +162,9 @@
 			<td valign="top" style="width: 80mm">
 				<h1>York-auktion ApS</h1>
 			</td>
-			<td valign="top" style="width: 60mm">
+			<td valign="top" style="width: 60mm">				
+			</td>
+			<td valign="top" align="right" style="width: 60mm">			
 				Waldemarsvej 1<br>
 				4296 Nyrup<br>
 				Tlf. 70 20 36 06<br>
@@ -169,13 +172,6 @@
 				Mobil. 50 50 37 06<br>
 				CVR-nr. 27981488<br>
 				Bank. 2376-0122581799
-			</td>
-			<td valign="top" style="width: 60mm">			
-				Auktionshal:<br>
-				Waldemarsvej 1<br>
-				4296 Nyrup<br>
-				Tlf. 50 50 37 06<br>
-				Fax. 57 80 36 06<br>
 			</td>
 		</tr>
 	</table>	

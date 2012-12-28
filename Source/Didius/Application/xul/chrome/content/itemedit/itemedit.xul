@@ -24,7 +24,7 @@
 						
 			<tabpanels flex="1">
 				<tabpanel>
-					<vbox flex="1">
+					<vbox flex="1" style="overflow:auto">
 						<groupbox>
 							<caption label="Meta"/>
 							
@@ -33,6 +33,10 @@
 								<textbox id="no" flex="1" readonly="true"  />
 								<label class="Label">Oprettet:</label>
 								<datepicker id="createdate" type="normal" disabled="true"/>	
+							</hbox>
+							<hbox align="center">
+								<label class="Label">Kunde:</label>
+								<textbox id="customername" flex="1" readonly="true" />								
 							</hbox>
 						</groupbox>
 						
@@ -70,6 +74,10 @@
     								</column>
   								</columns>
 							</grid>
+							<hbox align="center">
+								<label class="Label"></label>
+								<checkbox id="vat" oncommand="main.onChange ();" label="Moms på effekt"/>						
+							</hbox>			
 						</groupbox>
 						
 						<groupbox id="datafields">
@@ -77,8 +85,7 @@
 						</groupbox>								
 						
 						<groupbox>
-							<caption label="Værdi"/>
-							
+							<caption label="Værdi"/>							
 							<hbox align="center">
 								<label class="Label">Min. bud:</label>
 								<textbox id="minimumbid" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
@@ -95,10 +102,7 @@
 								<label class="Label">Vurdering 3:</label>
 								<textbox id="appraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
 							</hbox>							
-							<hbox align="center">
-								<label class="Label">Moms på effekt:</label>
-								<checkbox id="vat" oncommand="main.onChange ();"/>						
-							</hbox>							
+											
 						</groupbox>						
 					</vbox>
     			</tabpanel>

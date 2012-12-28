@@ -8,15 +8,19 @@ var main =
 		didius.runtime.initialize ();				
 		
 		//main.login.show ();													
-						
-		document.title = "Didius v1.40 - York Auktion ApS";
+												
+		//var appInfo = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo);												
+												
+		document.title = "Didius v"+ app.session.appInfo.version +" - "+ didius.settings.get ({key: "didius_company_name"});
 				
-		main.controls.statusbar.progressmeter.setMode ("undetermined");
-		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
+//		main.controls.statusbar.progressmeter.setMode ("undetermined");
+//		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
 				
 		main.customers.init ();		
 		main.auctions.init ();		
-		
+		main.newsletters.init ();
+				
+	//	main.settings ();		
 //		float test = 10.10;
 		
 //		sXUL.console.log (typeof(test))
@@ -36,9 +40,9 @@ var main =
 		//sXUL.console.log (main.padLeft ("1", 5, "0"));
 //		sXUL.console.log (main.padRight ("1", 5, "0"));
 					
-		main.controls.statusbar.progressmeter.setMode ("determined");
-		main.controls.statusbar.progressmeter.setValue (100);
-		main.controls.statusbar.progressmeter.setDescription ("Færdig");
+//		main.controls.statusbar.progressmeter.setMode ("determined");
+//		main.controls.statusbar.progressmeter.setValue (100);
+//		main.controls.statusbar.progressmeter.setDescription ("Færdig");
 		
 		// Hook events.
 		sXUL.eventListener.attach ();
@@ -50,6 +54,10 @@ var main =
 		app.events.onAuctionCreate.addHandler (main.eventHandlers.onAuctionCreate);
 		app.events.onAuctionSave.addHandler (main.eventHandlers.onAuctionSave);
 		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
+		
+		app.events.onNewsletterCreate.addHandler (main.eventHandlers.onNewsletterCreate);
+		app.events.onNewsletterSave.addHandler (main.eventHandlers.onNewsletterSave);
+		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);						
 	},
 	
 	createTempFolder : function ()
@@ -179,6 +187,21 @@ var main =
 		onAuctionDestroy : function (eventData)
 		{
 			main.auctions.auctionsTreeHelper.removeRow ({id: eventData.id});
+		},
+		
+		onNewsletterCreate : function (eventData)
+		{
+			main.newsletters.newslettersTreeHelper.addRow ({data: eventData});			
+		},
+		
+		onNewsletterSave : function (eventData)
+		{
+			main.newsletters.newslettersTreeHelper.setRow ({data: eventData});
+		},
+		
+		onNewsletterDestroy : function (eventData)
+		{
+			main.newsletters.newslettersTreeHelper.removeRow ({id: eventData.id});
 		}	
 	},
 	
@@ -221,7 +244,13 @@ var main =
 	
 	close : function ()
 	{
-		app.shutdown (false);
+//		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+//		var result = prompts.confirm (null, "Afslut Didius", "Vil du afslutte Didius ?");
+			
+//		if (result)
+//		{
+			app.shutdown (false);	
+//		}
 	},
 		
 	controls : 
@@ -273,15 +302,17 @@ var main =
 		{
 				var onDone = 	function (customers)
 								{
+									main.customers.customersTreeHelper.disableRefresh ();
 									for (idx in customers)
 									{	
 										main.customers.customersTreeHelper.addRow ({data: customers[idx]});
 									}
+									main.customers.customersTreeHelper.enableRefresh ();
 								
-								// Enable controls
-								document.getElementById ("customers").disabled = false;														
-								main.customers.onChange ();
-							};
+									// Enable controls
+									document.getElementById ("customers").disabled = false;														
+									main.customers.onChange ();
+								};
 
 				// Disable controls
 				document.getElementById ("customers").disabled = true;	
@@ -362,10 +393,12 @@ var main =
 		{
 			var onDone = 	function (auctions)
 							{
+								main.auctions.auctionsTreeHelper.disableRefresh ();
 								for (index in auctions)
 								{									
 									main.auctions.auctionsTreeHelper.addRow ({data: auctions[index]});
 								}
+								main.auctions.auctionsTreeHelper.enableRefresh ();
 							
 							// Enable controls
 							document.getElementById ("auctions").disabled = false;																
@@ -392,6 +425,7 @@ var main =
 				document.getElementById ("auctionBidNotation").disabled = false;
 				document.getElementById ("auctionRun").disabled = false;
 				document.getElementById ("auctionDisplay").disabled = false;
+				document.getElementById ("auctionSettle").disabled = false;
 			}
 			else
 			{				
@@ -402,6 +436,7 @@ var main =
 				document.getElementById ("auctionBidNotation").disabled = true;
 				document.getElementById ("auctionRun").disabled = true;
 				document.getElementById ("auctionDisplay").disabled = true;
+				document.getElementById ("auctionSettle").disabled = true;
 			}
 		},	
 		
@@ -417,14 +452,14 @@ var main =
 			
 			didius.auction.save (current);																												
 																	
-			window.openDialog ("chrome://didius/content/auctionedit/auctionedit.xul", current.id, "chrome", {auctionId: current.id});
+			window.openDialog ("chrome://didius/content/auction/edit.xul", current.id, "chrome", {auctionId: current.id});
 		},
 		
 		edit : function ()
 		{		
 			var current = main.auctions.auctionsTreeHelper.getRow ();
 													
-			window.openDialog ("chrome://didius/content/auctionedit/auctionedit.xul", current.id, "chrome", {auctionId: current.id});
+			window.openDialog ("chrome://didius/content/auction/edit.xul", current.id, "chrome", {auctionId: current.id});
 		},
 		
 		destroy : function ()
@@ -474,5 +509,107 @@ var main =
 			var current = main.auctions.auctionsTreeHelper.getRow ();
 			app.window.open (window, "chrome://didius/content/auction/settle.xul", "auction.settle."+ current.id, "chrome, resizable, dialog=no", {auctionId: current.id});
 		}
-	}	
+	},
+	
+	newsletters :
+	{
+		newslettersTreeHelper : null,
+	
+		init : function ()
+		{
+			main.newsletters.newslettersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("newsletters"), sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.newsletters.edit});			
+			main.newsletters.set ();
+		},
+					
+		set : function ()
+		{
+			var onDone = 	function (newsletters)
+							{
+								main.newsletters.newslettersTreeHelper.disableRefresh ();
+								for (index in newsletters)
+								{						
+									main.newsletters.newslettersTreeHelper.addRow ({data: newsletters[index]});
+								}
+								main.newsletters.newslettersTreeHelper.enableRefresh ();
+							
+							// Enable controls
+							document.getElementById ("newsletters").disabled = false;
+							main.newsletters.onChange ();
+						};
+
+			// Disable controls
+			document.getElementById ("newsletters").disabled = true;	
+			document.getElementById ("newsletterCreate").disabled = true;			
+			document.getElementById ("newsletterEdit").disabled = true;
+			document.getElementById ("newsletterDestroy").disabled = true;
+					
+			didius.newsletter.list ({async: true, onDone: onDone});				
+		},	
+		
+		onChange : function ()
+		{
+			if (main.newsletters.newslettersTreeHelper.getCurrentIndex () != -1)
+			{					
+				document.getElementById ("newsletterCreate").disabled = false;
+				document.getElementById ("newsletterEdit").disabled = false;
+				document.getElementById ("newsletterDestroy").disabled = false;				
+			}
+			else
+			{				
+				document.getElementById ("newsletterCreate").disabled = false;
+				document.getElementById ("newsletterEdit").disabled = true;
+				document.getElementById ("newsletterDestroy").disabled = true;				
+			}
+		},	
+		
+		sort : function (attributes)
+		{
+			main.newsletters.newslettersTreeHelper.sort (attributes);
+		},																					
+			
+		create : function ()
+		{		
+			var current = didius.newsletter.create ();						
+			didius.newsletter.save (current);																												
+																	
+			window.openDialog ("chrome://didius/content/newsletter/edit.xul", current.id, "chrome", {newsletterId: current.id});
+		},
+		
+		edit : function ()
+		{		
+			var current = main.newsletters.newslettersTreeHelper.getRow ();
+													
+			window.openDialog ("chrome://didius/content/newsletter/edit.xul", current.id, "chrome", {newsletterId: current.id});
+		},
+		
+		destroy : function ()
+		{
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+			var result = prompts.confirm (null, "Slet nyhedsbrev", "Er du sikker på du vil slette dette nyhedsbrev ?");
+			
+			if (result)
+			{
+				try
+				{
+					didius.newsletter.destroy (main.newsletters.newslettersTreeHelper.getRow ().id);			
+				}
+				catch (error)
+				{
+					app.error ({exception: error})
+				}								
+			}
+		}			
+	},
+	
+	
+	bugReport : function ()
+	{
+		window.openDialog ("chrome://didius/content/bug/report.xul", "blabla", "chrome", {});
+	},
+		
+	about : function ()
+	{
+		window.openDialog ("chrome://didius/content/about/about.xul", "blabla", "chrome", {});
+	}
+		
 }

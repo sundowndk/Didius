@@ -5,8 +5,6 @@ var main =
 	auction : null,
 	customer : null,
 	current : null,
-	
-	
 
 	init : function ()
 	{	 	
@@ -51,14 +49,74 @@ var main =
 		
 	approve : function ()
 	{					
-		var current = didius.invoice.create ({auction: main.auction, customer: main.customer, simulate: false});
-						
-		if (window.arguments[0].onApprove != null)
+		main.current = didius.invoice.create ({auction: main.auction, customer: main.customer, simulate: true});
+		
+		main.print ()
+									
+//		if (window.arguments[0].onApprove != null)
+//		{
+//			window.arguments[0].onApprove (current);
+//		}
+		
+//		main.close ();	
+	},
+	
+	print : function ()
+	{
+		var progresswindow = app.window.open (window, "chrome://didius/content/auction/invoice/progress.xul", "auction.invoice.progress."+ main.current.id, "", {});
+										
+		var workload = function ()
 		{
-			window.arguments[0].onApprove (current);
+			progresswindow.removeEventListener ("load", workload, false)
+		
+			var overallprogress = 0;
+			var totalprogress = 1;
+			
+			var customers = new Array ();		
+			var invoices = new Array ();
+		
+			var start =	function ()	
+						{						
+							worker1 ();
+						};
+								
+			// Email invoice.
+			var worker1 =	function ()
+							{
+								// Reset progressmeter #1.
+								progresswindow.document.getElementById ("description1").textContent = "Udskriver ...";
+								progresswindow.document.getElementById ("progressmeter1").mode = "undetermined"
+								progresswindow.document.getElementById ("progressmeter1").value = 0;
+																						
+								var nextWorker =	function ()
+													{
+														// Update progressmeter #1
+														overallprogress++;
+														progresswindow.document.getElementById ("progressmeter1").mode = "determined"
+														progresswindow.document.getElementById ("progressmeter1").value = (overallprogress / totalprogress) * 100;
+																																				
+														setTimeout (finish, 100);
+													};
+																							
+								var onDone = 	function ()
+												{
+													nextWorker ();
+												};
+													
+								didius.common.print.invoice ({invoice: main.current, onDone: onDone});			
+							};
+																
+			var finish =	function ()	
+							{															
+								progresswindow.close ();
+								main.close ();
+							};
+			
+			// Start worker1;				
+			setTimeout (start, 100);
 		}
 		
-		main.close ();	
+		progresswindow.addEventListener ("load", workload);		
 	},
 	
 	close : function (force)

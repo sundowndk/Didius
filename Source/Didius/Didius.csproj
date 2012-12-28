@@ -96,6 +96,7 @@
     <Compile Include="Didius.Enums\AuctionType.cs" />
     <Compile Include="Didius\AutoBid.cs" />
     <Compile Include="Didius.Enums\SettingsKey.cs" />
+    <Compile Include="Didius\Newsletter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -132,7 +133,6 @@
     <Folder Include="Application\xul\chrome\content\customeredit\" />
     <Folder Include="Application\xul\chrome\content\caseedit\" />
     <Folder Include="Application\xul\chrome\content\itemedit\" />
-    <Folder Include="Application\xul\chrome\content\auctionedit\" />
     <Folder Include="Application\xul\chrome\content\chooser\" />
     <Folder Include="Application\xul\chrome\content\catalogedit\" />
     <Folder Include="Application\css\" />
@@ -151,6 +151,14 @@
     <Folder Include="Application\xul\chrome\content\case\" />
     <Folder Include="Application\xul\chrome\content\case\settlement\" />
     <Folder Include="Application\xul\chrome\content\auction\invoice\" />
+    <Folder Include="Application\xul\chrome\content\newsletter\" />
+    <Folder Include="Application\js\didius\common\" />
+    <Folder Include="Application\js\didius\common\print\" />
+    <Folder Include="Application\xul\chrome\content\auctionedit-old\" />
+    <Folder Include="Application\xul\chrome\content\customer\" />
+    <Folder Include="Application\xul\chrome\content\case\salesagreement\" />
+    <Folder Include="Application\xul\chrome\content\about\" />
+    <Folder Include="Application\xul\chrome\content\bug\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -211,8 +219,6 @@
     <None Include="Application\xul\chrome\content\caseedit\caseedit.xul" />
     <None Include="Application\xul\chrome\content\itemedit\itemedit.xul" />
     <None Include="Application\xul\chrome\content\itemedit\itemedit.js" />
-    <None Include="Application\xul\chrome\content\auctionedit\auctionedit.js" />
-    <None Include="Application\xul\chrome\content\auctionedit\auctionedit.xul" />
     <None Include="Application\xul\chrome\content\chooser\customer.js" />
     <None Include="Application\xul\chrome\content\chooser\customer.xul" />
     <None Include="Application\js\didius\other.js" />
@@ -262,8 +268,6 @@
     <None Include="Application\js\didius\invoice.js" />
     <None Include="Application\xul\chrome\content\auction\invoice\show.js" />
     <None Include="Application\xul\chrome\content\auction\invoice\show.xul" />
-    <None Include="Application\xul\chrome\content\auction\invoice\print.js" />
-    <None Include="Application\xul\chrome\content\auction\invoice\print.xul" />
     <None Include="Application\xul\chrome\content\templates\invoice.tpl" />
     <None Include="Application\xul\chrome\content\auction\invoice\create.js" />
     <None Include="Application\xul\chrome\content\auction\invoice\create.xul" />
@@ -281,6 +285,33 @@
     <None Include="Application\xul\chrome\content\auction\settle.xul" />
     <None Include="Application\xul\chrome\content\auction\settle.js" />
     <None Include="Application\xul\chrome\content\auction\bidnotation.xul" />
+    <None Include="Application\xul\chrome\content\auction\settleprogress.js" />
+    <None Include="Application\xul\chrome\content\auction\settleprogress.xul" />
+    <None Include="Application\js\didius\newsletter.js" />
+    <None Include="Application\xul\chrome\content\newsletter\edit.js" />
+    <None Include="Application\xul\chrome\content\newsletter\edit.xul" />
+    <None Include="Application\xul\chrome\content\templates\newsletter.tpl" />
+    <None Include="Application\js\didius\settings.js" />
+    <None Include="Application\js\didius\common\print\invoice.js" />
+    <None Include="Application\xul\chrome\content\auction\edit.js" />
+    <None Include="Application\xul\chrome\content\auction\edit.xul" />
+    <None Include="Application\xul\chrome\content\auctionedit-old\auctionedit.js" />
+    <None Include="Application\xul\chrome\content\auctionedit-old\auctionedit.xul" />
+    <None Include="Application\xul\chrome\content\auction\invoice\progress.xul" />
+    <None Include="Application\xul\chrome\content\auction\invoice\progress.js" />
+    <None Include="Application\xul\chrome\content\auction\invoice\print.js-REMOVE" />
+    <None Include="Application\xul\chrome\content\auction\invoice\print.xul-REMOVE" />
+    <None Include="Application\js\didius\common\print\salesagreement.js" />
+    <None Include="Application\xul\chrome\content\case\salesagreement\show.js" />
+    <None Include="Application\xul\chrome\content\case\salesagreement\show.xul" />
+    <None Include="Application\xul\chrome\content\case\salesagreement\progress.xul" />
+    <None Include="Application\xul\chrome\content\case\salesagreement\progress.js" />
+    <None Include="Application\xul\chrome\content\about\about.xul" />
+    <None Include="Application\xul\chrome\content\about\about.js" />
+    <None Include="Application\xul\chrome\content\bug\report.xul" />
+    <None Include="Application\xul\chrome\content\bug\report.js" />
+    <None Include="Application\xul\chrome\content\bug\progress.xul" />
+    <None Include="Application\xul\chrome\content\bug\progress.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />
