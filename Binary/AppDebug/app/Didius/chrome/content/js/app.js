@@ -158,6 +158,21 @@ var app =
   				var win = window.openDialog (url, name, features, args);
   				return win;
 			}		
+		},
+		
+		prompt :
+		{
+			alert : function (title, text)
+			{
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+				return prompts.alert (null, title, text)
+			},
+		
+			confirm : function (title, text)
+			{
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
+				return prompts.confirm (null, title, text);		
+			}
 		}
 	},
 	

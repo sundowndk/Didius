@@ -161,83 +161,95 @@
 				<hbox class="SettingsHeader">
 					<label>E-mail</label>
 				</hbox>
-				<vbox flex="1" style="overflow:auto">
-					<hbox>
-						<groupbox flex="1">
-							<caption label="Generelt"/>
-							<hbox align="center">
-								<label class="Label">Afsender:</label>								
-								<textbox id="emailSender" flex="1" onchange="main.onChange ();" />
-							</hbox>														
-						</groupbox>
-					</hbox>				
-					<hbox>	
-						<groupbox flex="1">
-							<caption label="Effekt vundet"/>
-							<hbox align="top">
-								<label class="Label">Emne:</label>
-								<textbox id="emailTemplateItemWonSubject" flex="1" onkeyup="main.onChange ();"/>
-							</hbox>							
-							<hbox align="top">
-								<label class="Label">Indhold:</label>
-								<textbox id="emailTemplateItemWonBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
-							</hbox>							
-						</groupbox>										
-					</hbox>				
-					<hbox>	
-						<groupbox flex="1">
-							<caption label="Overbudt"/>
-							<hbox align="top">
-								<label class="Label">Emne:</label>
-								<textbox id="emailTemplateOutBidSubject" flex="1" onkeyup="main.onChange ();"/>
-							</hbox>							
-							<hbox align="top">
-								<label class="Label">Indhold:</label>
-								<textbox id="emailTemplateOutBidBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
-							</hbox>							
-						</groupbox>										
-					</hbox>				
-					<hbox>	
-						<groupbox flex="1">
-							<caption label="Faktura"/>
-							<hbox align="top">
-								<label class="Label">Emne:</label>
-								<textbox id="emailTemplateInvoiceSubject" flex="1" onkeyup="main.onChange ();"/>
-							</hbox>							
-							<hbox align="top">
-								<label class="Label">Indhold:</label>
-								<textbox id="emailTemplateInvoiceBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
-							</hbox>							
-						</groupbox>										
-					</hbox>									
-					<hbox>	
-						<groupbox flex="1">
-							<caption label="Afregning"/>
-							<hbox align="top">
-								<label class="Label">Emne:</label>
-								<textbox id="emailTemplateSettlementSubject" flex="1" onkeyup="main.onChange ();"/>
-							</hbox>							
-							<hbox align="top">
-								<label class="Label">Indhold:</label>
-								<textbox id="emailTemplateSettlementBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
-							</hbox>							
-						</groupbox>										
-					</hbox>		
-					<hbox>	
-						<groupbox flex="1">
-							<caption label="Salgsaftale"/>
-							<hbox align="top">
-								<label class="Label">Emne:</label>
-								<textbox id="emailTemplateSalesAgreementSubject" flex="1" onkeyup="main.onChange ();"/>
-							</hbox>							
-							<hbox align="top">
-								<label class="Label">Indhold:</label>
-								<textbox id="emailTemplateSalesAgreementBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
-							</hbox>							
-						</groupbox>										
-					</hbox>															
+				<vbox class="SettingsContent" flex="1" style="overflow:auto">				
+					<hbox flex="1">	
+						<tabbox selectedIndex="0" flex="1">
+							<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">
+      
+								<tabs  style="overflow:hidden">											
+									<tab label="Generelt"/>
+									<tab label="Effekt vundet"/>
+									<tab label="Overbudt"/>
+									<tab label="Faktura"/>
+									<tab label="Afregning"/>
+									<tab label="Salgsaftale"/>
+								</tabs>
+							</arrowscrollbox>
+							
+							<tabpanels flex="1">
+								<tabpanel flex="1">
+									<vbox flex="1">		
+										<hbox align="center">
+											<label class="Label">Afsender:</label>								
+											<textbox id="emailSender" flex="1" onchange="main.onChange ();" />
+										</hbox>			
+									</vbox>
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<hbox align="top">
+											<label class="Label">Emne:</label>
+											<textbox id="emailTemplateItemWonSubject" flex="1" onkeyup="main.onChange ();"/>
+										</hbox>							
+										<hbox align="top">
+											<label class="Label">Indhold:</label>
+											<textbox id="emailTemplateItemWonBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+										</hbox>					
+									</vbox>
+				    			</tabpanel>
+								<tabpanel flex="1">
+									<vbox flex="1">		
+										<hbox align="top">
+											<label class="Label">Emne:</label>
+											<textbox id="emailTemplateOutBidSubject" flex="1" onkeyup="main.onChange ();"/>
+										</hbox>							
+										<hbox align="top">
+											<label class="Label">Indhold:</label>
+											<textbox id="emailTemplateOutBidBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+										</hbox>																
+									</vbox>
+				    			</tabpanel>
+								<tabpanel flex="1">
+									<vbox flex="1">		
+										<hbox align="top">
+											<label class="Label">Emne:</label>
+											<textbox id="emailTemplateInvoiceSubject" flex="1" onkeyup="main.onChange ();"/>
+										</hbox>							
+										<hbox align="top">
+											<label class="Label">Indhold:</label>
+											<textbox id="emailTemplateInvoiceBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+										</hbox>							
+									</vbox>
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<hbox align="top">
+											<label class="Label">Emne:</label>
+											<textbox id="emailTemplateSettlementSubject" flex="1" onkeyup="main.onChange ();"/>
+										</hbox>							
+										<hbox align="top">
+											<label class="Label">Indhold:</label>
+											<textbox id="emailTemplateSettlementBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+										</hbox>			
+									</vbox>
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<hbox align="top">
+											<label class="Label">Emne:</label>
+											<textbox id="emailTemplateSalesAgreementSubject" flex="1" onkeyup="main.onChange ();"/>
+										</hbox>							
+										<hbox align="top">
+											<label class="Label">Indhold:</label>
+											<textbox id="emailTemplateSalesAgreementBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+										</hbox>			
+									</vbox>
+				    			</tabpanel>				    			
+							</tabpanels>						
+						</tabbox>
+					</hbox>										
 				</vbox>
-			</vbox>
+			</vbox>						
 		</hbox>
 		<hbox flex="1" collapsed="true" id="settingsTemplates">
 			<vbox flex="1" >
@@ -247,11 +259,14 @@
 				<vbox class="SettingsContent" flex="1" style="overflow:auto">				
 					<hbox flex="1">	
 						<tabbox selectedIndex="0" flex="1">
-							<tabs>
-								<tab label="Køber katalog"/>
-								<tab label="Internt katalog"/>
-								<tab label="Salgsaftale"/>
-							</tabs>
+							<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">
+      
+								<tabs  style="overflow:hidden">											
+									<tab label="Køber katalog"/>
+									<tab label="Internt katalog"/>
+									<tab label="Salgsaftale"/>
+								</tabs>
+							</arrowscrollbox>
 							
 							<tabpanels flex="1">
 								<tabpanel flex="1">

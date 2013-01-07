@@ -1,46 +1,30 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/js/app.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/customer/edit.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/bug/report.js" Line="41" Column="11" />
-      <File FileName="Didius/Application/xul/chrome/content/about/about.xul" Line="21" Column="90" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="14" Column="59" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="26" Column="63" />
-      <File FileName="Didius/Application/xul/chrome/content/about/about.js" Line="12" Column="114" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/progress.js" Line="21" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/js/app.js" Line="65" Column="15" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="309" Column="62" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="131" Column="66" />
+      <File FileName="Didius/Application/xul/chrome/content/case/edit.xul" Line="114" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/case/edit.js" Line="548" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
-              <Node name="js" expanded="True">
-                <Node name="didius" expanded="True">
-                  <Node name="common" expanded="True">
-                    <Node name="print" expanded="True" />
-                  </Node>
-                </Node>
-              </Node>
+              <Node name="js" expanded="True" />
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="about" expanded="True" />
-                    <Node name="auction" expanded="True">
-                      <Node name="invoice" expanded="True" />
-                    </Node>
-                    <Node name="bug" expanded="True" />
                     <Node name="case" expanded="True">
-                      <Node name="salesagreement" expanded="True" />
+                      <Node name="edit.xul" selected="True" />
                     </Node>
                     <Node name="caseedit" expanded="True" />
-                    <Node name="customeredit" expanded="True" />
-                    <Node name="js" expanded="True">
-                      <Node name="app.js" selected="True" />
-                    </Node>
+                    <Node name="customer" expanded="True" />
                     <Node name="main" expanded="True" />
-                    <Node name="settings" expanded="True" />
                   </Node>
+                  <Node name="icons" expanded="True" />
                 </Node>
               </Node>
             </Node>
