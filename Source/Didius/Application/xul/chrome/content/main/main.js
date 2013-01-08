@@ -290,14 +290,6 @@ var main =
 			main.customers.set ();
 		},
 								
-		create : function ()
-		{		
-			var current = didius.customer.create ();						
-			didius.customer.save (current);																								
-																											
-			window.openDialog ("chrome://didius/content/customeredit/customeredit.xul", "customeredit:"+ current.id, "chrome", {customerId: current.id});
-		},
-		
 		set : function ()
 		{
 				var onDone = 	function (customers)
@@ -353,11 +345,20 @@ var main =
 			main.customers.customersTreeHelper.filter ({column: "name", columns: "no,name,address1,postcode,city,phone,email", value: value, direction: "in"});
 		},
 		
+		create : function ()
+		{		
+			var current = didius.customer.create ();						
+			didius.customer.save (current);																								
+																											
+			window.openDialog ("chrome://didius/content/customer/edit.xul", "customer.edit."+ current.id, "chrome", {customerId: current.id});
+		},
+		
+		
 		edit : function ()
 		{		
 			var current = main.customers.customersTreeHelper.getRow ();
 													
-			window.openDialog ("chrome://didius/content/customeredit/customeredit.xul", "customeredit:"+ current.id, "chrome", {customerId: current.id});
+			window.openDialog ("chrome://didius/content/customer/edit.xul", "customer.edit."+ current.id, "chrome", {customerId: current.id});
 		},
 		
 		destroy : function ()

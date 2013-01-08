@@ -159,6 +159,8 @@
     <Folder Include="Application\xul\chrome\content\case\salesagreement\" />
     <Folder Include="Application\xul\chrome\content\about\" />
     <Folder Include="Application\xul\chrome\content\bug\" />
+    <Folder Include="Application\xul\chrome\icons\" />
+    <Folder Include="Application\xul\chrome\icons\default\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -312,6 +314,22 @@
     <None Include="Application\xul\chrome\content\bug\report.js" />
     <None Include="Application\xul\chrome\content\bug\progress.xul" />
     <None Include="Application\xul\chrome\content\bug\progress.js" />
+    <None Include="Application\xul\chrome\content\customer\edit.js" />
+    <None Include="Application\xul\chrome\content\customer\edit.xul" />
+    <None Include="Application\xul\chrome\content\icons\logo.svg" />
+    <None Include="Application\xul\chrome\content\icons\newsletter.png" />
+    <None Include="Application\xul\chrome\content\icons\noimage.jpg" />
+    <None Include="Application\xul\chrome\content\icons\16\settings_access.png" />
+    <None Include="Application\xul\chrome\content\icons\16\settings_company.png" />
+    <None Include="Application\xul\chrome\content\icons\16\settings_email.png" />
+    <None Include="Application\xul\chrome\content\icons\16\settings_general.png" />
+    <None Include="Application\xul\chrome\content\icons\16\settings_templates.png" />
+    <None Include="Application\xul\chrome\content\icons\16\settings_texts.png" />
+    <None Include="Application\xul\chrome\content\icons\16\settings_values.png" />
+    <None Include="Application\xul\chrome\content\icons\logo.ico" />
+    <None Include="Application\xul\chrome\icons\default\didius.main.ico" />
+    <None Include="Application\xul\chrome\content\case\edit.js" />
+    <None Include="Application\xul\chrome\content\case\edit.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />
