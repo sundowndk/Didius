@@ -23,8 +23,8 @@ namespace Didius
 			
 				string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 
-//				string to = customer.Email;
-				string to = "rasmus@akvaservice.dk";
+				string to = customer.Email;
+//				string to = "rasmus@akvaservice.dk";
 
 				string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_itemwon_subject);
 				subject = ReplacePlaceholders (customer, subject);
@@ -51,8 +51,8 @@ namespace Didius
 			
 			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 			
-//			string to = customer.Email;
-			string to = "rasmus@akvaservice.dk";
+			string to = customer.Email;
+//			string to = "rasmus@akvaservice.dk";
 			
 			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_invoice_subject);
 			subject = ReplacePlaceholders (customer, subject);
@@ -74,8 +74,13 @@ namespace Didius
 		{		
 			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 			
+<<<<<<< HEAD
 //			string to = Customer.Email;
 			string to = "rasmus@akvaservice.dk";
+=======
+						string to = Customer.Email;
+//			string to = "rasmus@akvaservice.dk";
+>>>>>>> 232571e1b2d9ea3fffc617b529066aa28deb9a0c
 			
 			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_salesagreement_subject);
 			subject = ReplacePlaceholders (Customer, subject);
