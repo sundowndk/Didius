@@ -330,6 +330,10 @@
     <None Include="Application\xul\chrome\icons\default\didius.main.ico" />
     <None Include="Application\xul\chrome\content\case\edit.js" />
     <None Include="Application\xul\chrome\content\case\edit.xul" />
+    <None Include="Application\js\didius\common\print\settlement.js" />
+    <None Include="Application\xul\chrome\icons\default\didius.customer.edit.ico" />
+    <None Include="Application\xul\chrome\icons\default\didius.customer.edit.xpm" />
+    <None Include="Application\xul\chrome\icons\default\didius.main.xpm" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

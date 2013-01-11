@@ -74,7 +74,7 @@ namespace Didius
 		{		
 			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 			
-			//			string to = customer.Email;
+//			string to = Customer.Email;
 			string to = "rasmus@akvaservice.dk";
 			
 			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_salesagreement_subject);

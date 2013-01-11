@@ -24,7 +24,7 @@ initialize : function ()
 		app.events.onItemCreate = new sXUL.event ({id: "onItemCreate", remotePropagation: true});
 		app.events.onItemLoad = new sXUL.event ({id: "onItemLoad", remotePropagation: true});
 		app.events.onItemSave = new sXUL.event ({id: "onItemSave", remotePropagation: true});
-		app.events.onItemDestory = new sXUL.event ({id: "onItemDestroy", remotePropagation: true});
+		app.events.onItemDestroy = new sXUL.event ({id: "onItemDestroy", remotePropagation: true});
 	
 		app.events.onBidCreate = new sXUL.event ({id: "onBidCreate", remotePropagation: true});
 		app.events.onBidLoad = new sXUL.event ({id: "onBidLoad", remotePropagation: true});
@@ -42,14 +42,12 @@ initialize : function ()
 		app.events.onUserSave = new sXUL.event ({id: "onUserSave", remotePropagation: true});
 		app.events.onUserDestroy = new sXUL.event ({id: "onUserDestroy", remotePropagation: true});			
 		
-		app.events.onAuctionControl = new sXUL.event ({id: "onAuctionControl", remotePropagation: true});
-			
-	// Load Config
-	//app.config.commissionFeePercentage = sXUL.config.get ({key: "companyname"});
-	
-		app.config =  didius.config.load ();
-	
-	//sXUL.console.log (app.config.current.companyName);
+		app.events.onNewsletterCreate = new sXUL.event ({id: "onNewsletterCreate", remotePropagation: true});
+		app.events.onNewsletterLoad = new sXUL.event ({id: "onNewsletterLoad", remotePropagation: true});
+		app.events.onNewsletterSave = new sXUL.event ({id: "onNewsletterSave", remotePropagation: true});
+		app.events.onNewsletterDestroy = new sXUL.event ({id: "onNewsletterDestroy", remotePropagation: true});			
+		
+		app.events.onAuctionControl = new sXUL.event ({id: "onAuctionControl", remotePropagation: true});			
 	}
 	catch (exception)
 	{	

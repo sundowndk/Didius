@@ -193,7 +193,7 @@
 										</hbox>							
 										<hbox align="top">
 											<label class="Label">Indhold:</label>
-											<textbox id="emailTemplateItemWonBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+											<textbox id="emailTemplateItemWonBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 										</hbox>					
 									</vbox>
 				    			</tabpanel>
@@ -205,7 +205,7 @@
 										</hbox>							
 										<hbox align="top">
 											<label class="Label">Indhold:</label>
-											<textbox id="emailTemplateOutBidBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+											<textbox id="emailTemplateOutBidBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 										</hbox>																
 									</vbox>
 				    			</tabpanel>
@@ -217,7 +217,7 @@
 										</hbox>							
 										<hbox align="top">
 											<label class="Label">Indhold:</label>
-											<textbox id="emailTemplateInvoiceBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+											<textbox id="emailTemplateInvoiceBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 										</hbox>							
 									</vbox>
 				    			</tabpanel>
@@ -229,7 +229,7 @@
 										</hbox>							
 										<hbox align="top">
 											<label class="Label">Indhold:</label>
-											<textbox id="emailTemplateSettlementBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+											<textbox id="emailTemplateSettlementBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 										</hbox>			
 									</vbox>
 				    			</tabpanel>
@@ -241,7 +241,7 @@
 										</hbox>							
 										<hbox align="top">
 											<label class="Label">Indhold:</label>
-											<textbox id="emailTemplateSalesAgreementBody" flex="1" rows="10" multiline="true" onkeyup="main.onChange ();"/>
+											<textbox id="emailTemplateSalesAgreementBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 										</hbox>			
 									</vbox>
 				    			</tabpanel>				    			
@@ -265,23 +265,29 @@
 									<tab label="Køber katalog"/>
 									<tab label="Internt katalog"/>
 									<tab label="Salgsaftale"/>
+									<tab label="Afregning"/>
 								</tabs>
 							</arrowscrollbox>
 							
 							<tabpanels flex="1">
 								<tabpanel flex="1">
 									<vbox flex="1">		
-										<textbox id="templatesCatalogSmall" flex="1" multiline="true" onkeyup="main.onChange ();"/>														
+										<textbox id="templatesCatalogSmall" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>														
 									</vbox>
 				    			</tabpanel>
 				    			<tabpanel flex="1">
 									<vbox flex="1">		
-										<textbox id="templatesCatalogLarge" flex="1" multiline="true" onkeyup="main.onChange ();"/>														
+										<textbox id="templatesCatalogLarge" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>														
 									</vbox>
 				    			</tabpanel>
 								<tabpanel flex="1">
 									<vbox flex="1">		
-										<textbox id="templatesSalesAgreement" flex="1" multiline="true" onkeyup="main.onChange ();"/>														
+										<textbox id="templatesSalesAgreement" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>														
+									</vbox>
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<textbox id="templatesSettlement" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 									</vbox>
 				    			</tabpanel>
 							</tabpanels>

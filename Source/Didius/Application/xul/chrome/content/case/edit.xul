@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="case.edit" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY">
+<window id="didius.case.edit" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY">
 	
 	<script type="application/x-javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/x-javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
@@ -50,11 +50,11 @@
 							<caption label="Andet"/>	
 							<hbox align="center">
 								<label class="Label">Title:</label>
-								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
+								<textbox id="title" flex="1" onkeyup="details.onChange ();" />
 							</hbox>
 							<hbox align="center">
 								<label class="Label">Kunde ref:</label>
-								<textbox id="customerreference" flex="1" onkeyup="main.onChange ();"/>
+								<textbox id="customerreference" flex="1" onkeyup="details.onChange ();"/>
 							</hbox>							
 						</groupbox>						
 																		
@@ -62,11 +62,11 @@
 							<caption label="Salær"/>							
 							<hbox align="center">
 								<label class="Label">Procent:</label>							
-								<textbox id="commisionfeepercentage" type="number" decimalplaces="0" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+								<textbox id="commisionfeepercentage" type="number" decimalplaces="0" flex="1" hidespinbuttons="true" onchange="details.onChange ();" />
 							</hbox>  					
 							<hbox align="center">
 								<label class="Label">Minimum:</label>								
-								<textbox id="commisionfeeminimum" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+								<textbox id="commisionfeeminimum" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" />
 							</hbox>  					
 						</groupbox>
 					</vbox>
@@ -74,20 +74,20 @@
     			
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.items.onChange ();" seltype="single">
+						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="items.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="main.items.sort ({column: 'catalogno'});"/>
-								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="main.items.sort ({column: 'no'});"/>
-								<treecol id="title" label="Title" flex="2" persist="width" onclick="main.items.sort ({column: 'title'});"/>
+								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="items.sort ({column: 'catalogno'});"/>
+								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="items.sort ({column: 'no'});"/>
+								<treecol id="title" label="Title" flex="2" persist="width" onclick="items.sort ({column: 'title'});"/>
 							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="itemCreate" label="Opret" disabled="true" oncommand="main.items.create ();"/>
-							<button id="itemEdit" label="Redigere" disabled="true" oncommand="main.items.edit ();"/>
-							<button id="itemDestroy" label="Slet" disabled="true" oncommand="main.items.destroy ();"/>	
+							<button id="itemCreate" label="Opret" disabled="true" oncommand="items.create ();"/>
+							<button id="itemEdit" label="Redigere" disabled="true" oncommand="items.edit ();"/>
+							<button id="itemDestroy" label="Slet" disabled="true" oncommand="items.destroy ();"/>	
 						</vbox>	
 					</hbox>						
 				</tabpanel>
@@ -97,17 +97,17 @@
 	
 	<hbox class="WindowButtons">
 		<hbox id="createSettlementBox" align="left"  collapsed="true"> 
-			<button id="createSettlement" label="Afregn" oncommand="main.settlement.create ();" disabled="true"/>
+			<button id="createSettlement" label="Afregn" oncommand="settlement.create ();" disabled="true"/>
 		</hbox>
 		<hbox id="showSettlementBox" align="left" collapsed="true"> 
-			<button id="showSettlement" label="Vis afregning" oncommand="main.settlement.show ();" disabled="true"/>
+			<button id="showSettlement" label="Vis afregning" oncommand="settlement.show ();" disabled="true"/>
 		</hbox>		
 		<hbox align="left"> 						
-			<button id="showSalesAgreement" label="Salgsaftale" oncommand="main.salesAgreement.show ();"/>
+			<button id="showSalesAgreement" label="Salgsaftale" oncommand="salesAgreement.show ();"/>
 		</hbox>		
 		<hbox align="right" flex="1"> 
-			<button id="close" label="Luk" oncommand="main.close ();"/>
-			<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+			<button id="close" label="Luk" oncommand="main.close ();"  accesskey="L" key="key-close"/>
+			<button id="save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G" key="key-save"/>
 		</hbox>
 	</hbox>
 </window>

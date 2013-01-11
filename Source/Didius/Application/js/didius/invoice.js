@@ -24,7 +24,7 @@ create : function (attributes)
 	
 	var result = request.respons ()["didius.invoice"];
 	
-	app.events.onInvoiceCreate.execute (result);
+//	app.events.onInvoiceCreate.execute (result);
 	
 	return result;
 },
@@ -39,7 +39,7 @@ load : function (id)
 
 	var result = request.respons ()["didius.invoice"];
 	
-	app.events.onInvoiceLoad.execute (result);
+//	app.events.onInvoiceLoad.execute (result);
 
 	return result;
 },

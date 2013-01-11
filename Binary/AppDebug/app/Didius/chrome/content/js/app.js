@@ -64,6 +64,36 @@ var app =
 		//	vendor
 		//	version		
 	},
+	
+	print : 
+	{
+		getSettings : function ()
+		{
+			settings.marginLeft = 0.5;
+			settings.marginRight = 0.5;
+			settings.marginTop = 0.5;
+			settings.marginBottom = 0.0;
+			settings.shrinkToFit = true;
+		
+			settings.paperName =  "iso_a4";
+			settings.paperWidth = 210;
+			settings.paperHeight = 297
+			settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
+	
+			settings.printBGImages = true;
+    		settings.printBGColors = true;    	
+    	
+    		settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
+    		settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+    
+    		settings.footerStrCenter = "";
+    		settings.footerStrLeft = "";
+    		settings.footerStrRight = "";
+    		settings.headerStrCenter = "";
+    		settings.headerStrLeft = "";
+    		settings.headerStrRight = "";    			
+		}
+	},
 
 	events : new Array (),	
 	
@@ -80,25 +110,25 @@ var app =
 //		app.events.onCustomerSave = new event ();
 //		app.events.onCustomerDestroy = new event ();
 		
-		app.events.onCaseCreate = new event ();
-		app.events.onCaseLoad = new event ();
-		app.events.onCaseSave = new event ();
-		app.events.onCaseDestroy = new event ();
+//		app.events.onCaseCreate = new event ();
+//		app.events.onCaseLoad = new event ();
+//		app.events.onCaseSave = new event ();
+//		app.events.onCaseDestroy = new event ();
 		
-		app.events.onItemCreate = new event ();
-		app.events.onItemLoad = new event ();
-		app.events.onItemSave = new event ();
-		app.events.onItemDestroy = new event ();
+//		app.events.onItemCreate = new event ();
+//		app.events.onItemLoad = new event ();
+//		app.events.onItemSave = new event ();
+//		app.events.onItemDestroy = new event ();
 				
-		app.events.onAuctionCreate = new event ();
-		app.events.onAuctionLoad = new event ();
-		app.events.onAuctionSave = new event ();
-		app.events.onAuctionDestroy = new event ();
+//		app.events.onAuctionCreate = new event ();
+//		app.events.onAuctionLoad = new event ();
+//		app.events.onAuctionSave = new event ();
+//		app.events.onAuctionDestroy = new event ();
 		
-		app.events.onNewsletterCreate = new event ();
-		app.events.onNewsletterLoad = new event ();
-		app.events.onNewsletterSave = new event ();
-		app.events.onNewsletterDestroy = new event ();
+//		app.events.onNewsletterCreate = new event ();
+//		app.events.onNewsletterLoad = new event ();
+//		app.events.onNewsletterSave = new event ();
+//		app.events.onNewsletterDestroy = new event ();
 			
 		if (app.session.OS == "Linux")
 		{
@@ -202,6 +232,17 @@ var app =
 				{
 					text = "Der skete en fejl under upload af billede.";
 					break;
+				}
+				
+				// PDFTOEMAIL
+				case "APP00150":
+				{
+					text = "Der skete en fejl under upload af PDF til afsendelse.";
+				}
+							
+				case "APP00151":
+				{
+					text = "Der skete en fejl under afsendelse af PDF.";
 				}
 				
 				// DEFAULT

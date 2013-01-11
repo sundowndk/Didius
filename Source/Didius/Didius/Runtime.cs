@@ -85,7 +85,8 @@ namespace Didius
 
 			{ Enums.SettingsKey.didius_template_salesagreement, string.Empty },
 			{ Enums.SettingsKey.didius_template_catalogsmall, string.Empty },
-			{ Enums.SettingsKey.didius_tamplate_cataloglarge, string.Empty }
+			{ Enums.SettingsKey.didius_tamplate_cataloglarge, string.Empty },
+			{ Enums.SettingsKey.didius_template_settlement, string.Empty }
 		};
 
 		static void EventhandlerServiceGarbageCollector (object Sender, EventArgs E)

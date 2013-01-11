@@ -311,11 +311,7 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	edit : function ()
 	{				
-		var current = cases.casesTreeHelper.getRow ();														
-		window.openDialog ("chrome://didius/content/case/edit.xul", current.id, "chrome", {caseId: current.id});
-	
-//	sXUL.console.log ("blablabla")
-//		window.openDialog ("chrome://didius/content/case/edit.xul", "case.edit."+ cases.casesTreeHelper.getRow ().id, "chrome", {caseId: cases.casesTreeHelper.getRow ().id});
+		window.openDialog ("chrome://didius/content/case/edit.xul", "case.edit."+ cases.casesTreeHelper.getRow ().id, "chrome", {caseId: cases.casesTreeHelper.getRow ().id});
 	},
 		
 	// ------------------------------------------------------------------------------------------------------

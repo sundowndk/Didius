@@ -9,7 +9,7 @@ create : function (Auction, Customer)
 	
 	var result = request.respons ()["didius.case"];
 	
-	app.events.onCaseCreate.execute (result);
+//	app.events.onCaseCreate.execute (result);
 	
 	return result;
 },
@@ -24,7 +24,7 @@ load : function (id)
 
 	var result = request.respons ()["didius.case"];
 	
-	app.events.onCaseLoad.execute (result); 
+//	app.events.onCaseLoad.execute (result); 
 
 	return result;
 },
@@ -37,7 +37,7 @@ save : function (case_)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Save", "data", "POST", false);	
 	request.send (content);
 	
-	app.events.onCaseSave.execute (case_);
+//	app.events.onCaseSave.execute (case_);
 },		
 
 destroy : function (id)
@@ -51,7 +51,7 @@ destroy : function (id)
 	var data = {};
 	data.id = id;
 	
-	app.events.onCaseDestroy.execute (data);
+//	app.events.onCaseDestroy.execute (data);
 },				
 		
 list : function (attributes)

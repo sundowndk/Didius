@@ -17,7 +17,7 @@ create : function (Case, simulate)
 	
 	var result = request.respons ()["didius.settlement"];
 	
-	app.events.onSettlementCreate.execute (result);
+//	app.events.onSettlementCreate.execute (result);
 	
 	return result;
 },
@@ -39,7 +39,7 @@ load : function (attributes)
 
 	var result = request.respons ()["didius.settlement"];
 	
-	app.events.onSettlementLoad.execute (result);
+//	app.events.onSettlementLoad.execute (result);
 
 	return result;
 },

@@ -37,7 +37,8 @@ namespace Didius.Enums
 
 		didius_template_salesagreement,
 		didius_template_catalogsmall,
-		didius_tamplate_cataloglarge
+		didius_tamplate_cataloglarge,
+		didius_template_settlement
 
 
 

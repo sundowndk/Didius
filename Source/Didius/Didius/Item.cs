@@ -168,7 +168,7 @@ namespace Didius
 		{
 			get
 			{
-				return this._minimumbid;
+				return Math.Round (this._minimumbid, 2);
 			}
 
 			set
@@ -181,7 +181,7 @@ namespace Didius
 		{
 			get
 			{
-				return this._appraisal1;
+				return Math.Round (this._appraisal1, 2);
 			}
 
 			set
@@ -194,7 +194,7 @@ namespace Didius
 		{
 			get
 			{
-				return this._appraisal2;
+				return Math.Round (this._appraisal2, 2);
 			}
 			
 			set
@@ -207,7 +207,7 @@ namespace Didius
 		{
 			get
 			{
-				return this._appraisal3;
+				return Math.Round (this._appraisal3, 2);
 			}
 			
 			set
@@ -535,7 +535,6 @@ namespace Didius
 		#endregion
 		
 		#region Public Static Methods
-
 		private static decimal CalculateNextBidAmount (decimal CurrentAmount)
 		{
 			decimal result = 0;

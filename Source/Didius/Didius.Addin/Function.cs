@@ -203,7 +203,7 @@ namespace Didius.Addin
 							{
 								string filename = SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_temp) + "/"+ Guid.NewGuid ();
 								SNDK.IO.ByteArrayToFile (filename, Session.Request.QueryJar.Get ("file").BinaryData);
-																							
+																														
 								Helpers.MailSalesAgreement (Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), filename);
 								
 								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");								

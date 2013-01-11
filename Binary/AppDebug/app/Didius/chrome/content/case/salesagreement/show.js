@@ -1,15 +1,26 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ----------------------------------------------------------------------------------------------------------
 var main =
 {
-	current : null,
-	items : null,
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	case : null,
+	customer: null,	
+	itemsTreeHelper : null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	 	
 		try
 		{
-			main.current = didius.case.load (window.arguments[0].caseId);
+			main.case = didius.case.load (window.arguments[0].caseId);
+			main.customer = didius.customer.load (main.case.customerid);
 		}
 		catch (error)
 		{
@@ -23,33 +34,51 @@ var main =
 		main.set ();		
 	},
 			
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	set : function ()
-	{						
-		main.items = didius.item.list ({case: main.current});
-	
-		for (idx in main.items)
-		{						
-			var item = main.items[idx];
+	{	
+		document.title = "Salgsaftale: "+ main.case.title +" ["+ main.case.no +"]";
 		
-			var data = {};
-			data["id"] = item.id;
-			data["catalogno"] = item.catalogno;
-			data["no"] = item.no;
-			data["title"] = item.title;			
-			data["commissionfee"] = item.commissionfee;
-											
-			main.itemsTreeHelper.addRow ({data: data});
-		}		
+		
+		
+		var onDone =	function (result)
+						{										
+							main.itemsTreeHelper.disableRefresh ();
+							for (idx in result)
+							{						
+								var item = result[idx];
+							
+								var data = {};
+								data["id"] = item.id;
+								data["catalogno"] = item.catalogno;
+								data["no"] = item.no;
+								data["title"] = item.title;			
+								data["commissionfee"] = item.commissionfee.toFixed (2) + " kr.";
 								
-		if (main.current.customer.email != "")
-		{
-			document.getElementById ("mail").disabled = false;
-		}
+								sXUL.console.log (item.commissionfee)
+																
+								main.itemsTreeHelper.addRow ({data: data});
+							}		
+							main.itemsTreeHelper.enableRefresh ();
+														
+							document.getElementById ("print").disabled = false;
+							if (main.customer.email != "")
+							{
+								document.getElementById ("mail").disabled = false;
+							}				
+						}
+						
+		didius.item.list ({case: main.case, async: true, onDone: onDone});		
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | MAIL																								|	
+	// ------------------------------------------------------------------------------------------------------
 	mail : function ()
 	{
-		var progresswindow = app.window.open (window, "chrome://didius/content/case/salesagreement/progress.xul", "case.salesagreement.progress."+ main.current.id, "", {});	
+		var progresswindow = app.window.open (window, "chrome://didius/content/case/salesagreement/progress.xul", "case.salesagreement.progress."+ main.case.id, "", {});	
 										
 		var workload = function ()
 		{
@@ -88,8 +117,14 @@ var main =
 												{
 													nextWorker ();
 												};
+												
+								var onError =	function ()
+												{
+													app.error ({errorCode: "APP00151"});
+													finish ();
+												}
 													
-								didius.common.print.salesAgreement ({case: main.current, mail: true, onDone: onDone});			
+								didius.common.print.salesAgreement ({case: main.case, mail: true, onDone: onDone, onError: onError});			
 							};
 																
 			var finish =	function ()	
@@ -103,10 +138,13 @@ var main =
 		
 		progresswindow.addEventListener ("load", workload);		
 	},
-	
+		
+	// ------------------------------------------------------------------------------------------------------
+	// | PRINT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	print : function ()
 	{
-		var progresswindow = app.window.open (window, "chrome://didius/content/case/salesagreement/progress.xul", "case.salesagreement.progress."+ main.current.id, "", {});	
+		var progresswindow = app.window.open (window, "chrome://didius/content/case/salesagreement/progress.xul", "case.salesagreement.progress."+ main.case.id, "", {});	
 										
 		var workload = function ()
 		{
@@ -118,6 +156,7 @@ var main =
 			var customers = new Array ();		
 			var invoices = new Array ();
 		
+			// Start.
 			var start =	function ()	
 						{						
 							worker1 ();
@@ -145,8 +184,14 @@ var main =
 												{
 													nextWorker ();
 												};
+												
+								var onError = 	function ()
+												{
+													app.error ({errorCode: "APP00150"});	
+													finish ();
+												}
 													
-								didius.common.print.salesAgreement ({case: main.current, onDone: onDone});			
+								didius.common.print.salesAgreement ({case: main.case, onDone: onDone, onError: onError});			
 							};
 																
 			var finish =	function ()	
@@ -154,13 +199,16 @@ var main =
 								progresswindow.close ();
 							};
 			
-			// Start worker1;				
+			// Start worker.
 			setTimeout (start, 100);
 		}
 		
 		progresswindow.addEventListener ("load", workload);		
 	},
 		
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------		
 	close : function (force)
 	{									
 		// Close window.

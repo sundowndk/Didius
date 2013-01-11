@@ -45,7 +45,7 @@ var main =
 //		main.controls.statusbar.progressmeter.setDescription ("Færdig");
 		
 		// Hook events.
-		sXUL.eventListener.attach ();
+//		sXUL.eventListener.attach ();
 								
 		app.events.onCustomerCreate.addHandler (main.eventHandlers.onCustomerCreate);
 		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);

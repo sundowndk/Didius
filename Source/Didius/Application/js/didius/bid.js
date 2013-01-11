@@ -10,7 +10,7 @@ create : function (customer, item, amount)
 	
 	var result = request.respons ()["didius.bid"];
 	
-	app.events.onBidCreate.execute (result);
+//	app.events.onBidCreate.execute (result);
 	
 	return result;
 },
@@ -25,7 +25,7 @@ load : function (id)
 
 	var result = request.respons ()["didius.bid"];
 	
-	app.events.onBidLoad.execute (result);
+//	app.events.onBidLoad.execute (result);
 
 	return result;
 },
@@ -38,7 +38,7 @@ save : function (bid)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Save", "data", "POST", false);	
 	request.send (content);
 
-	app.events.onBidSave.execute (bid);
+//	app.events.onBidSave.execute (bid);
 },		
 
 destroy : function (id)
@@ -52,7 +52,7 @@ destroy : function (id)
 	var data = {}
 	data.id = id;
 			
-	app.events.onBidDestroy.execute (data);
+//	app.events.onBidDestroy.execute (data);
 },				
 		
 list : function (attributes)

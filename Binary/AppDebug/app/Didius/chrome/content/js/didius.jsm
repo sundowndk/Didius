@@ -38,7 +38,7 @@ var didius =
 				app.events.onItemCreate = new sXUL.event ({id: "onItemCreate", remotePropagation: true});
 				app.events.onItemLoad = new sXUL.event ({id: "onItemLoad", remotePropagation: true});
 				app.events.onItemSave = new sXUL.event ({id: "onItemSave", remotePropagation: true});
-				app.events.onItemDestory = new sXUL.event ({id: "onItemDestroy", remotePropagation: true});
+				app.events.onItemDestroy = new sXUL.event ({id: "onItemDestroy", remotePropagation: true});
 			
 				app.events.onBidCreate = new sXUL.event ({id: "onBidCreate", remotePropagation: true});
 				app.events.onBidLoad = new sXUL.event ({id: "onBidLoad", remotePropagation: true});
@@ -56,14 +56,12 @@ var didius =
 				app.events.onUserSave = new sXUL.event ({id: "onUserSave", remotePropagation: true});
 				app.events.onUserDestroy = new sXUL.event ({id: "onUserDestroy", remotePropagation: true});			
 				
-				app.events.onAuctionControl = new sXUL.event ({id: "onAuctionControl", remotePropagation: true});
-					
-			// Load Config
-			//app.config.commissionFeePercentage = sXUL.config.get ({key: "companyname"});
-			
-				app.config =  didius.config.load ();
-			
-			//sXUL.console.log (app.config.current.companyName);
+				app.events.onNewsletterCreate = new sXUL.event ({id: "onNewsletterCreate", remotePropagation: true});
+				app.events.onNewsletterLoad = new sXUL.event ({id: "onNewsletterLoad", remotePropagation: true});
+				app.events.onNewsletterSave = new sXUL.event ({id: "onNewsletterSave", remotePropagation: true});
+				app.events.onNewsletterDestroy = new sXUL.event ({id: "onNewsletterDestroy", remotePropagation: true});			
+				
+				app.events.onAuctionControl = new sXUL.event ({id: "onAuctionControl", remotePropagation: true});			
 			}
 			catch (exception)
 			{	
@@ -86,8 +84,8 @@ var didius =
 			
 			var result = request.respons ()["didius.customer"];
 				
-			if (!didius.runtime.browserMode)			
-				app.events.onCustomerCreate.execute (result);
+		//	if (!didius.runtime.browserMode)			
+		//		app.events.onCustomerCreate.execute (result);
 			
 			return result;
 		},
@@ -102,8 +100,8 @@ var didius =
 		
 			var result = request.respons ()["didius.customer"];
 			
-			if (!didius.runtime.browserMode)		
-				app.events.onCustomerLoad.execute (result);
+		//	if (!didius.runtime.browserMode)		
+		//		app.events.onCustomerLoad.execute (result);
 		
 			return result;
 		},
@@ -116,8 +114,8 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.Save", "data", "POST", false);		
 			request.send (content);
 			
-			if (!didius.runtime.browserMode)	
-				app.events.onCustomerSave.execute (customer);
+		//	if (!didius.runtime.browserMode)	
+		//		app.events.onCustomerSave.execute (customer);
 		},		
 		
 		destroy : function (id)
@@ -131,8 +129,8 @@ var didius =
 			var data = {};
 			data.id = id;
 			
-			if (!didius.runtime.browserMode)	
-				app.events.onCustomerDestroy.execute (data);
+		//	if (!didius.runtime.browserMode)	
+		//		app.events.onCustomerDestroy.execute (data);
 		},				
 				
 		list : function (attributes)
@@ -266,7 +264,7 @@ var didius =
 			
 			var result = request.respons ()["didius.case"];
 			
-			app.events.onCaseCreate.execute (result);
+		//	app.events.onCaseCreate.execute (result);
 			
 			return result;
 		},
@@ -281,7 +279,7 @@ var didius =
 		
 			var result = request.respons ()["didius.case"];
 			
-			app.events.onCaseLoad.execute (result); 
+		//	app.events.onCaseLoad.execute (result); 
 		
 			return result;
 		},
@@ -294,7 +292,7 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Save", "data", "POST", false);	
 			request.send (content);
 			
-			app.events.onCaseSave.execute (case_);
+		//	app.events.onCaseSave.execute (case_);
 		},		
 		
 		destroy : function (id)
@@ -308,7 +306,7 @@ var didius =
 			var data = {};
 			data.id = id;
 			
-			app.events.onCaseDestroy.execute (data);
+		//	app.events.onCaseDestroy.execute (data);
 		},				
 				
 		list : function (attributes)
@@ -375,8 +373,8 @@ var didius =
 			
 			var result = request.respons ()["didius.item"];
 			
-			if (!didius.runtime.browserMode)	
-				app.events.onItemCreate.execute (result);
+		//	if (!didius.runtime.browserMode)	
+		//		app.events.onItemCreate.execute (result);
 			
 			return result;
 		},
@@ -391,8 +389,8 @@ var didius =
 		
 			var result = request.respons ()["didius.item"];
 			
-			if (!didius.runtime.browserMode)	
-				app.events.onItemLoad.execute (result);
+		//	if (!didius.runtime.browserMode)	
+		//		app.events.onItemLoad.execute (result);
 		
 			return result;
 		},
@@ -405,8 +403,8 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Save", "data", "POST", false);	
 			request.send (content);
 		
-			if (!didius.runtime.browserMode)	
-				app.events.onItemSave.execute (item);
+		//	if (!didius.runtime.browserMode)	
+		//		app.events.onItemSave.execute (item);
 		},		
 		
 		destroy : function (id)
@@ -420,8 +418,8 @@ var didius =
 			var data = {}
 			data.id = id;
 				
-			if (!didius.runtime.browserMode)		
-				app.events.onItemDestroy.execute (data);
+		//	if (!didius.runtime.browserMode)		
+		//		app.events.onItemDestroy.execute (data);
 		},		
 		
 		bid : function (item, amount, onDone)
@@ -511,7 +509,7 @@ var didius =
 			
 			var result = request.respons ()["didius.bid"];
 			
-			app.events.onBidCreate.execute (result);
+		//	app.events.onBidCreate.execute (result);
 			
 			return result;
 		},
@@ -526,7 +524,7 @@ var didius =
 		
 			var result = request.respons ()["didius.bid"];
 			
-			app.events.onBidLoad.execute (result);
+		//	app.events.onBidLoad.execute (result);
 		
 			return result;
 		},
@@ -539,7 +537,7 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Save", "data", "POST", false);	
 			request.send (content);
 		
-			app.events.onBidSave.execute (bid);
+		//	app.events.onBidSave.execute (bid);
 		},		
 		
 		destroy : function (id)
@@ -553,7 +551,7 @@ var didius =
 			var data = {}
 			data.id = id;
 					
-			app.events.onBidDestroy.execute (data);
+		//	app.events.onBidDestroy.execute (data);
 		},				
 				
 		list : function (attributes)
@@ -610,7 +608,7 @@ var didius =
 			
 			var result = request.respons ()["didius.auction"];
 			
-			app.events.onAuctionCreate.execute (result);
+		//	app.events.onAuctionCreate.execute (result);
 			
 			return result;
 		},
@@ -625,7 +623,7 @@ var didius =
 		
 			var result = request.respons ()["didius.auction"];
 			
-			app.events.onAuctionLoad.execute (result);
+		//	app.events.onAuctionLoad.execute (result);
 		
 			return result;
 		},
@@ -638,7 +636,7 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Auction.Save", "data", "POST", false);	
 			request.send (content);
 			
-			app.events.onAuctionSave.execute (auction);
+		//	app.events.onAuctionSave.execute (auction);
 		},		
 		
 		destroy : function (id)
@@ -652,7 +650,7 @@ var didius =
 			var data = {};
 			data.id = id;
 			
-			app.events.onAuctionDestroy.execute (data);
+		//	app.events.onAuctionDestroy.execute (data);
 		},				
 				
 		list : function (attributes)
@@ -1179,7 +1177,7 @@ var didius =
 			
 			var result = request.respons ()["didius.settlement"];
 			
-			app.events.onSettlementCreate.execute (result);
+		//	app.events.onSettlementCreate.execute (result);
 			
 			return result;
 		},
@@ -1201,7 +1199,7 @@ var didius =
 		
 			var result = request.respons ()["didius.settlement"];
 			
-			app.events.onSettlementLoad.execute (result);
+		//	app.events.onSettlementLoad.execute (result);
 		
 			return result;
 		},
@@ -1297,7 +1295,7 @@ var didius =
 			
 			var result = request.respons ()["didius.invoice"];
 			
-			app.events.onInvoiceCreate.execute (result);
+		//	app.events.onInvoiceCreate.execute (result);
 			
 			return result;
 		},
@@ -1312,7 +1310,7 @@ var didius =
 		
 			var result = request.respons ()["didius.invoice"];
 			
-			app.events.onInvoiceLoad.execute (result);
+		//	app.events.onInvoiceLoad.execute (result);
 		
 			return result;
 		},
@@ -1962,15 +1960,27 @@ var didius =
 		
 			salesAgreement : function (attributes)		
 			{					
+				if (!attributes.case)
+					throw "DIDIUS.COMMON.PRINT.SALESAGREEMENT.PRINT: No CASE given, cannot print nothing.";
+			
 				var Cc = Components.classes;
 				var Ci = Components.interfaces;
 				var Cu = Components.utils;
 				var Cr = Components.results;
 			
-				var render = 	function ()
+				// ------------------------------------------------------------------------------------------------------
+				// | RENDER																								|	
+				// ------------------------------------------------------------------------------------------------------
+				var render = 	function (attributes)
 								{
-									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_salesagreement"}));
-									//var template = didius.settings.get ({key: "didius_template_salesagreement"});
+									var _case = attributes.case;						
+									var auction = didius.auction.load (_case.auctionid);
+									var customer = didius.customer.load (_case.customerid);
+									
+									var items = didius.item.list ({case: _case});
+									SNDK.tools.sortArrayHash (items, "catalogno", "numeric");		
+								
+									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_salesagreement"}));						
 									var print = app.mainWindow.document.createElement ("iframe");
 									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
 															
@@ -2003,17 +2013,17 @@ var didius =
 										
 										// CUSTOMERNAME
 										{
-											render = render.replace ("%%CUSTOMERNAME%%", main.current.customer.name);
+											render = render.replace ("%%CUSTOMERNAME%%", customer.name);
 											content.innerHTML = render;
 										}
 									
 										// CUSTOMERADDRESS
 										{
-											var customeraddress = main.current.customer.address1;
+											var customeraddress = customer.address1;
 										
-											if (main.current.customer.address2 != "")
+											if (customer.address2 != "")
 											{
-												address += "<br>"+ main.current.customer.address2;
+												address += "<br>"+ customer.address2;
 											}
 									
 											render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
@@ -2022,49 +2032,49 @@ var didius =
 						
 										// POSTCODE
 										{
-											render = render.replace ("%%CUSTOMERPOSTCODE%%", main.current.customer.postcode);
+											render = render.replace ("%%CUSTOMERPOSTCODE%%", customer.postcode);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERCITY
 										{
-											render = render.replace ("%%CUSTOMERCITY%%", main.current.customer.city);
+											render = render.replace ("%%CUSTOMERCITY%%", customer.city);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERCOUNTRY
 										{
-											render = render.replace ("%%CUSTOMERCOUNTRY%%", main.current.customer.country);
+											render = render.replace ("%%CUSTOMERCOUNTRY%%", customer.country);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERNO
 										{
-											render = render.replace ("%%CUSTOMERNO%%", main.current.customer.no);
+											render = render.replace ("%%CUSTOMERNO%%", customer.no);
 											content.innerHTML = render;
 										}
 							
 										// CUSTOMERPHONE
 										{
-											render = render.replace ("%%CUSTOMERPHONE%%", main.current.customer.phone);
+											render = render.replace ("%%CUSTOMERPHONE%%", customer.phone);
 											content.innerHTML = render;
 										}
 									
 										// CUSTOMEREMAIL
 										{
-											render = render.replace ("%%CUSTOMEREMAIL%%", main.current.customer.email);
+											render = render.replace ("%%CUSTOMEREMAIL%%", customer.email);
 											content.innerHTML = render;
 										}
 										
 										// CASENO
 										{
-											render = render.replace ("%%CASENO%%", main.current.no);
+											render = render.replace ("%%CASENO%%", _case.no);
 											content.innerHTML = render;
 										}
 										
 										// CASETITLE
 										{
-											render = render.replace ("%%CASETITLE%%", main.current.title);
+											render = render.replace ("%%CASETITLE%%", _case.title);
 											content.innerHTML = render;
 										}
 																	
@@ -2089,7 +2099,7 @@ var didius =
 											
 												// MINIMUMBID
 												{
-													row = row.replace ("%%MINIMUMBID%%", items[idx].minimumbid);
+													row = row.replace ("%%MINIMUMBID%%", items[idx].minimumbid.toFixed (2));
 												}											
 			
 												content.innerHTML = render.replace ("%%ROWS%%", rows + row);
@@ -2113,10 +2123,7 @@ var didius =
 																							
 										return count;				
 									}	
-									
-									var items = didius.item.list ({case: main.current});												
-									SNDK.tools.sortArrayHash (items, "catalogno", "numeric");		
-									
+																					
 									var c = 0;				
 									while (c < items.length)
 									{							
@@ -2148,33 +2155,33 @@ var didius =
 										{				
 											// CASECOMMISIONFEEPERCENTAGE
 											{
-												render = render.replace ("%%CASECOMMISIONFEEPERCENTAGE%%", main.current.commisionfeepercentage);
+												render = render.replace ("%%CASECOMMISIONFEEPERCENTAGE%%", _case.commisionfeepercentage);
 											}
 											
 											// CASECOMMISIONFEEMINIMUM
 											{
-												render = render.replace ("%%CASECOMMISIONFEEMINIMUM%%", main.current.commisionfeeminimum);
+												render = render.replace ("%%CASECOMMISIONFEEMINIMUM%%", _case.commisionfeeminimum.toFixed (2));
 											}
 								
 											// CUSTOMERBANKACCOUNT
 											{
-												render = render.replace ("%%CUSTOMERBANKACCOUNT%%", main.current.customer.bankregistrationno +" - "+ main.current.customer.bankaccountno);
+												render = render.replace ("%%CUSTOMERBANKACCOUNT%%", customer.bankregistrationno +" - "+ customer.bankaccountno);
 												content.innerHTML = render;
 											}		
 											
 											// CUSTOMERNAME
 											{
-												render = render.replace ("%%CUSTOMERNAME%%", main.current.customer.name);
+												render = render.replace ("%%CUSTOMERNAME%%", customer.name);
 												content.innerHTML = render;
 											}
 						
 											// CUSTOMERADDRESS
 											{
-												var customeraddress = main.current.customer.address1;
+												var customeraddress = customer.address1;
 											
-												if (main.current.customer.address2 != "")
+												if (customer.address2 != "")
 												{
-													address += "<br>"+ main.current.customer.address2;
+													address += "<br>"+ customer.address2;
 												}
 										
 												render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
@@ -2183,69 +2190,69 @@ var didius =
 										
 											// POSTCODE
 											{
-												render = render.replace ("%%CUSTOMERPOSTCODE%%", main.current.customer.postcode);
+												render = render.replace ("%%CUSTOMERPOSTCODE%%", customer.postcode);
 												content.innerHTML = render;
 											}
 											
 											// CUSTOMERCITY
 											{
-												render = render.replace ("%%CUSTOMERCITY%%", main.current.customer.city);
+												render = render.replace ("%%CUSTOMERCITY%%", customer.city);
 												content.innerHTML = render;
 											}
 											
 											// CUSTOMERCOUNTRY
 											{
-												render = render.replace ("%%CUSTOMERCOUNTRY%%", main.current.customer.country);
+												render = render.replace ("%%CUSTOMERCOUNTRY%%", customer.country);
 												content.innerHTML = render;
 											}											
 							
 											// AUCTIONLOCATION
 											{
-												render = render.replace ("%%AUCTIONLOCATION%%", main.current.auction.location);
+												render = render.replace ("%%AUCTIONLOCATION%%", auction.location);
 												content.innerHTML = render;
 											}			
 											
 											// AUCTIONBEGIN
 											{
-												var begin = new Date (Date.parse (main.current.auction.begin));													
+												var begin = new Date (Date.parse (auction.begin));													
 												render = render.replace ("%%AUCTIONBEGIN%%", begin.getDate () +"-"+ (begin.getMonth () + 1)  +"-"+ begin.getFullYear ());
 												content.innerHTML = render;
 											}			
 											
 											// AUCTIONBEGINTIME
 											{
-												var begin = new Date (Date.parse (main.current.auction.begin));													
-												render = render.replace ("%%AUCTIONBEGINTIME%%", begin.getHours () +":"+ begin.getMinutes ());
+												var begin = new Date (Date.parse (auction.begin));																							
+												render = render.replace ("%%AUCTIONBEGINTIME%%", SNDK.tools.padLeft (begin.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (begin.getMinutes (), 2, "0"));
 												content.innerHTML = render;
 											}			
 											
 											// AUCTIONDEADLINE
 											{
-												var deadline = new Date (Date.parse (main.current.auction.deadline));	
+												var deadline = new Date (Date.parse (auction.deadline));	
 												render = render.replace ("%%AUCTIONDEADLINE%%", deadline.getDate () +"-"+ (deadline.getMonth () + 1) +"-"+ deadline.getFullYear ());
 												content.innerHTML = render;
 											}			
 											
 											// AUCTIONDEADLINETIME
 											{
-												var deadline = new Date (Date.parse (main.current.auction.deadline));													
-												render = render.replace ("%%AUCTIONDEADLINETIME%%", deadline.getHours () +":"+ deadline.getMinutes ());
+												var deadline = new Date (Date.parse (auction.deadline));													
+												render = render.replace ("%%AUCTIONDEADLINETIME%%", SNDK.tools.padLeft (deadline.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (deadline.getMinutes (), 2, "0"));
 												content.innerHTML = render;
 											}			
 							
 											// DATE
 											{					
 												var now = new Date ();
-												render = render.replace ("%%DATE%%", now.getDate () +"-"+ (now.getMonth () + 1) +"-"+ now.getFullYear ());
+												render = render.replace ("%%DATE%%", SNDK.tools.padLeft (now.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((now.getMonth () + 1), 2, "0") +"-"+ now.getFullYear ());
 												content.innerHTML = render;				
 											}						
 										
 											// HASVATNO
 											{
-												if (main.current.customer.vat)
+												if (customer.vat)
 												{
 													render = render.replace ("%%HASVATNO%%", template.hasvatno);
-													render = render.replace ("%%VATNO%%", main.current.customer.vatno);
+													render = render.replace ("%%VATNO%%", customer.vatno);
 												}
 												else
 												{
@@ -2259,6 +2266,281 @@ var didius =
 									
 									var result = print.contentDocument.body.innerHTML;
 									
+									app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
+									
+									return result;						
+								};
+								
+				var data = render ({case: attributes.case});			
+									
+				var print = app.mainWindow.document.createElement ("iframe");
+				app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);		
+				print.contentDocument.body.innerHTML = data;
+								
+				var settings = PrintUtils.getPrintSettings ();
+																																											
+				settings.marginLeft = 0.5;
+				settings.marginRight = 0.5;
+				settings.marginTop = 0.5;
+				settings.marginBottom = 0.0;
+				settings.shrinkToFit = true;
+					
+				settings.paperName =  "iso_a4";
+				settings.paperWidth = 210;
+				settings.paperHeight = 297
+				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
+				
+				settings.printBGImages = true;
+			    settings.printBGColors = true;    	
+			    	
+			    settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
+			    settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+			    
+			    settings.footerStrCenter = "";
+			    settings.footerStrLeft = "";
+			    settings.footerStrRight = "";
+			    settings.headerStrCenter = "";
+			    settings.headerStrLeft = "";
+			    settings.headerStrRight = "";    	
+				
+				settings.title = "Didius Salesagreement";
+			
+				if (attributes.mail) 
+				{
+					var localDir = sXUL.tools.getLocalDirectory ();		
+					var filename = localDir.path + app.session.pathSeperator + SNDK.tools.newGuid () +".pdf";		
+							
+					// Hide print dialog.
+					settings.printToFile = true;    					
+			    	settings.printSilent = true;
+			  		settings.showPrintProgress = false;
+				    		    		
+				   	// Set output format to PDF.    		    		           	
+			    	settings.outputFormat = 2;
+			    				        	        	    
+			  		// Set output filename.
+					settings.toFileName = filename;
+																
+					var onDone =	function ()
+									{
+										var onLoad = 		function (respons)
+															{														
+																var respons = respons.replace ("\n","").split (":");
+																							
+																switch (respons[0].toLowerCase ())
+																{
+																	case "success":
+																	{																
+																		//sXUL.tools.fileDelete (filename);																														
+																		break;
+																	}
+												
+																	default:
+																	{
+																		onError ();
+																		break;
+																	}							
+																}
+																	
+																onDone ();
+															};
+								
+										var onProgress =	function (event)
+															{															
+															};
+										
+										var onError =		function (event)
+															{																											
+																if (attributes.onError != null)
+																{
+																	setTimeout (attributes.onError, 1);
+																}
+															};
+																
+										var onDone = 		function ()							
+															{													
+																if (attributes.onDone != null)
+																{
+																	setTimeout (attributes.onDone, 1);
+																}
+															}
+															
+										var worker = function ()
+										{															
+											sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailSalesAgreement", customerid: attributes.case.customerid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
+										}
+										
+										setTimeout (worker, 5000);																																
+									};
+										
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: onDone, onError: attributes.onError});
+				}
+				else
+				{								
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
+				}																																																							
+			},
+		
+			settlement : function (attributes)		
+			{					
+				var Cc = Components.classes;
+				var Ci = Components.interfaces;
+				var Cu = Components.utils;
+				var Cr = Components.results;
+			
+				var render = 	function (attributes)
+								{
+									var _case = attributes.case;
+									var customer = didius.customer.load (_case.id);						
+									var items = didius.item.list ({case: _case});
+									
+									SNDK.tools.sortArrayHash (items, "catalogno", "numeric");		
+								
+									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_settlement"}));						
+									var print = app.mainWindow.document.createElement ("iframe");
+									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
+															
+									var pageCount = 1;				
+								
+									var page = function (from)
+									{
+										// Add styles.																		
+										var styles = print.contentDocument.createElement ("style");					
+										print.contentDocument.body.appendChild (styles);					
+										styles.innerHTML = template.styles;
+								
+										// Create page.				
+										var page = print.contentDocument.createElement ("div");
+										page.className = "Page A4";
+										print.contentDocument.body.appendChild (page);
+																													
+										// Add content holder.																						
+										var content = print.contentDocument.createElement ("div")
+										content.className = "PrintContent";
+										page.appendChild (content);
+																								
+										// Add inital content.
+										var render = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
+										content.innerHTML = render;
+									
+										// Caluculate page maxheight for printing.										
+										var maxHeight = page.offsetHeight 
+										var maxHeight2 = page.offsetHeight;
+										
+										// CUSTOMERINFO
+										{
+											var customerInfo = "";					
+											customerInfo += customer.name +"<br>";
+											customerInfo += customer.address1 +"<br>";
+							
+											if (customer.address2 != "")
+											{
+												customerInfo += customer.address1 +"<br>";					
+											}
+							
+											customerInfo += customer.postcode +" "+ customer.city +"<br><br>";
+											
+											customerInfo += "Kunde nr. "+ customer.no +"<br><br>"
+											
+											customerInfo += "Tlf. "+ customer.phone +"<br>";
+											customerInfo += "Email "+ customer.email +"<br><br>";
+											
+											customerInfo += "Sag: "+ _case.title +"<br><br>";
+											
+											render = render.replace ("%%CUSTOMERINFO%%", customerInfo);					
+											content.innerHTML = render;
+										}
+						
+										// CUSTOMERBANKACCOUNT
+										{
+											render = render.replace ("%%CUSTOMERBANKACCOUNT%%", customer.bankregistrationno +" "+ customer.bankaccountno);
+											content.innerHTML = render;
+										}
+						
+										// ROWS
+										{
+											// Add data rows.
+											var rows = "";	
+											var count = 0;				
+											for (var idx = from; idx < items.length; idx++)
+											{							
+												var row = template.row;
+												
+												if (items[idx].bidamount != "0.00")
+												{							
+													// CATALOGNO						
+													{
+														row = row.replace ("%%CATALOGNO%%", items[idx].catalogno);
+													}			
+											
+													// DESCRIPTION
+													{
+														row = row.replace ("%%DESCRIPTION%%", items[idx].description);
+													}		
+											
+													// BIDAMOUNT
+													{
+														row = row.replace ("%%BIDAMOUNT%%", items[idx].bidamount);
+													}
+											
+													// COMMISSIONFEE
+													{
+														row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee);
+													}					
+			
+													content.innerHTML = render.replace ("%%ROWS%%", rows + row);
+																																		
+													if (content.offsetHeight > (maxHeight2))
+													{						
+														render = render.replace ("%%ROWS%%", rows);															
+														render = render.replace ("%%TRANSFER%%", template.transfer)
+														render = render.replace ("%%TOTAL%%", "");		
+														render = render.replace ("%%DISCLAIMER%%", "");							
+														content.innerHTML = render;
+														break;	
+													}
+																					
+													totalSale += parseInt (items[idx].bidamount);
+													totalCommissionFee += parseInt (items[idx].commissionfee);
+													totalTotal = totalSale + totalCommissionFee;				
+												
+													rows += row;
+												}
+																							
+												count++;						
+											}																		
+										
+											render = render.replace ("%%ROWS%%", rows);
+											render = render.replace ("%%TRANSFER%%", "");
+											
+											content.innerHTML = render;
+										}
+						
+										// TOTAL
+										{
+											render = render.replace ("%%TOTAL%%", template.total);
+											render = render.replace ("%%TOTALSALE%%", totalSale.toFixed (2));
+											render = render.replace ("%%TOTALCOMMISSIONFEE%%", totalCommissionFee.toFixed (2));
+											render = render.replace ("%%TOTALTOTAL%%", (totalSale + totalCommissionFee).toFixed (2));
+											content.innerHTML = render;
+										}				
+																	
+										// DISCLAIMER
+										{
+											render = render.replace ("%%DISCLAIMER%%", template.disclaimer);
+											content.innerHTML = render;
+										}
+																							
+										return count;				
+									}												
+									
+									var c = 0;				
+									while (c < items.length)
+									{							
+						 				c += page (c);				 				
+									}			
+																					
+									var result = print.contentDocument.body.innerHTML;						
 									app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
 									
 									return result;						
