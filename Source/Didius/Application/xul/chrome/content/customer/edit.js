@@ -311,7 +311,7 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	edit : function ()
 	{				
-		window.openDialog ("chrome://didius/content/case/edit.xul", "case.edit."+ cases.casesTreeHelper.getRow ().id, "chrome", {caseId: cases.casesTreeHelper.getRow ().id});
+		window.openDialog ("chrome://didius/content/case/edit.xul", "didius.case.edit."+ cases.casesTreeHelper.getRow ().id, "chrome", {caseId: cases.casesTreeHelper.getRow ().id});
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -407,7 +407,7 @@ var bids =
 	// ------------------------------------------------------------------------------------------------------
 	show : function ()
 	{		
-		window.openDialog ("chrome://didius/content/bid/edit.xul", "bid.edit."+ bids.bidsTreeHelper.getRow ().id, "chrome", {bidid: bids.bidsTreeHelper.getRow ().id});
+		window.openDialog ("chrome://didius/content/bid/edit.xul", "didius.bid.edit."+ bids.bidsTreeHelper.getRow ().id, "chrome", {bidid: bids.bidsTreeHelper.getRow ().id});
 	}
 }
 
@@ -484,7 +484,7 @@ var settlements =
 	// ------------------------------------------------------------------------------------------------------
 	show : function ()
 	{		
-		window.openDialog ("chrome://didius/content/case/settlement/show.xul", "case.settlement.show."+ settlements.settlementsTreeHelper.getRow ().id, "chrome", {settlementId: settlements.settlementsTreeHelper.getRow ().id});
+		window.openDialog ("chrome://didius/content/case/settlement/show.xul", "didius.case.settlement.show."+ settlements.settlementsTreeHelper.getRow ().id, "chrome", {settlementId: settlements.settlementsTreeHelper.getRow ().id});
 	}
 }
 
@@ -560,7 +560,7 @@ var invoices =
 	// ------------------------------------------------------------------------------------------------------																																																				
 	show : function ()
 	{				
-		window.openDialog ("chrome://didius/content/auction/invoice/show.xul", "auction.invoice.show."+ invoices.invoicesTreeHelper.getRow ().id, "chrome", {invoiceId: invoices.invoicesTreeHelper.getRow ().id});
+		window.openDialog ("chrome://didius/content/auction/invoice/show.xul", "didius.auction.invoice.show."+ invoices.invoicesTreeHelper.getRow ().id, "chrome", {invoiceId: invoices.invoicesTreeHelper.getRow ().id});
 	}
 }
 	

@@ -189,6 +189,59 @@ var app =
   				return win;
 			}		
 		},
+
+		filePicker :
+		{
+			nsiFilePicker : Components.interfaces.nsIFilePicker,
+		
+			filter :
+			{
+				all : Components.interfaces.nsIFilePicker.filterAll,
+				HTML : Components.interfaces.nsIFilePicker.filterHTML,
+				text : Components.interfaces.nsIFilePicker.filterText,
+				XML : Components.interfaces.nsIFilePicker.filterXML,
+				XUL : Components.interfaces.nsIFilePicker.filterXUL,
+				apps : Components.interfaces.nsIFilePicker.filterApps,
+				allowUrls : Components.interfaces.nsIFilePicker.filterAllowURLs,
+				images : Components.interfaces.nsIFilePicker.filterImages,
+				audio : Components.interfaces.nsIFilePicker.filterAudio,
+				video : Components.interfaces.nsIFilePicker.filterVideo																
+			},
+			
+			return : 
+			{
+				OK : Components.interfaces.nsIFilePicker.returnOK,
+				Cancel : Components.interfaces.nsIFilePicker.returnCancel,
+				Replace : Components.interfaces.nsIFilePicker.returnReplace
+			},	
+		
+			open : function (attributes)
+			{
+				var nsIFilePicker = Components.interfaces.nsIFilePicker;
+				var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance (nsIFilePicker);
+				filePicker.init (attributes.window, attributes.title, nsIFilePicker.modeOpen);
+				
+				if (attributes.filters != null)
+				{
+					for (index in attributes.filters)
+					{
+						filePicker.appendFilter (attributes.filters[index]);					
+					}
+				}
+				
+				return filePicker;
+			},
+			
+			save : function ()
+			{
+			
+			},
+			
+			folder : function ()
+			{
+			
+			}		
+		},		
 		
 		prompt :
 		{

@@ -2382,11 +2382,17 @@ var didius =
 		
 			settlement : function (attributes)		
 			{					
+				if (!attributes.settlement)
+					throw "DIDIUS.COMMON.PRINT.SETTLEMENT.PRINT: No SETTLEMENT given, cannot print nothing.";
+			
 				var Cc = Components.classes;
 				var Ci = Components.interfaces;
 				var Cu = Components.utils;
 				var Cr = Components.results;
 			
+				// ------------------------------------------------------------------------------------------------------
+				// | RENDER																								|	
+				// ------------------------------------------------------------------------------------------------------
 				var render = 	function (attributes)
 								{
 									var _case = attributes.case;
@@ -2545,20 +2551,8 @@ var didius =
 									return result;						
 								};
 								
-				var data = "";
-																				
-				if (attributes.case)
-				{
-					data = render ({case: attributes.case});
-				}
-				else if (attributes.cases)
-				{
-					for (index in attributes.cases)
-					{
-						data += render ({case: attributes.cases[index]});
-					}			
-				}					
-									
+				var data = render ({case: attributes.case});
+				
 				var print = app.mainWindow.document.createElement ("iframe");
 				app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);		
 				print.contentDocument.body.innerHTML = data;
@@ -2575,44 +2569,38 @@ var didius =
 				settings.paperWidth = 210;
 				settings.paperHeight = 297
 				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
-			
+				
+				settings.printBGImages = true;
+			    settings.printBGColors = true;    	
+			    	
+			    settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
+			    settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+			    
+			    settings.footerStrCenter = "";
+			    settings.footerStrLeft = "";
+			    settings.footerStrRight = "";
+			    settings.headerStrCenter = "";
+			    settings.headerStrLeft = "";
+			    settings.headerStrRight = "";    	
+				
+				settings.title = "Didius Settlement";
+				
 				if (attributes.mail) 
 				{
-					var localDir = sXUL.tools.getLocalDirectory ();
-					//var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
-					var filename = localDir.path + app.session.pathSeperator + main.current.id +".pdf";
-					//var filename = "F:\\test.pdf";
-								
+					var localDir = sXUL.tools.getLocalDirectory ();		
+					var filename = localDir.path + app.session.pathSeperator + SNDK.tools.newGuid () +".pdf";		
+							
+					// Hide print dialog.
+					settings.printToFile = true;    					
 			    	settings.printSilent = true;
-			    	settings.showPrintProgress = false;
-				    settings.printToFile = true;    		
-					    		    		    		   
-			    	//settings.printFrameType = 1;
-			    		
+			  		settings.showPrintProgress = false;
+				    		    		
+				   	// Set output format to PDF.    		    		           	
 			    	settings.outputFormat = 2;
-			    		
-					settings.printSilent = true;
-			    	settings.showPrintProgress = false;
-			    	settings.printBGImages = true;
-			    	settings.printBGColors = true;
-			    	settings.printToFile = true;
-			    
-			    	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
-			    	settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
-			    
-			    	settings.footerStrCenter = "";
-			    	settings.footerStrLeft = "";
-			    	settings.footerStrRight = "";
-			    	settings.headerStrCenter = "";
-			    	settings.headerStrLeft = "";
-			    	settings.headerStrRight = "";
-			    	settings.printBGColors = true;
-			    	settings.title = "Didius Salesagreement";    		
-			
+			    				        	        	    
+			  		// Set output filename.
 					settings.toFileName = filename;
-						
-					sXUL.console.log (filename)
-						
+																
 					var onDone =	function ()
 									{
 										var onLoad = 		function (respons)
@@ -2622,22 +2610,14 @@ var didius =
 																switch (respons[0].toLowerCase ())
 																{
 																	case "success":
-																	{	
-																		try
-																		{
-																			sXUL.tools.fileDelete (filename);
-																		}
-																		catch (e)
-																		{
-																			sXUL.console.log (e);
-																		}
-																																		
+																	{																
+																		//sXUL.tools.fileDelete (filename);																														
 																		break;
 																	}
 												
 																	default:
 																	{
-																		app.error ({errorCode: "APP00001"});																
+																		onError ();
 																		break;
 																	}							
 																}
@@ -2650,14 +2630,15 @@ var didius =
 															};
 										
 										var onError =		function (event)
-															{														
-																app.error ({errorCode: "APP00001"});
-																onDone ();
+															{																											
+																if (attributes.onError != null)
+																{
+																	setTimeout (attributes.onError, 1);
+																}
 															};
 																
 										var onDone = 		function ()							
-															{
-																sXUL.console.log ("ondone");
+															{													
 																if (attributes.onDone != null)
 																{
 																	setTimeout (attributes.onDone, 1);
@@ -2665,28 +2646,19 @@ var didius =
 															}
 															
 										var worker = function ()
-										{																
-											sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailSalesAgreement", customerid: attributes.case.customerid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
-											//sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailFileToCustomer", customerid: main.current.customer.id, template: "Hej med dig!"}, onLoad: onLoad, onProgress: onProgress, onError: onError});
+										{							
+											sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailSettlement", customerid: attributes.settlement.customerid}, onLoad: onLoad, onProgress: onProgress, onError: onError});																
 										}
 										
 										setTimeout (worker, 5000);																																
 									};
-						
-					sXUL.tools.print (print.contentWindow, settings, onDone);
+										
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: onDone, onError: attributes.onError});
 				}
 				else
-				{
-					var onDone =	function ()
-									{
-										if (attributes.onDone != null)
-										{
-											setTimeout (attributes.onDone, 1);
-										}
-									};
-				
-					sXUL.tools.print (print.contentWindow, settings, onDone);				
-				}																																																							
+				{								
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
+				}																											
 			}
 		}
 	}

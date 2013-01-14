@@ -1,20 +1,29 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ----------------------------------------------------------------------------------------------------------
 var main =
 {
-	current : null,
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	settlement : null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	 	
 		try
 		{
 			if (window.arguments[0].settlementId)
 			{
-				main.current = didius.settlement.load ({id: window.arguments[0].settlementId});
+				main.settlement = didius.settlement.load ({id: window.arguments[0].settlementId});
 			}
 			else if (window.arguments[0].caseId)
 			{
-				main.current = didius.settlement.load ({caseId: window.arguments[0].caseId});
+				main.settlement = didius.settlement.load ({caseId: window.arguments[0].caseId});
 			}
 		}
 		catch (error)
@@ -29,74 +38,104 @@ var main =
 		main.set ();		
 	},
 			
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------			
 	set : function ()
 	{		
-		document.getElementById ("totalSale").value = main.current.sales;
-		document.getElementById ("totalCommissionFee").value = main.current.commissionfee;
-		document.getElementById ("totalVat").value = main.current.vat;
-		document.getElementById ("totalTotal").value = main.current.total;	
+		document.getElementById ("totalSale").value = main.settlement.sales;
+		document.getElementById ("totalCommissionFee").value = main.settlement.commissionfee;
+		document.getElementById ("totalVat").value = main.settlement.vat;
+		document.getElementById ("totalTotal").value = main.settlement.total;	
 		
-		for (idx in main.current.items)
+		for (idx in main.settlement.items)
 		{
-			var item = main.current.items[idx];
+			var item = main.settlement.items[idx];
 			main.itemsTreeHelper.addRow ({data: item});
 		}
 	
-//		var onDone = 	function (items)
-//						{						
-//							for (idx in items)
-//							{					
-//								var data = {};
-//								data["id"] = items[idx].id;
-//								data["catalogno"] = items[idx].catalogno;
-//								data["no"] = items[idx].no;
-//								data["title"] = items[idx].title;
-//								
-//								var bidAmount = 0;
-//								if (items[idx].currentbidid != SNDK.tools.emptyGuid)
-//								{
-//									bidAmount = didius.bid.load (items[idx].currentbidid).amount;
-//								}
-//								
-//								if (bidAmount == 0)
-//								{
-//									continue;
-//								}				
-//								data["bidamount"] = bidAmount;								
-//								data["commissionfee"] = items[idx].commissionfee;
-//																
-//								main.itemsTreeHelper.addRow ({data: data});
-//							}																																	
-//						};
-					
-		//didius.item.list ({case: main.current, async: true, onDone: onDone});					
-		
-//		for (idx in main.current.items)
-//		{					
-	//		sXUL.console.log (idx);
-//			var item = main.current.items[idx];
-		
-//			var data = {};
-//			data["id"] = item.id;
-//			data["catalogno"] = item.catalogno;
-//			data["no"] = item.no;
-//			data["title"] = item.title;
-//			data["bidamount"] = didius.bid.load (item.currentbidid).amount;								
-//			data["commissionfee"] = item.commissionfee;
-//											
-//			main.itemsTreeHelper.addRow ({data: data});
-//		}		
-				
-//		document.getElementById ("totalSales").value = main.current.sales;
-//		document.getElementById ("total").value = main.current.commissionfee;
-//		document.getElementById ("total").value = main.current.total;
+		document.getElementById ("print").disabled = false;
+		document.getElementById ("mail").disabled = false;
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | PRINT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	print : function ()
 	{
-		window.openDialog ("chrome://didius/content/case/settlement/print.xul", "settlementprint-"+ main.current.id, "chrome, modal", {settlementId: main.current.id});
-	},
+		var progresswindow = app.window.open (window, "chrome://didius/content/case/settlement/progress.xul", "didius.case.settlement.progress."+ main.settlement.id, "", {});	
+										
+		var workload = function ()
+		{
+			progresswindow.removeEventListener ("load", workload, false)
 		
+			var overallprogress = 0;
+			var totalprogress = 1;
+			
+			var customers = new Array ();		
+			var invoices = new Array ();
+		
+			// Start.
+			var start =	function ()	
+						{						
+							worker1 ();
+						};
+								
+			// Email invoice.
+			var worker1 =	function ()
+							{
+								// Reset progressmeter #1.
+								progresswindow.document.getElementById ("description1").textContent = "Udskriver ...";
+								progresswindow.document.getElementById ("progressmeter1").mode = "undetermined"
+								progresswindow.document.getElementById ("progressmeter1").value = 0;
+																						
+								var nextWorker =	function ()
+													{
+														// Update progressmeter #1
+														overallprogress++;
+														progresswindow.document.getElementById ("progressmeter1").mode = "determined"
+														progresswindow.document.getElementById ("progressmeter1").value = (overallprogress / totalprogress) * 100;
+																																				
+														setTimeout (finish, 100);
+													};
+																							
+								var onDone = 	function ()
+												{
+													nextWorker ();
+												};
+												
+								var onError = 	function ()
+												{
+													app.error ({errorCode: "APP00150"});	
+													finish ();
+												}
+													
+								didius.common.print.settlement ({settlement: main.settlement, onDone: onDone, onError: onError});	
+							};
+																
+			var finish =	function ()	
+							{															
+								progresswindow.close ();
+							};
+			
+			// Start worker.
+			setTimeout (start, 100);
+		}
+		
+		progresswindow.addEventListener ("load", workload);		
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | MAIL																								|	
+	// ------------------------------------------------------------------------------------------------------
+	mail : function ()
+	{
+		window.openDialog ("chrome://didius/content/case/settlement/print.xul", "settlementprint-"+ main.current.id, "chrome, modal", {settlementId: main.current.id});
+	},		
+		
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------
 	close : function (force)
 	{									
 		// Close window.

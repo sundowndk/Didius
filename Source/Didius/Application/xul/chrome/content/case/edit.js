@@ -305,7 +305,7 @@ var items =
 	create : function ()
 	{		
 		// Create new item.
-		var current = didius.item.create (main.current);						
+		var current = didius.item.create (main.case);
 		didius.item.save (current);																								
 																												
 		window.openDialog ("chrome://didius/content/item/edit.xul", "didius.item.edit."+ current.id, "chrome", {itemId: current.id});
@@ -316,7 +316,7 @@ var items =
 	// ------------------------------------------------------------------------------------------------------							
 	edit : function ()
 	{				
-		window.openDialog ("chrome://didius/content/item/edit.xul", "didius.item.edit."+ main.items.itemsTreeHelper.getRow ().id, "chrome", {itemId: main.items.itemsTreeHelper.getRow ().id});
+		window.openDialog ("chrome://didius/content/item/edit.xul", "didius.item.edit."+ items.itemsTreeHelper.getRow ().id, "chrome", {itemId: items.itemsTreeHelper.getRow ().id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

@@ -1,10 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Helpers.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/common/print/settlement.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/case/edit.xul" Line="63" Column="25" />
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="224" Column="103" />
-      <File FileName="Didius/Didius/Helpers.cs" Line="23" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.js" Line="91" Column="17" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.xul" Line="32" Column="10" />
+      <File FileName="Didius/Application/js/didius/common/print/settlement.js" Line="18" Column="7" />
+      <File FileName="Didius/Application/js/didius/common/print/salesagreement.js" Line="421" Column="15" />
+      <File FileName="Didius/Didius/Helpers.cs" Line="110" Column="46" />
+      <File FileName="Didius/Didius.Addin/Function.cs" Line="239" Column="7" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,23 +17,20 @@
               <Node name="js" expanded="True">
                 <Node name="didius" expanded="True">
                   <Node name="common" expanded="True">
-                    <Node name="print" expanded="True" />
+                    <Node name="print" expanded="True">
+                      <Node name="settlement.js" selected="True" />
+                    </Node>
                   </Node>
                 </Node>
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="about" expanded="True" />
-                    <Node name="auction" expanded="True" />
                     <Node name="case" expanded="True">
                       <Node name="salesagreement" expanded="True" />
+                      <Node name="settlement" expanded="True" />
                     </Node>
-                    <Node name="caseedit" expanded="True" />
-                    <Node name="customer" expanded="True" />
-                    <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True" />
-                    <Node name="settings" expanded="True" />
+                    <Node name="templates" expanded="True" />
                   </Node>
                   <Node name="icons" expanded="True">
                     <Node name="default" expanded="True" />
@@ -38,9 +38,7 @@
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True">
-              <Node name="Helpers.cs" selected="True" />
-            </Node>
+            <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />

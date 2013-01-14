@@ -216,6 +216,26 @@ namespace Didius.Addin
 							}
 							break;
 						}
+
+						case "mailsettlement":
+						{
+							try
+							{
+								string filename = SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_temp) + "/"+ Guid.NewGuid ();
+								SNDK.IO.ByteArrayToFile (filename, Session.Request.QueryJar.Get ("file").BinaryData);
+								
+								Helpers.MailSettlement (Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), filename);
+								
+								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");								
+							}
+							catch (Exception e)
+							{
+								Console.WriteLine (e);
+								Session.Page.Lines.Add ("ERROR");
+								return true;
+							}
+							break;
+						}
 					}
 					break;
 				}

@@ -20,6 +20,8 @@ var main =
 		main.auctions.init ();		
 		main.newsletters.init ();
 				
+		//sXUL.console.log (app.window.filePicker.result.OK)
+				
 	//	main.settings ();		
 //		float test = 10.10;
 		

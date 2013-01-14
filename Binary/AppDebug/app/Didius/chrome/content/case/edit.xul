@@ -14,7 +14,7 @@
   		<key id="key-close-extra" modifiers="control" key="w" oncommand="main.close ();"/>
   		<key id="key-close" modifiers="control" key="l" oncommand="main.close ();"/>
   		<key id="key-save" modifiers="control" key="g" oncommand="main.close ();"/>
-	</keyset>			
+	</keyset>
 			
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">		

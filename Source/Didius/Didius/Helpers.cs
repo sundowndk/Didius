@@ -74,14 +74,9 @@ namespace Didius
 		{		
 			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 			
-<<<<<<< HEAD
 //			string to = Customer.Email;
 			string to = "rasmus@akvaservice.dk";
-=======
-						string to = Customer.Email;
-//			string to = "rasmus@akvaservice.dk";
->>>>>>> 232571e1b2d9ea3fffc617b529066aa28deb9a0c
-			
+
 			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_salesagreement_subject);
 			subject = ReplacePlaceholders (Customer, subject);
 			
@@ -92,6 +87,27 @@ namespace Didius
 			
 			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
 			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (PdfFilename), "salgsaftale.pdf", SNDK.IO.GetMimeType (PdfFilename)));
+			
+			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
+		}
+
+		public static void MailSettlement (Customer Customer, string PdfFilename)
+		{		
+			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
+			
+//			string to = Customer.Email;
+			string to = "rasmus@akvaservice.dk";
+			
+			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_settlement_subject);
+			subject = ReplacePlaceholders (Customer, subject);
+			
+			string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_settlement_body);
+			body = ReplacePlaceholders (Customer, body);
+			
+			bool isbodyhtml = SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_settlement_isbodyhtml);
+			
+			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
+			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (PdfFilename), "afregning.pdf", SNDK.IO.GetMimeType (PdfFilename)));
 			
 			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
 		}
