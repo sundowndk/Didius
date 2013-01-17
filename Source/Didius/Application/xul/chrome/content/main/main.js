@@ -294,6 +294,8 @@ var main =
 								
 		set : function ()
 		{
+			document.getElementById ("customerSearch").focus ();
+		
 				var onDone = 	function (customers)
 								{
 									main.customers.customersTreeHelper.disableRefresh ();

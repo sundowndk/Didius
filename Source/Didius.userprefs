@@ -1,13 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/common/print/settlement.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/case/salesagreement/show.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.js" Line="91" Column="17" />
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.xul" Line="32" Column="10" />
-      <File FileName="Didius/Application/js/didius/common/print/settlement.js" Line="18" Column="7" />
-      <File FileName="Didius/Application/js/didius/common/print/salesagreement.js" Line="421" Column="15" />
-      <File FileName="Didius/Didius/Helpers.cs" Line="110" Column="46" />
-      <File FileName="Didius/Didius.Addin/Function.cs" Line="239" Column="7" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.js" Line="29" Column="9" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.xul" Line="34" Column="26" />
+      <File FileName="Didius/Application/xul/chrome/content/case/salesagreement/show.js" Line="78" Column="8" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,19 +14,26 @@
               <Node name="js" expanded="True">
                 <Node name="didius" expanded="True">
                   <Node name="common" expanded="True">
-                    <Node name="print" expanded="True">
-                      <Node name="settlement.js" selected="True" />
-                    </Node>
+                    <Node name="print" expanded="True" />
                   </Node>
                 </Node>
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
+                    <Node name="auction" expanded="True">
+                      <Node name="invoice" expanded="True" />
+                    </Node>
                     <Node name="case" expanded="True">
-                      <Node name="salesagreement" expanded="True" />
+                      <Node name="salesagreement" expanded="True">
+                        <Node name="show.js" selected="True" />
+                      </Node>
                       <Node name="settlement" expanded="True" />
                     </Node>
+                    <Node name="customer" expanded="True" />
+                    <Node name="customeredit-REMOVE" expanded="True" />
+                    <Node name="main" expanded="True" />
+                    <Node name="settings" expanded="True" />
                     <Node name="templates" expanded="True" />
                   </Node>
                   <Node name="icons" expanded="True">

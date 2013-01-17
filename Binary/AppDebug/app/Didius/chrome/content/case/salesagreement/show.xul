@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.case.salesagreement.show" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
+<window id="didius.case.salesagreement.show" title="Salgsaftale" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
@@ -45,7 +45,7 @@
 			<button id="mail" label="Send på mail" oncommand="main.mail ();" disabled="true"/>
 		</hbox>
 		<hbox align="right" flex="1"> 
-			<button id="close" label="Luk" oncommand="main.close ();" />			
+			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>			
 		</hbox>
 	</hbox>
 </window>

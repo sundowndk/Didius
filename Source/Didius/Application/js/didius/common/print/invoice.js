@@ -7,7 +7,7 @@ invoice : function (attributes)
 
 	var render = 	function (attributes)
 					{
-						var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/invoice.tpl"));										
+						var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_invoice"}));						
 						var print = app.mainWindow.document.createElement ("iframe");
 						app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
 												
@@ -164,12 +164,12 @@ invoice : function (attributes)
 								
 									// BIDAMOUNT
 									{
-										row = row.replace ("%%BIDAMOUNT%%", attributes.invoice.items[idx].bidamount);
+										row = row.replace ("%%BIDAMOUNT%%", attributes.invoice.items[idx].bidamount.toFixed (2));
 									}
 								
 									// COMMISSIONFEE
 									{
-										row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.items[idx].commissionfee);
+										row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.items[idx].commissionfee.toFixed (2));
 									}					
 
 									content.innerHTML = render.replace ("%%ROWS%%", rows + row);
@@ -356,7 +356,7 @@ invoice : function (attributes)
 							setTimeout (worker, 5000);																																
 						};
 			
-		sXUL.tools.print (print.contentWindow, settings, onDone);
+		sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: onDone, onError: attributes.onError});
 	}
 	else
 	{
@@ -368,7 +368,7 @@ invoice : function (attributes)
 							}
 						};
 	
-		sXUL.tools.print (print.contentWindow, settings, onDone);				
+		sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
 	}		
 }
 

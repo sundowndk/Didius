@@ -74,7 +74,7 @@
 					<vbox flex="1">																		
 						<hbox align="center">				
 							<hbox flex="1">
-								<textbox id="customerSearch" type="search" flex="1" onkeyup="main.customers.filter ();" oncommand="main.customers.filter ();" focused="true" />
+								<textbox id="customerSearch" type="search" flex="1" focus="true" onkeyup="main.customers.filter ();" oncommand="main.customers.filter ();" focused="true" />
 							</hbox>
 							<hbox style="width: 93px;">
 							</hbox>

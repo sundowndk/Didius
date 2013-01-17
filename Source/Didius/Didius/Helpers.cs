@@ -122,6 +122,12 @@ namespace Didius
 				result = result.Replace ("%%CUSTOMERNO%%", ((Didius.Customer)Source).No);
 				result = result.Replace ("%%CUSTOMERNAME%%", ((Didius.Customer)Source).Name);
 			}
+			// AUCTION
+			else if (Source.GetType () == typeof (Didius.Auction))
+			{
+				result = result.Replace ("%%AUCTIONNO%%", ((Didius.Auction)Source).No);
+				result = result.Replace ("%%AUCTIONTITLE%%", ((Didius.Auction)Source).Title);
+			}
 			// ITEM
 			else if (Source.GetType () == typeof (Didius.Item))
 			{

@@ -67,6 +67,7 @@ var main =
 		keys[keys.length] = "didius_template_cataloglarge";
 		keys[keys.length] = "didius_template_salesagreement";
 		keys[keys.length] = "didius_template_settlement";
+		keys[keys.length] = "didius_template_invoice";
 	
 		main.current = didius.settings.get ({keys: keys});
 		
@@ -115,6 +116,7 @@ var main =
 		document.getElementById ("templatesCatalogLarge").value = main.current.didius_template_cataloglarge;
 		document.getElementById ("templatesSalesAgreement").value = main.current.didius_template_salesagreement;
 		document.getElementById ("templatesSettlement").value = main.current.didius_template_settlement;
+		document.getElementById ("templatesInvoice").value = main.current.didius_template_invoice;
 	},
 	
 	get : function ()
@@ -156,7 +158,7 @@ var main =
 		main.current.didius_template_cataloglarge = document.getElementById ("templatesCatalogLarge").value;		
 		main.current.didius_template_salesagreement = document.getElementById ("templatesSalesAgreement").value;		
 		main.current.didius_template_settlement = document.getElementById ("templatesSettlement").value;		
-		
+		main.current.didius_template_invoice = document.getElementById ("templatesInvoice").value;				
 	},
 	
 	onChange : function ()

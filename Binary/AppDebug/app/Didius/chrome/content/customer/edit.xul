@@ -150,7 +150,7 @@
 								<splitter class="tree-splitter"/>
 								<treecol id="itemtitle" label="Title" flex="3" persist="width" />
 								<splitter class="tree-splitter"/>
-								<treecol id="amount" label="Bud" flex="2" persist="width" />
+								<treecol id="amount" label="Bud" flex="2" persist="width" style="text-align: right;"/>
 								<splitter class="tree-splitter"/>
 							</treecols>	
 						</tree>
@@ -176,7 +176,7 @@
 								<splitter class="tree-splitter"/>
 								<treecol id="auctiontitle" label="Auktion" flex="1" persist="width" />								
 								<splitter class="tree-splitter"/>
-								<treecol id="total" label="Total" width="100" persist="width" />														
+								<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;"/>														
 								<splitter class="tree-splitter"/>
 							</treecols>	
 						</tree>
@@ -200,7 +200,7 @@
 								<splitter class="tree-splitter"/>								
 								<treecol id="auctiontitle" label="Auktion" flex="1" persist="width" />								
 								<splitter class="tree-splitter"/>
-								<treecol id="total" label="Total" width="100" persist="width" />														
+								<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;" />														
 								<splitter class="tree-splitter"/>
 							</treecols>	
 						</tree>

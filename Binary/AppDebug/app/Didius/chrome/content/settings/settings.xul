@@ -266,6 +266,7 @@
 									<tab label="Internt katalog"/>
 									<tab label="Salgsaftale"/>
 									<tab label="Afregning"/>
+									<tab label="Faktura"/>
 								</tabs>
 							</arrowscrollbox>
 							
@@ -288,6 +289,11 @@
 				    			<tabpanel flex="1">
 									<vbox flex="1">		
 										<textbox id="templatesSettlement" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+									</vbox>
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<textbox id="templatesInvoice" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 									</vbox>
 				    			</tabpanel>
 							</tabpanels>

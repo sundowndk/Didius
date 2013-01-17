@@ -446,7 +446,7 @@ var settlements =
 								data.no = items[idx].no;
 								data.caseno = items[idx].case.no;
 								data.auctiontitle = items[idx].case.auction.title;
-								data.total = items[idx].total;																	
+								data.total = items[idx].total.toFixed (2) +" kr.";	
 								
 								settlements.settlementsTreeHelper.addRow ({data: data});
 							}
@@ -522,7 +522,7 @@ var invoices =
 								data.createtimestamp = items[idx].createtimestamp;
 								data.no = items[idx].no;									
 								data.auctiontitle = items[idx].auction.title;
-								data.total = items[idx].total;																	
+								data.total = items[idx].total.toFixed (2) +" kr.";															
 								
 								invoices.invoicesTreeHelper.addRow ({data: data});
 							}

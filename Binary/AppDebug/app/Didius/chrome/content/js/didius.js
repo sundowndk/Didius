@@ -1591,7 +1591,7 @@ var didius =
 			
 				var render = 	function (attributes)
 								{
-									var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/invoice.tpl"));										
+									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_invoice"}));						
 									var print = app.mainWindow.document.createElement ("iframe");
 									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
 															
@@ -1748,12 +1748,12 @@ var didius =
 											
 												// BIDAMOUNT
 												{
-													row = row.replace ("%%BIDAMOUNT%%", attributes.invoice.items[idx].bidamount);
+													row = row.replace ("%%BIDAMOUNT%%", attributes.invoice.items[idx].bidamount.toFixed (2));
 												}
 											
 												// COMMISSIONFEE
 												{
-													row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.items[idx].commissionfee);
+													row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.items[idx].commissionfee.toFixed (2));
 												}					
 			
 												content.innerHTML = render.replace ("%%ROWS%%", rows + row);
@@ -1940,7 +1940,7 @@ var didius =
 										setTimeout (worker, 5000);																																
 									};
 						
-					sXUL.tools.print (print.contentWindow, settings, onDone);
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: onDone, onError: attributes.onError});
 				}
 				else
 				{
@@ -1952,7 +1952,7 @@ var didius =
 										}
 									};
 				
-					sXUL.tools.print (print.contentWindow, settings, onDone);				
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
 				}		
 			}
 			,
@@ -2395,9 +2395,10 @@ var didius =
 				// ------------------------------------------------------------------------------------------------------
 				var render = 	function (attributes)
 								{
-									var _case = attributes.case;
-									var customer = didius.customer.load (_case.id);						
-									var items = didius.item.list ({case: _case});
+									var settlement = attributes.settlement;
+									var _case = didius.case.load (settlement.caseid);
+									var customer = didius.customer.load (settlement.customerid);
+									var items = settlement.items;
 									
 									SNDK.tools.sortArrayHash (items, "catalogno", "numeric");		
 								
@@ -2432,34 +2433,72 @@ var didius =
 										var maxHeight = page.offsetHeight 
 										var maxHeight2 = page.offsetHeight;
 										
-										// CUSTOMERINFO
+										// SETTLEMENTNO
 										{
-											var customerInfo = "";					
-											customerInfo += customer.name +"<br>";
-											customerInfo += customer.address1 +"<br>";
-							
+											render = render.replace ("%%SETTLEMENTNO%%", settlement.no);
+										}
+										
+										// CUSTOMERNO
+										{
+											render = render.replace ("%%CUSTOMERNO%%", customer.no);
+										}
+										
+										// CUSTOMERNAME
+										{
+											render = render.replace ("%%CUSTOMERNAME%%", customer.name);
+										}
+										
+										// CUSTOMERADDRESS
+										{
+											var address = customer.address1;
+											
 											if (customer.address2 != "")
 											{
-												customerInfo += customer.address1 +"<br>";					
+												address += "<br>"+ customer.address2;
 											}
-							
-											customerInfo += customer.postcode +" "+ customer.city +"<br><br>";
-											
-											customerInfo += "Kunde nr. "+ customer.no +"<br><br>"
-											
-											customerInfo += "Tlf. "+ customer.phone +"<br>";
-											customerInfo += "Email "+ customer.email +"<br><br>";
-											
-											customerInfo += "Sag: "+ _case.title +"<br><br>";
-											
-											render = render.replace ("%%CUSTOMERINFO%%", customerInfo);					
-											content.innerHTML = render;
+										
+											render = render.replace ("%%CUSTOMERADDRESS%%", address);
+										}
+										
+										// CUSTOMERPOSTCODE
+										{
+											render = render.replace ("%%CUSTOMERPOSTCODE%%", customer.postcode);
+										}
+										
+										// CUSTOMERCITY
+										{
+											render = render.replace ("%%CUSTOMERCITY%%", customer.city);
+										}
+										
+										// CUSTOMERCOUNTRY
+										{
+											render = render.replace ("%%CUSTOMERCOUNTRY%%", customer.country);
+										}
+										
+										// CUSTOMERPHONE
+										{
+											render = render.replace ("%%CUSTOMERPHONE%%", customer.phone);
+										}
+										
+										// CUSTOMEREMAIL
+										{
+											render = render.replace ("%%CUSTOMEREMAIL%%", customer.email);
 										}
 						
 										// CUSTOMERBANKACCOUNT
 										{
 											render = render.replace ("%%CUSTOMERBANKACCOUNT%%", customer.bankregistrationno +" "+ customer.bankaccountno);
 											content.innerHTML = render;
+										}
+										
+										// CASENO
+										{
+											render = render.replace ("%%CASENO%%", _case.no);
+										}
+										
+										// CASETITLE
+										{
+											render = render.replace ("%%CASETITLE%%", _case.title);
 										}
 						
 										// ROWS
@@ -2485,12 +2524,12 @@ var didius =
 											
 													// BIDAMOUNT
 													{
-														row = row.replace ("%%BIDAMOUNT%%", items[idx].bidamount);
+														row = row.replace ("%%BIDAMOUNT%%",  items[idx].bidamount.toFixed (2));
 													}
 											
 													// COMMISSIONFEE
 													{
-														row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee);
+														row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee.toFixed (2));
 													}					
 			
 													content.innerHTML = render.replace ("%%ROWS%%", rows + row);
@@ -2524,9 +2563,10 @@ var didius =
 										// TOTAL
 										{
 											render = render.replace ("%%TOTAL%%", template.total);
-											render = render.replace ("%%TOTALSALE%%", totalSale.toFixed (2));
-											render = render.replace ("%%TOTALCOMMISSIONFEE%%", totalCommissionFee.toFixed (2));
-											render = render.replace ("%%TOTALTOTAL%%", (totalSale + totalCommissionFee).toFixed (2));
+											render = render.replace ("%%TOTALSALE%%", settlement.sales.toFixed (2));
+											render = render.replace ("%%TOTALCOMMISSIONFEE%%", settlement.commissionfee.toFixed (2));
+											render = render.replace ("%%TOTALTOTAL%%", settlement.total.toFixed (2));
+											render = render.replace ("%%TOTALVAT%%", settlement.vat.toFixed (2));
 											content.innerHTML = render;
 										}				
 																	
@@ -2551,7 +2591,7 @@ var didius =
 									return result;						
 								};
 								
-				var data = render ({case: attributes.case});
+				var data = render ({settlement: attributes.settlement});
 				
 				var print = app.mainWindow.document.createElement ("iframe");
 				app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);		

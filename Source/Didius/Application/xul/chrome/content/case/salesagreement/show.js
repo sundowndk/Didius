@@ -16,22 +16,32 @@ var main =
 	// | INIT																								|	
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
-	{	 	
-		try
-		{
-			main.case = didius.case.load (window.arguments[0].caseId);
-			main.customer = didius.customer.load (main.case.customerid);
-		}
-		catch (error)
-		{
-			app.error ({exception: error})
-			main.close ();
-			return;
-		}								
-	
+	{	
 		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending"});
 	
-		main.set ();		
+		var onInit = 	function ()
+						{
+							try
+							{	
+								main.case = didius.case.load (window.arguments[0].caseId);
+								main.customer = didius.customer.load (main.case.customerid);
+							}
+							catch (error)
+							{
+								app.error ({exception: error})
+								main.close ();
+								return;
+							}
+							
+							onDone ();												
+						};
+						
+		var onDone =	function ()
+						{
+							main.set ();						
+						};
+	 	 	
+		setTimeout (onInit, 1);
 	},
 			
 	// ------------------------------------------------------------------------------------------------------
@@ -40,9 +50,7 @@ var main =
 	set : function ()
 	{	
 		document.title = "Salgsaftale: "+ main.case.title +" ["+ main.case.no +"]";
-		
-		
-		
+						
 		var onDone =	function (result)
 						{										
 							main.itemsTreeHelper.disableRefresh ();
@@ -56,18 +64,19 @@ var main =
 								data["no"] = item.no;
 								data["title"] = item.title;			
 								data["commissionfee"] = item.commissionfee.toFixed (2) + " kr.";
-								
-								sXUL.console.log (item.commissionfee)
-																
+																														
 								main.itemsTreeHelper.addRow ({data: data});
 							}		
 							main.itemsTreeHelper.enableRefresh ();
 														
 							document.getElementById ("print").disabled = false;
+							
 							if (main.customer.email != "")
 							{
 								document.getElementById ("mail").disabled = false;
 							}				
+							
+							document.getElementById ("close").disabled = false;
 						}
 						
 		didius.item.list ({case: main.case, async: true, onDone: onDone});		
