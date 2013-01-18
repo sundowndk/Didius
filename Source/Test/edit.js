@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
 Components.utils.import("resource://didius/js/app.js");
 
 // ----------------------------------------------------------------------------------------------------------
@@ -17,28 +15,7 @@ var main =
 	// | INIT																								|	
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
-	{		
-		try
-		{
-			main.customer = didius.customer.load (window.arguments[0].customerId);
-		}
-		catch (error)
-		{
-			app.error ({exception: error})
-			main.close ();
-			return;
-		}			
-		
-		main.set ();					
-					
-		// Init tabs
-		details.init ();
-		cases.init ();
-		bids.init ();
-		settlements.init ();
-		invoices.init ();
-		notes.init ();
-		
+	{	
 		// Hook events.
 		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);
 		
@@ -52,7 +29,38 @@ var main =
 		
 		app.events.onSettlementCreate.addHandler (eventHandlers.onSettlementCreate);
 		
-		app.events.onInvoiceCreate.addHandler (eventHandlers.onInvoiceCreate);
+		app.events.onInvoiceCreate.addHandler (eventHandlers.onInvoiceCreate);		
+			
+		var onInit =	function ()
+						{
+							try
+							{
+								main.customer = didius.customer.load (window.arguments[0].customerId);
+							}
+							catch (error)
+							{
+								app.error ({exception: error})
+								main.close ();
+								return;
+							}		
+							
+							onDone ();					
+						};
+						
+		var onDone =	function ()
+						{
+							// Init tabs
+							details.init ();
+							cases.init ();
+							bids.init ();
+							settlements.init ();
+							invoices.init ();
+							notes.init ();						
+						
+							main.set ();																							
+						};												
+						
+		setTimeout (onInit, 1);		
 	},
 				
 	// ------------------------------------------------------------------------------------------------------
@@ -361,6 +369,7 @@ var bids =
 	{
 		var onDone = 	function (items)
 						{				
+							sXUL.console.log ("Bids loaded..");
 							bids.bidsTreeHelper.disableRefresh ();										
 							for (idx in items)
 							{				

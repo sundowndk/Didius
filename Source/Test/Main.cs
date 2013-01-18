@@ -17,14 +17,14 @@ namespace Test
 		{
 			SorentoLib.Services.Database.Connection = new Connection (SNDK.Enums.DatabaseConnector.Mysql,
 			                                                          //			                                                          "localhost",
-			                                                          "10.0.0.40",
+			                                                          "172.20.0.34",
 			                                                          //			                                                            "sorento",
-			                                                          "sorentotest.sundown.dk",
-			                                                          "sorentotest",
+			                                                          "default",
+			                                                          "test",
 			                                                          "qwerty",
 			                                                          true);
 			
-			SorentoLib.Services.Database.Prefix = "sorento_";
+			SorentoLib.Services.Database.Prefix = "didiustest_";
 
 			if (SorentoLib.Services.Database.Connection.Connect ())
 			{

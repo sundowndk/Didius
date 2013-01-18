@@ -1,10 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/case/salesagreement/show.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Test/Main.cs">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.js" Line="29" Column="9" />
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.xul" Line="34" Column="26" />
-      <File FileName="Didius/Application/xul/chrome/content/case/salesagreement/show.js" Line="78" Column="8" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="742" Column="2" />
+      <File FileName="Test/Main.cs" Line="44" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -25,9 +24,7 @@
                       <Node name="invoice" expanded="True" />
                     </Node>
                     <Node name="case" expanded="True">
-                      <Node name="salesagreement" expanded="True">
-                        <Node name="show.js" selected="True" />
-                      </Node>
+                      <Node name="salesagreement" expanded="True" />
                       <Node name="settlement" expanded="True" />
                     </Node>
                     <Node name="customer" expanded="True" />
@@ -47,6 +44,9 @@
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True" />
+          </Node>
+          <Node name="Test" expanded="True">
+            <Node name="Main.cs" selected="True" />
           </Node>
         </State>
       </Pad>
