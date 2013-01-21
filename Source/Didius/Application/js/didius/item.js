@@ -100,7 +100,7 @@ list : function (attributes)
 	}
 	else if (attributes.auctionId)
 	{
-		content.auctionId = attributes.auctionId;
+		content.auctionid = attributes.auctionId;
 	}
 	
 	if (attributes.async)

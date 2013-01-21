@@ -162,7 +162,17 @@ var app =
 		customer : function (attributes)
 		{
 			app.mainWindow.openDialog ("chrome://didius/content/chooser/customer.xul", "test", "chrome", attributes);
-		}	
+		},
+		
+		auction : function (attributes)
+		{
+			app.mainWindow.openDialog ("chrome://didius/content/chooser/auction.xul", "test", "chrome", attributes);
+		},
+		
+		item : function (attributes)
+		{
+			app.mainWindow.openDialog ("chrome://didius/content/chooser/item.xul", "test", "chrome", attributes);
+		}
 	},
 	
 	window :

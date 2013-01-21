@@ -1,115 +1,252 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ----------------------------------------------------------------------------------------------------------
 var main =
 {
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
 	checksum : null,
-	current : {},
+	bid : null,
 	customer : null,
-	item : null,
+	auction : null,
+	item : null,	
+	amount : null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
-	{	 	
-		main.customer = window.arguments[0].customer;
-		main.item = window.arguments[0].item;		
-	
-		main.set ();
-		
+	{	
 		// Hook events.						
-		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
+		app.events.onCustomerSave.addHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);
 		
-		app.events.onItemSave.addHandler (main.eventHandlers.onItemSave);
-		app.events.onItemDestroy.addHandler (main.eventHandlers.onItemDestroy);			
-	},
-	
-	eventHandlers :
-	{
-		onCustomerSave : function (eventData)
-		{			
-			if (main.customer.id == eventData.id)
-			{
+		app.events.onAuctionSave.addHandler (eventHandlers.onAuctionSave);
+		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);
+		
+		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);			
+		
+		var onInit =	function ()
+						{
+							try
+							{
+								if (window.arguments[0].customerId)
+								{
+									main.customer = didius.customer.load (window.arguments[0].customerId);										
+								}			
+								
+								if (window.arguments[0].auctionId)
+								{
+									main.auction = didius.auction.load (window.arguments[0].auctionId);										
+								}
+								
+								if (window.arguments[0].itemId)
+								{									
+									main.item = didius.item.load (window.arguments[0].itemId);									
+									main.auction = didius.auction.load (main.item.auctionid)
+								}
+							}
+							catch (error)
+							{
+								app.error ({exception: error})
+								main.close ();
+								return;
+							}
 							
-			}
-		},
-	
-		onCustomerDestroy : function (eventData)
-		{
-			if (main.customer.id == eventData.id)
-			{
-				main.close (true);
-			}
-		},
-		
-		onItemSave : function (eventData)
-		{			
-			if (main.item.id == eventData.id)
-			{
-							
-			}
-		},
-		
-		onItemDestroy : function (eventData)
-		{
-			if (main.item.id == eventData.id)
-			{
-				main.close (true);
-			}
-		}										
+							onDone ();
+						};
+	 	 	
+		var onDone =	function ()
+						{													
+							main.set ();
+						};
+				
+		setTimeout (onInit, 1);									
 	},
 		
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
-	
-		document.getElementById ("customer").value = main.customer.name;		
-		document.getElementById ("item").value = main.item.title;				
-	
-		document.getElementById ("amount").value = main.current.amount;		
-														
+		
+		if (main.customer)
+		{
+			document.getElementById ("customername").disabled = false;
+			document.getElementById ("customername").value = main.customer.name;			
+		}
+		
+		document.getElementById ("choosecustomer").disabled = false;
+		
+		if (main.auction)
+		{
+			document.getElementById ("auctiontitle").disabled = false;
+			document.getElementById ("auctiontitle").value = main.auction.title;			
+		}
+		
+		document.getElementById ("chooseauction").disabled = false;
+		
+		if (main.item)
+		{
+			document.getElementById ("itemtitle").disabled = false;
+			document.getElementById ("itemtitle").value = main.item.title;			
+		}	
+		
+		document.getElementById ("amount").disabled = false;	
+																		
 		main.onChange ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | GET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.current.customer = main.customer;
-		main.current.item = main.item;
-				
-		main.current.amount = document.getElementById ("amount").value;		
+		main.amount = document.getElementById ("amount").value;		
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | CHOOSECUSTOMER																						|	
+	// ------------------------------------------------------------------------------------------------------
+	chooseCustomer : function ()
+	{
+		var onDone = 	function (result)
+						{	
+							if (result)
+							{
+								main.customer = result;
+								document.getElementById ("customername").value = main.customer.name;
+							}						
+							
+							main.onChange ();
+						};
+																										
+		app.choose.customer ({onDone: onDone});
+	},	
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CHOOSEAUCTION																						|	
+	// ------------------------------------------------------------------------------------------------------
+	chooseAuction : function ()
+	{
+		var onDone = 	function (result)
+						{
+							if (result)
+							{									
+								if (main.auction != null)
+								{								
+									if (main.auction.id != result.id)
+									{
+										main.item = null;
+									}
+								}
+								
+								main.auction = result;
+								document.getElementById ("auctiontitle").value = main.auction.title;								
+							}							
+							
+							main.onChange ();
+						};
+																				
+		app.choose.auction ({onDone: onDone});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CHOOSEITEM																							|	
+	// ------------------------------------------------------------------------------------------------------
+	chooseItem : function ()
+	{
+		var onDone = 	function (result)
+						{
+							if (result)
+							{
+								main.item = result;
+								document.getElementById ("itemtitle").value = main.item.title;
+							}							
+							
+							main.onChange ();
+						};
+																				
+		app.choose.item ({auctionId: main.auction.id, onDone: onDone});
+	},
+			
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------
 	create : function ()
 	{			
 		main.get ();
 		
-		var bid = didius.bid.create (main.current.customer, main.current.item, main.current.amount);		
+		var bid = didius.bid.create (main.customer, main.item, main.amount);		
 		didius.bid.save (bid);
 		
-		main.close ();
-						
-		if (window.arguments[0].onSave != null)
-		{
-			window.arguments[0].onSave (main.current);
-		}
+		main.close ();								
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------
 	close : function ()
 	{							
 		// Unhook events.
-		app.events.onCustomerSave.removeHandler (main.eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.removeHandler (main.eventHandlers.onCustomerDestroy);
+		app.events.onCustomerSave.removeHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.removeHandler (eventHandlers.onCustomerDestroy);
 								
-		app.events.onItemSave.removeHandler (main.eventHandlers.onItemSave);
-		app.events.onItemDestroy.removeHandler (main.eventHandlers.onItemDestroy);
+		app.events.onItemSave.removeHandler (eventHandlers.onAuctionSave);
+		app.events.onItemDestroy.removeHandler (eventHandlers.onAuctionDestroy);								
+								
+		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);
 	
 		// Close window.
 		window.close ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
 	{
 		main.get ();
+		
+		if (main.customer != null)
+		{
+		
+		}
+		else
+		{
+			document.getElementById ("customername").value = "";
+		}
+					
+		if (main.auction != null)
+		{
+			document.getElementById ("auctiontitle").disabled = false;
+			document.getElementById ("itemtitle").disabled = false;
+			document.getElementById ("chooseitem").disabled = false;			
+		}
+		else
+		{
+			document.getElementById ("auctiontitle").value = "";
+			document.getElementById ("auctiontitle").disabled = true;
+			document.getElementById ("itemtitle").disabled = true;
+			document.getElementById ("chooseitem").disabled = true;
+		}
+		
+		if (main.item != null)
+		{
+		
+		}
+		else
+		{
+			document.getElementById ("itemtitle").value = "";
+		}
 	
-		if (document.getElementById ("amount") != 0.00)
+		if (document.getElementById ("amount").value != 0.00 && main.customer != null && main.auction != null && main.item != null)
 		{					
 			document.getElementById ("create").disabled = false;
 			document.getElementById ("close").disabled = false;
@@ -120,4 +257,85 @@ var main =
 			document.getElementById ("close").disabled = false;
 		}
 	}	
+}
+
+// ----------------------------------------------------------------------------------------------------------
+// | EVENTHANDLERS																							|
+// ----------------------------------------------------------------------------------------------------------
+var	eventHandlers =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCUSTOMERSAVE																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onCustomerSave : function (eventData)
+	{			
+		if (main.customer.id == eventData.id)
+		{
+			main.customer = eventData;
+			document.getElementById ("customername").value = main.customer.name;
+			main.onChange ();
+		}
+	},
+
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCUTOMERDESTROY																					|	
+	// ------------------------------------------------------------------------------------------------------
+	onCustomerDestroy : function (eventData)
+	{
+		if (main.customer.id == eventData.id)
+		{
+			main.customer = null;
+			main.onChange ();
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONSAVE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onAuctionSave : function (eventData)
+	{			
+		if (main.auction.id == eventData.id)
+		{
+			main.auction = eventData;
+			document.getElementById ("auctiontitle").value = main.auction.title;
+			main.onChange ();		
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONDESTROY																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onAuctionDestroy : function (eventData)
+	{
+		if (main.auction.id == eventData.id)
+		{
+			main.auction = null;
+			main.onChange ();
+		}
+	},									
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMSAVE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onItemSave : function (eventData)
+	{			
+		if (main.item.id == eventData.id)
+		{		
+			main.item = eventData;
+			document.getElementByid ("itemtitle").value = main.item.title;
+			main.onChange ();			
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMDESTROY																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onItemDestroy : function (eventData)
+	{
+		if (main.item.id == eventData.id)
+		{
+			main.item = null;
+			main.onChange ();
+		}
+	}										
 }

@@ -1,9 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Test/Main.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/bid/edit.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="742" Column="2" />
-      <File FileName="Test/Main.cs" Line="44" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="165" Column="43" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="10" Column="107" />
+      <File FileName="Didius/Application/xul/chrome/content/bid/edit.js" Line="113" Column="70" />
+      <File FileName="Didius/Application/xul/chrome/content/bid/edit.xul" Line="7" Column="42" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -23,12 +25,13 @@
                     <Node name="auction" expanded="True">
                       <Node name="invoice" expanded="True" />
                     </Node>
-                    <Node name="case" expanded="True">
-                      <Node name="salesagreement" expanded="True" />
-                      <Node name="settlement" expanded="True" />
+                    <Node name="bid" expanded="True">
+                      <Node name="edit.js" selected="True" />
                     </Node>
+                    <Node name="chooser" expanded="True" />
                     <Node name="customer" expanded="True" />
                     <Node name="customeredit-REMOVE" expanded="True" />
+                    <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />
                     <Node name="templates" expanded="True" />
@@ -44,9 +47,6 @@
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True" />
-          </Node>
-          <Node name="Test" expanded="True">
-            <Node name="Main.cs" selected="True" />
           </Node>
         </State>
       </Pad>

@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
 Components.utils.import("resource://didius/js/app.js");
 
 // ----------------------------------------------------------------------------------------------------------
@@ -364,28 +362,32 @@ var bids =
 							bids.bidsTreeHelper.disableRefresh ();										
 							for (idx in items)
 							{				
+								var bid = items[idx];																								
+								var item = didius.item.load (bid.itemid);								
+								var _case = didius.case.load (item.caseid);																
+								var auction = didius.auction.load (_case.auctionid);
+							
 								var data = {};
-								data.id = items[idx].id;
-								data.createtimestamp = items[idx].createtimestamp;
-								data.auctionno = items[idx].item.case.auction.no;
-								data.auctiontitle = items[idx].item.case.auction.title;
-								data.itemno = items[idx].item.no;
-								data.itemtitle = items[idx].item.title;
-								data.amount = items[idx].amount;
+								data.id = bid.id;
+								data.createtimestamp = bid.createtimestamp;
+								data.auctionno = auction.no;
+								data.auctiontitle = auction.title;
+								data.itemcatalogno = item.catalogno;
+								data.itemno = item.no;
+								data.itemtitle = item.title;
+								data.amount = bid.amount.toFixed (2) +" kr.";
 								
 								bids.bidsTreeHelper.addRow ({data: data});
 							}
 							bids.bidsTreeHelper.enableRefresh ();
 							
 							// Enable controls
-							document.getElementById ("bids").disabled = false;																
+							document.getElementById ("bids").disabled = false;
+							document.getElementById ("bidcreate").disabled = false;											
+							
 							bids.onChange ();
 						};
-
-			// Disable controls
-			document.getElementById ("bids").disabled = true;					
-			document.getElementById ("bidShow").disabled = true;				
-					
+			
 			didius.bid.list ({customer: main.customer, async: true, onDone: onDone});
 	},
 		
@@ -396,20 +398,48 @@ var bids =
 	{
 		if (bids.bidsTreeHelper.getCurrentIndex () != -1)
 		{					
-			document.getElementById ("bidShow").disabled = false;
+			document.getElementById ("bidedit").disabled = false;
+			document.getElementById ("biddestroy").disabled = false;
 		}
 		else
 		{												
-			document.getElementById ("bidShow").disabled = true;
+			document.getElementById ("bidedit").disabled = true;
+			document.getElementById ("biddestroy").disabled = true;
 		}						
 	},
-				
+						
 	// ------------------------------------------------------------------------------------------------------
-	// | SHOW																							|	
+	// | CREATE																								|	
 	// ------------------------------------------------------------------------------------------------------
-	show : function ()
-	{		
-		window.openDialog ("chrome://didius/content/bid/edit.xul", "didius.bid.edit."+ bids.bidsTreeHelper.getRow ().id, "chrome", {bidid: bids.bidsTreeHelper.getRow ().id});
+	create : function ()
+	{
+		window.openDialog ("chrome://didius/content/bid/create.xul", "didius.bid.create."+ SNDK.tools.newGuid (), "chrome", {customerId: main.customer.id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | EDIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	edit : function ()
+	{
+		window.openDialog ("chrome://didius/content/bid/edit.xul", "didius.bid.edit."+ bids.bidsTreeHelper.getRow ().id, "chrome", {bidId: bids.bidsTreeHelper.getRow ().id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | DESTROY																							|	
+	// ------------------------------------------------------------------------------------------------------
+	destroy : function ()
+	{
+		if (app.window.prompt.confirm ("Slet bud", "Er du sikker på du vil slette dette bud ?"))
+		{
+			try
+			{
+				didius.bid.destroy (bids.bidsTreeHelper.getRow ().id);					
+			}
+			catch (error)
+			{
+				app.error ({exception: error})
+			}								
+		}
 	}
 }
 

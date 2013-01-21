@@ -12,6 +12,7 @@
 
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="q" oncommand="main.close (false);"/>
+  		<key id="shortcut-search" keycode="VK_F2" oncommand="main.search ();"/>
 	</keyset>
 	
 	<menubar id="menubar">

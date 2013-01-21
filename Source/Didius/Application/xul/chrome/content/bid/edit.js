@@ -1,10 +1,19 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ----------------------------------------------------------------------------------------------------------
 var main =
 {
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
 	checksum : null,
 	current : null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	 
 		try
@@ -21,57 +30,21 @@ var main =
 		main.set ();
 		
 		// Hook events.								
-		app.events.onBidDestroy.addHandler (main.eventHandlers.onBidDestroy);
+		app.events.onBidDestroy.addHandler (eventHandlers.onBidDestroy);
 		
-		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);					
+		app.events.onCustomerSave.addHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);					
 		
-		app.events.onItemDestroy.addHandler (main.eventHandlers.onItemDestroy);
+		app.events.onAuctionSave.addHandler (eventHandlers.onAuctionSave);
+		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);					
+		
+		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);
 	},
-	
-	eventHandlers :
-	{
-		onBidDestroy : function (eventData)
-		{
-			if (main.current.id == eventData.id)
-			{
-				main.close (true);
-			}
-		},									
-	
-		onCustomerSave : function (eventData)
-		{			
-			if (main.current.customerid == eventData.id)
-			{
-							
-			}
-		},
-	
-		onCustomerDestroy : function (eventData)
-		{
-			if (main.current.customerid == eventData.id)
-			{
-				main.close (true);
-			}
-		},
-		
-		onItemSave : function (eventData)
-		{			
-			if (main.current.itemid == eventData.id)
-			{
-							
-			}
-		},
-		
-		onItemDestroy : function (eventData)
-		{
-			if (main.current.itemid == eventData.id)
-			{
-				main.close (true);
-			}
-		}										
-	},
-		
+				
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
@@ -84,11 +57,17 @@ var main =
 		main.onChange ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | GET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{					
 		main.current.amount = document.getElementById ("amount").value;
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | SAVE																								|	
+	// ------------------------------------------------------------------------------------------------------
 	save : function ()
 	{			
 		main.get ();
@@ -104,6 +83,9 @@ var main =
 		}
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------
 	close : function (force)
 	{		
 		// If we are forced to close, then dont promt user about potential unsaved data.		
@@ -122,18 +104,24 @@ var main =
 		}
 											
 		// Unhook events.
-		app.events.onBidDestroy.removeHandler (main.eventHandlers.onBidDestroy);
+		app.events.onBidDestroy.removeHandler (eventHandlers.onBidDestroy);
 		
-		app.events.onCustomerSave.removeHandler (main.eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.removeHandler (main.eventHandlers.onCustomerDestroy);
+		app.events.onCustomerSave.removeHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.removeHandler (eventHandlers.onCustomerDestroy);
 								
-		app.events.onItemSave.removeHandler (main.eventHandlers.onItemSave);
-		app.events.onItemDestroy.removeHandler (main.eventHandlers.onItemDestroy);
+		app.events.onAuctionSave.removeHandler (eventHandlers.onAuctionSave);
+		app.events.onAuctionDestroy.removeHandler (.eventHandlers.onAuctionDestroy);								
+								
+		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.removeHandler (.eventHandlers.onItemDestroy);
 	
 		// Close window.
 		window.close ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
 	{
 		main.get ();
@@ -149,4 +137,93 @@ var main =
 			document.getElementById ("close").disabled = false;
 		}
 	}	
+}
+
+// ----------------------------------------------------------------------------------------------------------
+// | EVENTHANDLERS																							|
+// ----------------------------------------------------------------------------------------------------------
+var eventHandlers =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | ONBIDDESTROY																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onBidDestroy : function (eventData)
+	{
+		if (main.bid.id == eventData.id)
+		{
+			main.close (true);
+		}
+	},									
+
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCUSTOMERSAVE																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onCustomerSave : function (eventData)
+	{			
+		if (main.customer.id == eventData.id)
+		{
+			main.customer = eventData;
+			document.getElementById ("customername").value = main.customer.name;			
+			main.onChange ();
+		}
+	},
+
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCUSTOMERDESTROY																					|	
+	// ------------------------------------------------------------------------------------------------------
+	onCustomerDestroy : function (eventData)
+	{
+		if (main.customer.id == eventData.id)
+		{
+			main.close (true);
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONSAVE																						|	
+	// ------------------------------------------------------------------------------------------------------	
+	onAuctionSave : function (eventData)
+	{			
+		if (main.auction.id == eventData.id)
+		{
+			main.auction = eventData;
+			document.getElementById ("auctiontitle").value = main.auction.title;
+			main.onChange ();
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONDESTROY																					|	
+	// ------------------------------------------------------------------------------------------------------
+	onAuctionDestroy : function (eventData)
+	{
+		if (main.auction.id == eventData.id)
+		{
+			main.close (true);
+		}
+	},
+		
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMSAVE																							|	
+	// ------------------------------------------------------------------------------------------------------	
+	onItemSave : function (eventData)
+	{			
+		if (main.item.id == eventData.id)
+		{
+			main.item = eventData;
+			document.getElementById ("itemtitle").value = main.item.title;
+			main.onChanges ();
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMDESTROY																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onItemDestroy : function (eventData)
+	{
+		if (main.item.id == eventData.id)
+		{
+			main.close (true);
+		}
+	}										
 }

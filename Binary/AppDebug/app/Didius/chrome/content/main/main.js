@@ -244,6 +244,11 @@ var main =
 		window.openDialog ("chrome://didius/content/settings/settings.xul", "settings", "chrome", null);
 	},
 	
+	search : function ()
+	{
+		document.getElementById ("customerSearch").focus ();
+	},
+	
 	close : function ()
 	{
 //		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 

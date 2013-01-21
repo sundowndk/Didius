@@ -339,6 +339,10 @@
     <None Include="Application\xul\chrome\content\case\settlement\progress.js" />
     <None Include="Application\xul\chrome\content\case\settlement\progress.xul" />
     <None Include="Application\xul\chrome\content\customer\edit.js" />
+    <None Include="Application\xul\chrome\content\chooser\auction.js" />
+    <None Include="Application\xul\chrome\content\chooser\auction.xul" />
+    <None Include="Application\xul\chrome\content\chooser\item.xul" />
+    <None Include="Application\xul\chrome\content\chooser\item.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />
