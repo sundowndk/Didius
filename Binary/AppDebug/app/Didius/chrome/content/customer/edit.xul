@@ -19,8 +19,7 @@
 				<tabs style="overflow:hidden">
 					<tab label="Detaljer"/>
 					<tab label="Sager"/>
-					<tab label="Bud"/>
-					<tab label="Autobud"/>
+					<tab label="Bud"/>					
 					<tab label="Afregninger"/>
 					<tab label="Faktura"/>				
 					<tab label="Noter"/>
@@ -166,35 +165,7 @@
 						</vbox>	
 					</hbox>						
 				</tabpanel>
-				
-				<tabpanel>
-					<hbox flex="1">
-						<tree id="autobids" flex="1" hidecolumnpicker="true" disabled="true" onselect="autobids.onChange ();" seltype="single">
-							<treecols>
-								<treecol id="id" hidden="true"/>
-								<splitter class="tree-splitter" hidden="true"/>								
-								<treecol id="createtimestamp" hidden="true"/>
-								<splitter class="tree-splitter" hidden="true"/>								
-								<treecol id="auctionno" hidden="true" />
-								<splitter class="tree-splitter"/>
-								<treecol id="auctiontitle" label="Auktion" width="100" persist="width" />
-								<splitter class="tree-splitter"/>
-								<treecol id="itemno" label="Effekt nr." width="100" persist="width" />
-								<splitter class="tree-splitter"/>
-								<treecol id="itemtitle" label="Title" flex="3" persist="width" />
-								<splitter class="tree-splitter"/>
-								<treecol id="amount" label="Max" flex="2" persist="width" style="text-align: right;"/>
-								<splitter class="tree-splitter"/>
-							</treecols>	
-						</tree>
-					</hbox>
-					<hbox>
-						<vbox>							
-							<button id="autoBidShow" label="Vis" oncommand="main.autobids.show ();" disabled="true"/>
-						</vbox>	
-					</hbox>						
-				</tabpanel>				
-				
+										
 				<tabpanel>
 					<hbox flex="1">
 						<tree id="settlements" flex="1" hidecolumnpicker="true" disabled="true" onselect="settlements.onChange ();" seltype="single">
@@ -233,6 +204,10 @@
 								<splitter class="tree-splitter"/>								
 								<treecol id="auctiontitle" label="Auktion" flex="1" persist="width" />								
 								<splitter class="tree-splitter"/>
+								<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;"/>								
+								<splitter class="tree-splitter"/>
+								<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>								
+								<splitter class="tree-splitter"/>
 								<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;" />														
 								<splitter class="tree-splitter"/>
 							</treecols>	
@@ -241,6 +216,7 @@
 					<hbox>
 						<vbox>							
 							<button id="invoiceShow" label="Vis" oncommand="invoices.show ();" disabled="true" />							
+							<button id="invoiceCreate" label="Fakturere" oncommand="invoices.create ();" disabled="true" />
 						</vbox>	
 					</hbox>						
 				</tabpanel>		

@@ -263,7 +263,7 @@ invoice : function (attributes)
 	{
 		var localDir = sXUL.tools.getLocalDirectory ();
 		//var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
-		var filename = localDir.path + app.session.pathSeperator + main.current.id +".pdf";
+		var filename = localDir.path + app.session.pathSeperator + attributes.invoice.id +".pdf";
 		//var filename = "F:\\test.pdf";
 					
     	settings.printSilent = true;

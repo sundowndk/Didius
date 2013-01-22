@@ -1,11 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/bid/edit.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/invoice/show.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="165" Column="43" />
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="10" Column="107" />
-      <File FileName="Didius/Application/xul/chrome/content/bid/edit.js" Line="113" Column="70" />
-      <File FileName="Didius/Application/xul/chrome/content/bid/edit.xul" Line="7" Column="42" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="560" Column="23" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/show.js" Line="26" Column="8" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -23,14 +21,14 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
-                      <Node name="invoice" expanded="True" />
+                      <Node name="invoice" expanded="True">
+                        <Node name="show.js" selected="True" />
+                      </Node>
                     </Node>
-                    <Node name="bid" expanded="True">
-                      <Node name="edit.js" selected="True" />
-                    </Node>
+                    <Node name="bid" expanded="True" />
+                    <Node name="case" expanded="True" />
                     <Node name="chooser" expanded="True" />
                     <Node name="customer" expanded="True" />
-                    <Node name="customeredit-REMOVE" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />

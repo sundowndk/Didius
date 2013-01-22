@@ -161,17 +161,17 @@ var app =
 	{
 		customer : function (attributes)
 		{
-			app.mainWindow.openDialog ("chrome://didius/content/chooser/customer.xul", "test", "chrome", attributes);
+			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/customer.xul", "didius.chooser.customer", "chrome,modal", attributes);				
 		},
 		
 		auction : function (attributes)
-		{
-			app.mainWindow.openDialog ("chrome://didius/content/chooser/auction.xul", "test", "chrome", attributes);
+		{			
+			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/auction.xul", "didius.chooser.auction", "chrome,modal", attributes);				
 		},
 		
 		item : function (attributes)
 		{
-			app.mainWindow.openDialog ("chrome://didius/content/chooser/item.xul", "test", "chrome", attributes);
+			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/item.xul", "didius.chooser.item", "chrome,modal", attributes);											
 		}
 	},
 	
@@ -179,6 +179,9 @@ var app =
 	{
 		open : function (window, url, name, features, args)
 		{
+			if (window == null)
+				window = app.mainWindow;
+		
 			var openNewWindow = true;
 			var windowManager = Components.classes['@mozilla.org/appshell/window-mediator;1'].getService(Components.interfaces.nsIWindowMediator);
 			var test = windowManager.getEnumerator (null);

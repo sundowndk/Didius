@@ -387,8 +387,13 @@ var bids =
 							
 							bids.onChange ();
 						};
+						
+			var onError =	function (exception)
+							{
+								app.error ({exception: error})							
+							};
 			
-			didius.bid.list ({customer: main.customer, async: true, onDone: onDone});
+			didius.bid.list ({customer: main.customer, onDone: onDone, onError: onError});
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -549,12 +554,17 @@ var invoices =
 							invoices.invoicesTreeHelper.disableRefresh ();
 							for (idx in items)
 							{				
+								var item = items[idx];
+								var auction = didius.auction.load (item.auctionid)
+							
 								var data = {};
-								data.id = items[idx].id;
-								data.createtimestamp = items[idx].createtimestamp;
-								data.no = items[idx].no;									
-								data.auctiontitle = items[idx].auction.title;
-								data.total = items[idx].total.toFixed (2) +" kr.";															
+								data.id = item.id;
+								data.createtimestamp = item.createtimestamp;
+								data.no = item.no;									
+								data.auctiontitle = auction.title;
+								data.commissionfee = item.commissionfee.toFixed (2) +" kr."; 
+								data.vat = item.vat.toFixed (2) +" kr."; 
+								data.total = item.total.toFixed (2) +" kr.";															
 								
 								invoices.invoicesTreeHelper.addRow ({data: data});
 							}
@@ -568,7 +578,7 @@ var invoices =
 			// Disable controls
 			document.getElementById ("invoices").disabled = true;					
 			document.getElementById ("invoiceShow").disabled = true;				
-					
+								
 			didius.invoice.list ({customer: main.customer, async: true, onDone: onDone});
 	},
 					
@@ -580,20 +590,41 @@ var invoices =
 		if (invoices.invoicesTreeHelper.getCurrentIndex () != -1)
 		{					
 			document.getElementById ("invoiceShow").disabled = false;				
+			document.getElementById ("invoiceCreate").disabled = false;
 		}
 		else
 		{												
-			document.getElementById ("invoiceShow").disabled = true;				
+			document.getElementById ("invoiceShow").disabled = true;
+			document.getElementById ("invoiceCreate").disabled = false;				
 		}						
 	},
 				
 	// ------------------------------------------------------------------------------------------------------
-	// | SHOW																							|	
+	// | SHOW																								|	
 	// ------------------------------------------------------------------------------------------------------																																																				
 	show : function ()
 	{				
 		window.openDialog ("chrome://didius/content/auction/invoice/show.xul", "didius.auction.invoice.show."+ invoices.invoicesTreeHelper.getRow ().id, "chrome", {invoiceId: invoices.invoicesTreeHelper.getRow ().id});
-	}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------
+	create : function ()
+	{				
+		var onDone = 	function (result)
+						{					
+							if (result)
+							{								
+								if (result != null)
+								{								
+									window.openDialog ("chrome://didius/content/auction/invoice/create.xul", "didius.auction.invoice.show."+ SNDK.tools.newGuid (), "chrome", {customerId: main.customer.id, auctionId: result.id});
+								}									
+							}																												
+						};
+																				
+		app.choose.auction ({onDone: onDone, parentWindow: window});		
+	},
 }
 	
 // ----------------------------------------------------------------------------------------------------------

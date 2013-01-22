@@ -109,104 +109,7 @@ var main =
 	{
 		main.amount = document.getElementById ("amount").value;		
 	},
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | CHOOSECUSTOMER																						|	
-	// ------------------------------------------------------------------------------------------------------
-	chooseCustomer : function ()
-	{
-		var onDone = 	function (result)
-						{	
-							if (result)
-							{
-								main.customer = result;
-								document.getElementById ("customername").value = main.customer.name;
-							}						
-							
-							main.onChange ();
-						};
-																										
-		app.choose.customer ({onDone: onDone});
-	},	
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | CHOOSEAUCTION																						|	
-	// ------------------------------------------------------------------------------------------------------
-	chooseAuction : function ()
-	{
-		var onDone = 	function (result)
-						{
-							if (result)
-							{									
-								if (main.auction != null)
-								{								
-									if (main.auction.id != result.id)
-									{
-										main.item = null;
-									}
-								}
-								
-								main.auction = result;
-								document.getElementById ("auctiontitle").value = main.auction.title;								
-							}							
-							
-							main.onChange ();
-						};
-																				
-		app.choose.auction ({onDone: onDone});
-	},
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | CHOOSEITEM																							|	
-	// ------------------------------------------------------------------------------------------------------
-	chooseItem : function ()
-	{
-		var onDone = 	function (result)
-						{
-							if (result)
-							{
-								main.item = result;
-								document.getElementById ("itemtitle").value = main.item.title;
-							}							
-							
-							main.onChange ();
-						};
-																				
-		app.choose.item ({auctionId: main.auction.id, onDone: onDone});
-	},
-			
-	// ------------------------------------------------------------------------------------------------------
-	// | CREATE																								|	
-	// ------------------------------------------------------------------------------------------------------
-	create : function ()
-	{			
-		main.get ();
 		
-		var bid = didius.bid.create (main.customer, main.item, main.amount);		
-		didius.bid.save (bid);
-		
-		main.close ();								
-	},
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | CLOSE																								|	
-	// ------------------------------------------------------------------------------------------------------
-	close : function ()
-	{							
-		// Unhook events.
-		app.events.onCustomerSave.removeHandler (eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.removeHandler (eventHandlers.onCustomerDestroy);
-								
-		app.events.onItemSave.removeHandler (eventHandlers.onAuctionSave);
-		app.events.onItemDestroy.removeHandler (eventHandlers.onAuctionDestroy);								
-								
-		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
-		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);
-	
-		// Close window.
-		window.close ();
-	},
-	
 	// ------------------------------------------------------------------------------------------------------
 	// | ONCHANGE																							|	
 	// ------------------------------------------------------------------------------------------------------
@@ -256,7 +159,104 @@ var main =
 			document.getElementById ("create").disabled = true;
 			document.getElementById ("close").disabled = false;
 		}
-	}	
+	},	
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CHOOSECUSTOMER																						|	
+	// ------------------------------------------------------------------------------------------------------
+	chooseCustomer : function ()
+	{
+		var onDone = 	function (result)
+						{	
+							if (result)
+							{
+								main.customer = result;
+								document.getElementById ("customername").value = main.customer.name;
+							}						
+							
+							main.onChange ();
+						};
+																										
+		app.choose.customer ({onDone: onDone, parentWindow: window});
+	},	
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CHOOSEAUCTION																						|	
+	// ------------------------------------------------------------------------------------------------------
+	chooseAuction : function ()
+	{
+		var onDone = 	function (result)
+						{
+							if (result)
+							{									
+								if (main.auction != null)
+								{								
+									if (main.auction.id != result.id)
+									{
+										main.item = null;
+									}
+								}
+								
+								main.auction = result;
+								document.getElementById ("auctiontitle").value = main.auction.title;								
+							}							
+							
+							main.onChange ();
+						};
+																				
+		app.choose.auction ({onDone: onDone, parentWindow: window});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CHOOSEITEM																							|	
+	// ------------------------------------------------------------------------------------------------------
+	chooseItem : function ()
+	{
+		var onDone = 	function (result)
+						{
+							if (result)
+							{
+								main.item = result;
+								document.getElementById ("itemtitle").value = main.item.title;
+							}							
+							
+							main.onChange ();
+						};
+																				
+		app.choose.item ({auctionId: main.auction.id, onDone: onDone, parentWindow: window});
+	},
+			
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------
+	create : function ()
+	{			
+		main.get ();
+		
+		var bid = didius.bid.create ({customer: main.customer, item: main.item, amount: main.amount});
+		didius.bid.save ({bid: bid});
+		
+		main.close ();								
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------
+	close : function ()
+	{							
+		// Unhook events.
+		app.events.onCustomerSave.removeHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.removeHandler (eventHandlers.onCustomerDestroy);
+								
+		app.events.onItemSave.removeHandler (eventHandlers.onAuctionSave);
+		app.events.onItemDestroy.removeHandler (eventHandlers.onAuctionDestroy);								
+								
+		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);
+	
+		// Close window.
+		window.close ();
+	}
 }
 
 // ----------------------------------------------------------------------------------------------------------

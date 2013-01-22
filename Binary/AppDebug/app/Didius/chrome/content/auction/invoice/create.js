@@ -1,69 +1,123 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ----------------------------------------------------------------------------------------------------------
 var main =
 {	
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	invoice : null,
 	auction : null,
-	customer : null,
-	current : null,
+	customer : null,	
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
-	{	 	
-		try
-		{
-			main.auction = didius.auction.load (window.arguments[0].auctionId);
-			main.customer = didius.customer.load (window.arguments[0].customerId);
-		}
-		catch (error)
-		{
-			app.error ({exception: error})
-			main.close ();
-			return;
-		}								
-	
+	{	
 		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending"});
 	
-		main.set ();		
+		var onInit =	function ()
+						{
+							try
+							{
+								main.customer = didius.customer.load (window.arguments[0].customerId);																
+								main.auction = didius.auction.load (window.arguments[0].auctionId);	
+							}
+							catch (error)
+							{
+								app.error ({exception: error})
+								main.close ();
+								return;
+							}												
+							
+							onDone ();
+						};
+						
+		var onDone =	function ()
+						{
+							main.set ();
+						};
+						
+		setTimeout (onInit, 1);
 	},
 			
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{		
-		var invoice = didius.invoice.create ({auction: main.auction, customer: main.customer, simulate: true});
+		try
+		{		
+			main.invoice = didius.invoice.create ({auction: main.auction, customer: main.customer, simulate: true});
 	
-		for (idx in invoice.items)
+			main.itemsTreeHelper.disableRefresh ();
+			for (idx in main.invoice.items)
+			{
+				var item = main.invoice.items[idx];
+				var data = {};
+				data.id = item.id;
+				data.no = item.no;
+				data.catalogno = item.catalogno;
+				data.title = item.title;
+				data.bidamount = item.bidamount.toFixed (2) +" kr.";
+				data.commissionfee = item.commissionfee.toFixed (2) +" kr.";			
+							
+				main.itemsTreeHelper.addRow ({data: data});
+			}
+			main.itemsTreeHelper.enableRefresh ();
+	
+			document.getElementById ("totalSale").value = main.invoice.sales;
+			document.getElementById ("totalCommissionFee").value = main.invoice.commissionfee;
+			document.getElementById ("totalVat").value = main.invoice.vat;
+			document.getElementById ("totalTotal").value = main.invoice.total;									
+		}
+		catch (exception)
 		{
-			var item = invoice.items[idx];
+			app.error ({exception: exception})		
+		}
+		
+		if (main.invoice != null)
+		{
+			if (main.invoice.items.length > 0)
+			{
+				document.getElementById ("printInvoice").disabled = false;
+				document.getElementById ("mailInvoice").disabled = false;				
+				document.getElementById ("create").disabled = false;
+			}
 			
-			main.itemsTreeHelper.addRow ({data: item});
+			document.getElementById ("totalSale").disabled = false;
+			document.getElementById ("totalCommissionFee").disabled = false;			
+			document.getElementById ("totalVat").disabled = false;						
+			document.getElementById ("totalTotal").disabled = false;
 		}
-	
-		document.getElementById ("totalSale").value = invoice.sales;
-		document.getElementById ("totalCommissionFee").value = invoice.commissionfee;
-		document.getElementById ("totalVat").value = invoice.vat;
-		document.getElementById ("totalTotal").value = invoice.total;
-		
-		if (invoice.total > 0)
+		else
 		{
-			document.getElementById ("approve").disabled = false;
+			document.getElementById ("totalSale").disabled = true;
+			document.getElementById ("totalCommissionFee").disabled = true;			
+			document.getElementById ("totalVat").disabled = true;						
+			document.getElementById ("totalTotal").disabled = true;
 		}
+		
+		if (main.customer.email == "")
+		{
+			document.getElementById ("mailInvoice").disabled = false;
+			document.getElementById ("mailInvoice").checked = false;				
+		}
+		
+		document.getElementById ("close").disabled = false;
 	},
 		
-	approve : function ()
-	{					
-		main.current = didius.invoice.create ({auction: main.auction, customer: main.customer, simulate: true});
-		
-		main.print ()
-									
-//		if (window.arguments[0].onApprove != null)
-//		{
-//			window.arguments[0].onApprove (current);
-//		}
-		
-//		main.close ();	
-	},
-	
-	print : function ()
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------	
+	create : function ()
 	{
-		var progresswindow = app.window.open (window, "chrome://didius/content/auction/invoice/progress.xul", "auction.invoice.progress."+ main.current.id, "", {});
+		main.invoice = didius.invoice.create ({auction: main.auction, customer: main.customer});
+					
+		var progresswindow = app.window.open (window, "chrome://didius/content/auction/invoice/progress.xul", "auction.invoice.progress."+ main.invoice.id, "", {});
 										
 		var workload = function ()
 		{
@@ -75,16 +129,50 @@ var main =
 			var customers = new Array ();		
 			var invoices = new Array ();
 		
+			//  Start
 			var start =	function ()	
 						{						
 							worker1 ();
 						};
 								
-			// Email invoice.
+			// Print invoice.
 			var worker1 =	function ()
 							{
 								// Reset progressmeter #1.
 								progresswindow.document.getElementById ("description1").textContent = "Udskriver ...";
+								progresswindow.document.getElementById ("progressmeter1").mode = "undetermined"
+								progresswindow.document.getElementById ("progressmeter1").value = 0;
+																						
+								var nextWorker =	function ()
+													{
+														// Update progressmeter #1
+														overallprogress++;
+														progresswindow.document.getElementById ("progressmeter1").mode = "determined"
+														progresswindow.document.getElementById ("progressmeter1").value = (overallprogress / totalprogress) * 100;
+																																				
+														setTimeout (worker2, 100);
+													};
+																							
+								var onDone = 	function ()
+												{
+													nextWorker ();
+												};
+													
+								if (document.getElementById ("printInvoice").checked)
+								{
+									didius.common.print.invoice ({invoice: main.invoice, onDone: onDone});			
+								}
+								else
+								{
+									nextWorker ();
+								}
+							};
+							
+			// Mail invoice.
+			var worker2 =	function ()
+							{
+								// Reset progressmeter #1.
+								progresswindow.document.getElementById ("description1").textContent = "Sender ...";
 								progresswindow.document.getElementById ("progressmeter1").mode = "undetermined"
 								progresswindow.document.getElementById ("progressmeter1").value = 0;
 																						
@@ -102,10 +190,18 @@ var main =
 												{
 													nextWorker ();
 												};
-													
-								didius.common.print.invoice ({invoice: main.current, onDone: onDone});			
-							};
-																
+
+								if (document.getElementById ("mailInvoice").checked)
+								{																																				
+									didius.common.print.invoice ({invoice: main.invoice, mail: true, onDone: onDone});			
+								}
+								else
+								{
+									nextWorker ();
+								}
+							};							
+				
+			// Finish
 			var finish =	function ()	
 							{															
 								progresswindow.close ();
@@ -116,9 +212,12 @@ var main =
 			setTimeout (start, 100);
 		}
 		
-		progresswindow.addEventListener ("load", workload);		
-	},
-	
+		progresswindow.addEventListener ("load", workload);													
+	},	
+		
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------
 	close : function (force)
 	{									
 		// Close window.

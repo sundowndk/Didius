@@ -1,120 +1,115 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ----------------------------------------------------------------------------------------------------------
 var main =
 {
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
 	checksum : null,
-	current : null,
+	bid : null,
+	customer : null,
+	auction : null,
+	case : null,
+	item : null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	 
-		try
-		{
-			main.current = didius.bid.load (window.arguments[0].bidId);
-		}
-		catch (error)
-		{
-			app.error ({exception: error})
-			main.close ();
-			return;
-		}				
-						
-		main.set ();
-		
 		// Hook events.								
-		app.events.onBidDestroy.addHandler (main.eventHandlers.onBidDestroy);
+		app.events.onBidDestroy.addHandler (eventHandlers.onBidDestroy);
 		
-		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);					
+		app.events.onCustomerSave.addHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);					
 		
-		app.events.onItemDestroy.addHandler (main.eventHandlers.onItemDestroy);
-	},
-	
-	eventHandlers :
-	{
-		onBidDestroy : function (eventData)
-		{
-			if (main.current.id == eventData.id)
-			{
-				main.close (true);
-			}
-		},									
-	
-		onCustomerSave : function (eventData)
-		{			
-			if (main.current.customerid == eventData.id)
-			{
+		app.events.onAuctionSave.addHandler (eventHandlers.onAuctionSave);
+		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);					
+		
+		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);
+
+
+		var onInit =	function ()
+						{
+							try
+							{
+								main.bid = didius.bid.load ({id: window.arguments[0].bidId});											
+								main.customer = didius.customer.load (main.bid.customerid);
+								main.item = didius.item.load (main.bid.itemid);
+								main.case = didius.case.load (main.item.caseid);
+								main.auction = didius.auction.load (main.case.auctionid);
+							}
+							catch (exception)
+							{
+								app.error ({exception: exception})
+								main.close ();
+								return;			
+							}
 							
-			}
-		},
-	
-		onCustomerDestroy : function (eventData)
-		{
-			if (main.current.customerid == eventData.id)
-			{
-				main.close (true);
-			}
-		},
-		
-		onItemSave : function (eventData)
-		{			
-			if (main.current.itemid == eventData.id)
-			{
-							
-			}
-		},
-		
-		onItemDestroy : function (eventData)
-		{
-			if (main.current.itemid == eventData.id)
-			{
-				main.close (true);
-			}
-		}										
+							onDone ();
+						};
+						
+		var onDone =	function ()
+						{
+							main.set ();
+						};
+						
+		setTimeout (onInit, 1);
 	},
-		
+				
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	set : function ()
-	{
-		main.checksum = SNDK.tools.arrayChecksum (main.current);
+	{			
+		main.checksum = SNDK.tools.arrayChecksum (main.bid);
 	
-		document.getElementById ("customer").value = main.current.customer.name;
-		document.getElementById ("item").value = main.current.item.title;
-	
-		document.getElementById ("amount").value = main.current.amount;		
+		document.getElementById ("customername").value = main.customer.name;
+		document.getElementById ("auctiontitle").value = main.auction.title;
+		document.getElementById ("itemtitle").value = main.item.title;	
+		document.getElementById ("amount").value = main.bid.amount;		
+		document.getElementById ("amount").disabled = false;
 														
 		main.onChange ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | GET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{					
-		main.current.amount = document.getElementById ("amount").value;
+		main.bid.amount = document.getElementById ("amount").value;
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | SAVE																								|	
+	// ------------------------------------------------------------------------------------------------------
 	save : function ()
 	{			
 		main.get ();
 				
-		didius.bid.save (main.current);
+		didius.bid.save ({bid: main.bid});
 		
-		main.checksum = SNDK.tools.arrayChecksum (main.current);
-		main.onChange ();
-						
-		if (window.arguments[0].onSave != null)
-		{
-			window.arguments[0].onSave (main.current);
-		}
+		main.checksum = SNDK.tools.arrayChecksum (main.bid);
+		main.onChange ();								
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------
 	close : function (force)
 	{		
 		// If we are forced to close, then dont promt user about potential unsaved data.		
 		if (!force)
 		{	
 			// If checksums do not match, promt user about unsaved data.
-			if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
+			if ((SNDK.tools.arrayChecksum (main.bid) != main.checksum))
 			{
-				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-			
-				if (!prompts.confirm (null, "Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
+				if (!app.window.prompt.confirm ("Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forsætte ?"))				
 				{
 					return false;
 				}			
@@ -122,23 +117,29 @@ var main =
 		}
 											
 		// Unhook events.
-		app.events.onBidDestroy.removeHandler (main.eventHandlers.onBidDestroy);
+		app.events.onBidDestroy.removeHandler (eventHandlers.onBidDestroy);
 		
-		app.events.onCustomerSave.removeHandler (main.eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.removeHandler (main.eventHandlers.onCustomerDestroy);
+		app.events.onCustomerSave.removeHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.removeHandler (eventHandlers.onCustomerDestroy);
 								
-		app.events.onItemSave.removeHandler (main.eventHandlers.onItemSave);
-		app.events.onItemDestroy.removeHandler (main.eventHandlers.onItemDestroy);
+		app.events.onAuctionSave.removeHandler (eventHandlers.onAuctionSave);
+		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);								
+								
+		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);
 	
 		// Close window.
 		window.close ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
 	{
 		main.get ();
-				
-		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
+	
+		if ((SNDK.tools.arrayChecksum (main.bid) != main.checksum))
 		{					
 			document.getElementById ("save").disabled = false;
 			document.getElementById ("close").disabled = false;
@@ -149,4 +150,93 @@ var main =
 			document.getElementById ("close").disabled = false;
 		}
 	}	
+}
+
+// ----------------------------------------------------------------------------------------------------------
+// | EVENTHANDLERS																							|
+// ----------------------------------------------------------------------------------------------------------
+var eventHandlers =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | ONBIDDESTROY																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onBidDestroy : function (eventData)
+	{
+		if (main.bid.id == eventData.id)
+		{
+			main.close (true);
+		}
+	},									
+
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCUSTOMERSAVE																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onCustomerSave : function (eventData)
+	{			
+		if (main.customer.id == eventData.id)
+		{
+			main.customer = eventData;
+			document.getElementById ("customername").value = main.customer.name;			
+			main.onChange ();
+		}
+	},
+
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCUSTOMERDESTROY																					|	
+	// ------------------------------------------------------------------------------------------------------
+	onCustomerDestroy : function (eventData)
+	{
+		if (main.customer.id == eventData.id)
+		{
+			main.close (true);
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONSAVE																						|	
+	// ------------------------------------------------------------------------------------------------------	
+	onAuctionSave : function (eventData)
+	{			
+		if (main.auction.id == eventData.id)
+		{
+			main.auction = eventData;
+			document.getElementById ("auctiontitle").value = main.auction.title;
+			main.onChange ();
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONDESTROY																					|	
+	// ------------------------------------------------------------------------------------------------------
+	onAuctionDestroy : function (eventData)
+	{
+		if (main.auction.id == eventData.id)
+		{
+			main.close (true);
+		}
+	},
+		
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMSAVE																							|	
+	// ------------------------------------------------------------------------------------------------------	
+	onItemSave : function (eventData)
+	{			
+		if (main.item.id == eventData.id)
+		{
+			main.item = eventData;
+			document.getElementById ("itemtitle").value = main.item.title;
+			main.onChanges ();
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMDESTROY																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onItemDestroy : function (eventData)
+	{
+		if (main.item.id == eventData.id)
+		{
+			main.close (true);
+		}
+	}										
 }

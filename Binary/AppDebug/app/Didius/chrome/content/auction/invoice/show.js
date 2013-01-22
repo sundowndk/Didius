@@ -23,7 +23,7 @@ var main =
 							try
 							{
 								main.invoice = didius.invoice.load (window.arguments[0].invoiceId);
-								main.customer = didius.customer.load (main.invoice.customerid);			
+							//	main.customer = didius.customer.load (main.invoice.customerid);			
 							}
 							catch (error)
 							{

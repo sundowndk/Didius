@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.bid.edit" "Redigere bud" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
+<window id="didius.bid.edit" title="Redigere bud" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>	
@@ -20,19 +20,20 @@
 					<vbox flex="1">												
 						<hbox align="center">
 							<label class="Label">Kunde:</label>
-							<textbox id="customername" />
+							<textbox id="customername" readonly="true"/>
 						</hbox>													
 						<hbox align="center">
 							<label class="Label">Auktion:</label>
-							<textbox id="auctiontitle" />
+							<textbox id="auctiontitle" readonly="true"/>
 						</hbox>																			
 						<hbox align="center">
 							<label class="Label">Effekt:</label>
-							<textbox id="itemtitle" />
+							<textbox id="itemtitle" readonly="true"/>							
 						</hbox>													
 						<hbox align="center">
 							<label class="Label">Bud:</label>
-							<textbox id="amount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+							<textbox id="amount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
+							<label>kr.</label>
 						</hbox>													
 					</vbox>
     			</tabpanel>    							

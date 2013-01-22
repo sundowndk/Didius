@@ -9,26 +9,17 @@ var main =
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------
 	checksum : null,
-	current : null,
+	bid : null,
+	customer : null,
+	auction : null,
+	case : null,
+	item : null,
 
 	// ------------------------------------------------------------------------------------------------------
 	// | INIT																								|	
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	 
-		try
-		{
-			main.current = didius.bid.load (window.arguments[0].bidId);
-		}
-		catch (error)
-		{
-			app.error ({exception: error})
-			main.close ();
-			return;
-		}				
-						
-		main.set ();
-		
 		// Hook events.								
 		app.events.onBidDestroy.addHandler (eventHandlers.onBidDestroy);
 		
@@ -40,19 +31,48 @@ var main =
 		
 		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
 		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);
+
+
+		var onInit =	function ()
+						{
+							try
+							{
+								main.bid = didius.bid.load ({id: window.arguments[0].bidId});											
+								main.customer = didius.customer.load (main.bid.customerid);
+								main.item = didius.item.load (main.bid.itemid);
+								main.case = didius.case.load (main.item.caseid);
+								main.auction = didius.auction.load (main.case.auctionid);
+							}
+							catch (exception)
+							{
+								app.error ({exception: exception})
+								main.close ();
+								return;			
+							}
+							
+							onDone ();
+						};
+						
+		var onDone =	function ()
+						{
+							main.set ();
+						};
+						
+		setTimeout (onInit, 1);
 	},
 				
 	// ------------------------------------------------------------------------------------------------------
 	// | SET																								|	
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
-	{
-		main.checksum = SNDK.tools.arrayChecksum (main.current);
+	{			
+		main.checksum = SNDK.tools.arrayChecksum (main.bid);
 	
-		document.getElementById ("customer").value = main.current.customer.name;
-		document.getElementById ("item").value = main.current.item.title;
-	
-		document.getElementById ("amount").value = main.current.amount;		
+		document.getElementById ("customername").value = main.customer.name;
+		document.getElementById ("auctiontitle").value = main.auction.title;
+		document.getElementById ("itemtitle").value = main.item.title;	
+		document.getElementById ("amount").value = main.bid.amount;		
+		document.getElementById ("amount").disabled = false;
 														
 		main.onChange ();
 	},
@@ -62,7 +82,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{					
-		main.current.amount = document.getElementById ("amount").value;
+		main.bid.amount = document.getElementById ("amount").value;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -72,15 +92,10 @@ var main =
 	{			
 		main.get ();
 				
-		didius.bid.save (main.current);
+		didius.bid.save ({bid: main.bid});
 		
-		main.checksum = SNDK.tools.arrayChecksum (main.current);
-		main.onChange ();
-						
-		if (window.arguments[0].onSave != null)
-		{
-			window.arguments[0].onSave (main.current);
-		}
+		main.checksum = SNDK.tools.arrayChecksum (main.bid);
+		main.onChange ();								
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -92,11 +107,9 @@ var main =
 		if (!force)
 		{	
 			// If checksums do not match, promt user about unsaved data.
-			if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
+			if ((SNDK.tools.arrayChecksum (main.bid) != main.checksum))
 			{
-				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-			
-				if (!prompts.confirm (null, "Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
+				if (!app.window.prompt.confirm ("Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forsætte ?"))				
 				{
 					return false;
 				}			
@@ -110,10 +123,10 @@ var main =
 		app.events.onCustomerDestroy.removeHandler (eventHandlers.onCustomerDestroy);
 								
 		app.events.onAuctionSave.removeHandler (eventHandlers.onAuctionSave);
-		app.events.onAuctionDestroy.removeHandler (.eventHandlers.onAuctionDestroy);								
+		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);								
 								
 		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
-		app.events.onItemDestroy.removeHandler (.eventHandlers.onItemDestroy);
+		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);
 	
 		// Close window.
 		window.close ();
@@ -125,8 +138,8 @@ var main =
 	onChange : function ()
 	{
 		main.get ();
-				
-		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
+	
+		if ((SNDK.tools.arrayChecksum (main.bid) != main.checksum))
 		{					
 			document.getElementById ("save").disabled = false;
 			document.getElementById ("close").disabled = false;

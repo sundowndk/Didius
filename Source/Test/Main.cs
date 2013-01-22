@@ -30,13 +30,13 @@ namespace Test
 			{
 				Console.WriteLine ("Connected to database.");
 
-				foreach (Didius.Auction auction in Didius.Auction.List ())
-				{
-					foreach (Didius.Item item in Didius.Item.List (auction))
-					{
-						Console.WriteLine (item.Title);
-					}
-				}
+//				foreach (Didius.Auction auction in Didius.Auction.List ())
+//				{
+//					foreach (Didius.Item item in Didius.Item.List (auction))
+//					{
+//						Console.WriteLine (item.Title);
+//					}
+//				}
 
 
 //				foreach (Didius.AutoBid autobid in Didius.AutoBid.List ())
@@ -45,18 +45,18 @@ namespace Test
 //				}
 
 
-//				foreach (Didius.Item item in Didius.Item.List ())
-//				{
-//
-//
-//					if (item.Settled)
-//					{
-//						Console.WriteLine (item.Settled);
-//						item.Settled = false;
-//						item.Save ();
-//					}
-//
-//				}
+				foreach (Didius.Item item in Didius.Item.List ())
+				{
+
+
+					if (item.Settled)
+					{
+						Console.WriteLine (item.Settled);
+						item.Settled = false;
+						item.Save ();
+					}
+
+				}
 
 //				foreach (Didius.Bid bid in Didius.Bid.List ())
 //				{
