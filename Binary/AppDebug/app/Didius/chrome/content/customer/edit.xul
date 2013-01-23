@@ -9,20 +9,20 @@
 	<script type="application/javascript" src="chrome://didius/content/customer/edit.js"/>	
 			
 	<keyset>  		
-  		<key id="close-key" modifiers="control" key="l" oncommand="main.close ();"/>  		
-  		<key id="save-key" modifiers="control" key="g" oncommand="main.save ();"/>  		
+  		<key id="key-close" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key-save" modifiers="control" key="s" oncommand="main.save ();"/>		  		
 	</keyset>			
 			
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal"> 			
 				<tabs style="overflow:hidden">
-					<tab label="Detaljer"/>
-					<tab label="Sager"/>
-					<tab label="Bud"/>					
-					<tab label="Afregninger"/>
-					<tab label="Faktura"/>				
-					<tab label="Noter"/>
+					<tab id="tabdetails" label="Detaljer" disabled="true"/>
+					<tab id="tabcases" label="Sager" disabled="true"/>
+					<tab id="tabbids" label="Bud" disabled="true"/>					
+					<tab id="tabsettlements" label="Afregninger" disabled="true"/>
+					<tab id="tabinvoices" label="Faktura" disabled="true"/>				
+					<tab id="tabnotes" label="Noter" disabled="true"/>
 				</tabs>
 			</arrowscrollbox>
 						
@@ -115,7 +115,7 @@
     			    			
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="cases.onChange ();" seltype="single">
+						<tree id="cases" flex="1" hidecolumnpicker="true" onselect="cases.onChange ();" seltype="single" disabled="true">
 							<treecols>
 								<treecol id="id" hidden="true"/>
 								<splitter class="tree-splitter" hidden="true"/>								
@@ -136,7 +136,7 @@
 				
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="bids" flex="1" hidecolumnpicker="true" disabled="true" onselect="bids.onChange ();" seltype="single">
+						<tree id="bids" flex="1" hidecolumnpicker="true"  onselect="bids.onChange ();" seltype="single" disabled="true">
 							<treecols>
 								<treecol id="id" hidden="true"/>
 								<splitter class="tree-splitter" hidden="true"/>								
@@ -168,7 +168,7 @@
 										
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="settlements" flex="1" hidecolumnpicker="true" disabled="true" onselect="settlements.onChange ();" seltype="single">
+						<tree id="settlements" flex="1" hidecolumnpicker="true" onselect="settlements.onChange ();" seltype="single" disabled="true">
 							<treecols>
 								<treecol id="id" hidden="true"/>
 								<splitter class="tree-splitter" hidden="true"/>								
@@ -194,28 +194,31 @@
 				
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="invoices" flex="1" hidecolumnpicker="true" disabled="true" onselect="invoices.onChange ();" seltype="single">
+						<tree id="invoices" flex="1" hidecolumnpicker="true" onselect="invoices.onChange ();" seltype="single" disabled="true" editable="true">
 							<treecols>
 								<treecol id="id" hidden="true"/>
 								<splitter class="tree-splitter" hidden="true"/>								
 								<treecol id="createtimestamp" hidden="true"/>
 								<splitter class="tree-splitter" hidden="true"/>								
-								<treecol id="no" label="Nr." width="50" persist="width" />
+								<treecol id="no" label="Nr." width="50" persist="width"/>
 								<splitter class="tree-splitter"/>								
-								<treecol id="auctiontitle" label="Auktion" flex="1" persist="width" />								
+								<treecol id="auctiontitle" label="Auktion" flex="1" persist="width" editable="false"/>
 								<splitter class="tree-splitter"/>
-								<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;"/>								
+								<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;" editable="false"/>
 								<splitter class="tree-splitter"/>
-								<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>								
-								<splitter class="tree-splitter"/>
+								<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>		
+								<splitter class="tree-splitter"/>																								
 								<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;" />														
 								<splitter class="tree-splitter"/>
+								<treecol id="selected" label="Test" type="checkbox" editable="true"/>
+								<splitter class="tree-splitter"/>																								
 							</treecols>	
 						</tree>
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="invoiceShow" label="Vis" oncommand="invoices.show ();" disabled="true" />							
+							<button id="invoiceShow" label="Vis" oncommand="invoices.show ();" disabled="true" />		
+							<spacer flex="1"/>							
 							<button id="invoiceCreate" label="Fakturere" oncommand="invoices.create ();" disabled="true" />
 						</vbox>	
 					</hbox>						
@@ -230,6 +233,6 @@
 		
 	<hbox class="WindowButtons" align="right" >
 		<button id="close" label="Luk" oncommand="main.close ();" accesskey="L" key="key-close"/>
-		<button id="save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G" key="key-save"/>
+		<button id="save" label="Gem" oncommand="main.save ();" accesskey="G" key="key-save" disabled="true" />
 	</hbox>
 </window>

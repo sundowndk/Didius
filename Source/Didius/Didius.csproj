@@ -145,7 +145,6 @@
     <Folder Include="resources\scripts\" />
     <Folder Include="Application\xul\chrome\content\case\" />
     <Folder Include="Application\xul\chrome\content\case\settlement\" />
-    <Folder Include="Application\xul\chrome\content\auction\invoice\" />
     <Folder Include="Application\xul\chrome\content\newsletter\" />
     <Folder Include="Application\js\didius\common\" />
     <Folder Include="Application\js\didius\common\print\" />
@@ -162,6 +161,10 @@
     <Folder Include="Application\xul\chrome\content\caseedit-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\auctionedit-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\catalogedit-REMOVE\" />
+    <Folder Include="Application\xul\chrome\content\invoice\" />
+    <Folder Include="Application\xul\chrome\content\auction\invoice-REMOVE\" />
+    <Folder Include="Application\xul\chrome\content\auction\invoice-REMOVE\" />
+    <Folder Include="Application\xul\chrome\content\creditnote\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -259,11 +262,7 @@
     <None Include="Application\xul\chrome\content\case\settlement\print.js" />
     <None Include="Application\xul\chrome\content\case\settlement\print.xul" />
     <None Include="Application\js\didius\invoice.js" />
-    <None Include="Application\xul\chrome\content\auction\invoice\show.js" />
-    <None Include="Application\xul\chrome\content\auction\invoice\show.xul" />
     <None Include="Application\xul\chrome\content\templates\invoice.tpl" />
-    <None Include="Application\xul\chrome\content\auction\invoice\create.js" />
-    <None Include="Application\xul\chrome\content\auction\invoice\create.xul" />
     <None Include="Application\xul\chrome\content\auctionrun\display.xul" />
     <None Include="Application\xul\chrome\content\auctionrun\display.js" />
     <None Include="Application\xul\chrome\content\templates\display.tpl" />
@@ -288,10 +287,6 @@
     <None Include="Application\js\didius\common\print\invoice.js" />
     <None Include="Application\xul\chrome\content\auction\edit.js" />
     <None Include="Application\xul\chrome\content\auction\edit.xul" />
-    <None Include="Application\xul\chrome\content\auction\invoice\progress.xul" />
-    <None Include="Application\xul\chrome\content\auction\invoice\progress.js" />
-    <None Include="Application\xul\chrome\content\auction\invoice\print.js-REMOVE" />
-    <None Include="Application\xul\chrome\content\auction\invoice\print.xul-REMOVE" />
     <None Include="Application\js\didius\common\print\salesagreement.js" />
     <None Include="Application\xul\chrome\content\case\salesagreement\show.js" />
     <None Include="Application\xul\chrome\content\case\salesagreement\show.xul" />
@@ -343,6 +338,20 @@
     <None Include="Application\xul\chrome\content\chooser\auction.xul" />
     <None Include="Application\xul\chrome\content\chooser\item.xul" />
     <None Include="Application\xul\chrome\content\chooser\item.js" />
+    <None Include="Application\xul\chrome\content\invoice\print.xul-REMOVE" />
+    <None Include="Application\xul\chrome\content\invoice\create.js" />
+    <None Include="Application\xul\chrome\content\invoice\create.xul" />
+    <None Include="Application\xul\chrome\content\invoice\print.js-REMOVE" />
+    <None Include="Application\xul\chrome\content\invoice\progress.js" />
+    <None Include="Application\xul\chrome\content\invoice\progress.xul" />
+    <None Include="Application\xul\chrome\content\invoice\show.js" />
+    <None Include="Application\xul\chrome\content\invoice\show.xul" />
+    <None Include="Application\xul\chrome\content\creditnote\show.js" />
+    <None Include="Application\xul\chrome\content\creditnote\show.xul" />
+    <None Include="Application\xul\chrome\content\creditnote\progress.js" />
+    <None Include="Application\xul\chrome\content\creditnote\progress.xul" />
+    <None Include="Application\xul\chrome\content\creditnote\create.js" />
+    <None Include="Application\xul\chrome\content\creditnote\create.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

@@ -125,6 +125,7 @@ var sXUL =
 			var _temp = {};			
 			_temp.refresh = true;
 			_temp.filterColumns = new Array ();
+			_temp.visibleRows = 0;
 			
 			this.addRow = addRow;
 			this.removeRow = removeRow;
@@ -153,6 +154,7 @@ var sXUL =
 					throw "Need an treeview element to attatch to.";
 			
 				_elements.tree = _attributes.element;				
+								
 				_elements.treeChildren = document.createElement ("treechildren");
 				_elements.tree.appendChild (_elements.treeChildren);
 															
@@ -165,7 +167,6 @@ var sXUL =
 						
 				_elements.tree.ondblclick = onDoubleClick;
 								
-				if (attributes.sortColumn)
 				{
 					_temp.sortColumn = _attributes.sortColumn;
 					_temp.sortDirection = _attributes.sortDirection;
@@ -182,6 +183,189 @@ var sXUL =
 				}									
 				
 				_elements.tree.addEventListener ("keypress", onKeypress, true);
+				
+				
+				var oldView = _elements.tree.view;									
+				var newView = 
+				{
+					DROP_BEFORE : -1,
+					DROP_ON : 0,
+					DROP_AFTER : 1,
+					PROGRESS_NORMAL : 1, 	
+				 	PROGRESS_UNDETERMINED : 2,
+				 	PROGRESS_NONE : 3,  
+		    		
+		    		selection :  oldView.selection,
+		    		
+		    		canDrop : function (index, orientation, dataTransfer)
+		    		{
+		    			return oldView.canDrop (index, orientation, dataTrasnfer);
+		    		},
+		    		
+		    		canDropBeforeAfter : function (index, before)
+		    		{
+		    			return oldView.canDropBeforeAfter (index, before);
+		    		},
+		    		
+		    		canDropOn : function (index)
+		    		{
+		    			return oldView.canDropOn (index);
+		    		},
+		    		
+		    		cycleCell : function (index)
+		    		{
+		    			return oldView.cycleCell (index);
+		    		},
+		    					
+					cycleHeader : function (col)
+					{
+						return oldView.cycleHeader (col);
+					},
+					
+					drop : function (row, orientation, dataTransfer)
+					{
+						return oldView.drop (row, orientation, dataTransfer);
+					},
+					
+					getCellProperties : function (row, col, properties)
+					{
+						return oldView.getCellProperties (row, col, properties)
+					},
+					
+					getCellText : function (row, col)
+					{
+						return oldView.getCellText (row, col);
+					},
+							
+					getCellValue : function (row, col)
+					{				
+						return oldView.getCellValue (row, col);
+					},
+					
+					getColumnProperties : function (col, properties)
+					{
+						return oldView.getColumnProperties (col, properties);
+					},
+					
+					getImageSrc : function (row, col)
+					{
+						return oldView.getImageSrc (row, col);
+					},
+					
+					getLevel : function (index)
+					{
+						return oldView.getLevel (index);
+					},
+					
+			 		getParentIndex : function (rowIndex)
+					{
+						return oldView.getParentIndex (rowIndex);
+					},
+								
+			 		getProgressMode : function (row, col)
+					{	
+						return oldView.getProgressMode (row, col);
+					},
+					
+			 		getRowProperties : function (index, properties)
+					{
+						return oldView.getRowProperties (index, properties);
+					},
+					
+				 	hasNextSibling : function (rowIndex, afterIndex)
+					{	
+						return oldView.hasNextSibling (rowIndex, afterIndex);
+					},
+					
+				 	isContainer : function (index)
+					{
+						return oldView.isContainer (index);
+					},
+							
+				 	isContainerEmpty : function (index)
+					{
+						return oldView.isContainerEmpty (index);
+					},
+					
+				 	isContainerOpen : function (index)
+					{
+						return oldView.isContainerOpen (index);
+					},
+					
+				 	isEditable : function (row, col)
+					{
+						return oldView.isEditable (row, col);
+					},
+					
+				 	isSelectable : function (row, col)
+					{
+						return oldView.isSelectable (row, col);
+					},
+					
+				 	isSeparator : function (index)
+					{
+						return oldView.isSeparator (index);
+					},
+					
+				 	isSorted : function ()
+					{
+						return oldView.isSorted ();
+					},
+								
+					performAction : function (action)
+					{
+						return oldView.performAction (action);
+					},
+					
+					performActionOnCell : function (action, row, col)
+					{
+						return oldView.performActionOnCell (action, row, col);
+					},
+					
+			 		performActionOnRow : function (action, row)
+					{
+						return oldView.performActionOnRow (action, row);
+					},
+					
+			 		selectionChanged : function ()
+					{
+						return oldView.selectionChanged ();
+					},			
+				
+			 		setCellText : function (row, col, value)
+					{								
+		//				sXUL.console.log (col +" - "+ col.id);
+		//				_rows[row][col.id] = value;
+					
+						return oldView.setCellText (row, col, value);
+						
+						eventOnCellChange (row, col, value);
+					},
+					
+			 		setCellValue : function (row, col, value)
+					{								
+		//				sXUL.console.log (row +" - "+ col.id +" "+ value);				
+		//				_rows[row].data[col.id] = value;
+									
+						return oldView.setCellValue (row, col, value);
+						
+						eventOnCellChange (row, col, value);
+					},
+					
+			 		setTree : function (tree)
+					{
+						return oldView.setTree (tree);
+					},
+					
+			 		toggleOpenState : function (index)
+					{
+						return oldView.toogleOpenState (index)
+					}		
+				};
+				
+				newView.__defineGetter__("rowCount", function() { return _temp.visibleRows; });		
+				
+				_elements.tree.view = newView;
 			};
 			
 			function onDoubleClick (event)
@@ -221,6 +405,7 @@ var sXUL =
 			{				
 				if (_temp.refresh)					
 				{
+					_temp.visibleRows = 0;
 				// Clear all rows.
 				clear ();
 				
@@ -305,8 +490,9 @@ var sXUL =
 						if (_rows[index].level == idx)
 						{
 							try
-							{
+							{						
 								drawRow (_rows[index]);
+								_temp.visibleRows++;
 							}
 							catch (Exception)
 							{							
@@ -358,6 +544,10 @@ var sXUL =
 					if (attributes.data[treeColumn.id] != null)
 					{
 						var treeCell = document.createElement ('treecell');
+						if (treeColumn.editable == false)
+						{
+							treeCell.setAttribute ('editable', false);
+						}
 						treeCell.setAttribute ('label', attributes.data[treeColumn.id]);
 						treeRow.appendChild (treeCell);
 					}
@@ -603,9 +793,24 @@ var sXUL =
 					var treeColumns = _elements.tree.columns;											
 					for (idx = 0; idx < treeColumns.length; idx++)
 					{
-						var treeColumn = treeColumns.getColumnAt (idx);																	
-						result[treeColumn.id] = _elements.tree.view.getCellText (row, treeColumn);													
+						var treeColumn = treeColumns.getColumnAt (idx);		
+						if (treeColumn.type == 1)
+						{
+							result[treeColumn.id] = _elements.tree.view.getCellText (row, treeColumn);
+						}
+						else if (treeColumn.type == 2)
+						{
+							result[treeColumn.id] = _elements.tree.view.getCellValue (row, treeColumn);
+						}
+						
 					}				
+					
+		//			for (idx in _rows[row].data)
+		//			{
+		//				result[idx] = _rows[row].data[idx];
+						//sXUL.console.log (idx)
+		//			}
+		//						result = _rows[row].data;
 				}
 				
 				return result;
@@ -658,6 +863,14 @@ var sXUL =
 								};
 								
 				return parser (id, 0)
+			}
+				
+			function eventOnCellChange (row, col, value)
+			{
+				if (attributes.onCellChange != null)
+				{
+					setTimeout (function () { attributes.onCellChange (row, col.id, value)}, 1);
+				}
 			}
 		}	
 	},

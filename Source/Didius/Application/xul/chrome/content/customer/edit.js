@@ -8,6 +8,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------
+	mode : "",
 	customer : null,
 	checksum : null,
 
@@ -16,16 +17,26 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{		
-		try
-		{
-			main.customer = didius.customer.load (window.arguments[0].customerId);
+		if (window.arguments[0].customerId != null)
+		{	
+			try
+			{				
+				main.customer = didius.customer.load (window.arguments[0].customerId);
+			}
+			catch (error)
+			{
+				app.error ({exception: error})
+				main.close ();
+				return;
+			}			
+									
+			main.mode = "EDIT";
 		}
-		catch (error)
+		else
 		{
-			app.error ({exception: error})
-			main.close ();
-			return;
-		}			
+			main.customer = didius.customer.create ();
+			main.mode = "NEW";						
+		}
 		
 		main.set ();					
 					
@@ -34,7 +45,7 @@ var main =
 		cases.init ();
 		bids.init ();
 		settlements.init ();
-		invoices.init ();
+		invoices.init ();		
 		notes.init ();
 		
 		// Hook events.
@@ -78,6 +89,25 @@ var main =
 	{
 		main.get ();
 	
+		if (main.mode == "NEW")
+		{
+			document.getElementById ("tabdetails").disabled = false;
+			document.getElementById ("tabcases").disabled = true;
+			document.getElementById ("tabbids").disabled = true;
+			document.getElementById ("tabsettlements").disabled = true;
+			document.getElementById ("tabinvoices").disabled = true;
+			document.getElementById ("tabnotes").disabled = false;
+		}
+		else
+		{
+			document.getElementById ("tabdetails").disabled = false;
+			document.getElementById ("tabcases").disabled = false;
+			document.getElementById ("tabbids").disabled = false;
+			document.getElementById ("tabsettlements").disabled = false;
+			document.getElementById ("tabinvoices").disabled = false;
+			document.getElementById ("tabnotes").disabled = false;
+		}
+	
 		if ((SNDK.tools.arrayChecksum (main.customer) != main.checksum) && (main.customer.name != ""))
 		{
 			document.title = "Kunde: "+ main.customer.name +" ["+ main.customer.no +"] *";
@@ -114,7 +144,10 @@ var main =
 			}
 			
 			didius.customer.save (main.customer);
-				
+			
+			// If this is a new customer, change mode from NEW to EDIT.
+			main.mode = "EDIT";
+									
 			main.checksum = SNDK.tools.arrayChecksum (main.customer);
 			main.onChange ();				
 		}
@@ -258,27 +291,36 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		var onDone = 	function (items)
-						{				
-							cases.casesTreeHelper.disableRefresh ();			
-							for (idx in items)
-							{													
-								cases.casesTreeHelper.addRow ({data: items[idx]});									
-							}
-							cases.casesTreeHelper.enableRefresh ();
-
-								
-							// Enable controls
-							document.getElementById ("cases").disabled = false;																
-							cases.onChange ();
-						};
-
-			// Disable controls
-			document.getElementById ("cases").disabled = true;					
-			document.getElementById ("caseEdit").disabled = true;
-			document.getElementById ("caseDestroy").disabled = true;
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview
+				document.getElementById ("cases").disabled = false;																
+				cases.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+							var onDone = 	function (items)
+								{				
+									cases.casesTreeHelper.disableRefresh ();			
+									for (idx in items)
+									{													
+										cases.casesTreeHelper.addRow ({data: items[idx]});									
+									}
+									cases.casesTreeHelper.enableRefresh ();
+							
+									// Enable listview.
+									document.getElementById ("cases").disabled = false;																
+									cases.onChange ();
+								};
 						
-			didius.case.list ({customer: main.customer, async: true, onDone: onDone});				
+				didius.case.list ({customer: main.customer, async: true, onDone: onDone});
+				break;
+			}			
+		}		
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -295,7 +337,7 @@ var cases =
 	onChange : function ()
 	{
 		if (cases.casesTreeHelper.getCurrentIndex () != -1)
-		{					
+		{								
 			document.getElementById ("caseEdit").disabled = false;
 			document.getElementById ("caseDestroy").disabled = false;				
 		}
@@ -357,43 +399,55 @@ var bids =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		var onDone = 	function (items)
-						{				
-							bids.bidsTreeHelper.disableRefresh ();										
-							for (idx in items)
-							{				
-								var bid = items[idx];																								
-								var item = didius.item.load (bid.itemid);								
-								var _case = didius.case.load (item.caseid);																
-								var auction = didius.auction.load (_case.auctionid);
-							
-								var data = {};
-								data.id = bid.id;
-								data.createtimestamp = bid.createtimestamp;
-								data.auctionno = auction.no;
-								data.auctiontitle = auction.title;
-								data.itemcatalogno = item.catalogno;
-								data.itemno = item.no;
-								data.itemtitle = item.title;
-								data.amount = bid.amount.toFixed (2) +" kr.";
-								
-								bids.bidsTreeHelper.addRow ({data: data});
-							}
-							bids.bidsTreeHelper.enableRefresh ();
-							
-							// Enable controls
-							document.getElementById ("bids").disabled = false;
-							document.getElementById ("bidcreate").disabled = false;											
-							
-							bids.onChange ();
-						};
-						
-			var onError =	function (exception)
-							{
-								app.error ({exception: error})							
-							};
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				document.getElementById ("bids").disabled = false;																											
+				bids.onChange ();
+				break;
+			}
 			
-			didius.bid.list ({customer: main.customer, onDone: onDone, onError: onError});
+			case "EDIT":
+			{					
+				var onDone = 	function (items)
+								{				
+									bids.bidsTreeHelper.disableRefresh ();										
+									for (idx in items)
+									{				
+										var bid = items[idx];																								
+										var item = didius.item.load (bid.itemid);								
+										var _case = didius.case.load (item.caseid);																
+										var auction = didius.auction.load (_case.auctionid);
+									
+										var data = {};
+										data.id = bid.id;
+										data.createtimestamp = bid.createtimestamp;
+										data.auctionno = auction.no;
+										data.auctiontitle = auction.title;
+										data.itemcatalogno = item.catalogno;
+										data.itemno = item.no;
+										data.itemtitle = item.title;
+										data.amount = bid.amount.toFixed (2) +" kr.";
+										
+										bids.bidsTreeHelper.addRow ({data: data});
+									}
+									bids.bidsTreeHelper.enableRefresh ();
+									
+									// Enable listview.
+									document.getElementById ("bids").disabled = false;																											
+									bids.onChange ();
+								};
+						
+				var onError =	function (exception)
+								{
+									app.error ({exception: exception})							
+								};
+			
+				didius.bid.list ({customer: main.customer, onDone: onDone, onError: onError});
+				break;
+			}
+		}
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -403,11 +457,13 @@ var bids =
 	{
 		if (bids.bidsTreeHelper.getCurrentIndex () != -1)
 		{					
+			document.getElementById ("bidcreate").disabled = false;
 			document.getElementById ("bidedit").disabled = false;
 			document.getElementById ("biddestroy").disabled = false;
 		}
 		else
 		{												
+			document.getElementById ("bidcreate").disabled = false;
 			document.getElementById ("bidedit").disabled = true;
 			document.getElementById ("biddestroy").disabled = true;
 		}						
@@ -472,33 +528,44 @@ var settlements =
 	// ------------------------------------------------------------------------------------------------------		
 	set : function ()
 	{
-		var onDone = 	function (items)
-						{				
-							settlements.settlementsTreeHelper.disableRefresh ();								
-							for (idx in items)
-							{				
-								var data = {};
-								data.id = items[idx].id;
-								data.createtimestamp = items[idx].createtimestamp;
-								data.no = items[idx].no;
-								data.caseno = items[idx].case.no;
-								data.auctiontitle = items[idx].case.auction.title;
-								data.total = items[idx].total.toFixed (2) +" kr.";	
-								
-								settlements.settlementsTreeHelper.addRow ({data: data});
-							}
-							settlements.settlementsTreeHelper.enableRefresh ();
-							
-							// Enable controls
-							document.getElementById ("settlements").disabled = false;																
-							settlements.onChange ();
-						};
-
-			// Disable controls
-			document.getElementById ("settlements").disabled = true;					
-			document.getElementById ("settlementShow").disabled = true;				
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview.
+				document.getElementById ("settlements").disabled = false;
+				settlements.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (items)
+								{				
+									settlements.settlementsTreeHelper.disableRefresh ();								
+									for (idx in items)
+									{				
+										var data = {};
+										data.id = items[idx].id;
+										data.createtimestamp = items[idx].createtimestamp;
+										data.no = items[idx].no;
+										data.caseno = items[idx].case.no;
+										data.auctiontitle = items[idx].case.auction.title;
+										data.total = items[idx].total.toFixed (2) +" kr.";	
+										
+										settlements.settlementsTreeHelper.addRow ({data: data});
+									}
+									settlements.settlementsTreeHelper.enableRefresh ();
+									
+									// Enable listview.
+									document.getElementById ("settlements").disabled = false;
+									settlements.onChange ();
+								};
 					
-			didius.settlement.list ({customer: main.customer, async: true, onDone: onDone});
+				didius.settlement.list ({customer: main.customer, async: true, onDone: onDone});
+				break;
+			}		
+		}	
 	},
 			
 	// ------------------------------------------------------------------------------------------------------
@@ -540,46 +607,58 @@ var invoices =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("invoices"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: invoices.show});			
+		invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("invoices"),  sortColumn: "createtimestamp", sortDirection: "ascending"});			
 		invoices.set ();
 	},
-				
+					
 	// ------------------------------------------------------------------------------------------------------
 	// | SET																								|	
 	// ------------------------------------------------------------------------------------------------------		
 	set : function ()
 	{
-		var onDone = 	function (items)
-						{														
-							invoices.invoicesTreeHelper.disableRefresh ();
-							for (idx in items)
-							{				
-								var item = items[idx];
-								var auction = didius.auction.load (item.auctionid)
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview.
+				document.getElementById ("invoices").disabled = false;											
+				invoices.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (items)
+								{														
+									invoices.invoicesTreeHelper.disableRefresh ();
+									for (idx in items)
+									{				
+										var item = items[idx];
+										var auction = didius.auction.load (item.auctionid)
+									
+										var data = {};
+										data.id = item.id;
+										data.createtimestamp = item.createtimestamp;
+										data.no = item.no;									
+										data.auctiontitle = auction.title;
+										data.commissionfee = item.commissionfee.toFixed (2) +" kr."; 
+										data.vat = item.vat.toFixed (2) +" kr."; 
+										data.total = item.total.toFixed (2) +" kr.";			
+										data.selected = true;							
+										
+										invoices.invoicesTreeHelper.addRow ({data: data});
+									}
+									invoices.invoicesTreeHelper.enableRefresh ();							
+									
+									// Enable listview.
+									document.getElementById ("invoices").disabled = false;																
+									invoices.onChange ();
+								};
 							
-								var data = {};
-								data.id = item.id;
-								data.createtimestamp = item.createtimestamp;
-								data.no = item.no;									
-								data.auctiontitle = auction.title;
-								data.commissionfee = item.commissionfee.toFixed (2) +" kr."; 
-								data.vat = item.vat.toFixed (2) +" kr."; 
-								data.total = item.total.toFixed (2) +" kr.";															
-								
-								invoices.invoicesTreeHelper.addRow ({data: data});
-							}
-							invoices.invoicesTreeHelper.enableRefresh ();							
-							
-							// Enable controls
-							document.getElementById ("invoices").disabled = false;																
-							invoices.onChange ();
-						};
-
-			// Disable controls
-			document.getElementById ("invoices").disabled = true;					
-			document.getElementById ("invoiceShow").disabled = true;				
-								
-			didius.invoice.list ({customer: main.customer, async: true, onDone: onDone});
+				didius.invoice.list ({customer: main.customer, async: true, onDone: onDone});
+				break;
+			}
+		}
 	},
 					
 	// ------------------------------------------------------------------------------------------------------
@@ -604,7 +683,7 @@ var invoices =
 	// ------------------------------------------------------------------------------------------------------																																																				
 	show : function ()
 	{				
-		window.openDialog ("chrome://didius/content/auction/invoice/show.xul", "didius.auction.invoice.show."+ invoices.invoicesTreeHelper.getRow ().id, "chrome", {invoiceId: invoices.invoicesTreeHelper.getRow ().id});
+		window.openDialog ("chrome://didius/content/invoice/show.xul", "didius.auction.invoice.show."+ invoices.invoicesTreeHelper.getRow ().id, "chrome", {invoiceId: invoices.invoicesTreeHelper.getRow ().id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -618,7 +697,7 @@ var invoices =
 							{								
 								if (result != null)
 								{								
-									window.openDialog ("chrome://didius/content/auction/invoice/create.xul", "didius.auction.invoice.show."+ SNDK.tools.newGuid (), "chrome", {customerId: main.customer.id, auctionId: result.id});
+									window.openDialog ("chrome://didius/content/invoice/create.xul", "didius.auction.invoice.show."+ SNDK.tools.newGuid (), "chrome", {customerId: main.customer.id, auctionId: result.id});
 								}									
 							}																												
 						};

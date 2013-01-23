@@ -2,28 +2,41 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.auction.invoice.show" title="Faktura" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
+<window id="didius.invoice.show" title="Faktura" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
-	<script type="application/javascript" src="chrome://didius/content/auction/invoice/show.js"/>	
+	<script type="application/javascript" src="chrome://didius/content/invoice/show.js"/>	
 			
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+  		
+  		<key id="key-close" modifiers="control" key="w" oncommand="main.close ();"/> 
+  		<key id="key-print" modifiers="control" key="p" oncommand="main.print ();"/>  
+  		<key id="key-mail" modifiers="control" key="m" oncommand="main.mail ();"/>  
 	</keyset>			
 			
 	<hbox class="Main" flex="1">
-		<tabbox selectedIndex="0" flex="1">
-		
-			<tabs>
-				<tab label="Faktura"/>				
-			</tabs>
-						
+		<tabbox selectedIndex="0" flex="1">		
 			<tabpanels flex="1">
 				<tabpanel flex="1">
 					<vbox flex="1">						
+						<groupbox>
+							<caption label="Meta"/>							
+							<hbox align="center">
+								<label class="Label">Faktura nr.:</label>
+								<textbox id="no" flex="1" readonly="true"  />
+								<label class="Label">Dato:</label>
+								<datepicker id="createdate" type="normal" disabled="true"/>																
+							</hbox>
+							<hbox align="center">
+								<label class="Label">Kunde:</label>
+								<textbox id="customername" flex="1" readonly="true"  />																
+							</hbox>
+						</groupbox>		
+						
 						<groupbox>
 							<caption label="Effekter"/>	
 							<hbox align="center">
@@ -71,11 +84,11 @@
 	
 	<hbox class="WindowButtons">
 		<hbox id="settleBox" align="left" flex="1"> 
-			<button id="print" label="Udskriv" oncommand="main.print ();" disabled="true"/>
-			<button id="mail" label="Send på mail" oncommand="main.mail ();" disabled="true"/>
+			<button id="print" label="Udskriv" oncommand="main.print ();" accesskey="U" key="key-print" disabled="true"/>
+			<button id="mail" label="Send på mail" oncommand="main.mail ();" accesskey="S" key="key-mail" disabled="true"/>
 		</hbox>
 		<hbox align="right" flex="1"> 
-			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>			
+			<button id="close" label="Luk" oncommand="main.close ();" accesskey="L" key="key-close" disabled="true"/>			
 		</hbox>
 	</hbox>
 </window>

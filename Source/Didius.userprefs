@@ -1,9 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/invoice/show.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/customer/edit.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="560" Column="23" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice/show.js" Line="26" Column="8" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="207" Column="103" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="624" Column="70" />
+      <File FileName="Didius/Application/xul/chrome/content/css/default.css" Line="71" Column="21" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="37" Column="27" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,19 +22,16 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="auction" expanded="True">
-                      <Node name="invoice" expanded="True">
-                        <Node name="show.js" selected="True" />
-                      </Node>
+                    <Node name="creditnote" expanded="True" />
+                    <Node name="css" expanded="True" />
+                    <Node name="customer" expanded="True">
+                      <Node name="edit.js" selected="True" />
                     </Node>
-                    <Node name="bid" expanded="True" />
-                    <Node name="case" expanded="True" />
-                    <Node name="chooser" expanded="True" />
-                    <Node name="customer" expanded="True" />
-                    <Node name="js" expanded="True" />
+                    <Node name="icons" expanded="True">
+                      <Node name="16" expanded="True" />
+                    </Node>
+                    <Node name="invoice" expanded="True" />
                     <Node name="main" expanded="True" />
-                    <Node name="settings" expanded="True" />
-                    <Node name="templates" expanded="True" />
                   </Node>
                   <Node name="icons" expanded="True">
                     <Node name="default" expanded="True" />

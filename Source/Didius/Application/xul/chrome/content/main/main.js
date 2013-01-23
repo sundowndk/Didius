@@ -356,10 +356,10 @@ var main =
 		
 		create : function ()
 		{		
-			var current = didius.customer.create ();						
-			didius.customer.save (current);																								
+//			var current = didius.customer.create ();						
+//			didius.customer.save (current);																								
 																											
-			window.openDialog ("chrome://didius/content/customer/edit.xul", "customer.edit."+ current.id, "chrome", {customerId: current.id});
+			window.openDialog ("chrome://didius/content/customer/edit.xul", "customer.edit."+ SNDK.tools.newGuid (), "chrome", {});
 		},
 		
 		

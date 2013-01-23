@@ -8,6 +8,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------
+	mode : "EDIT",
 	checksum : null,
 	bid : null,
 	customer : null,
@@ -73,6 +74,32 @@ var main =
 		document.getElementById ("itemtitle").value = main.item.title;	
 		document.getElementById ("amount").value = main.bid.amount;		
 		document.getElementById ("amount").disabled = false;
+		
+		if (main.item.invoiced == true)
+		{
+			if (app.window.prompt.confirm ("Bud er faktureret", "Før dette bud kan rettes, skal der laves en kreditnota. Vil du gøre dette ?"))
+			{
+				
+			}
+			else
+			{
+				main.mode = "SHOW";
+			}
+		}
+		
+//		switch (main.mode)
+//		{
+//			case "SHOW":
+//			{
+//				document.getElementById ("amount").disabled = true;
+//				break;
+//			}
+//			
+//			case "EDIT":
+//			{
+//				break;
+//			}
+//		}
 														
 		main.onChange ();
 	},
@@ -148,6 +175,21 @@ var main =
 		{					
 			document.getElementById ("save").disabled = true;
 			document.getElementById ("close").disabled = false;
+		}
+		
+		switch (main.mode)
+		{
+			case "SHOW":
+			{
+				document.getElementById ("amount").disabled = true;
+				document.getElementById ("save").disabled = true;
+				break;
+			}
+			
+			case "EDIT":
+			{
+				document.getElementById ("amount").disabled = false;				
+			}
 		}
 	}	
 }
