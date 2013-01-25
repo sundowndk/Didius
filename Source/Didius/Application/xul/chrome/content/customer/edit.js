@@ -607,7 +607,7 @@ var invoices =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("invoices"),  sortColumn: "createtimestamp", sortDirection: "ascending"});			
+		invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("invoices"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: invoices.show});			
 		invoices.set ();
 	},
 					
@@ -634,17 +634,30 @@ var invoices =
 									for (idx in items)
 									{				
 										var item = items[idx];
-										var auction = didius.auction.load (item.auctionid)
-									
+										
+										var auctiontitle = "";
+										for (idx2 in item.auctionids)
+										{
+											var auction = didius.auction.load (item.auctionids[idx2].value);
+											auctiontitle += auction.title +",";
+										
+											//sXUL.console.log (item.auctionids[idx2].value)
+										}
+										
+										//sXUL.console.log (item.auctionids);
+										//var auction = didius.auction.load (item.auctionid)
+//									
 										var data = {};
 										data.id = item.id;
 										data.createtimestamp = item.createtimestamp;
-										data.no = item.no;									
-										data.auctiontitle = auction.title;
+										data.no = item.no;				
+										
+										var date = SNDK.tools.timestampToDate (item.createtimestamp)										
+										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+										
 										data.commissionfee = item.commissionfee.toFixed (2) +" kr."; 
 										data.vat = item.vat.toFixed (2) +" kr."; 
 										data.total = item.total.toFixed (2) +" kr.";			
-										data.selected = true;							
 										
 										invoices.invoicesTreeHelper.addRow ({data: data});
 									}

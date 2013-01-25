@@ -11,14 +11,14 @@
     <AssemblyName>Didius</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\cgi-bin\Addins\Didius\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <ConsolePause>false</ConsolePause>
     <CustomCommands>
       <CustomCommands>
         <Command type="AfterBuild" command="build.sh ${TargetDir}" />
@@ -27,22 +27,22 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>True</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\Didius\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Test</OutputPath>
     <WarningLevel>4</WarningLevel>
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppDebug|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\AppDebug</OutputPath>
     <WarningLevel>4</WarningLevel>
     <CustomCommands>
@@ -65,7 +65,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Addins, Version=0.6.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
       <Private>False</Private>
-      <Package>mono-addins</Package>
     </Reference>
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -97,6 +96,8 @@
     <Compile Include="Didius\AutoBid.cs" />
     <Compile Include="Didius.Enums\SettingsKey.cs" />
     <Compile Include="Didius\Newsletter.cs" />
+    <Compile Include="Didius\Creditnote.cs" />
+    <Compile Include="Didius\CreditnoteLine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -162,7 +163,6 @@
     <Folder Include="Application\xul\chrome\content\auctionedit-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\catalogedit-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\invoice\" />
-    <Folder Include="Application\xul\chrome\content\auction\invoice-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\auction\invoice-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\creditnote\" />
   </ItemGroup>
@@ -352,6 +352,7 @@
     <None Include="Application\xul\chrome\content\creditnote\progress.xul" />
     <None Include="Application\xul\chrome\content\creditnote\create.js" />
     <None Include="Application\xul\chrome\content\creditnote\create.xul" />
+    <None Include="Application\js\didius\creditnote.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

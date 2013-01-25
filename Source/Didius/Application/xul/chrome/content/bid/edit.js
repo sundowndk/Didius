@@ -78,8 +78,11 @@ var main =
 		if (main.item.invoiced == true)
 		{
 			if (app.window.prompt.confirm ("Bud er faktureret", "Før dette bud kan rettes, skal der laves en kreditnota. Vil du gøre dette ?"))
-			{
+			{				
+				var creditnote = didius.creditnote.create ({customer: main.customer, item: main.item, simulate: false});
 				
+				//sXUL.console.log (creditnote);
+				main.mode = "EDIT";
 			}
 			else
 			{

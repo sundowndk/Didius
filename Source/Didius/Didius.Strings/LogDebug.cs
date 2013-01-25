@@ -50,6 +50,8 @@ namespace Didius.Strings
 
 		public static string InvoiceList = "[DIDIUS.INVOICE]: Cannot load Invoice with id: {0}, will be excluded from list.";	
 
+		public static string CreditnoteList = "[DIDIUS.CREDITNOTE]: Cannot load Creditnote with id: {0}, will be excluded from list.";	
+
 	}
 }
 

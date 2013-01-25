@@ -82,6 +82,12 @@ namespace Didius.Strings
 		public static string InvoiceSave = "00710|Could not save Invoice with id: {0}";
 		public static string InvoiceLoadGuid = "00710|Could not load Invoice with id: {0}.\nInner Exception:\n {1}";
 
+		public static string CreditnoteEmpty = "00702|Could not create Creditnote, no Items to invoice.";
+		public static string CreditnoteSave = "00710|Could not save Creditnote with id: {0}";
+		public static string CreditnoteLoadGuid = "00710|Could not load Creditnote with id: {0}.\nInner Exception:\n {1}";
+
+		public static string CreditnoteLineFromXmlDocument = "SRV00840|Cannot create CreditnoteLine from XmlDocument, missing {0}";
+
 		#region EVENTLISTENER
 		public static string EventListenerSave = "Could not save EventListener with id: {0}";
 		public static string EventListenerLoadGuid = "Could not load EventListener with id: {0}";

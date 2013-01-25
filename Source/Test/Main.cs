@@ -30,6 +30,29 @@ namespace Test
 			{
 				Console.WriteLine ("Connected to database.");
 
+				foreach (Didius.Invoice invoice in Didius.Invoice.List ())
+				{
+					Console.WriteLine (invoice.No);
+
+					try
+					{
+
+					
+					Didius.Creditnote creditnote = Didius.Creditnote.Create (invoice, false);
+
+					foreach (Didius.CreditnoteLine line in creditnote.Lines)
+					{
+						Console.WriteLine (line.Title +" "+ line.Amount);
+					}
+					}
+					catch
+					{
+
+					}
+
+					Console.WriteLine ("");
+				}
+
 //				foreach (Didius.Auction auction in Didius.Auction.List ())
 //				{
 //					foreach (Didius.Item item in Didius.Item.List (auction))
@@ -45,18 +68,18 @@ namespace Test
 //				}
 
 
-				foreach (Didius.Item item in Didius.Item.List ())
-				{
-
-
-					if (item.Settled)
-					{
-						Console.WriteLine (item.Settled);
-						item.Settled = false;
-						item.Save ();
-					}
-
-				}
+//				foreach (Didius.Item item in Didius.Item.List ())
+//				{
+//
+//
+//					if (item.Settled)
+//					{
+//						Console.WriteLine (item.Settled);
+//						item.Settled = false;
+//						item.Save ();
+//					}
+//
+//				}
 
 //				foreach (Didius.Bid bid in Didius.Bid.List ())
 //				{

@@ -50,7 +50,6 @@ var main =
 	{				
 		document.title = "Faktura: "+ main.invoice.no +" ["+ main.customer.name +"]";
 		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.invoice.createtimestamp);
-
 		
 		document.getElementById ("no").value = main.invoice.no;
 		document.getElementById ("customername").value = main.customer.name;
@@ -79,7 +78,7 @@ var main =
 				
 		document.getElementById ("print").disabled = false;
 		
-		if (main.invoice.customer.email != "")
+		if (main.customer.email != "")
 		{
 			document.getElementById ("mail").disabled = false;
 		}

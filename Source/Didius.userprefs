@@ -1,11 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/customer/edit.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/CreditnoteLine.cs">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="207" Column="103" />
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="624" Column="70" />
-      <File FileName="Didius/Application/xul/chrome/content/css/default.css" Line="71" Column="21" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="37" Column="27" />
+      <File FileName="Didius/Didius/Creditnote.cs" Line="460" Column="3" />
+      <File FileName="Didius/Didius/Invoice.cs" Line="238" Column="28" />
+      <File FileName="Didius/Application/xul/chrome/content/bid/edit.js" Line="82" Column="106" />
+      <File FileName="Didius/Application/js/didius/creditnote.js" Line="31" Column="94" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="434" Column="1" />
+      <File FileName="Test/Main.cs" Line="44" Column="7" />
+      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
+      <File FileName="Didius/Didius/CreditnoteLine.cs" Line="4" Column="26" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,14 +26,10 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
+                    <Node name="bid" expanded="True" />
                     <Node name="creditnote" expanded="True" />
                     <Node name="css" expanded="True" />
-                    <Node name="customer" expanded="True">
-                      <Node name="edit.js" selected="True" />
-                    </Node>
-                    <Node name="icons" expanded="True">
-                      <Node name="16" expanded="True" />
-                    </Node>
+                    <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
                     <Node name="main" expanded="True" />
                   </Node>
@@ -39,12 +39,15 @@
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True" />
+            <Node name="Didius" expanded="True">
+              <Node name="CreditnoteLine.cs" selected="True" />
+            </Node>
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True" />
           </Node>
+          <Node name="Test" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

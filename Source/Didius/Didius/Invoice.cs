@@ -30,7 +30,7 @@ namespace Didius
 		private int _updatetimestamp;
 		
 		private int _no;
-		private Guid _auctionid;
+		private List<Guid> _auctionids;
 		private Guid _customerid;
 		
 		private decimal _sales;
@@ -74,13 +74,13 @@ namespace Didius
 			}
 		}
 		
-		public Guid AuctionId
-		{
-			get
-			{
-				return this._auctionid;
-			}
-		}
+//		public List<Guid> AuctionIds
+//		{
+//			get
+//			{
+//				return this._auctionids;
+//			}
+//		}
 		
 		public Guid CustomerId
 		{
@@ -121,10 +121,19 @@ namespace Didius
 				return this._total;
 			}
 		}
+
+		public List<Guid> ItemIds
+		{
+			get
+			{
+				return this._itemids;
+			}
+		}
+
 		#endregion
 		
 		#region Constructor
-		public Invoice (Auction Auction, Customer Customer)
+		public Invoice (Customer Customer)
 		{
 			this._id = Guid.NewGuid ();
 			
@@ -133,7 +142,7 @@ namespace Didius
 			
 			this._no = 0;
 			
-			this._auctionid = Auction.Id;
+			this._auctionids = new List<Guid> ();
 			this._customerid = Customer.Id;
 			
 			this._sales = 0;
@@ -151,7 +160,7 @@ namespace Didius
 			
 			this._no = 0;
 			
-			this._auctionid = Guid.Empty;
+			this._auctionids = new List<Guid> ();
 			this._customerid = Guid.Empty;
 			
 			this._sales = 0;
@@ -183,7 +192,7 @@ namespace Didius
 				
 				item.Add ("no", this._no);
 				
-				item.Add ("auctionid", this._auctionid);		
+				item.Add ("auctionids", SNDK.Convert.ListToString<List<Guid>> (this._auctionids));
 				item.Add ("customerid", this._customerid);
 				
 				item.Add ("sales", this._sales);
@@ -194,7 +203,7 @@ namespace Didius
 				item.Add ("itemids", SNDK.Convert.ListToString<List<Guid>> (this._itemids));
 				
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
-				meta.Add ("auctionid", this._auctionid);
+				meta.Add ("auctionids", SNDK.Convert.ListToString<List<Guid>> (this._auctionids));
 				meta.Add ("customerid", this._customerid);
 				
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
@@ -218,10 +227,8 @@ namespace Didius
 			result.Add ("updatetimestamp", this._updatetimestamp);				
 			
 			result.Add ("no", this._no);
-			result.Add ("auctionid", this._auctionid);
-			result.Add ("auction", Auction.Load (this._auctionid));		
+			result.Add ("auctionids", this._auctionids);
 			result.Add ("customerid", this._customerid);
-			result.Add ("customer", Customer.Load (this._customerid));
 			result.Add ("sales", this._sales);
 			result.Add ("commissionfee", this._commissionfee);
 			result.Add ("vat", this._vat);
@@ -231,8 +238,7 @@ namespace Didius
 			foreach (Guid itemid in this._itemids)
 			{
 				items.Add (Item.Load (itemid));
-			}
-			
+			}			
 			result.Add ("items", items);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
@@ -266,9 +272,9 @@ namespace Didius
 					result._no = int.Parse ((string)item["no"]);
 				}				
 				
-				if (item.ContainsKey ("auctionid"))
+				if (item.ContainsKey ("auctionids"))
 				{
-					result._auctionid = new Guid ((string)item["auctionid"]);
+					result._auctionids = SNDK.Convert.StringToList<Guid> ((string)item["auctionids"]);
 				}				
 				
 				if (item.ContainsKey ("customerid"))
@@ -317,7 +323,7 @@ namespace Didius
 		{
 			List<Invoice> result = new List<Invoice> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("auctionid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Auction.Id)))
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("auctionids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, Auction.Id)))
 			{
 				try
 				{
@@ -382,6 +388,16 @@ namespace Didius
 			return result;
 		}
 
+		public static Invoice Create (Customer Customer)
+		{
+			return Create (null, Customer, false);
+		}
+
+		public static Invoice Create (Customer Customer, bool Simulate)
+		{
+			return Create (null, Customer, Simulate);
+		}
+
 		public static Invoice Create (Auction Auction, Customer Customer)
 		{
 			return Create (Auction, Customer, false);
@@ -389,9 +405,20 @@ namespace Didius
 		
 		public static Invoice Create (Auction Auction, Customer Customer, bool Simulate)
 		{
-			Invoice result = new Invoice (Auction, Customer);
-			
-			foreach (Item item in Item.List (Auction))
+			Invoice result = new Invoice (Customer);
+
+			List<Item> items;
+
+			if (Auction != null)
+			{
+				items = Item.List (Auction);
+			}
+			else
+			{
+				items = Item.List ();
+			}
+
+			foreach (Item item in items)
 			{
 				if (!item.Invoiced)
 				{
@@ -406,6 +433,10 @@ namespace Didius
 							
 							result._sales += item.CurrentBid.Amount;
 							result._commissionfee += item.CommissionFee;
+
+							Case _case = Case.Load (item.CaseId);
+							result._auctionids.Add (_case.AuctionId);
+
 							result._itemids.Add (item.Id);
 							
 							if (!Simulate)

@@ -202,7 +202,7 @@
 								<splitter class="tree-splitter" hidden="true"/>								
 								<treecol id="no" label="Nr." width="50" persist="width"/>
 								<splitter class="tree-splitter"/>								
-								<treecol id="auctiontitle" label="Auktion" flex="1" persist="width" />
+								<treecol id="date" label="Dato" flex="1" persist="width" />
 								<splitter class="tree-splitter"/>
 								<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;" />
 								<splitter class="tree-splitter"/>

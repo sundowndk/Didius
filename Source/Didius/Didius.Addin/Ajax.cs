@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Xml;
 
 using SorentoLib;
 
@@ -401,6 +402,52 @@ namespace Didius.Addin
 							if (request.ContainsXPath ("customerid"))
 							{
 								result.Add (Invoice.List (Customer.Load (request.getValue<Guid> ("customerid"))));
+							}
+							else
+							{
+								result.Add (Invoice.List ());
+							}
+							break;
+						}
+					}
+					break;
+				}
+				#endregion
+
+				#region Didius.Creditnote
+				case "didius.creditnote":
+				{	
+					switch (Method.ToLower ())
+					{						
+						case "create":
+						{
+					if (request.ContainsXPath ("invoiceid"))
+					{
+						result.Add (Creditnote.Create (Invoice.Load (request.getValue<Guid> ("invoiceid")), request.getValue<bool> ("simulate")));
+					}
+					else if (request.ContainsXPath ("item"))
+					{
+
+
+						result.Add (Creditnote.Create (Customer.Load (request.getValue<Guid> ("customerid")), request.getValue<Item> ("item"), request.getValue<bool> ("simulate")));
+
+
+					}
+
+							break;
+						}		
+							
+						case "load":
+						{
+							result.Add (Creditnote.Load (request.getValue<Guid>("id")));
+							break;
+						}
+							
+						case "list":
+						{							
+							if (request.ContainsXPath ("customerid"))
+							{
+								result.Add (Creditnote.List (Customer.Load (request.getValue<Guid> ("customerid"))));
 							}
 							else
 							{

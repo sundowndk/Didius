@@ -194,7 +194,7 @@
 				
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="invoices" flex="1" hidecolumnpicker="true" onselect="invoices.onChange ();" seltype="single" disabled="true" editable="true">
+						<tree id="invoices" flex="1" hidecolumnpicker="true" onselect="invoices.onChange ();" seltype="single" disabled="true">
 							<treecols>
 								<treecol id="id" hidden="true"/>
 								<splitter class="tree-splitter" hidden="true"/>								
@@ -202,16 +202,14 @@
 								<splitter class="tree-splitter" hidden="true"/>								
 								<treecol id="no" label="Nr." width="50" persist="width"/>
 								<splitter class="tree-splitter"/>								
-								<treecol id="auctiontitle" label="Auktion" flex="1" persist="width" editable="false"/>
+								<treecol id="date" label="Dato" flex="1" persist="width" />
 								<splitter class="tree-splitter"/>
-								<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;" editable="false"/>
+								<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;" />
 								<splitter class="tree-splitter"/>
 								<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>		
 								<splitter class="tree-splitter"/>																								
 								<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;" />														
-								<splitter class="tree-splitter"/>
-								<treecol id="selected" label="Test" type="checkbox" editable="true"/>
-								<splitter class="tree-splitter"/>																								
+								<splitter class="tree-splitter"/>								
 							</treecols>	
 						</tree>
 					</hbox>

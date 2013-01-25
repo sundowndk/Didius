@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------------------
 // PROJECT: didius
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -1475,6 +1475,103 @@ var didius =
 	},
 
 	// ---------------------------------------------------------------------------------------------------------------
+	// CLASS: creditnote
+	// ---------------------------------------------------------------------------------------------------------------
+	creditnote :
+	{
+		create : function (attributes)
+		{
+			var content = new Array ();
+					
+			if (attributes.customerId)
+				content.customerid = attributes.customerId;		
+			
+			if (attributes.customer)
+				content.customerid = attributes.customer.id;
+				
+			if (attributes.customerId)
+				content.customerid = attributes.customerId;		
+			
+			if (attributes.invoice)
+				content.invoiceid = attributes.invoice.id;
+				
+			if (attributes.invoiceId)
+				content.invoiceid = attributes.invoiceId;
+				
+			if (attributes.item)
+				content.item = attributes.item;
+				
+			if (attributes.items)
+				content.items = attributes.items;
+				
+			content.simulate = false;	
+			
+			if (attributes.simulate)
+				content.simulate = attributes.simulate;
+					
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Creditnote.Create", "data", "POST", false);	
+			request.send (content);
+			
+			var result = request.respons ()["didius.creditnote"];
+			
+		//	app.events.onInvoiceCreate.execute (result);
+			
+			return result;
+		},
+			
+		load : function (attributes)
+		{
+			var content = new Array ();
+			content.id = id;
+		
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Creditnote.Load", "data", "POST", false);
+			request.send (content);
+		
+			var result = request.respons ()["didius.creditnote"];
+			
+		//	app.events.onInvoiceLoad.execute (result);
+		
+			return result;
+		},
+						
+		list : function (attributes)
+		{
+			if (!attributes) attributes = new Array ();
+			
+			var content = new Array ();
+			
+			// CUSTOMER
+			if (attributes.customer)
+			{
+				content.customerid = attributes.customer.id;
+			}
+			else if (attributes.customerId)
+			{
+				content.customerid = attributes.customerId;
+			}
+					
+			if (attributes.async)
+			{
+				var onDone = 	function (respons)
+								{
+									attributes.onDone (respons["didius.creditnotes"]);
+								};
+				
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Creditnote.List", "data", "POST", true);
+				request.onLoaded (onDone);
+				request.send (content);
+			}
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Creditnote.List", "data", "POST", false);		
+				request.send (content);
+		
+				return request.respons ()["didius.creditnotes"];		
+			}
+		}	
+	},
+
+	// ---------------------------------------------------------------------------------------------------------------
 	// CLASS: config
 	// ---------------------------------------------------------------------------------------------------------------
 	config :
@@ -1699,7 +1796,9 @@ var didius =
 				var Cr = Components.results;
 			
 				var render = 	function (attributes)
-								{
+								{											
+									attributes.customer = didius.customer.load (attributes.invoice.customerid);
+								
 									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_invoice"}));						
 									var print = app.mainWindow.document.createElement ("iframe");
 									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
@@ -1749,20 +1848,20 @@ var didius =
 										
 							//			sXUL.console.log ("maxHeight: "+ maxHeight);
 							//			sXUL.console.log ("maxHeight2: "+ maxHeight2);			
-										
+																								
 										// CUSTOMERNAME
 										{
-											render = render.replace ("%%CUSTOMERNAME%%", attributes.invoice.customer.name);
+											render = render.replace ("%%CUSTOMERNAME%%", attributes.customer.name);
 											content.innerHTML = render;
 										}
 								
 										// CUSTOMERADDRESS
 										{
-											var customeraddress = attributes.invoice.customer.address1;
+											var customeraddress = attributes.customer.address1;
 											
-											if (attributes.invoice.customer.address2 != "")
+											if (attributes.customer.address2 != "")
 											{
-												address += "<br>"+ attributes.invoice.customer.address2;
+												address += "<br>"+ attributes.customer.address2;
 											}
 										
 											render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
@@ -1771,50 +1870,50 @@ var didius =
 										
 										// POSTCODE
 										{
-											render = render.replace ("%%CUSTOMERPOSTCODE%%", attributes.invoice.customer.postcode);
+											render = render.replace ("%%CUSTOMERPOSTCODE%%", attributes.customer.postcode);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERCITY
 										{
-											render = render.replace ("%%CUSTOMERCITY%%", attributes.invoice.customer.city);
+											render = render.replace ("%%CUSTOMERCITY%%", attributes.customer.city);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERCOUNTRY
 										{
-											render = render.replace ("%%CUSTOMERCOUNTRY%%", attributes.invoice.customer.country);
+											render = render.replace ("%%CUSTOMERCOUNTRY%%", attributes.customer.country);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERNO
 										{
-											render = render.replace ("%%CUSTOMERNO%%", attributes.invoice.customer.no);
+											render = render.replace ("%%CUSTOMERNO%%", attributes.customer.no);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERPHONE
 										{
-											render = render.replace ("%%CUSTOMERPHONE%%", attributes.invoice.customer.phone);
+											render = render.replace ("%%CUSTOMERPHONE%%", attributes.customer.phone);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMEREMAIL
 										{
-											render = render.replace ("%%CUSTOMEREMAIL%%", attributes.invoice.customer.email);
+											render = render.replace ("%%CUSTOMEREMAIL%%", attributes.customer.email);
 											content.innerHTML = render;
 										}
 										
 										// AUCTIONNO
 										{
-											render = render.replace ("%%AUCTIONNO%%", attributes.invoice.auction.no);
-											content.innerHTML = render;
+			//								render = render.replace ("%%AUCTIONNO%%", attributes.invoice.auction.no);
+			//								content.innerHTML = render;
 										}
 										
 										// AUCTIONTITLE
 										{
-											render = render.replace ("%%AUCTIONTITLE%%", attributes.invoice.auction.title);
-											content.innerHTML = render;
+			//								render = render.replace ("%%AUCTIONTITLE%%", attributes.invoice.auction.title);
+			//								content.innerHTML = render;
 										}
 																
 										// INVOICENO
@@ -1824,14 +1923,15 @@ var didius =
 										}
 										
 										// INVOICEDATE
-										{
-											render = render.replace ("%%INVOICEDATE%%", attributes.invoice.createtimestamp);
-											content.innerHTML = render;
+										{															
+											var date = SNDK.tools.timestampToDate (attributes.invoice.createtimestamp)
+											render = render.replace ("%%INVOICEDATE%%", SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ());
+											content.innerHTML = render;				
 										}
 										
 										// CUSTOMERBANKACCOUNT
 										{
-											render = render.replace ("%%CUSTOMERBANKACCOUNT%%", attributes.invoice.customer.bankregistrationno +" "+ attributes.invoice.customer.bankaccountno);
+											render = render.replace ("%%CUSTOMERBANKACCOUNT%%", attributes.customer.bankregistrationno +" "+ attributes.customer.bankaccountno);
 											content.innerHTML = render;
 										}
 								
