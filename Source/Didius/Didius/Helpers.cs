@@ -70,6 +70,31 @@ namespace Didius
 			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
 		}
 
+		public static void MailCreditnote (Creditnote Creditnote, string PdfFilename)
+		{
+			Customer customer = Customer.Load (Creditnote.CustomerId);
+			
+			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
+			
+			string to = customer.Email;
+//			string to = "rasmus@akvaservice.dk";
+			
+			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_creditnote_subject);
+			subject = ReplacePlaceholders (customer, subject);
+			subject = ReplacePlaceholders (Creditnote, subject);
+			
+			string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_creditnote_body);
+			body = ReplacePlaceholders (customer, body);
+			body = ReplacePlaceholders (Creditnote, body);
+			
+			bool isbodyhtml = SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_creditnote_isbodyhtml);
+			
+			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
+			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (PdfFilename), "kreditnota"+ Creditnote.No +".pdf", SNDK.IO.GetMimeType (PdfFilename)));
+			
+			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
+		}
+
 		public static void MailSalesAgreement (Customer Customer, string PdfFilename)
 		{		
 			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
@@ -144,6 +169,11 @@ namespace Didius
 			if (Source.GetType () == typeof (Didius.Invoice))
 			{
 				result = result.Replace ("%%INVOICENO%%", ((Didius.Invoice)Source).No.ToString ());
+			}
+			// CREDITNOTE
+			if (Source.GetType () == typeof (Didius.Creditnote))
+			{
+				result = result.Replace ("%%CREDITNOTENO%%", ((Didius.Creditnote)Source).No.ToString ());
 			}
 
 			return result;

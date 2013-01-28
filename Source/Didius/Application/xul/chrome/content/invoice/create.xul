@@ -20,16 +20,16 @@
 				<tabpanel flex="1">
 					<vbox flex="1">						
 						<groupbox>
-							<caption label="Effekter"/>	
+							<caption label="Linjer"/>	
 							<hbox align="center">
 								<tree id="items" flex="1" hidecolumnpicker="true" readonly="true" seltype="single" height="200">
 									<treecols>
-										<treecol id="id" hidden="true"/>
-										<treecol id="catalogno" label="Katalog nr." width="30" persist="width" />										
-										<treecol id="no" label="Effekt nr." width="100" persist="width"/>										
-										<treecol id="title" label="Title" flex="3" persist="width" />
-										<treecol id="bidamount" label="Salgs pris" flex="1" persist="width" style="text-align: right;"/>
+										<treecol id="id" hidden="true"/>										
+										<treecol id="no" hidden="true"/>										
+										<treecol id="text" label="Tekst" flex="3" persist="width" />
+										<treecol id="amount" label="Salgs pris" flex="1" persist="width" style="text-align: right;"/>										
 										<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;"/>
+										<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>
 									</treecols>								
 								</tree>
 							</hbox>							

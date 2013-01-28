@@ -98,6 +98,7 @@
     <Compile Include="Didius\Newsletter.cs" />
     <Compile Include="Didius\Creditnote.cs" />
     <Compile Include="Didius\CreditnoteLine.cs" />
+    <Compile Include="Didius\InvoiceLine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -353,6 +354,7 @@
     <None Include="Application\xul\chrome\content\creditnote\create.js" />
     <None Include="Application\xul\chrome\content\creditnote\create.xul" />
     <None Include="Application\js\didius\creditnote.js" />
+    <None Include="Application\js\didius\common\print\creditnote.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

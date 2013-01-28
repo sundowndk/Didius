@@ -33,7 +33,6 @@ namespace Didius
 		private Guid _customerid;
 		
 		private decimal _sales;
-		private decimal _commissionfee;
 		private decimal _vat;
 		private decimal _total;
 		
@@ -102,19 +101,6 @@ namespace Didius
 			}
 		}
 		
-		public decimal CommissionFee
-		{
-			get
-			{
-				decimal result = 0;
-				foreach (CreditnoteLine line in this._lines)
-				{
-					result += line.CommessionFee;
-				}
-				return Math.Round (result, 2);
-			}
-		}
-
 		public decimal Vat
 		{
 			get
@@ -122,13 +108,8 @@ namespace Didius
 				decimal result = 0;
 				foreach (CreditnoteLine line in this._lines)
 				{
-					if (line.Vat)
-					{
-						result += (line.Amount * 0.25m);
-					}
+					result += line.Vat;
 				}
-							
-				result += (this.CommissionFee * 0.25m);
 
 				return Math.Round (result, 2);
 			}
@@ -139,10 +120,10 @@ namespace Didius
 			get
 			{
 				decimal result = 0;
-				result += this.Sales;
-				result += this.CommissionFee;
-				result += this.Vat;
-
+				foreach (CreditnoteLine line in this._lines)
+				{
+					result += line.Total;
+				}
 				return Math.Round (result, 2);
 			}
 		}
@@ -161,7 +142,6 @@ namespace Didius
 			this._customerid = Customer.Id;
 			
 			this._sales = 0;
-			this._commissionfee = 0;
 			this._vat = 0;
 			this._total = 0;
 
@@ -178,7 +158,6 @@ namespace Didius
 			this._customerid = Guid.Empty;
 			
 			this._sales = 0;
-			this._commissionfee = 0;
 			this._vat = 0;
 			this._total = 0;
 			
@@ -193,7 +172,7 @@ namespace Didius
 			{
 				if (this._no == 0)
 				{
-					this._no = NewInvoiceNo ();
+					this._no = NewCreditnoteNo ();
 				}
 				
 				this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
@@ -209,7 +188,6 @@ namespace Didius
 				item.Add ("customerid", this._customerid);
 				
 				item.Add ("sales", this._sales);
-				item.Add ("commissionfee", this._commissionfee);
 				item.Add ("vat", this._vat);
 				item.Add ("total", this._total);
 
@@ -243,7 +221,6 @@ namespace Didius
 			result.Add ("no", this._no);
 			result.Add ("customerid", this._customerid);
 			result.Add ("sales", this.Sales);
-			result.Add ("commissionfee", this.CommissionFee);
 			result.Add ("vat", this.Vat);
 			result.Add ("total", this.Total);
 
@@ -288,11 +265,6 @@ namespace Didius
 				if (item.ContainsKey ("sales"))
 				{
 					result._sales = decimal.Parse ((string)item["sales"]);
-				}				
-				
-				if (item.ContainsKey ("commissionfee"))
-				{
-					result._commissionfee = decimal.Parse ((string)item["commissionfee"]);
 				}				
 				
 				if (item.ContainsKey ("total"))
@@ -354,18 +326,20 @@ namespace Didius
 			
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
 			{
-				try
-				{
+//				try
+//				{
 					result.Add (Load (new Guid (id)));
-				}
-				catch (Exception exception)
-				{
+//				}
+//				catch (Exception exception)
+//				{
+//					Console.WriteLine (exception);
+
 					// LOG: LogDebug.ExceptionUnknown
-					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CREDITNOTE", exception.Message));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CREDITNOTE", exception.Message));
 					
 					// LOG: LogDebug.CreditnoteList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CreditnoteList, id));
-				}
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CreditnoteList, id));
+//				}
 			}
 			
 			return result;
@@ -378,14 +352,14 @@ namespace Didius
 
 		public static Creditnote Create (Invoice Invoice, bool Simulate)
 		{
-			List<Item> items = new List<Item> ();
+			List<CreditnoteLine> lines = new List<CreditnoteLine> ();
 
-			foreach (Guid itemid in Invoice.ItemIds)
+			foreach (InvoiceLine line in Invoice.Lines)
 			{
-				items.Add (Item.Load (itemid));
+				lines.Add (new CreditnoteLine (line));
 			}
 
-			return Create (Customer.Load (Invoice.CustomerId), items, Simulate);
+			return Create (Customer.Load (Invoice.CustomerId), lines, Simulate);
 		}
 
 		public static Creditnote Create (Customer Customer, Item Item)
@@ -397,6 +371,7 @@ namespace Didius
 		{
 			List<Item> items = new List<Didius.Item> ();
 			items.Add (Item);
+
 			return Create (Customer, items, Simulate);
 		}
 
@@ -408,30 +383,47 @@ namespace Didius
 		public static Creditnote Create (Customer Customer, List<Item> Items, bool Simulate)
 		{
 			List<CreditnoteLine> lines = new List<CreditnoteLine> ();
+
 			foreach (Item item in Items)
 			{
-				if (item.Invoiced)
-				{
-					lines.Add (new CreditnoteLine (item));
+				lines.Add (new CreditnoteLine (item));
+			}
 
-					if (!Simulate)
-					{
-						item.Invoiced = false;
-						item.Save ();
-					}
+			return Create (Customer, lines, Simulate);
+		}
+
+		public static Creditnote Create (Customer Customer, List<CreditnoteLine> Lines)
+		{
+			return Create (Customer, Lines, false);
+		}
+
+		public static Creditnote Create (Customer Customer, List<CreditnoteLine> Lines, bool Simulate)
+		{
+			foreach (CreditnoteLine line in Lines)
+			{
+				if (!Item.Load (line.ItemId).Invoiced)
+				{
+					// EXCEPTION: Exception.CreditnoteCreateItemNotInvoiced
+					throw new Exception (string.Format (Strings.Exception.CreditnoteCreateItemNotInvoiced));
 				}
 			}
 
-			Creditnote result = new Creditnote (Customer, lines);
+			Creditnote result = new Creditnote (Customer, Lines);
 
 			if (result.Total == 0)
 			{
-				// EXCEPTION: Exception.CreditnoteEmpty
-				throw new Exception (string.Format (Strings.Exception.CreditnoteEmpty));
+				// EXCEPTION: Exception.CreditnoteCreateEmpty
+				throw new Exception (string.Format (Strings.Exception.CreditnoteCreateEmpty));
 			}
 
 			if (!Simulate)
 			{
+				foreach (CreditnoteLine line in result.Lines)
+				{
+					Item item = Item.Load (line.ItemId);
+					item.Invoiced = false;
+					item.Save ();
+				}
 				result.Save ();
 			}
 			
@@ -440,7 +432,7 @@ namespace Didius
 		#endregion
 		
 		#region Private Static Methods
-		private static int NewInvoiceNo ()
+		private static int NewCreditnoteNo ()
 		{
 			int result = 1;
 			

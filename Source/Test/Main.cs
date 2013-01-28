@@ -30,28 +30,45 @@ namespace Test
 			{
 				Console.WriteLine ("Connected to database.");
 
-				foreach (Didius.Invoice invoice in Didius.Invoice.List ())
+
+				foreach (Didius.Item item in Didius.Item.List ())
 				{
-					Console.WriteLine (invoice.No);
-
-					try
+					if (item.Invoiced)
 					{
-
-					
-					Didius.Creditnote creditnote = Didius.Creditnote.Create (invoice, false);
-
-					foreach (Didius.CreditnoteLine line in creditnote.Lines)
-					{
-						Console.WriteLine (line.Title +" "+ line.Amount);
+						Console.WriteLine (item.Title);
+						item.Invoiced = false;
+						item.Save ();
 					}
-					}
-					catch
-					{
-
-					}
-
-					Console.WriteLine ("");
 				}
+
+			
+
+//				foreach (Didius.Creditnote creditnote in Didius.Creditnote.List ())
+//				{
+//					Didius.Customer customer = Didius.Customer.Load (creditnote.CustomerId);
+//
+//					Console.WriteLine (customer.Name);
+//				}
+
+//				foreach (Didius.Invoice invoice in Didius.Invoice.List ())
+//				{
+////					Console.WriteLine (invoice.No);
+//
+//					Didius.Creditnote creditnote = Didius.Creditnote.Create (invoice, true);
+//
+//					Console.WriteLine (creditnote.ToXmlDocument ().InnerXml);
+//
+//					break;
+//
+////					Didius.Creditnote creditnote = Didius.Creditnote.Create (invoice, true);
+//
+////					foreach (Didius.CreditnoteLine line in creditnote.Lines)
+////					{
+////						Console.WriteLine (line.Title +" "+ line.Amount);
+////					}
+//
+////					Console.WriteLine ("");
+//				}
 
 //				foreach (Didius.Auction auction in Didius.Auction.List ())
 //				{

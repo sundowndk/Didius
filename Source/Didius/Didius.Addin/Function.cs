@@ -182,8 +182,39 @@ namespace Didius.Addin
 								catch
 								{
 									// TODO: remove this.
-									Invoice invoice = Invoice.Create (Auction.Load (new Guid (Session.Request.QueryJar.Get ("auctionid").Value)), Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), true);
-									Helpers.MailInvoice (invoice, filename);
+//									Invoice invoice = Invoice.Create (Auction.Load (new Guid (Session.Request.QueryJar.Get ("auctionid").Value)), Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), true);
+//									Helpers.MailInvoice (invoice, filename);
+								}
+
+								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");								
+							}
+							catch (Exception e)
+							{
+								Console.WriteLine (e);
+								Session.Page.Lines.Add ("ERROR");
+								return true;
+							}
+							break;
+						}
+
+				case "mailcreditnote":
+						{
+							try
+							{
+								string filename = SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_temp) + "/"+ Guid.NewGuid ();
+								SNDK.IO.ByteArrayToFile (filename, Session.Request.QueryJar.Get ("file").BinaryData);
+
+
+
+								try
+								{
+									Helpers.MailCreditnote (Creditnote.Load (new Guid (Session.Request.QueryJar.Get ("creditnoteid").Value)), filename);
+								}
+								catch
+								{
+									// TODO: remove this.
+//									Invoice invoice = Invoice.Create (Auction.Load (new Guid (Session.Request.QueryJar.Get ("auctionid").Value)), Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), true);
+//									Helpers.MailInvoice (invoice, filename);
 								}
 
 								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");								

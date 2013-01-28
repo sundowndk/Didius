@@ -1,4 +1,4 @@
-invoice : function (attributes)
+creditnote : function (attributes)
 {	
 	var Cc = Components.classes;
 	var Ci = Components.interfaces;
@@ -7,9 +7,9 @@ invoice : function (attributes)
 
 	var render = 	function (attributes)
 					{											
-						attributes.customer = didius.customer.load (attributes.invoice.customerid);
+						attributes.customer = didius.customer.load (attributes.creditnote.customerid);
 					
-						var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_invoice"}));						
+						var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_creditnote"}));
 						var print = app.mainWindow.document.createElement ("iframe");
 						app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
 												
@@ -126,16 +126,16 @@ invoice : function (attributes)
 //								content.innerHTML = render;
 							}
 													
-							// INVOICENO
+							// CREDITNOTENO
 							{
-								render = render.replace ("%%INVOICENO%%", attributes.invoice.no);
+								render = render.replace ("%%CREDITNOTENO%%", attributes.creditnote.no);
 								content.innerHTML = render;
 							}
 							
-							// INVOICEDATE
+							// CREDITNOTEDATE
 							{															
-								var date = SNDK.tools.timestampToDate (attributes.invoice.createtimestamp)
-								render = render.replace ("%%INVOICEDATE%%", SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ());
+								var date = SNDK.tools.timestampToDate (attributes.creditnote.createtimestamp)
+								render = render.replace ("%%CREDITNOTEDATE%%", SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ());
 								content.innerHTML = render;				
 							}
 							
@@ -151,28 +151,23 @@ invoice : function (attributes)
 								var rows = "";	
 								var count = 0;
 														
-								for (var idx = from; idx < attributes.invoice.lines.length; idx++)
+								for (var idx = from; idx < attributes.creditnote.lines.length; idx++)
 								{							
 									var row = template.row;
 									
 									// TEXT
 									{
-										row = row.replace ("%%TEXT%%", attributes.invoice.lines[idx].text);
+										row = row.replace ("%%TEXT%%", attributes.creditnote.lines[idx].text);
 									}		
 								
 									// AMOUNT
 									{
-										row = row.replace ("%%AMOUNT%%", attributes.invoice.lines[idx].amount.toFixed (2));
+										row = row.replace ("%%AMOUNT%%", attributes.creditnote.lines[idx].amount.toFixed (2));
 									}
 								
-									// COMMISSIONFEE
-									{
-										row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.lines[idx].commissionfee.toFixed (2));
-									}					
-									
 									// VAT
 									{
-										row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.lines[idx].commissionfee.toFixed (2));
+										row = row.replace ("%%VAT%%", attributes.creditnote.lines[idx].vat.toFixed (2));
 									}					
 
 									content.innerHTML = render.replace ("%%ROWS%%", rows + row);
@@ -200,10 +195,10 @@ invoice : function (attributes)
 							// TOTAL
 							{
 								render = render.replace ("%%TOTAL%%", template.total);
-								render = render.replace ("%%TOTALSALE%%", parseInt (attributes.invoice.sales).toFixed (2));
-								render = render.replace ("%%TOTALCOMMISSIONFEE%%", parseInt (attributes.invoice.commissionfee).toFixed (2));
-								render = render.replace ("%%TOTALVAT%%", parseInt (attributes.invoice.vat).toFixed (2));
-								render = render.replace ("%%TOTALTOTAL%%", parseInt (attributes.invoice.total).toFixed (2));
+								render = render.replace ("%%TOTALSALE%%", parseInt (attributes.creditnote.sales).toFixed (2));
+								render = render.replace ("%%TOTALCOMMISSIONFEE%%", parseInt (attributes.creditnote.commissionfee).toFixed (2));
+								render = render.replace ("%%TOTALVAT%%", parseInt (attributes.creditnote.vat).toFixed (2));
+								render = render.replace ("%%TOTALTOTAL%%", parseInt (attributes.creditnote.total).toFixed (2));
 								content.innerHTML = render;
 							}				
 															
@@ -217,7 +212,7 @@ invoice : function (attributes)
 						}
 																																																		
 						var c = page (0);
-						while (c < attributes.invoice.lines.length)
+						while (c < attributes.creditnote.lines.length)
 						{							
 						 	c += page (c);				 				
 						}	
@@ -231,15 +226,15 @@ invoice : function (attributes)
 
 	var data = "";
 																			
-	if (attributes.invoice)
+	if (attributes.creditnote)
 	{
-		data = render ({invoice: attributes.invoice});
+		data = render ({creditnote: attributes.creditnote});
 	}
-	else if (attributes.invoices)
+	else if (attributes.creditnotes)
 	{
-		for (index in attributes.invoices)
+		for (index in attributes.creditnotes)
 		{
-			data += render ({invoice: attributes.invoices[index]});
+			data += render ({creditnote: attributes.creditnotes[index]});
 		}			
 	}
 	
@@ -266,7 +261,7 @@ invoice : function (attributes)
 	{
 		var localDir = sXUL.tools.getLocalDirectory ();
 		//var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
-		var filename = localDir.path + app.session.pathSeperator + attributes.invoice.id +".pdf";
+		var filename = localDir.path + app.session.pathSeperator + attributes.creditnote.id +".pdf";
 		//var filename = "F:\\test.pdf";
 					
     	settings.printSilent = true;
@@ -293,7 +288,7 @@ invoice : function (attributes)
     	settings.headerStrLeft = "";
     	settings.headerStrRight = "";
     	settings.printBGColors = true;
-    	settings.title = "Didius Invoice";    		
+    	settings.title = "Didius Creditnote";    		
 
 		settings.toFileName = filename;
 			
@@ -352,7 +347,7 @@ invoice : function (attributes)
 												
 							var worker = function ()
 							{																
-								sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailInvoice", invoiceid: attributes.invoice.id, customerid: attributes.invoice.customerid, auctionid: attributes.invoice.auctionid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
+								sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailCreditnote", creditnoteid: attributes.creditnote.id, customerid: attributes.creditnote.customerid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
 								//sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailInvoice", invoiceid: attributes.invoice.id}, onLoad: onLoad, onProgress: onProgress, onError: onError});
 							}
 							

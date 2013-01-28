@@ -38,16 +38,17 @@
 						</groupbox>		
 						
 						<groupbox>
-							<caption label="Effekter"/>	
+							<caption label="Linjer"/>	
 							<hbox align="center">
 								<tree id="items" flex="1" hidecolumnpicker="true" readonly="true" seltype="single" height="200">
 									<treecols>
-										<treecol id="id" hidden="true"/>
-										<treecol id="catalogno" label="Katalog nr." width="30" persist="width" />
-										<treecol id="no" label="Effekt nr." width="100" persist="width"/>
-										<treecol id="title" label="Title" flex="3" persist="width" />
-										<treecol id="bidamount" label="Købs pris" flex="1" persist="width"  style="text-align: right;"  />
-										<treecol id="commissionfee" label="Salær" flex="1" persist="width"  style="text-align: right;"  />
+										<treecol id="id" hidden="true"/>										
+										<treecol id="no" hidden="true"/>
+										<treecol id="text" label="Tekst" flex="3" persist="width" />
+										<treecol id="amount" label="Købs pris" flex="1" persist="width"  style="text-align: right;"  />
+										<treecol id="commissionfee" label="Salær" flex="1" persist="width"  style="text-align: right;"  />										
+										<treecol id="vat" label="Moms" flex="1" persist="width"  style="text-align: right;"  />
+										<treecol id="total" label="I alt" flex="1" persist="width"  style="text-align: right;" />
 									</treecols>								
 								</tree>
 							</hbox>							
@@ -57,22 +58,22 @@
 							<caption label="Total"/>							
 							<hbox align="center">
 								<label class="Label">Salg:</label>							
-								<textbox id="sales" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<textbox id="totalsales" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 								<label>kr.</label>
 							</hbox>  					
 							<hbox align="center">
 								<label class="Label">Salær:</label>								
-								<textbox id="commissionFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<textbox id="totalcommissionFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 								<label>kr.</label>
 							</hbox>  												
 							<hbox align="center">
 								<label class="Label">Moms:</label>								
-								<textbox id="vat" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<textbox id="totalvat" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 								<label>kr.</label>
 							</hbox>  												
 							<hbox align="center">
 								<label class="Label">I alt:</label>								
-								<textbox id="total" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<textbox id="totaltotal" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 								<label>kr.</label>
 							</hbox>  					
 						</groupbox>

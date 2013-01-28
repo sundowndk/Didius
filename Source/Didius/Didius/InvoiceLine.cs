@@ -5,13 +5,14 @@ using System.Collections;
 
 namespace Didius
 {
-	public class CreditnoteLine
+	public class InvoiceLine
 	{
 		#region Private Fields
 		private Guid _id;
 		private int _no;
 		private Guid _itemid;
 		private string _text;
+		private decimal _commissionfee;
 		private decimal _amount;
 		private decimal _vat;
 		#endregion
@@ -25,9 +26,9 @@ namespace Didius
 			}
 		}
 
-		public int No
+		public int No 
 		{
-			get
+			get 
 			{
 				return this._no;
 			}
@@ -47,6 +48,14 @@ namespace Didius
 			get
 			{
 				return this._text;
+			}
+		}
+
+		public decimal CommissionFee
+		{
+			get
+			{
+				return Math.Round (this._commissionfee, 2);
 			}
 		}
 
@@ -71,46 +80,38 @@ namespace Didius
 			get
 			{
 				decimal result = 0;
-				result += this._vat;
+				result += this._commissionfee;
 				result += this._amount;
-				return Math.Round (result , 2);
-				
+				result += this._vat;
+				return Math.Round (result, 2);
 			}
 		}
 		#endregion
 
 		#region Constructor
-		public CreditnoteLine (InvoiceLine InvoiceLine)
-		{
-			this._id = Guid.NewGuid ();
-			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
-			this._itemid = InvoiceLine.ItemId;
-			this._text = InvoiceLine.Text;
-			this._amount = InvoiceLine.Amount;
-			this._vat = InvoiceLine.Vat;
-		}
-
-		public CreditnoteLine (Item Item)
+		public InvoiceLine (Item Item)
 		{
 			this._id = Guid.NewGuid ();
 			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._itemid = Item.Id;
 			this._text = Item.Title;
+			this._commissionfee = Item.CommissionFee;
 			this._amount = Item.BidAmount;
-			this._amount += Item.CommissionFee;
+
 			this._vat = (Item.CommissionFee * 0.25m);
 			if (Item.Vat)
 			{
-				this._vat += (Item.BidAmount * 0.25m);
-			}			
+				this._vat += (this._amount * 0.25m);
+			}
 		}
 
-		private CreditnoteLine ()
+		private InvoiceLine ()
 		{
 			this._id = Guid.Empty;
 			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._itemid = Guid.Empty;
 			this._text = string.Empty;
+			this._commissionfee = 0;
 			this._amount = 0;
 			this._vat = 0;
 		}
@@ -125,23 +126,24 @@ namespace Didius
 			result.Add ("no", this._no);
 			result.Add ("itemid", this._itemid);
 			result.Add ("text", this._text);
+			result.Add ("commissionfee", this.CommissionFee);
 			result.Add ("amount", this.Amount);
 			result.Add ("vat", this.Vat);
 			result.Add ("total", this.Total);
-
+				
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
 		#endregion
 
 		#region Public Static Methods
-		public static CreditnoteLine FromXmlDocument (XmlDocument xmlDocument)
+		public static InvoiceLine FromXmlDocument (XmlDocument xmlDocument)
 		{
 			Hashtable item;
-			CreditnoteLine result = new CreditnoteLine ();
+			InvoiceLine result = new InvoiceLine ();
 			
 			try
 			{
-				item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (xmlDocument.SelectSingleNode ("(//didius.creditnoteline)[1]")));
+				item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (xmlDocument.SelectSingleNode ("(//didius.invoiceline)[1]")));
 			}
 			catch
 			{
@@ -154,7 +156,7 @@ namespace Didius
 			}
 			else
 			{
-				throw new Exception (string.Format (Strings.Exception.CreditnoteLineFromXmlDocument, "ID"));
+				throw new Exception (string.Format (Strings.Exception.InvoiceLineFromXmlDocument, "ID"));
 			}
 
 			if (item.ContainsKey ("no"))
@@ -168,12 +170,17 @@ namespace Didius
 			}
 			else
 			{
-				throw new Exception (string.Format (Strings.Exception.CreditnoteLineFromXmlDocument, "ITEMID"));
+				throw new Exception (string.Format (Strings.Exception.InvoiceLineFromXmlDocument, "ITEMID"));
 			}
 						
 			if (item.ContainsKey ("text"))
 			{
 				result._text = (string)item["text"];
+			}
+
+			if (item.ContainsKey ("commissionfee"))
+			{
+				result._commissionfee = decimal.Parse ((string)item["commissionfee"]);
 			}
 
 			if (item.ContainsKey ("amount"))

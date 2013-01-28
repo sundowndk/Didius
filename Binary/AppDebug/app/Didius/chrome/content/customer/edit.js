@@ -45,7 +45,8 @@ var main =
 		cases.init ();
 		bids.init ();
 		settlements.init ();
-		invoices.init ();		
+		invoices.init ();	
+		creditnotes.init ();	
 		notes.init ();
 		
 		// Hook events.
@@ -96,6 +97,7 @@ var main =
 			document.getElementById ("tabbids").disabled = true;
 			document.getElementById ("tabsettlements").disabled = true;
 			document.getElementById ("tabinvoices").disabled = true;
+			document.getElementById ("tabcreditnotes").disabled = true;
 			document.getElementById ("tabnotes").disabled = false;
 		}
 		else
@@ -105,6 +107,7 @@ var main =
 			document.getElementById ("tabbids").disabled = false;
 			document.getElementById ("tabsettlements").disabled = false;
 			document.getElementById ("tabinvoices").disabled = false;
+			document.getElementById ("tabcreditnotes").disabled = false;
 			document.getElementById ("tabnotes").disabled = false;
 		}
 	
@@ -654,8 +657,7 @@ var invoices =
 										
 										var date = SNDK.tools.timestampToDate (item.createtimestamp)										
 										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
-										
-										data.commissionfee = item.commissionfee.toFixed (2) +" kr."; 
+																				
 										data.vat = item.vat.toFixed (2) +" kr."; 
 										data.total = item.total.toFixed (2) +" kr.";			
 										
@@ -697,6 +699,129 @@ var invoices =
 	show : function ()
 	{				
 		window.openDialog ("chrome://didius/content/invoice/show.xul", "didius.auction.invoice.show."+ invoices.invoicesTreeHelper.getRow ().id, "chrome", {invoiceId: invoices.invoicesTreeHelper.getRow ().id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------
+	create : function ()
+	{				
+		var onDone = 	function (result)
+						{					
+							if (result)
+							{								
+								if (result != null)
+								{								
+									window.openDialog ("chrome://didius/content/invoice/create.xul", "didius.auction.invoice.show."+ SNDK.tools.newGuid (), "chrome", {customerId: main.customer.id, auctionId: result.id});
+								}									
+							}																												
+						};
+																				
+		app.choose.auction ({onDone: onDone, parentWindow: window});		
+	},
+}
+
+// ----------------------------------------------------------------------------------------------------------
+// | CREDITNOTES																							|
+// ----------------------------------------------------------------------------------------------------------
+var creditnotes =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	invoicesTreeHelper : null,
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	init : function ()
+	{
+		creditnotes.creditnotesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("creditnotes"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: creditnotes.show});
+		creditnotes.set ();
+	},
+					
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------		
+	set : function ()
+	{
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview.
+				document.getElementById ("creditnotes").disabled = false;
+				invoices.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (items)
+								{														
+									creditnotes.creditnotesTreeHelper.disableRefresh ();
+									for (idx in items)
+									{				
+										var item = items[idx];
+										
+//										var auctiontitle = "";
+//										for (idx2 in item.auctionids)
+//										{
+//											var auction = didius.auction.load (item.auctionids[idx2].value);
+//											auctiontitle += auction.title +",";
+										
+											//sXUL.console.log (item.auctionids[idx2].value)
+//										}
+										
+										//sXUL.console.log (item.auctionids);
+										//var auction = didius.auction.load (item.auctionid)
+							
+										var data = {};
+										data.id = item.id;
+										data.createtimestamp = item.createtimestamp;
+										data.no = item.no;				
+										
+										var date = SNDK.tools.timestampToDate (item.createtimestamp)										
+										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+																														
+										data.total = item.total.toFixed (2) +" kr.";
+										
+										creditnotes.creditnotesTreeHelper.addRow ({data: data});
+									}
+									creditnotes.creditnotesTreeHelper.enableRefresh ();							
+									
+									// Enable listview.
+									document.getElementById ("creditnotes").disabled = false;
+									creditnotes.onChange ();
+								};
+							
+				didius.creditnote.list ({customer: main.customer, async: true, onDone: onDone});
+				break;
+			}
+		}
+	},
+					
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------					
+	onChange : function ()
+	{
+		if (creditnotes.creditnotesTreeHelper.getCurrentIndex () != -1)
+		{					
+			document.getElementById ("creditnoteshow").disabled = false;							
+		}
+		else
+		{												
+			document.getElementById ("creditnoteshow").disabled = true;			
+		}						
+	},
+				
+	// ------------------------------------------------------------------------------------------------------
+	// | SHOW																								|	
+	// ------------------------------------------------------------------------------------------------------																																																				
+	show : function ()
+	{				
+		window.openDialog ("chrome://didius/content/creditnote/show.xul", "didius.creditnote.show."+ creditnotes.creditnotesTreeHelper.getRow ().id, "chrome", {creditnoteId: creditnotes.creditnotesTreeHelper.getRow ().id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

@@ -52,6 +52,7 @@
 			<class name="common">
 				<class name="print">
 					<js file="js/didius/common/print/invoice.js" />	
+					<js file="js/didius/common/print/creditnote.js" />	
 					<js file="js/didius/common/print/salesagreement.js" />	
 					<js file="js/didius/common/print/settlement.js" />	
 				</class>						

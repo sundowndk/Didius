@@ -17,7 +17,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending"});
+		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "no", sortDirection: "descending"});
 	
 		var onInit =	function ()
 						{
@@ -54,16 +54,16 @@ var main =
 			main.invoice = didius.invoice.create ({auction: main.auction, customer: main.customer, simulate: true});
 	
 			main.itemsTreeHelper.disableRefresh ();
-			for (idx in main.invoice.items)
+			for (idx in main.invoice.lines)
 			{
-				var item = main.invoice.items[idx];
+				var line = main.invoice.lines[idx];
 				var data = {};
-				data.id = item.id;
-				data.no = item.no;
-				data.catalogno = item.catalogno;
-				data.title = item.title;
-				data.bidamount = item.bidamount.toFixed (2) +" kr.";
-				data.commissionfee = item.commissionfee.toFixed (2) +" kr.";			
+				data.id = line.id;
+				data.no = line.no;				
+				data.text = line.text;
+				data.amount = line.amount.toFixed (2) +" kr.";
+				data.vat = line.vat.toFixed (2) +" kr.";
+				data.commissionfee = line.commissionfee.toFixed (2) +" kr.";			
 							
 				main.itemsTreeHelper.addRow ({data: data});
 			}
@@ -81,7 +81,7 @@ var main =
 						
 		if (main.invoice != null)
 		{
-			if (main.invoice.items.length > 0)
+			if (main.invoice.lines.length > 0)
 			{
 				document.getElementById ("printInvoice").disabled = false;
 				document.getElementById ("mailInvoice").disabled = false;				

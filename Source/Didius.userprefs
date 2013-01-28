@@ -1,15 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/CreditnoteLine.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
     <Files>
-      <File FileName="Didius/Didius/Creditnote.cs" Line="460" Column="3" />
-      <File FileName="Didius/Didius/Invoice.cs" Line="238" Column="28" />
-      <File FileName="Didius/Application/xul/chrome/content/bid/edit.js" Line="82" Column="106" />
-      <File FileName="Didius/Application/js/didius/creditnote.js" Line="31" Column="94" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="434" Column="1" />
-      <File FileName="Test/Main.cs" Line="44" Column="7" />
+      <File FileName="Didius/Application/xul/chrome/content/creditnote/show.js" Line="197" Column="17" />
+      <File FileName="Didius/Application/js/didius/common/print/invoice.js" Line="297" Column="1" />
+      <File FileName="Didius/Application/js/didius/common/print/creditnote.js" Line="350" Column="274" />
       <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
-      <File FileName="Didius/Didius/CreditnoteLine.cs" Line="4" Column="26" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -32,22 +28,21 @@
                     <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
                     <Node name="main" expanded="True" />
+                    <Node name="settings" expanded="True" />
                   </Node>
                   <Node name="icons" expanded="True">
                     <Node name="default" expanded="True" />
                   </Node>
                 </Node>
+                <Node name="application.ini" selected="True" />
               </Node>
             </Node>
-            <Node name="Didius" expanded="True">
-              <Node name="CreditnoteLine.cs" selected="True" />
-            </Node>
+            <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True" />
           </Node>
-          <Node name="Test" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

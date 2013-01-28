@@ -21,7 +21,8 @@
 					<tab id="tabcases" label="Sager" disabled="true"/>
 					<tab id="tabbids" label="Bud" disabled="true"/>					
 					<tab id="tabsettlements" label="Afregninger" disabled="true"/>
-					<tab id="tabinvoices" label="Faktura" disabled="true"/>				
+					<tab id="tabinvoices" label="Faktura" disabled="true"/>
+					<tab id="tabcreditnotes" label="Kreditnota" disabled="true"/>
 					<tab id="tabnotes" label="Noter" disabled="true"/>
 				</tabs>
 			</arrowscrollbox>
@@ -203,9 +204,7 @@
 								<treecol id="no" label="Nr." width="50" persist="width"/>
 								<splitter class="tree-splitter"/>								
 								<treecol id="date" label="Dato" flex="1" persist="width" />
-								<splitter class="tree-splitter"/>
-								<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;" />
-								<splitter class="tree-splitter"/>
+								<splitter class="tree-splitter"/>								
 								<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>		
 								<splitter class="tree-splitter"/>																								
 								<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;" />														
@@ -220,7 +219,31 @@
 							<button id="invoiceCreate" label="Fakturere" oncommand="invoices.create ();" disabled="true" />
 						</vbox>	
 					</hbox>						
-				</tabpanel>		
+				</tabpanel>
+				
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="creditnotes" flex="1" hidecolumnpicker="true" onselect="creditnotes.onChange ();" seltype="single" disabled="true">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="createtimestamp" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>								
+								<treecol id="no" label="Nr." width="50" persist="width"/>
+								<splitter class="tree-splitter"/>								
+								<treecol id="date" label="Dato" flex="1" persist="width" />
+								<splitter class="tree-splitter"/>																
+								<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;" />														
+								<splitter class="tree-splitter"/>								
+							</treecols>	
+						</tree>
+					</hbox>
+					<hbox>
+						<vbox>							
+							<button id="creditnoteshow" label="Vis" oncommand="creditnotes.show ();" disabled="true" />									
+						</vbox>	
+					</hbox>						
+				</tabpanel>				
 																		
 				<tabpanel>
 					<textbox id="notes" flex="1" multiline="true" onkeyup="notes.onChange ();"/>

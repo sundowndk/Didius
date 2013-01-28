@@ -16,7 +16,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending"});	
+		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "no", sortDirection: "descending"});	
 	 	 	
 		var onInit =	function ()
 						{
@@ -55,26 +55,29 @@ var main =
 		document.getElementById ("customername").value = main.customer.name;
 					
 		main.itemsTreeHelper.disableRefresh ();
-		for (idx in main.invoice.items)
+		for (idx in main.invoice.lines)
 		{						
-			var item = main.invoice.items[idx];
+			var line = main.invoice.lines[idx];
 		
 			var data = {};
-			data["id"] = item.id;
-			data["catalogno"] = item.catalogno;
-			data["no"] = item.no;
-			data["title"] = item.title;
-			data["bidamount"] = item.bidamount.toFixed (2)+ " kr.";								
-			data["commissionfee"] = item.commissionfee.toFixed (2) +" kr.";
+			data["id"] = line.id;			
+			data["no"] = line.no;
+			data["text"] = line.text;
+			data["amount"] = line.amount.toFixed (2)+ " kr.";
+			data["commissionfee"] = line.commissionfee.toFixed (2) +" kr.";
+			data["vat"] = line.vat.toFixed (2) +" kr.";
+			data["total"] = line.total.toFixed (2) +" kr.";
+			
+			sXUL.console.log (line.total)
 											
 			main.itemsTreeHelper.addRow ({data: data});
 		}		
 		main.itemsTreeHelper.enableRefresh ();
 				
-		document.getElementById ("sales").value = main.invoice.sales;
-		document.getElementById ("commissionFee").value = main.invoice.commissionfee;
-		document.getElementById ("vat").value = main.invoice.vat;
-		document.getElementById ("total").value = main.invoice.total;
+		document.getElementById ("totalsales").value = main.invoice.sales;
+		document.getElementById ("totalcommissionFee").value = main.invoice.commissionfee;
+		document.getElementById ("totalvat").value = main.invoice.vat;
+		document.getElementById ("totaltotal").value = main.invoice.total;
 				
 		document.getElementById ("print").disabled = false;
 		

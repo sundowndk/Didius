@@ -41,7 +41,7 @@ create : function (attributes)
 load : function (attributes)
 {
 	var content = new Array ();
-	content.id = id;
+	content.id = attributes.id;
 
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Creditnote.Load", "data", "POST", false);
 	request.send (content);
