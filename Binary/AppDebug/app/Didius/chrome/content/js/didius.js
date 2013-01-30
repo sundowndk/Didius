@@ -18,8 +18,7 @@ var didius =
 		initialize : function ()
 		{
 			try
-			{
-				app.events.onCustomerCreate = new sXUL.event ({id: "onCustomerCreate", remotePropagation: true});
+			{		
 				app.events.onCustomerLoad = new sXUL.event ({id: "onCustomerLoad", remotePropagation: true});
 				app.events.onCustomerSave = new sXUL.event ({id: "onCustomerSave", remotePropagation: true});
 				app.events.onCustomerDestroy = new sXUL.event ({id: "onCustomerDestroy", remotePropagation: true});
@@ -39,7 +38,6 @@ var didius =
 				app.events.onItemSave = new sXUL.event ({id: "onItemSave", remotePropagation: true});
 				app.events.onItemDestroy = new sXUL.event ({id: "onItemDestroy", remotePropagation: true});
 			
-				app.events.onBidCreate = new sXUL.event ({id: "onBidCreate", remotePropagation: true});
 				app.events.onBidLoad = new sXUL.event ({id: "onBidLoad", remotePropagation: true});
 				app.events.onBidSave = new sXUL.event ({id: "onBidSave", remotePropagation: true});
 				app.events.onBidDestroy = new sXUL.event ({id: "onBidDestroy", remotePropagation: true});
@@ -49,6 +47,9 @@ var didius =
 			
 				app.events.onInvoiceCreate = new sXUL.event ({id: "onInvoiceCreate", remotePropagation: true});
 				app.events.onInvoiceLoad = new sXUL.event ({id: "onInvoiceLoad", remotePropagation: true});
+				
+				app.events.onCreditnoteCreate = new sXUL.event ({id: "onCreditnoteCreate", remotePropagation: true});
+				app.events.onCreditnoteLoad = new sXUL.event ({id: "onCreditnoteLoad", remotePropagation: true});
 			
 				app.events.onUserCreate = new sXUL.event ({id: "onUserCreate", remotePropagation: true});
 				app.events.onUserLoad = new sXUL.event ({id: "onUserLoad", remotePropagation: true});
@@ -83,9 +84,6 @@ var didius =
 			
 			var result = request.respons ()["didius.customer"];
 				
-		//	if (!didius.runtime.browserMode)			
-		//		app.events.onCustomerCreate.execute (result);
-			
 			return result;
 		},
 			
@@ -99,8 +97,8 @@ var didius =
 		
 			var result = request.respons ()["didius.customer"];
 			
-		//	if (!didius.runtime.browserMode)		
-		//		app.events.onCustomerLoad.execute (result);
+			if (!didius.runtime.browserMode)		
+				app.events.onCustomerLoad.execute (result);
 		
 			return result;
 		},
@@ -113,8 +111,8 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.Save", "data", "POST", false);		
 			request.send (content);
 			
-		//	if (!didius.runtime.browserMode)	
-		//		app.events.onCustomerSave.execute (customer);
+			if (!didius.runtime.browserMode)	
+				app.events.onCustomerSave.execute (customer);
 		},		
 		
 		destroy : function (id)
@@ -128,8 +126,8 @@ var didius =
 			var data = {};
 			data.id = id;
 			
-		//	if (!didius.runtime.browserMode)	
-		//		app.events.onCustomerDestroy.execute (data);
+			if (!didius.runtime.browserMode)	
+				app.events.onCustomerDestroy.execute (data);
 		},				
 				
 		list : function (attributes)
@@ -514,7 +512,9 @@ var didius =
 				
 				var onDone = 	function (respons)
 								{
-		//							app.events.onBidLoad.execute (respons["didius.bid"]);
+		//							if (!didius.runtime.browserMode)		
+		//								app.events.onBidLoad.execute (respons["didius.bid"]);
+										
 									attributes.onDone (respons["didius.bid"]);
 								};
 								
@@ -534,7 +534,10 @@ var didius =
 				request.send (content);	
 				
 				var result = request.respons ()["didius.bid"];
-		//		app.events.onBidCreate.execute (result);
+				
+		//		if (!didius.runtime.browserMode)		
+		//			app.events.onBidCreate.execute (result);
+					
 				return result;
 			}
 		},
@@ -553,7 +556,9 @@ var didius =
 			{	
 				var onDone = 	function (respons)
 								{
-		//							app.events.onBidLoad.execute (respons["didius.bid"]);
+									if (!didius.runtime.browserMode)		
+										app.events.onBidLoad.execute (respons["didius.bid"]);
+										
 									attributes.onDone (respons["didius.bid"]);
 								};
 								
@@ -573,7 +578,10 @@ var didius =
 				request.send (content);
 				
 				var result = request.respons ()["didius.bid"];
-		//		app.events.onBidLoad.execute (result);
+				
+				if (!didius.runtime.browserMode)		
+					app.events.onBidLoad.execute (result);
+					
 				return result;
 			}
 		},
@@ -592,7 +600,9 @@ var didius =
 			{	
 				var onDone = 	function (respons)
 								{
-		//							app.events.onBidSave.execute (attributes.bid);						
+									if (!didius.runtime.browserMode)		
+										app.events.onBidSave.execute (attributes.bid);						
+										
 									attributes.onDone ();
 								};
 								
@@ -610,7 +620,9 @@ var didius =
 			{
 				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);	
 				request.send (content);
-		//		app.events.onBidSave.execute (attributes.bid);
+				
+				if (!didius.runtime.browserMode)		
+					app.events.onBidSave.execute (attributes.bid);
 			}		
 		},		
 		
@@ -628,9 +640,11 @@ var didius =
 			{
 				var onDone = 	function (respons)
 								{
-		//							var data = {}
-		//							data.id = id;
-		//							app.events.onBidDestroy.execute (data);
+									var data = {}
+									data.id = id;
+									
+									if (!didius.runtime.browserMode)		
+										app.events.onBidDestroy.execute (data);
 								};
 								
 				var onError = 	function (exception)
@@ -648,9 +662,11 @@ var didius =
 				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd , "data", "POST", false);	
 				request.send (content);
 				
-		//		var data = {}
-		//		data.id = id;
-		//		app.events.onBidDestroy.execute (data);
+				var data = {}
+				data.id = attributes.id;
+				
+				if (!didius.runtime.browserMode)		
+					app.events.onBidDestroy.execute (data);
 			}
 		},				
 			
@@ -1402,8 +1418,12 @@ var didius =
 			request.send (content);
 			
 			var result = request.respons ()["didius.invoice"];
-			
-		//	app.events.onInvoiceCreate.execute (result);
+		
+			if (!content.simulate)
+			{
+				if (!didius.runtime.browserMode)		
+					app.events.onInvoiceCreate.execute (result);
+			}
 			
 			return result;
 		},
@@ -1418,7 +1438,8 @@ var didius =
 		
 			var result = request.respons ()["didius.invoice"];
 			
-		//	app.events.onInvoiceLoad.execute (result);
+			if (!didius.runtime.browserMode)		
+				app.events.onInvoiceLoad.execute (result);
 		
 			return result;
 		},
@@ -1514,7 +1535,11 @@ var didius =
 			
 			var result = request.respons ()["didius.creditnote"];
 			
-		//	app.events.onInvoiceCreate.execute (result);
+			if (!content.simulate)
+			{
+				if (!didius.runtime.browserMode)		
+					app.events.onCreditnoteCreate.execute (result);
+			}
 			
 			return result;
 		},
@@ -1529,7 +1554,8 @@ var didius =
 		
 			var result = request.respons ()["didius.creditnote"];
 			
-		//	app.events.onInvoiceLoad.execute (result);
+			if (!didius.runtime.browserMode)		
+				app.events.onCreditnoteLoad.execute (result);
 		
 			return result;
 		},

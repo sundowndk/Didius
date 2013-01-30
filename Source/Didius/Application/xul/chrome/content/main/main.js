@@ -47,19 +47,18 @@ var main =
 //		main.controls.statusbar.progressmeter.setDescription ("Færdig");
 		
 		// Hook events.
-//		sXUL.eventListener.attach ();
+		sXUL.eventListener.attach ();
 								
-		app.events.onCustomerCreate.addHandler (main.eventHandlers.onCustomerCreate);
 		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
 		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
 		
-		app.events.onAuctionCreate.addHandler (main.eventHandlers.onAuctionCreate);
-		app.events.onAuctionSave.addHandler (main.eventHandlers.onAuctionSave);
-		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
+//		app.events.onAuctionCreate.addHandler (main.eventHandlers.onAuctionCreate);
+//		app.events.onAuctionSave.addHandler (main.eventHandlers.onAuctionSave);
+//		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
 		
-		app.events.onNewsletterCreate.addHandler (main.eventHandlers.onNewsletterCreate);
-		app.events.onNewsletterSave.addHandler (main.eventHandlers.onNewsletterSave);
-		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);						
+//		app.events.onNewsletterCreate.addHandler (main.eventHandlers.onNewsletterCreate);
+//		app.events.onNewsletterSave.addHandler (main.eventHandlers.onNewsletterSave);
+//		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);						
 	},
 	
 	createTempFolder : function ()
@@ -161,11 +160,6 @@ var main =
 	
 	eventHandlers :
 	{
-		onCustomerCreate : function (eventData)
-		{
-			main.customers.customersTreeHelper.addRow ({data: eventData});
-		},
-		
 		onCustomerSave : function (eventData)
 		{
 			main.customers.customersTreeHelper.setRow ({data: eventData});

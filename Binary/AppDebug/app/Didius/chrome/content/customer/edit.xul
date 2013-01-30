@@ -232,6 +232,8 @@
 								<treecol id="no" label="Nr." width="50" persist="width"/>
 								<splitter class="tree-splitter"/>								
 								<treecol id="date" label="Dato" flex="1" persist="width" />
+								<splitter class="tree-splitter"/>								
+								<treecol id="vat" label="moms" width="100" persist="width" style="text-align: right;" />														
 								<splitter class="tree-splitter"/>																
 								<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;" />														
 								<splitter class="tree-splitter"/>								

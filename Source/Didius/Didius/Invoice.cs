@@ -195,6 +195,14 @@ namespace Didius
 				
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("auctionids", SNDK.Convert.ListToString<List<Guid>> (this._auctionids));
+
+				List<Guid> itemids = new List<Guid> ();
+				foreach (InvoiceLine line in this._lines)
+				{
+					itemids.Add (line.ItemId);
+				}
+				meta.Add ("itemids", SNDK.Convert.ListToString<List<Guid>> (itemids));
+
 				meta.Add ("customerid", this._customerid);
 				
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
@@ -236,8 +244,8 @@ namespace Didius
 		{
 			Invoice result;
 			
-			try
-			{
+//			try
+//			{
 				Hashtable item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.invoice)[1]")));
 				result = new Invoice ();
 				
@@ -275,15 +283,15 @@ namespace Didius
 						result._lines.Add (InvoiceLine.FromXmlDocument (invoiceline));
 					}
 				}
-			}
-			catch (Exception exception)
-			{
+//			}
+//			catch (Exception exception)
+//			{
 				// LOG: LogDebug.ExceptionUnknown
-				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.INVOICE", exception.Message));
+//				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.INVOICE", exception.Message));
 				
 				// EXCEPTION: Excpetion.InvoiceLoadGuid
-				throw new Exception (string.Format (Strings.Exception.InvoiceLoadGuid, Id));
-			}	
+//				throw new Exception (string.Format (Strings.Exception.InvoiceLoadGuid, Id, exception.Message));
+//			}	
 			
 			return result;
 		}
@@ -293,6 +301,29 @@ namespace Didius
 			List<Invoice> result = new List<Invoice> ();
 			
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("auctionids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, Auction.Id)))
+			{
+				try
+				{
+					result.Add (Load (new Guid (id)));
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.INVOICE", exception.Message));
+					
+					// LOG: LogDebug.InvoiceList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.InvoiceList, id));
+				}
+			}
+			
+			return result;
+		}
+
+		public static List<Invoice> List (Item Item)
+		{
+			List<Invoice> result = new List<Invoice> ();
+
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, Item.Id)))
 			{
 				try
 				{
@@ -340,18 +371,18 @@ namespace Didius
 			
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
 			{
-				try
-				{
+//				try
+//				{
 					result.Add (Load (new Guid (id)));
-				}
-				catch (Exception exception)
-				{
+//				}
+//				catch (Exception exception)
+//				{
 					// LOG: LogDebug.ExceptionUnknown
-					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.INVOICE", exception.Message));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.INVOICE", exception.Message));
 					
 					// LOG: LogDebug.InvoiceList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.InvoiceList, id));
-				}
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.InvoiceList, id));
+//				}
 			}
 			
 			return result;

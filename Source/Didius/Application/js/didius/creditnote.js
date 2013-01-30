@@ -33,7 +33,11 @@ create : function (attributes)
 	
 	var result = request.respons ()["didius.creditnote"];
 	
-//	app.events.onInvoiceCreate.execute (result);
+	if (!content.simulate)
+	{
+		if (!didius.runtime.browserMode)		
+			app.events.onCreditnoteCreate.execute (result);
+	}
 	
 	return result;
 },
@@ -48,7 +52,8 @@ load : function (attributes)
 
 	var result = request.respons ()["didius.creditnote"];
 	
-//	app.events.onInvoiceLoad.execute (result);
+	if (!didius.runtime.browserMode)		
+		app.events.onCreditnoteLoad.execute (result);
 
 	return result;
 },

@@ -103,32 +103,6 @@ var app =
 	{
 		// Make so everybody can get to the main window.
 		app.mainWindow = mainWindow;
-	
-		// Setup events.
-//		app.events.onCustomerCreate = new event ();
-//		app.events.onCustomerLoad = new event ();
-//		app.events.onCustomerSave = new event ();
-//		app.events.onCustomerDestroy = new event ();
-		
-//		app.events.onCaseCreate = new event ();
-//		app.events.onCaseLoad = new event ();
-//		app.events.onCaseSave = new event ();
-//		app.events.onCaseDestroy = new event ();
-		
-//		app.events.onItemCreate = new event ();
-//		app.events.onItemLoad = new event ();
-//		app.events.onItemSave = new event ();
-//		app.events.onItemDestroy = new event ();
-				
-//		app.events.onAuctionCreate = new event ();
-//		app.events.onAuctionLoad = new event ();
-//		app.events.onAuctionSave = new event ();
-//		app.events.onAuctionDestroy = new event ();
-		
-//		app.events.onNewsletterCreate = new event ();
-//		app.events.onNewsletterLoad = new event ();
-//		app.events.onNewsletterSave = new event ();
-//		app.events.onNewsletterDestroy = new event ();
 			
 		if (app.session.OS == "Linux")
 		{

@@ -5,9 +5,6 @@ create : function ()
 	
 	var result = request.respons ()["didius.customer"];
 		
-//	if (!didius.runtime.browserMode)			
-//		app.events.onCustomerCreate.execute (result);
-	
 	return result;
 },
 	
@@ -21,8 +18,8 @@ load : function (id)
 
 	var result = request.respons ()["didius.customer"];
 	
-//	if (!didius.runtime.browserMode)		
-//		app.events.onCustomerLoad.execute (result);
+	if (!didius.runtime.browserMode)		
+		app.events.onCustomerLoad.execute (result);
 
 	return result;
 },
@@ -35,8 +32,8 @@ save : function (customer)
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.Save", "data", "POST", false);		
 	request.send (content);
 	
-//	if (!didius.runtime.browserMode)	
-//		app.events.onCustomerSave.execute (customer);
+	if (!didius.runtime.browserMode)	
+		app.events.onCustomerSave.execute (customer);
 },		
 
 destroy : function (id)
@@ -50,8 +47,8 @@ destroy : function (id)
 	var data = {};
 	data.id = id;
 	
-//	if (!didius.runtime.browserMode)	
-//		app.events.onCustomerDestroy.execute (data);
+	if (!didius.runtime.browserMode)	
+		app.events.onCustomerDestroy.execute (data);
 },				
 		
 list : function (attributes)

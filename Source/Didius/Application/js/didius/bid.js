@@ -16,7 +16,9 @@ create : function (attributes)
 		
 		var onDone = 	function (respons)
 						{
-//							app.events.onBidLoad.execute (respons["didius.bid"]);
+//							if (!didius.runtime.browserMode)		
+//								app.events.onBidLoad.execute (respons["didius.bid"]);
+								
 							attributes.onDone (respons["didius.bid"]);
 						};
 						
@@ -36,7 +38,10 @@ create : function (attributes)
 		request.send (content);	
 		
 		var result = request.respons ()["didius.bid"];
-//		app.events.onBidCreate.execute (result);
+		
+//		if (!didius.runtime.browserMode)		
+//			app.events.onBidCreate.execute (result);
+			
 		return result;
 	}
 },
@@ -55,7 +60,9 @@ load : function (attributes)
 	{	
 		var onDone = 	function (respons)
 						{
-//							app.events.onBidLoad.execute (respons["didius.bid"]);
+							if (!didius.runtime.browserMode)		
+								app.events.onBidLoad.execute (respons["didius.bid"]);
+								
 							attributes.onDone (respons["didius.bid"]);
 						};
 						
@@ -75,7 +82,10 @@ load : function (attributes)
 		request.send (content);
 		
 		var result = request.respons ()["didius.bid"];
-//		app.events.onBidLoad.execute (result);
+		
+		if (!didius.runtime.browserMode)		
+			app.events.onBidLoad.execute (result);
+			
 		return result;
 	}
 },
@@ -94,7 +104,9 @@ save : function (attributes)
 	{	
 		var onDone = 	function (respons)
 						{
-//							app.events.onBidSave.execute (attributes.bid);						
+							if (!didius.runtime.browserMode)		
+								app.events.onBidSave.execute (attributes.bid);						
+								
 							attributes.onDone ();
 						};
 						
@@ -112,7 +124,9 @@ save : function (attributes)
 	{
 		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);	
 		request.send (content);
-//		app.events.onBidSave.execute (attributes.bid);
+		
+		if (!didius.runtime.browserMode)		
+			app.events.onBidSave.execute (attributes.bid);
 	}		
 },		
 
@@ -130,9 +144,11 @@ destroy : function (attributes)
 	{
 		var onDone = 	function (respons)
 						{
-//							var data = {}
-//							data.id = id;
-//							app.events.onBidDestroy.execute (data);
+							var data = {}
+							data.id = id;
+							
+							if (!didius.runtime.browserMode)		
+								app.events.onBidDestroy.execute (data);
 						};
 						
 		var onError = 	function (exception)
@@ -150,9 +166,11 @@ destroy : function (attributes)
 		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd , "data", "POST", false);	
 		request.send (content);
 		
-//		var data = {}
-//		data.id = id;
-//		app.events.onBidDestroy.execute (data);
+		var data = {}
+		data.id = attributes.id;
+		
+		if (!didius.runtime.browserMode)		
+			app.events.onBidDestroy.execute (data);
 	}
 },				
 	

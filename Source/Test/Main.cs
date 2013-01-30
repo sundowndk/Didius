@@ -30,6 +30,29 @@ namespace Test
 			{
 				Console.WriteLine ("Connected to database.");
 
+//				Didius.Creditnote creditnote = Didius.Creditnote.Create (Didius.Invoice.Load (new Guid ("709de68b-ac61-4d2d-81cd-cb4e39789c0b")), true);
+//
+//				Console.WriteLine (creditnote.Total);
+//				foreach (Didius.CreditnoteLine line in creditnote.Lines)
+//				{
+//					Console.WriteLine (line.Text);
+//				}
+
+//				2c8a183b-2e1c-4eba-844b-19769429acc9
+//				foreach (Didius.Invoice invoice in Didius.Invoice.List ())
+//				{
+//					Console.WriteLine (invoice.Id);
+//
+//					Console.WriteLine (invoice.No);
+//
+//					foreach (Didius.InvoiceLine line in invoice.Lines)
+//					{
+//						Console.WriteLine (line.Amount);
+//					}
+//
+////					Didius.Creditnote.Create (invoice, false);
+//				}
+
 
 				foreach (Didius.Item item in Didius.Item.List ())
 				{

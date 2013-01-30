@@ -112,7 +112,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{					
-		main.bid.amount = document.getElementById ("amount").value;
+		main.bid.amount =  parseInt (document.getElementById ("amount").value);
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

@@ -158,8 +158,6 @@
     <Folder Include="Application\xul\chrome\icons\default\" />
     <Folder Include="Application\xul\chrome\content\item\" />
     <Folder Include="Application\xul\chrome\content\itemedit-REMOVE\" />
-    <Folder Include="Application\xul\chrome\content\customeredit-REMOVE\" />
-    <Folder Include="Application\xul\chrome\content\printing-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\caseedit-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\auctionedit-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\catalogedit-REMOVE\" />
@@ -322,10 +320,6 @@
     <None Include="Application\xul\chrome\content\item\edit.js" />
     <None Include="Application\xul\chrome\content\itemedit-REMOVE\itemedit.xul" />
     <None Include="Application\xul\chrome\content\itemedit-REMOVE\itemedit.js" />
-    <None Include="Application\xul\chrome\content\customeredit-REMOVE\customeredit.js" />
-    <None Include="Application\xul\chrome\content\customeredit-REMOVE\customeredit.xul" />
-    <None Include="Application\xul\chrome\content\printing-REMOVE\test.html" />
-    <None Include="Application\xul\chrome\content\printing-REMOVE\test.css" />
     <None Include="Application\xul\chrome\content\caseedit-REMOVE\caseedit.js" />
     <None Include="Application\xul\chrome\content\caseedit-REMOVE\caseedit.xul" />
     <None Include="Application\xul\chrome\content\auctionedit-REMOVE\auctionedit.js" />
@@ -339,10 +333,8 @@
     <None Include="Application\xul\chrome\content\chooser\auction.xul" />
     <None Include="Application\xul\chrome\content\chooser\item.xul" />
     <None Include="Application\xul\chrome\content\chooser\item.js" />
-    <None Include="Application\xul\chrome\content\invoice\print.xul-REMOVE" />
     <None Include="Application\xul\chrome\content\invoice\create.js" />
     <None Include="Application\xul\chrome\content\invoice\create.xul" />
-    <None Include="Application\xul\chrome\content\invoice\print.js-REMOVE" />
     <None Include="Application\xul\chrome\content\invoice\progress.js" />
     <None Include="Application\xul\chrome\content\invoice\progress.xul" />
     <None Include="Application\xul\chrome\content\invoice\show.js" />

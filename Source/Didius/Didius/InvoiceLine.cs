@@ -55,7 +55,7 @@ namespace Didius
 		{
 			get
 			{
-				return Math.Round (this._commissionfee, 2);
+				return this._commissionfee;
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace Didius
 		{
 			get
 			{
-				return Math.Round (this._amount, 2);
+				return this._amount;
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace Didius
 		{
 			get
 			{
-				return Math.Round (this._vat, 2);
+				return this._vat;
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace Didius
 				result += this._commissionfee;
 				result += this._amount;
 				result += this._vat;
-				return Math.Round (result, 2);
+				return result;
 			}
 		}
 		#endregion
@@ -126,9 +126,9 @@ namespace Didius
 			result.Add ("no", this._no);
 			result.Add ("itemid", this._itemid);
 			result.Add ("text", this._text);
-			result.Add ("commissionfee", this.CommissionFee);
-			result.Add ("amount", this.Amount);
-			result.Add ("vat", this.Vat);
+			result.Add ("commissionfee", this._commissionfee);
+			result.Add ("amount", this._amount);
+			result.Add ("vat", this._vat);
 			result.Add ("total", this.Total);
 				
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
@@ -180,17 +180,17 @@ namespace Didius
 
 			if (item.ContainsKey ("commissionfee"))
 			{
-				result._commissionfee = decimal.Parse ((string)item["commissionfee"]);
+				result._commissionfee = decimal.Parse ((string)item["commissionfee"], System.Globalization.CultureInfo.InvariantCulture);
 			}
 
 			if (item.ContainsKey ("amount"))
 			{
-				result._amount = decimal.Parse ((string)item["amount"]);
+				result._amount = decimal.Parse ((string)item["amount"], System.Globalization.CultureInfo.InvariantCulture);
 			}
 
 			if (item.ContainsKey ("vat"))
 			{
-				result._vat = decimal.Parse ((string)item["vat"]);
+				result._vat = decimal.Parse ((string)item["vat"], System.Globalization.CultureInfo.InvariantCulture);
 			}
 
 			return result;

@@ -79,12 +79,14 @@ var main =
 		document.getElementById ("totalvat").value = main.invoice.vat;
 		document.getElementById ("totaltotal").value = main.invoice.total;
 				
-		document.getElementById ("print").disabled = false;
+		document.getElementById ("print").disabled = false;		
 		
 		if (main.customer.email != "")
 		{
 			document.getElementById ("mail").disabled = false;
 		}
+		
+		document.getElementById ("credit").disabled = false;
 		
 		document.getElementById ("close").disabled = false;
 	},
@@ -208,6 +210,14 @@ var main =
 		
 		progresswindow.addEventListener ("load", workload);		
 	},	
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CREDIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	credit : function ()
+	{
+		window.openDialog ("chrome://didius/content/creditnote/create.xul", "didius.creditnote.show."+ SNDK.tools.newGuid (), "chrome", {invoiceId: main.invoice.id});
+	},
 		
 	// ------------------------------------------------------------------------------------------------------
 	// | CLOSE																								|	

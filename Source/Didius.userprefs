@@ -2,9 +2,13 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/creditnote/show.js" Line="197" Column="17" />
-      <File FileName="Didius/Application/js/didius/common/print/invoice.js" Line="297" Column="1" />
-      <File FileName="Didius/Application/js/didius/common/print/creditnote.js" Line="350" Column="274" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="65" Column="5" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="146" Column="31" />
+      <File FileName="Didius/Application/js/didius/customer.js" Line="21" Column="36" />
+      <File FileName="Didius/Application/js/didius/bid.js" Line="173" Column="43" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="38" Column="31" />
+      <File FileName="Didius/Application/js/didius/invoice.js" Line="29" Column="34" />
+      <File FileName="Didius/Application/js/didius/creditnote.js" Line="72" Column="33" />
       <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
     </Files>
     <Pads>
@@ -27,6 +31,7 @@
                     <Node name="css" expanded="True" />
                     <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
+                    <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />
                   </Node>
@@ -43,6 +48,7 @@
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True" />
           </Node>
+          <Node name="Test" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

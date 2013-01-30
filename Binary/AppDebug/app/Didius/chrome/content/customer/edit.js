@@ -17,8 +17,13 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{		
-		if (window.arguments[0].customerId != null)
-		{	
+		if (window.arguments[0].customerId == null)
+		{						
+			main.customer = didius.customer.create ();
+			main.mode = "NEW";									
+		}
+		else if (window.arguments[0].customerId != null)
+		{
 			try
 			{				
 				main.customer = didius.customer.load (window.arguments[0].customerId);
@@ -32,14 +37,7 @@ var main =
 									
 			main.mode = "EDIT";
 		}
-		else
-		{
-			main.customer = didius.customer.create ();
-			main.mode = "NEW";						
-		}
 		
-		main.set ();					
-					
 		// Init tabs
 		details.init ();
 		cases.init ();
@@ -49,6 +47,8 @@ var main =
 		creditnotes.init ();	
 		notes.init ();
 		
+		main.set ();									
+		
 		// Hook events.
 		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);
 		
@@ -56,13 +56,14 @@ var main =
 		app.events.onCaseSave.addHandler (eventHandlers.onCaseSave);
 		app.events.onCaseDestroy.addHandler (eventHandlers.onCaseDestroy);
 		
-		app.events.onBidCreate.addHandler (eventHandlers.onBidCreate);
 		app.events.onBidSave.addHandler (eventHandlers.onBidSave);
 		app.events.onBidDestroy.addHandler (eventHandlers.onBidDestroy)
 		
 		app.events.onSettlementCreate.addHandler (eventHandlers.onSettlementCreate);
 		
 		app.events.onInvoiceCreate.addHandler (eventHandlers.onInvoiceCreate);
+						
+		app.events.onCreditnoteCreate.addHandler (eventHandlers.onCreditnoteCreate);
 	},
 				
 	// ------------------------------------------------------------------------------------------------------
@@ -81,6 +82,8 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{		
+		details.get ();
+		notes.get ();		
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -131,9 +134,9 @@ var main =
 	// | SAVE																								|	
 	// ------------------------------------------------------------------------------------------------------
 	save : function ()
-	{	
+	{		
 		main.get ();
-		
+			
 		if ((SNDK.tools.arrayChecksum (main.customer) != main.checksum))
 		{		
 			// If and email has been given, check if its allready being used by another customer.
@@ -148,7 +151,7 @@ var main =
 			
 			didius.customer.save (main.customer);
 			
-			// If this is a new customer, change mode from NEW to EDIT.
+			// Set mode to EDIT.
 			main.mode = "EDIT";
 									
 			main.checksum = SNDK.tools.arrayChecksum (main.customer);
@@ -181,13 +184,14 @@ var main =
 		app.events.onCaseSave.removeHandler (eventHandlers.onCaseSave);
 		app.events.onCaseDestroy.removeHandler (eventHandlers.onCaseDestroy);
 		
-		app.events.onBidCreate.removeHandler (eventHandlers.onBidCreate);
 		app.events.onBidSave.removeHandler (eventHandlers.onBidSave);
 		app.events.onBidDestroy.removeHandler (eventHandlers.onBidDestroy)
 		
 		app.events.onSettlementCreate.removeHandler (eventHandlers.onSettlementCreate);
 		
 		app.events.onInvoiceCreate.removeHandler (eventHandlers.onInvoiceCreate);
+		
+		app.events.onCreditnoteCreate.removeHandler (eventHandlers.onCreditnoteCreate);
 	
 		// Close window.
 		window.close ();
@@ -264,8 +268,7 @@ var details =
 	// | ONCHANGE																								|	
 	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
-	{
-		details.get ();
+	{		
 		main.onChange ();
 	}
 }
@@ -497,7 +500,22 @@ var bids =
 		{
 			try
 			{
-				didius.bid.destroy (bids.bidsTreeHelper.getRow ().id);					
+				var bid = didius.bid.load ({id: bids.bidsTreeHelper.getRow ().id});								
+				var item = didius.item.load (bid.itemid);
+			
+				if (item.invoiced == true)
+				{
+					if (app.window.prompt.confirm ("Bud er faktureret", "Før dette bud kan rettes, skal der laves en kreditnota. Vil du gøre dette ?"))
+					{				
+						var creditnote = didius.creditnote.create ({customer: main.customer, item: item, simulate: false});									
+					}
+					else
+					{
+						return;
+					}
+				}
+			
+				didius.bid.destroy ({id: bids.bidsTreeHelper.getRow ().id});
 			}
 			catch (error)
 			{
@@ -637,19 +655,7 @@ var invoices =
 									for (idx in items)
 									{				
 										var item = items[idx];
-										
-										var auctiontitle = "";
-										for (idx2 in item.auctionids)
-										{
-											var auction = didius.auction.load (item.auctionids[idx2].value);
-											auctiontitle += auction.title +",";
-										
-											//sXUL.console.log (item.auctionids[idx2].value)
-										}
-										
-										//sXUL.console.log (item.auctionids);
-										//var auction = didius.auction.load (item.auctionid)
-//									
+																														
 										var data = {};
 										data.id = item.id;
 										data.createtimestamp = item.createtimestamp;
@@ -763,19 +769,7 @@ var creditnotes =
 									for (idx in items)
 									{				
 										var item = items[idx];
-										
-//										var auctiontitle = "";
-//										for (idx2 in item.auctionids)
-//										{
-//											var auction = didius.auction.load (item.auctionids[idx2].value);
-//											auctiontitle += auction.title +",";
-										
-											//sXUL.console.log (item.auctionids[idx2].value)
-//										}
-										
-										//sXUL.console.log (item.auctionids);
-										//var auction = didius.auction.load (item.auctionid)
-							
+																	
 										var data = {};
 										data.id = item.id;
 										data.createtimestamp = item.createtimestamp;
@@ -783,7 +777,8 @@ var creditnotes =
 										
 										var date = SNDK.tools.timestampToDate (item.createtimestamp)										
 										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
-																														
+																					
+										data.vat = item.vat.toFixed (2) +" kr.";
 										data.total = item.total.toFixed (2) +" kr.";
 										
 										creditnotes.creditnotesTreeHelper.addRow ({data: data});
@@ -877,8 +872,7 @@ var notes =
 	// | ONCHANGE																							|	
 	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
-	{
-		notes.get ();	
+	{		
 		main.onChange ();
 	}
 }
@@ -927,47 +921,32 @@ var eventHandlers =
 	onCaseDestroy : function (eventData)
 	{
 		cases.casesTreeHelper.removeRow ({id: eventData.id});
-	},
-		
-	// ------------------------------------------------------------------------------------------------------
-	// | ONBIDCREATE																						|	
-	// ------------------------------------------------------------------------------------------------------
-	onBidCreate : function (eventData)
-	{
-		if (main.current.id == eventData.customerid)
-		{
-			var data = {};
-		
-			data.id = eventData.id;
-			data.createtimestamp = eventData.createtimestamp;
-			data.auctionno = eventData.item.case.auction.no;
-			data.auctiontitle = eventData.item.case.auction.title;
-			data.itemno = eventData.item.no;
-			data.itemtitle = eventData.item.title;
-			data.amount = eventData.amount;
-			
-			bids.bidsTreeHelper.addRow ({data: data});
-		}
-	},
+	},		
 		
 	// ------------------------------------------------------------------------------------------------------
 	// | ONBIDSAVE																							|	
 	// ------------------------------------------------------------------------------------------------------
 	onBidSave : function (eventData)
 	{
-		if (main.current.id == eventData.customer.id)
+		if (main.customer.id == eventData.customer.id)
 		{
 			var data = {};
 			
+			var item = didius.item.load (eventData.itemid);
+			var _case = didius.case.load (item.caseid);																
+			var auction = didius.auction.load (_case.auctionid);
+									
+			var data = {};
 			data.id = eventData.id;
 			data.createtimestamp = eventData.createtimestamp;
-			data.auctionno = eventData.item.case.auction.no;
-			data.auctiontitle = eventData.item.case.auction.title;
-			data.itemno = eventData.item.no;
-			data.itemtitle = eventData.item.title;
-			data.amount = eventData.amount;
+			data.auctionno = auction.no;
+			data.auctiontitle = auction.title;
+			data.itemcatalogno = item.catalogno;
+			data.itemno = item.no;
+			data.itemtitle = item.title;
+			data.amount = eventData.amount.toFixed (2) +" kr.";
 			
-			bids.bidsTreeHelper.addRow ({data: data});
+			bids.bidsTreeHelper.setRow ({data: data});
 		}
 	},
 		
@@ -1004,17 +983,44 @@ var eventHandlers =
 	// ------------------------------------------------------------------------------------------------------
 	onInvoiceCreate : function (eventData)
 	{
-		if (main.current.id == eventData.customerid)
+		if (main.customer.id == eventData.customerid)
+		{
+			var data = {};
+																		
+			data.id = eventData.id;
+			data.createtimestamp = eventData.createtimestamp;
+			data.no = eventData.no;				
+																													
+			var date = SNDK.tools.timestampToDate (eventData.createtimestamp)										
+			data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+										
+			data.vat = eventData.vat.toFixed (2) +" kr."; 
+			data.total = eventData.total.toFixed (2) +" kr.";			
+			
+			invoices.invoicesTreeHelper.addRow ({data: data});			
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCREDITNOTECREATE																					|	
+	// ------------------------------------------------------------------------------------------------------
+	onCreditnoteCreate : function (eventData)
+	{
+		if (main.customer.id == eventData.customerid)
 		{
 			var data = {};
 			
 			data.id = eventData.id;
 			data.createtimestamp = eventData.createtimestamp;
 			data.no = eventData.no;				
-			data.auctiontitle = eventData.case.auction.title;								
-			data.total = eventData.total;
+										
+			var date = SNDK.tools.timestampToDate (eventData.createtimestamp)										
+			data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+																					
+			data.vat = eventData.vat.toFixed (2) +" kr.";
+			data.total = eventData.total.toFixed (2) +" kr.";
 			
-			invoices.invoicesTreeHelper.addRow ({data: data});			
+			creditnotes.creditnotesTreeHelper.addRow ({data: data});			
 		}
 	}
 }

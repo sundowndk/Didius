@@ -194,6 +194,13 @@ namespace Didius
 				item.Add ("lines", this._lines);
 				
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
+				List<Guid> itemids = new List<Guid> ();
+				foreach (CreditnoteLine line in this._lines)
+				{
+					itemids.Add (line.ItemId);
+				}
+				meta.Add ("itemids", SNDK.Convert.ListToString<List<Guid>> (itemids));
+
 				meta.Add ("customerid", this._customerid);
 				
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
@@ -297,6 +304,29 @@ namespace Didius
 			return result;
 		}
 
+		public static List<Creditnote> List (Item Item)
+		{
+			List<Creditnote> result = new List<Creditnote> ();
+			
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, Item.Id)))
+			{
+				try
+				{
+					result.Add (Load (new Guid (id)));
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CREDITNOTE", exception.Message));
+					
+					// LOG: LogDebug.CreditnoteList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CreditnoteList, id));
+				}
+			}
+			
+			return result;
+		}
+
 		public static List<Creditnote> List (Customer Customer)
 		{
 			List<Creditnote> result = new List<Creditnote> ();
@@ -326,20 +356,18 @@ namespace Didius
 			
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
 			{
-//				try
-//				{
+				try
+				{
 					result.Add (Load (new Guid (id)));
-//				}
-//				catch (Exception exception)
-//				{
-//					Console.WriteLine (exception);
-
+				}
+				catch (Exception exception)
+				{
 					// LOG: LogDebug.ExceptionUnknown
-//					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CREDITNOTE", exception.Message));
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CREDITNOTE", exception.Message));
 					
 					// LOG: LogDebug.CreditnoteList
-//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CreditnoteList, id));
-//				}
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CreditnoteList, id));
+				}
 			}
 			
 			return result;
@@ -354,9 +382,49 @@ namespace Didius
 		{
 			List<CreditnoteLine> lines = new List<CreditnoteLine> ();
 
-			foreach (InvoiceLine line in Invoice.Lines)
+//			Customer customer = Customer.Load (Invoice.CustomerId);
+
+			foreach (InvoiceLine invoiceline1 in Invoice.Lines)
 			{
-				lines.Add (new CreditnoteLine (line));
+				try
+				{
+					Item item = Item.Load (invoiceline1.ItemId);
+					Bid bid = Bid.Load (item.CurrentBidId);
+					List<Invoice> invoices = Invoice.List (item);
+					invoices.Sort (delegate (Invoice i1, Invoice i2) { return i1.No.CompareTo (i2.No);});
+					invoices.Reverse ();
+
+					if (bid.CustomerId == Invoice.CustomerId)
+					{
+						if (item.Invoiced)
+						{ 
+							bool ok = true;
+							foreach (Invoice invoice in invoices)
+							{							
+								foreach (InvoiceLine invoiceline2 in invoice.Lines)
+								{
+									if (invoiceline2.ItemId == invoiceline1.ItemId)
+									{
+										if (invoice.No > Invoice.No)
+										{
+											ok = false;
+										}
+									}
+								}
+							}
+
+							if (ok)
+							{
+								lines.Add (new CreditnoteLine (invoiceline1));
+							}
+						}
+					}
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CREDITNOTE", exception.Message));
+				}
 			}
 
 			return Create (Customer.Load (Invoice.CustomerId), lines, Simulate);
