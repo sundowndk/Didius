@@ -1,5 +1,8 @@
 salesAgreement : function (attributes)		
 {					
+//	sXUL.console.log (attributes.case.id)
+	
+	
 	if (!attributes.case)
 		throw "DIDIUS.COMMON.PRINT.SALESAGREEMENT.PRINT: No CASE given, cannot print nothing.";
 
@@ -140,6 +143,11 @@ salesAgreement : function (attributes)
 									// MINIMUMBID
 									{
 										row = row.replace ("%%MINIMUMBID%%", items[idx].minimumbid.toFixed (2));
+									}											
+									
+									// COMMISSIONFEE
+									{
+										row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee.toFixed (2));
 									}											
 
 									content.innerHTML = render.replace ("%%ROWS%%", rows + row);
@@ -311,7 +319,7 @@ salesAgreement : function (attributes)
 						return result;						
 					};
 					
-	var data = render ({case: attributes.case});			
+	var data = render ({case: attributes.case});				
 						
 	var print = app.mainWindow.document.createElement ("iframe");
 	app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);		
@@ -323,19 +331,14 @@ salesAgreement : function (attributes)
 	settings.marginRight = 0.5;
 	settings.marginTop = 0.5;
 	settings.marginBottom = 0.0;
-	settings.shrinkToFit = true;
-		
+	settings.shrinkToFit = true;		
 	settings.paperName =  "iso_a4";
 	settings.paperWidth = 210;
 	settings.paperHeight = 297
 	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
-	
+   	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;	
 	settings.printBGImages = true;
-    settings.printBGColors = true;    	
-    	
-    settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
-    settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
-    
+    settings.printBGColors = true;    	    	   
     settings.footerStrCenter = "";
     settings.footerStrLeft = "";
     settings.footerStrRight = "";
@@ -343,8 +346,8 @@ salesAgreement : function (attributes)
     settings.headerStrLeft = "";
     settings.headerStrRight = "";    	
 	
-	settings.title = "Didius Salesagreement";
-
+	settings.title = "DidiusSalesagreement";
+	
 	if (attributes.mail) 
 	{
 		var localDir = sXUL.tools.getLocalDirectory ();		
@@ -353,7 +356,9 @@ salesAgreement : function (attributes)
 		// Hide print dialog.
 		settings.printToFile = true;    					
     	settings.printSilent = true;
-  		settings.showPrintProgress = false;
+  		settings.showPrintProgress = false;  			
+		settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+
 	    		    		
 	   	// Set output format to PDF.    		    		           	
     	settings.outputFormat = 2;

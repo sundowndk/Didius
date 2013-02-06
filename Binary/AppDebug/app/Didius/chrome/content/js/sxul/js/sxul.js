@@ -1179,7 +1179,7 @@ var sXUL =
 		    }    
 		    
 			try
-		    {
+		   {
 		  		wbprint.print (attributes.settings, attributes.listener);				
 		  	}
 		    catch (exception)
@@ -1193,7 +1193,7 @@ var sXUL =
 			   			setTimeout (attributes.onError, 1);
 		   			}	
 		    	}   
-		    	else
+		 	  	else
 		    	{
 		    		if (attributes.onDone != null)
 		    		{

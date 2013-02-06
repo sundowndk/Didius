@@ -10,7 +10,7 @@
 			
 	<keyset>  		
   		<key id="key-close" modifiers="control" key="w" oncommand="main.close ();"/>
-  		<key id="key-save" modifiers="control" key="s" oncommand="main.save ();"/>		  		
+  		<key id="key-save" modifiers="control" key="s" oncommand="main.save ();"/>  		
 	</keyset>			
 			
 	<hbox class="Main" flex="1">
@@ -121,14 +121,17 @@
 								<treecol id="id" hidden="true"/>
 								<splitter class="tree-splitter" hidden="true"/>								
 								<treecol id="no" label="Sags nr." width="100" persist="width" onclick="cases.sort ({column: 'no'});" />
-								<splitter class="tree-splitter"/>
+								<splitter class="tree-splitter"/>								
 								<treecol id="title" label="Title" flex="2" persist="width" onclick="cases.sort ({column: 'title'});" />
+								<splitter class="tree-splitter"/>
+								<treecol id="auctiontitle" label="Auktion" flex="2" persist="width" onclick="cases.sort ({column: 'auctiontitles'});" />
 								<splitter class="tree-splitter"/>
 							</treecols>	
 						</tree>
 					</hbox>
 					<hbox>
 						<vbox>							
+							<button id="caseCreate" label="Opret" oncommand="cases.create ();" disabled="true" />
 							<button id="caseEdit" label="Redigere" oncommand="cases.edit ();" disabled="true" />
 							<button id="caseDestroy" label="Slet" oncommand="cases.destroy ();" disabled="true" />	
 						</vbox>	

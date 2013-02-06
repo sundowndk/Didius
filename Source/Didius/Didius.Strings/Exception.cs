@@ -96,8 +96,6 @@ namespace Didius.Strings
 		public static string EventListenerLoadGuid = "Could not load EventListener with id: {0}";
 		public static string EventListenerDeleteGuid = "Could not delete EventListener with id: {0}";
 		#endregion
-
-
 	}
 }
 

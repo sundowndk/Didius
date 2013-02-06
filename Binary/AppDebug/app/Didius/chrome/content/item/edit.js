@@ -8,6 +8,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------		
+	mode : null,
 	checksum : null,
 	item : null,
 	case : null,
@@ -19,49 +20,69 @@ var main =
 	// | INIT																								|	
 	// ------------------------------------------------------------------------------------------------------		
 	init : function ()
-	{
-		try
-		{
-			// Fetch Item from server.
-			main.item = didius.item.load (window.arguments[0].itemId);
-			main.checksum = SNDK.tools.arrayChecksum (main.item);
-			main.catalogNo = main.item.catalogno;
-			
-			// Fetch Case from server.
-			main.case = didius.case.load (main.item.caseid);
-			
-			// Fetch Auction from server.
-			main.auction = didius.auction.load (main.case.auctionid);
-			
-			// Fetch Customer from server.
-			main.customer = didius.customer.load (main.case.customerid);
-		}
-		catch (error)
-		{
-			// Show errors and close window.
-			app.error ({exception: error})
-			main.close ();
-			return;
-		}			
-																					
-		main.set ();
-		
-		details.init ();
-		//bids.init ();
-	
+	{		
 		// Hook events.		
 		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);		
 		
-		app.events.onBidCreate.addHandler (eventHandlers.onBidCreate);
 		app.events.onBidSave.addHandler (eventHandlers.onBidSave);
 		app.events.onBidDestroy.addHandler (eventHandlers.onBidDestroy);
+		
+		// onInit.
+		var onInit = 	function ()
+						{
+							try	
+							{
+								if (!window.arguments[0].itemId)
+								{
+									main.mode = "NEW";
+									main.item = didius.item.create ({caseId: window.arguments[0].caseId});
+								}
+								else if (window.arguments[0].itemId)
+								{
+									main.mode = "EDIT";			
+									main.item = didius.item.load ({id: window.arguments[0].itemId});
+								}
+								
+								main.case = didius.case.load ({id: main.item.caseid});
+								main.auction = didius.auction.load (main.case.auctionid);
+								main.customer = didius.customer.load (main.case.customerid);			
+							}
+							catch (error)
+							{
+								app.error ({exception: error})
+								main.close ();
+								return;
+							}							
+							
+							main.set ();				
+							
+							// Init tabs.
+							details.init ();
+							bids.init ();
+						};
+						
+		setTimeout (onInit, 1);
 	},	
 			
 	// ------------------------------------------------------------------------------------------------------
 	// | SET																								|	
 	// ------------------------------------------------------------------------------------------------------			
 	set : function ()
-	{												
+	{					
+		document.getElementById ("description").focus ();
+										
+		main.checksum = SNDK.tools.arrayChecksum (main.item);
+		main.catalogNo = main.item.catalogno;
+		
+		// Enable UI.
+		document.getElementById ("description").disabled = false;
+		document.getElementById ("pictureUpload").disabled = false;
+		document.getElementById ("vat").disabled = false;		
+		document.getElementById ("minimumbid").disabled = false;
+		document.getElementById ("appraisal1").disabled = false;
+		document.getElementById ("appraisal2").disabled = false;
+		document.getElementById ("appraisal3").disabled = false;				
+																									
 		main.onChange ();
 	},
 	
@@ -70,6 +91,40 @@ var main =
 	// ------------------------------------------------------------------------------------------------------		
 	get : function ()
 	{				
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------		
+	onChange : function ()
+	{
+		main.get ();
+			
+		if ((SNDK.tools.arrayChecksum (main.item) != main.checksum))
+		{
+			document.title = "Effekt: "+ main.item.title +" ["+ main.item.no +"] *";
+		
+			document.getElementById ("save").disabled = false;
+			document.getElementById ("close").disabled = false;
+		}
+		else
+		{
+			document.title = "Effekt: "+ main.item.title +" ["+ main.item.no +"]";
+		
+			document.getElementById ("save").disabled = true;
+			document.getElementById ("close").disabled = false;
+		}
+		
+		if (main.mode == "NEW")
+		{
+			document.getElementById ("tabdetails").disabled = false;
+			document.getElementById ("tabbids").disabled = true;
+		}
+		else
+		{
+			document.getElementById ("tabdetails").disabled = false;
+			document.getElementById ("tabbids").disabled = false;
+		}
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -90,7 +145,9 @@ var main =
 			}								
 		}
 				
-		didius.item.save (main.item);
+		didius.item.save ({item: main.item});
+		
+		main.mode = "EDIT";
 								
 		main.checksum = SNDK.tools.arrayChecksum (main.item);
 		main.onChange ();			
@@ -116,36 +173,12 @@ var main =
 		
 		// Unhook events.		
 		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);		
-		
-		app.events.onBidCreate.removeHandler (eventHandlers.onBidCreate);
+				
 		app.events.onBidSave.removeHandler (eventHandlers.onBidSave);
 		app.events.onBidDestroy.removeHandler (eventHandlers.onBidDestroy);
 		
 		// Close window.
 		window.close ();
-	},
-			
-	// ------------------------------------------------------------------------------------------------------
-	// | ONCHANGE																							|	
-	// ------------------------------------------------------------------------------------------------------		
-	onChange : function ()
-	{
-		main.get ();
-			
-		if ((SNDK.tools.arrayChecksum (main.item) != main.checksum))
-		{
-			document.title = "Effekt: "+ main.item.title +" ["+ main.item.no +"] *";
-		
-			document.getElementById ("save").disabled = false;
-			document.getElementById ("close").disabled = false;
-		}
-		else
-		{
-			document.title = "Effekt: "+ main.item.title +" ["+ main.item.no +"]";
-		
-			document.getElementById ("save").disabled = true;
-			document.getElementById ("close").disabled = false;
-		}
 	}
 }
 
@@ -342,23 +375,30 @@ var bids =
 	{
 		var onDone = 	function (result)
 						{
+							bids.bidsTreeHelper.disableRefresh ();										
 							for (idx in result)
 							{				
-								var item = result[idx];
-								bids.bidsTreeHelper.addRow ({data: item});
+								var bid = result[idx];
+								var data = {};
+								
+								data.id = bid.id;
+								data.createtimestamp = bid.createtimestamp;
+								
+								var customer = didius.customer.load (bid.customerid);
+								data.customerno = customer.no;
+								data.customername = customer.name;
+								
+								data.amount = bid.amount.toFixed (2) +" kr.";
+								
+								bids.bidsTreeHelper.addRow ({data: data});
 							}
+							bids.bidsTreeHelper.enableRefresh ();
 							
 							// Enable controls
 							document.getElementById ("bids").disabled = false;																
 							bids.onChange ();
 						};
-
-			// Disable controls
-			document.getElementById ("bids").disabled = true;					
-			document.getElementById ("bidCreate").disabled = true;
-			document.getElementById ("bidEdit").disabled = true;
-			document.getElementById ("bidDestroy").disabled = true;
-					
+								
 			didius.bid.list ({item: main.item, async: true, onDone: onDone});				
 	},
 		
@@ -390,11 +430,11 @@ var bids =
 						{
 							if (result)
 							{																																	
-								window.openDialog ("chrome://didius/content/bid/create.xul", SNDK.tools.newGuid (), "chrome", {customer: result, item: main.current});
+								window.openDialog ("chrome://didius/content/bid/create.xul", SNDK.tools.newGuid (), "chrome", {customerId: result.id, itemId: main.item.id});
 							}
 						};
 													
-		app.choose.customer ({onDone: onDone});
+		app.choose.customer ({parentWindow: window, onDone: onDone});
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -409,19 +449,34 @@ var bids =
 	// | DESTROY																							|	
 	// ------------------------------------------------------------------------------------------------------		
 	destroy : function ()
-	{				
+	{
 		if (app.window.prompt.confirm ("Slet bud", "Er du sikker på du vil slette dette bud ?"))
 		{
 			try
 			{
-				didius.bid.destroy (bids.bidsTreeHelper.getRow ().id);					
+				var bid = didius.bid.load ({id: bids.bidsTreeHelper.getRow ().id});								
+				var item = didius.item.load ({id: bid.itemid});
+			
+				if (item.invoiced == true)
+				{
+					if (app.window.prompt.confirm ("Bud er faktureret", "Før dette bud kan rettes, skal der laves en kreditnota. Vil du gøre dette ?"))
+					{				
+						var creditnote = didius.creditnote.create ({customer: main.customer, item: item, simulate: false});									
+					}
+					else
+					{
+						return;
+					}
+				}
+			
+				didius.bid.destroy ({id: bids.bidsTreeHelper.getRow ().id});
 			}
 			catch (error)
 			{
 				app.error ({exception: error})
 			}								
 		}
-	}	
+	}
 }
 
 // ----------------------------------------------------------------------------------------------------------
@@ -450,21 +505,24 @@ var eventHandlers =
 			main.close (true);
 		}
 	},		
-		
-	// ------------------------------------------------------------------------------------------------------
-	// | ONBIDCREATE																						|	
-	// ------------------------------------------------------------------------------------------------------		
-	onBidCreate : function (eventData)
-	{
-		bids.bidsTreeHelper.addRow ({data: eventData});
-	},
-		
+					
 	// ------------------------------------------------------------------------------------------------------
 	// | ONBIDSAVE																							|	
 	// ------------------------------------------------------------------------------------------------------		
 	onBidSave : function (eventData)
-	{
-		bids.bidsTreeHelper.setRow ({data: eventData});
+	{		
+		var data = {};
+								
+		data.id = eventData.id;
+		data.createtimestamp = eventData.createtimestamp;
+								
+		var customer = didius.customer.load (eventData.customerid);
+		data.customerno = customer.no;
+		data.customername = customer.name;
+								
+		data.amount = eventData.amount.toFixed (2) +" kr.";
+								
+		bids.bidsTreeHelper.addRow ({data: data});
 	},
 		
 	// ------------------------------------------------------------------------------------------------------

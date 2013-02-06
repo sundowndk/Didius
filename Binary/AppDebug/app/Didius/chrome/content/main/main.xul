@@ -6,6 +6,8 @@
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>  	
+		<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
+
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>  		
 	
 	<script type="application/javascript" src="main.js"/>	
@@ -33,7 +35,7 @@
 	<vbox flex="1" class="WindowInnerPadding">
 		<tabbox selectedIndex="1" flex="1">		
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">      
-				<tabs  style="overflow:hidden">				
+				<tabs style="overflow:hidden">				
 					<tab image="chrome://didius/content/icons/auctions.png"/>			
 					<tab image="chrome://didius/content/icons/customers.png"/>
 					<tab image="chrome://didius/content/icons/newsletter.png"/>

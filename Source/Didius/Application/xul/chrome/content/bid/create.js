@@ -12,6 +12,7 @@ var main =
 	bid : null,
 	customer : null,
 	auction : null,
+	case : null,
 	item : null,	
 	amount : null,
 
@@ -45,9 +46,10 @@ var main =
 								}
 								
 								if (window.arguments[0].itemId)
-								{									
-									main.item = didius.item.load (window.arguments[0].itemId);									
-									main.auction = didius.auction.load (main.item.auctionid)
+								{							
+									main.item = didius.item.load ({id: window.arguments[0].itemId});
+									main.case = didius.case.load ({id: main.item.caseid});
+									main.auction = didius.auction.load (main.case.auctionid)
 								}
 							}
 							catch (error)

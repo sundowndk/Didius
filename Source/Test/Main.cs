@@ -54,6 +54,12 @@ namespace Test
 //				}
 
 
+
+
+//				Didius.Case c = Didius.Case.Load (new Guid ("4159988c-3328-4ebf-9592-0be125e698cc"));
+//
+//				c.ToXmlDocument ();
+
 				foreach (Didius.Item item in Didius.Item.List ())
 				{
 					if (item.Invoiced)

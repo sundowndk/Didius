@@ -23,7 +23,7 @@ var main =
 						{
 							try
 							{	
-								main.case = didius.case.load (window.arguments[0].caseId);
+								main.case = didius.case.load ({id: window.arguments[0].caseId});
 								main.customer = didius.customer.load (main.case.customerid);
 							}
 							catch (error)
@@ -196,7 +196,7 @@ var main =
 												
 								var onError = 	function ()
 												{
-													app.error ({errorCode: "APP00150"});	
+													//app.error ({errorCode: "APP00150"});	
 													finish ();
 												}
 													

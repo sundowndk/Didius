@@ -55,6 +55,7 @@
 					<js file="js/didius/common/print/creditnote.js" />	
 					<js file="js/didius/common/print/salesagreement.js" />	
 					<js file="js/didius/common/print/settlement.js" />	
+					<js file="js/didius/common/print/label.js" />	
 				</class>						
 			</class>						
 		</class>

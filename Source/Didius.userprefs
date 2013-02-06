@@ -2,14 +2,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="65" Column="5" />
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="146" Column="31" />
-      <File FileName="Didius/Application/js/didius/customer.js" Line="21" Column="36" />
-      <File FileName="Didius/Application/js/didius/bid.js" Line="173" Column="43" />
-      <File FileName="Didius/Application/js/didius/runtime.js" Line="38" Column="31" />
-      <File FileName="Didius/Application/js/didius/invoice.js" Line="29" Column="34" />
-      <File FileName="Didius/Application/js/didius/creditnote.js" Line="72" Column="33" />
-      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
+      <File FileName="Didius/Application/xul/chrome/content/item/edit.js" Line="298" Column="12" />
+      <File FileName="Didius/Application/xul/chrome/content/item/edit.xul" Line="77" Column="120" />
+      <File FileName="Didius/Application/xul/chrome/content/case/edit.xul" Line="91" Column="126" />
+      <File FileName="Didius/Application/xul/application.ini" Line="4" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -26,14 +22,24 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
+                    <Node name="auction" expanded="True">
+                      <Node name="catalog" expanded="True" />
+                    </Node>
                     <Node name="bid" expanded="True" />
+                    <Node name="case" expanded="True">
+                      <Node name="salesagreement" expanded="True" />
+                    </Node>
+                    <Node name="catalogedit-REMOVE" expanded="True" />
+                    <Node name="chooser" expanded="True" />
                     <Node name="creditnote" expanded="True" />
                     <Node name="css" expanded="True" />
                     <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
+                    <Node name="item" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />
+                    <Node name="templates" expanded="True" />
                   </Node>
                   <Node name="icons" expanded="True">
                     <Node name="default" expanded="True" />
@@ -48,7 +54,6 @@
             <Node name="Didius.Strings" expanded="True" />
             <Node name="resources" expanded="True" />
           </Node>
-          <Node name="Test" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

@@ -232,7 +232,7 @@ settlement : function (attributes)
     settings.printBGColors = true;    	
     	
     settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
-    settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+    //settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
     
     settings.footerStrCenter = "";
     settings.footerStrLeft = "";

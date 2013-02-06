@@ -190,7 +190,7 @@ namespace Didius.Addin
 							
 						case "save":
 						{
-							request.getValue<Item> ("didius.item").Save ();
+							result.Add (request.getValue<Item> ("didius.item").Save ());
 							break;
 						}
 							

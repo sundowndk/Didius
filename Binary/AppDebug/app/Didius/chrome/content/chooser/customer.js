@@ -9,19 +9,13 @@ var main =
 		main.customersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("customers"), sortColumn: "name", sortDirection: "descending", onDoubleClick: main.choose});		
 		main.set ();
 		
-		// Hook events.			
-		app.events.onCustomerCreate.addHandler (main.eventHandlers.onCustomerCreate);		
+		// Hook events.					
 		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
 		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
 	},
 	
 	eventHandlers : 
-	{
-		onCustomerCreate : function (eventData)
-		{
-			main.customersTreeHelper.addRow ({data: eventData});
-		},
-		
+	{				
 		onCustomerSave : function (eventData)
 		{
 			main.customersTreeHelper.setRow ({data: eventData});
@@ -92,8 +86,7 @@ var main =
 	
 	close : function ()
 	{					
-		// Unhook events.
-		app.events.onCustomerCreate.removeHandler (main.eventHandlers.onCustomerCreate);		
+		// Unhook events.		
 		app.events.onCustomerSave.removeHandler (main.eventHandlers.onCustomerSave);
 		app.events.onCustomerDestroy.removeHandler (main.eventHandlers.onCustomerDestroy);			
 	

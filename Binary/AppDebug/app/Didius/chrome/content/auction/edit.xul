@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="editauction" minwidth="750" minheight="650" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
+<window id="didius.auction.edit" minwidth="750" minheight="650" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
@@ -16,13 +16,15 @@
 			
 	<hbox class="WindowInnerPadding" flex="1">
 		<tabbox selectedIndex="0" flex="1">		
-			<tabs>
-				<tab label="Detaljer"/>
-				<tab label="Sager"/>							
-				<tab label="Katalog"/>
-				<tab label="Bud"/>
-				<tab label="Noter"/>
-			</tabs>
+			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">      
+				<tabs style="overflow:hidden">							
+					<tab label="Detaljer"/>
+					<tab label="Sager"/>							
+					<tab label="Katalog"/>
+					<tab label="Bud"/>
+					<tab label="Noter"/>
+				</tabs>
+			</arrowscrollbox>
 						
 			<tabpanels flex="1">
 				<tabpanel>
@@ -46,7 +48,7 @@
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Status:</label>
-								<menulist id="status" oncommand="main.onChange ();" flex="1">
+								<menulist id="status" oncommand="details.onChange ();" flex="1">
   									<menupopup>
   										<menuitem label="Skjult" value="Hidden"/>
     									<menuitem label="Åben" value="Open"/>
@@ -56,7 +58,7 @@
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Type:</label>
-								<menulist id="type" oncommand="main.onChange ();" flex="1">
+								<menulist id="type" oncommand="details.onChange ();" flex="1">
   									<menupopup>
     									<menuitem label="Almindelig auktion" value="Live"/>
     									<menuitem label="Online auktion" value="Web"/>
@@ -66,29 +68,29 @@
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Start:</label>
-								<datepicker id="begin" type="popup" onchange="main.onChange ();"/>
+								<datepicker id="begin" type="popup" onchange="details.onChange ();"/>
 								<label class="Label" width="25">kl.:</label>
-								<textbox id="begintime" width="50" maxlength="5" onkeyup="main.onChange ();" />
+								<textbox id="begintime" width="50" maxlength="5" onkeyup="details.onChange ();" />
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Slut:</label>
-								<datepicker id="end" type="popup" onchange="main.onChange ();"/>
+								<datepicker id="end" type="popup" onchange="details.onChange ();"/>
 								<label class="Label" width="25">kl.:</label>
-								<textbox id="endtime" width="50" maxlength="5" onkeyup="main.onChange ();" />
+								<textbox id="endtime" width="50" maxlength="5" onkeyup="details.onChange ();" />
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Deadline:</label>
-								<datepicker id="deadline" type="popup" onchange="main.onChange ();"/>
+								<datepicker id="deadline" type="popup" onchange="details.onChange ();"/>
 								<label class="Label" width="25">kl. :</label>
-								<textbox id="deadlinetime" width="50" maxlength="5" onkeyup="main.onChange ();" />
+								<textbox id="deadlinetime" width="50" maxlength="5" onkeyup="details.onChange ();" />
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Lokation:</label>							
-								<textbox id="location" flex="1" onkeyup="main.onChange ();" />
+								<textbox id="location" flex="1" onkeyup="details.onChange ();" />
 							</hbox>											
 							<hbox align="top">
 								<label class="Label">Tekst:</label>
-								<textbox id="description" flex="1" rows="12" multiline="true" onkeyup="main.onChange ();"/>
+								<textbox id="description" flex="1" rows="12" multiline="true" onkeyup="details.onChange ();"/>
 							</hbox>																	
 						</groupbox>
 					</vbox>
@@ -96,20 +98,20 @@
     			
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.cases.onChange ();" seltype="single" >
+						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="cases.onChange ();" seltype="single" >
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="no" label="Sags nr." width="140" persist="width" onclick="main.cases.sort ({column: 'no'});"/>
-								<treecol id="title" label="Title" flex="2"  persist="width" onclick="main.cases.sort ({column: 'title'});"/>
-								<treecol id="customer" label="Kunde" flex="2" persist="width" onclick="main.cases.sort ({column: 'customer'});"/>
+								<treecol id="no" label="Sags nr." width="140" persist="width" onclick="cases.sort ({column: 'no'});"/>
+								<treecol id="title" label="Title" flex="2"  persist="width" onclick="cases.sort ({column: 'title'});"/>
+								<treecol id="customer" label="Kunde" flex="2" persist="width" onclick="cases.sort ({column: 'customer'});"/>
 							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="caseCreate" label="Opret" disabled="true" oncommand="main.cases.create ();"/>
-							<button id="caseEdit" label="Redigere" disabled="true" oncommand="main.cases.edit ();"/>
-							<button id="caseDestroy" label="Slet" disabled="true" oncommand="main.cases.destroy ();"/>	
+							<button id="caseCreate" label="Opret" disabled="true" oncommand="cases.create ();"/>
+							<button id="caseEdit" label="Redigere" disabled="true" oncommand="cases.edit ();"/>
+							<button id="caseDestroy" label="Slet" disabled="true" oncommand="cases.destroy ();"/>	
 						</vbox>	
 					</hbox>						
 				</tabpanel>
@@ -154,7 +156,7 @@
 				</tabpanel>				
 				
 				<tabpanel>
-					<textbox id="notes" flex="1" multiline="true" onkeyup="main.onChange ();"/>
+					<textbox id="notes" flex="1" multiline="true" onkeyup="notes.onChange ();"/>
 				</tabpanel>
 				
 				

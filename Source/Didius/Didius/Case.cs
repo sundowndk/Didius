@@ -246,6 +246,8 @@ namespace Didius
 			this._preparationfee = 0;
 			this._commisionfeepercentage = 0;
 			this._commisionfeeminimum = 0;
+			this._commisionfeepercentage = SorentoLib.Services.Settings.Get<int> (Enums.SettingsKey.didius_value_seller_commission_percentage);
+			this._commisionfeeminimum = SorentoLib.Services.Settings.Get<int> (Enums.SettingsKey.didius_value_seller_commission_minimum);
 
 			this._settled = false;
 		}
@@ -322,9 +324,7 @@ namespace Didius
 			result.Add ("no", this._no);
 
 			result.Add ("customerid", this._customerid);
-			result.Add ("customer", Customer.Load (this._customerid));
 			result.Add ("auctionid", this._auctionid);
-			result.Add ("auction", Auction.Load (this._auctionid));
 
 			result.Add ("title", this._title);
 			result.Add ("customerreference", this._customerreference);

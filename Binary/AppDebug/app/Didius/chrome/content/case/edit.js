@@ -13,7 +13,10 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------
+	mode : null,
 	case : null,
+	auction : null,
+	customer : null,
 	checksum : null,	
 
 	// ------------------------------------------------------------------------------------------------------
@@ -23,9 +26,19 @@ var main =
 	{	 	
 		try
 		{
-			main.case = didius.case.load (window.arguments[0].caseId);
+			if (!window.arguments[0].caseId)
+			{
+				main.mode = "NEW";		
+				main.case = didius.case.create ({auctionId: window.arguments[0].auctionId, customerId: window.arguments[0].customerId})							
+			}
+			else if (window.arguments[0].caseId)
+			{
+				main.mode = "EDIT";			
+				main.case = didius.case.load ({id: window.arguments[0].caseId});
+			}
+			
 			main.auction = didius.auction.load (main.case.auctionid);
-			main.customer = didius.customer.load (main.case.customerid);
+			main.customer = didius.customer.load (main.case.customerid);			
 		}
 		catch (error)
 		{
@@ -54,9 +67,7 @@ var main =
 	set : function ()
 	{
 		main.checksum = SNDK.tools.arrayChecksum (main.case);												
-		main.onChange ();
-		
-		document.getElementById ("title").focus ();
+		main.onChange ();				
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -127,6 +138,19 @@ var main =
 			document.getElementById ("commisionfeepercentage").disabled = false;
 			document.getElementById ("commisionfeeminimum").disabled = false;
 		}
+		
+		if (main.mode == "NEW")
+		{
+			document.getElementById ("tabdetails").disabled = false;
+			document.getElementById ("tabitems").disabled = true;
+			document.getElementById ("showSalesAgreement").disabled = true;
+		}
+		else
+		{
+			document.getElementById ("tabdetails").disabled = false;
+			document.getElementById ("tabitems").disabled = false;
+			document.getElementById ("showSalesAgreement").disabled = false;
+		}
 	},
 			
 	// ------------------------------------------------------------------------------------------------------
@@ -135,9 +159,11 @@ var main =
 	save : function ()
 	{			
 		main.get ();
-		
-		didius.case.save (main.case);
 				
+		didius.case.save ({case: main.case});
+		
+		main.mode = "EDIT";
+								
 		main.checksum = SNDK.tools.arrayChecksum (main.case);
 		main.onChange ();				
 	},
@@ -181,7 +207,7 @@ var details =
 	// | INIT																								|	
 	// ------------------------------------------------------------------------------------------------------	
 	init : function ()
-	{
+	{		
 		details.set ();
 	},
 	
@@ -200,6 +226,8 @@ var details =
 		document.getElementById ("customerreference").value = main.case.customerreference;		
 		document.getElementById ("commisionfeepercentage").value = main.case.commisionfeepercentage;		
 		document.getElementById ("commisionfeeminimum").value = main.case.commisionfeeminimum;		
+		
+		document.getElementById ("title").focus ();
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -248,21 +276,43 @@ var items =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		var onDone = 	function (result)
-						{
-							items.itemsTreeHelper.disableRefresh ();
-							for (idx in result)
-							{															
-								items.itemsTreeHelper.addRow ({data: result[idx]});
-							}
-							items.itemsTreeHelper.enableRefresh ();
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				document.getElementById ("items").disabled = false;
+				items.onChange ();				
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (result)
+								{
+									items.itemsTreeHelper.disableRefresh ();
+									for (idx in result)
+									{							
+										var data = {};
+										var item = result[idx];																		
+										
+										data.id = item.id;
+										data.catalogno = item.catalogno;
+										data.no = item.no;
+										data.title = item.title;
+																									
+										items.itemsTreeHelper.addRow ({data: data});
+									}
+									items.itemsTreeHelper.enableRefresh ();
 							
-							// Enable controls
-							document.getElementById ("items").disabled = false;
-							items.onChange ();
-						};
+									// Enable controls
+									document.getElementById ("items").disabled = false;
+									items.onChange ();
+								};
 								
-			didius.item.list ({case: main.case, async: true, onDone: onDone});				
+				didius.item.list ({case: main.case, async: true, onDone: onDone});							
+				break;
+			}
+		}			
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -303,12 +353,8 @@ var items =
 	// | CREATE																								|	
 	// ------------------------------------------------------------------------------------------------------
 	create : function ()
-	{		
-		// Create new item.
-		var current = didius.item.create (main.case);
-		didius.item.save (current);																								
-																												
-		window.openDialog ("chrome://didius/content/item/edit.xul", "didius.item.edit."+ current.id, "chrome", {itemId: current.id});
+	{																															
+		window.openDialog ("chrome://didius/content/item/edit.xul", "didius.item.edit."+ SNDK.tools.newGuid (), "chrome", {caseId: main.case.id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -329,7 +375,7 @@ var items =
 			try
 			{
 				// Get row currently selected and delete the item underneath.
-				didius.item.destroy (items.itemsTreeHelper.getRow ().id);	
+				didius.item.destroy ({id: items.itemsTreeHelper.getRow ().id});	
 			}
 			catch (error)
 			{					
@@ -592,7 +638,7 @@ var eventHandlers =
 	// ------------------------------------------------------------------------------------------------------
 	onCaseDestroy : function (eventData)
 	{
-		if (main.current.id == eventData.id)
+		if (main.case.id == eventData.id)
 		{
 			main.close (true);
 		}

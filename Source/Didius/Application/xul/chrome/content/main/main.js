@@ -46,6 +46,15 @@ var main =
 //		main.controls.statusbar.progressmeter.setValue (100);
 //		main.controls.statusbar.progressmeter.setDescription ("Færdig");
 		
+		
+		
+
+		
+		
+		//didius.common.print.salesAgreement ({case: c});	
+		
+		//didius.common.print.label ();
+		
 		// Hook events.
 		sXUL.eventListener.attach ();
 								
@@ -59,6 +68,7 @@ var main =
 //		app.events.onNewsletterCreate.addHandler (main.eventHandlers.onNewsletterCreate);
 //		app.events.onNewsletterSave.addHandler (main.eventHandlers.onNewsletterSave);
 //		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);						
+
 	},
 	
 	createTempFolder : function ()

@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Addins, Version=0.6.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
       <Private>False</Private>
+      <Package>mono-addins</Package>
     </Reference>
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -347,6 +348,8 @@
     <None Include="Application\xul\chrome\content\creditnote\create.xul" />
     <None Include="Application\js\didius\creditnote.js" />
     <None Include="Application\js\didius\common\print\creditnote.js" />
+    <None Include="Application\js\didius\common\print\catalog.js" />
+    <None Include="Application\js\didius\common\print\label.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

@@ -14,14 +14,17 @@
   		<key id="key-close-extra" modifiers="control" key="w" oncommand="main.close ();"/>
   		<key id="key-close" modifiers="control" key="l" oncommand="main.close ();"/>
   		<key id="key-save" modifiers="control" key="g" oncommand="main.close ();"/>
+  		<key id="key-item-create" modifiers="control" key="c" oncommand="items.create ();"/>
+  		<key id="key-item-edit" modifiers="control" key="e" oncommand="items.edit ();"/>
+  		<key id="key-item-destroy" modifiers="control" key="d" oncommand="items.destroy ();"/>
 	</keyset>
 			
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">		
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal"> 			
 				<tabs style="overflow:hidden">
-					<tab label="Detaljer"/>
-					<tab label="Effekter"/>							
+					<tab id="tabdetails" label="Detaljer" disabled="true"/>
+					<tab id="tabitems" label="Effekter" disabled="true"/>							
 				</tabs>
 			</arrowscrollbox>
 						
@@ -85,9 +88,9 @@
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="itemCreate" label="Opret" disabled="true" oncommand="items.create ();"/>
-							<button id="itemEdit" label="Redigere" disabled="true" oncommand="items.edit ();"/>
-							<button id="itemDestroy" label="Slet" disabled="true" oncommand="items.destroy ();"/>	
+							<button id="itemCreate" label="Opret" disabled="true" oncommand="items.create ();" accesskey="O" key="key-item-create"/>
+							<button id="itemEdit" label="Redigere" disabled="true" oncommand="items.edit ();" accesskey="R" key="key-item-edit"/>
+							<button id="itemDestroy" label="Slet" disabled="true" oncommand="items.destroy ();" accesskey="S" key="key-item-delete"/>	
 						</vbox>	
 					</hbox>						
 				</tabpanel>

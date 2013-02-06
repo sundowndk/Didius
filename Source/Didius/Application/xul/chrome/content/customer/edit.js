@@ -51,8 +51,7 @@ var main =
 		
 		// Hook events.
 		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);
-		
-		app.events.onCaseCreate.addHandler (eventHandlers.onCaseCreate);
+				
 		app.events.onCaseSave.addHandler (eventHandlers.onCaseSave);
 		app.events.onCaseDestroy.addHandler (eventHandlers.onCaseDestroy);
 		
@@ -179,8 +178,7 @@ var main =
 		
 		// Unhook events.
 		app.events.onCustomerDestroy.removeHandler (eventHandlers.onCustomerDestroy);		
-		
-		app.events.onCaseCreate.removeHandler (eventHandlers.onCaseCreate);
+				
 		app.events.onCaseSave.removeHandler (eventHandlers.onCaseSave);
 		app.events.onCaseDestroy.removeHandler (eventHandlers.onCaseDestroy);
 		
@@ -313,8 +311,17 @@ var cases =
 								{				
 									cases.casesTreeHelper.disableRefresh ();			
 									for (idx in items)
-									{													
-										cases.casesTreeHelper.addRow ({data: items[idx]});									
+									{				
+										var data = {};
+										var case_ = items[idx];										
+										var auction = didius.auction.load (case_.auctionid);
+															
+										data.id = case_.id;
+										data.no = case_.no;
+										data.title = case_.title;
+										data.auctiontitle = auction.title;																
+																																																			
+										cases.casesTreeHelper.addRow ({data: data});									
 									}
 									cases.casesTreeHelper.enableRefresh ();
 							
@@ -344,14 +351,32 @@ var cases =
 	{
 		if (cases.casesTreeHelper.getCurrentIndex () != -1)
 		{								
+			document.getElementById ("caseCreate").disabled = false;
 			document.getElementById ("caseEdit").disabled = false;
 			document.getElementById ("caseDestroy").disabled = false;				
 		}
 		else
-		{												
+		{										
+			document.getElementById ("caseCreate").disabled = false;		
 			document.getElementById ("caseEdit").disabled = true;
 			document.getElementById ("caseDestroy").disabled = true;				
 		}						
+	},
+			
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------			
+	create : function ()
+	{
+		var onDone =	function (result)
+						{
+							if (result)
+							{
+								window.openDialog ("chrome://didius/content/case/edit.xul", "didius.case.edit."+ SNDK.tools.newGuid (), "chrome", {auctionId: result.id, customerId: main.customer.id});
+							}
+						};
+													
+		app.choose.auction ({parentWindow: window, onDone: onDone});
 	},
 			
 	// ------------------------------------------------------------------------------------------------------
@@ -371,7 +396,7 @@ var cases =
 		{
 			try
 			{
-				didius.case.destroy (cases.casesTreeHelper.getRow ().id);					
+				didius.case.destroy ({id: cases.casesTreeHelper.getRow ().id});
 			}
 			catch (error)
 			{
@@ -422,8 +447,8 @@ var bids =
 									for (idx in items)
 									{				
 										var bid = items[idx];																								
-										var item = didius.item.load (bid.itemid);								
-										var _case = didius.case.load (item.caseid);																
+										var item = didius.item.load ({id: bid.itemid});								
+										var _case = didius.case.load ({id: item.caseid});																
 										var auction = didius.auction.load (_case.auctionid);
 									
 										var data = {};
@@ -501,7 +526,7 @@ var bids =
 			try
 			{
 				var bid = didius.bid.load ({id: bids.bidsTreeHelper.getRow ().id});								
-				var item = didius.item.load (bid.itemid);
+				var item = didius.item.load ({id: bid.itemid});
 			
 				if (item.invoiced == true)
 				{
@@ -892,24 +917,13 @@ var eventHandlers =
 			main.close (true);
 		}
 	},
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | ONCASECREATE																						|	
-	// ------------------------------------------------------------------------------------------------------
-	onCaseCreate : function (eventData)
-	{
-		if (main.current.id == eventData.customerid)
-		{
-			cases.casesTreeHelper.addRow ({data: eventData});
-		}
-	},
-		
+			
 	// ------------------------------------------------------------------------------------------------------
 	// | ONCASESAVE																							|	
 	// ------------------------------------------------------------------------------------------------------
 	onCaseSave : function (eventData)
 	{
-		if (main.current.id == eventData.customerid)
+		if (main.customer.id == eventData.customerid)
 		{
 			cases.casesTreeHelper.setRow ({data: eventData});
 		}

@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.item.edit" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
+<window id="didius.item.edit" title="Effekt" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>	
@@ -13,15 +13,19 @@
 	<keyset>  		
 		<key id="key-close-extra" modifiers="control" key="w" oncommand="main.close ();"/>
   		<key id="key-close" modifiers="control" key="l" oncommand="main.close ();"/>
-  		<key id="key-save" modifiers="control" key="g" oncommand="main.close ();"/>			  		
+  		<key id="key-save" modifiers="control" key="g" oncommand="main.close ();"/>			  
+  		<key id="key-choose-picture" modifiers="control" key="s" oncommand="details.setPicture ();"/>
+  		<key id="key-bid-create" modifiers="control" key="c" oncommand="bids.create ();"/>
+  		<key id="key-bid-edit" modifiers="control" key="e" oncommand="bids.edit ();"/>
+  		<key id="key-bid-destroy" modifiers="control" key="d" oncommand="bids.destroy ();"/>
 	</keyset>			
 			
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal"> 			
 				<tabs>
-					<tab label="Detaljer"/>				
-					<tab label="Bud"/>								
+					<tab id="tabdetails" label="Detaljer" disabled="true"/>
+					<tab id="tabbids" label="Bud" disabled="true"/>								
 				</tabs>
 			</arrowscrollbox>
 						
@@ -56,22 +60,22 @@
     									<vbox>
     										<hbox align="center">
 												<label class="Label">Katalog nr.:</label>
-												<textbox id="catalogno" flex="1" onkeyup="details.onChange ();" />
+												<textbox id="catalogno" flex="1" onkeyup="details.onChange ();" disabled="true"/>
 											</hbox>							
 											<hbox align="top">
 												<label class="Label">Beskrivelse:</label>
-												<textbox id="description" flex="1" multiline="true" style="height: 200px;"  onkeyup="details.onChange ();"/>
+												<textbox id="description" flex="1" multiline="true" style="height: 200px;"  onkeyup="details.onChange ();" disabled="true"/>
 											</hbox>																		
 										</vbox>
     								</column>
     								<column>
     									<vbox flex="1">		
     										<hbox>
-    											<image class="ItemImage" id="picture" src='chrome://didius/content/icons/noimage.jpg' maxwidth="340" maxheight="200"/>
+    											<image class="ItemImage" id="picture" src='chrome://didius/content/icons/noimage.jpg' width="140"/>
     										</hbox>
     										<hbox align="center">
-    											<button id="pictureUpload" label="Vælg billede" oncommand="details.setPicture ();" flex="1"/>
-    											<progressmeter id="pictureUploadProgressmeter" flex="1" mode="determined" value="" collapsed="true"/>
+    											<button id="pictureUpload" label="Vælg billede" oncommand="details.setPicture ();" flex="1" accesskey="V" key="key-choose-picture"/>
+    											<progressmeter id="pictureUploadProgressmeter" flex="1" mode="determined" value="" collapsed="true" disabled="true"/>
     										</hbox>
     									</vbox>
     								</column>
@@ -79,7 +83,7 @@
 							</grid>
 							<hbox align="center">
 								<label class="Label"></label>
-								<checkbox id="vat" oncommand="details.onChange ();" label="Moms på effekt"/>						
+								<checkbox id="vat" oncommand="details.onChange ();" label="Moms på effekt" disabled="true"/>						
 							</hbox>			
 						</groupbox>
 						
@@ -91,19 +95,19 @@
 							<caption label="Værdi"/>							
 							<hbox align="center">
 								<label class="Label">Min. bud:</label>
-								<textbox id="minimumbid" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" />
+								<textbox id="minimumbid" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" disabled="true"/>
 							</hbox>
 							<hbox align="center">
 								<label class="Label">Vurdering 1:</label>
-								<textbox id="appraisal1" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" />
+								<textbox id="appraisal1" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" disabled="true"/>
 							</hbox>
 							<hbox align="center">
 								<label class="Label">Vurdering 2:</label>
-								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" />
+								<textbox id="appraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" disabled="true"/>
 							</hbox>
 							<hbox align="center">
 								<label class="Label">Vurdering 3:</label>
-								<textbox id="appraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" />
+								<textbox id="appraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" disabled="true"/>
 							</hbox>							
 											
 						</groupbox>						
@@ -116,16 +120,17 @@
 							<treecols>
 								<treecol id="id" hidden="true"/>
 								<treecol id="createtimestamp" hidden="true"/>
-								<treecol id="customer" label="Kunde" flex="3" persist="width" />
-								<treecol id="amount" label="Bud" flex="1" persist="width" />
+								<treecol id="customerno" label="Kunde nr." flex="1" persist="width" />
+								<treecol id="customername" label="Kunde" flex="3" persist="width" />
+								<treecol id="amount" label="Bud" flex="1" persist="width" style="text-align: right;"/>
 							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="bidCreate" label="Opret" oncommand="bids.create ();" />	
-							<button id="bidEdit" label="Redigere" oncommand="bids.edit ();" />
-							<button id="bidDestroy" label="Slet" oncommand="bids.destroy ();" />	
+							<button id="bidCreate" label="Opret" oncommand="bids.create ();" accesskey="O" key="key-bid-create"/>	
+							<button id="bidEdit" label="Redigere" oncommand="bids.edit ();" accesskey="E" key="key-bid-edit"/>
+							<button id="bidDestroy" label="Slet" oncommand="bids.destroy ();" accesskey="S" key="key-bid-destroy"/>	
 						</vbox>	
 					</hbox>						
 				</tabpanel>							
@@ -134,7 +139,7 @@
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
-		<button id="close" label="Luk" oncommand="main.close ();" accesskey="L" key="key-close"/>
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L" key="key-close"/>
 		<button id="save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G" key="key-save"/>
 	</hbox>
 </window>

@@ -40,8 +40,8 @@ var main =
 							{
 								main.bid = didius.bid.load ({id: window.arguments[0].bidId});											
 								main.customer = didius.customer.load (main.bid.customerid);
-								main.item = didius.item.load (main.bid.itemid);
-								main.case = didius.case.load (main.item.caseid);
+								main.item = didius.item.load ({id: main.bid.itemid});
+								main.case = didius.case.load ({id: main.item.caseid});
 								main.auction = didius.auction.load (main.case.auctionid);
 							}
 							catch (exception)
