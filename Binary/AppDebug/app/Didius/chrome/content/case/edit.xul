@@ -17,6 +17,8 @@
   		<key id="key-item-create" modifiers="control" key="c" oncommand="items.create ();"/>
   		<key id="key-item-edit" modifiers="control" key="e" oncommand="items.edit ();"/>
   		<key id="key-item-destroy" modifiers="control" key="d" oncommand="items.destroy ();"/>
+  		<key id="key-tab-details" modifiers="alt" key="1" oncommand="document.getElementById ('tabdetails').click ();"/>
+  		<key id="key-tab-items" modifiers="alt" key="2" oncommand="document.getElementById ('tabitems').click ();"/>  		
 	</keyset>
 			
 	<hbox class="Main" flex="1">

@@ -1,11 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/edit.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/item/edit.js" Line="298" Column="12" />
-      <File FileName="Didius/Application/xul/chrome/content/item/edit.xul" Line="77" Column="120" />
-      <File FileName="Didius/Application/xul/chrome/content/case/edit.xul" Line="91" Column="126" />
-      <File FileName="Didius/Application/xul/application.ini" Line="4" Column="13" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/edit.js" Line="189" Column="66" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/edit.xul" Line="140" Column="81" />
+      <File FileName="Didius/Application/xul/chrome/content/case/edit.xul" Line="114" Column="92" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -24,18 +23,16 @@
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
                       <Node name="catalog" expanded="True" />
+                      <Node name="edit.js" selected="True" />
                     </Node>
                     <Node name="bid" expanded="True" />
-                    <Node name="case" expanded="True">
-                      <Node name="salesagreement" expanded="True" />
-                    </Node>
+                    <Node name="case" expanded="True" />
                     <Node name="catalogedit-REMOVE" expanded="True" />
                     <Node name="chooser" expanded="True" />
                     <Node name="creditnote" expanded="True" />
                     <Node name="css" expanded="True" />
                     <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
-                    <Node name="item" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />
@@ -45,7 +42,9 @@
                     <Node name="default" expanded="True" />
                   </Node>
                 </Node>
-                <Node name="application.ini" selected="True" />
+                <Node name="defaults" expanded="True">
+                  <Node name="preferences" expanded="True" />
+                </Node>
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />

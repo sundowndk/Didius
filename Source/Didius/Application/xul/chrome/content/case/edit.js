@@ -348,13 +348,13 @@ var items =
 	{
 		items.itemsTreeHelper.sort (attributes);
 	},
-		
+			
 	// ------------------------------------------------------------------------------------------------------
 	// | CREATE																								|	
 	// ------------------------------------------------------------------------------------------------------
 	create : function ()
-	{																															
-		window.openDialog ("chrome://didius/content/item/edit.xul", "didius.item.edit."+ SNDK.tools.newGuid (), "chrome", {caseId: main.case.id});
+	{					
+		app.window.open (window, "chrome://didius/content/item/edit.xul", "didius.item.edit."+ SNDK.tools.newGuid (), null, {caseId: main.case.id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -362,7 +362,7 @@ var items =
 	// ------------------------------------------------------------------------------------------------------							
 	edit : function ()
 	{				
-		window.openDialog ("chrome://didius/content/item/edit.xul", "didius.item.edit."+ items.itemsTreeHelper.getRow ().id, "chrome", {itemId: items.itemsTreeHelper.getRow ().id});
+		app.window.open (window, "chrome://didius/content/item/edit.xul", "didius.item.edit."+ items.itemsTreeHelper.getRow ().id, null, {itemId: items.itemsTreeHelper.getRow ().id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

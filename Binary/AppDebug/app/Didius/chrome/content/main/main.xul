@@ -33,7 +33,7 @@
 	</menubar>	
 		
 	<vbox flex="1" class="WindowInnerPadding">
-		<tabbox selectedIndex="1" flex="1">		
+		<tabbox selectedIndex="0" flex="1">		
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">      
 				<tabs style="overflow:hidden">				
 					<tab image="chrome://didius/content/icons/auctions.png"/>			

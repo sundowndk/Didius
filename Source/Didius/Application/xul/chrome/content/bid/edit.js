@@ -7,8 +7,8 @@ var main =
 {
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
-	// ------------------------------------------------------------------------------------------------------
-	mode : "EDIT",
+	// ------------------------------------------------------------------------------------------------------	
+	mode : null,
 	checksum : null,
 	bid : null,
 	customer : null,
@@ -20,20 +20,7 @@ var main =
 	// | INIT																								|	
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
-	{	 
-		// Hook events.								
-		app.events.onBidDestroy.addHandler (eventHandlers.onBidDestroy);
-		
-		app.events.onCustomerSave.addHandler (eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);					
-		
-		app.events.onAuctionSave.addHandler (eventHandlers.onAuctionSave);
-		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);					
-		
-		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
-		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);
-
-
+	{	 		
 		var onInit =	function ()
 						{
 							try
@@ -51,15 +38,22 @@ var main =
 								return;			
 							}
 							
-							onDone ();
-						};
-						
-		var onDone =	function ()
-						{
 							main.set ();
 						};
 						
 		setTimeout (onInit, 1);
+		
+		// Hook events.								
+		app.events.onBidDestroy.addHandler (eventHandlers.onBidDestroy);
+		
+		app.events.onCustomerSave.addHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);					
+		
+		app.events.onAuctionSave.addHandler (eventHandlers.onAuctionSave);
+		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);					
+		
+		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);
 	},
 				
 	// ------------------------------------------------------------------------------------------------------
@@ -69,11 +63,15 @@ var main =
 	{			
 		main.checksum = SNDK.tools.arrayChecksum (main.bid);
 	
-		document.getElementById ("customername").value = main.customer.name;
-		document.getElementById ("auctiontitle").value = main.auction.title;
-		document.getElementById ("itemtitle").value = main.item.title;	
-		document.getElementById ("amount").value = main.bid.amount;		
-		document.getElementById ("amount").disabled = false;
+		document.getElementById ("textbox.customername").value = main.customer.name;
+		document.getElementById ("textbox.customername").disabled = false;
+		document.getElementById ("textbox.auctiontitle").value = main.auction.title;
+		document.getElementById ("textbox.auctiontitle").disabled = false;
+		document.getElementById ("textbox.itemtitle").value = main.item.title;	
+		document.getElementById ("textbox.itemtitle").disabled = false;	
+		document.getElementById ("textbox.amount").value = main.bid.amount;		
+		document.getElementById ("textbox.amount").disabled = false;
+		document.getElementById ("textbox.amount").focus ();
 		
 		if (main.item.invoiced == true)
 		{
@@ -89,20 +87,6 @@ var main =
 				main.mode = "SHOW";
 			}
 		}
-		
-//		switch (main.mode)
-//		{
-//			case "SHOW":
-//			{
-//				document.getElementById ("amount").disabled = true;
-//				break;
-//			}
-//			
-//			case "EDIT":
-//			{
-//				break;
-//			}
-//		}
 														
 		main.onChange ();
 	},
@@ -112,7 +96,41 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{					
-		main.bid.amount =  parseInt (document.getElementById ("amount").value);
+		main.bid.amount =  parseInt (document.getElementById ("textbox.amount").value);
+	},
+			
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onChange : function ()
+	{
+		main.get ();
+	
+		if ((SNDK.tools.arrayChecksum (main.bid) != main.checksum))
+		{					
+			document.getElementById ("button.save").disabled = false;
+			document.getElementById ("button.close").disabled = false;
+		}
+		else
+		{					
+			document.getElementById ("button.save").disabled = true;
+			document.getElementById ("button.close").disabled = false;
+		}
+		
+		switch (main.mode)
+		{
+			case "SHOW":
+			{
+				document.getElementById ("button.amount").disabled = true;
+				document.getElementById ("button.save").disabled = true;
+				break;
+			}
+			
+			case "EDIT":
+			{
+				document.getElementById ("textbox.amount").disabled = false;				
+			}
+		}
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -160,41 +178,7 @@ var main =
 	
 		// Close window.
 		window.close ();
-	},
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | ONCHANGE																							|	
-	// ------------------------------------------------------------------------------------------------------
-	onChange : function ()
-	{
-		main.get ();
-	
-		if ((SNDK.tools.arrayChecksum (main.bid) != main.checksum))
-		{					
-			document.getElementById ("save").disabled = false;
-			document.getElementById ("close").disabled = false;
-		}
-		else
-		{					
-			document.getElementById ("save").disabled = true;
-			document.getElementById ("close").disabled = false;
-		}
-		
-		switch (main.mode)
-		{
-			case "SHOW":
-			{
-				document.getElementById ("amount").disabled = true;
-				document.getElementById ("save").disabled = true;
-				break;
-			}
-			
-			case "EDIT":
-			{
-				document.getElementById ("amount").disabled = false;				
-			}
-		}
-	}	
+	}
 }
 
 // ----------------------------------------------------------------------------------------------------------
@@ -221,7 +205,7 @@ var eventHandlers =
 		if (main.customer.id == eventData.id)
 		{
 			main.customer = eventData;
-			document.getElementById ("customername").value = main.customer.name;			
+			document.getElementById ("textbox.customername").value = main.customer.name;			
 			main.onChange ();
 		}
 	},
@@ -245,7 +229,7 @@ var eventHandlers =
 		if (main.auction.id == eventData.id)
 		{
 			main.auction = eventData;
-			document.getElementById ("auctiontitle").value = main.auction.title;
+			document.getElementById ("textbox.auctiontitle").value = main.auction.title;
 			main.onChange ();
 		}
 	},
@@ -269,7 +253,7 @@ var eventHandlers =
 		if (main.item.id == eventData.id)
 		{
 			main.item = eventData;
-			document.getElementById ("itemtitle").value = main.item.title;
+			document.getElementById ("textbox.temtitle").value = main.item.title;
 			main.onChanges ();
 		}
 	},

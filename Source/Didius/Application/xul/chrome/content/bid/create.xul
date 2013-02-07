@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
@@ -6,12 +7,12 @@
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>	
-	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
-		
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/javascript" src="chrome://didius/content/bid/create.js"/>	
 			
 	<keyset>
-  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.quit" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.create" modifiers="control" key="c" oncommand="main.create ();"/>
 	</keyset>			
 			
 	<hbox class="Main" flex="1">
@@ -21,22 +22,22 @@
 					<vbox flex="1">												
 						<hbox align="center">
 							<label class="Label">Kunde:</label>
-							<textbox id="customername" flex="1" readonly="true" disabled="true"/>
-							<button id="choosecustomer" label="Vælg" oncommand="main.chooseCustomer ();" disabled="true"/>
+							<textbox id="textbox.customername" flex="1" readonly="true" disabled="true" tabindex="-1"/>
+							<button id="button.choosecustomer" label="Vælg" oncommand="main.chooseCustomer ();" disabled="true"/>
 						</hbox>
 						<hbox align="center">
 							<label class="Label">Auktion:</label>
-							<textbox id="auctiontitle" flex="1" readonly="true" disabled="true"/>
-							<button id="chooseauction" label="Vælg" oncommand="main.chooseAuction ();" disabled="true"/>
+							<textbox id="textbox.auctiontitle" flex="1" readonly="true" disabled="true" tabindex="-1"/>
+							<button id="button.chooseauction" label="Vælg" oncommand="main.chooseAuction ();" disabled="true"/>
 						</hbox>
 						<hbox align="center">
 							<label class="Label">Effekt:</label>
-							<textbox id="itemtitle" flex="1" readonly="true" disabled="true"/>
-							<button id="chooseitem" label="Vælg" oncommand="main.chooseItem ();" disabled="true"/>
+							<textbox id="textbox.itemtitle" flex="1" readonly="true" disabled="true" tabindex="-1"/>
+							<button id="button.chooseitem" label="Vælg" oncommand="main.chooseItem ();" disabled="true"/>
 						</hbox>
 						<hbox align="center">
 							<label class="Label">Beløb:</label>
-							<textbox id="amount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
+							<textbox id="textbox.amount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
 							<label>kr.</label>
 						</hbox>							
 					</vbox>
@@ -46,7 +47,7 @@
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
-		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
-		<button id="create" label="Opret" oncommand="main.create ();" disabled="true"/>
+		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L" key="key.close"/>
+		<button id="button.create" label="Opret" oncommand="main.create ();" disabled="true" accesskey="O" key="key.create"/>
 	</hbox>
 </window>

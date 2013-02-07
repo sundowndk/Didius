@@ -91,7 +91,9 @@ namespace Didius
 			{ Enums.SettingsKey.didius_tamplate_cataloglarge, string.Empty },
 			{ Enums.SettingsKey.didius_template_settlement, string.Empty },
 			{ Enums.SettingsKey.didius_template_invoice, string.Empty },
-			{ Enums.SettingsKey.didius_template_creditnote, string.Empty }
+			{ Enums.SettingsKey.didius_template_creditnote, string.Empty },
+
+			{ Enums.SettingsKey.didius_item_datafields, "stelnummer;Stelnummer|aargang;Årgang|regnr;Reg.nr" }
 		};
 
 		static void EventhandlerServiceGarbageCollector (object Sender, EventArgs E)

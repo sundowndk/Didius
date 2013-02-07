@@ -8,6 +8,9 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------
+	lockCustomer : false,
+	lockAuction : false,
+	lockItem : false,
 	checksum : null,
 	bid : null,
 	customer : null,
@@ -20,36 +23,31 @@ var main =
 	// | INIT																								|	
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
-	{	
-		// Hook events.						
-		app.events.onCustomerSave.addHandler (eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);
-		
-		app.events.onAuctionSave.addHandler (eventHandlers.onAuctionSave);
-		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);
-		
-		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
-		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);			
-		
+	{			
 		var onInit =	function ()
 						{
 							try
 							{
 								if (window.arguments[0].customerId)
 								{
-									main.customer = didius.customer.load (window.arguments[0].customerId);										
+									main.customer = didius.customer.load (window.arguments[0].customerId);									
+									main.lockCustomer = true;
 								}			
 								
 								if (window.arguments[0].auctionId)
 								{
-									main.auction = didius.auction.load (window.arguments[0].auctionId);										
+									main.auction = didius.auction.load (window.arguments[0].auctionId);																			
+									main.lockAuction = true;
 								}
 								
 								if (window.arguments[0].itemId)
 								{							
 									main.item = didius.item.load ({id: window.arguments[0].itemId});
 									main.case = didius.case.load ({id: main.item.caseid});
-									main.auction = didius.auction.load (main.case.auctionid)
+									main.auction = didius.auction.load (main.case.auctionid);
+									
+									main.lockAuction = true;
+									main.lockItem = true;
 								}
 							}
 							catch (error)
@@ -59,15 +57,20 @@ var main =
 								return;
 							}
 							
-							onDone ();
-						};
-	 	 	
-		var onDone =	function ()
-						{													
 							main.set ();
 						};
-				
-		setTimeout (onInit, 1);									
+						
+		setTimeout (onInit, 1);			
+		
+		// Hook events.						
+		app.events.onCustomerSave.addHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);
+		
+		app.events.onAuctionSave.addHandler (eventHandlers.onAuctionSave);
+		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);
+		
+		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);									
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -76,30 +79,57 @@ var main =
 	set : function ()
 	{
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
-		
+
 		if (main.customer)
 		{
-			document.getElementById ("customername").disabled = false;
-			document.getElementById ("customername").value = main.customer.name;			
+			document.getElementById ("textbox.customername").value = main.customer.name;			
 		}
 		
-		document.getElementById ("choosecustomer").disabled = false;
+		document.getElementById ("textbox.customername").disabled = false;;			
+
+		if (main.lockCustomer)
+		{
+			document.getElementById ("button.choosecustomer").disabled = true;
+		}
+		else
+		{
+			document.getElementById ("button.choosecustomer").disabled = false;
+		}
 		
 		if (main.auction)
 		{
-			document.getElementById ("auctiontitle").disabled = false;
-			document.getElementById ("auctiontitle").value = main.auction.title;			
+			document.getElementById ("textbox.auctiontitle").value = main.auction.title;
 		}
 		
-		document.getElementById ("chooseauction").disabled = false;
+		document.getElementById ("textbox.auctiontitle").disabled = false;
+		
+		if (main.lockAuction)
+		{
+			document.getElementById ("button.chooseauction").disabled = true;
+		}
+		else
+		{
+			document.getElementById ("button.chooseauction").disabled = false;
+		}
 		
 		if (main.item)
 		{
-			document.getElementById ("itemtitle").disabled = false;
-			document.getElementById ("itemtitle").value = main.item.title;			
+			document.getElementById ("textbox.itemtitle").value = main.item.title;			
 		}	
 		
-		document.getElementById ("amount").disabled = false;	
+		document.getElementById ("textbox.itemtitle").disabled = false;
+		
+		if (main.lockItem)
+		{
+			document.getElementById ("button.chooseitem").disabled = true;
+		}
+		else
+		{
+			document.getElementById ("button.chooseitem").disabled = false;
+		}
+		
+		document.getElementById ("textbox.amount").disabled = false;	
+		document.getElementById ("textbox.amount").focus ();
 																		
 		main.onChange ();
 	},
@@ -109,7 +139,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.amount = document.getElementById ("amount").value;		
+		main.amount = document.getElementById ("textbox.amount").value;		
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -119,47 +149,38 @@ var main =
 	{
 		main.get ();
 		
-		if (main.customer != null)
+		if (main.customer == null)
 		{
-		
-		}
-		else
-		{
-			document.getElementById ("customername").value = "";
-		}
+			document.getElementById ("textbox.customername").value = "";
+			document.getElementById ("button.choosecustomer").disabled = false;					
+		}		
 					
-		if (main.auction != null)
+		if (main.auction == null)
 		{
-			document.getElementById ("auctiontitle").disabled = false;
-			document.getElementById ("itemtitle").disabled = false;
-			document.getElementById ("chooseitem").disabled = false;			
+			document.getElementById ("textbox.auctiontitle").value = "";			
+			document.getElementById ("button.chooseauction").disabled = true;
+			document.getElementById ("button.chooseitem").disabled = true;					
+		}
+
+		if (main.item == null)
+		{
+			document.getElementById ("textbox.itemtitle").value = "";
+			document.getElementById ("textbox.amount").disabled = true;
 		}
 		else
 		{
-			document.getElementById ("auctiontitle").value = "";
-			document.getElementById ("auctiontitle").disabled = true;
-			document.getElementById ("itemtitle").disabled = true;
-			document.getElementById ("chooseitem").disabled = true;
-		}
-		
-		if (main.item != null)
-		{
-		
-		}
-		else
-		{
-			document.getElementById ("itemtitle").value = "";
+			document.getElementById ("textbox.amount").disabled = false;			
 		}
 	
-		if (document.getElementById ("amount").value != 0.00 && main.customer != null && main.auction != null && main.item != null)
+		if (document.getElementById ("textbox.amount").value != 0.00 && main.customer != null && main.auction != null && main.item != null)
 		{					
-			document.getElementById ("create").disabled = false;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.create").disabled = false;
+			document.getElementById ("button.close").disabled = false;
 		}
 		else
 		{					
-			document.getElementById ("create").disabled = true;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.create").disabled = true;
+			document.getElementById ("button.close").disabled = false;
 		}
 	},	
 	
@@ -173,7 +194,7 @@ var main =
 							if (result)
 							{
 								main.customer = result;
-								document.getElementById ("customername").value = main.customer.name;
+								document.getElementById ("textbox.customername").value = main.customer.name;
 							}						
 							
 							main.onChange ();
@@ -200,7 +221,7 @@ var main =
 								}
 								
 								main.auction = result;
-								document.getElementById ("auctiontitle").value = main.auction.title;								
+								document.getElementById ("textbox.auctiontitle").value = main.auction.title;								
 							}							
 							
 							main.onChange ();
@@ -219,7 +240,7 @@ var main =
 							if (result)
 							{
 								main.item = result;
-								document.getElementById ("itemtitle").value = main.item.title;
+								document.getElementById ("textbox.itemtitle").value = main.item.title;
 							}							
 							
 							main.onChange ();
@@ -274,7 +295,7 @@ var	eventHandlers =
 		if (main.customer.id == eventData.id)
 		{
 			main.customer = eventData;
-			document.getElementById ("customername").value = main.customer.name;
+			document.getElementById ("textbox.customername").value = main.customer.name;
 			main.onChange ();
 		}
 	},
@@ -299,7 +320,7 @@ var	eventHandlers =
 		if (main.auction.id == eventData.id)
 		{
 			main.auction = eventData;
-			document.getElementById ("auctiontitle").value = main.auction.title;
+			document.getElementById ("textbox.auctiontitle").value = main.auction.title;
 			main.onChange ();		
 		}
 	},
@@ -324,7 +345,7 @@ var	eventHandlers =
 		if (main.item.id == eventData.id)
 		{		
 			main.item = eventData;
-			document.getElementByid ("itemtitle").value = main.item.title;
+			document.getElementByid ("textbox.itemtitle").value = main.item.title;
 			main.onChange ();			
 		}
 	},

@@ -151,6 +151,12 @@ var app =
 	
 	window :
 	{
+		focusTab : function (tab)
+		{
+			tab.click ();
+			//document.getElementById (tab).click ();
+		},
+	
 		open : function (window, url, name, features, args)
 		{
 			if (window == null)
@@ -172,7 +178,21 @@ var app =
 
 			if (openNewWindow) 
 			{
+				if (features == null)
+					features = "resizable=yes,dialog=no,centerscreen=yes";
+			
+//				args.wrappedJSObject = args;
+ 
+//				var win = Components.classes["@mozilla.org/embedcomp/window-watcher;1"].getService(Components.interfaces.nsIWindowWatcher);
+ 
+//				win.openWindow (null, url, name, features, args);
+
+				// In the window code
+				//var args = window.arguments[0].wrappedJSObject;
+			
+			
   				var win = window.openDialog (url, name, features, args);
+  				//var win = window.open ()
   				return win;
 			}		
 		},

@@ -78,10 +78,10 @@ var main =
 	{
 		if (window.arguments[0].onDone != null)
 		{
-			window.arguments[0].onDone (main.customersTreeHelper.getRow ());
+			setTimeout (function () {window.arguments[0].onDone (main.customersTreeHelper.getRow ())}, 0);			
 		}
 		
-		main.close ();				
+		main.close ();
 	},
 	
 	close : function ()
