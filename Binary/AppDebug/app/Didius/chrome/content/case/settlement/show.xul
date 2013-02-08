@@ -2,11 +2,12 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.case.settlement.show" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
+<window id="didius.case.settlement.show" title="Afregning" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
 	<script type="application/javascript" src="chrome://didius/content/case/settlement/show.js"/>	
 			
 	<keyset>
@@ -28,8 +29,8 @@
 										<treecol id="catalogno" label="Katalog nr." width="30" persist="width" />
 										<treecol id="no" label="Effekt nr." width="100" persist="width"/>
 										<treecol id="title" label="Title" flex="3" persist="width" />
-										<treecol id="bidamount" label="Salgs pris" flex="1" persist="width" />
-										<treecol id="commissionfee" label="Salær" flex="1" persist="width" />
+										<treecol id="bidamount" label="Salgs pris" flex="1" persist="width" style="text-align: right;" />
+										<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;" />
 									</treecols>								
 								</tree>
 							</hbox>							
@@ -40,18 +41,22 @@
 							<hbox align="center">
 								<label class="Label">Salg:</label>							
 								<textbox id="totalSale" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<label>Kr.</label>
 							</hbox>  					
 							<hbox align="center">
 								<label class="Label">Salær:</label>								
 								<textbox id="totalCommissionFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<label>Kr.</label>
 							</hbox> 
 							<hbox align="center">
 								<label class="Label">Moms:</label>								
 								<textbox id="totalVat" type="number" min="-Infinity" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<label>Kr.</label>
 							</hbox> 
 							<hbox align="center">
 								<label class="Label">I alt:</label>								
 								<textbox id="totalTotal" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+								<label>Kr.</label>
 							</hbox>  					
 						</groupbox>
 					</vbox>
@@ -66,7 +71,7 @@
 			<button id="mail" label="Send på mail" oncommand="main.mail ();" disabled="true"/>
 		</hbox>
 		<hbox align="right" flex="1"> 
-			<button id="close" label="Luk" oncommand="main.close ();" accesskey="L" key="key-close"/>			
+			<button id="close" label="Luk" oncommand="main.close ();" accesskey="L" key="key-close" disabled="true"/>			
 		</hbox>
 	</hbox>
 </window>

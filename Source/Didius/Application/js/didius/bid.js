@@ -1,64 +1,186 @@
-create : function (customer, item, amount)
+// ----------------------------------------------------------------------------------------------------------
+// | CREATE																									|
+// ----------------------------------------------------------------------------------------------------------
+create : function (attributes)
 {	
+	var cmd = "cmd=Ajax;cmd.function=Didius.Bid.Create";
+
 	var content = new Array ();
-	content.customerid = customer.id;
-	content.itemid = item.id;
-	content.amount = amount;
+	content.customerid = attributes.customer.id;
+	content.itemid = attributes.item.id;
+	content.amount = attributes.amount;
 	
-	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Create", "data", "POST", false);	
-	request.send (content);
-	
-	var result = request.respons ()["didius.bid"];
-	
-//	app.events.onBidCreate.execute (result);
-	
-	return result;
+	if (attributes.onDone != null)
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);	
+		
+		var onDone = 	function (respons)
+						{
+//							if (!didius.runtime.browserMode)		
+//								app.events.onBidLoad.execute (respons["didius.bid"]);
+								
+							attributes.onDone (respons["didius.bid"]);
+						};
+						
+		var onError = 	function (exception)
+						{
+							attributes.onError (exception);
+						};
+			
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+		request.onLoaded (onDone);
+		request.onError (onError);
+		request.send (content);	
+	}
+	else
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);	
+		request.send (content);	
+		
+		var result = request.respons ()["didius.bid"];
+		
+//		if (!didius.runtime.browserMode)		
+//			app.events.onBidCreate.execute (result);
+			
+		return result;
+	}
 },
 	
-load : function (id)
+// ----------------------------------------------------------------------------------------------------------
+// | LOAD																									|
+// ----------------------------------------------------------------------------------------------------------
+load : function (attributes)
 {
+	var cmd = "cmd=Ajax;cmd.function=Didius.Bid.Load";
+
 	var content = new Array ();
-	content.id = id;
-
-	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Load", "data", "POST", false);		
-	request.send (content);
-
-	var result = request.respons ()["didius.bid"];
+	content.id = attributes.id;
 	
-//	app.events.onBidLoad.execute (result);
-
-	return result;
+	if (attributes.onDone != null)
+	{	
+		var onDone = 	function (respons)
+						{
+							if (!didius.runtime.browserMode)		
+								app.events.onBidLoad.execute (respons["didius.bid"]);
+								
+							attributes.onDone (respons["didius.bid"]);
+						};
+						
+		var onError = 	function (exception)
+						{
+							attributes.onError (exception);
+						};
+			
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+		request.onLoaded (onDone);
+		request.onError (onError);
+		request.send (content);	
+	}
+	else
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+		request.send (content);
+		
+		var result = request.respons ()["didius.bid"];
+		
+		if (!didius.runtime.browserMode)		
+			app.events.onBidLoad.execute (result);
+			
+		return result;
+	}
 },
 		
-save : function (bid)
+// ----------------------------------------------------------------------------------------------------------
+// | SAVE																									|
+// ----------------------------------------------------------------------------------------------------------		
+save : function (attributes)
 {	
-	var content = new Array ();
-	content["didius.bid"] = bid;
-								
-	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Save", "data", "POST", false);	
-	request.send (content);
+	var cmd = "cmd=Ajax;cmd.function=Didius.Bid.Save";
 
-//	app.events.onBidSave.execute (bid);
+	var content = new Array ();
+	content["didius.bid"] = attributes.bid;
+								
+	if (attributes.onDone != null)
+	{	
+		var onDone = 	function (respons)
+						{
+							if (!didius.runtime.browserMode)		
+								app.events.onBidSave.execute (attributes.bid);						
+								
+							attributes.onDone ();
+						};
+						
+		var onError = 	function (exception)
+						{
+							attributes.onError (exception);
+						};
+	
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+		request.onLoaded (onDone);
+		request.onError (onError);
+		request.send (content);	
+	}
+	else	
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);	
+		request.send (content);
+		
+		if (!didius.runtime.browserMode)		
+			app.events.onBidSave.execute (attributes.bid);
+	}		
 },		
 
-destroy : function (id)
+// ----------------------------------------------------------------------------------------------------------
+// | DESTROY																								|
+// ----------------------------------------------------------------------------------------------------------
+destroy : function (attributes)
 {
-	var content = new Array ();
-	content.id = id;
+	var cmd = "cmd=Ajax;cmd.function=Didius.Bid.Destroy";
 
-	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Destroy", "data", "POST", false);	
-	request.send (content);
-	
-	var data = {}
-	data.id = id;
+	var content = new Array ();
+	content.id = attributes.id;
+
+	if (attributes.onDone != null)
+	{
+		var onDone = 	function (respons)
+						{
+							var data = {}
+							data.id = id;
+							
+							if (!didius.runtime.browserMode)		
+								app.events.onBidDestroy.execute (data);
+						};
+						
+		var onError = 	function (exception)
+						{
+							attributes.onError (exception);
+						};
 			
-//	app.events.onBidDestroy.execute (data);
-},				
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+		request.onLoaded (onDone);
+		request.onError (onError);
+		request.send (content);	
+	}
+	else
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd , "data", "POST", false);	
+		request.send (content);
 		
+		var data = {}
+		data.id = attributes.id;
+		
+		if (!didius.runtime.browserMode)		
+			app.events.onBidDestroy.execute (data);
+	}
+},				
+	
+// ----------------------------------------------------------------------------------------------------------
+// | LIST																									|
+// ----------------------------------------------------------------------------------------------------------			
 list : function (attributes)
 {
-	if (!attributes) attributes = new Array ();
-	
+	var cmd = "cmd=Ajax;cmd.function=Didius.Bid.List";
+
 	var content = new Array ();
 	
 	// ITEM
@@ -73,22 +195,28 @@ list : function (attributes)
 		content.customerid = attributes.customer.id;
 	}	
 	
-	if (attributes.async)
+	
+	if (attributes.onDone)
 	{
 		var onDone = 	function (respons)
 						{
 							attributes.onDone (respons["didius.bids"]);
 						};
+						
+		var onError =	function (exception)
+						{
+							attributes.onError (exception);
+						};
 		
-		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.List", "data", "POST", true);
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);
 		request.onLoaded (onDone);
+		request.onError (onError);
 		request.send (content);
 	}
 	else
 	{
-		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.List", "data", "POST", false);		
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);		
 		request.send (content);
-
 		return request.respons ()["didius.bids"];
 	}
 }	

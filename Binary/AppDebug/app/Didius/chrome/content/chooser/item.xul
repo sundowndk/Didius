@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window id="didius.chooser.item" title="Vælg effekt" minwidth="750" minheight="250" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY">
+	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>	
+	<script type="application/javascript" src="chrome://didius/content/chooser/item.js"/>	
+				
+	<vbox class="WindowInnerPadding" flex="1">
+		<hbox align="center">				
+			<hbox flex="1">
+				<textbox id="itemSearch" type="search" flex="1" onkeyup="main.filter ();" oncommand="main.filter ();" focused="true"/>
+			</hbox>			
+		</hbox>		
+		<hbox flex="1">		
+			<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.onChange ();" eltype="single">
+				<treecols>
+					<treecol id="id" hidden="true"/>
+					<treecol id="catalogno" label="Kat nr." flex="1" persist="width"  onclick="main.sort ({column: 'catalogno'});"/>
+					<splitter class="tree-splitter"/>					
+					<treecol id="no" label="No" flex="1" persist="width"  onclick="main.sort ({column: 'no'});"/>
+					<splitter class="tree-splitter"/>					
+					<treecol id="title" label="Title" flex="1" persist="width"  onclick="main.sort ({column: 'title'});"/>
+					<splitter class="tree-splitter"/>					
+				</treecols>					
+			</tree>
+		</hbox>
+	</vbox>						
+										
+	<hbox align="right"  class="WindowButtons">
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
+		<button id="choose" label="Vælg" oncommand="main.choose ();" disabled="true"/>
+	</hbox>
+</window>

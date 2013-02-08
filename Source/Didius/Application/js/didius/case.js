@@ -1,57 +1,148 @@
-create : function (Auction, Customer)
+create : function (attributes)
 {
-	var content = new Array ();
-	content.customerid = Customer.id;
-	content.auctionid = Auction.id;
+	var cmd = "cmd=Ajax;cmd.function=Didius.Case.Create";
+	var content = new Array ();	
 
-	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Create", "data", "POST", false);	
-	request.send (content);
+	if (attributes.customerId)
+		content.customerid = attributes.customerId;	
+
+	if (attributes.customer)
+		content.customerid = attributes.customer.id;
+		
+	if (attributes.auctionId)
+		content.auctionid = attributes.auctionId;	
+
+	if (attributes.auction)
+		content.auctionid = attributes.auction.id;			
+		
+	if (attributes.onDone != null)
+	{
+		var onDone = 	function (respons)
+						{
+							attributes.onDone (respons["didius.case"]);
+						};
+						
+		var onError = 	function (exception)
+						{
+							if (attributes.onError != null)							
+								attributes.onError (exception);
+						};
+			
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+		request.onLoaded (onDone);
+		request.onError (onError);
+		request.send (content);	
+	}		
+	else
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+		request.send (content);
 	
-	var result = request.respons ()["didius.case"];
-	
-//	app.events.onCaseCreate.execute (result);
-	
-	return result;
+		var result = request.respons ()["didius.case"];
+		return result;
+	}	
 },
 	
-load : function (id)
+load : function (attributes)
 {
+	var cmd = "cmd=Ajax;cmd.function=Didius.Case.Load";
+	
 	var content = new Array ();
-	content.id = id;
+	content.id = attributes.id;
 
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Load", "data", "POST", false);		
 	request.send (content);
 
 	var result = request.respons ()["didius.case"];
 	
-//	app.events.onCaseLoad.execute (result); 
+	if (!didius.runtime.browserMode)		
+		app.events.onCaseLoad.execute (result); 
 
 	return result;
 },
 		
-save : function (case_)
+save : function (attributes)
 {	
+	var cmd = "cmd=Ajax;cmd.function=Didius.Case.Save";	
 	var content = new Array ();
-	content["didius.case"] = case_;
-								
-	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Save", "data", "POST", false);	
-	request.send (content);
-	
-//	app.events.onCaseSave.execute (case_);
+		
+	content["didius.case"] = attributes.case;
+
+	if (attributes.onDone != null)
+	{
+		var onDone = 	function ()
+						{
+							if (!didius.runtime.browserMode)	
+								app.events.onCaseSave.execute (attributes.case);
+						
+							attributes.onDone ();
+						};
+						
+		var onError = 	function (exception)
+						{
+							if (attributes.onError != null)							
+								attributes.onError (exception);
+						};
+			
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+		request.onLoaded (onDone);
+		request.onError (onError);
+		request.send (content);	
+	}		
+	else
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+		request.send (content);		
+		
+		if (!didius.runtime.browserMode)	
+			app.events.onCaseSave.execute (attributes.case);
+	}	
 },		
 
-destroy : function (id)
+destroy : function (attributes)
 {
+	var cmd = "cmd=Ajax;cmd.function=Didius.Case.Destroy";
 	var content = new Array ();
-	content.id = id;
-
-	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
-	request.send (content);				
 	
-	var data = {};
-	data.id = id;
+	content.id = attributes.id;
 	
-//	app.events.onCaseDestroy.execute (data);
+	if (attributes.onDone != null)
+	{
+		var onDone = 	function ()
+						{
+							if (!didius.runtime.browserMode)	
+							{	
+								var data = {};
+								data.id = attributes.id;
+								app.events.onCaseDestroy.execute (data);		
+							}
+						
+							attributes.onDone ();
+						};
+						
+		var onError = 	function (exception)
+						{
+							if (attributes.onError != null)							
+								attributes.onError (exception);
+						};
+			
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+		request.onLoaded (onDone);
+		request.onError (onError);
+		request.send (content);	
+	}		
+	else
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+		request.send (content);		
+		
+		if (!didius.runtime.browserMode)	
+		{	
+			var data = {};
+			data.id = attributes.id;
+			app.events.onCaseDestroy.execute (data);		
+		}
+	}				
 },				
 		
 list : function (attributes)

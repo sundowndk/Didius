@@ -443,7 +443,7 @@ namespace Didius
 		#endregion
 
 		#region Public Methods
-		public void Save ()
+		public Item Save ()
 		{
 			try
 			{
@@ -490,6 +490,8 @@ namespace Didius
 				// EXCEPTION: Exception.ItemSave
 				throw new Exception (string.Format (Strings.Exception.ItemSave, this._id.ToString (), exception.Message));
 			}					
+
+			return this;
 		}
 		
 		public XmlDocument ToXmlDocument ()

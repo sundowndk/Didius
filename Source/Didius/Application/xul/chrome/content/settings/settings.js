@@ -10,9 +10,9 @@ var main =
 	{		
 		main.set ();		
 		
-		app.events.onUserCreate.addHandler (this.eventHandlers.onUserCreate);
-		app.events.onUserSave.addHandler (this.eventHandlers.onUserSave);
-		app.events.onUserDestroy.addHandler (this.eventHandlers.onUserDestroy);
+//		app.events.onUserCreate.addHandler (this.eventHandlers.onUserCreate);
+//		app.events.onUserSave.addHandler (this.eventHandlers.onUserSave);
+//		app.events.onUserDestroy.addHandler (this.eventHandlers.onUserDestroy);
 	},			
 					
 	eventHandlers :
@@ -63,16 +63,22 @@ var main =
 		keys[keys.length] = "didius_email_template_salesagreement_subject";
 		keys[keys.length] = "didius_email_template_salesagreement_body";
 		keys[keys.length] = "didius_email_template_salesagreement_isbodyhtml";
+		keys[keys.length] = "didius_email_template_creditnote_subject";
+		keys[keys.length] = "didius_email_template_creditnote_body";
+		keys[keys.length] = "didius_email_template_creditnote_isbodyhtml";
 		keys[keys.length] = "didius_template_catalogsmall";
 		keys[keys.length] = "didius_template_cataloglarge";
 		keys[keys.length] = "didius_template_salesagreement";
 		keys[keys.length] = "didius_template_settlement";
+		keys[keys.length] = "didius_template_invoice";
+		keys[keys.length] = "didius_template_creditnote";
 	
 		main.current = didius.settings.get ({keys: keys});
 		
 		main.checksum = SNDK.tools.arrayChecksum (main.current);
+				
 	
-		this.access.init ();		
+//		this.access.init ();		
 	
 		document.getElementById ("settingsMenu").selectedIndex = 0;										
 		
@@ -110,11 +116,16 @@ var main =
 		document.getElementById ("emailTemplateSalesAgreementSubject").value = main.current.didius_email_template_salesagreement_subject;
 		document.getElementById ("emailTemplateSalesAgreementBody").value = main.current.didius_email_template_salesagreement_body;
 		
+		document.getElementById ("emailTemplateCreditnoteSubject").value = main.current.didius_email_template_creditnote_subject;
+		document.getElementById ("emailTemplateCreditnoteBody").value = main.current.didius_email_template_creditnote_body;
+		
 		// TEMPLATES
 		document.getElementById ("templatesCatalogSmall").value = main.current.didius_template_catalogsmall;
 		document.getElementById ("templatesCatalogLarge").value = main.current.didius_template_cataloglarge;
 		document.getElementById ("templatesSalesAgreement").value = main.current.didius_template_salesagreement;
 		document.getElementById ("templatesSettlement").value = main.current.didius_template_settlement;
+		document.getElementById ("templatesInvoice").value = main.current.didius_template_invoice;
+		document.getElementById ("templatesCreditnote").value = main.current.didius_template_creditnote;		
 	},
 	
 	get : function ()
@@ -151,12 +162,16 @@ var main =
 		main.current.didius_email_template_salesagreement_subject = document.getElementById ("emailTemplateSalesAgreementSubject").value;
 		main.current.didius_email_template_salesagreement_body = document.getElementById ("emailTemplateSalesAgreementBody").value;
 		
+		main.current.didius_email_template_creditnote_subject = document.getElementById ("emailTemplateCreditnoteSubject").value;
+		main.current.didius_email_template_creditnote_body = document.getElementById ("emailTemplateCreditnoteBody").value;
+		
 		// TEMPLATES
 		main.current.didius_template_catalogsmall = document.getElementById ("templatesCatalogSmall").value;		
 		main.current.didius_template_cataloglarge = document.getElementById ("templatesCatalogLarge").value;		
 		main.current.didius_template_salesagreement = document.getElementById ("templatesSalesAgreement").value;		
 		main.current.didius_template_settlement = document.getElementById ("templatesSettlement").value;		
-		
+		main.current.didius_template_invoice = document.getElementById ("templatesInvoice").value;				
+		main.current.didius_template_creditnote = document.getElementById ("templatesCreditnote").value;				
 	},
 	
 	onChange : function ()
@@ -215,9 +230,9 @@ var main =
 		}
 		
 		// Unhook events.		
-		app.events.onUserCreate.removeHandler (main.eventHandlers.onUserCreate);				
-		app.events.onUserSave.removeHandler (main.eventHandlers.onUserSave);
-		app.events.onUserDestroy.removeHandler (main.eventHandlers.onUserDestroy);
+//		app.events.onUserCreate.removeHandler (main.eventHandlers.onUserCreate);				
+//		app.events.onUserSave.removeHandler (main.eventHandlers.onUserSave);
+//		app.events.onUserDestroy.removeHandler (main.eventHandlers.onUserDestroy);
 							
 		// Close window.
 		window.close ();

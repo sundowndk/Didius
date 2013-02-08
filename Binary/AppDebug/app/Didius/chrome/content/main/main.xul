@@ -6,12 +6,19 @@
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>  	
+		<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
+
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>  		
 	
 	<script type="application/javascript" src="main.js"/>	
 
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="q" oncommand="main.close (false);"/>
+  		<key id="shortcut-search" keycode="VK_F2" oncommand="main.search ();"/>
+  		
+  		<key id="key.tabauctions" modifiers="alt" key="1" oncommand="document.getElementById ('tab.auctions').click ();"/>  		
+  		<key id="key.tabcustomers" modifiers="alt" key="2" oncommand="document.getElementById ('tab.customers').click ();"/>  		
+  		<key id="key.tabnewsletters" modifiers="alt" key="3" oncommand="document.getElementById ('tab.newsletters').click ();"/>  		
 	</keyset>
 	
 	<menubar id="menubar">
@@ -30,12 +37,12 @@
 	</menubar>	
 		
 	<vbox flex="1" class="WindowInnerPadding">
-		<tabbox selectedIndex="1" flex="1">		
+		<tabbox selectedIndex="0" flex="1">		
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">      
-				<tabs  style="overflow:hidden">				
-					<tab image="chrome://didius/content/icons/auctions.png"/>			
-					<tab image="chrome://didius/content/icons/customers.png"/>
-					<tab image="chrome://didius/content/icons/newsletter.png"/>
+				<tabs style="overflow:hidden">				
+					<tab id="tab.auctions" image="chrome://didius/content/icons/auctions.png"/>			
+					<tab id="tab.customers" image="chrome://didius/content/icons/customers.png"/>
+					<tab id="tab.newsletters" image="chrome://didius/content/icons/newsletter.png"/>
 				</tabs>			
 			</arrowscrollbox>		
 						
@@ -64,23 +71,18 @@
 							<button id="auctionSignin" label="Registering" disabled="true" oncommand="main.auctions.signin ();"/>								
 							<button id="auctionBidNotation" label="Budnotering" disabled="true" oncommand="main.auctions.bidNotation ();"/>
 							<button id="auctionRun" label="Afvikling" disabled="true" oncommand="main.auctions.run ();"/>
-							<button id="auctionDisplay" label="Præsentation" disabled="true" oncommand="main.auctions.display ();"/>														
-							<button id="auctionSettle" label="Afregning" disabled="true" oncommand="main.auctions.settle ();"/>
+							<button id="auctionDisplay" label="Præsentation" disabled="true" oncommand="main.auctions.display ();"/>																					
 						</vbox>
 					</hbox>					
 				</tabpanel>		
 				
 				<tabpanel>				
-					<vbox flex="1">																		
-						<hbox align="center">				
-							<hbox flex="1">
-								<textbox id="customerSearch" type="search" flex="1" onkeyup="main.customers.filter ();" oncommand="main.customers.filter ();" focused="true" />
-							</hbox>
-							<hbox style="width: 93px;">
-							</hbox>
-						</hbox>																			
+					<vbox flex="1">																								
 						<hbox flex="1">
-							<hbox flex="1">													
+							<hbox flex="1">																					
+								<vbox flex="1">
+									<textbox id="customerSearch" type="search" focus="true" onkeyup="main.customers.filter ();" oncommand="main.customers.filter ();" focused="true" />
+								
 								<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single">
 									<treecols>
 										<treecol id="id" hidden="true"/>
@@ -100,7 +102,8 @@
 										<treecol id="email" label="Email" flex="1" persist="width" onclick="main.customers.sort ({column: 'email'});"/>
 										<splitter class="tree-splitter"/>										
 									</treecols>								
-								</tree>						
+								</tree>	
+								</vbox>					
 							</hbox>
 							<hbox>
 								<vbox>									
@@ -109,8 +112,7 @@
 									<button id="customerDestroy" label="Slet" disabled="true" oncommand="main.customers.destroy ();"/>	
 								</vbox>	
 							</hbox>	
-						</hbox>
-						
+						</hbox>						
 					</vbox>
 				</tabpanel>		
 						

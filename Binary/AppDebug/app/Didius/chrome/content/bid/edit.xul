@@ -1,49 +1,41 @@
 <?xml version="1.0"?>
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="main" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">
-	
+<window id="didius.bid.edit" title="Redigere bud" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY ">	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>	
-	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
-		
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/javascript" src="chrome://didius/content/bid/edit.js"/>	
 			
 	<keyset>
-  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.close" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.save" modifiers="control" key="s" oncommand="main.save ();"/>
 	</keyset>			
 			
 	<hbox class="Main" flex="1">
-		<tabbox selectedIndex="0" flex="1">		
-			<tabs>				
-				<tab label="Bud"/>							
-			</tabs>
-						
+		<tabbox selectedIndex="0" flex="1">											
 			<tabpanels flex="1">
 				<tabpanel>
-					<vbox flex="1">
-						<groupbox>
-							<caption label="Meta"/>
-							
-							<hbox align="center">
-								<label class="Label">Kunde:</label>
-								<textbox id="customer" flex="1" readonly="true" />								
-							</hbox>
-							<hbox align="center">
-								<label class="Label">Effekt:</label>
-								<textbox id="item" flex="1" readonly="true" />								
-							</hbox>
-						</groupbox>
-						
-						<groupbox>
-							<caption label="Andet"/>
-							
-							<hbox align="center">
-								<label class="Label">Bud:</label>
-								<textbox id="amount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
-							</hbox>							
-						</groupbox>														
+					<vbox flex="1">												
+						<hbox align="center">
+							<label class="Label">Kunde:</label>
+							<textbox id="textbox.customername" readonly="true" disabled="true" tabindex="-1"/>
+						</hbox>													
+						<hbox align="center">
+							<label class="Label">Auktion:</label>
+							<textbox id="textbox.auctiontitle" readonly="true" disabled="true" tabindex="-1"/>
+						</hbox>																			
+						<hbox align="center">
+							<label class="Label">Effekt:</label>
+							<textbox id="textbox.itemtitle" readonly="true" disabled="true" tabindex="-1"/>							
+						</hbox>													
+						<hbox align="center">
+							<label class="Label">Bud:</label>
+							<textbox id="textbox.amount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="main.onChange ();" disabled="true"/>
+							<label>kr.</label>
+						</hbox>													
 					</vbox>
     			</tabpanel>    							
 			</tabpanels>
@@ -51,7 +43,7 @@
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
-		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
-		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L" key="key.close"/>
+		<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G" key="key.save"/>
 	</hbox>
 </window>

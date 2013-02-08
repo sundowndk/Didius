@@ -70,12 +70,37 @@ namespace Didius
 			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
 		}
 
+		public static void MailCreditnote (Creditnote Creditnote, string PdfFilename)
+		{
+			Customer customer = Customer.Load (Creditnote.CustomerId);
+			
+			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
+			
+			string to = customer.Email;
+//			string to = "rasmus@akvaservice.dk";
+			
+			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_creditnote_subject);
+			subject = ReplacePlaceholders (customer, subject);
+			subject = ReplacePlaceholders (Creditnote, subject);
+			
+			string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_creditnote_body);
+			body = ReplacePlaceholders (customer, body);
+			body = ReplacePlaceholders (Creditnote, body);
+			
+			bool isbodyhtml = SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_creditnote_isbodyhtml);
+			
+			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
+			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (PdfFilename), "kreditnota"+ Creditnote.No +".pdf", SNDK.IO.GetMimeType (PdfFilename)));
+			
+			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
+		}
+
 		public static void MailSalesAgreement (Customer Customer, string PdfFilename)
 		{		
 			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 			
-//			string to = Customer.Email;
-			string to = "rasmus@akvaservice.dk";
+			string to = Customer.Email;
+//			string to = "rasmus@akvaservice.dk";
 
 			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_salesagreement_subject);
 			subject = ReplacePlaceholders (Customer, subject);
@@ -95,8 +120,8 @@ namespace Didius
 		{		
 			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 			
-//			string to = Customer.Email;
-			string to = "rasmus@akvaservice.dk";
+			string to = Customer.Email;
+//			string to = "rasmus@akvaservice.dk";
 			
 			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_settlement_subject);
 			subject = ReplacePlaceholders (Customer, subject);
@@ -122,6 +147,12 @@ namespace Didius
 				result = result.Replace ("%%CUSTOMERNO%%", ((Didius.Customer)Source).No);
 				result = result.Replace ("%%CUSTOMERNAME%%", ((Didius.Customer)Source).Name);
 			}
+			// AUCTION
+			else if (Source.GetType () == typeof (Didius.Auction))
+			{
+				result = result.Replace ("%%AUCTIONNO%%", ((Didius.Auction)Source).No);
+				result = result.Replace ("%%AUCTIONTITLE%%", ((Didius.Auction)Source).Title);
+			}
 			// ITEM
 			else if (Source.GetType () == typeof (Didius.Item))
 			{
@@ -138,6 +169,11 @@ namespace Didius
 			if (Source.GetType () == typeof (Didius.Invoice))
 			{
 				result = result.Replace ("%%INVOICENO%%", ((Didius.Invoice)Source).No.ToString ());
+			}
+			// CREDITNOTE
+			if (Source.GetType () == typeof (Didius.Creditnote))
+			{
+				result = result.Replace ("%%CREDITNOTENO%%", ((Didius.Creditnote)Source).No.ToString ());
 			}
 
 			return result;

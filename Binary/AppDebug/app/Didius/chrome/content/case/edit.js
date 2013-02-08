@@ -13,7 +13,10 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------
+	mode : null,
 	case : null,
+	auction : null,
+	customer : null,
 	checksum : null,	
 
 	// ------------------------------------------------------------------------------------------------------
@@ -23,9 +26,19 @@ var main =
 	{	 	
 		try
 		{
-			main.case = didius.case.load (window.arguments[0].caseId);
+			if (!window.arguments[0].caseId)
+			{
+				main.mode = "NEW";		
+				main.case = didius.case.create ({auctionId: window.arguments[0].auctionId, customerId: window.arguments[0].customerId})							
+			}
+			else if (window.arguments[0].caseId)
+			{
+				main.mode = "EDIT";			
+				main.case = didius.case.load ({id: window.arguments[0].caseId});
+			}
+			
 			main.auction = didius.auction.load (main.case.auctionid);
-			main.customer = didius.customer.load (main.case.customerid);
+			main.customer = didius.customer.load (main.case.customerid);			
 		}
 		catch (error)
 		{
@@ -54,9 +67,7 @@ var main =
 	set : function ()
 	{
 		main.checksum = SNDK.tools.arrayChecksum (main.case);												
-		main.onChange ();
-		
-		document.getElementById ("title").focus ();
+		main.onChange ();				
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -77,55 +88,68 @@ var main =
 		{
 			document.title = "Sag: "+ main.case.title +" ["+ main.case.no +"] *";
 		
-			document.getElementById ("save").disabled = false;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.save").disabled = false;
+			document.getElementById ("button.close").disabled = false;
 		}
 		else
 		{
 			document.title = "Sag: "+ main.case.title +" ["+ main.case.no +"]";
 		
-			document.getElementById ("save").disabled = true;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.save").disabled = true;
+			document.getElementById ("button.close").disabled = false;
 		}
 		
-		if (main.auction.status == "Closed")
-		{	
-			document.getElementById ("createSettlement").disabled = false;	
-			document.getElementById ("showSettlement").disabled = false;
-			
-			if (main.case.settled)
-			{
-				document.getElementById ("createSettlementBox").collapsed = true;
-				document.getElementById ("showSettlementBox").collapsed = false;
-			}
-			else		
-			{
-				document.getElementById ("createSettlementBox").collapsed = false;
-				document.getElementById ("showSettlementBox").collapsed = true;
-			}
-		}
-		else
-		{
-			document.getElementById ("createSettlement").disabled = true;
-			document.getElementById ("createSettlementBox").collapsed = false;
-			document.getElementById ("showSettlementBox").collapsed = true;		
-		}
+//		if (main.auction.status == "Closed")
+//		{	
+//			document.getElementById ("button.settlementcreate").disabled = false;	
+//			document.getElementById ("button.settlementshow").disabled = false;
+//			
+//			if (main.case.settled)
+//			{
+//				document.getElementById ("button.createSettlementBox").collapsed = true;
+//				document.getElementById ("showSettlementBox").collapsed = false;
+//			}
+//			else		
+//			{
+//				document.getElementById ("createSettlementBox").collapsed = false;
+//				document.getElementById ("showSettlementBox").collapsed = true;
+//			}
+//		}
+//		else
+//		{
+//			document.getElementById ("createSettlement").disabled = true;
+//			document.getElementById ("createSettlementBox").collapsed = false;
+//			document.getElementById ("showSettlementBox").collapsed = true;		
+//		}
 		
 		if (main.auction.status == "Closed" || main.auction.status == "Running")
 		{
-			document.getElementById ("title").disabled = true;
+			document.getElementById ("textbox.title").disabled = true;
 		
-			document.getElementById ("customerreference").disabled = true;
-			document.getElementById ("commisionfeepercentage").disabled = true;
-			document.getElementById ("commisionfeeminimum").disabled = true;
+			document.getElementById ("textbox.customerreference").disabled = true;
+			document.getElementById ("textbox.commisionfeepercentage").disabled = true;
+			document.getElementById ("textbox.commisionfeeminimum").disabled = true;
 		}
 		else
 		{
-			document.getElementById ("title").disabled = false;
+			document.getElementById ("textbox.title").disabled = false;
 		
-			document.getElementById ("customerreference").disabled = false;
-			document.getElementById ("commisionfeepercentage").disabled = false;
-			document.getElementById ("commisionfeeminimum").disabled = false;
+			document.getElementById ("textbox.customerreference").disabled = false;
+			document.getElementById ("textbox.commisionfeepercentage").disabled = false;
+			document.getElementById ("textbox.commisionfeeminimum").disabled = false;
+		}
+		
+		if (main.mode == "NEW")
+		{
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.items").disabled = true;
+			document.getElementById ("button.salesagreementshow").disabled = true;
+		}
+		else
+		{
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.items").disabled = false;
+			document.getElementById ("button.salesagreementshow").disabled = false;
 		}
 	},
 			
@@ -135,9 +159,11 @@ var main =
 	save : function ()
 	{			
 		main.get ();
-		
-		didius.case.save (main.case);
 				
+		didius.case.save ({case: main.case});
+		
+		main.mode = "EDIT";
+								
 		main.checksum = SNDK.tools.arrayChecksum (main.case);
 		main.onChange ();				
 	},
@@ -181,7 +207,7 @@ var details =
 	// | INIT																								|	
 	// ------------------------------------------------------------------------------------------------------	
 	init : function ()
-	{
+	{		
 		details.set ();
 	},
 	
@@ -190,16 +216,17 @@ var details =
 	// ------------------------------------------------------------------------------------------------------	
 	set : function ()
 	{
-		document.getElementById ("no").value = main.case.no;
-		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.case.createtimestamp);
-		document.getElementById ("auction").value = main.auction.title;		
-		document.getElementById ("customer").value = main.customer.name;
+		document.getElementById ("textbox.no").value = main.case.no;
+		document.getElementById ("datepicker.createdate").dateValue = SNDK.tools.timestampToDate (main.case.createtimestamp);
+		document.getElementById ("textbox.auctiontitle").value = main.auction.title;		
+		document.getElementById ("textbox.customername").value = main.customer.name;
 	
-		document.getElementById ("title").value = main.case.title;		
+		document.getElementById ("textbox.title").value = main.case.title;		
+		document.getElementById ("textbox.title").focus ();
 		
-		document.getElementById ("customerreference").value = main.case.customerreference;		
-		document.getElementById ("commisionfeepercentage").value = main.case.commisionfeepercentage;		
-		document.getElementById ("commisionfeeminimum").value = main.case.commisionfeeminimum;		
+		document.getElementById ("textbox.customerreference").value = main.case.customerreference;		
+		document.getElementById ("textbox.commisionfeepercentage").value = main.case.commisionfeepercentage;		
+		document.getElementById ("textbox.commisionfeeminimum").value = main.case.commisionfeeminimum;		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -207,11 +234,11 @@ var details =
 	// ------------------------------------------------------------------------------------------------------	
 	get : function ()	
 	{
-		main.case.title = document.getElementById ("title").value;		
+		main.case.title = document.getElementById ("textbox.title").value;		
 		
-		main.case.customerreference = document.getElementById ("customerreference").value;		
-		main.case.commisionfeepercentage = document.getElementById ("commisionfeepercentage").value;		
-		main.case.commisionfeeminimum = document.getElementById ("commisionfeeminimum").value;		
+		main.case.customerreference = document.getElementById ("textbox.customerreference").value;		
+		main.case.commisionfeepercentage = document.getElementById ("textbox.commisionfeepercentage").value;		
+		main.case.commisionfeeminimum = document.getElementById ("textbox.commisionfeeminimum").value;		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -239,7 +266,7 @@ var items =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{		
-		items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: items.edit});
+		items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: items.edit});
 		items.set ();
 	},
 	
@@ -248,21 +275,43 @@ var items =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		var onDone = 	function (result)
-						{
-							items.itemsTreeHelper.disableRefresh ();
-							for (idx in result)
-							{															
-								items.itemsTreeHelper.addRow ({data: result[idx]});
-							}
-							items.itemsTreeHelper.enableRefresh ();
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				document.getElementById ("tree.items").disabled = false;
+				items.onChange ();				
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (result)
+								{
+									items.itemsTreeHelper.disableRefresh ();
+									for (idx in result)
+									{							
+										var data = {};
+										var item = result[idx];																		
+										
+										data.id = item.id;
+										data.catalogno = item.catalogno;
+										data.no = item.no;
+										data.title = item.title;
+																									
+										items.itemsTreeHelper.addRow ({data: data});
+									}
+									items.itemsTreeHelper.enableRefresh ();
 							
-							// Enable controls
-							document.getElementById ("items").disabled = false;
-							items.onChange ();
-						};
+									// Enable controls
+									document.getElementById ("tree.items").disabled = false;
+									items.onChange ();
+								};
 								
-			didius.item.list ({case: main.case, async: true, onDone: onDone});				
+				didius.item.list ({case: main.case, async: true, onDone: onDone});							
+				break;
+			}
+		}			
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -272,22 +321,22 @@ var items =
 	{
 		if (items.itemsTreeHelper.getCurrentIndex () != -1)
 		{
-			document.getElementById ("itemCreate").disabled = false;
-			document.getElementById ("itemEdit").disabled = false;
-			document.getElementById ("itemDestroy").disabled = false;
+			document.getElementById ("button.itemcreate").disabled = false;
+			document.getElementById ("button.itemedit").disabled = false;
+			document.getElementById ("button.itemdestroy").disabled = false;
 		}
 		else
 		{
-			document.getElementById ("itemCreate").disabled = false;
-			document.getElementById ("itemEdit").disabled = true;
-			document.getElementById ("itemDestroy").disabled = true;
+			document.getElementById ("button.itemcreate").disabled = false;
+			document.getElementById ("button.itemedit").disabled = true;
+			document.getElementById ("button.itemdestroy").disabled = true;
 		}
 		
 		if (main.auction.status == "Closed" || main.auction.status == "Running")
 		{
-			document.getElementById ("itemCreate").disabled = true;
-			document.getElementById ("itemEdit").disabled = false;
-			document.getElementById ("itemDestroy").disabled = true;
+			document.getElementById ("button.itemcreate").disabled = true;
+			document.getElementById ("button.itemedit").disabled = false;
+			document.getElementById ("button.itemdestroy").disabled = true;
 		}
 	},
 	
@@ -298,17 +347,13 @@ var items =
 	{
 		items.itemsTreeHelper.sort (attributes);
 	},
-		
+			
 	// ------------------------------------------------------------------------------------------------------
 	// | CREATE																								|	
 	// ------------------------------------------------------------------------------------------------------
 	create : function ()
-	{		
-		// Create new item.
-		var current = didius.item.create (main.case);
-		didius.item.save (current);																								
-																												
-		window.openDialog ("chrome://didius/content/item/edit.xul", "didius.item.edit."+ current.id, "chrome", {itemId: current.id});
+	{					
+		app.window.open (window, "chrome://didius/content/item/edit.xul", "didius.item.edit."+ SNDK.tools.newGuid (), null, {caseId: main.case.id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -316,7 +361,7 @@ var items =
 	// ------------------------------------------------------------------------------------------------------							
 	edit : function ()
 	{				
-		window.openDialog ("chrome://didius/content/item/edit.xul", "didius.item.edit."+ items.itemsTreeHelper.getRow ().id, "chrome", {itemId: items.itemsTreeHelper.getRow ().id});
+		app.window.open (window, "chrome://didius/content/item/edit.xul", "didius.item.edit."+ items.itemsTreeHelper.getRow ().id, null, {itemId: items.itemsTreeHelper.getRow ().id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -329,7 +374,7 @@ var items =
 			try
 			{
 				// Get row currently selected and delete the item underneath.
-				didius.item.destroy (items.itemsTreeHelper.getRow ().id);	
+				didius.item.destroy ({id: items.itemsTreeHelper.getRow ().id});	
 			}
 			catch (error)
 			{					
@@ -592,7 +637,7 @@ var eventHandlers =
 	// ------------------------------------------------------------------------------------------------------
 	onCaseDestroy : function (eventData)
 	{
-		if (main.current.id == eventData.id)
+		if (main.case.id == eventData.id)
 		{
 			main.close (true);
 		}

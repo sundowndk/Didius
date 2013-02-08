@@ -30,15 +30,10 @@ namespace Didius
 		private int _updatetimestamp;
 		
 		private int _no;
-		private Guid _auctionid;
+		private List<Guid> _auctionids;
 		private Guid _customerid;
-		
-		private decimal _sales;
-		private decimal _commissionfee;
-		private decimal _vat;
-		private decimal _total;
-		
-		private List<Guid> _itemids;
+
+		private List<InvoiceLine> _lines;
 		#endregion
 		
 		#region Public Fields
@@ -74,14 +69,6 @@ namespace Didius
 			}
 		}
 		
-		public Guid AuctionId
-		{
-			get
-			{
-				return this._auctionid;
-			}
-		}
-		
 		public Guid CustomerId
 		{
 			get
@@ -94,7 +81,12 @@ namespace Didius
 		{
 			get
 			{
-				return this._sales;
+				decimal result = 0;
+				foreach (InvoiceLine line in this._lines)
+				{
+					result += line.Amount;
+				}
+				return Math.Round (result, 2);
 			}
 		}
 		
@@ -102,7 +94,12 @@ namespace Didius
 		{
 			get
 			{
-				return this._commissionfee;
+				decimal result = 0;
+				foreach (InvoiceLine line in this._lines)
+				{
+					result += line.CommissionFee;
+				}
+				return Math.Round (result, 2);
 			}
 		}
 
@@ -110,7 +107,12 @@ namespace Didius
 		{
 			get
 			{
-				return this._vat;
+				decimal result = 0;
+				foreach (InvoiceLine line in this._lines)
+				{
+					result += line.Vat;
+				}
+				return Math.Round (result, 2);
 			}
 		}
 
@@ -118,13 +120,26 @@ namespace Didius
 		{
 			get
 			{
-				return this._total;
+				decimal result = 0;
+				foreach (InvoiceLine line in this._lines)
+				{
+					result += line.Total;
+				}
+				return Math.Round (result, 2);
+			}
+		}
+
+		public List<InvoiceLine> Lines
+		{
+			get
+			{
+				return this._lines;
 			}
 		}
 		#endregion
 		
 		#region Constructor
-		public Invoice (Auction Auction, Customer Customer)
+		public Invoice (Customer Customer)
 		{
 			this._id = Guid.NewGuid ();
 			
@@ -133,15 +148,10 @@ namespace Didius
 			
 			this._no = 0;
 			
-			this._auctionid = Auction.Id;
+			this._auctionids = new List<Guid> ();
 			this._customerid = Customer.Id;
 			
-			this._sales = 0;
-			this._commissionfee = 0;
-			this._vat = 0;
-			this._total = 0;
-
-			this._itemids = new List<Guid> ();
+			this._lines = new List<InvoiceLine> ();
 		}	
 				
 		private Invoice ()
@@ -151,15 +161,10 @@ namespace Didius
 			
 			this._no = 0;
 			
-			this._auctionid = Guid.Empty;
+			this._auctionids = new List<Guid> ();
 			this._customerid = Guid.Empty;
 			
-			this._sales = 0;
-			this._commissionfee = 0;
-			this._vat = 0;
-			this._total = 0;
-			
-			this._itemids = new List<Guid> ();
+			this._lines = new List<InvoiceLine> ();
 		}
 		#endregion
 		
@@ -183,18 +188,21 @@ namespace Didius
 				
 				item.Add ("no", this._no);
 				
-				item.Add ("auctionid", this._auctionid);		
+				item.Add ("auctionids", SNDK.Convert.ListToString<List<Guid>> (this._auctionids));
 				item.Add ("customerid", this._customerid);
 				
-				item.Add ("sales", this._sales);
-				item.Add ("commissionfee", this._commissionfee);
-				item.Add ("vat", this._vat);
-				item.Add ("total", this._total);
-				
-				item.Add ("itemids", SNDK.Convert.ListToString<List<Guid>> (this._itemids));
+				item.Add ("lines", this._lines);
 				
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
-				meta.Add ("auctionid", this._auctionid);
+				meta.Add ("auctionids", SNDK.Convert.ListToString<List<Guid>> (this._auctionids));
+
+				List<Guid> itemids = new List<Guid> ();
+				foreach (InvoiceLine line in this._lines)
+				{
+					itemids.Add (line.ItemId);
+				}
+				meta.Add ("itemids", SNDK.Convert.ListToString<List<Guid>> (itemids));
+
 				meta.Add ("customerid", this._customerid);
 				
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
@@ -218,22 +226,14 @@ namespace Didius
 			result.Add ("updatetimestamp", this._updatetimestamp);				
 			
 			result.Add ("no", this._no);
-			result.Add ("auctionid", this._auctionid);
-			result.Add ("auction", Auction.Load (this._auctionid));		
+			result.Add ("auctionids", this._auctionids);
 			result.Add ("customerid", this._customerid);
-			result.Add ("customer", Customer.Load (this._customerid));
-			result.Add ("sales", this._sales);
-			result.Add ("commissionfee", this._commissionfee);
-			result.Add ("vat", this._vat);
-			result.Add ("total", this._total);
-			
-			List<Item> items = new List<Item> ();
-			foreach (Guid itemid in this._itemids)
-			{
-				items.Add (Item.Load (itemid));
-			}
-			
-			result.Add ("items", items);
+			result.Add ("sales", this.Sales);
+			result.Add ("commissionfee", this.CommissionFee);
+			result.Add ("vat", this.Vat);
+			result.Add ("total", this.Total);
+
+			result.Add ("lines", this._lines);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
@@ -244,8 +244,8 @@ namespace Didius
 		{
 			Invoice result;
 			
-			try
-			{
+//			try
+//			{
 				Hashtable item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.invoice)[1]")));
 				result = new Invoice ();
 				
@@ -266,49 +266,32 @@ namespace Didius
 					result._no = int.Parse ((string)item["no"]);
 				}				
 				
-				if (item.ContainsKey ("auctionid"))
+				if (item.ContainsKey ("auctionids"))
 				{
-					result._auctionid = new Guid ((string)item["auctionid"]);
+					result._auctionids = SNDK.Convert.StringToList<Guid> ((string)item["auctionids"]);
 				}				
 				
 				if (item.ContainsKey ("customerid"))
 				{
 					result._customerid = new Guid ((string)item["customerid"]);
 				}				
-				
-				if (item.ContainsKey ("sales"))
-				{
-					result._sales = decimal.Parse ((string)item["sales"]);
-				}				
-				
-				if (item.ContainsKey ("commissionfee"))
-				{
-					result._commissionfee = decimal.Parse ((string)item["commissionfee"]);
-				}				
-				
-				if (item.ContainsKey ("total"))
-				{
-					result._total = decimal.Parse ((string)item["total"]);
-				}				
 
-				if (item.ContainsKey ("vat"))
+				if (item.ContainsKey ("lines"))
 				{
-					result._vat = decimal.Parse ((string)item["vat"]);
-				}				
-				
-				if (item.ContainsKey ("itemids"))
-				{
-					result._itemids = SNDK.Convert.StringToList<Guid> ((string)item["itemids"]);
-				}				
-			}
-			catch (Exception exception)
-			{
+					foreach (XmlDocument invoiceline in (List<XmlDocument>)item["lines"])
+					{
+						result._lines.Add (InvoiceLine.FromXmlDocument (invoiceline));
+					}
+				}
+//			}
+//			catch (Exception exception)
+//			{
 				// LOG: LogDebug.ExceptionUnknown
-				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.INVOICE", exception.Message));
+//				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.INVOICE", exception.Message));
 				
 				// EXCEPTION: Excpetion.InvoiceLoadGuid
-				throw new Exception (string.Format (Strings.Exception.InvoiceLoadGuid, Id));
-			}	
+//				throw new Exception (string.Format (Strings.Exception.InvoiceLoadGuid, Id, exception.Message));
+//			}	
 			
 			return result;
 		}
@@ -317,7 +300,30 @@ namespace Didius
 		{
 			List<Invoice> result = new List<Invoice> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("auctionid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Auction.Id)))
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("auctionids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, Auction.Id)))
+			{
+				try
+				{
+					result.Add (Load (new Guid (id)));
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.INVOICE", exception.Message));
+					
+					// LOG: LogDebug.InvoiceList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.InvoiceList, id));
+				}
+			}
+			
+			return result;
+		}
+
+		public static List<Invoice> List (Item Item)
+		{
+			List<Invoice> result = new List<Invoice> ();
+
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, Item.Id)))
 			{
 				try
 				{
@@ -365,21 +371,31 @@ namespace Didius
 			
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
 			{
-				try
-				{
+//				try
+//				{
 					result.Add (Load (new Guid (id)));
-				}
-				catch (Exception exception)
-				{
+//				}
+//				catch (Exception exception)
+//				{
 					// LOG: LogDebug.ExceptionUnknown
-					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.INVOICE", exception.Message));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.INVOICE", exception.Message));
 					
 					// LOG: LogDebug.InvoiceList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.InvoiceList, id));
-				}
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.InvoiceList, id));
+//				}
 			}
 			
 			return result;
+		}
+
+		public static Invoice Create (Customer Customer)
+		{
+			return Create (null, Customer, false);
+		}
+
+		public static Invoice Create (Customer Customer, bool Simulate)
+		{
+			return Create (null, Customer, Simulate);
 		}
 
 		public static Invoice Create (Auction Auction, Customer Customer)
@@ -389,9 +405,20 @@ namespace Didius
 		
 		public static Invoice Create (Auction Auction, Customer Customer, bool Simulate)
 		{
-			Invoice result = new Invoice (Auction, Customer);
-			
-			foreach (Item item in Item.List (Auction))
+			Invoice result = new Invoice (Customer);
+
+			List<Item> items;
+
+			if (Auction != null)
+			{
+				items = Item.List (Auction);
+			}
+			else
+			{
+				items = Item.List ();
+			}
+
+			foreach (Item item in items)
 			{
 				if (!item.Invoiced)
 				{
@@ -399,29 +426,16 @@ namespace Didius
 					{
 						if (item.CurrentBid.CustomerId == Customer.Id)
 						{
-							if (item.Vat)
-							{
-								result._vat += (item.CurrentBid.Amount * 0.25m);
-							}
-							
-							result._sales += item.CurrentBid.Amount;
-							result._commissionfee += item.CommissionFee;
-							result._itemids.Add (item.Id);
-							
-							if (!Simulate)
-							{
-								item.Invoiced = true;
-								item.Save ();
-							}
+							Case _case = Case.Load (item.CaseId);
+							result._auctionids.Add (_case.AuctionId);
+
+							result.Lines.Add (new InvoiceLine (item));
 						}
 					}
 				}
 			}
-			
-			result._vat = result._vat + (result._commissionfee * 0.25m);
-			result._total = result._sales + result._commissionfee + result._vat;
-			
-			if (result._total == 0)
+
+			if (result.Lines.Count == 0)
 			{
 				// EXCEPTION: Exception.InvoiceEmpty
 				throw new Exception (string.Format (Strings.Exception.InvoiceEmpty));
@@ -429,6 +443,13 @@ namespace Didius
 			
 			if (!Simulate)
 			{
+				foreach (InvoiceLine line in result.Lines)
+				{
+					Item item = Item.Load (line.ItemId);
+					item.Invoiced = true;
+					item.Save ();
+				}
+
 				result.Save ();
 			}
 			

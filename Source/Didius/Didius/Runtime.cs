@@ -82,11 +82,18 @@ namespace Didius
 			{ Enums.SettingsKey.didius_email_template_salesagreement_subject, string.Empty },
 			{ Enums.SettingsKey.didius_email_template_salesagreement_body, string.Empty },
 			{ Enums.SettingsKey.didius_email_template_salesagreement_isbodyhtml, false },
+			{ Enums.SettingsKey.didius_email_template_creditnote_subject, string.Empty },
+			{ Enums.SettingsKey.didius_email_template_creditnote_body, string.Empty },
+			{ Enums.SettingsKey.didius_email_template_creditnote_isbodyhtml, false },
 
 			{ Enums.SettingsKey.didius_template_salesagreement, string.Empty },
 			{ Enums.SettingsKey.didius_template_catalogsmall, string.Empty },
 			{ Enums.SettingsKey.didius_tamplate_cataloglarge, string.Empty },
-			{ Enums.SettingsKey.didius_template_settlement, string.Empty }
+			{ Enums.SettingsKey.didius_template_settlement, string.Empty },
+			{ Enums.SettingsKey.didius_template_invoice, string.Empty },
+			{ Enums.SettingsKey.didius_template_creditnote, string.Empty },
+
+			{ Enums.SettingsKey.didius_item_datafields, "stelnummer;Stelnummer|aargang;Årgang|regnr;Reg.nr" }
 		};
 
 		static void EventhandlerServiceGarbageCollector (object Sender, EventArgs E)

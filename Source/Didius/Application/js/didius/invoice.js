@@ -23,8 +23,12 @@ create : function (attributes)
 	request.send (content);
 	
 	var result = request.respons ()["didius.invoice"];
-	
-//	app.events.onInvoiceCreate.execute (result);
+
+	if (!content.simulate)
+	{
+		if (!didius.runtime.browserMode)		
+			app.events.onInvoiceCreate.execute (result);
+	}
 	
 	return result;
 },
@@ -39,7 +43,8 @@ load : function (id)
 
 	var result = request.respons ()["didius.invoice"];
 	
-//	app.events.onInvoiceLoad.execute (result);
+	if (!didius.runtime.browserMode)		
+		app.events.onInvoiceLoad.execute (result);
 
 	return result;
 },

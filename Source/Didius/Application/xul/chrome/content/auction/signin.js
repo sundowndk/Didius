@@ -1,34 +1,43 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ---------------------------------------------------------------------------------------------------------
 var main =
 {	
-	auction : null,
-	customer : null,
-	buyernos : {},
-	editCustomer : false,
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	mode : "",
+	auction : null,	
+	buyernos : {},	
 	customersTreeHelper : null,
+	
+	customer : null,
+	buyerNo : null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																							|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
 		try
 		{
-			main.auction = didius.auction.load (window.arguments[0].auctionId);				
+			main.auction = didius.auction.load (window.arguments[0].auctionId);
 			
-			sXUL.console.log (main.auction.buyernos)
-			
-			var test = main.auction.buyernos.split ("|");
-			for (idx in test)
+			var buyernos = main.auction.buyernos.split ("|");
+			for (var index in buyernos)
 			{
 				try
 				{
-					var buyerno = test[idx].split (":")[0];
-					var customerid = test[idx].split (":")[1];
+					var buyerno = buyernos[index].split (":")[0];
+					var customerid = buyernos[index].split (":")[1];
 			
 					main.buyernos[buyerno] = customerid;
 				}
 				catch (exception)
 				{		
-				sXUL.console.log (exception)		
+					sXUL.console.log (exception)		
 				}
 			}
 		}
@@ -39,96 +48,43 @@ var main =
 			return;
 		}				
 		
-		main.customersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("customers"), sortColumn: "name", sortDirection: "descending"});			
+		main.customersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.customers"), sortColumn: "name", sortDirection: "descending"});			
 			
 		main.set ();
 					
 		// Hook events.			
-		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);
-		
-		app.events.onCustomerCreate.addHandler (main.eventHandlers.onCustomerCreate);
-		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);								
+		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);
+				
+		app.events.onCustomerSave.addHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);								
 	},
 	
-	eventHandlers : 
-	{
-		onAuctionDestroy : function (eventData)
-		{
-			if (main.auction.id == eventData.id)
-			{
-				main.close (true);
-			}
-		},
-						
-		onCustomerCreate : function (eventData)
-		{																						
-			main.customersTreeHelper.addRow ({data: eventData});						
-		},
-		
-		onCustomerSave : function (eventData)
-		{	
-			var data = {};			
-			data.id = eventData.id;
-			data.no = eventData.no;
-			data.name = eventData.name;
-			data.address1 = eventData.address1;
-			data.city = eventData.city;
-			data.phone = eventData.phone;
-			data.email = eventData.email;
-								
-			for (idx2 in main.buyernos)
-			{							
-				data.buyerno = "";
-				if (main.buyernos[idx2] == main.customer.id)
-				{
-					data.buyerno = "#"+ idx2;
-				} 
-			}				
-			
-			main.customersTreeHelper.setRow ({data: data});
-		
-			if (main.customer.id == eventData.id)
-			{
-				main.customer = eventData;
-				main.customers.set ();
-			}
-		},
-		
-		onCustomerDestroy : function (eventData)
-		{
-			main.customersTreeHelper.removeRow ({id: eventData.id});
-			
-			if (main.customer.id == eventData.id)
-			{
-				main.customer = null;
-				main.customers.set ();
-			}
-		}				
-	},
-		
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		var onDone = 	function (items)
+		var onDone = 	function (result)
 						{
-							for (idx in items)
-							{									
-								var data = {};
+							for (var index in result)
+							{					
+								var customer = result[index];
+								var data = {};								
+								data.id = customer.id;
+								data.no = customer.no;
+								data.name = customer.name;
+								data.address1 = customer.address1;
+								data.city = customer.city;
+								data.phone = customer.phone;
+								data.email = customer.email;
 								
-								data.id = items[idx].id;
-								data.no = items[idx].no;
-								data.name = items[idx].name;
-								data.address1 = items[idx].address1;
-								data.city = items[idx].city;
-								data.phone = items[idx].phone;
-								data.email = items[idx].email;
-								
-								for (idx2 in main.buyernos)
+								for (var index2 in main.buyernos)
 								{							
 									data.buyerno = "";
-									if (main.buyernos[idx2] == items[idx].id)
+									if (main.buyernos[index2] == customer.id)
 									{
-										data.buyerno = "#"+ idx2;
+										data.buyerno = "#"+ index2;
 									} 
 								}				
 								
@@ -136,101 +92,312 @@ var main =
 							}
 								
 							// Enable controls
-							document.getElementById ("customers").disabled = false;							
+							document.getElementById ("tree.customers").disabled = false;							
 						};
 
-		// Disable controls
-		document.getElementById ("customers").disabled = true;			
-						
 		didius.customer.list ({async: true, onDone: onDone});		
 		
 		document.title = "Auktions registering: "+ main.auction.title +" ["+ main.auction.no +"]";
+		
+		document.getElementById ("textbox.auctionno").value = main.auction.no;
+		document.getElementById ("textbox.auctiontitle").value = main.auction.title;	
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | SORT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	sort : function (attributes)
 	{			
 		main.customersTreeHelper.sort (attributes);		
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | FILTER																								|	
+	// ------------------------------------------------------------------------------------------------------
 	filter : function ()
 	{
-		var value = document.getElementById ("customerSearch").value;
+		var value = document.getElementById ("textbox.customersearch").value;
 		main.customersTreeHelper.filter ({column: "name", columns: "no,buyerno,name,address1,phone,email", value: value, direction: "in"});
 	},
-					
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onChange : function ()
+	{
+		if (main.mode == "EDIT")
+		{	
+			main.getCustomer ();
+																
+			document.getElementById ("textbox.customername").readOnly = false;			
+			document.getElementById ("textbox.customeraddress1").readOnly = false;
+			document.getElementById ("textbox.customeraddress2").readOnly = false;
+			document.getElementById ("textbox.customerpostcode").readOnly = false;
+			document.getElementById ("textbox.customercity").readOnly = false;
+			document.getElementById ("textbox.customerphone").readOnly = false;
+			document.getElementById ("textbox.customermobile").readOnly = false;
+			document.getElementById ("textbox.customeremail").readOnly = false;	
+				
+			document.getElementById ("textbox.customersearch").disabled = true;	
+			document.getElementById ("tree.customers").disabled = true;	
+			document.getElementById ("textbox.buyerno").disabled = true;	
+			document.getElementById ("button.buyernoset").disabled = true;
+			document.getElementById ("button.invoicecreate").disabled = true;
+			
+			document.getElementById ("button.customercreate").collapsed = true;
+			document.getElementById ("button.customeredit").collapsed = true;
+			document.getElementById ("button.customerclose").collapsed = false;						
+			document.getElementById ("button.customersave").collapsed = false;						
+			
+			if ((SNDK.tools.arrayChecksum (main.customer) != main.checksum))
+			{
+				document.getElementById ("button.customersave").disabled = false;
+			}	
+			else			
+			{
+				document.getElementById ("button.customersave").disabled = true;
+			}
+		}
+		else
+		{
+			document.getElementById ("textbox.customername").readOnly = true;
+			document.getElementById ("textbox.customeraddress1").readOnly = true;
+			document.getElementById ("textbox.customeraddress2").readOnly = true;
+			document.getElementById ("textbox.customerpostcode").readOnly = true;
+			document.getElementById ("textbox.customercity").readOnly = true;
+			document.getElementById ("textbox.customerphone").readOnly = true;
+			document.getElementById ("textbox.customermobile").readOnly = true;
+			document.getElementById ("textbox.customeremail").readOnly = true;	
+				
+			document.getElementById ("textbox.customersearch").disabled = false;	
+			document.getElementById ("tree.customers").disabled = false;	
+			document.getElementById ("textbox.buyerno").disabled = false;	
+			document.getElementById ("button.buyernoset").disabled = false;								
+			
+			document.getElementById ("button.customercreate").collapsed = false;
+			document.getElementById ("button.customeredit").collapsed = false;
+			document.getElementById ("button.customerclose").collapsed = true;						
+			document.getElementById ("button.customersave").collapsed = true;								
+			
+			if (main.customersTreeHelper.getCurrentIndex () != -1)
+			{	
+				if (main.customer)
+				{
+					if (main.customer.id != main.customersTreeHelper.getRow ().id)
+					{
+						main.customer = didius.customer.load (main.customersTreeHelper.getRow ().id);												
+						main.setCustomer ();
+					}
+				}										
+				else
+				{
+					main.customer = didius.customer.load (main.customersTreeHelper.getRow ().id);												
+					main.setCustomer ();
+				}
+			}			
+			
+//			if (main.customer != null)
+//			{	
+//				document.getElementById ("button.customercreate").disabled = true;								
+//				document.getElementById ("button.customercreate").collapsed = true;				
+			
+//				document.getElementById ("button.customerclose").disabled = false;
+//				document.getElementById ("button.customerclose").collapsed = false;
+//				document.getElementById ("button.customersave").disabled = false;
+//				document.getElementById ("button.customersave").collapsed = false;
+//			}
+//			else	
+//			{					
+//				document.getElementById ("button.customercreate").disabled = false;
+//				document.getElementById ("button.customercreate").collapsed = false;
+//			
+//				document.getElementById ("button.customerclose").disabled = true;
+//				document.getElementById ("button.customerclose").collapsed = true;
+//				document.getElementById ("button.customersave").disabled = true;
+//				document.getElementById ("button.customersave").collapsed = true;
+//			}
+		}	
+		
+				
+//			if ((SNDK.tools.arrayChecksum (main.customer) != main.checksum))
+//			{
+//				document.getElementById ("customerSave").disabled = false;
+//			}	
+//			else			
+//			{
+//				document.getElementById ("customerSave").disabled = true;
+//			}
+									
+			if ((document.getElementById ("textbox.buyerno").value == main.buyerNo) || (document.getElementById ("textbox.buyerno").value == ""))
+			{
+				document.getElementById ("button.buyernoset").disabled = true;
+			}
+			else
+			{
+				document.getElementById ("button.buyernoset").disabled = false;
+			}
+			
+			if (main.buyerNo != "")
+			{
+				document.getElementById ("button.invoicecreate").disabled = false;
+			}
+			else
+			{
+				document.getElementById ("button.invoicecreate").disabled = true;
+			}								
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------				
 	close : function ()
 	{							
 		// Unhook events.						
-		app.events.onAuctionDestroy.removeHandler (main.eventHandlers.onAuctionDestroy);
-		
-		app.events.onCustomerCreate.removeHandler (main.eventHandlers.onCustomerCreate);
-		app.events.onCustomerSave.removeHandler (main.eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.removeHandler (main.eventHandlers.onCustomerDestroy);
+		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);
+				
+		app.events.onCustomerSave.removeHandler (eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.removeHandler (eventHandlers.onCustomerDestroy);
 							
 		// Close window.		
 		window.close ();
 	},
 	
-	onChange : function ()
+	setCustomer : function ()
 	{
-		if (main.editCustomer)
-		{								
-			document.getElementById ("customername").readOnly = false;
-			document.getElementById ("customeraddress1").readOnly = false;
-			document.getElementById ("customeraddress2").readOnly = false;
-			document.getElementById ("customerpostcode").readOnly = false;
-			document.getElementById ("customercity").readOnly = false;
-			document.getElementById ("customerphone").readOnly = false;
-			document.getElementById ("customermobile").readOnly = false;
-			document.getElementById ("customeremail").readOnly = false;	
-				
-			document.getElementById ("customerSearch").disabled = true;	
-			document.getElementById ("customers").disabled = true;	
-			document.getElementById ("buyerNo").disabled = true;	
-			document.getElementById ("addBuyerNo").disabled = true;
-			document.getElementById ("invoiceCreate").disabled = true;
-			
-			document.getElementById ("customerButtonsBox1").collapsed = true;
-			document.getElementById ("customerButtonsBox2").collapsed = false;						
+		main.buyerNo = "";
+		
+		document.getElementById ("textbox.buyerno").value = "";
+		document.getElementById ("button.buyernoset").value = "";
+		document.getElementById ("button.invoicecreate").disabled = true;	
+	
+		document.getElementById ("textbox.customerno").value = main.customer.no;
+		document.getElementById ("textbox.customername").value = main.customer.name;			
+		document.getElementById ("textbox.customeraddress1").value = main.customer.address1;
+		document.getElementById ("textbox.customeraddress2").value = main.customer.address2;
+		document.getElementById ("textbox.customerpostcode").value = main.customer.postcode;
+		document.getElementById ("textbox.customercity").value = main.customer.city;
+		document.getElementById ("textbox.customerphone").value = main.customer.phone;
+		document.getElementById ("textbox.customermobile").value = main.customer.mobile;
+		document.getElementById ("textbox.customeremail").value = main.customer.email		
+		
+		for (var index in main.buyernos)
+		{					
+			if (main.buyernos[index] == main.customer.id)
+			{
+				main.buyerNo = index;
+				document.getElementById ("textbox.buyerno").value = index;					
+				document.getElementById ("button.invoicecreate").disabled = false;
+			}
 		}
-		else
+	},
+	
+	getCustomer : function ()
+	{
+		main.customer.name = document.getElementById ("textbox.customername").value;
+		main.customer.address1 = document.getElementById ("textbox.customeraddress1").value;
+		main.customer.address2 = document.getElementById ("textbox.customeraddress2").value;
+		main.customer.postcode = document.getElementById ("textbox.customerpostcode").value;
+		main.customer.city = document.getElementById ("textbox.customercity").value;
+		main.customer.phone = document.getElementById ("textbox.customerphone").value;
+		main.customer.mobile = document.getElementById ("textbox.customermobile").value;
+		main.customer.email = document.getElementById ("textbox.customeremail").value;			
+	},
+	
+	saveCustomer : function ()
+	{
+		main.getCustomer ();
+		didius.customer.save (main.customer);
+		main.closeCustomer ();
+	},
+	
+	closeCustomer : function ()
+	{
+		main.mode = "";
+		main.onChange ();
+	},
+	
+	setBuyerNo : function ()
+	{
+		var buyerno = document.getElementById ("textbox.buyerno").value;
+		var customerid = main.customer.id;		
+		
+		for (var index in main.buyernos)
+		{							
+			if (index == document.getElementById ("textbox.buyerno").value)
+			{
+				try
+				{
+					didius.customer.load (main.buyernos[index]);					
+					app.error ({errorCode: "APP00280"});
+					return;
+				}
+				catch (exception)
+				{						
+				}
+			}
+				
+			if (main.buyernos[index] == main.customer.id)
+			{
+				main.buyernos[index] = "";	
+			}
+//				app.error ({errorCode: "APP00280"});
+//				return;
+		}
+						
+		main.buyernos[buyerno] = main.customer.id;
+			
+		var buyernos = "";
+		for (var index in main.buyernos)
 		{
-			document.getElementById ("customername").readOnly = true;
-			document.getElementById ("customeraddress1").readOnly = true;
-			document.getElementById ("customeraddress2").readOnly = true;
-			document.getElementById ("customerpostcode").readOnly = true;
-			document.getElementById ("customercity").readOnly = true;
-			document.getElementById ("customerphone").readOnly = true;
-			document.getElementById ("customermobile").readOnly = true;
-			document.getElementById ("customeremail").readOnly = true;	
-				
-			document.getElementById ("customerSearch").disabled = false;	
-			document.getElementById ("customers").disabled = false;	
-			document.getElementById ("buyerNo").disabled = false;	
-			document.getElementById ("addBuyerNo").disabled = false;								
-			
-			document.getElementById ("customerButtonsBox1").collapsed = false;
-			document.getElementById ("customerButtonsBox2").collapsed = true;								
-		
-			if (main.customersTreeHelper.getCurrentIndex () != -1)
-			{										
-				main.customer = didius.customer.load (main.customersTreeHelper.getRow ().id);								
-			}			
-			
-			main.customers.set ();
-			
-			if (main.customer != null)
-			{					
-				document.getElementById ("customerEdit").disabled = false;
-			}
-			else	
-			{					
-				document.getElementById ("customerEdit").disabled = true;
+			if (main.buyernos[index] != "")
+			{
+				buyernos += index +":"+ main.buyernos[index]+"|";
 			}
 		}
-		
-		document.getElementById ("auctionno").value = main.auction.no;
-		document.getElementById ("auctiontitle").value = main.auction.title;	
+									
+		main.auction.buyernos = buyernos;		
+		didius.auction.save (main.auction);
+			
+		main.buyerNo = buyerno;
+		main.onChange ();
+			
+		var data = {};			
+		data.id = main.customer.id;
+		data.no = main.customer.no;
+		data.name = main.customer.name;
+		data.address1 = main.customer.address1;
+		data.city = main.customer.city;
+		data.phone = main.customer.phone;
+		data.email = main.customer.email;
+								
+		for (var index2 in main.buyernos)
+		{							
+			if (main.buyernos[index2] == main.customer.id)
+			{
+				data.buyerno = "#"+ index2;
+			} 
+		}				
+			
+		main.customersTreeHelper.setRow ({data: data});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------
+	createInvoice : function ()
+	{				
+		window.openDialog ("chrome://didius/content/invoice/create.xul", "didius.auction.invoice.show."+ SNDK.tools.newGuid (), "modal", {customerId: main.customer.id, auctionId: main.auction.id});
+	},
+	
+	createCustomer : function ()
+	{
+		main.mode = "EDIT";
+			
+		main.customer = didius.customer.create ();						
+		main.setCustomer ();
+		main.checksum = SNDK.tools.arrayChecksum (main.customer);
+		main.onChange ();
+		document.getElementById ("textbox.customername").focus ();
 	},
 	
 	buyerNo :
@@ -568,4 +735,55 @@ var main =
 			window.openDialog ("chrome://didius/content/auction/invoice/create.xul", "invoicecreate-"+ main.customer.id, "chrome, modal", {customerId: main.customer.id, auctionId: main.auction.id, onApprove: onApprove});
 		}
 	}
+}
+
+var eventHandlers =
+{
+	onAuctionDestroy : function (eventData)
+	{
+		if (main.auction.id == eventData.id)
+		{
+			main.close (true);
+		}
+	},
+					
+	onCustomerSave : function (eventData)
+	{	
+		var data = {};			
+		data.id = eventData.id;
+		data.no = eventData.no;
+		data.name = eventData.name;
+		data.address1 = eventData.address1;
+		data.city = eventData.city;
+		data.phone = eventData.phone;
+		data.email = eventData.email;
+							
+		for (var index in main.buyernos)
+		{							
+			data.buyerno = "";
+			if (main.buyernos[index] == main.customer.id)
+			{
+				data.buyerno = "#"+ index;
+			} 
+		}				
+		
+		main.customersTreeHelper.setRow ({data: data});
+	
+		if (main.customer.id == eventData.id)
+		{
+			main.customer = eventData;
+			main.setCustomer ();
+		}
+	},
+	
+	onCustomerDestroy : function (eventData)
+	{
+		main.customersTreeHelper.removeRow ({id: eventData.id});
+		
+		if (main.customer.id == eventData.id)
+		{
+			main.customer = null;
+			main.customers.set ();
+		}
+	}				
 }

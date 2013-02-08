@@ -173,6 +173,7 @@
 									<tab label="Faktura"/>
 									<tab label="Afregning"/>
 									<tab label="Salgsaftale"/>
+									<tab label="Kreditnota"/>
 								</tabs>
 							</arrowscrollbox>
 							
@@ -244,7 +245,19 @@
 											<textbox id="emailTemplateSalesAgreementBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 										</hbox>			
 									</vbox>
-				    			</tabpanel>				    			
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<hbox align="top">
+											<label class="Label">Emne:</label>
+											<textbox id="emailTemplateCreditnoteSubject" flex="1" onkeyup="main.onChange ();"/>
+										</hbox>							
+										<hbox align="top">
+											<label class="Label">Indhold:</label>
+											<textbox id="emailTemplateCreditnoteBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+										</hbox>			
+									</vbox>
+				    			</tabpanel>				    					    			
 							</tabpanels>						
 						</tabbox>
 					</hbox>										
@@ -266,6 +279,8 @@
 									<tab label="Internt katalog"/>
 									<tab label="Salgsaftale"/>
 									<tab label="Afregning"/>
+									<tab label="Faktura"/>
+									<tab label="Kreditnota"/>
 								</tabs>
 							</arrowscrollbox>
 							
@@ -288,6 +303,16 @@
 				    			<tabpanel flex="1">
 									<vbox flex="1">		
 										<textbox id="templatesSettlement" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+									</vbox>
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<textbox id="templatesInvoice" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+									</vbox>
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<textbox id="templatesCreditnote" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 									</vbox>
 				    			</tabpanel>
 							</tabpanels>

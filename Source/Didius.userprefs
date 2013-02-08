@@ -1,13 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/common/print/settlement.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/signin.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.js" Line="91" Column="17" />
-      <File FileName="Didius/Application/xul/chrome/content/case/settlement/show.xul" Line="32" Column="10" />
-      <File FileName="Didius/Application/js/didius/common/print/settlement.js" Line="18" Column="7" />
-      <File FileName="Didius/Application/js/didius/common/print/salesagreement.js" Line="421" Column="15" />
-      <File FileName="Didius/Didius/Helpers.cs" Line="110" Column="46" />
-      <File FileName="Didius/Didius.Addin/Function.cs" Line="239" Column="7" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/signin.js" Line="315" Column="18" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/signin.xul" Line="87" Column="61" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/edit.js" Line="10" Column="107" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="751" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,34 +13,23 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
-                <Node name="didius" expanded="True">
-                  <Node name="common" expanded="True">
-                    <Node name="print" expanded="True">
-                      <Node name="settlement.js" selected="True" />
-                    </Node>
-                  </Node>
-                </Node>
+                <Node name="didius" expanded="True" />
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="case" expanded="True">
-                      <Node name="salesagreement" expanded="True" />
-                      <Node name="settlement" expanded="True" />
+                    <Node name="auction" expanded="True">
+                      <Node name="signin.js" selected="True" />
                     </Node>
-                    <Node name="templates" expanded="True" />
-                  </Node>
-                  <Node name="icons" expanded="True">
-                    <Node name="default" expanded="True" />
+                    <Node name="case" expanded="True" />
+                    <Node name="chooser" expanded="True" />
+                    <Node name="customer" expanded="True" />
+                    <Node name="invoice" expanded="True" />
+                    <Node name="main" expanded="True" />
                   </Node>
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True" />
-            <Node name="Didius.Enums" expanded="True" />
-            <Node name="Didius.Strings" expanded="True" />
-            <Node name="resources" expanded="True" />
           </Node>
         </State>
       </Pad>

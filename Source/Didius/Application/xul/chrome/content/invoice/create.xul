@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window id="didius.invoice.create" title="Opret faktura" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
+	
+	<script type="application/x-javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/x-javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
+	<script type="application/x-javascript" src="chrome://didius/content/js/didius.js"/>		
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
+	<script type="application/x-javascript" src="chrome://didius/content/invoice/create.js"/>	
+			
+	<keyset>
+  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+			
+	<hbox class="Main" flex="1">
+		<tabbox selectedIndex="0" flex="1">								
+			<tabpanels flex="1">
+				<tabpanel flex="1">
+					<vbox flex="1">						
+						<groupbox>
+							<caption label="Linjer"/>	
+							<hbox align="center">
+								<tree id="items" flex="1" hidecolumnpicker="true" readonly="true" seltype="single" height="200">
+									<treecols>
+										<treecol id="id" hidden="true"/>										
+										<treecol id="no" hidden="true"/>										
+										<treecol id="text" label="Tekst" flex="3" persist="width" />
+										<treecol id="amount" label="Salgs pris" flex="1" persist="width" style="text-align: right;"/>										
+										<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;"/>
+										<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>
+									</treecols>								
+								</tree>
+							</hbox>							
+						</groupbox>						
+																		
+						<groupbox>
+							<caption label="Total"/>							
+							<hbox align="center">
+								<label class="Label">Salg:</label>							
+								<textbox id="totalSale" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" disabled="true"/>
+								<label> kr.</label>
+							</hbox>  					
+							<hbox align="center">
+								<label class="Label">Salær:</label>								
+								<textbox id="totalCommissionFee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" disabled="true"/>
+								<label> kr.</label>
+							</hbox>  												
+							<hbox align="center">
+								<label class="Label">Moms:</label>								
+								<textbox id="totalVat" type="number" min="-Infinity" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" disabled="true"/>
+								<label> kr.</label>
+							</hbox>  												
+							<hbox align="center">
+								<label class="Label">I alt:</label>								
+								<textbox id="totalTotal" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" disabled="true"/>
+								<label> kr.</label>
+							</hbox>  					
+						</groupbox>
+					</vbox>
+    			</tabpanel>
+			</tabpanels>
+		</tabbox>
+	</hbox>
+	
+	<hbox class="WindowButtons">
+		<hbox align="left" flex="1"> 						
+			<checkbox id="printInvoice" label="Udskriv faktura" checked="true" disabled="true"/>
+			<checkbox id="mailInvoice" label="Send faktura på e-mail" checked="true" disabled="true"/>			
+		</hbox>
+		<hbox align="right" flex="1"> 
+			<button id="close" label="Luk" oncommand="main.close ();" disabled="true" />
+			<button id="create" label="Godkend" oncommand="main.create ();" disabled="true"/>
+		</hbox>
+	</hbox>
+</window>

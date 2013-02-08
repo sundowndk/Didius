@@ -103,32 +103,6 @@ var app =
 	{
 		// Make so everybody can get to the main window.
 		app.mainWindow = mainWindow;
-	
-		// Setup events.
-//		app.events.onCustomerCreate = new event ();
-//		app.events.onCustomerLoad = new event ();
-//		app.events.onCustomerSave = new event ();
-//		app.events.onCustomerDestroy = new event ();
-		
-//		app.events.onCaseCreate = new event ();
-//		app.events.onCaseLoad = new event ();
-//		app.events.onCaseSave = new event ();
-//		app.events.onCaseDestroy = new event ();
-		
-//		app.events.onItemCreate = new event ();
-//		app.events.onItemLoad = new event ();
-//		app.events.onItemSave = new event ();
-//		app.events.onItemDestroy = new event ();
-				
-//		app.events.onAuctionCreate = new event ();
-//		app.events.onAuctionLoad = new event ();
-//		app.events.onAuctionSave = new event ();
-//		app.events.onAuctionDestroy = new event ();
-		
-//		app.events.onNewsletterCreate = new event ();
-//		app.events.onNewsletterLoad = new event ();
-//		app.events.onNewsletterSave = new event ();
-//		app.events.onNewsletterDestroy = new event ();
 			
 		if (app.session.OS == "Linux")
 		{
@@ -161,14 +135,33 @@ var app =
 	{
 		customer : function (attributes)
 		{
-			app.mainWindow.openDialog ("chrome://didius/content/chooser/customer.xul", "test", "chrome", attributes);
-		}	
+			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/customer.xul", "didius.chooser.customer", "chrome,modal", attributes);				
+		},
+		
+		auction : function (attributes)
+		{			
+			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/auction.xul", "didius.chooser.auction", "chrome,modal", attributes);				
+		},
+		
+		item : function (attributes)
+		{
+			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/item.xul", "didius.chooser.item", "chrome,modal", attributes);											
+		}
 	},
 	
 	window :
 	{
+		focusTab : function (tab)
+		{
+			tab.click ();
+			//document.getElementById (tab).click ();
+		},
+	
 		open : function (window, url, name, features, args)
 		{
+			if (window == null)
+				window = app.mainWindow;
+		
 			var openNewWindow = true;
 			var windowManager = Components.classes['@mozilla.org/appshell/window-mediator;1'].getService(Components.interfaces.nsIWindowMediator);
 			var test = windowManager.getEnumerator (null);
@@ -185,7 +178,21 @@ var app =
 
 			if (openNewWindow) 
 			{
+				if (features == null)
+					features = "resizable=yes,dialog=no,centerscreen=yes";
+			
+//				args.wrappedJSObject = args;
+ 
+//				var win = Components.classes["@mozilla.org/embedcomp/window-watcher;1"].getService(Components.interfaces.nsIWindowWatcher);
+ 
+//				win.openWindow (null, url, name, features, args);
+
+				// In the window code
+				//var args = window.arguments[0].wrappedJSObject;
+			
+			
   				var win = window.openDialog (url, name, features, args);
+  				//var win = window.open ()
   				return win;
 			}		
 		},

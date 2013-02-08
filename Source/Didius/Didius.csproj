@@ -11,14 +11,14 @@
     <AssemblyName>Didius</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\cgi-bin\Addins\Didius\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <ConsolePause>false</ConsolePause>
     <CustomCommands>
       <CustomCommands>
         <Command type="AfterBuild" command="build.sh ${TargetDir}" />
@@ -27,22 +27,22 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>True</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\Didius\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Test</OutputPath>
     <WarningLevel>4</WarningLevel>
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppDebug|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\AppDebug</OutputPath>
     <WarningLevel>4</WarningLevel>
     <CustomCommands>
@@ -97,6 +97,9 @@
     <Compile Include="Didius\AutoBid.cs" />
     <Compile Include="Didius.Enums\SettingsKey.cs" />
     <Compile Include="Didius\Newsletter.cs" />
+    <Compile Include="Didius\Creditnote.cs" />
+    <Compile Include="Didius\CreditnoteLine.cs" />
+    <Compile Include="Didius\InvoiceLine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -145,7 +148,6 @@
     <Folder Include="resources\scripts\" />
     <Folder Include="Application\xul\chrome\content\case\" />
     <Folder Include="Application\xul\chrome\content\case\settlement\" />
-    <Folder Include="Application\xul\chrome\content\auction\invoice\" />
     <Folder Include="Application\xul\chrome\content\newsletter\" />
     <Folder Include="Application\js\didius\common\" />
     <Folder Include="Application\js\didius\common\print\" />
@@ -156,12 +158,9 @@
     <Folder Include="Application\xul\chrome\icons\" />
     <Folder Include="Application\xul\chrome\icons\default\" />
     <Folder Include="Application\xul\chrome\content\item\" />
-    <Folder Include="Application\xul\chrome\content\itemedit-REMOVE\" />
-    <Folder Include="Application\xul\chrome\content\customeredit-REMOVE\" />
-    <Folder Include="Application\xul\chrome\content\printing-REMOVE\" />
-    <Folder Include="Application\xul\chrome\content\caseedit-REMOVE\" />
-    <Folder Include="Application\xul\chrome\content\auctionedit-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\catalogedit-REMOVE\" />
+    <Folder Include="Application\xul\chrome\content\invoice\" />
+    <Folder Include="Application\xul\chrome\content\creditnote\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -259,11 +258,7 @@
     <None Include="Application\xul\chrome\content\case\settlement\print.js" />
     <None Include="Application\xul\chrome\content\case\settlement\print.xul" />
     <None Include="Application\js\didius\invoice.js" />
-    <None Include="Application\xul\chrome\content\auction\invoice\show.js" />
-    <None Include="Application\xul\chrome\content\auction\invoice\show.xul" />
     <None Include="Application\xul\chrome\content\templates\invoice.tpl" />
-    <None Include="Application\xul\chrome\content\auction\invoice\create.js" />
-    <None Include="Application\xul\chrome\content\auction\invoice\create.xul" />
     <None Include="Application\xul\chrome\content\auctionrun\display.xul" />
     <None Include="Application\xul\chrome\content\auctionrun\display.js" />
     <None Include="Application\xul\chrome\content\templates\display.tpl" />
@@ -288,10 +283,6 @@
     <None Include="Application\js\didius\common\print\invoice.js" />
     <None Include="Application\xul\chrome\content\auction\edit.js" />
     <None Include="Application\xul\chrome\content\auction\edit.xul" />
-    <None Include="Application\xul\chrome\content\auction\invoice\progress.xul" />
-    <None Include="Application\xul\chrome\content\auction\invoice\progress.js" />
-    <None Include="Application\xul\chrome\content\auction\invoice\print.js-REMOVE" />
-    <None Include="Application\xul\chrome\content\auction\invoice\print.xul-REMOVE" />
     <None Include="Application\js\didius\common\print\salesagreement.js" />
     <None Include="Application\xul\chrome\content\case\salesagreement\show.js" />
     <None Include="Application\xul\chrome\content\case\salesagreement\show.xul" />
@@ -303,7 +294,6 @@
     <None Include="Application\xul\chrome\content\bug\report.js" />
     <None Include="Application\xul\chrome\content\bug\progress.xul" />
     <None Include="Application\xul\chrome\content\bug\progress.js" />
-    <None Include="Application\xul\chrome\content\customer\edit.js" />
     <None Include="Application\xul\chrome\content\customer\edit.xul" />
     <None Include="Application\xul\chrome\content\icons\logo.svg" />
     <None Include="Application\xul\chrome\content\icons\newsletter.png" />
@@ -325,20 +315,33 @@
     <None Include="Application\xul\chrome\icons\default\didius.main.xpm" />
     <None Include="Application\xul\chrome\content\item\edit.xul" />
     <None Include="Application\xul\chrome\content\item\edit.js" />
-    <None Include="Application\xul\chrome\content\itemedit-REMOVE\itemedit.xul" />
-    <None Include="Application\xul\chrome\content\itemedit-REMOVE\itemedit.js" />
-    <None Include="Application\xul\chrome\content\customeredit-REMOVE\customeredit.js" />
-    <None Include="Application\xul\chrome\content\customeredit-REMOVE\customeredit.xul" />
-    <None Include="Application\xul\chrome\content\printing-REMOVE\test.html" />
-    <None Include="Application\xul\chrome\content\printing-REMOVE\test.css" />
-    <None Include="Application\xul\chrome\content\caseedit-REMOVE\caseedit.js" />
-    <None Include="Application\xul\chrome\content\caseedit-REMOVE\caseedit.xul" />
-    <None Include="Application\xul\chrome\content\auctionedit-REMOVE\auctionedit.js" />
-    <None Include="Application\xul\chrome\content\auctionedit-REMOVE\auctionedit.xul" />
     <None Include="Application\xul\chrome\content\catalogedit-REMOVE\catalogedit.js" />
     <None Include="Application\xul\chrome\content\catalogedit-REMOVE\catalogedit.xul" />
     <None Include="Application\xul\chrome\content\case\settlement\progress.js" />
     <None Include="Application\xul\chrome\content\case\settlement\progress.xul" />
+    <None Include="Application\xul\chrome\content\customer\edit.js" />
+    <None Include="Application\xul\chrome\content\chooser\auction.js" />
+    <None Include="Application\xul\chrome\content\chooser\auction.xul" />
+    <None Include="Application\xul\chrome\content\chooser\item.xul" />
+    <None Include="Application\xul\chrome\content\chooser\item.js" />
+    <None Include="Application\xul\chrome\content\invoice\create.js" />
+    <None Include="Application\xul\chrome\content\invoice\create.xul" />
+    <None Include="Application\xul\chrome\content\invoice\progress.js" />
+    <None Include="Application\xul\chrome\content\invoice\progress.xul" />
+    <None Include="Application\xul\chrome\content\invoice\show.js" />
+    <None Include="Application\xul\chrome\content\invoice\show.xul" />
+    <None Include="Application\xul\chrome\content\creditnote\show.js" />
+    <None Include="Application\xul\chrome\content\creditnote\show.xul" />
+    <None Include="Application\xul\chrome\content\creditnote\progress.js" />
+    <None Include="Application\xul\chrome\content\creditnote\progress.xul" />
+    <None Include="Application\xul\chrome\content\creditnote\create.js" />
+    <None Include="Application\xul\chrome\content\creditnote\create.xul" />
+    <None Include="Application\js\didius\creditnote.js" />
+    <None Include="Application\js\didius\common\print\creditnote.js" />
+    <None Include="Application\js\didius\common\print\catalog.js" />
+    <None Include="Application\js\didius\common\print\label.js" />
+    <None Include="Application\xul\chrome\content\auction\turnover.xul" />
+    <None Include="Application\xul\chrome\content\auction\turnover.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

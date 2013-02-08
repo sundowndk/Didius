@@ -12,19 +12,18 @@ var didius =
 	runtime :
 	{
 		ajaxUrl1 : "http://sorentotest.sundown.dk/",
-		ajaxUrl : "http://78.109.223.248/",
+		ajaxUrl2 : "http://78.109.223.248/",
+		ajaxUrl : "http://york.didius.qnax.net/",
 		browserMode: false,
 		
 		initialize : function ()
 		{
 			try
-			{
-				app.events.onCustomerCreate = new sXUL.event ({id: "onCustomerCreate", remotePropagation: true});
+			{		
 				app.events.onCustomerLoad = new sXUL.event ({id: "onCustomerLoad", remotePropagation: true});
 				app.events.onCustomerSave = new sXUL.event ({id: "onCustomerSave", remotePropagation: true});
 				app.events.onCustomerDestroy = new sXUL.event ({id: "onCustomerDestroy", remotePropagation: true});
-			
-				app.events.onAuctionCreate = new sXUL.event ({id: "onAuctionCreate", remotePropagation: true});
+					
 				app.events.onAuctionLoad = new sXUL.event ({id: "onAuctionLoad", remotePropagation: true});
 				app.events.onAuctionSave = new sXUL.event ({id: "onAuctionSave", remotePropagation: true});
 				app.events.onAuctionDestroy = new sXUL.event ({id: "onAuctionDestroy", remotePropagation: true});
@@ -39,7 +38,6 @@ var didius =
 				app.events.onItemSave = new sXUL.event ({id: "onItemSave", remotePropagation: true});
 				app.events.onItemDestroy = new sXUL.event ({id: "onItemDestroy", remotePropagation: true});
 			
-				app.events.onBidCreate = new sXUL.event ({id: "onBidCreate", remotePropagation: true});
 				app.events.onBidLoad = new sXUL.event ({id: "onBidLoad", remotePropagation: true});
 				app.events.onBidSave = new sXUL.event ({id: "onBidSave", remotePropagation: true});
 				app.events.onBidDestroy = new sXUL.event ({id: "onBidDestroy", remotePropagation: true});
@@ -49,6 +47,9 @@ var didius =
 			
 				app.events.onInvoiceCreate = new sXUL.event ({id: "onInvoiceCreate", remotePropagation: true});
 				app.events.onInvoiceLoad = new sXUL.event ({id: "onInvoiceLoad", remotePropagation: true});
+				
+				app.events.onCreditnoteCreate = new sXUL.event ({id: "onCreditnoteCreate", remotePropagation: true});
+				app.events.onCreditnoteLoad = new sXUL.event ({id: "onCreditnoteLoad", remotePropagation: true});
 			
 				app.events.onUserCreate = new sXUL.event ({id: "onUserCreate", remotePropagation: true});
 				app.events.onUserLoad = new sXUL.event ({id: "onUserLoad", remotePropagation: true});
@@ -83,9 +84,6 @@ var didius =
 			
 			var result = request.respons ()["didius.customer"];
 				
-		//	if (!didius.runtime.browserMode)			
-		//		app.events.onCustomerCreate.execute (result);
-			
 			return result;
 		},
 			
@@ -99,8 +97,8 @@ var didius =
 		
 			var result = request.respons ()["didius.customer"];
 			
-		//	if (!didius.runtime.browserMode)		
-		//		app.events.onCustomerLoad.execute (result);
+			if (!didius.runtime.browserMode)		
+				app.events.onCustomerLoad.execute (result);
 		
 			return result;
 		},
@@ -113,8 +111,8 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Customer.Save", "data", "POST", false);		
 			request.send (content);
 			
-		//	if (!didius.runtime.browserMode)	
-		//		app.events.onCustomerSave.execute (customer);
+			if (!didius.runtime.browserMode)	
+				app.events.onCustomerSave.execute (customer);
 		},		
 		
 		destroy : function (id)
@@ -128,8 +126,8 @@ var didius =
 			var data = {};
 			data.id = id;
 			
-		//	if (!didius.runtime.browserMode)	
-		//		app.events.onCustomerDestroy.execute (data);
+			if (!didius.runtime.browserMode)	
+				app.events.onCustomerDestroy.execute (data);
 		},				
 				
 		list : function (attributes)
@@ -252,60 +250,151 @@ var didius =
 	// ---------------------------------------------------------------------------------------------------------------
 	case :
 	{
-		create : function (Auction, Customer)
+		create : function (attributes)
 		{
-			var content = new Array ();
-			content.customerid = Customer.id;
-			content.auctionid = Auction.id;
+			var cmd = "cmd=Ajax;cmd.function=Didius.Case.Create";
+			var content = new Array ();	
 		
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Create", "data", "POST", false);	
-			request.send (content);
+			if (attributes.customerId)
+				content.customerid = attributes.customerId;	
+		
+			if (attributes.customer)
+				content.customerid = attributes.customer.id;
+				
+			if (attributes.auctionId)
+				content.auctionid = attributes.auctionId;	
+		
+			if (attributes.auction)
+				content.auctionid = attributes.auction.id;			
+				
+			if (attributes.onDone != null)
+			{
+				var onDone = 	function (respons)
+								{
+									attributes.onDone (respons["didius.case"]);
+								};
+								
+				var onError = 	function (exception)
+								{
+									if (attributes.onError != null)							
+										attributes.onError (exception);
+								};
+					
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}		
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+				request.send (content);
 			
-			var result = request.respons ()["didius.case"];
-			
-		//	app.events.onCaseCreate.execute (result);
-			
-			return result;
+				var result = request.respons ()["didius.case"];
+				return result;
+			}	
 		},
 			
-		load : function (id)
+		load : function (attributes)
 		{
+			var cmd = "cmd=Ajax;cmd.function=Didius.Case.Load";
+			
 			var content = new Array ();
-			content.id = id;
+			content.id = attributes.id;
 		
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Load", "data", "POST", false);		
 			request.send (content);
 		
 			var result = request.respons ()["didius.case"];
 			
-		//	app.events.onCaseLoad.execute (result); 
+			if (!didius.runtime.browserMode)		
+				app.events.onCaseLoad.execute (result); 
 		
 			return result;
 		},
 				
-		save : function (case_)
+		save : function (attributes)
 		{	
+			var cmd = "cmd=Ajax;cmd.function=Didius.Case.Save";	
 			var content = new Array ();
-			content["didius.case"] = case_;
-										
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Save", "data", "POST", false);	
-			request.send (content);
-			
-		//	app.events.onCaseSave.execute (case_);
+				
+			content["didius.case"] = attributes.case;
+		
+			if (attributes.onDone != null)
+			{
+				var onDone = 	function ()
+								{
+									if (!didius.runtime.browserMode)	
+										app.events.onCaseSave.execute (attributes.case);
+								
+									attributes.onDone ();
+								};
+								
+				var onError = 	function (exception)
+								{
+									if (attributes.onError != null)							
+										attributes.onError (exception);
+								};
+					
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}		
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+				request.send (content);		
+				
+				if (!didius.runtime.browserMode)	
+					app.events.onCaseSave.execute (attributes.case);
+			}	
 		},		
 		
-		destroy : function (id)
+		destroy : function (attributes)
 		{
+			var cmd = "cmd=Ajax;cmd.function=Didius.Case.Destroy";
 			var content = new Array ();
-			content.id = id;
-		
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Case.Destroy", "data", "POST", false);	
-			request.send (content);				
 			
-			var data = {};
-			data.id = id;
+			content.id = attributes.id;
 			
-		//	app.events.onCaseDestroy.execute (data);
+			if (attributes.onDone != null)
+			{
+				var onDone = 	function ()
+								{
+									if (!didius.runtime.browserMode)	
+									{	
+										var data = {};
+										data.id = attributes.id;
+										app.events.onCaseDestroy.execute (data);		
+									}
+								
+									attributes.onDone ();
+								};
+								
+				var onError = 	function (exception)
+								{
+									if (attributes.onError != null)							
+										attributes.onError (exception);
+								};
+					
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}		
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+				request.send (content);		
+				
+				if (!didius.runtime.browserMode)	
+				{	
+					var data = {};
+					data.id = attributes.id;
+					app.events.onCaseDestroy.execute (data);		
+				}
+			}				
 		},				
 				
 		list : function (attributes)
@@ -362,63 +451,172 @@ var didius =
 	// ---------------------------------------------------------------------------------------------------------------
 	item :
 	{
-		create : function (Case)	
+		create : function (attributes)	
 		{
+			var cmd = "cmd=Ajax;cmd.function=Didius.Item.Create";
 			var content = new Array ();
-			content.caseid = Case.id;
+			
+			if (attributes.caseId)
+				content.caseid = attributes.caseId;
+			
+			if (attributes.case)
+				content.caseid = attributes.case.id;
+				
+				
 		
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Create", "data", "POST", false);	
-			request.send (content);
+			if (attributes.onDone != null)
+			{
+				var onDone = 	function (respons)
+								{
+									attributes.onDone (respons["didius.item"]);
+								};
+								
+				var onError = 	function (exception)
+								{
+									if (attributes.onError != null)							
+										attributes.onError (exception);
+								};
+					
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}		
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+				request.send (content);
 			
-			var result = request.respons ()["didius.item"];
-			
-		//	if (!didius.runtime.browserMode)	
-		//		app.events.onItemCreate.execute (result);
-			
-			return result;
+				var result = request.respons ()["didius.item"];
+				return result;
+			}		
 		},
 			
-		load : function (id)
+		load : function (attributes)
 		{
+			var cmd = "cmd=Ajax;cmd.function=Didius.Item.Load";
 			var content = new Array ();
-			content.id = id;
+			content.id = attributes.id;
 		
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Load", "data", "POST", false);		
-			request.send (content);
-		
-			var result = request.respons ()["didius.item"];
+			if (attributes.onDone != null)
+			{
+				var onDone = 	function (respons)
+								{
+									if (!didius.runtime.browserMode)	
+										app.events.onItemLoad.execute (respons["didius.item"]);
+								
+									attributes.onDone (respons["didius.item"]);
+								};
+								
+				var onError = 	function (exception)
+								{
+									if (attributes.onError != null)							
+										attributes.onError (exception);
+								};
+					
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}		
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+				request.send (content);
 			
-		//	if (!didius.runtime.browserMode)	
-		//		app.events.onItemLoad.execute (result);
-		
-			return result;
+				var result = request.respons ()["didius.item"];
+				
+				if (!didius.runtime.browserMode)	
+					app.events.onItemLoad.execute (result);
+				
+				return result;
+			}
 		},
 				
-		save : function (item)
+		save : function (attributes)
 		{	
+			var cmd = "cmd=Ajax;cmd.function=Didius.Item.Save";
 			var content = new Array ();
-			content["didius.item"] = item;
+			
+			content["didius.item"] = attributes.item;
+			
+			if (attributes.onDone != null)
+			{
+				var onDone = 	function (respons)
+								{
+									if (!didius.runtime.browserMode)	
+										app.events.onItemSave.execute (respons["didius.item"]);
+								
+									attributes.onDone (respons["didius.item"]);
+								};
+								
+				var onError = 	function (exception)
+								{
+									if (attributes.onError != null)							
+										attributes.onError (exception);
+								};
+					
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}		
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+				request.send (content);
+				
+				var result = request.respons ()["didius.item"];
 										
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Save", "data", "POST", false);	
-			request.send (content);
-		
-		//	if (!didius.runtime.browserMode)	
-		//		app.events.onItemSave.execute (item);
+				if (!didius.runtime.browserMode)	
+					app.events.onItemSave.execute (result);
+			}									
 		},		
 		
-		destroy : function (id)
+		destroy : function (attributes)
 		{
+			var cmd = "cmd=Ajax;cmd.function=Didius.Item.Destroy";
 			var content = new Array ();
-			content.id = id;
-		
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Item.Destroy", "data", "POST", false);	
-			request.send (content);
 			
-			var data = {}
-			data.id = id;
-				
-		//	if (!didius.runtime.browserMode)		
-		//		app.events.onItemDestroy.execute (data);
+			content.id = attributes.id;
+			
+			if (attributes.onDone != null)
+			{
+				var onDone = 	function (respons)
+								{
+									if (!didius.runtime.browserMode)			
+									{
+										var data = {}
+										data.id = attributes.id;	
+										app.events.onItemDestroy.execute (data);
+									}
+								
+									attributes.onDone ();
+								};
+								
+				var onError = 	function (exception)
+								{
+									if (attributes.onError != null)							
+										attributes.onError (exception);
+								};
+					
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}		
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+				request.send (content);
+						
+				if (!didius.runtime.browserMode)			
+				{
+					var data = {}
+					data.id = attributes.id;	
+					app.events.onItemDestroy.execute (data);
+				}				
+			}					
 		},		
 		
 		bid : function (item, amount, onDone)
@@ -464,7 +662,7 @@ var didius =
 			}
 			else if (attributes.auctionId)
 			{
-				content.auctionId = attributes.auctionId;
+				content.auctionid = attributes.auctionId;
 			}
 			
 			if (attributes.async)
@@ -496,67 +694,189 @@ var didius =
 	// ---------------------------------------------------------------------------------------------------------------
 	bid :
 	{
-		create : function (customer, item, amount)
+		// ----------------------------------------------------------------------------------------------------------
+		// | CREATE																									|
+		// ----------------------------------------------------------------------------------------------------------
+		create : function (attributes)
 		{	
+			var cmd = "cmd=Ajax;cmd.function=Didius.Bid.Create";
+		
 			var content = new Array ();
-			content.customerid = customer.id;
-			content.itemid = item.id;
-			content.amount = amount;
+			content.customerid = attributes.customer.id;
+			content.itemid = attributes.item.id;
+			content.amount = attributes.amount;
 			
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Create", "data", "POST", false);	
-			request.send (content);
-			
-			var result = request.respons ()["didius.bid"];
-			
-		//	app.events.onBidCreate.execute (result);
-			
-			return result;
+			if (attributes.onDone != null)
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);	
+				
+				var onDone = 	function (respons)
+								{
+		//							if (!didius.runtime.browserMode)		
+		//								app.events.onBidLoad.execute (respons["didius.bid"]);
+										
+									attributes.onDone (respons["didius.bid"]);
+								};
+								
+				var onError = 	function (exception)
+								{
+									attributes.onError (exception);
+								};
+					
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);	
+				request.send (content);	
+				
+				var result = request.respons ()["didius.bid"];
+				
+		//		if (!didius.runtime.browserMode)		
+		//			app.events.onBidCreate.execute (result);
+					
+				return result;
+			}
 		},
 			
-		load : function (id)
+		// ----------------------------------------------------------------------------------------------------------
+		// | LOAD																									|
+		// ----------------------------------------------------------------------------------------------------------
+		load : function (attributes)
 		{
+			var cmd = "cmd=Ajax;cmd.function=Didius.Bid.Load";
+		
 			var content = new Array ();
-			content.id = id;
-		
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Load", "data", "POST", false);		
-			request.send (content);
-		
-			var result = request.respons ()["didius.bid"];
+			content.id = attributes.id;
 			
-		//	app.events.onBidLoad.execute (result);
-		
-			return result;
+			if (attributes.onDone != null)
+			{	
+				var onDone = 	function (respons)
+								{
+									if (!didius.runtime.browserMode)		
+										app.events.onBidLoad.execute (respons["didius.bid"]);
+										
+									attributes.onDone (respons["didius.bid"]);
+								};
+								
+				var onError = 	function (exception)
+								{
+									attributes.onError (exception);
+								};
+					
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+				request.send (content);
+				
+				var result = request.respons ()["didius.bid"];
+				
+				if (!didius.runtime.browserMode)		
+					app.events.onBidLoad.execute (result);
+					
+				return result;
+			}
 		},
 				
-		save : function (bid)
+		// ----------------------------------------------------------------------------------------------------------
+		// | SAVE																									|
+		// ----------------------------------------------------------------------------------------------------------		
+		save : function (attributes)
 		{	
-			var content = new Array ();
-			content["didius.bid"] = bid;
-										
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Save", "data", "POST", false);	
-			request.send (content);
+			var cmd = "cmd=Ajax;cmd.function=Didius.Bid.Save";
 		
-		//	app.events.onBidSave.execute (bid);
+			var content = new Array ();
+			content["didius.bid"] = attributes.bid;
+										
+			if (attributes.onDone != null)
+			{	
+				var onDone = 	function (respons)
+								{
+									if (!didius.runtime.browserMode)		
+										app.events.onBidSave.execute (attributes.bid);						
+										
+									attributes.onDone ();
+								};
+								
+				var onError = 	function (exception)
+								{
+									attributes.onError (exception);
+								};
+			
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}
+			else	
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);	
+				request.send (content);
+				
+				if (!didius.runtime.browserMode)		
+					app.events.onBidSave.execute (attributes.bid);
+			}		
 		},		
 		
-		destroy : function (id)
+		// ----------------------------------------------------------------------------------------------------------
+		// | DESTROY																								|
+		// ----------------------------------------------------------------------------------------------------------
+		destroy : function (attributes)
 		{
-			var content = new Array ();
-			content.id = id;
+			var cmd = "cmd=Ajax;cmd.function=Didius.Bid.Destroy";
 		
-			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.Destroy", "data", "POST", false);	
-			request.send (content);
-			
-			var data = {}
-			data.id = id;
+			var content = new Array ();
+			content.id = attributes.id;
+		
+			if (attributes.onDone != null)
+			{
+				var onDone = 	function (respons)
+								{
+									var data = {}
+									data.id = id;
+									
+									if (!didius.runtime.browserMode)		
+										app.events.onBidDestroy.execute (data);
+								};
+								
+				var onError = 	function (exception)
+								{
+									attributes.onError (exception);
+								};
 					
-		//	app.events.onBidDestroy.execute (data);
-		},				
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+				request.onLoaded (onDone);
+				request.onError (onError);
+				request.send (content);	
+			}
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd , "data", "POST", false);	
+				request.send (content);
 				
+				var data = {}
+				data.id = attributes.id;
+				
+				if (!didius.runtime.browserMode)		
+					app.events.onBidDestroy.execute (data);
+			}
+		},				
+			
+		// ----------------------------------------------------------------------------------------------------------
+		// | LIST																									|
+		// ----------------------------------------------------------------------------------------------------------			
 		list : function (attributes)
 		{
-			if (!attributes) attributes = new Array ();
-			
+			var cmd = "cmd=Ajax;cmd.function=Didius.Bid.List";
+		
 			var content = new Array ();
 			
 			// ITEM
@@ -571,22 +891,28 @@ var didius =
 				content.customerid = attributes.customer.id;
 			}	
 			
-			if (attributes.async)
+			
+			if (attributes.onDone)
 			{
 				var onDone = 	function (respons)
 								{
 									attributes.onDone (respons["didius.bids"]);
 								};
+								
+				var onError =	function (exception)
+								{
+									attributes.onError (exception);
+								};
 				
-				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.List", "data", "POST", true);
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);
 				request.onLoaded (onDone);
+				request.onError (onError);
 				request.send (content);
 			}
 			else
 			{
-				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Bid.List", "data", "POST", false);		
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);		
 				request.send (content);
-		
 				return request.respons ()["didius.bids"];
 			}
 		}	
@@ -607,8 +933,6 @@ var didius =
 			
 			var result = request.respons ()["didius.auction"];
 			
-		//	app.events.onAuctionCreate.execute (result);
-			
 			return result;
 		},
 			
@@ -622,7 +946,8 @@ var didius =
 		
 			var result = request.respons ()["didius.auction"];
 			
-		//	app.events.onAuctionLoad.execute (result);
+			if (!didius.runtime.browserMode)			
+				app.events.onAuctionLoad.execute (result);
 		
 			return result;
 		},
@@ -635,7 +960,8 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Auction.Save", "data", "POST", false);	
 			request.send (content);
 			
-		//	app.events.onAuctionSave.execute (auction);
+			if (!didius.runtime.browserMode)			
+				app.events.onAuctionSave.execute (auction);
 		},		
 		
 		destroy : function (id)
@@ -646,10 +972,13 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Auction.Destroy", "data", "POST", false);	
 			request.send (content);
 			
-			var data = {};
-			data.id = id;
+			if (!didius.runtime.browserMode)
+			{
+				var data = {};
+				data.id = id;
 			
-		//	app.events.onAuctionDestroy.execute (data);
+				app.events.onAuctionDestroy.execute (data);
+			}
 		},				
 				
 		list : function (attributes)
@@ -1293,8 +1622,12 @@ var didius =
 			request.send (content);
 			
 			var result = request.respons ()["didius.invoice"];
-			
-		//	app.events.onInvoiceCreate.execute (result);
+		
+			if (!content.simulate)
+			{
+				if (!didius.runtime.browserMode)		
+					app.events.onInvoiceCreate.execute (result);
+			}
 			
 			return result;
 		},
@@ -1309,7 +1642,8 @@ var didius =
 		
 			var result = request.respons ()["didius.invoice"];
 			
-		//	app.events.onInvoiceLoad.execute (result);
+			if (!didius.runtime.browserMode)		
+				app.events.onInvoiceLoad.execute (result);
 		
 			return result;
 		},
@@ -1363,6 +1697,108 @@ var didius =
 		
 		
 		
+	},
+
+	// ---------------------------------------------------------------------------------------------------------------
+	// CLASS: creditnote
+	// ---------------------------------------------------------------------------------------------------------------
+	creditnote :
+	{
+		create : function (attributes)
+		{
+			var content = new Array ();
+					
+			if (attributes.customerId)
+				content.customerid = attributes.customerId;		
+			
+			if (attributes.customer)
+				content.customerid = attributes.customer.id;
+				
+			if (attributes.customerId)
+				content.customerid = attributes.customerId;		
+			
+			if (attributes.invoice)
+				content.invoiceid = attributes.invoice.id;
+				
+			if (attributes.invoiceId)
+				content.invoiceid = attributes.invoiceId;
+				
+			if (attributes.item)
+				content.item = attributes.item;
+				
+			if (attributes.items)
+				content.items = attributes.items;
+				
+			content.simulate = false;	
+			
+			if (attributes.simulate)
+				content.simulate = attributes.simulate;
+					
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Creditnote.Create", "data", "POST", false);	
+			request.send (content);
+			
+			var result = request.respons ()["didius.creditnote"];
+			
+			if (!content.simulate)
+			{
+				if (!didius.runtime.browserMode)		
+					app.events.onCreditnoteCreate.execute (result);
+			}
+			
+			return result;
+		},
+			
+		load : function (attributes)
+		{
+			var content = new Array ();
+			content.id = attributes.id;
+		
+			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Creditnote.Load", "data", "POST", false);
+			request.send (content);
+		
+			var result = request.respons ()["didius.creditnote"];
+			
+			if (!didius.runtime.browserMode)		
+				app.events.onCreditnoteLoad.execute (result);
+		
+			return result;
+		},
+						
+		list : function (attributes)
+		{
+			if (!attributes) attributes = new Array ();
+			
+			var content = new Array ();
+			
+			// CUSTOMER
+			if (attributes.customer)
+			{
+				content.customerid = attributes.customer.id;
+			}
+			else if (attributes.customerId)
+			{
+				content.customerid = attributes.customerId;
+			}
+					
+			if (attributes.async)
+			{
+				var onDone = 	function (respons)
+								{
+									attributes.onDone (respons["didius.creditnotes"]);
+								};
+				
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Creditnote.List", "data", "POST", true);
+				request.onLoaded (onDone);
+				request.send (content);
+			}
+			else
+			{
+				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Creditnote.List", "data", "POST", false);		
+				request.send (content);
+		
+				return request.respons ()["didius.creditnotes"];		
+			}
+		}	
 	},
 
 	// ---------------------------------------------------------------------------------------------------------------
@@ -1590,8 +2026,10 @@ var didius =
 				var Cr = Components.results;
 			
 				var render = 	function (attributes)
-								{
-									var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/invoice.tpl"));										
+								{											
+									attributes.customer = didius.customer.load (attributes.invoice.customerid);
+								
+									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_invoice"}));						
 									var print = app.mainWindow.document.createElement ("iframe");
 									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
 															
@@ -1640,20 +2078,20 @@ var didius =
 										
 							//			sXUL.console.log ("maxHeight: "+ maxHeight);
 							//			sXUL.console.log ("maxHeight2: "+ maxHeight2);			
-										
+																								
 										// CUSTOMERNAME
 										{
-											render = render.replace ("%%CUSTOMERNAME%%", attributes.invoice.customer.name);
+											render = render.replace ("%%CUSTOMERNAME%%", attributes.customer.name);
 											content.innerHTML = render;
 										}
 								
 										// CUSTOMERADDRESS
 										{
-											var customeraddress = attributes.invoice.customer.address1;
+											var customeraddress = attributes.customer.address1;
 											
-											if (attributes.invoice.customer.address2 != "")
+											if (attributes.customer.address2 != "")
 											{
-												address += "<br>"+ attributes.invoice.customer.address2;
+												address += "<br>"+ attributes.customer.address2;
 											}
 										
 											render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
@@ -1662,50 +2100,50 @@ var didius =
 										
 										// POSTCODE
 										{
-											render = render.replace ("%%CUSTOMERPOSTCODE%%", attributes.invoice.customer.postcode);
+											render = render.replace ("%%CUSTOMERPOSTCODE%%", attributes.customer.postcode);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERCITY
 										{
-											render = render.replace ("%%CUSTOMERCITY%%", attributes.invoice.customer.city);
+											render = render.replace ("%%CUSTOMERCITY%%", attributes.customer.city);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERCOUNTRY
 										{
-											render = render.replace ("%%CUSTOMERCOUNTRY%%", attributes.invoice.customer.country);
+											render = render.replace ("%%CUSTOMERCOUNTRY%%", attributes.customer.country);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERNO
 										{
-											render = render.replace ("%%CUSTOMERNO%%", attributes.invoice.customer.no);
+											render = render.replace ("%%CUSTOMERNO%%", attributes.customer.no);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMERPHONE
 										{
-											render = render.replace ("%%CUSTOMERPHONE%%", attributes.invoice.customer.phone);
+											render = render.replace ("%%CUSTOMERPHONE%%", attributes.customer.phone);
 											content.innerHTML = render;
 										}
 										
 										// CUSTOMEREMAIL
 										{
-											render = render.replace ("%%CUSTOMEREMAIL%%", attributes.invoice.customer.email);
+											render = render.replace ("%%CUSTOMEREMAIL%%", attributes.customer.email);
 											content.innerHTML = render;
 										}
 										
 										// AUCTIONNO
 										{
-											render = render.replace ("%%AUCTIONNO%%", attributes.invoice.auction.no);
-											content.innerHTML = render;
+			//								render = render.replace ("%%AUCTIONNO%%", attributes.invoice.auction.no);
+			//								content.innerHTML = render;
 										}
 										
 										// AUCTIONTITLE
 										{
-											render = render.replace ("%%AUCTIONTITLE%%", attributes.invoice.auction.title);
-											content.innerHTML = render;
+			//								render = render.replace ("%%AUCTIONTITLE%%", attributes.invoice.auction.title);
+			//								content.innerHTML = render;
 										}
 																
 										// INVOICENO
@@ -1715,14 +2153,15 @@ var didius =
 										}
 										
 										// INVOICEDATE
-										{
-											render = render.replace ("%%INVOICEDATE%%", attributes.invoice.createtimestamp);
-											content.innerHTML = render;
+										{															
+											var date = SNDK.tools.timestampToDate (attributes.invoice.createtimestamp)
+											render = render.replace ("%%INVOICEDATE%%", SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ());
+											content.innerHTML = render;				
 										}
 										
 										// CUSTOMERBANKACCOUNT
 										{
-											render = render.replace ("%%CUSTOMERBANKACCOUNT%%", attributes.invoice.customer.bankregistrationno +" "+ attributes.invoice.customer.bankaccountno);
+											render = render.replace ("%%CUSTOMERBANKACCOUNT%%", attributes.customer.bankregistrationno +" "+ attributes.customer.bankaccountno);
 											content.innerHTML = render;
 										}
 								
@@ -1732,28 +2171,28 @@ var didius =
 											var rows = "";	
 											var count = 0;
 																	
-											for (var idx = from; idx < attributes.invoice.items.length; idx++)
+											for (var idx = from; idx < attributes.invoice.lines.length; idx++)
 											{							
 												var row = template.row;
 												
-												// CATALOGNO						
+												// TEXT
 												{
-													row = row.replace ("%%CATALOGNO%%", attributes.invoice.items[idx].catalogno);
-												}			
-											
-												// DESCRIPTION
-												{
-													row = row.replace ("%%DESCRIPTION%%", attributes.invoice.items[idx].description);
+													row = row.replace ("%%TEXT%%", attributes.invoice.lines[idx].text);
 												}		
 											
-												// BIDAMOUNT
+												// AMOUNT
 												{
-													row = row.replace ("%%BIDAMOUNT%%", attributes.invoice.items[idx].bidamount);
+													row = row.replace ("%%AMOUNT%%", attributes.invoice.lines[idx].amount.toFixed (2));
 												}
 											
 												// COMMISSIONFEE
 												{
-													row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.items[idx].commissionfee);
+													row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.lines[idx].commissionfee.toFixed (2));
+												}					
+												
+												// VAT
+												{
+													row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.lines[idx].commissionfee.toFixed (2));
 												}					
 			
 												content.innerHTML = render.replace ("%%ROWS%%", rows + row);
@@ -1798,7 +2237,7 @@ var didius =
 									}
 																																																					
 									var c = page (0);
-									while (c < attributes.invoice.items.length)
+									while (c < attributes.invoice.lines.length)
 									{							
 									 	c += page (c);				 				
 									}	
@@ -1847,7 +2286,7 @@ var didius =
 				{
 					var localDir = sXUL.tools.getLocalDirectory ();
 					//var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
-					var filename = localDir.path + app.session.pathSeperator + main.current.id +".pdf";
+					var filename = localDir.path + app.session.pathSeperator + attributes.invoice.id +".pdf";
 					//var filename = "F:\\test.pdf";
 								
 			    	settings.printSilent = true;
@@ -1940,7 +2379,7 @@ var didius =
 										setTimeout (worker, 5000);																																
 									};
 						
-					sXUL.tools.print (print.contentWindow, settings, onDone);
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: onDone, onError: attributes.onError});
 				}
 				else
 				{
@@ -1952,13 +2391,389 @@ var didius =
 										}
 									};
 				
-					sXUL.tools.print (print.contentWindow, settings, onDone);				
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
+				}		
+			}
+			,
+		
+			creditnote : function (attributes)
+			{	
+				var Cc = Components.classes;
+				var Ci = Components.interfaces;
+				var Cu = Components.utils;
+				var Cr = Components.results;
+			
+				var render = 	function (attributes)
+								{											
+									attributes.customer = didius.customer.load (attributes.creditnote.customerid);
+								
+									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_creditnote"}));
+									var print = app.mainWindow.document.createElement ("iframe");
+									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
+															
+									var pageCount = 1;				
+									var totalSale = 0;
+									var totalCommissionFee = 0;							
+									var totalTotal = 0;																																								
+																																																						
+									var page = function (from)
+									{
+										// Add styles.																		
+										var styles = print.contentDocument.createElement ("style");					
+										print.contentDocument.body.appendChild (styles);					
+										styles.innerHTML = template.styles;
+								
+										// Create page.				
+										var page = print.contentDocument.createElement ("div");
+										page.className = "Page A4";
+										print.contentDocument.body.appendChild (page);
+																													
+										// Add content holder.																						
+										var content = print.contentDocument.createElement ("div")
+										content.className = "PrintContent";
+										page.appendChild (content);
+																								
+										// Add inital content.
+										var render = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
+										content.innerHTML = render;
+									
+										// Caluculate page maxheight for printing.										
+										var maxHeight = page.offsetHeight 
+										var maxHeight2 = page.offsetHeight;
+																					
+										// Calculate DISCLAIMER height.														
+										// DISCLAIMER
+										{										
+											content.innerHTML = template.disclaimer;										
+											maxHeight2 -= content.offsetHeight;
+										}
+										
+										// TOTAL
+										{
+											content.innerHTML = template.total;					
+											maxHeight2 -= content.offsetHeight;
+										}
+										
+							//			sXUL.console.log ("maxHeight: "+ maxHeight);
+							//			sXUL.console.log ("maxHeight2: "+ maxHeight2);			
+																								
+										// CUSTOMERNAME
+										{
+											render = render.replace ("%%CUSTOMERNAME%%", attributes.customer.name);
+											content.innerHTML = render;
+										}
+								
+										// CUSTOMERADDRESS
+										{
+											var customeraddress = attributes.customer.address1;
+											
+											if (attributes.customer.address2 != "")
+											{
+												address += "<br>"+ attributes.customer.address2;
+											}
+										
+											render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
+											content.innerHTML = render;
+										}
+										
+										// POSTCODE
+										{
+											render = render.replace ("%%CUSTOMERPOSTCODE%%", attributes.customer.postcode);
+											content.innerHTML = render;
+										}
+										
+										// CUSTOMERCITY
+										{
+											render = render.replace ("%%CUSTOMERCITY%%", attributes.customer.city);
+											content.innerHTML = render;
+										}
+										
+										// CUSTOMERCOUNTRY
+										{
+											render = render.replace ("%%CUSTOMERCOUNTRY%%", attributes.customer.country);
+											content.innerHTML = render;
+										}
+										
+										// CUSTOMERNO
+										{
+											render = render.replace ("%%CUSTOMERNO%%", attributes.customer.no);
+											content.innerHTML = render;
+										}
+										
+										// CUSTOMERPHONE
+										{
+											render = render.replace ("%%CUSTOMERPHONE%%", attributes.customer.phone);
+											content.innerHTML = render;
+										}
+										
+										// CUSTOMEREMAIL
+										{
+											render = render.replace ("%%CUSTOMEREMAIL%%", attributes.customer.email);
+											content.innerHTML = render;
+										}
+										
+										// AUCTIONNO
+										{
+			//								render = render.replace ("%%AUCTIONNO%%", attributes.invoice.auction.no);
+			//								content.innerHTML = render;
+										}
+										
+										// AUCTIONTITLE
+										{
+			//								render = render.replace ("%%AUCTIONTITLE%%", attributes.invoice.auction.title);
+			//								content.innerHTML = render;
+										}
+																
+										// CREDITNOTENO
+										{
+											render = render.replace ("%%CREDITNOTENO%%", attributes.creditnote.no);
+											content.innerHTML = render;
+										}
+										
+										// CREDITNOTEDATE
+										{															
+											var date = SNDK.tools.timestampToDate (attributes.creditnote.createtimestamp)
+											render = render.replace ("%%CREDITNOTEDATE%%", SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ());
+											content.innerHTML = render;				
+										}
+										
+										// CUSTOMERBANKACCOUNT
+										{
+											render = render.replace ("%%CUSTOMERBANKACCOUNT%%", attributes.customer.bankregistrationno +" "+ attributes.customer.bankaccountno);
+											content.innerHTML = render;
+										}
+								
+										// ROWS
+										{
+											// Add data rows.
+											var rows = "";	
+											var count = 0;
+																	
+											for (var idx = from; idx < attributes.creditnote.lines.length; idx++)
+											{							
+												var row = template.row;
+												
+												// TEXT
+												{
+													row = row.replace ("%%TEXT%%", attributes.creditnote.lines[idx].text);
+												}		
+											
+												// AMOUNT
+												{
+													row = row.replace ("%%AMOUNT%%", attributes.creditnote.lines[idx].amount.toFixed (2));
+												}
+											
+												// VAT
+												{
+													row = row.replace ("%%VAT%%", attributes.creditnote.lines[idx].vat.toFixed (2));
+												}					
+			
+												content.innerHTML = render.replace ("%%ROWS%%", rows + row);
+																																		
+												if (content.offsetHeight > (maxHeight2))
+												{						
+													render = render.replace ("%%ROWS%%", rows);															
+													render = render.replace ("%%TRANSFER%%", template.transfer)						
+													render = render.replace ("%%TOTAL%%", "");		
+													render = render.replace ("%%DISCLAIMER%%", "");							
+													content.innerHTML = render;
+													break;	
+												}
+																									
+												rows += row;																	
+												count++;						
+											}																		
+											
+											render = render.replace ("%%ROWS%%", rows);
+											render = render.replace ("%%TRANSFER%%", "");
+											
+											content.innerHTML = render;
+										}
+										
+										// TOTAL
+										{
+											render = render.replace ("%%TOTAL%%", template.total);
+											render = render.replace ("%%TOTALSALE%%", parseInt (attributes.creditnote.sales).toFixed (2));
+											render = render.replace ("%%TOTALCOMMISSIONFEE%%", parseInt (attributes.creditnote.commissionfee).toFixed (2));
+											render = render.replace ("%%TOTALVAT%%", parseInt (attributes.creditnote.vat).toFixed (2));
+											render = render.replace ("%%TOTALTOTAL%%", parseInt (attributes.creditnote.total).toFixed (2));
+											content.innerHTML = render;
+										}				
+																		
+										// DISCLAIMER
+										{
+											render = render.replace ("%%DISCLAIMER%%", template.disclaimer);
+											content.innerHTML = render;
+										}
+										
+										return count;				
+									}
+																																																					
+									var c = page (0);
+									while (c < attributes.creditnote.lines.length)
+									{							
+									 	c += page (c);				 				
+									}	
+							
+									var result = print.contentDocument.body.innerHTML;
+									
+									app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
+									
+									return result;
+								};
+			
+				var data = "";
+																						
+				if (attributes.creditnote)
+				{
+					data = render ({creditnote: attributes.creditnote});
+				}
+				else if (attributes.creditnotes)
+				{
+					for (index in attributes.creditnotes)
+					{
+						data += render ({creditnote: attributes.creditnotes[index]});
+					}			
+				}
+				
+				//var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/invoice.tpl"));										
+				var print = app.mainWindow.document.createElement ("iframe");
+				app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
+					
+				print.contentDocument.body.innerHTML = data;
+								
+				var settings = PrintUtils.getPrintSettings ();
+																																											
+				settings.marginLeft = 0.5;
+				settings.marginRight = 0.5;
+				settings.marginTop = 0.5;
+				settings.marginBottom = 0.0;
+				settings.shrinkToFit = true;
+					
+				settings.paperName =  "iso_a4";
+				settings.paperWidth = 210;
+				settings.paperHeight = 297
+				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
+					
+				if (attributes.mail) 
+				{
+					var localDir = sXUL.tools.getLocalDirectory ();
+					//var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
+					var filename = localDir.path + app.session.pathSeperator + attributes.creditnote.id +".pdf";
+					//var filename = "F:\\test.pdf";
+								
+			    	settings.printSilent = true;
+			    	settings.showPrintProgress = false;
+				    settings.printToFile = true;    		
+					    		    		    		   
+			    	//settings.printFrameType = 1;
+			    		
+			    	settings.outputFormat = 2;
+			    		
+					settings.printSilent = true;
+			    	settings.showPrintProgress = false;
+			    	settings.printBGImages = true;
+			    	settings.printBGColors = true;
+			    	settings.printToFile = true;
+			    
+			    	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
+			    	settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+			    
+			    	settings.footerStrCenter = "";
+			    	settings.footerStrLeft = "";
+			    	settings.footerStrRight = "";
+			    	settings.headerStrCenter = "";
+			    	settings.headerStrLeft = "";
+			    	settings.headerStrRight = "";
+			    	settings.printBGColors = true;
+			    	settings.title = "Didius Creditnote";    		
+			
+					settings.toFileName = filename;
+						
+					sXUL.console.log (filename)
+						
+					var onDone =	function ()
+									{
+										var onLoad = 		function (respons)
+															{														
+																var respons = respons.replace ("\n","").split (":");
+																							
+																switch (respons[0].toLowerCase ())
+																{
+																	case "success":
+																	{	
+																		try
+																		{
+																			sXUL.tools.fileDelete (filename);
+																		}
+																		catch (e)
+																		{
+																			sXUL.console.log (e);
+																		}
+																																		
+																		break;
+																	}
+												
+																	default:
+																	{
+																		app.error ({errorCode: "APP00001"});																
+																		break;
+																	}							
+																}
+																	
+																onDone ();
+															};
+								
+										var onProgress =	function (event)
+															{															
+															};
+										
+										var onError =		function (event)
+															{														
+																app.error ({errorCode: "APP00001"});
+																onDone ();
+															};
+																
+										var onDone = 		function ()							
+															{
+																sXUL.console.log ("ondone");
+																if (attributes.onDone != null)
+																{
+																	setTimeout (attributes.onDone, 1);
+																}
+															}
+															
+										var worker = function ()
+										{																
+											sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailCreditnote", creditnoteid: attributes.creditnote.id, customerid: attributes.creditnote.customerid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
+											//sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailInvoice", invoiceid: attributes.invoice.id}, onLoad: onLoad, onProgress: onProgress, onError: onError});
+										}
+										
+										setTimeout (worker, 5000);																																
+									};
+						
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: onDone, onError: attributes.onError});
+				}
+				else
+				{
+					var onDone =	function ()
+									{
+										if (attributes.onDone != null)
+										{
+											setTimeout (attributes.onDone, 1);
+										}
+									};
+				
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
 				}		
 			}
 			,
 		
 			salesAgreement : function (attributes)		
 			{					
+			//	sXUL.console.log (attributes.case.id)
+				
+				
 				if (!attributes.case)
 					throw "DIDIUS.COMMON.PRINT.SALESAGREEMENT.PRINT: No CASE given, cannot print nothing.";
 			
@@ -2099,6 +2914,11 @@ var didius =
 												// MINIMUMBID
 												{
 													row = row.replace ("%%MINIMUMBID%%", items[idx].minimumbid.toFixed (2));
+												}											
+												
+												// COMMISSIONFEE
+												{
+													row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee.toFixed (2));
 												}											
 			
 												content.innerHTML = render.replace ("%%ROWS%%", rows + row);
@@ -2270,7 +3090,7 @@ var didius =
 									return result;						
 								};
 								
-				var data = render ({case: attributes.case});			
+				var data = render ({case: attributes.case});				
 									
 				var print = app.mainWindow.document.createElement ("iframe");
 				app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);		
@@ -2282,19 +3102,14 @@ var didius =
 				settings.marginRight = 0.5;
 				settings.marginTop = 0.5;
 				settings.marginBottom = 0.0;
-				settings.shrinkToFit = true;
-					
+				settings.shrinkToFit = true;		
 				settings.paperName =  "iso_a4";
 				settings.paperWidth = 210;
 				settings.paperHeight = 297
 				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
-				
+			   	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;	
 				settings.printBGImages = true;
-			    settings.printBGColors = true;    	
-			    	
-			    settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
-			    settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
-			    
+			    settings.printBGColors = true;    	    	   
 			    settings.footerStrCenter = "";
 			    settings.footerStrLeft = "";
 			    settings.footerStrRight = "";
@@ -2302,8 +3117,8 @@ var didius =
 			    settings.headerStrLeft = "";
 			    settings.headerStrRight = "";    	
 				
-				settings.title = "Didius Salesagreement";
-			
+				settings.title = "DidiusSalesagreement";
+				
 				if (attributes.mail) 
 				{
 					var localDir = sXUL.tools.getLocalDirectory ();		
@@ -2312,7 +3127,9 @@ var didius =
 					// Hide print dialog.
 					settings.printToFile = true;    					
 			    	settings.printSilent = true;
-			  		settings.showPrintProgress = false;
+			  		settings.showPrintProgress = false;  			
+					settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+			
 				    		    		
 				   	// Set output format to PDF.    		    		           	
 			    	settings.outputFormat = 2;
@@ -2396,8 +3213,14 @@ var didius =
 				var render = 	function (attributes)
 								{
 									var settlement = attributes.settlement;
+<<<<<<< HEAD
 									var customer = didius.customer.load (settlement.id);						
 									var items = didius.item.list ({case: _case});
+=======
+									var _case = didius.case.load (settlement.caseid);
+									var customer = didius.customer.load (settlement.customerid);
+									var items = settlement.items;
+>>>>>>> c644916ce9a4bceaa2811d657f61109f4d20794f
 									
 									SNDK.tools.sortArrayHash (items, "catalogno", "numeric");		
 								
@@ -2432,34 +3255,72 @@ var didius =
 										var maxHeight = page.offsetHeight 
 										var maxHeight2 = page.offsetHeight;
 										
-										// CUSTOMERINFO
+										// SETTLEMENTNO
 										{
-											var customerInfo = "";					
-											customerInfo += customer.name +"<br>";
-											customerInfo += customer.address1 +"<br>";
-							
+											render = render.replace ("%%SETTLEMENTNO%%", settlement.no);
+										}
+										
+										// CUSTOMERNO
+										{
+											render = render.replace ("%%CUSTOMERNO%%", customer.no);
+										}
+										
+										// CUSTOMERNAME
+										{
+											render = render.replace ("%%CUSTOMERNAME%%", customer.name);
+										}
+										
+										// CUSTOMERADDRESS
+										{
+											var address = customer.address1;
+											
 											if (customer.address2 != "")
 											{
-												customerInfo += customer.address1 +"<br>";					
+												address += "<br>"+ customer.address2;
 											}
-							
-											customerInfo += customer.postcode +" "+ customer.city +"<br><br>";
-											
-											customerInfo += "Kunde nr. "+ customer.no +"<br><br>"
-											
-											customerInfo += "Tlf. "+ customer.phone +"<br>";
-											customerInfo += "Email "+ customer.email +"<br><br>";
-											
-											customerInfo += "Sag: "+ _case.title +"<br><br>";
-											
-											render = render.replace ("%%CUSTOMERINFO%%", customerInfo);					
-											content.innerHTML = render;
+										
+											render = render.replace ("%%CUSTOMERADDRESS%%", address);
+										}
+										
+										// CUSTOMERPOSTCODE
+										{
+											render = render.replace ("%%CUSTOMERPOSTCODE%%", customer.postcode);
+										}
+										
+										// CUSTOMERCITY
+										{
+											render = render.replace ("%%CUSTOMERCITY%%", customer.city);
+										}
+										
+										// CUSTOMERCOUNTRY
+										{
+											render = render.replace ("%%CUSTOMERCOUNTRY%%", customer.country);
+										}
+										
+										// CUSTOMERPHONE
+										{
+											render = render.replace ("%%CUSTOMERPHONE%%", customer.phone);
+										}
+										
+										// CUSTOMEREMAIL
+										{
+											render = render.replace ("%%CUSTOMEREMAIL%%", customer.email);
 										}
 						
 										// CUSTOMERBANKACCOUNT
 										{
 											render = render.replace ("%%CUSTOMERBANKACCOUNT%%", customer.bankregistrationno +" "+ customer.bankaccountno);
 											content.innerHTML = render;
+										}
+										
+										// CASENO
+										{
+											render = render.replace ("%%CASENO%%", _case.no);
+										}
+										
+										// CASETITLE
+										{
+											render = render.replace ("%%CASETITLE%%", _case.title);
 										}
 						
 										// ROWS
@@ -2485,12 +3346,12 @@ var didius =
 											
 													// BIDAMOUNT
 													{
-														row = row.replace ("%%BIDAMOUNT%%", items[idx].bidamount);
+														row = row.replace ("%%BIDAMOUNT%%",  items[idx].bidamount.toFixed (2));
 													}
 											
 													// COMMISSIONFEE
 													{
-														row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee);
+														row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee.toFixed (2));
 													}					
 			
 													content.innerHTML = render.replace ("%%ROWS%%", rows + row);
@@ -2524,9 +3385,10 @@ var didius =
 										// TOTAL
 										{
 											render = render.replace ("%%TOTAL%%", template.total);
-											render = render.replace ("%%TOTALSALE%%", totalSale.toFixed (2));
-											render = render.replace ("%%TOTALCOMMISSIONFEE%%", totalCommissionFee.toFixed (2));
-											render = render.replace ("%%TOTALTOTAL%%", (totalSale + totalCommissionFee).toFixed (2));
+											render = render.replace ("%%TOTALSALE%%", settlement.sales.toFixed (2));
+											render = render.replace ("%%TOTALCOMMISSIONFEE%%", settlement.commissionfee.toFixed (2));
+											render = render.replace ("%%TOTALTOTAL%%", settlement.total.toFixed (2));
+											render = render.replace ("%%TOTALVAT%%", settlement.vat.toFixed (2));
 											content.innerHTML = render;
 										}				
 																	
@@ -2551,7 +3413,7 @@ var didius =
 									return result;						
 								};
 								
-				var data = render ({case: attributes.case});
+				var data = render ({settlement: attributes.settlement});
 				
 				var print = app.mainWindow.document.createElement ("iframe");
 				app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);		
@@ -2574,7 +3436,7 @@ var didius =
 			    settings.printBGColors = true;    	
 			    	
 			    settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
-			    settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+			    //settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
 			    
 			    settings.footerStrCenter = "";
 			    settings.footerStrLeft = "";
@@ -2659,7 +3521,278 @@ var didius =
 				{								
 					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
 				}																											
+			},
+		
+			label : function (attributes)
+			{	
+				var Cc = Components.classes;
+				var Ci = Components.interfaces;
+				var Cu = Components.utils;
+				var Cr = Components.results;
+			
+				var render = 	function (attributes)
+								{											
+									//attributes.customer = didius.customer.load (attributes.invoice.customerid);
+								
+									//var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_invoice"}));					
+									var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
+				
+									var print = app.mainWindow.document.createElement ("iframe");
+									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
+															
+									var pageCount = 1;				
+									var totalSale = 0;
+									var totalCommissionFee = 0;							
+									var totalTotal = 0;																																								
+																																																						
+									var page = function (from)
+									{
+										// Add styles.																		
+										var styles = print.contentDocument.createElement ("style");					
+										print.contentDocument.body.appendChild (styles);					
+										styles.innerHTML = template.styles;
+								
+										// Create page.				
+										var page = print.contentDocument.createElement ("div");
+										page.className = "Page A4";
+										print.contentDocument.body.appendChild (page);
+																													
+										// Add content holder.																						
+										var content = print.contentDocument.createElement ("div")
+										content.className = "PrintContent";
+										page.appendChild (content);
+																								
+										// Add inital content.
+										var render = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
+										content.innerHTML = render;
+									
+										// Caluculate page maxheight for printing.										
+			//							var maxHeight = page.offsetHeight 
+			//							var maxHeight2 = page.offsetHeight;
+																												
+										
+																								
+										// CUSTOMERNAME
+			//							{
+			//								render = render.replace ("%%CUSTOMERNAME%%", attributes.customer.name);
+			//								content.innerHTML = render;
+			//							}										
+										
+									//	return count;				
+									}
+			
+									page ();																																																			
+																																																																																																																																																									
+									var result = print.contentDocument.body.innerHTML;
+									app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
+									return result;
+								};
+			
+				var data = "";
+																						
+			//	if (attributes.invoice)
+			//	{
+					//data = render ({invoice: attributes.invoice});
+					data = render ();
+			//	}
+			//	else if (attributes.invoices)
+			//	{
+			//		for (index in attributes.invoices)
+			//		{
+			//			data += render ({invoice: attributes.invoices[index]});
+			//		}			
+			//	}
+				
+				//var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/invoice.tpl"));										
+				var print = app.mainWindow.document.createElement ("iframe");
+				app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
+					
+				print.contentDocument.body.innerHTML = data;
+								
+				var settings = PrintUtils.getPrintSettings ();
+						
+				//ppd_17x54					
+				//ppd_17x87
+				//ppd_23x23
+				//ppd_29x42
+				//ppd_29x90
+				//ppd_38x90
+				//ppd_39x48
+				//ppd_52x29
+				//ppd_62x29
+				//ppd_62x100
+				//ppd_12Dia
+				//ppd_24Dia
+				//ppd_12X1
+				//ppd_29X1
+				//ppd_62X1
+				//ppd_12X2
+				//ppd_29X2
+				//ppd_62X2
+				//ppd_12X3
+				//ppd_29X3
+				//ppd_62X3
+				//ppd_12X4
+				//ppd_29X4
+				//ppd_62X4
+				//ppd_50X1
+				//ppd_54X1
+				//ppd_54X1
+				//ppd_38X1
+				//ppd_23x23
+				//ppd_39x48
+				//ppd_52x29
+				//ppd_38X2
+				//ppd_50X2
+				//ppd_54X2
+				//ppd_38X3
+				//ppd_50X3
+				//ppd_54X3
+				//ppd_38X4
+				//ppd_50X4
+				//ppd_54X4
+				
+																																																																																																											
+				settings.marginLeft = 0.28;
+				settings.marginRight = 0.29;
+				settings.marginTop = 0.14;
+				settings.marginBottom = 0.14;
+				settings.shrinkToFit = true;
+				
+				settings.unwriteableMarginTop = 0;
+			    settings.unwriteableMarginRight = 0;
+			    settings.unwriteableMarginBottom = 0;
+			    settings.unwriteableMarginLeft = 0;
+			
+					
+				settings.orientation = Ci.nsIPrintSettings.kLandscapeOrientation;
+				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
+				//settings.paperName = "ppd_62x29";
+				settings.paperWidth = 62;
+				settings.paperHeight = 50;
+				
+				//settings.setPaperSizeType = Ci.nsIPrintSettings.kPaperSizeDefined;  	
+			  	//settings.setPaperSize = Ci.nsIPrintSettings.kPaperSizeNativeData;
+				
+				
+				
+				
+					
+				attributes = {};
+					
+				if (attributes.mail) 
+				{
+					var localDir = sXUL.tools.getLocalDirectory ();
+					//var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
+					var filename = localDir.path + app.session.pathSeperator + attributes.invoice.id +".pdf";
+					//var filename = "F:\\test.pdf";
+								
+			    	settings.printSilent = true;
+			    	settings.showPrintProgress = false;
+				    settings.printToFile = true;    		
+					    		    		    		   
+			    	//settings.printFrameType = 1;
+			    		
+			    	settings.outputFormat = 2;
+			    		
+					settings.printSilent = true;
+			    	settings.showPrintProgress = false;
+			    	settings.printBGImages = true;
+			    	settings.printBGColors = true;
+			    	settings.printToFile = true;
+			    
+			    	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
+			    	settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+			    
+			    	settings.footerStrCenter = "";
+			    	settings.footerStrLeft = "";
+			    	settings.footerStrRight = "";
+			    	settings.headerStrCenter = "";
+			    	settings.headerStrLeft = "";
+			    	settings.headerStrRight = "";
+			    	settings.printBGColors = true;
+			    	settings.title = "Didius Invoice";    		
+			
+					settings.toFileName = filename;
+						
+					sXUL.console.log (filename)
+						
+					var onDone =	function ()
+									{
+										var onLoad = 		function (respons)
+															{														
+																var respons = respons.replace ("\n","").split (":");
+																							
+																switch (respons[0].toLowerCase ())
+																{
+																	case "success":
+																	{	
+																		try
+																		{
+																			sXUL.tools.fileDelete (filename);
+																		}
+																		catch (e)
+																		{
+																			sXUL.console.log (e);
+																		}
+																																		
+																		break;
+																	}
+												
+																	default:
+																	{
+																		app.error ({errorCode: "APP00001"});																
+																		break;
+																	}							
+																}
+																	
+																onDone ();
+															};
+								
+										var onProgress =	function (event)
+															{															
+															};
+										
+										var onError =		function (event)
+															{														
+																app.error ({errorCode: "APP00001"});
+																onDone ();
+															};
+																
+										var onDone = 		function ()							
+															{
+																sXUL.console.log ("ondone");
+																if (attributes.onDone != null)
+																{
+																	setTimeout (attributes.onDone, 1);
+																}
+															}
+															
+										var worker = function ()
+										{																
+											sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailInvoice", invoiceid: attributes.invoice.id, customerid: attributes.invoice.customerid, auctionid: attributes.invoice.auctionid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
+											//sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailInvoice", invoiceid: attributes.invoice.id}, onLoad: onLoad, onProgress: onProgress, onError: onError});
+										}
+										
+										setTimeout (worker, 5000);																																
+									};
+						
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: onDone, onError: attributes.onError});
+				}
+				else
+				{
+					var onDone =	function ()
+									{
+										if (attributes.onDone != null)
+										{
+											setTimeout (attributes.onDone, 1);
+										}
+									};
+				
+					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
+				}		
 			}
+			
 		}
 	}
 }

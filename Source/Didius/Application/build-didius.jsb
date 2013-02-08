@@ -37,6 +37,9 @@
 			<class name="invoice">
 				<js file="js/didius/invoice.js" />	
 			</class>						
+			<class name="creditnote">
+				<js file="js/didius/creditnote.js" />	
+			</class>						
 			<class name="config">
 				<js file="js/didius/config.js" />	
 			</class>						
@@ -49,8 +52,10 @@
 			<class name="common">
 				<class name="print">
 					<js file="js/didius/common/print/invoice.js" />	
+					<js file="js/didius/common/print/creditnote.js" />	
 					<js file="js/didius/common/print/salesagreement.js" />	
 					<js file="js/didius/common/print/settlement.js" />	
+					<js file="js/didius/common/print/label.js" />	
 				</class>						
 			</class>						
 		</class>

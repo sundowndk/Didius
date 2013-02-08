@@ -16,8 +16,8 @@ body
 
 .A4
 {				
-	width: 								210mm; 
-	height: 							296mm; 
+	width: 								62mm; 
+	height: 							50mm; 
 	
 	display: 							block;
 	page-break-after:					always; 
@@ -27,8 +27,8 @@ body
 {
 	position:							relative;
 	
-	padding-top:						15mm;
-	padding-left:						7mm;
+	padding-top:						0mm;
+	padding-left:						0mm;
 	padding-right:						0mm;
 	padding-bottom:						0mm;
 			
@@ -46,8 +46,8 @@ body
 
 	font-size:							11px;
 	
-	width: 								62mm;
-	height: 							35mm;
+	width: 								10mm;
+	height: 							10mm;
 	
 	overflow: hidden;
 }
@@ -70,15 +70,10 @@ body
 }
 #ENDSTYLES
 
-%%ROWS%%
+62mmx100mm<br>
+2-3/7"x4"<br>
+Landscape<br>
+Brother Industries, Ltd.<br>
 
-#BEGINROW
-<div class="Label">
-	<span class="CatalogNo">Katalog nr.: %%ITEMCATALOGNO%%</span><br>
-	<span class="No">Effekt nr.: %%ITEMNO%%</span><br>
-	%%ITEMDESCRIPTION%%<br><br>
-	<span class="VAT">%%ITEMVAT%%</span>
-</div>
-#ENDROW
 
 

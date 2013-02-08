@@ -8,6 +8,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------
+	mode : "",
 	customer : null,
 	checksum : null,
 
@@ -16,41 +17,52 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{		
-		try
-		{
-			main.customer = didius.customer.load (window.arguments[0].customerId);
+		if (window.arguments[0].customerId == null)
+		{						
+			main.customer = didius.customer.create ();
+			main.mode = "NEW";									
 		}
-		catch (error)
+		else if (window.arguments[0].customerId != null)
 		{
-			app.error ({exception: error})
-			main.close ();
-			return;
-		}			
+			try
+			{				
+				main.customer = didius.customer.load (window.arguments[0].customerId);
+			}
+			catch (error)
+			{
+				app.error ({exception: error})
+				main.close ();
+				return;
+			}			
+									
+			main.mode = "EDIT";
+		}
 		
-		main.set ();					
-					
 		// Init tabs
 		details.init ();
 		cases.init ();
 		bids.init ();
 		settlements.init ();
-		invoices.init ();
+		invoices.init ();	
+		creditnotes.init ();	
 		notes.init ();
+		
+		main.set ();									
 		
 		// Hook events.
 		app.events.onCustomerDestroy.addHandler (eventHandlers.onCustomerDestroy);
-		
-		app.events.onCaseCreate.addHandler (eventHandlers.onCaseCreate);
+				
 		app.events.onCaseSave.addHandler (eventHandlers.onCaseSave);
 		app.events.onCaseDestroy.addHandler (eventHandlers.onCaseDestroy);
 		
-		app.events.onBidCreate.addHandler (eventHandlers.onBidCreate);
 		app.events.onBidSave.addHandler (eventHandlers.onBidSave);
 		app.events.onBidDestroy.addHandler (eventHandlers.onBidDestroy)
 		
 		app.events.onSettlementCreate.addHandler (eventHandlers.onSettlementCreate);
 		
 		app.events.onInvoiceCreate.addHandler (eventHandlers.onInvoiceCreate);
+						
+		app.events.onCreditnoteCreate.addHandler (eventHandlers.onCreditnoteCreate);
 	},
 				
 	// ------------------------------------------------------------------------------------------------------
@@ -59,9 +71,7 @@ var main =
 	set : function ()
 	{
 		main.checksum = SNDK.tools.arrayChecksum (main.customer);										
-		main.onChange ();
-		
-		document.getElementById ("name").focus ();
+		main.onChange ();			
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -69,6 +79,8 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{		
+		details.get ();
+		notes.get ();		
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -78,19 +90,40 @@ var main =
 	{
 		main.get ();
 	
+		if (main.mode == "NEW")
+		{
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.cases").disabled = true;
+			document.getElementById ("tab.bids").disabled = true;
+			document.getElementById ("tab.settlements").disabled = true;
+			document.getElementById ("tab.invoices").disabled = true;
+			document.getElementById ("tab.creditnotes").disabled = true;
+			document.getElementById ("tab.notes").disabled = false;
+		}
+		else
+		{
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.cases").disabled = false;
+			document.getElementById ("tab.bids").disabled = false;
+			document.getElementById ("tab.settlements").disabled = false;
+			document.getElementById ("tab.invoices").disabled = false;
+			document.getElementById ("tab.creditnotes").disabled = false;
+			document.getElementById ("tab.notes").disabled = false;
+		}
+	
 		if ((SNDK.tools.arrayChecksum (main.customer) != main.checksum) && (main.customer.name != ""))
 		{
 			document.title = "Kunde: "+ main.customer.name +" ["+ main.customer.no +"] *";
 		
-			document.getElementById ("save").disabled = false;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.save").disabled = false;
+			document.getElementById ("button.close").disabled = false;
 		}
 		else
 		{
 			document.title = "Kunde: "+ main.customer.name +" ["+ main.customer.no +"]";
 		
-			document.getElementById ("save").disabled = true;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.save").disabled = true;
+			document.getElementById ("button.close").disabled = false;
 		}
 	},
 	
@@ -98,9 +131,9 @@ var main =
 	// | SAVE																								|	
 	// ------------------------------------------------------------------------------------------------------
 	save : function ()
-	{	
+	{		
 		main.get ();
-		
+			
 		if ((SNDK.tools.arrayChecksum (main.customer) != main.checksum))
 		{		
 			// If and email has been given, check if its allready being used by another customer.
@@ -114,7 +147,10 @@ var main =
 			}
 			
 			didius.customer.save (main.customer);
-				
+			
+			// Set mode to EDIT.
+			main.mode = "EDIT";
+									
 			main.checksum = SNDK.tools.arrayChecksum (main.customer);
 			main.onChange ();				
 		}
@@ -140,18 +176,18 @@ var main =
 		
 		// Unhook events.
 		app.events.onCustomerDestroy.removeHandler (eventHandlers.onCustomerDestroy);		
-		
-		app.events.onCaseCreate.removeHandler (eventHandlers.onCaseCreate);
+				
 		app.events.onCaseSave.removeHandler (eventHandlers.onCaseSave);
 		app.events.onCaseDestroy.removeHandler (eventHandlers.onCaseDestroy);
 		
-		app.events.onBidCreate.removeHandler (eventHandlers.onBidCreate);
 		app.events.onBidSave.removeHandler (eventHandlers.onBidSave);
 		app.events.onBidDestroy.removeHandler (eventHandlers.onBidDestroy)
 		
 		app.events.onSettlementCreate.removeHandler (eventHandlers.onSettlementCreate);
 		
 		app.events.onInvoiceCreate.removeHandler (eventHandlers.onInvoiceCreate);
+		
+		app.events.onCreditnoteCreate.removeHandler (eventHandlers.onCreditnoteCreate);
 	
 		// Close window.
 		window.close ();
@@ -176,27 +212,28 @@ var details =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		document.getElementById ("no").value = main.customer.no;
-		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.customer.createtimestamp);
+		document.getElementById ("textbox.no").value = main.customer.no;
+		document.getElementById ("datepicker.createdate").dateValue = SNDK.tools.timestampToDate (main.customer.createtimestamp);
 	
-		document.getElementById ("name").value = main.customer.name;
-		document.getElementById ("address1").value = main.customer.address1;
-		document.getElementById ("address2").value = main.customer.address2;
-		document.getElementById ("postcode").value = main.customer.postcode;
-		document.getElementById ("city").value = main.customer.city;
-		document.getElementById ("country").value = main.customer.country;
+		document.getElementById ("textbox.name").value = main.customer.name;
+		document.getElementById ("textbox.name").focus ();
+		document.getElementById ("textbox.address1").value = main.customer.address1;
+		document.getElementById ("textbox.address2").value = main.customer.address2;
+		document.getElementById ("textbox.postcode").value = main.customer.postcode;
+		document.getElementById ("textbox.city").value = main.customer.city;
+		document.getElementById ("textbox.country").value = main.customer.country;
 		
-		document.getElementById ("att").value = main.customer.att;
-		document.getElementById ("phone").value = main.customer.phone;
-		document.getElementById ("mobile").value = main.customer.mobile;
-		document.getElementById ("email").value = main.customer.email;		
+		document.getElementById ("textbox.att").value = main.customer.att;
+		document.getElementById ("textbox.phone").value = main.customer.phone;
+		document.getElementById ("textbox.mobile").value = main.customer.mobile;
+		document.getElementById ("textbox.email").value = main.customer.email;		
 		
-		document.getElementById ("vat").checked = main.customer.vat;
-		document.getElementById ("vatno").value = main.customer.vatno;
+		document.getElementById ("checkbox.vat").checked = main.customer.vat;
+		document.getElementById ("textbox.vatno").value = main.customer.vatno;
 		
-		document.getElementById ("bankname").value = main.customer.bankname;
-		document.getElementById ("bankregistrationno").value = main.customer.bankregistrationno;
-		document.getElementById ("bankaccountno").value = main.customer.bankaccountno;
+		document.getElementById ("textbox.bankname").value = main.customer.bankname;
+		document.getElementById ("textbox.bankregistrationno").value = main.customer.bankregistrationno;
+		document.getElementById ("textbox.bankaccountno").value = main.customer.bankaccountno;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -204,32 +241,31 @@ var details =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.customer.name = document.getElementById ("name").value;
-		main.customer.address1 = document.getElementById ("address1").value;
-		main.customer.address2 = document.getElementById ("address2").value;
-		main.customer.postcode = document.getElementById ("postcode").value;
-		main.customer.city = document.getElementById ("city").value;
-		main.customer.country = document.getElementById ("country").value;						
+		main.customer.name = document.getElementById ("textbox.name").value;
+		main.customer.address1 = document.getElementById ("textbox.address1").value;
+		main.customer.address2 = document.getElementById ("textbox.address2").value;
+		main.customer.postcode = document.getElementById ("textbox.postcode").value;
+		main.customer.city = document.getElementById ("textbox.city").value;
+		main.customer.country = document.getElementById ("textbox.country").value;						
 		
-		main.customer.att = document.getElementById ("att").value;
-		main.customer.phone = document.getElementById ("phone").value;
-		main.customer.mobile = document.getElementById ("mobile").value;
-		main.customer.email = document.getElementById ("email").value;
+		main.customer.att = document.getElementById ("textbox.att").value;
+		main.customer.phone = document.getElementById ("textbox.phone").value;
+		main.customer.mobile = document.getElementById ("textbox.mobile").value;
+		main.customer.email = document.getElementById ("textbox.email").value;
 		
-		main.customer.vat = document.getElementById ("vat").checked;
-		main.customer.vatno = document.getElementById ("vatno").value;
+		main.customer.vat = document.getElementById ("checkbox.vat").checked;
+		main.customer.vatno = document.getElementById ("textbox.vatno").value;
 		
-		main.customer.bankname = document.getElementById ("bankname").value;
-		main.customer.bankregistrationno = document.getElementById ("bankregistrationno").value;
-		main.customer.bankaccountno = document.getElementById ("bankaccountno").value;				
+		main.customer.bankname = document.getElementById ("textbox.bankname").value;
+		main.customer.bankregistrationno = document.getElementById ("textbox.bankregistrationno").value;
+		main.customer.bankaccountno = document.getElementById ("textbox.bankaccountno").value;				
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
 	// | ONCHANGE																								|	
 	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
-	{
-		details.get ();
+	{		
 		main.onChange ();
 	}
 }
@@ -249,7 +285,7 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: cases.edit});
+		cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: cases.edit});
 		cases.set ();
 	},
 				
@@ -258,27 +294,45 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		var onDone = 	function (items)
-						{				
-							cases.casesTreeHelper.disableRefresh ();			
-							for (idx in items)
-							{													
-								cases.casesTreeHelper.addRow ({data: items[idx]});									
-							}
-							cases.casesTreeHelper.enableRefresh ();
-
-								
-							// Enable controls
-							document.getElementById ("cases").disabled = false;																
-							cases.onChange ();
-						};
-
-			// Disable controls
-			document.getElementById ("cases").disabled = true;					
-			document.getElementById ("caseEdit").disabled = true;
-			document.getElementById ("caseDestroy").disabled = true;
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview
+				document.getElementById ("tree.cases").disabled = false;																
+				cases.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+							var onDone = 	function (items)
+								{				
+									cases.casesTreeHelper.disableRefresh ();			
+									for (idx in items)
+									{				
+										var data = {};
+										var case_ = items[idx];										
+										var auction = didius.auction.load (case_.auctionid);
+															
+										data.id = case_.id;
+										data.no = case_.no;
+										data.title = case_.title;
+										data.auctiontitle = auction.title;																
+																																																			
+										cases.casesTreeHelper.addRow ({data: data});									
+									}
+									cases.casesTreeHelper.enableRefresh ();
+							
+									// Enable listview.
+									document.getElementById ("tree.cases").disabled = false;																
+									cases.onChange ();
+								};
 						
-			didius.case.list ({customer: main.customer, async: true, onDone: onDone});				
+				didius.case.list ({customer: main.customer, async: true, onDone: onDone});
+				break;
+			}			
+		}		
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -295,15 +349,33 @@ var cases =
 	onChange : function ()
 	{
 		if (cases.casesTreeHelper.getCurrentIndex () != -1)
-		{					
-			document.getElementById ("caseEdit").disabled = false;
-			document.getElementById ("caseDestroy").disabled = false;				
+		{								
+			document.getElementById ("button.casecreate").disabled = false;
+			document.getElementById ("button.caseedit").disabled = false;
+			document.getElementById ("button.casedestroy").disabled = false;				
 		}
 		else
-		{												
-			document.getElementById ("caseEdit").disabled = true;
-			document.getElementById ("caseDestroy").disabled = true;				
+		{										
+			document.getElementById ("button.casecreate").disabled = false;		
+			document.getElementById ("button.caseedit").disabled = true;
+			document.getElementById ("button.casedestroy").disabled = true;				
 		}						
+	},
+			
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------			
+	create : function ()
+	{
+		var onDone =	function (result)
+						{
+							if (result)
+							{
+								app.window.open (window, "chrome://didius/content/case/edit.xul", "didius.case.edit."+ SNDK.tools.newGuid (), null, {auctionId: result.id, customerId: main.customer.id});
+							}
+						};
+													
+		app.choose.auction ({parentWindow: window, onDone: onDone});
 	},
 			
 	// ------------------------------------------------------------------------------------------------------
@@ -311,7 +383,7 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	edit : function ()
 	{				
-		window.openDialog ("chrome://didius/content/case/edit.xul", "didius.case.edit."+ cases.casesTreeHelper.getRow ().id, "chrome", {caseId: cases.casesTreeHelper.getRow ().id});
+		app.window.open (window, "chrome://didius/content/case/edit.xul", "didius.case.edit."+ cases.casesTreeHelper.getRow ().id, null, {caseId: cases.casesTreeHelper.getRow ().id});
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -323,7 +395,7 @@ var cases =
 		{
 			try
 			{
-				didius.case.destroy (cases.casesTreeHelper.getRow ().id);					
+				didius.case.destroy ({id: cases.casesTreeHelper.getRow ().id});
 			}
 			catch (error)
 			{
@@ -348,7 +420,7 @@ var bids =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		bids.bidsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("bids"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: bids.edit});			
+		bids.bidsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.bids"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: bids.edit});			
 		bids.set ();
 	},
 				
@@ -357,34 +429,55 @@ var bids =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		var onDone = 	function (items)
-						{				
-							bids.bidsTreeHelper.disableRefresh ();										
-							for (idx in items)
-							{				
-								var data = {};
-								data.id = items[idx].id;
-								data.createtimestamp = items[idx].createtimestamp;
-								data.auctionno = items[idx].item.case.auction.no;
-								data.auctiontitle = items[idx].item.case.auction.title;
-								data.itemno = items[idx].item.no;
-								data.itemtitle = items[idx].item.title;
-								data.amount = items[idx].amount;
-								
-								bids.bidsTreeHelper.addRow ({data: data});
-							}
-							bids.bidsTreeHelper.enableRefresh ();
-							
-							// Enable controls
-							document.getElementById ("bids").disabled = false;																
-							bids.onChange ();
-						};
-
-			// Disable controls
-			document.getElementById ("bids").disabled = true;					
-			document.getElementById ("bidShow").disabled = true;				
-					
-			didius.bid.list ({customer: main.customer, async: true, onDone: onDone});
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				document.getElementById ("tree.bids").disabled = false;																											
+				bids.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{					
+				var onDone = 	function (items)
+								{				
+									bids.bidsTreeHelper.disableRefresh ();										
+									for (idx in items)
+									{				
+										var bid = items[idx];																								
+										var item = didius.item.load ({id: bid.itemid});								
+										var _case = didius.case.load ({id: item.caseid});																
+										var auction = didius.auction.load (_case.auctionid);
+									
+										var data = {};
+										data.id = bid.id;
+										data.createtimestamp = bid.createtimestamp;
+										data.auctionno = auction.no;
+										data.auctiontitle = auction.title;
+										data.itemcatalogno = item.catalogno;
+										data.itemno = item.no;
+										data.itemtitle = item.title;
+										data.amount = bid.amount.toFixed (2) +" kr.";
+										
+										bids.bidsTreeHelper.addRow ({data: data});
+									}
+									bids.bidsTreeHelper.enableRefresh ();
+									
+									// Enable listview.
+									document.getElementById ("tree.bids").disabled = false;																											
+									bids.onChange ();
+								};
+						
+				var onError =	function (exception)
+								{
+									app.error ({exception: exception})							
+								};
+			
+				didius.bid.list ({customer: main.customer, onDone: onDone, onError: onError});
+				break;
+			}
+		}
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -394,20 +487,65 @@ var bids =
 	{
 		if (bids.bidsTreeHelper.getCurrentIndex () != -1)
 		{					
-			document.getElementById ("bidShow").disabled = false;
+			document.getElementById ("button.bidcreate").disabled = false;
+			document.getElementById ("button.bidedit").disabled = false;
+			document.getElementById ("button.biddestroy").disabled = false;
 		}
 		else
 		{												
-			document.getElementById ("bidShow").disabled = true;
+			document.getElementById ("button.bidcreate").disabled = false;
+			document.getElementById ("button.bidedit").disabled = true;
+			document.getElementById ("button.biddestroy").disabled = true;
 		}						
 	},
-				
+						
 	// ------------------------------------------------------------------------------------------------------
-	// | SHOW																							|	
+	// | CREATE																								|	
 	// ------------------------------------------------------------------------------------------------------
-	show : function ()
-	{		
-		window.openDialog ("chrome://didius/content/bid/edit.xul", "didius.bid.edit."+ bids.bidsTreeHelper.getRow ().id, "chrome", {bidid: bids.bidsTreeHelper.getRow ().id});
+	create : function ()
+	{
+		window.openDialog ("chrome://didius/content/bid/create.xul", "didius.bid.create."+ SNDK.tools.newGuid (), "chrome", {customerId: main.customer.id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | EDIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	edit : function ()
+	{
+		window.openDialog ("chrome://didius/content/bid/edit.xul", "didius.bid.edit."+ bids.bidsTreeHelper.getRow ().id, "chrome", {bidId: bids.bidsTreeHelper.getRow ().id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | DESTROY																							|	
+	// ------------------------------------------------------------------------------------------------------
+	destroy : function ()
+	{
+		if (app.window.prompt.confirm ("Slet bud", "Er du sikker på du vil slette dette bud ?"))
+		{
+			try
+			{
+				var bid = didius.bid.load ({id: bids.bidsTreeHelper.getRow ().id});								
+				var item = didius.item.load ({id: bid.itemid});
+			
+				if (item.invoiced == true)
+				{
+					if (app.window.prompt.confirm ("Bud er faktureret", "Før dette bud kan rettes, skal der laves en kreditnota. Vil du gøre dette ?"))
+					{				
+						var creditnote = didius.creditnote.create ({customer: main.customer, item: item, simulate: false});									
+					}
+					else
+					{
+						return;
+					}
+				}
+			
+				didius.bid.destroy ({id: bids.bidsTreeHelper.getRow ().id});
+			}
+			catch (error)
+			{
+				app.error ({exception: error})
+			}								
+		}
 	}
 }
 
@@ -426,7 +564,7 @@ var settlements =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		settlements.settlementsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("settlements"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: settlements.show});			
+		settlements.settlementsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.settlements"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: settlements.show});			
 		settlements.set ();
 	},
 				
@@ -435,33 +573,44 @@ var settlements =
 	// ------------------------------------------------------------------------------------------------------		
 	set : function ()
 	{
-		var onDone = 	function (items)
-						{				
-							settlements.settlementsTreeHelper.disableRefresh ();								
-							for (idx in items)
-							{				
-								var data = {};
-								data.id = items[idx].id;
-								data.createtimestamp = items[idx].createtimestamp;
-								data.no = items[idx].no;
-								data.caseno = items[idx].case.no;
-								data.auctiontitle = items[idx].case.auction.title;
-								data.total = items[idx].total;																	
-								
-								settlements.settlementsTreeHelper.addRow ({data: data});
-							}
-							settlements.settlementsTreeHelper.enableRefresh ();
-							
-							// Enable controls
-							document.getElementById ("settlements").disabled = false;																
-							settlements.onChange ();
-						};
-
-			// Disable controls
-			document.getElementById ("settlements").disabled = true;					
-			document.getElementById ("settlementShow").disabled = true;				
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview.
+				document.getElementById ("tree.settlements").disabled = false;
+				settlements.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (items)
+								{				
+									settlements.settlementsTreeHelper.disableRefresh ();								
+									for (idx in items)
+									{				
+										var data = {};
+										data.id = items[idx].id;
+										data.createtimestamp = items[idx].createtimestamp;
+										data.no = items[idx].no;
+										data.caseno = items[idx].case.no;
+										data.auctiontitle = items[idx].case.auction.title;
+										data.total = items[idx].total.toFixed (2) +" kr.";	
+										
+										settlements.settlementsTreeHelper.addRow ({data: data});
+									}
+									settlements.settlementsTreeHelper.enableRefresh ();
+									
+									// Enable listview.
+									document.getElementById ("tree.settlements").disabled = false;
+									settlements.onChange ();
+								};
 					
-			didius.settlement.list ({customer: main.customer, async: true, onDone: onDone});
+				didius.settlement.list ({customer: main.customer, async: true, onDone: onDone});
+				break;
+			}		
+		}	
 	},
 			
 	// ------------------------------------------------------------------------------------------------------
@@ -471,11 +620,11 @@ var settlements =
 	{
 		if (settlements.settlementsTreeHelper.getCurrentIndex () != -1)
 		{					
-			document.getElementById ("settlementShow").disabled = false;				
+			document.getElementById ("button.settlementshow").disabled = false;				
 		}
 		else
 		{												
-			document.getElementById ("settlementShow").disabled = true;				
+			document.getElementById ("button.settlementshow").disabled = true;				
 		}						
 	},
 				
@@ -503,41 +652,58 @@ var invoices =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("invoices"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: invoices.show});			
+		invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.invoices"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: invoices.show});			
 		invoices.set ();
 	},
-				
+					
 	// ------------------------------------------------------------------------------------------------------
 	// | SET																								|	
 	// ------------------------------------------------------------------------------------------------------		
 	set : function ()
 	{
-		var onDone = 	function (items)
-						{														
-							invoices.invoicesTreeHelper.disableRefresh ();
-							for (idx in items)
-							{				
-								var data = {};
-								data.id = items[idx].id;
-								data.createtimestamp = items[idx].createtimestamp;
-								data.no = items[idx].no;									
-								data.auctiontitle = items[idx].auction.title;
-								data.total = items[idx].total;																	
-								
-								invoices.invoicesTreeHelper.addRow ({data: data});
-							}
-							invoices.invoicesTreeHelper.enableRefresh ();							
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview.
+				document.getElementById ("tree.invoices").disabled = false;											
+				invoices.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (items)
+								{														
+									invoices.invoicesTreeHelper.disableRefresh ();
+									for (idx in items)
+									{				
+										var item = items[idx];
+																														
+										var data = {};
+										data.id = item.id;
+										data.createtimestamp = item.createtimestamp;
+										data.no = item.no;				
+										
+										var date = SNDK.tools.timestampToDate (item.createtimestamp)										
+										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+																				
+										data.vat = item.vat.toFixed (2) +" kr."; 
+										data.total = item.total.toFixed (2) +" kr.";			
+										
+										invoices.invoicesTreeHelper.addRow ({data: data});
+									}
+									invoices.invoicesTreeHelper.enableRefresh ();							
+									
+									// Enable listview.
+									document.getElementById ("tree.invoices").disabled = false;																
+									invoices.onChange ();
+								};
 							
-							// Enable controls
-							document.getElementById ("invoices").disabled = false;																
-							invoices.onChange ();
-						};
-
-			// Disable controls
-			document.getElementById ("invoices").disabled = true;					
-			document.getElementById ("invoiceShow").disabled = true;				
-					
-			didius.invoice.list ({customer: main.customer, async: true, onDone: onDone});
+				didius.invoice.list ({customer: main.customer, async: true, onDone: onDone});
+				break;
+			}
+		}
 	},
 					
 	// ------------------------------------------------------------------------------------------------------
@@ -547,21 +713,154 @@ var invoices =
 	{
 		if (invoices.invoicesTreeHelper.getCurrentIndex () != -1)
 		{					
-			document.getElementById ("invoiceShow").disabled = false;				
+			document.getElementById ("button.invoiceshow").disabled = false;				
+			document.getElementById ("button.invoicecreate").disabled = false;
 		}
 		else
 		{												
-			document.getElementById ("invoiceShow").disabled = true;				
+			document.getElementById ("button.invoiceshow").disabled = true;
+			document.getElementById ("button.invoicecreate").disabled = false;				
 		}						
 	},
 				
 	// ------------------------------------------------------------------------------------------------------
-	// | SHOW																							|	
+	// | SHOW																								|	
 	// ------------------------------------------------------------------------------------------------------																																																				
 	show : function ()
 	{				
-		window.openDialog ("chrome://didius/content/auction/invoice/show.xul", "didius.auction.invoice.show."+ invoices.invoicesTreeHelper.getRow ().id, "chrome", {invoiceId: invoices.invoicesTreeHelper.getRow ().id});
-	}
+		window.openDialog ("chrome://didius/content/invoice/show.xul", "didius.auction.invoice.show."+ invoices.invoicesTreeHelper.getRow ().id, "chrome", {invoiceId: invoices.invoicesTreeHelper.getRow ().id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------
+	create : function ()
+	{				
+		var onDone = 	function (result)
+						{					
+							if (result)
+							{								
+								if (result != null)
+								{								
+									window.openDialog ("chrome://didius/content/invoice/create.xul", "didius.auction.invoice.show."+ SNDK.tools.newGuid (), "chrome", {customerId: main.customer.id, auctionId: result.id});
+								}									
+							}																												
+						};
+																				
+		app.choose.auction ({onDone: onDone, parentWindow: window});		
+	},
+}
+
+// ----------------------------------------------------------------------------------------------------------
+// | CREDITNOTES																							|
+// ----------------------------------------------------------------------------------------------------------
+var creditnotes =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	invoicesTreeHelper : null,
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	init : function ()
+	{
+		creditnotes.creditnotesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.creditnotes"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: creditnotes.show});
+		creditnotes.set ();
+	},
+					
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------		
+	set : function ()
+	{
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview.
+				document.getElementById ("tree.creditnotes").disabled = false;
+				invoices.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (items)
+								{														
+									creditnotes.creditnotesTreeHelper.disableRefresh ();
+									for (idx in items)
+									{				
+										var item = items[idx];
+																	
+										var data = {};
+										data.id = item.id;
+										data.createtimestamp = item.createtimestamp;
+										data.no = item.no;				
+										
+										var date = SNDK.tools.timestampToDate (item.createtimestamp)										
+										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+																					
+										data.vat = item.vat.toFixed (2) +" kr.";
+										data.total = item.total.toFixed (2) +" kr.";
+										
+										creditnotes.creditnotesTreeHelper.addRow ({data: data});
+									}
+									creditnotes.creditnotesTreeHelper.enableRefresh ();							
+									
+									// Enable listview.
+									document.getElementById ("tree.creditnotes").disabled = false;
+									creditnotes.onChange ();
+								};
+							
+				didius.creditnote.list ({customer: main.customer, async: true, onDone: onDone});
+				break;
+			}
+		}
+	},
+					
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------					
+	onChange : function ()
+	{
+		if (creditnotes.creditnotesTreeHelper.getCurrentIndex () != -1)
+		{					
+			document.getElementById ("button.creditnoteshow").disabled = false;							
+		}
+		else
+		{												
+			document.getElementById ("button.creditnoteshow").disabled = true;			
+		}						
+	},
+				
+	// ------------------------------------------------------------------------------------------------------
+	// | SHOW																								|	
+	// ------------------------------------------------------------------------------------------------------																																																				
+	show : function ()
+	{				
+		window.openDialog ("chrome://didius/content/creditnote/show.xul", "didius.creditnote.show."+ creditnotes.creditnotesTreeHelper.getRow ().id, "chrome", {creditnoteId: creditnotes.creditnotesTreeHelper.getRow ().id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------
+	create : function ()
+	{				
+		var onDone = 	function (result)
+						{					
+							if (result)
+							{								
+								if (result != null)
+								{								
+									window.openDialog ("chrome://didius/content/invoice/create.xul", "didius.auction.invoice.show."+ SNDK.tools.newGuid (), "chrome", {customerId: main.customer.id, auctionId: result.id});
+								}									
+							}																												
+						};
+																				
+		app.choose.auction ({onDone: onDone, parentWindow: window});		
+	},
 }
 	
 // ----------------------------------------------------------------------------------------------------------
@@ -582,7 +881,7 @@ var notes =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		document.getElementById ("notes").value = main.customer.notes;
+		document.getElementById ("textbox.notes").value = main.customer.notes;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -590,15 +889,14 @@ var notes =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.customer.notes = document.getElementById ("notes").value;
+		main.customer.notes = document.getElementById ("textbox.notes").value;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
 	// | ONCHANGE																							|	
 	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
-	{
-		notes.get ();	
+	{		
 		main.onChange ();
 	}
 }
@@ -618,24 +916,13 @@ var eventHandlers =
 			main.close (true);
 		}
 	},
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | ONCASECREATE																						|	
-	// ------------------------------------------------------------------------------------------------------
-	onCaseCreate : function (eventData)
-	{
-		if (main.current.id == eventData.customerid)
-		{
-			cases.casesTreeHelper.addRow ({data: eventData});
-		}
-	},
-		
+			
 	// ------------------------------------------------------------------------------------------------------
 	// | ONCASESAVE																							|	
 	// ------------------------------------------------------------------------------------------------------
 	onCaseSave : function (eventData)
 	{
-		if (main.current.id == eventData.customerid)
+		if (main.customer.id == eventData.customerid)
 		{
 			cases.casesTreeHelper.setRow ({data: eventData});
 		}
@@ -647,47 +934,32 @@ var eventHandlers =
 	onCaseDestroy : function (eventData)
 	{
 		cases.casesTreeHelper.removeRow ({id: eventData.id});
-	},
-		
-	// ------------------------------------------------------------------------------------------------------
-	// | ONBIDCREATE																						|	
-	// ------------------------------------------------------------------------------------------------------
-	onBidCreate : function (eventData)
-	{
-		if (main.current.id == eventData.customerid)
-		{
-			var data = {};
-		
-			data.id = eventData.id;
-			data.createtimestamp = eventData.createtimestamp;
-			data.auctionno = eventData.item.case.auction.no;
-			data.auctiontitle = eventData.item.case.auction.title;
-			data.itemno = eventData.item.no;
-			data.itemtitle = eventData.item.title;
-			data.amount = eventData.amount;
-			
-			bids.bidsTreeHelper.addRow ({data: data});
-		}
-	},
+	},		
 		
 	// ------------------------------------------------------------------------------------------------------
 	// | ONBIDSAVE																							|	
 	// ------------------------------------------------------------------------------------------------------
 	onBidSave : function (eventData)
 	{
-		if (main.current.id == eventData.customer.id)
+		if (main.customer.id == eventData.customer.id)
 		{
 			var data = {};
 			
+			var item = didius.item.load (eventData.itemid);
+			var _case = didius.case.load (item.caseid);																
+			var auction = didius.auction.load (_case.auctionid);
+									
+			var data = {};
 			data.id = eventData.id;
 			data.createtimestamp = eventData.createtimestamp;
-			data.auctionno = eventData.item.case.auction.no;
-			data.auctiontitle = eventData.item.case.auction.title;
-			data.itemno = eventData.item.no;
-			data.itemtitle = eventData.item.title;
-			data.amount = eventData.amount;
+			data.auctionno = auction.no;
+			data.auctiontitle = auction.title;
+			data.itemcatalogno = item.catalogno;
+			data.itemno = item.no;
+			data.itemtitle = item.title;
+			data.amount = eventData.amount.toFixed (2) +" kr.";
 			
-			bids.bidsTreeHelper.addRow ({data: data});
+			bids.bidsTreeHelper.setRow ({data: data});
 		}
 	},
 		
@@ -724,17 +996,44 @@ var eventHandlers =
 	// ------------------------------------------------------------------------------------------------------
 	onInvoiceCreate : function (eventData)
 	{
-		if (main.current.id == eventData.customerid)
+		if (main.customer.id == eventData.customerid)
+		{
+			var data = {};
+																		
+			data.id = eventData.id;
+			data.createtimestamp = eventData.createtimestamp;
+			data.no = eventData.no;				
+																													
+			var date = SNDK.tools.timestampToDate (eventData.createtimestamp)										
+			data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+										
+			data.vat = eventData.vat.toFixed (2) +" kr."; 
+			data.total = eventData.total.toFixed (2) +" kr.";			
+			
+			invoices.invoicesTreeHelper.addRow ({data: data});			
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCREDITNOTECREATE																					|	
+	// ------------------------------------------------------------------------------------------------------
+	onCreditnoteCreate : function (eventData)
+	{
+		if (main.customer.id == eventData.customerid)
 		{
 			var data = {};
 			
 			data.id = eventData.id;
 			data.createtimestamp = eventData.createtimestamp;
 			data.no = eventData.no;				
-			data.auctiontitle = eventData.case.auction.title;								
-			data.total = eventData.total;
+										
+			var date = SNDK.tools.timestampToDate (eventData.createtimestamp)										
+			data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+																					
+			data.vat = eventData.vat.toFixed (2) +" kr.";
+			data.total = eventData.total.toFixed (2) +" kr.";
 			
-			invoices.invoicesTreeHelper.addRow ({data: data});			
+			creditnotes.creditnotesTreeHelper.addRow ({data: data});			
 		}
 	}
 }

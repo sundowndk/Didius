@@ -1,17 +1,16 @@
 ajaxUrl1 : "http://sorentotest.sundown.dk/",
-ajaxUrl : "http://78.109.223.248/",
+ajaxUrl2 : "http://78.109.223.248/",
+ajaxUrl : "http://york.didius.qnax.net/",
 browserMode: false,
 
 initialize : function ()
 {
 	try
-	{
-		app.events.onCustomerCreate = new sXUL.event ({id: "onCustomerCreate", remotePropagation: true});
+	{		
 		app.events.onCustomerLoad = new sXUL.event ({id: "onCustomerLoad", remotePropagation: true});
 		app.events.onCustomerSave = new sXUL.event ({id: "onCustomerSave", remotePropagation: true});
 		app.events.onCustomerDestroy = new sXUL.event ({id: "onCustomerDestroy", remotePropagation: true});
-	
-		app.events.onAuctionCreate = new sXUL.event ({id: "onAuctionCreate", remotePropagation: true});
+			
 		app.events.onAuctionLoad = new sXUL.event ({id: "onAuctionLoad", remotePropagation: true});
 		app.events.onAuctionSave = new sXUL.event ({id: "onAuctionSave", remotePropagation: true});
 		app.events.onAuctionDestroy = new sXUL.event ({id: "onAuctionDestroy", remotePropagation: true});
@@ -26,7 +25,6 @@ initialize : function ()
 		app.events.onItemSave = new sXUL.event ({id: "onItemSave", remotePropagation: true});
 		app.events.onItemDestroy = new sXUL.event ({id: "onItemDestroy", remotePropagation: true});
 	
-		app.events.onBidCreate = new sXUL.event ({id: "onBidCreate", remotePropagation: true});
 		app.events.onBidLoad = new sXUL.event ({id: "onBidLoad", remotePropagation: true});
 		app.events.onBidSave = new sXUL.event ({id: "onBidSave", remotePropagation: true});
 		app.events.onBidDestroy = new sXUL.event ({id: "onBidDestroy", remotePropagation: true});
@@ -36,6 +34,9 @@ initialize : function ()
 	
 		app.events.onInvoiceCreate = new sXUL.event ({id: "onInvoiceCreate", remotePropagation: true});
 		app.events.onInvoiceLoad = new sXUL.event ({id: "onInvoiceLoad", remotePropagation: true});
+		
+		app.events.onCreditnoteCreate = new sXUL.event ({id: "onCreditnoteCreate", remotePropagation: true});
+		app.events.onCreditnoteLoad = new sXUL.event ({id: "onCreditnoteLoad", remotePropagation: true});
 	
 		app.events.onUserCreate = new sXUL.event ({id: "onUserCreate", remotePropagation: true});
 		app.events.onUserLoad = new sXUL.event ({id: "onUserLoad", remotePropagation: true});

@@ -11,17 +11,18 @@
 	<script type="application/x-javascript" src="chrome://didius/content/case/edit.js"/>	
 			
 	<keyset>
-  		<key id="key-close-extra" modifiers="control" key="w" oncommand="main.close ();"/>
-  		<key id="key-close" modifiers="control" key="l" oncommand="main.close ();"/>
-  		<key id="key-save" modifiers="control" key="g" oncommand="main.close ();"/>
+  		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
+  		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/>  		  		
+  		<key id="key.tabdetails" modifiers="alt" key="1" oncommand="document.getElementById ('tab.details').click ();"/>
+  		<key id="key.tabitems" modifiers="alt" key="2" oncommand="document.getElementById ('tab.items').click ();"/>  		
 	</keyset>
 			
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">		
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal"> 			
 				<tabs style="overflow:hidden">
-					<tab label="Detaljer"/>
-					<tab label="Effekter"/>							
+					<tab id="tab.details" label="Detaljer" disabled="true"/>
+					<tab id="tab.items" label="Effekter" disabled="true"/>							
 				</tabs>
 			</arrowscrollbox>
 						
@@ -32,17 +33,17 @@
 							<caption label="Meta"/>							
 							<hbox align="center">
 								<label class="Label">Sags nr.:</label>
-								<textbox id="no" flex="1" readonly="true"  />
+								<textbox id="textbox.no" flex="1" readonly="true"  />
 								<label class="Label">Oprettet:</label>
-								<datepicker id="createdate" type="normal" disabled="true"/>
+								<datepicker id="datepicker.createdate" type="normal" disabled="true"/>
 							</hbox>
 							<hbox align="center">
 								<label class="Label">Auktion:</label>
-								<textbox id="auction" flex="1" readonly="true"/>
+								<textbox id="textbox.auctiontitle" flex="1" readonly="true"/>
 							</hbox>
 							<hbox align="center">
 								<label class="Label">Kunde:</label>
-								<textbox id="customer" flex="1" readonly="true"/>
+								<textbox id="textbox.customername" flex="1" readonly="true"/>
 							</hbox>
 						</groupbox>
 						
@@ -50,11 +51,11 @@
 							<caption label="Andet"/>	
 							<hbox align="center">
 								<label class="Label">Title:</label>
-								<textbox id="title" flex="1" onkeyup="details.onChange ();" />
+								<textbox id="textbox.title" flex="1" onkeyup="details.onChange ();" />
 							</hbox>
 							<hbox align="center">
 								<label class="Label">Kunde ref:</label>
-								<textbox id="customerreference" flex="1" onkeyup="details.onChange ();"/>
+								<textbox id="textbox.customerreference" flex="1" onkeyup="details.onChange ();"/>
 							</hbox>							
 						</groupbox>						
 																		
@@ -62,11 +63,11 @@
 							<caption label="Salær"/>							
 							<hbox align="center">
 								<label class="Label">Procent:</label>							
-								<textbox id="commisionfeepercentage" type="number" decimalplaces="0" flex="1" hidespinbuttons="true" onchange="details.onChange ();" />
+								<textbox id="textbox.commisionfeepercentage" type="number" decimalplaces="0" flex="1" hidespinbuttons="true" onchange="details.onChange ();" />
 							</hbox>  					
 							<hbox align="center">
 								<label class="Label">Minimum:</label>								
-								<textbox id="commisionfeeminimum" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" />
+								<textbox id="textbox.commisionfeeminimum" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" onchange="details.onChange ();" />
 							</hbox>  					
 						</groupbox>
 					</vbox>
@@ -74,7 +75,7 @@
     			
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="items.onChange ();" seltype="single">
+						<tree id="tree.items" flex="1" hidecolumnpicker="true" disabled="true" onselect="items.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
 								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="items.sort ({column: 'catalogno'});"/>
@@ -85,9 +86,9 @@
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="itemCreate" label="Opret" disabled="true" oncommand="items.create ();"/>
-							<button id="itemEdit" label="Redigere" disabled="true" oncommand="items.edit ();"/>
-							<button id="itemDestroy" label="Slet" disabled="true" oncommand="items.destroy ();"/>	
+							<button id="button.itemcreate" label="Opret" disabled="true" oncommand="items.create ();" accesskey="O"/>
+							<button id="button.itemedit" label="Redigere" disabled="true" oncommand="items.edit ();" accesskey="R"/>
+							<button id="button.itemdestroy" label="Slet" disabled="true" oncommand="items.destroy ();" accesskey="S"/>	
 						</vbox>	
 					</hbox>						
 				</tabpanel>
@@ -96,18 +97,14 @@
 	</hbox>
 	
 	<hbox class="WindowButtons">
-		<hbox id="createSettlementBox" align="left"  collapsed="true"> 
-			<button id="createSettlement" label="Afregn" oncommand="settlement.create ();" disabled="true"/>
+		<hbox align="left"> 
+			<button id="buttin.settlementcreate" label="Afregn" oncommand="settlement.create ();" disabled="true" collapsed="true" accesskey="A"/>
+			<button id="button.settlementshow" label="Vis afregning" oncommand="settlement.show ();" disabled="true" collapsed="true" accesskey="V"/>
+			<button id="button.salesagreementshow" label="Salgsaftale" oncommand="salesAgreement.show ();" accesskey="a"/>
 		</hbox>
-		<hbox id="showSettlementBox" align="left" collapsed="true"> 
-			<button id="showSettlement" label="Vis afregning" oncommand="settlement.show ();" disabled="true"/>
-		</hbox>		
-		<hbox align="left"> 						
-			<button id="showSalesAgreement" label="Salgsaftale" oncommand="salesAgreement.show ();"/>
-		</hbox>		
 		<hbox align="right" flex="1"> 
-			<button id="close" label="Luk" oncommand="main.close ();"  accesskey="L" key="key-close"/>
-			<button id="save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G" key="key-save"/>
+			<button id="button.close" label="Luk" oncommand="main.close ();"  modifiers="control" accesskey="L"/>
+			<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G"/>
 		</hbox>
 	</hbox>
 </window>

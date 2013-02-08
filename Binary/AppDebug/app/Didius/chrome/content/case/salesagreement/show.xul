@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.case.salesagreement.show" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
-	
+<window id="didius.case.salesagreement.show" title="Salgsaftale" minwidth="700" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
@@ -11,7 +11,12 @@
 	<script type="application/javascript" src="chrome://didius/content/case/salesagreement/show.js"/>	
 			
 	<keyset>
-  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
+  		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.print" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.mail" modifiers="control" key="m" oncommand="main.close ();"/>
+  		
+  		window.arguments[0].onDone (main.auctionsTreeHelper.getRow ());
 	</keyset>			
 			
 	<hbox class="Main" flex="1">
@@ -22,13 +27,13 @@
 						<groupbox>
 							<caption label="Effekter"/>	
 							<hbox align="center">
-								<tree id="items" flex="1" hidecolumnpicker="true" readonly="true" seltype="single" height="200">
+								<tree id="tree.items" flex="1" hidecolumnpicker="true" readonly="true" seltype="single" height="200">
 									<treecols>
 										<treecol id="id" hidden="true"/>
 										<treecol id="catalogno" label="Katalog nr." width="30" persist="width" />
 										<treecol id="no" label="Effekt nr." width="100" persist="width"/>
 										<treecol id="title" label="Title" flex="3" persist="width" />										
-										<treecol id="commissionfee" label="Salær" flex="1" persist="width" style="text-align: right;" />
+										<treecol id="minimumbid" label="Minimumsbud" flex="1" persist="width" style="text-align: right;" />
 									</treecols>								
 								</tree>
 							</hbox>							
@@ -40,12 +45,12 @@
 	</hbox>
 	
 	<hbox class="WindowButtons">
-		<hbox id="settleBox" align="left" flex="1"> 
-			<button id="print" label="Udskriv" oncommand="main.print ();" disabled="true"/>
-			<button id="mail" label="Send på mail" oncommand="main.mail ();" disabled="true"/>
+		<hbox align="left" flex="1"> 
+			<button id="button.print" label="Udskriv" oncommand="main.print ();" disabled="true" accesskey="U" key="key.print"/>
+			<button id="button.mail" label="Send på mail" oncommand="main.mail ();" disabled="true" accesskey="S" key="key.mail"/>
 		</hbox>
 		<hbox align="right" flex="1"> 
-			<button id="close" label="Luk" oncommand="main.close ();" />			
+			<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L" key="key.close"/>
 		</hbox>
 	</hbox>
 </window>

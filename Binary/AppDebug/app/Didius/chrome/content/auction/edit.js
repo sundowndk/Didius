@@ -1,215 +1,166 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ---------------------------------------------------------------------------------------------------------
 var main =
 {
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	mode : null,
 	checksum : null,
-	current : null,
+	auction : null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		try
-		{
-			main.current = didius.auction.load (window.arguments[0].auctionId);
+		if (window.arguments[0].auctionId == null)
+		{						
+			main.auction = didius.auction.create ();
+			main.mode = "NEW";									
 		}
-		catch (error)
+		else if (window.arguments[0].auctionId != null)
 		{
-			app.error ({exception: error})
-			main.close ();
-			return;
-		}								
+			try
+			{
+				main.auction = didius.auction.load (window.arguments[0].auctionId);
+			}
+			catch (error)
+			{
+				app.error ({exception: error})
+				main.close ();
+				return;
+			}		
+			
+			main.mode = "EDIT";						
+		}
+	
+		// Init tabs.
+		details.init ();
+		cases.init ();
+		items.init ();
+		notes.init ();
 	
 		main.set ();
 		
 		// Hook events.			
-		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);
+		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);
 		
-		app.events.onCaseCreate.addHandler (main.eventHandlers.onCaseCreate);
-		app.events.onCaseSave.addHandler (main.eventHandlers.onCaseSave);
-		app.events.onCaseDestroy.addHandler (main.eventHandlers.onCaseDestroy);				
+		app.events.onCaseSave.addHandler (eventHandlers.onCaseSave);
+		app.events.onCaseDestroy.addHandler (eventHandlers.onCaseDestroy);				
 		
-		app.events.onItemCreate.addHandler (main.eventHandlers.onItemCreate);
-		app.events.onItemSave.addHandler (main.eventHandlers.onItemSave);
-		app.events.onItemDestroy.addHandler (main.eventHandlers.onItemDestroy);				
+		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);				
 	},
 	
-	eventHandlers : 
-	{
-		onItemCreate : function (eventData)
-		{		
-			var onDone = 	function (items)
-							{
-								for (idx in items)
-								{
-									if (items[idx].id == eventData.caseid)
-									{	
-										main.items.itemsTreeHelper.addRow ({data: eventData});
-										break;
-									}
-								}
-							};
-						
-			didius.case.list ({auction: main.current, async: true, onDone: onDone});
-		},
-		
-		onItemSave : function (eventData)
-		{			
-			var onDone = 	function (items)
-							{
-								for (idx in items)
-								{
-									if (items[idx].id == eventData.caseid)
-									{	
-										main.items.itemsTreeHelper.setRow ({data: eventData});
-										break;
-									}
-								}
-							};
-						
-			didius.case.list ({auction: main.current, async: true, onDone: onDone});	
-		},
-		
-		onItemDestroy : function (eventData)
-		{
-			main.items.itemsTreeHelper.removeRow ({id: eventData.id});	
-		},
-		
-		onCaseCreate : function (eventData)
-		{		
-			if (main.current.id == eventData.auctionid)
-			{	
-				var data = {};
-				data.id = eventData.id;
-				data.no = eventData.no;
-				data.title = eventData.title;
-				data.customer = eventData.customer.name;
-			
-				main.cases.casesTreeHelper.addRow ({data: data});
-			}
-		},
-		
-		onCaseSave : function (eventData)
-		{			
-			if (main.current.id == eventData.auctionid)
-			{	
-				var data = {};
-				data.id = eventData.id;
-				data.no = eventData.no;
-				data.title = eventData.title;
-				data.customer = eventData.customer.name;
-			
-				main.cases.casesTreeHelper.setRow ({data: data});
-			}
-		},
-		
-		onCaseDestroy : function (eventData)
-		{
-			main.cases.casesTreeHelper.removeRow ({id: eventData.id});
-		},		
-		
-		onAuctionDestroy : function (eventData)
-		{
-			if (main.current.id == eventData.id)
-			{
-				main.close (true);
-			}
-		}
-	},
-		
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		main.checksum = SNDK.tools.arrayChecksum (main.current);
-	
-		document.getElementById ("no").value = main.current.no;
-		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.current.createtimestamp);
-	
-		document.getElementById ("title").value = main.current.title;				
-		document.getElementById ("status").value = main.current.status;		
-		document.getElementById ("type").value = main.current.type;		
+		main.checksum = SNDK.tools.arrayChecksum (main.auction);
 		
-		var begin = new Date (Date.parse (main.current.begin));
-		document.getElementById ("begin").dateValue = begin;
-		document.getElementById ("begintime").value = begin.getHours () +":"+ begin.getMinutes ();
+		details.set ();
+		cases.set ();
+		items.set ();
+		notes.set ();
 		
-		var end = new Date (Date.parse (main.current.end));
-		document.getElementById ("end").dateValue = end;
-		document.getElementById ("endtime").value = end.getHours () +":"+ end.getMinutes ();
-		
-		var deadline = new Date (Date.parse (main.current.deadline));
-		document.getElementById ("deadline").dateValue = deadline;
-		document.getElementById ("deadlinetime").value = deadline.getHours () +":"+ deadline.getMinutes ();
-		
-		document.getElementById ("location").value = main.current.location;						
-		
-		document.getElementById ("description").value = main.current.description;						
-		
-		document.getElementById ("notes").value = main.current.notes;		
-						
-		main.cases.init ();
-		main.items.init ();
-							
-		document.getElementById ("title").focus ();		
-							
 		main.onChange ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | GET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.current.title = document.getElementById ("title").value;		
-		
-		main.current.status = document.getElementById ("status").value;		
-		main.current.type = document.getElementById ("type").value;		
-		
-		var begin = document.getElementById ("begin").dateValue;
-		begin.setHours (document.getElementById ("begintime").value.split (":")[0]);
-		begin.setMinutes (document.getElementById ("begintime").value.split (":")[1]);						
-		main.current.begin = SNDK.tools.dateToYMDHM (begin);		
-		
-		var end = document.getElementById ("end").dateValue;
-		end.setHours (document.getElementById ("endtime").value.split (":")[0]);
-		end.setMinutes (document.getElementById ("endtime").value.split (":")[1]);										
-		main.current.end = SNDK.tools.dateToYMDHM (end);
-		
-		var deadline = document.getElementById ("deadline").dateValue;
-		deadline.setHours (document.getElementById ("deadlinetime").value.split (":")[0]);
-		deadline.setMinutes (document.getElementById ("deadlinetime").value.split (":")[1]);
-		main.current.deadline = SNDK.tools.dateToYMDHM (deadline);
-		
-		sXUL.console.log (SNDK.tools.dateToYMDHM (deadline))
-		
-		main.current.location = document.getElementById ("location").value;				
-		
-		main.current.description = document.getElementById ("description").value;				
-		
-		main.current.notes = document.getElementById ("notes").value;				
+		details.get ();
+		notes.get ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onChange : function ()
+	{
+		main.get ();
 	
+		if (main.mode == "NEW")
+		{
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.cases").disabled = true;
+			document.getElementById ("tab.items").disabled = true;
+			document.getElementById ("tab.notes").disabled = false;
+		}
+		else
+		{
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.cases").disabled = false;
+			document.getElementById ("tab.items").disabled = false;
+			document.getElementById ("tab.notes").disabled = false;
+		}
+	
+		if ((SNDK.tools.arrayChecksum (main.auction) != main.checksum))
+		{
+			document.title = "Auktion: "+ main.auction.title +" ["+ main.auction.no +"] *";
+		
+			document.getElementById ("button.save").disabled = false;
+			document.getElementById ("button.close").disabled = false;
+		}
+		else
+		{
+			document.title = "Auktion: "+ main.auction.title +" ["+ main.auction.no +"]";
+		
+			document.getElementById ("button.save").disabled = true;
+			document.getElementById ("button.close").disabled = false;
+		}
+		
+		document.getElementById ("button.settle").disabled = false;
+//		
+//		if (main.current.type == "Web" || main.current.type == "LiveWeb")
+//		{
+//			document.getElementById ("end").disabled = false;
+//			document.getElementById ("endtime").disabled = false;
+//		}
+//		else
+//		{
+//			document.getElementById ("end").disabled = true;
+//			document.getElementById ("endtime").disabled = true;
+//		}
+		
+//		main.cases.onChange ();
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SAVE																								|	
+	// ------------------------------------------------------------------------------------------------------
 	save : function ()
 	{			
 		main.get ();
 		
-		didius.auction.save (main.current);
-				
-		main.checksum = SNDK.tools.arrayChecksum (main.current);
-		main.onChange ();
+		didius.auction.save (main.auction);
 		
-		if (window.arguments[0].onSave != null)
-		{
-			window.arguments[0].onSave (main.current);
-		}
+		main.mode = "EDIT";
+				
+		main.checksum = SNDK.tools.arrayChecksum (main.auction);
+		main.onChange ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------
 	close : function (force)
 	{			
 		// If we are forced to close, then dont promt user about potential unsaved data.
 		if (!force)
 		{
 			// If checksums do not match, promt user about unsaved data.
-			if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
-			{
-				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-				
-				if (!prompts.confirm (null, "Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
+			if ((SNDK.tools.arrayChecksum (main.auction) != main.checksum))
+			{							
+				if (!app.window.prompt.confirm ("Ændringer ikke gemt", "Der er fortaget ændringer, der ikke er gemt, vil du forstætte ?"))
 				{
 					return;
 				}			
@@ -217,259 +168,506 @@ var main =
 		}
 		
 		// Unhook events.						
-		app.events.onAuctionDestroy.removeHandler (main.eventHandlers.onAuctionDestroy);
+		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);
 		
-		app.events.onCaseCreate.removeHandler (main.eventHandlers.onCaseCreate);
-		app.events.onCaseSave.removeHandler (main.eventHandlers.onCaseSave);
-		app.events.onCaseDestroy.removeHandler (main.eventHandlers.onCaseDestroy);
+		app.events.onCaseSave.removeHandler (eventHandlers.onCaseSave);
+		app.events.onCaseDestroy.removeHandler (eventHandlers.onCaseDestroy);
 		
-		app.events.onItemCreate.removeHandler (main.eventHandlers.onItemCreate);
-		app.events.onItemSave.removeHandler (main.eventHandlers.onItemSave);
-		app.events.onItemDestroy.removeHandler (main.eventHandlers.onItemDestroy);
+		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);
 			
 		// Close window.		
 		window.close ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | SETTLE																								|	
+	// ------------------------------------------------------------------------------------------------------
+	settle : function ()
+	{		
+		app.window.open (window, "chrome://didius/content/auction/settle.xul", "didius.auction.settle."+ main.auction.id, "modal", {auctionId: main.auction.id});
+	}
+}
+
+// ----------------------------------------------------------------------------------------------------------
+// | DETAILS																								|
+// ----------------------------------------------------------------------------------------------------------
+var details = 
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	init : function ()
+	{
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
+	set : function ()
+	{		
+		document.getElementById ("textbox.no").value = main.auction.no;
+		document.getElementById ("datepicker.createdate").dateValue = SNDK.tools.timestampToDate (main.auction.createtimestamp);
+	
+		document.getElementById ("textbox.title").value = main.auction.title;				
+		document.getElementById ("title").focus ();		
+		
+		document.getElementById ("menulist.status").value = main.auction.status;		
+		document.getElementById ("menulist.type").value = main.auction.type;		
+		
+		var begin = new Date (Date.parse (main.auction.begin));
+		document.getElementById ("datepicker.begin").dateValue = begin;
+		document.getElementById ("textbox.begintime").value = SNDK.tools.padLeft (begin.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (begin.getMinutes (), 2, "0");
+		
+		var end = new Date (Date.parse (main.auction.end));
+		document.getElementById ("datepicker.end").dateValue = end;
+		document.getElementById ("textbox.endtime").value = SNDK.tools.padLeft (end.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (end.getMinutes (), 2, "0");;
+		
+		var deadline = new Date (Date.parse (main.auction.deadline));
+		document.getElementById ("datepicker.deadline").dateValue = deadline;
+		document.getElementById ("textbox.deadlinetime").value = SNDK.tools.padLeft (deadline.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (deadline.getMinutes (), 2, "0");
+		
+		document.getElementById ("textbox.location").value = main.auction.location;								
+		document.getElementById ("textbox.description").value = main.auction.description;						
+																			
+		details.onChange ();
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | GET																								|	
+	// ------------------------------------------------------------------------------------------------------
+	get : function ()
+	{
+		main.auction.title = document.getElementById ("textbox.title").value;		
+		
+		main.auction.status = document.getElementById ("menulist.status").value;		
+		main.auction.type = document.getElementById ("menulist.type").value;		
+		
+		var begin = document.getElementById ("datepicker.begin").dateValue;
+		begin.setHours (document.getElementById ("textbox.begintime").value.split (":")[0]);
+		begin.setMinutes (document.getElementById ("textbox.begintime").value.split (":")[1]);						
+		main.auction.begin = SNDK.tools.dateToYMDHM (begin);		
+		
+		var end = document.getElementById ("datepicker.end").dateValue;
+		end.setHours (document.getElementById ("textbox.endtime").value.split (":")[0]);
+		end.setMinutes (document.getElementById ("textbox.endtime").value.split (":")[1]);										
+		main.auction.end = SNDK.tools.dateToYMDHM (end);
+		
+		var deadline = document.getElementById ("datepicker.deadline").dateValue;
+		deadline.setHours (document.getElementById ("textbox.deadlinetime").value.split (":")[0]);
+		deadline.setMinutes (document.getElementById ("textbox.deadlinetime").value.split (":")[1]);
+		main.auction.deadline = SNDK.tools.dateToYMDHM (deadline);
+						
+		main.auction.location = document.getElementById ("textbox.location").value;						
+		main.auction.description = document.getElementById ("textbox.description").value;						
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
 	{
-		main.get ();
-	
-		if ((SNDK.tools.arrayChecksum (main.current) != main.checksum))
-		{
-			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"] *";
-		
-			document.getElementById ("save").disabled = false;
-			document.getElementById ("close").disabled = false;
-		}
-		else
-		{
-			document.title = "Auktion: "+ main.current.title +" ["+ main.current.no +"]";
-		
-			document.getElementById ("save").disabled = true;
-			document.getElementById ("close").disabled = false;
-		}
-		
-		if (main.current.type == "Web" || main.current.type == "LiveWeb")
-		{
-			document.getElementById ("end").disabled = false;
-			document.getElementById ("endtime").disabled = false;
-		}
-		else
-		{
-			document.getElementById ("end").disabled = true;
-			document.getElementById ("endtime").disabled = true;
-		}
-		
-		main.cases.onChange ();
-	},
-	
-	items :
-	{
-		itemsTreeHelper : null,
-		
-		init : function ()
-		{
-			main.items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: main.items.edit});
-			main.items.set ();		
-		},
-		
-		set : function ()
-		{
-			var onDone = 	function (items)
-							{
-								for (idx in items)
-								{									
-									main.items.itemsTreeHelper.addRow ({data: items[idx]});
-								}
-								
-								// Enable controls
-								document.getElementById ("items").disabled = false;																
-								main.items.onChange ();
-							};
-
-			// Disable controls
-			document.getElementById ("items").disabled = true;								
-			document.getElementById ("itemEdit").disabled = true;
-			document.getElementById ("itemDestroy").disabled = true;
-						
-			didius.item.list ({auction: main.current, async: true, onDone: onDone});				
-		},
-		
-		onChange : function ()
-		{
-			if (main.items.itemsTreeHelper.getCurrentIndex () != -1)
-			{										
-				document.getElementById ("itemEdit").disabled = false;
-				document.getElementById ("itemDestroy").disabled = false;
-			}
-			else
-			{				
-				document.getElementById ("itemEdit").disabled = true;
-				document.getElementById ("itemDestroy").disabled = true;
-			}
-			
-			if (main.current.status == "Closed" || main.current.status == "Running")
-			{				
-				document.getElementById ("itemDestroy").disabled = true;
-			}
-		},
-		
-		sort : function (attributes)
-		{
-			main.items.itemsTreeHelper.sort (attributes);
-		},
-							
-		edit : function ()
-		{		
-			var current = main.items.itemsTreeHelper.getRow ();
-						
-			var onSave = function (result)
-			{				
-				if (result != null)
-				{
-					main.items.itemsTreeHelper.setRow ({data :result});					
-				}													
-			}
-							
-			window.openDialog ("chrome://didius/content/itemedit/itemedit.xul", current.id, "chrome", {itemId: current.id, onSave: onSave});
-		},
-		
-		destroy : function ()
-		{
-			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-			var result = prompts.confirm (null, "Slet effekt", "Er du sikker på du vil slette denne effekt ?");
-			
-			if (result)
-			{
-				try
-				{
-					didius.item.destroy (main.items.itemsTreeHelper.getRow ().id);					
-				}
-				catch (error)
-				{
-					app.error ({exception: error})
-				}								
-			}
-		}
-	},
-	
-	catalog : 
-	{
-		print : function ()
-		{
-			window.openDialog ("chrome://didius/content/auction/catalog/print.xul", "printcatalog", "chrome, modal", {auctionId: main.current.id});	
-		}
-	},
-	
-	cases :
-	{
-		casesTreeHelper : null,
-	
-		init : function ()
-		{
-			main.cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: main.cases.edit});
-			main.cases.set ();	
-		},
-		
-		set : function ()
-		{
-			var onDone = 	function (items)
-							{															
-								for (idx in items)
-								{	
-									var data = {};
-									data.id = items[idx].id;
-									data.no = items[idx].no;
-									data.title = items[idx].title;
-									data.customer = items[idx].customer.name;
-																							
-									main.cases.casesTreeHelper.addRow ({data: data});
-								}
-								
-								// Enable controls
-								document.getElementById ("cases").disabled = false;																
-								main.cases.onChange ();
-							};
-
-			// Disable controls
-			document.getElementById ("cases").disabled = true;					
-			document.getElementById ("caseCreate").disabled = true;
-			document.getElementById ("caseEdit").disabled = true;
-			document.getElementById ("caseDestroy").disabled = true;
-					
-			didius.case.list ({auction: main.current, async: true, onDone: onDone});			
-		},
-		
-		onChange : function ()
-		{					
-			if (main.cases.casesTreeHelper.getCurrentIndex () != -1)
-			{										
-				document.getElementById ("caseCreate").disabled = false;
-				document.getElementById ("caseEdit").disabled = false;
-				document.getElementById ("caseDestroy").disabled = false;
-			}
-			else
-			{									
-				document.getElementById ("caseCreate").disabled = false;
-				document.getElementById ("caseEdit").disabled = true;
-				document.getElementById ("caseDestroy").disabled = true;
-			}		
-			
-			if (main.current.status == "Closed" || main.current.status == "Running")
-			{
-				document.getElementById ("caseCreate").disabled = true;
-				document.getElementById ("caseDestroy").disabled = true;
-			}
-		},
-		
-		sort : function (attributes)
-		{
-			main.cases.casesTreeHelper.sort (attributes);
-		},
-		
-		create : function ()
-		{
-			var onDone =	function (result)
-							{
-								if (result)
-								{
-									var case_ = didius.case.create (main.current, result);
-																		
-									case_.commisionfeepercentage = didius.settings.get ({key: "didius_value_seller_commission_percentage"});
-									case_.commisionfeeminimum = didius.settings.get ({key: "didius_value_seller_commission_minimum"});;
-									didius.case.save (case_);
-																									
-									window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", case_.id, "chrome", {caseId: case_.id});
-								}
-							};
-														
-			app.choose.customer ({onDone: onDone});
-		},
-									
-		edit : function ()
-		{		
-			var current = main.cases.casesTreeHelper.getRow ();
-															
-			window.openDialog ("chrome://didius/content/caseedit/caseedit.xul", current.id, "chrome", {caseId: current.id});
-		},
-		
-		destroy : function ()
-		{
-			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-			var result = prompts.confirm (null, "Slet sag", "Er du sikker på du vil slette denne sag ?");
-			
-			if (result)
-			{
-				try
-				{
-					didius.case.destroy (main.cases.casesTreeHelper.getRow ().id);										
-				}
-				catch (error)
-				{					
-					app.error ({exception: error})
-				}								
-			}
-		}
-	}			
+		details.get ();
+		main.onChange ();
+	}
 }
+
+// ----------------------------------------------------------------------------------------------------------
+// | CASES																									|
+// ----------------------------------------------------------------------------------------------------------
+var cases =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	casesTreeHelper : null,
+
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	init : function ()
+	{
+		cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: cases.edit});		
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
+	set : function ()
+	{
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview
+				document.getElementById ("tree.cases").disabled = false;
+				cases.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (items)
+								{															
+									for (idx in items)
+									{	
+										var _case = items[idx];
+									
+										var data = {};
+										data.id = _case.id;
+										data.no = _case.no;
+										data.title = _case.title;
+																	
+										var customer = didius.customer.load (_case.customerid);								
+										data.customer = customer.name;
+																								
+										cases.casesTreeHelper.addRow ({data: data});
+									}
+									
+									// Enable controls
+									document.getElementById ("tree.cases").disabled = false;																
+									cases.onChange ();
+								};
+					
+				didius.case.list ({auction: main.auction, async: true, onDone: onDone});			
+				break;
+			}
+		}		
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onChange : function ()
+	{					
+		if (cases.casesTreeHelper.getCurrentIndex () != -1)
+		{										
+			document.getElementById ("button.casecreate").disabled = false;
+			document.getElementById ("button.caseedit").disabled = false;
+			document.getElementById ("button.casedestroy").disabled = false;
+		}
+		else
+		{									
+			document.getElementById ("button.casecreate").disabled = false;
+			document.getElementById ("button.caseedit").disabled = true;
+			document.getElementById ("button.casedestroy").disabled = true;
+		}		
+		
+		if (main.auction.status == "Closed" || main.auction.status == "Running")
+		{
+			document.getElementById ("button.casecreate").disabled = true;
+			document.getElementById ("button.casedestroy").disabled = true;
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SORT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	sort : function (attributes)
+	{
+		cases.casesTreeHelper.sort (attributes);
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CREATE																								|	
+	// ------------------------------------------------------------------------------------------------------
+	create : function ()
+	{
+		var onDone =	function (result)
+						{
+							if (result)
+							{
+								app.window.open (window, "chrome://didius/content/case/edit.xul", "didius.case.edit."+ SNDK.tools.newGuid (), null, {auctionId: main.auction.id, customerId: result.id});
+							}
+						};
+													
+		app.choose.customer ({onDone: onDone});
+	},
+			
+	// ------------------------------------------------------------------------------------------------------
+	// | EDIT																								|	
+	// ------------------------------------------------------------------------------------------------------					
+	edit : function ()
+	{		
+		app.window.open (window, "chrome://didius/content/case/edit.xul", "didius.case.edit."+ cases.casesTreeHelper.getRow ().id, null, {caseId: cases.casesTreeHelper.getRow ().id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | DESTROY																							|	
+	// ------------------------------------------------------------------------------------------------------
+	destroy : function ()
+	{
+		if (app.window.prompt.confirm ("Slet sag", "Er du sikker på du vuk slette denne sag ?"))
+		{
+			try
+			{
+				didius.case.destroy ({id: cases.casesTreeHelper.getRow ().id});
+			}
+			catch (error)
+			{					
+				app.error ({exception: error})
+			}								
+		}
+	}
+}			
+
+// ----------------------------------------------------------------------------------------------------------
+// | ITEMS																									|
+// ----------------------------------------------------------------------------------------------------------
+var items =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	itemsTreeHelper : null,
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	init : function ()
+	{
+		items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: items.edit});				
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
+	set : function ()
+	{	
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview
+				document.getElementById ("tree.items").disabled = false;
+				cases.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (result)
+						{
+							items.itemsTreeHelper.disableRefresh ();
+							for (var index in result)
+							{			
+								var item = result[index];						
+								var data = {};
+								data.id = item.id;
+								data.catalogno = item.catalogno;
+								data.no = item.no;
+								data.title = item.title;
+								
+								var case_ = didius.case.load ({id: item.caseid});
+								var customer = didius.customer.load (case_.customerid);								
+								data.customername = customer.name;																								
+							
+								items.itemsTreeHelper.addRow ({data: data});
+							}
+							items.itemsTreeHelper.enableRefresh ();
+							
+							// Enable controls
+							document.getElementById ("tree.items").disabled = false;																
+							items.onChange ();
+						};
+
+				didius.item.list ({auction: main.auction, async: true, onDone: onDone});				
+				break;
+			}
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onChange : function ()
+	{
+		if (items.itemsTreeHelper.getCurrentIndex () != -1)
+		{										
+			document.getElementById ("button.itemedit").disabled = false;
+			document.getElementById ("button.itemdestroy").disabled = false;
+		}
+		else
+		{				
+			document.getElementById ("button.itemedit").disabled = true;
+			document.getElementById ("button.itemdestroy").disabled = true;
+		}
+		
+		if (main.auction.status == "Closed" || main.auction.status == "Running")
+		{				
+			document.getElementById ("button.itemdestroy").disabled = true;
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SORT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	sort : function (attributes)
+	{
+		items.itemsTreeHelper.sort (attributes);
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | EDIT																								|	
+	// ------------------------------------------------------------------------------------------------------					
+	edit : function ()
+	{		
+		app.window.open (window, "chrome://didius/content/item/edit.xul", "didius.item.edit."+ items.itemsTreeHelper.getRow ().id, null, {itemId: items.itemsTreeHelper.getRow ().id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | DESTROY																							|	
+	// ------------------------------------------------------------------------------------------------------
+	destroy : function ()
+	{
+		if (app.window.prompt.confirm ("Slet effekt", "Er du sikker på du vil slette denne effekt ?"))
+		{
+			try
+			{
+				didius.item.destroy ({id: items.itemsTreeHelper.getRow ().id});					
+			}
+			catch (error)
+			{
+				app.error ({exception: error})
+			}								
+		}
+	}
+}
+
+// ----------------------------------------------------------------------------------------------------------
+// | CATALOG																								|
+// ----------------------------------------------------------------------------------------------------------
+var catalog =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | PRINT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	print : function ()
+	{
+		window.openDialog ("chrome://didius/content/auction/catalog/print.xul", "printcatalog", "chrome, modal", {auctionId: main.current.id});	
+	}
+}
+
+// ----------------------------------------------------------------------------------------------------------
+// | NOTES																									|
+// ----------------------------------------------------------------------------------------------------------
+var notes =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	init : function ()
+	{
+		notes.set ();
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
+	set : function ()
+	{
+		document.getElementById ("textbox.notes").value = main.auction.notes;		
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | GET																								|	
+	// ------------------------------------------------------------------------------------------------------
+	get : function ()
+	{
+		main.auction.notes = document.getElementById ("textbox.notes").value;
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onChange : function ()
+	{
+		notes.get ();
+		main.onChange ();
+	}
+}
+
+// ----------------------------------------------------------------------------------------------------------
+// | EVENTHANDLERS																							|
+// ---------------------------------------------------------------------------------------------------------
+var eventHandlers =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONDESTROY																					|	
+	// ------------------------------------------------------------------------------------------------------
+	onAuctionDestroy : function (eventData)
+	{
+		if (main.auction.id == eventData.id)
+		{
+			main.close (true);
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCASESAVE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onCaseSave : function (eventData)
+	{			
+		if (main.auction.id == eventData.auctionid)
+		{	
+			var data = {};
+			data.id = eventData.id;
+			data.no = eventData.no;
+			data.title = eventData.title;
+			
+			var customer = didius.customer.load (eventData.customerid);
+			data.customer = customer.name;
+		
+			cases.casesTreeHelper.setRow ({data: data});
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCASEDESTROY																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onCaseDestroy : function (eventData)
+	{
+		cases.casesTreeHelper.removeRow ({id: eventData.id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMSAVE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onItemSave : function (eventData)
+	{	
+		var case_ = didius.case.load ({id: eventData.caseid});
+	
+		if (main.auction.id == case_.auctionid)
+		{				
+			var data = {};
+			data.id = eventData.id;
+			data.catalogno = eventData.catalogno;
+			data.no = eventData.no;
+			data.title = eventData.title;
+								
+			var customer = didius.customer.load (case_.customerid);								
+			data.customername = customer.name;																								
+							
+			items.itemsTreeHelper.setRow ({data: data});	
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMDESTROY																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onItemDestroy : function (eventData)
+	{
+		items.itemsTreeHelper.removeRow ({id: eventData.id});	
+	}
+			
+	
+}
+		
