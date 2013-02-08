@@ -13,17 +13,20 @@
 	<keyset>		
   		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
   		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.tabdetails" modifiers="alt" key="1" oncommand="document.getElementById ('tab.details').click ();"/>
+  		<key id="key.tabcases" modifiers="alt" key="2" oncommand="document.getElementById ('tab.cases').click ();"/>
+  		<key id="key.tabitems" modifiers="alt" key="3" oncommand="document.getElementById ('tab.items').click ();"/>
+  		<key id="key.tabnotes" modifiers="alt" key="4" oncommand="document.getElementById ('tab.notes').click ();"/>
 	</keyset>			
 			
 	<hbox class="WindowInnerPadding" flex="1">
 		<tabbox selectedIndex="0" flex="1">		
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">      
 				<tabs style="overflow:hidden">							
-					<tab id="tab.details" label="Detaljer"/>
-					<tab id="tab.cases" label="Sager"/>							
-					<tab id="tab.catalog" label="Katalog"/>
-					<tab id="tab.bids" label="Bud"/>
-					<tab id="tab.notes" label="Noter"/>
+					<tab id="tab.details" label="Detaljer" disabled="true"/>
+					<tab id="tab.cases" label="Sager" disabled="true"/>							
+					<tab id="tab.items" label="Katalog" disabled="true"/>
+					<tab id="tab.notes" label="Noter" disabled="true"/>
 				</tabs>
 			</arrowscrollbox>
 						
@@ -103,15 +106,15 @@
 								<treecol id="id" hidden="true"/>
 								<treecol id="no" label="Sags nr." width="140" persist="width" onclick="cases.sort ({column: 'no'});"/>
 								<treecol id="title" label="Title" flex="2"  persist="width" onclick="cases.sort ({column: 'title'});"/>
-								<treecol id="customer" label="Kunde" flex="2" persist="width" onclick="cases.sort ({column: 'customer'});"/>
+								<treecol id="customername" label="Kunde" flex="2" persist="width" onclick="cases.sort ({column: 'customer'});"/>
 							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="button.casecreate" label="Opret" disabled="true" oncommand="cases.create ();"/>
-							<button id="button.caseedit" label="Redigere" disabled="true" oncommand="cases.edit ();"/>
-							<button id="button.casedestroy" label="Slet" disabled="true" oncommand="cases.destroy ();"/>	
+							<button id="button.casecreate" label="Opret" disabled="true" oncommand="cases.create ();" accesskey="O"/>
+							<button id="button.caseedit" label="Redigere" disabled="true" oncommand="cases.edit ();" accesskey="R"/>
+							<button id="button.casedestroy" label="Slet" disabled="true" oncommand="cases.destroy ();" accesskey="S"/>	
 						</vbox>	
 					</hbox>						
 				</tabpanel>
@@ -123,49 +126,32 @@
 								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="items.sort ({column: 'catalogno'});"/>
 								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="items.sort ({column: 'no'});"/>
 								<treecol id="title" label="Title" flex="2" persist="width" onclick="items.sort ({column: 'title'});"/>
+								<treecol id="customername" label="Kunde" flex="2" persist="width" onclick="cases.sort ({column: 'customername'});"/>
 							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>						
 							<vbox>													
-								<button id="button.itemedit" label="Redigere" disabled="true" oncommand="items.edit ();"/>
-								<button id="button.itemdestroy" label="Slet" disabled="true" oncommand="items.destroy ();"/>																
-								<button id="button.printcatalog" label="Udskriv" oncommand="catalog.print ();"/>
+								<button id="button.itemedit" label="Redigere" disabled="true" oncommand="items.edit ();" accesskey="R"/>
+								<button id="button.itemdestroy" label="Slet" disabled="true" oncommand="items.destroy ();" accesskey="S"/>
+								<space flex="1"/>																
+								<button id="button.printcatalog" label="Udskriv" oncommand="catalog.print ();" accesskey="U"/>
 							</vbox>																			
 					</hbox>										
 				</tabpanel>
-				
-				<tabpanel>
-					<hbox flex="1">
-						<tree id="tree.bids" flex="1" hidecolumnpicker="true" disabled="true" onselect="cases.onChange ();" seltype="single" >
-							<treecols>
-								<treecol id="id" hidden="true"/>
-								<treecol id="no" label="Sags nr." width="140" persist="width"/>
-								<treecol id="title" label="Title" flex="2"  persist="width"/>
-								<treecol id="customer" label="Kunde" flex="2" persist="width"/>
-							</treecols>								
-						</tree>
-					</hbox>
-					<hbox>
-						<vbox>							
-							<button id="button.bidcreate" label="Opret" disabled="true" oncommand="bids.create ();"/>
-							<button id="button.bidedit" label="Redigere" disabled="true" oncommand="bids.edit ();"/>
-							<button id="button.biddestroy" label="Slet" disabled="true" oncommand="bids.destroy ();"/>	
-						</vbox>	
-					</hbox>						
-				</tabpanel>				
-				
+								
 				<tabpanel>
 					<textbox id="textbox.notes" flex="1" multiline="true" onkeyup="notes.onChange ();"/>
-				</tabpanel>
-				
-				
+				</tabpanel>				
 			</tabpanels>
 		</tabbox>
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
-		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L" key="key.close"/>
-		<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G" key="key.save"/>
+		<button id="button.settle" label="Afregn" oncommand="main.settle ();" disabled="true" accesskey="A"/>
+		<button id="button.turnover" label="Omsætning" oncommand="main.turnover ();" disabled="true" accesskey="m"/>
+		<space flex="1"/>
+		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>
+		<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G"/>
 	</hbox>
 </window>

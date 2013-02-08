@@ -3,8 +3,7 @@ Components.utils.import("resource://didius/js/app.js");
 var main =
 {
 	current : null,	
-	items : null,	
-	
+	items : null,		
 	itemsTreeHelper: null,
 
 	init : function ()
@@ -20,7 +19,7 @@ var main =
 			return;
 		}								
 	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending"});
+		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.items"), sortColumn: "catalogno", sortDirection: "descending"});
 	
 		main.set ();
 		
@@ -46,6 +45,7 @@ var main =
 							main.items = items;
 							
 							main.itemsTreeHelper.clear ();
+							main.itemsTreeHelper.disableRefresh ();
 							for (idx in main.items)
 							{									
 								if (main.items[idx].bidamount > 0)
@@ -55,9 +55,9 @@ var main =
 									data.catalogno = main.items[idx].catalogno;
 									data.no = main.items[idx].no;
 									data.title = main.items[idx].title;
-									data.bidamount = main.items[idx].bidamount;											
+									data.bidamount = main.items[idx].bidamount.toFixed (2) +" kr.";;											
 				
-									var currentbid = didius.bid.load (main.items[idx].currentbidid);
+									var currentbid = didius.bid.load ({id: main.items[idx].currentbidid});
 								
 									data.customername = currentbid.customer.name;
 									data.customerno = currentbid.customer.no;
@@ -66,19 +66,15 @@ var main =
 									main.itemsTreeHelper.addRow ({data: data});
 								}
 							}	
+							main.itemsTreeHelper.enableRefresh ();
 							
-							document.getElementById ("printInvoices").disabled = false;
-							document.getElementById ("sendInvoices").disabled = false;
-							document.getElementById ("sendItemWonNotifications").disabled = false;
-														
-							document.getElementById ("settle").disabled = false;
+							document.getElementById ("checkbox.invoicesprint").disabled = false;
+							document.getElementById ("checkbox.invoicesmail").disabled = false;
+							document.getElementById ("checkbox.itemwonnotifcationsmail").disabled = false;																												
+							
+							document.getElementById ("button.close").disabled = false;
+							document.getElementById ("button.settle").disabled = false;
 						}
-	
-		document.getElementById ("printInvoices").disabled = true;
-		document.getElementById ("sendInvoices").disabled = true;
-		document.getElementById ("sendItemWonNotifications").disabled = true;
-									
-		document.getElementById ("settle").disabled = true;
 	
 		document.title = "Auktion afregning: "+ main.current.title +" ["+ main.current.no +"]";		
 		
@@ -123,12 +119,12 @@ var main =
 		
 			var start =	function ()	
 						{
-							document.getElementById ("printInvoices").disabled = true;
-							document.getElementById ("sendInvoices").disabled = true;
-							document.getElementById ("sendItemWonNotifications").disabled = true;
+							document.getElementById ("checkbox.invoicesprint").disabled = true;
+							document.getElementById ("checkbox.invoicesmail").disabled = true;
+							document.getElementById ("checkbox.itemwonnotifcationsmail").disabled = true;
 							
-							document.getElementById ("close").disabled = true;
-							document.getElementById ("settle").disabled = true;
+							document.getElementById ("button.close").disabled = true;
+							document.getElementById ("button.settle").disabled = true;
 							
 							worker1 ();
 						};
@@ -240,11 +236,9 @@ var main =
 														setTimeout (worker4, 100);
 													};
 								
-								if (document.getElementById ("printInvoices").checked)
+								if (document.getElementById ("checkbox.invoicesprint").checked)
 								{	
-								
 									didius.common.print.invoice ({invoices: invoices, mail: false, onDone: nextWorker});
-									//main.print ({invoices: invoices, mail: false, onDone: nextWorker});																	
 									
 									// Update progressmeter #1
 									progresswindow.document.getElementById ("description1").textContent = "Bygger print [1/1] ...";
@@ -279,7 +273,7 @@ var main =
 													};
 															
 								// Do work.
-								if (document.getElementById ("sendItemWonNotifications").checked)
+								if (document.getElementById ("checkbox.itemwonnotifcationsmail").checked)
 								{
 									var subworker =	function (index)
 													{													
@@ -340,7 +334,7 @@ var main =
 														setTimeout (finish, 100);
 													};
 															
-								if (document.getElementById ("sendInvoices").checked)
+								if (document.getElementById ("checkbox.invoicesmail").checked)
 								{
 									var subworker =	function (index)
 													{
@@ -352,7 +346,6 @@ var main =
 																			};
 														
 															didius.common.print.invoice ({invoice: invoices[index], mail: true, onDone: onDone});
-															//main.print ({invoice: invoices[index], mail: true, onDone: onDone});
 														
 															// Update progressmeter #1
 															progresswindow.document.getElementById ("description1").textContent = "Sender e-mail ["+ index +"/"+ customers.length +"] ...";

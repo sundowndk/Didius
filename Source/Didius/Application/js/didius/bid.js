@@ -195,6 +195,7 @@ list : function (attributes)
 		content.customerid = attributes.customer.id;
 	}	
 	
+	
 	if (attributes.onDone)
 	{
 		var onDone = 	function (respons)

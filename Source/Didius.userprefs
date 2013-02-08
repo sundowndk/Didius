@@ -1,10 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/edit.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/signin.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/edit.js" Line="189" Column="66" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/edit.xul" Line="140" Column="81" />
-      <File FileName="Didius/Application/xul/chrome/content/case/edit.xul" Line="114" Column="92" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/signin.js" Line="315" Column="18" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/signin.xul" Line="87" Column="61" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/edit.js" Line="10" Column="107" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="751" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -12,46 +13,23 @@
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
-                <Node name="didius" expanded="True">
-                  <Node name="common" expanded="True">
-                    <Node name="print" expanded="True" />
-                  </Node>
-                </Node>
+                <Node name="didius" expanded="True" />
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
-                      <Node name="catalog" expanded="True" />
-                      <Node name="edit.js" selected="True" />
+                      <Node name="signin.js" selected="True" />
                     </Node>
-                    <Node name="bid" expanded="True" />
                     <Node name="case" expanded="True" />
-                    <Node name="catalogedit-REMOVE" expanded="True" />
                     <Node name="chooser" expanded="True" />
-                    <Node name="creditnote" expanded="True" />
-                    <Node name="css" expanded="True" />
                     <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
-                    <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
-                    <Node name="settings" expanded="True" />
-                    <Node name="templates" expanded="True" />
                   </Node>
-                  <Node name="icons" expanded="True">
-                    <Node name="default" expanded="True" />
-                  </Node>
-                </Node>
-                <Node name="defaults" expanded="True">
-                  <Node name="preferences" expanded="True" />
                 </Node>
               </Node>
             </Node>
-            <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True" />
-            <Node name="Didius.Enums" expanded="True" />
-            <Node name="Didius.Strings" expanded="True" />
-            <Node name="resources" expanded="True" />
           </Node>
         </State>
       </Pad>

@@ -158,12 +158,8 @@
     <Folder Include="Application\xul\chrome\icons\" />
     <Folder Include="Application\xul\chrome\icons\default\" />
     <Folder Include="Application\xul\chrome\content\item\" />
-    <Folder Include="Application\xul\chrome\content\itemedit-REMOVE\" />
-    <Folder Include="Application\xul\chrome\content\caseedit-REMOVE\" />
-    <Folder Include="Application\xul\chrome\content\auctionedit-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\catalogedit-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\invoice\" />
-    <Folder Include="Application\xul\chrome\content\auction\invoice-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\creditnote\" />
   </ItemGroup>
   <ItemGroup>
@@ -319,12 +315,6 @@
     <None Include="Application\xul\chrome\icons\default\didius.main.xpm" />
     <None Include="Application\xul\chrome\content\item\edit.xul" />
     <None Include="Application\xul\chrome\content\item\edit.js" />
-    <None Include="Application\xul\chrome\content\itemedit-REMOVE\itemedit.xul" />
-    <None Include="Application\xul\chrome\content\itemedit-REMOVE\itemedit.js" />
-    <None Include="Application\xul\chrome\content\caseedit-REMOVE\caseedit.js" />
-    <None Include="Application\xul\chrome\content\caseedit-REMOVE\caseedit.xul" />
-    <None Include="Application\xul\chrome\content\auctionedit-REMOVE\auctionedit.js" />
-    <None Include="Application\xul\chrome\content\auctionedit-REMOVE\auctionedit.xul" />
     <None Include="Application\xul\chrome\content\catalogedit-REMOVE\catalogedit.js" />
     <None Include="Application\xul\chrome\content\catalogedit-REMOVE\catalogedit.xul" />
     <None Include="Application\xul\chrome\content\case\settlement\progress.js" />
@@ -350,6 +340,8 @@
     <None Include="Application\js\didius\common\print\creditnote.js" />
     <None Include="Application\js\didius\common\print\catalog.js" />
     <None Include="Application\js\didius\common\print\label.js" />
+    <None Include="Application\xul\chrome\content\auction\turnover.xul" />
+    <None Include="Application\xul\chrome\content\auction\turnover.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

@@ -8,6 +8,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------
+	mode : null,
 	checksum : null,
 	auction : null,
 
@@ -16,20 +17,31 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		try
-		{
-			main.auction = didius.auction.load (window.arguments[0].auctionId);
+		if (window.arguments[0].auctionId == null)
+		{						
+			main.auction = didius.auction.create ();
+			main.mode = "NEW";									
 		}
-		catch (error)
+		else if (window.arguments[0].auctionId != null)
 		{
-			app.error ({exception: error})
-			main.close ();
-			return;
-		}								
+			try
+			{
+				main.auction = didius.auction.load (window.arguments[0].auctionId);
+			}
+			catch (error)
+			{
+				app.error ({exception: error})
+				main.close ();
+				return;
+			}		
+			
+			main.mode = "EDIT";						
+		}
 	
 		// Init tabs.
 		details.init ();
 		cases.init ();
+		items.init ();
 		notes.init ();
 	
 		main.set ();
@@ -37,13 +49,11 @@ var main =
 		// Hook events.			
 		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);
 		
-//		app.events.onCaseCreate.addHandler (main.eventHandlers.onCaseCreate);
-//		app.events.onCaseSave.addHandler (main.eventHandlers.onCaseSave);
-//		app.events.onCaseDestroy.addHandler (main.eventHandlers.onCaseDestroy);				
+		app.events.onCaseSave.addHandler (eventHandlers.onCaseSave);
+		app.events.onCaseDestroy.addHandler (eventHandlers.onCaseDestroy);				
 		
-//		app.events.onItemCreate.addHandler (main.eventHandlers.onItemCreate);
-//		app.events.onItemSave.addHandler (main.eventHandlers.onItemSave);
-//		app.events.onItemDestroy.addHandler (main.eventHandlers.onItemDestroy);				
+		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);				
 	},
 	
 	
@@ -56,6 +66,7 @@ var main =
 		
 		details.set ();
 		cases.set ();
+		items.set ();
 		notes.set ();
 		
 		main.onChange ();
@@ -77,20 +88,37 @@ var main =
 	{
 		main.get ();
 	
+		if (main.mode == "NEW")
+		{
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.cases").disabled = true;
+			document.getElementById ("tab.items").disabled = true;
+			document.getElementById ("tab.notes").disabled = false;
+		}
+		else
+		{
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.cases").disabled = false;
+			document.getElementById ("tab.items").disabled = false;
+			document.getElementById ("tab.notes").disabled = false;
+		}
+	
 		if ((SNDK.tools.arrayChecksum (main.auction) != main.checksum))
 		{
 			document.title = "Auktion: "+ main.auction.title +" ["+ main.auction.no +"] *";
 		
-			document.getElementById ("save").disabled = false;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.save").disabled = false;
+			document.getElementById ("button.close").disabled = false;
 		}
 		else
 		{
 			document.title = "Auktion: "+ main.auction.title +" ["+ main.auction.no +"]";
 		
-			document.getElementById ("save").disabled = true;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.save").disabled = true;
+			document.getElementById ("button.close").disabled = false;
 		}
+		
+		document.getElementById ("button.settle").disabled = false;
 //		
 //		if (main.current.type == "Web" || main.current.type == "LiveWeb")
 //		{
@@ -114,14 +142,11 @@ var main =
 		main.get ();
 		
 		didius.auction.save (main.auction);
-				
-		main.checksum = SNDK.tools.arrayChecksum (main.current);
-		main.onChange ();
 		
-		if (window.arguments[0].onSave != null)
-		{
-			window.arguments[0].onSave (main.current);
-		}
+		main.mode = "EDIT";
+				
+		main.checksum = SNDK.tools.arrayChecksum (main.auction);
+		main.onChange ();
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -145,16 +170,22 @@ var main =
 		// Unhook events.						
 		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);
 		
-//		app.events.onCaseCreate.removeHandler (main.eventHandlers.onCaseCreate);
-//		app.events.onCaseSave.removeHandler (main.eventHandlers.onCaseSave);
-//		app.events.onCaseDestroy.removeHandler (main.eventHandlers.onCaseDestroy);
+		app.events.onCaseSave.removeHandler (eventHandlers.onCaseSave);
+		app.events.onCaseDestroy.removeHandler (eventHandlers.onCaseDestroy);
 		
-//		app.events.onItemCreate.removeHandler (main.eventHandlers.onItemCreate);
-//		app.events.onItemSave.removeHandler (main.eventHandlers.onItemSave);
-//		app.events.onItemDestroy.removeHandler (main.eventHandlers.onItemDestroy);
+		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);
 			
 		// Close window.		
 		window.close ();
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SETTLE																								|	
+	// ------------------------------------------------------------------------------------------------------
+	settle : function ()
+	{		
+		app.window.open (window, "chrome://didius/content/auction/settle.xul", "didius.auction.settle."+ main.auction.id, "modal", {auctionId: main.auction.id});
 	}
 }
 
@@ -172,9 +203,6 @@ var details =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		//details.set ();
-//		main.items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: main.items.edit});
-//		main.items.set ();		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -182,29 +210,29 @@ var details =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{		
-		document.getElementById ("no").value = main.auction.no;
-		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.auction.createtimestamp);
+		document.getElementById ("textbox.no").value = main.auction.no;
+		document.getElementById ("datepicker.createdate").dateValue = SNDK.tools.timestampToDate (main.auction.createtimestamp);
 	
-		document.getElementById ("title").value = main.auction.title;				
-		document.getElementById ("status").value = main.auction.status;		
-		document.getElementById ("type").value = main.auction.type;		
+		document.getElementById ("textbox.title").value = main.auction.title;				
+		document.getElementById ("title").focus ();		
+		
+		document.getElementById ("menulist.status").value = main.auction.status;		
+		document.getElementById ("menulist.type").value = main.auction.type;		
 		
 		var begin = new Date (Date.parse (main.auction.begin));
-		document.getElementById ("begin").dateValue = begin;
-		document.getElementById ("begintime").value = SNDK.tools.padLeft (begin.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (begin.getMinutes (), 2, "0");
+		document.getElementById ("datepicker.begin").dateValue = begin;
+		document.getElementById ("textbox.begintime").value = SNDK.tools.padLeft (begin.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (begin.getMinutes (), 2, "0");
 		
 		var end = new Date (Date.parse (main.auction.end));
-		document.getElementById ("end").dateValue = end;
-		document.getElementById ("endtime").value = SNDK.tools.padLeft (end.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (end.getMinutes (), 2, "0");;
+		document.getElementById ("datepicker.end").dateValue = end;
+		document.getElementById ("textbox.endtime").value = SNDK.tools.padLeft (end.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (end.getMinutes (), 2, "0");;
 		
 		var deadline = new Date (Date.parse (main.auction.deadline));
-		document.getElementById ("deadline").dateValue = deadline;
-		document.getElementById ("deadlinetime").value = SNDK.tools.padLeft (deadline.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (deadline.getMinutes (), 2, "0");
+		document.getElementById ("datepicker.deadline").dateValue = deadline;
+		document.getElementById ("textbox.deadlinetime").value = SNDK.tools.padLeft (deadline.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (deadline.getMinutes (), 2, "0");
 		
-		document.getElementById ("location").value = main.auction.location;								
-		document.getElementById ("description").value = main.auction.description;						
-		
-		document.getElementById ("title").focus ();		
+		document.getElementById ("textbox.location").value = main.auction.location;								
+		document.getElementById ("textbox.description").value = main.auction.description;						
 																			
 		details.onChange ();
 	},
@@ -214,28 +242,28 @@ var details =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.auction.title = document.getElementById ("title").value;		
+		main.auction.title = document.getElementById ("textbox.title").value;		
 		
-		main.auction.status = document.getElementById ("status").value;		
-		main.auction.type = document.getElementById ("type").value;		
+		main.auction.status = document.getElementById ("menulist.status").value;		
+		main.auction.type = document.getElementById ("menulist.type").value;		
 		
-		var begin = document.getElementById ("begin").dateValue;
-		begin.setHours (document.getElementById ("begintime").value.split (":")[0]);
-		begin.setMinutes (document.getElementById ("begintime").value.split (":")[1]);						
+		var begin = document.getElementById ("datepicker.begin").dateValue;
+		begin.setHours (document.getElementById ("textbox.begintime").value.split (":")[0]);
+		begin.setMinutes (document.getElementById ("textbox.begintime").value.split (":")[1]);						
 		main.auction.begin = SNDK.tools.dateToYMDHM (begin);		
 		
-		var end = document.getElementById ("end").dateValue;
-		end.setHours (document.getElementById ("endtime").value.split (":")[0]);
-		end.setMinutes (document.getElementById ("endtime").value.split (":")[1]);										
+		var end = document.getElementById ("datepicker.end").dateValue;
+		end.setHours (document.getElementById ("textbox.endtime").value.split (":")[0]);
+		end.setMinutes (document.getElementById ("textbox.endtime").value.split (":")[1]);										
 		main.auction.end = SNDK.tools.dateToYMDHM (end);
 		
-		var deadline = document.getElementById ("deadline").dateValue;
-		deadline.setHours (document.getElementById ("deadlinetime").value.split (":")[0]);
-		deadline.setMinutes (document.getElementById ("deadlinetime").value.split (":")[1]);
+		var deadline = document.getElementById ("datepicker.deadline").dateValue;
+		deadline.setHours (document.getElementById ("textbox.deadlinetime").value.split (":")[0]);
+		deadline.setMinutes (document.getElementById ("textbox.deadlinetime").value.split (":")[1]);
 		main.auction.deadline = SNDK.tools.dateToYMDHM (deadline);
 						
-		main.auction.location = document.getElementById ("location").value;						
-		main.auction.description = document.getElementById ("description").value;						
+		main.auction.location = document.getElementById ("textbox.location").value;						
+		main.auction.description = document.getElementById ("textbox.description").value;						
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -263,7 +291,7 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: cases.edit});		
+		cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: cases.edit});		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -271,29 +299,44 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		var onDone = 	function (items)
-						{															
-							for (idx in items)
-							{	
-								var _case = items[idx];
-							
-								var data = {};
-								data.id = _case.id;
-								data.no = _case.no;
-								data.title = _case.title;
-															
-								var customer = didius.customer.load (_case.customerid);								
-								data.customer = customer.name;
-																						
-								cases.casesTreeHelper.addRow ({data: data});
-							}
-							
-							// Enable controls
-							document.getElementById ("cases").disabled = false;																
-							cases.onChange ();
-						};
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview
+				document.getElementById ("tree.cases").disabled = false;
+				cases.onChange ();
+				break;
+			}
 			
-		didius.case.list ({auction: main.auction, async: true, onDone: onDone});			
+			case "EDIT":
+			{
+				var onDone = 	function (items)
+								{															
+									for (idx in items)
+									{	
+										var _case = items[idx];
+									
+										var data = {};
+										data.id = _case.id;
+										data.no = _case.no;
+										data.title = _case.title;
+																	
+										var customer = didius.customer.load (_case.customerid);								
+										data.customer = customer.name;
+																								
+										cases.casesTreeHelper.addRow ({data: data});
+									}
+									
+									// Enable controls
+									document.getElementById ("tree.cases").disabled = false;																
+									cases.onChange ();
+								};
+					
+				didius.case.list ({auction: main.auction, async: true, onDone: onDone});			
+				break;
+			}
+		}		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -303,21 +346,21 @@ var cases =
 	{					
 		if (cases.casesTreeHelper.getCurrentIndex () != -1)
 		{										
-			document.getElementById ("caseCreate").disabled = false;
-			document.getElementById ("caseEdit").disabled = false;
-			document.getElementById ("caseDestroy").disabled = false;
+			document.getElementById ("button.casecreate").disabled = false;
+			document.getElementById ("button.caseedit").disabled = false;
+			document.getElementById ("button.casedestroy").disabled = false;
 		}
 		else
 		{									
-			document.getElementById ("caseCreate").disabled = false;
-			document.getElementById ("caseEdit").disabled = true;
-			document.getElementById ("caseDestroy").disabled = true;
+			document.getElementById ("button.casecreate").disabled = false;
+			document.getElementById ("button.caseedit").disabled = true;
+			document.getElementById ("button.casedestroy").disabled = true;
 		}		
 		
 		if (main.auction.status == "Closed" || main.auction.status == "Running")
 		{
-			document.getElementById ("caseCreate").disabled = true;
-			document.getElementById ("caseDestroy").disabled = true;
+			document.getElementById ("button.casecreate").disabled = true;
+			document.getElementById ("button.casedestroy").disabled = true;
 		}
 	},
 	
@@ -338,7 +381,7 @@ var cases =
 						{
 							if (result)
 							{
-								window.openDialog ("chrome://didius/content/case/edit.xul", "didius.case.edit."+ SNDK.tools.newGuid (), "chrome", {auctionId: main.auction.id, customerId: result.id});															
+								app.window.open (window, "chrome://didius/content/case/edit.xul", "didius.case.edit."+ SNDK.tools.newGuid (), null, {auctionId: main.auction.id, customerId: result.id});
 							}
 						};
 													
@@ -350,7 +393,7 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------					
 	edit : function ()
 	{		
-		window.openDialog ("chrome://didius/content/case/edit.xul", "didius.case.edit."+ cases.casesTreeHelper.getRow ().id, "chrome", {caseId: cases.casesTreeHelper.getRow ().id});
+		app.window.open (window, "chrome://didius/content/case/edit.xul", "didius.case.edit."+ cases.casesTreeHelper.getRow ().id, null, {caseId: cases.casesTreeHelper.getRow ().id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -362,7 +405,7 @@ var cases =
 		{
 			try
 			{
-				didius.case.destroy (cases.casesTreeHelper.getRow ().id);										
+				didius.case.destroy ({id: cases.casesTreeHelper.getRow ().id});
 			}
 			catch (error)
 			{					
@@ -387,33 +430,55 @@ var items =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		main.items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: main.items.edit});
-		main.items.set ();		
+		items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: items.edit});				
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
 	// | SET																								|	
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
-	{
-		var onDone = 	function (items)
+	{	
+		switch (main.mode)
+		{
+			case "NEW":
+			{
+				// Enable listview
+				document.getElementById ("tree.items").disabled = false;
+				cases.onChange ();
+				break;
+			}
+			
+			case "EDIT":
+			{
+				var onDone = 	function (result)
 						{
-							for (idx in items)
-							{									
-								main.items.itemsTreeHelper.addRow ({data: items[idx]});
+							items.itemsTreeHelper.disableRefresh ();
+							for (var index in result)
+							{			
+								var item = result[index];						
+								var data = {};
+								data.id = item.id;
+								data.catalogno = item.catalogno;
+								data.no = item.no;
+								data.title = item.title;
+								
+								var case_ = didius.case.load ({id: item.caseid});
+								var customer = didius.customer.load (case_.customerid);								
+								data.customername = customer.name;																								
+							
+								items.itemsTreeHelper.addRow ({data: data});
 							}
+							items.itemsTreeHelper.enableRefresh ();
 							
 							// Enable controls
-							document.getElementById ("items").disabled = false;																
-							main.items.onChange ();
+							document.getElementById ("tree.items").disabled = false;																
+							items.onChange ();
 						};
 
-		// Disable controls
-		document.getElementById ("items").disabled = true;								
-		document.getElementById ("itemEdit").disabled = true;
-		document.getElementById ("itemDestroy").disabled = true;
-					
-		didius.item.list ({auction: main.current, async: true, onDone: onDone});				
+				didius.item.list ({auction: main.auction, async: true, onDone: onDone});				
+				break;
+			}
+		}
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -421,20 +486,20 @@ var items =
 	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
 	{
-		if (main.items.itemsTreeHelper.getCurrentIndex () != -1)
+		if (items.itemsTreeHelper.getCurrentIndex () != -1)
 		{										
-			document.getElementById ("itemEdit").disabled = false;
-			document.getElementById ("itemDestroy").disabled = false;
+			document.getElementById ("button.itemedit").disabled = false;
+			document.getElementById ("button.itemdestroy").disabled = false;
 		}
 		else
 		{				
-			document.getElementById ("itemEdit").disabled = true;
-			document.getElementById ("itemDestroy").disabled = true;
+			document.getElementById ("button.itemedit").disabled = true;
+			document.getElementById ("button.itemdestroy").disabled = true;
 		}
 		
-		if (main.current.status == "Closed" || main.current.status == "Running")
+		if (main.auction.status == "Closed" || main.auction.status == "Running")
 		{				
-			document.getElementById ("itemDestroy").disabled = true;
+			document.getElementById ("button.itemdestroy").disabled = true;
 		}
 	},
 	
@@ -443,7 +508,7 @@ var items =
 	// ------------------------------------------------------------------------------------------------------
 	sort : function (attributes)
 	{
-		main.items.itemsTreeHelper.sort (attributes);
+		items.itemsTreeHelper.sort (attributes);
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -451,17 +516,7 @@ var items =
 	// ------------------------------------------------------------------------------------------------------					
 	edit : function ()
 	{		
-		var current = main.items.itemsTreeHelper.getRow ();
-					
-		var onSave = function (result)
-		{				
-			if (result != null)
-			{
-				main.items.itemsTreeHelper.setRow ({data :result});					
-			}													
-		}
-						
-		window.openDialog ("chrome://didius/content/itemedit/itemedit.xul", current.id, "chrome", {itemId: current.id, onSave: onSave});
+		app.window.open (window, "chrome://didius/content/item/edit.xul", "didius.item.edit."+ items.itemsTreeHelper.getRow ().id, null, {itemId: items.itemsTreeHelper.getRow ().id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -469,14 +524,11 @@ var items =
 	// ------------------------------------------------------------------------------------------------------
 	destroy : function ()
 	{
-		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-		var result = prompts.confirm (null, "Slet effekt", "Er du sikker på du vil slette denne effekt ?");
-		
-		if (result)
+		if (app.window.prompt.confirm ("Slet effekt", "Er du sikker på du vil slette denne effekt ?"))
 		{
 			try
 			{
-				didius.item.destroy (main.items.itemsTreeHelper.getRow ().id);					
+				didius.item.destroy ({id: items.itemsTreeHelper.getRow ().id});					
 			}
 			catch (error)
 			{
@@ -500,8 +552,6 @@ var catalog =
 	}
 }
 
-
-
 // ----------------------------------------------------------------------------------------------------------
 // | NOTES																									|
 // ----------------------------------------------------------------------------------------------------------
@@ -524,7 +574,7 @@ var notes =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		document.getElementById ("notes").value = main.auction.notes;		
+		document.getElementById ("textbox.notes").value = main.auction.notes;		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -532,19 +582,18 @@ var notes =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.auction.notes = document.getElementById ("notes").value;
+		main.auction.notes = document.getElementById ("textbox.notes").value;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
 	// | ONCHANGE																							|	
 	// ------------------------------------------------------------------------------------------------------
-	onchange : function ()
+	onChange : function ()
 	{
 		notes.get ();
 		main.onChange ();
 	}
 }
-
 
 // ----------------------------------------------------------------------------------------------------------
 // | EVENTHANDLERS																							|
@@ -561,86 +610,23 @@ var eventHandlers =
 			main.close (true);
 		}
 	},
-
-	// ------------------------------------------------------------------------------------------------------
-	// | ONITEMCREATE																						|	
-	// ------------------------------------------------------------------------------------------------------
-	onItemCreate : function (eventData)
-	{		
-		var onDone = 	function (items)
-						{
-							for (idx in items)
-							{
-								if (items[idx].id == eventData.caseid)
-								{	
-									main.items.itemsTreeHelper.addRow ({data: eventData});
-									break;
-								}
-							}
-						};
-					
-		didius.case.list ({auction: main.current, async: true, onDone: onDone});
-	},
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | ONITEMSAVE																							|	
-	// ------------------------------------------------------------------------------------------------------
-	onItemSave : function (eventData)
-	{			
-		var onDone = 	function (items)
-						{
-							for (idx in items)
-							{
-								if (items[idx].id == eventData.caseid)
-								{	
-									main.items.itemsTreeHelper.setRow ({data: eventData});
-									break;
-								}
-							}
-						};
-					
-		didius.case.list ({auction: main.current, async: true, onDone: onDone});	
-	},
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | ONITEMDESTROY																						|	
-	// ------------------------------------------------------------------------------------------------------
-	onItemDestroy : function (eventData)
-	{
-		main.items.itemsTreeHelper.removeRow ({id: eventData.id});	
-	},
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | ONCASECREATE																						|	
-	// ------------------------------------------------------------------------------------------------------
-	onCaseCreate : function (eventData)
-	{		
-		if (main.current.id == eventData.auctionid)
-		{	
-			var data = {};
-			data.id = eventData.id;
-			data.no = eventData.no;
-			data.title = eventData.title;
-			data.customer = eventData.customer.name;
-		
-			main.cases.casesTreeHelper.addRow ({data: data});
-		}
-	},
 	
 	// ------------------------------------------------------------------------------------------------------
 	// | ONCASESAVE																							|	
 	// ------------------------------------------------------------------------------------------------------
 	onCaseSave : function (eventData)
 	{			
-		if (main.current.id == eventData.auctionid)
+		if (main.auction.id == eventData.auctionid)
 		{	
 			var data = {};
 			data.id = eventData.id;
 			data.no = eventData.no;
 			data.title = eventData.title;
-			data.customer = eventData.customer.name;
+			
+			var customer = didius.customer.load (eventData.customerid);
+			data.customer = customer.name;
 		
-			main.cases.casesTreeHelper.setRow ({data: data});
+			cases.casesTreeHelper.setRow ({data: data});
 		}
 	},
 	
@@ -649,7 +635,39 @@ var eventHandlers =
 	// ------------------------------------------------------------------------------------------------------
 	onCaseDestroy : function (eventData)
 	{
-		main.cases.casesTreeHelper.removeRow ({id: eventData.id});
+		cases.casesTreeHelper.removeRow ({id: eventData.id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMSAVE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onItemSave : function (eventData)
+	{	
+		var case_ = didius.case.load ({id: eventData.caseid});
+	
+		if (main.auction.id == case_.auctionid)
+		{				
+			var data = {};
+			data.id = eventData.id;
+			data.catalogno = eventData.catalogno;
+			data.no = eventData.no;
+			data.title = eventData.title;
+								
+			var customer = didius.customer.load (case_.customerid);								
+			data.customername = customer.name;																								
+							
+			items.itemsTreeHelper.setRow ({data: data});	
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMDESTROY																						|	
+	// ------------------------------------------------------------------------------------------------------
+	onItemDestroy : function (eventData)
+	{
+		items.itemsTreeHelper.removeRow ({id: eventData.id});	
 	}
+			
+	
 }
 		

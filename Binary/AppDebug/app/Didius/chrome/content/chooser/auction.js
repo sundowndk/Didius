@@ -17,8 +17,7 @@ var main =
 	{				
 		main.auctionsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("auctions"), sortColumn: "title", sortDirection: "descending", onDoubleClick: main.choose});				
 		
-		// Hook events.			
-		app.events.onAuctionCreate.addHandler (eventHandlers.onCustomerCreate);		
+		// Hook events.					
 		app.events.onAuctionSave.addHandler (eventHandlers.onCustomerSave);
 		app.events.onAuctionDestroy.addHandler (eventHandlers.onCustomerDestroy);
 		
@@ -90,7 +89,8 @@ var main =
 	{
 		if (window.arguments[0].onDone != null)
 		{
-			window.arguments[0].onDone (main.auctionsTreeHelper.getRow ());
+			setTimeout (function () {window.arguments[0].onDone (main.auctionsTreeHelper.getRow ())}, 0);
+			
 		}
 		
 		main.close ();				
@@ -101,8 +101,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	close : function ()
 	{					
-		// Unhook events.
-		app.events.onAuctionCreate.removeHandler (eventHandlers.onAuctionCreate);		
+		// Unhook events.		
 		app.events.onAuctionSave.removeHandler (eventHandlers.onAuctionSave);
 		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);			
 	
@@ -115,15 +114,7 @@ var main =
 // | EVENTHANDLERS																							|
 // ----------------------------------------------------------------------------------------------------------
 var	eventHandlers =
-{
-	// ------------------------------------------------------------------------------------------------------
-	// | ONAUCTIONCREATE																					|	
-	// ------------------------------------------------------------------------------------------------------
-	onAuctionCreate : function (eventData)
-	{
-		main.auctionsTreeHelper.addRow ({data: eventData});
-	},
-	
+{	
 	// ------------------------------------------------------------------------------------------------------
 	// | ONAUCTIONSAVE																						|	
 	// ------------------------------------------------------------------------------------------------------

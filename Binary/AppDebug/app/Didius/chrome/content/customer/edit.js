@@ -71,9 +71,7 @@ var main =
 	set : function ()
 	{
 		main.checksum = SNDK.tools.arrayChecksum (main.customer);										
-		main.onChange ();
-		
-		document.getElementById ("name").focus ();
+		main.onChange ();			
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -94,38 +92,38 @@ var main =
 	
 		if (main.mode == "NEW")
 		{
-			document.getElementById ("tabdetails").disabled = false;
-			document.getElementById ("tabcases").disabled = true;
-			document.getElementById ("tabbids").disabled = true;
-			document.getElementById ("tabsettlements").disabled = true;
-			document.getElementById ("tabinvoices").disabled = true;
-			document.getElementById ("tabcreditnotes").disabled = true;
-			document.getElementById ("tabnotes").disabled = false;
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.cases").disabled = true;
+			document.getElementById ("tab.bids").disabled = true;
+			document.getElementById ("tab.settlements").disabled = true;
+			document.getElementById ("tab.invoices").disabled = true;
+			document.getElementById ("tab.creditnotes").disabled = true;
+			document.getElementById ("tab.notes").disabled = false;
 		}
 		else
 		{
-			document.getElementById ("tabdetails").disabled = false;
-			document.getElementById ("tabcases").disabled = false;
-			document.getElementById ("tabbids").disabled = false;
-			document.getElementById ("tabsettlements").disabled = false;
-			document.getElementById ("tabinvoices").disabled = false;
-			document.getElementById ("tabcreditnotes").disabled = false;
-			document.getElementById ("tabnotes").disabled = false;
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.cases").disabled = false;
+			document.getElementById ("tab.bids").disabled = false;
+			document.getElementById ("tab.settlements").disabled = false;
+			document.getElementById ("tab.invoices").disabled = false;
+			document.getElementById ("tab.creditnotes").disabled = false;
+			document.getElementById ("tab.notes").disabled = false;
 		}
 	
 		if ((SNDK.tools.arrayChecksum (main.customer) != main.checksum) && (main.customer.name != ""))
 		{
 			document.title = "Kunde: "+ main.customer.name +" ["+ main.customer.no +"] *";
 		
-			document.getElementById ("save").disabled = false;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.save").disabled = false;
+			document.getElementById ("button.close").disabled = false;
 		}
 		else
 		{
 			document.title = "Kunde: "+ main.customer.name +" ["+ main.customer.no +"]";
 		
-			document.getElementById ("save").disabled = true;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.save").disabled = true;
+			document.getElementById ("button.close").disabled = false;
 		}
 	},
 	
@@ -214,27 +212,28 @@ var details =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		document.getElementById ("no").value = main.customer.no;
-		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.customer.createtimestamp);
+		document.getElementById ("textbox.no").value = main.customer.no;
+		document.getElementById ("datepicker.createdate").dateValue = SNDK.tools.timestampToDate (main.customer.createtimestamp);
 	
-		document.getElementById ("name").value = main.customer.name;
-		document.getElementById ("address1").value = main.customer.address1;
-		document.getElementById ("address2").value = main.customer.address2;
-		document.getElementById ("postcode").value = main.customer.postcode;
-		document.getElementById ("city").value = main.customer.city;
-		document.getElementById ("country").value = main.customer.country;
+		document.getElementById ("textbox.name").value = main.customer.name;
+		document.getElementById ("textbox.name").focus ();
+		document.getElementById ("textbox.address1").value = main.customer.address1;
+		document.getElementById ("textbox.address2").value = main.customer.address2;
+		document.getElementById ("textbox.postcode").value = main.customer.postcode;
+		document.getElementById ("textbox.city").value = main.customer.city;
+		document.getElementById ("textbox.country").value = main.customer.country;
 		
-		document.getElementById ("att").value = main.customer.att;
-		document.getElementById ("phone").value = main.customer.phone;
-		document.getElementById ("mobile").value = main.customer.mobile;
-		document.getElementById ("email").value = main.customer.email;		
+		document.getElementById ("textbox.att").value = main.customer.att;
+		document.getElementById ("textbox.phone").value = main.customer.phone;
+		document.getElementById ("textbox.mobile").value = main.customer.mobile;
+		document.getElementById ("textbox.email").value = main.customer.email;		
 		
-		document.getElementById ("vat").checked = main.customer.vat;
-		document.getElementById ("vatno").value = main.customer.vatno;
+		document.getElementById ("checkbox.vat").checked = main.customer.vat;
+		document.getElementById ("textbox.vatno").value = main.customer.vatno;
 		
-		document.getElementById ("bankname").value = main.customer.bankname;
-		document.getElementById ("bankregistrationno").value = main.customer.bankregistrationno;
-		document.getElementById ("bankaccountno").value = main.customer.bankaccountno;
+		document.getElementById ("textbox.bankname").value = main.customer.bankname;
+		document.getElementById ("textbox.bankregistrationno").value = main.customer.bankregistrationno;
+		document.getElementById ("textbox.bankaccountno").value = main.customer.bankaccountno;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -242,24 +241,24 @@ var details =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.customer.name = document.getElementById ("name").value;
-		main.customer.address1 = document.getElementById ("address1").value;
-		main.customer.address2 = document.getElementById ("address2").value;
-		main.customer.postcode = document.getElementById ("postcode").value;
-		main.customer.city = document.getElementById ("city").value;
-		main.customer.country = document.getElementById ("country").value;						
+		main.customer.name = document.getElementById ("textbox.name").value;
+		main.customer.address1 = document.getElementById ("textbox.address1").value;
+		main.customer.address2 = document.getElementById ("textbox.address2").value;
+		main.customer.postcode = document.getElementById ("textbox.postcode").value;
+		main.customer.city = document.getElementById ("textbox.city").value;
+		main.customer.country = document.getElementById ("textbox.country").value;						
 		
-		main.customer.att = document.getElementById ("att").value;
-		main.customer.phone = document.getElementById ("phone").value;
-		main.customer.mobile = document.getElementById ("mobile").value;
-		main.customer.email = document.getElementById ("email").value;
+		main.customer.att = document.getElementById ("textbox.att").value;
+		main.customer.phone = document.getElementById ("textbox.phone").value;
+		main.customer.mobile = document.getElementById ("textbox.mobile").value;
+		main.customer.email = document.getElementById ("textbox.email").value;
 		
-		main.customer.vat = document.getElementById ("vat").checked;
-		main.customer.vatno = document.getElementById ("vatno").value;
+		main.customer.vat = document.getElementById ("checkbox.vat").checked;
+		main.customer.vatno = document.getElementById ("textbox.vatno").value;
 		
-		main.customer.bankname = document.getElementById ("bankname").value;
-		main.customer.bankregistrationno = document.getElementById ("bankregistrationno").value;
-		main.customer.bankaccountno = document.getElementById ("bankaccountno").value;				
+		main.customer.bankname = document.getElementById ("textbox.bankname").value;
+		main.customer.bankregistrationno = document.getElementById ("textbox.bankregistrationno").value;
+		main.customer.bankaccountno = document.getElementById ("textbox.bankaccountno").value;				
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -286,7 +285,7 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: cases.edit});
+		cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: cases.edit});
 		cases.set ();
 	},
 				
@@ -300,7 +299,7 @@ var cases =
 			case "NEW":
 			{
 				// Enable listview
-				document.getElementById ("cases").disabled = false;																
+				document.getElementById ("tree.cases").disabled = false;																
 				cases.onChange ();
 				break;
 			}
@@ -326,7 +325,7 @@ var cases =
 									cases.casesTreeHelper.enableRefresh ();
 							
 									// Enable listview.
-									document.getElementById ("cases").disabled = false;																
+									document.getElementById ("tree.cases").disabled = false;																
 									cases.onChange ();
 								};
 						
@@ -351,15 +350,15 @@ var cases =
 	{
 		if (cases.casesTreeHelper.getCurrentIndex () != -1)
 		{								
-			document.getElementById ("caseCreate").disabled = false;
-			document.getElementById ("caseEdit").disabled = false;
-			document.getElementById ("caseDestroy").disabled = false;				
+			document.getElementById ("button.casecreate").disabled = false;
+			document.getElementById ("button.caseedit").disabled = false;
+			document.getElementById ("button.casedestroy").disabled = false;				
 		}
 		else
 		{										
-			document.getElementById ("caseCreate").disabled = false;		
-			document.getElementById ("caseEdit").disabled = true;
-			document.getElementById ("caseDestroy").disabled = true;				
+			document.getElementById ("button.casecreate").disabled = false;		
+			document.getElementById ("button.caseedit").disabled = true;
+			document.getElementById ("button.casedestroy").disabled = true;				
 		}						
 	},
 			
@@ -372,7 +371,7 @@ var cases =
 						{
 							if (result)
 							{
-								window.openDialog ("chrome://didius/content/case/edit.xul", "didius.case.edit."+ SNDK.tools.newGuid (), "chrome", {auctionId: result.id, customerId: main.customer.id});
+								app.window.open (window, "chrome://didius/content/case/edit.xul", "didius.case.edit."+ SNDK.tools.newGuid (), null, {auctionId: result.id, customerId: main.customer.id});
 							}
 						};
 													
@@ -384,7 +383,7 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	edit : function ()
 	{				
-		window.openDialog ("chrome://didius/content/case/edit.xul", "didius.case.edit."+ cases.casesTreeHelper.getRow ().id, "chrome", {caseId: cases.casesTreeHelper.getRow ().id});
+		app.window.open (window, "chrome://didius/content/case/edit.xul", "didius.case.edit."+ cases.casesTreeHelper.getRow ().id, null, {caseId: cases.casesTreeHelper.getRow ().id});
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -421,7 +420,7 @@ var bids =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		bids.bidsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("bids"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: bids.edit});			
+		bids.bidsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.bids"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: bids.edit});			
 		bids.set ();
 	},
 				
@@ -434,7 +433,7 @@ var bids =
 		{
 			case "NEW":
 			{
-				document.getElementById ("bids").disabled = false;																											
+				document.getElementById ("tree.bids").disabled = false;																											
 				bids.onChange ();
 				break;
 			}
@@ -466,7 +465,7 @@ var bids =
 									bids.bidsTreeHelper.enableRefresh ();
 									
 									// Enable listview.
-									document.getElementById ("bids").disabled = false;																											
+									document.getElementById ("tree.bids").disabled = false;																											
 									bids.onChange ();
 								};
 						
@@ -488,15 +487,15 @@ var bids =
 	{
 		if (bids.bidsTreeHelper.getCurrentIndex () != -1)
 		{					
-			document.getElementById ("bidcreate").disabled = false;
-			document.getElementById ("bidedit").disabled = false;
-			document.getElementById ("biddestroy").disabled = false;
+			document.getElementById ("button.bidcreate").disabled = false;
+			document.getElementById ("button.bidedit").disabled = false;
+			document.getElementById ("button.biddestroy").disabled = false;
 		}
 		else
 		{												
-			document.getElementById ("bidcreate").disabled = false;
-			document.getElementById ("bidedit").disabled = true;
-			document.getElementById ("biddestroy").disabled = true;
+			document.getElementById ("button.bidcreate").disabled = false;
+			document.getElementById ("button.bidedit").disabled = true;
+			document.getElementById ("button.biddestroy").disabled = true;
 		}						
 	},
 						
@@ -565,7 +564,7 @@ var settlements =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		settlements.settlementsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("settlements"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: settlements.show});			
+		settlements.settlementsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.settlements"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: settlements.show});			
 		settlements.set ();
 	},
 				
@@ -579,7 +578,7 @@ var settlements =
 			case "NEW":
 			{
 				// Enable listview.
-				document.getElementById ("settlements").disabled = false;
+				document.getElementById ("tree.settlements").disabled = false;
 				settlements.onChange ();
 				break;
 			}
@@ -604,7 +603,7 @@ var settlements =
 									settlements.settlementsTreeHelper.enableRefresh ();
 									
 									// Enable listview.
-									document.getElementById ("settlements").disabled = false;
+									document.getElementById ("tree.settlements").disabled = false;
 									settlements.onChange ();
 								};
 					
@@ -621,11 +620,11 @@ var settlements =
 	{
 		if (settlements.settlementsTreeHelper.getCurrentIndex () != -1)
 		{					
-			document.getElementById ("settlementShow").disabled = false;				
+			document.getElementById ("button.settlementshow").disabled = false;				
 		}
 		else
 		{												
-			document.getElementById ("settlementShow").disabled = true;				
+			document.getElementById ("button.settlementshow").disabled = true;				
 		}						
 	},
 				
@@ -653,7 +652,7 @@ var invoices =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("invoices"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: invoices.show});			
+		invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.invoices"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: invoices.show});			
 		invoices.set ();
 	},
 					
@@ -667,7 +666,7 @@ var invoices =
 			case "NEW":
 			{
 				// Enable listview.
-				document.getElementById ("invoices").disabled = false;											
+				document.getElementById ("tree.invoices").disabled = false;											
 				invoices.onChange ();
 				break;
 			}
@@ -697,7 +696,7 @@ var invoices =
 									invoices.invoicesTreeHelper.enableRefresh ();							
 									
 									// Enable listview.
-									document.getElementById ("invoices").disabled = false;																
+									document.getElementById ("tree.invoices").disabled = false;																
 									invoices.onChange ();
 								};
 							
@@ -714,13 +713,13 @@ var invoices =
 	{
 		if (invoices.invoicesTreeHelper.getCurrentIndex () != -1)
 		{					
-			document.getElementById ("invoiceShow").disabled = false;				
-			document.getElementById ("invoiceCreate").disabled = false;
+			document.getElementById ("button.invoiceshow").disabled = false;				
+			document.getElementById ("button.invoicecreate").disabled = false;
 		}
 		else
 		{												
-			document.getElementById ("invoiceShow").disabled = true;
-			document.getElementById ("invoiceCreate").disabled = false;				
+			document.getElementById ("button.invoiceshow").disabled = true;
+			document.getElementById ("button.invoicecreate").disabled = false;				
 		}						
 	},
 				
@@ -767,7 +766,7 @@ var creditnotes =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		creditnotes.creditnotesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("creditnotes"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: creditnotes.show});
+		creditnotes.creditnotesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.creditnotes"),  sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: creditnotes.show});
 		creditnotes.set ();
 	},
 					
@@ -781,7 +780,7 @@ var creditnotes =
 			case "NEW":
 			{
 				// Enable listview.
-				document.getElementById ("creditnotes").disabled = false;
+				document.getElementById ("tree.creditnotes").disabled = false;
 				invoices.onChange ();
 				break;
 			}
@@ -811,7 +810,7 @@ var creditnotes =
 									creditnotes.creditnotesTreeHelper.enableRefresh ();							
 									
 									// Enable listview.
-									document.getElementById ("creditnotes").disabled = false;
+									document.getElementById ("tree.creditnotes").disabled = false;
 									creditnotes.onChange ();
 								};
 							
@@ -828,11 +827,11 @@ var creditnotes =
 	{
 		if (creditnotes.creditnotesTreeHelper.getCurrentIndex () != -1)
 		{					
-			document.getElementById ("creditnoteshow").disabled = false;							
+			document.getElementById ("button.creditnoteshow").disabled = false;							
 		}
 		else
 		{												
-			document.getElementById ("creditnoteshow").disabled = true;			
+			document.getElementById ("button.creditnoteshow").disabled = true;			
 		}						
 	},
 				
@@ -882,7 +881,7 @@ var notes =
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		document.getElementById ("notes").value = main.customer.notes;
+		document.getElementById ("textbox.notes").value = main.customer.notes;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -890,7 +889,7 @@ var notes =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.customer.notes = document.getElementById ("notes").value;
+		main.customer.notes = document.getElementById ("textbox.notes").value;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

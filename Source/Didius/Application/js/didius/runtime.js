@@ -10,8 +10,7 @@ initialize : function ()
 		app.events.onCustomerLoad = new sXUL.event ({id: "onCustomerLoad", remotePropagation: true});
 		app.events.onCustomerSave = new sXUL.event ({id: "onCustomerSave", remotePropagation: true});
 		app.events.onCustomerDestroy = new sXUL.event ({id: "onCustomerDestroy", remotePropagation: true});
-	
-		app.events.onAuctionCreate = new sXUL.event ({id: "onAuctionCreate", remotePropagation: true});
+			
 		app.events.onAuctionLoad = new sXUL.event ({id: "onAuctionLoad", remotePropagation: true});
 		app.events.onAuctionSave = new sXUL.event ({id: "onAuctionSave", remotePropagation: true});
 		app.events.onAuctionDestroy = new sXUL.event ({id: "onAuctionDestroy", remotePropagation: true});

@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
@@ -6,23 +7,26 @@
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
-	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
-		
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/javascript" src="chrome://didius/content/auction/edit.js"/>	
 			
-	<keyset>
-  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+	<keyset>		
+  		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
+  		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.tabdetails" modifiers="alt" key="1" oncommand="document.getElementById ('tab.details').click ();"/>
+  		<key id="key.tabcases" modifiers="alt" key="2" oncommand="document.getElementById ('tab.cases').click ();"/>
+  		<key id="key.tabitems" modifiers="alt" key="3" oncommand="document.getElementById ('tab.items').click ();"/>
+  		<key id="key.tabnotes" modifiers="alt" key="4" oncommand="document.getElementById ('tab.notes').click ();"/>
 	</keyset>			
 			
 	<hbox class="WindowInnerPadding" flex="1">
 		<tabbox selectedIndex="0" flex="1">		
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">      
 				<tabs style="overflow:hidden">							
-					<tab label="Detaljer"/>
-					<tab label="Sager"/>							
-					<tab label="Katalog"/>
-					<tab label="Bud"/>
-					<tab label="Noter"/>
+					<tab id="tab.details" label="Detaljer" disabled="true"/>
+					<tab id="tab.cases" label="Sager" disabled="true"/>							
+					<tab id="tab.items" label="Katalog" disabled="true"/>
+					<tab id="tab.notes" label="Noter" disabled="true"/>
 				</tabs>
 			</arrowscrollbox>
 						
@@ -30,13 +34,12 @@
 				<tabpanel>
 					<vbox flex="1">
 						<groupbox>
-							<caption label="Meta"/>
-							
+							<caption label="Meta"/>							
 							<hbox align="center">
 								<label class="Label">Auktion nr.:</label>
-								<textbox id="no" flex="1" readonly="true"  />
+								<textbox id="textbox.no" flex="1" readonly="true"  />
 								<label class="Label">Oprettet:</label>
-								<datepicker id="createdate" type="normal" disabled="true"/>
+								<datepicker id="datepicker.createdate" type="normal" disabled="true"/>
 							</hbox>							
 						</groupbox>
 						
@@ -44,11 +47,11 @@
 							<caption label="Andet"/>							
 							<hbox align="center">
 								<label class="Label">Title:</label>
-								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
+								<textbox id="textbox.title" flex="1" onkeyup="main.onChange ();" />
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Status:</label>
-								<menulist id="status" oncommand="details.onChange ();" flex="1">
+								<menulist id="menulist.status" oncommand="details.onChange ();" flex="1">
   									<menupopup>
   										<menuitem label="Skjult" value="Hidden"/>
     									<menuitem label="Åben" value="Open"/>
@@ -58,7 +61,7 @@
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Type:</label>
-								<menulist id="type" oncommand="details.onChange ();" flex="1">
+								<menulist id="menulist.type" oncommand="details.onChange ();" flex="1">
   									<menupopup>
     									<menuitem label="Almindelig auktion" value="Live"/>
     									<menuitem label="Online auktion" value="Web"/>
@@ -68,29 +71,29 @@
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Start:</label>
-								<datepicker id="begin" type="popup" onchange="details.onChange ();"/>
+								<datepicker id="datepicker.begin" type="popup" onchange="details.onChange ();"/>
 								<label class="Label" width="25">kl.:</label>
-								<textbox id="begintime" width="50" maxlength="5" onkeyup="details.onChange ();" />
+								<textbox id="textbox.begintime" width="50" maxlength="5" onkeyup="details.onChange ();" />
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Slut:</label>
-								<datepicker id="end" type="popup" onchange="details.onChange ();"/>
+								<datepicker id="datepicker.end" type="popup" onchange="details.onChange ();"/>
 								<label class="Label" width="25">kl.:</label>
-								<textbox id="endtime" width="50" maxlength="5" onkeyup="details.onChange ();" />
+								<textbox id="textbox.endtime" width="50" maxlength="5" onkeyup="details.onChange ();" />
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Deadline:</label>
-								<datepicker id="deadline" type="popup" onchange="details.onChange ();"/>
+								<datepicker id="datepicker.deadline" type="popup" onchange="details.onChange ();"/>
 								<label class="Label" width="25">kl. :</label>
-								<textbox id="deadlinetime" width="50" maxlength="5" onkeyup="details.onChange ();" />
+								<textbox id="textbox.deadlinetime" width="50" maxlength="5" onkeyup="details.onChange ();" />
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Lokation:</label>							
-								<textbox id="location" flex="1" onkeyup="details.onChange ();" />
+								<textbox id="textbox.location" flex="1" onkeyup="details.onChange ();" />
 							</hbox>											
 							<hbox align="top">
 								<label class="Label">Tekst:</label>
-								<textbox id="description" flex="1" rows="12" multiline="true" onkeyup="details.onChange ();"/>
+								<textbox id="textbox.description" flex="1" rows="12" multiline="true" onkeyup="details.onChange ();"/>
 							</hbox>																	
 						</groupbox>
 					</vbox>
@@ -98,74 +101,57 @@
     			
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="cases.onChange ();" seltype="single" >
+						<tree id="tree.cases" flex="1" hidecolumnpicker="true" disabled="true" onselect="cases.onChange ();" seltype="single" >
 							<treecols>
 								<treecol id="id" hidden="true"/>
 								<treecol id="no" label="Sags nr." width="140" persist="width" onclick="cases.sort ({column: 'no'});"/>
 								<treecol id="title" label="Title" flex="2"  persist="width" onclick="cases.sort ({column: 'title'});"/>
-								<treecol id="customer" label="Kunde" flex="2" persist="width" onclick="cases.sort ({column: 'customer'});"/>
+								<treecol id="customername" label="Kunde" flex="2" persist="width" onclick="cases.sort ({column: 'customer'});"/>
 							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>
 						<vbox>							
-							<button id="caseCreate" label="Opret" disabled="true" oncommand="cases.create ();"/>
-							<button id="caseEdit" label="Redigere" disabled="true" oncommand="cases.edit ();"/>
-							<button id="caseDestroy" label="Slet" disabled="true" oncommand="cases.destroy ();"/>	
+							<button id="button.casecreate" label="Opret" disabled="true" oncommand="cases.create ();" accesskey="O"/>
+							<button id="button.caseedit" label="Redigere" disabled="true" oncommand="cases.edit ();" accesskey="R"/>
+							<button id="button.casedestroy" label="Slet" disabled="true" oncommand="cases.destroy ();" accesskey="S"/>	
 						</vbox>	
 					</hbox>						
 				</tabpanel>
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="items" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.items.onChange ();" seltype="single">
+						<tree id="tree.items" flex="1" hidecolumnpicker="true" disabled="true" onselect="items.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
-								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="main.items.sort ({column: 'catalogno'});"/>
-								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="main.items.sort ({column: 'no'});"/>
-								<treecol id="title" label="Title" flex="2" persist="width" onclick="main.items.sort ({column: 'title'});"/>
+								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="items.sort ({column: 'catalogno'});"/>
+								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="items.sort ({column: 'no'});"/>
+								<treecol id="title" label="Title" flex="2" persist="width" onclick="items.sort ({column: 'title'});"/>
+								<treecol id="customername" label="Kunde" flex="2" persist="width" onclick="cases.sort ({column: 'customername'});"/>
 							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>						
 							<vbox>													
-								<button id="itemEdit" label="Redigere" disabled="true" oncommand="main.items.edit ();"/>
-								<button id="itemDestroy" label="Slet" disabled="true" oncommand="main.items.destroy ();"/>																
-								<button id="printCatalog" label="Udskriv" oncommand="main.catalog.print ();"/>
+								<button id="button.itemedit" label="Redigere" disabled="true" oncommand="items.edit ();" accesskey="R"/>
+								<button id="button.itemdestroy" label="Slet" disabled="true" oncommand="items.destroy ();" accesskey="S"/>
+								<space flex="1"/>																
+								<button id="button.printcatalog" label="Udskriv" oncommand="catalog.print ();" accesskey="U"/>
 							</vbox>																			
 					</hbox>										
 				</tabpanel>
-				
+								
 				<tabpanel>
-					<hbox flex="1">
-						<tree id="bids" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.cases.onChange ();" seltype="single" >
-							<treecols>
-								<treecol id="id" hidden="true"/>
-								<treecol id="no" label="Sags nr." width="140" persist="width" onclick="main.cases.sort ({column: 'no'});"/>
-								<treecol id="title" label="Title" flex="2"  persist="width" onclick="main.cases.sort ({column: 'title'});"/>
-								<treecol id="customer" label="Kunde" flex="2" persist="width" onclick="main.cases.sort ({column: 'customer'});"/>
-							</treecols>								
-						</tree>
-					</hbox>
-					<hbox>
-						<vbox>							
-							<button id="caseCreate" label="Opret" disabled="true" oncommand="main.cases.create ();"/>
-							<button id="caseEdit" label="Redigere" disabled="true" oncommand="main.cases.edit ();"/>
-							<button id="caseDestroy" label="Slet" disabled="true" oncommand="main.cases.destroy ();"/>	
-						</vbox>	
-					</hbox>						
+					<textbox id="textbox.notes" flex="1" multiline="true" onkeyup="notes.onChange ();"/>
 				</tabpanel>				
-				
-				<tabpanel>
-					<textbox id="notes" flex="1" multiline="true" onkeyup="notes.onChange ();"/>
-				</tabpanel>
-				
-				
 			</tabpanels>
 		</tabbox>
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
-		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
-		<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
+		<button id="button.settle" label="Afregn" oncommand="main.settle ();" disabled="true" accesskey="A"/>
+		<button id="button.turnover" label="Omsætning" oncommand="main.turnover ();" disabled="true" accesskey="m"/>
+		<space flex="1"/>
+		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>
+		<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G"/>
 	</hbox>
 </window>

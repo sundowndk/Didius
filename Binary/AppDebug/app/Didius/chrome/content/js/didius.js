@@ -23,8 +23,7 @@ var didius =
 				app.events.onCustomerLoad = new sXUL.event ({id: "onCustomerLoad", remotePropagation: true});
 				app.events.onCustomerSave = new sXUL.event ({id: "onCustomerSave", remotePropagation: true});
 				app.events.onCustomerDestroy = new sXUL.event ({id: "onCustomerDestroy", remotePropagation: true});
-			
-				app.events.onAuctionCreate = new sXUL.event ({id: "onAuctionCreate", remotePropagation: true});
+					
 				app.events.onAuctionLoad = new sXUL.event ({id: "onAuctionLoad", remotePropagation: true});
 				app.events.onAuctionSave = new sXUL.event ({id: "onAuctionSave", remotePropagation: true});
 				app.events.onAuctionDestroy = new sXUL.event ({id: "onAuctionDestroy", remotePropagation: true});
@@ -892,6 +891,7 @@ var didius =
 				content.customerid = attributes.customer.id;
 			}	
 			
+			
 			if (attributes.onDone)
 			{
 				var onDone = 	function (respons)
@@ -933,8 +933,6 @@ var didius =
 			
 			var result = request.respons ()["didius.auction"];
 			
-		//	app.events.onAuctionCreate.execute (result);
-			
 			return result;
 		},
 			
@@ -948,7 +946,8 @@ var didius =
 		
 			var result = request.respons ()["didius.auction"];
 			
-		//	app.events.onAuctionLoad.execute (result);
+			if (!didius.runtime.browserMode)			
+				app.events.onAuctionLoad.execute (result);
 		
 			return result;
 		},
@@ -961,7 +960,8 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Auction.Save", "data", "POST", false);	
 			request.send (content);
 			
-		//	app.events.onAuctionSave.execute (auction);
+			if (!didius.runtime.browserMode)			
+				app.events.onAuctionSave.execute (auction);
 		},		
 		
 		destroy : function (id)
@@ -972,10 +972,13 @@ var didius =
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Auction.Destroy", "data", "POST", false);	
 			request.send (content);
 			
-			var data = {};
-			data.id = id;
+			if (!didius.runtime.browserMode)
+			{
+				var data = {};
+				data.id = id;
 			
-		//	app.events.onAuctionDestroy.execute (data);
+				app.events.onAuctionDestroy.execute (data);
+			}
 		},				
 				
 		list : function (attributes)

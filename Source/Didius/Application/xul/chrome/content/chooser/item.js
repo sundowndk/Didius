@@ -112,7 +112,7 @@ var main =
 	{
 		if (window.arguments[0].onDone != null)
 		{
-			window.arguments[0].onDone (main.itemsTreeHelper.getRow ());
+			setTimeout (function () {window.arguments[0].onDone (main.itemsTreeHelper.getRow ()}, 0);
 		}
 		
 		main.close ();				

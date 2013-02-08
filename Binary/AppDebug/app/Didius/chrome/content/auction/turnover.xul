@@ -3,12 +3,12 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.auction.settle" minwidth="700" minheight="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">	
-	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
-	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
-	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
+<window id="didius.auction.turnover" minwidth="700" minheight="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">	
+	<script type="application/x-javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/x-javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
+	<script type="application/x-javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
-	<script type="application/javascript" src="chrome://didius/content/auction/settle.js"/>	
+	<script type="application/x-javascript" src="chrome://didius/content/auction/turnover.js"/>	
 			
 	<keyset>
   		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
@@ -17,6 +17,12 @@
 			
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">					
+			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">      
+				<tabs style="overflow:hidden">							
+					<tab id="tab.sellers" label="Sælgere"/>
+					<tab id="tab.buyers" label="Købere"/>												
+				</tabs>
+			</arrowscrollbox>
 			<tabpanels flex="1">
 				<tabpanel flex="1">
 					<vbox flex="1">																		
@@ -39,14 +45,11 @@
 	</hbox>
 	
 	<hbox class="WindowButtons">		
-		<hbox align="left" flex="1"> 						
-			<checkbox id="checkbox.invoicesprint" label="Udskriv faktura" checked="true" disabled="true"/>
-			<checkbox id="checkbox.invoicesmail" label="Send faktura på e-mail" checked="true" disabled="true"/>
-			<checkbox id="checkbox.itemwonnotifcationsmail" label="Adviser bud vindere" checked="true" disabled="true"/>
-		</hbox>
 		<hbox align="right" flex="1"> 
-			<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>
-			<button id="button.settle" label="Afregn" oncommand="main.settle ();" disabled="true" accesskey="A"/>
+			<button id="button.print" label="Udskriv" oncommand="main.print ();" disabled="true" accesskey="U"/>
+			<button id="button.mail" label="Send på mail" oncommand="main.print ();" disabled="true" accesskey="S"/>
+			<space flex="1" />
+			<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>			
 		</hbox>
 	</hbox>
 </window>

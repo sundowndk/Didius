@@ -88,68 +88,68 @@ var main =
 		{
 			document.title = "Sag: "+ main.case.title +" ["+ main.case.no +"] *";
 		
-			document.getElementById ("save").disabled = false;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.save").disabled = false;
+			document.getElementById ("button.close").disabled = false;
 		}
 		else
 		{
 			document.title = "Sag: "+ main.case.title +" ["+ main.case.no +"]";
 		
-			document.getElementById ("save").disabled = true;
-			document.getElementById ("close").disabled = false;
+			document.getElementById ("button.save").disabled = true;
+			document.getElementById ("button.close").disabled = false;
 		}
 		
-		if (main.auction.status == "Closed")
-		{	
-			document.getElementById ("createSettlement").disabled = false;	
-			document.getElementById ("showSettlement").disabled = false;
-			
-			if (main.case.settled)
-			{
-				document.getElementById ("createSettlementBox").collapsed = true;
-				document.getElementById ("showSettlementBox").collapsed = false;
-			}
-			else		
-			{
-				document.getElementById ("createSettlementBox").collapsed = false;
-				document.getElementById ("showSettlementBox").collapsed = true;
-			}
-		}
-		else
-		{
-			document.getElementById ("createSettlement").disabled = true;
-			document.getElementById ("createSettlementBox").collapsed = false;
-			document.getElementById ("showSettlementBox").collapsed = true;		
-		}
+//		if (main.auction.status == "Closed")
+//		{	
+//			document.getElementById ("button.settlementcreate").disabled = false;	
+//			document.getElementById ("button.settlementshow").disabled = false;
+//			
+//			if (main.case.settled)
+//			{
+//				document.getElementById ("button.createSettlementBox").collapsed = true;
+//				document.getElementById ("showSettlementBox").collapsed = false;
+//			}
+//			else		
+//			{
+//				document.getElementById ("createSettlementBox").collapsed = false;
+//				document.getElementById ("showSettlementBox").collapsed = true;
+//			}
+//		}
+//		else
+//		{
+//			document.getElementById ("createSettlement").disabled = true;
+//			document.getElementById ("createSettlementBox").collapsed = false;
+//			document.getElementById ("showSettlementBox").collapsed = true;		
+//		}
 		
 		if (main.auction.status == "Closed" || main.auction.status == "Running")
 		{
-			document.getElementById ("title").disabled = true;
+			document.getElementById ("textbox.title").disabled = true;
 		
-			document.getElementById ("customerreference").disabled = true;
-			document.getElementById ("commisionfeepercentage").disabled = true;
-			document.getElementById ("commisionfeeminimum").disabled = true;
+			document.getElementById ("textbox.customerreference").disabled = true;
+			document.getElementById ("textbox.commisionfeepercentage").disabled = true;
+			document.getElementById ("textbox.commisionfeeminimum").disabled = true;
 		}
 		else
 		{
-			document.getElementById ("title").disabled = false;
+			document.getElementById ("textbox.title").disabled = false;
 		
-			document.getElementById ("customerreference").disabled = false;
-			document.getElementById ("commisionfeepercentage").disabled = false;
-			document.getElementById ("commisionfeeminimum").disabled = false;
+			document.getElementById ("textbox.customerreference").disabled = false;
+			document.getElementById ("textbox.commisionfeepercentage").disabled = false;
+			document.getElementById ("textbox.commisionfeeminimum").disabled = false;
 		}
 		
 		if (main.mode == "NEW")
 		{
-			document.getElementById ("tabdetails").disabled = false;
-			document.getElementById ("tabitems").disabled = true;
-			document.getElementById ("showSalesAgreement").disabled = true;
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.items").disabled = true;
+			document.getElementById ("button.salesagreementshow").disabled = true;
 		}
 		else
 		{
-			document.getElementById ("tabdetails").disabled = false;
-			document.getElementById ("tabitems").disabled = false;
-			document.getElementById ("showSalesAgreement").disabled = false;
+			document.getElementById ("tab.details").disabled = false;
+			document.getElementById ("tab.items").disabled = false;
+			document.getElementById ("button.salesagreementshow").disabled = false;
 		}
 	},
 			
@@ -216,18 +216,17 @@ var details =
 	// ------------------------------------------------------------------------------------------------------	
 	set : function ()
 	{
-		document.getElementById ("no").value = main.case.no;
-		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.case.createtimestamp);
-		document.getElementById ("auction").value = main.auction.title;		
-		document.getElementById ("customer").value = main.customer.name;
+		document.getElementById ("textbox.no").value = main.case.no;
+		document.getElementById ("datepicker.createdate").dateValue = SNDK.tools.timestampToDate (main.case.createtimestamp);
+		document.getElementById ("textbox.auctiontitle").value = main.auction.title;		
+		document.getElementById ("textbox.customername").value = main.customer.name;
 	
-		document.getElementById ("title").value = main.case.title;		
+		document.getElementById ("textbox.title").value = main.case.title;		
+		document.getElementById ("textbox.title").focus ();
 		
-		document.getElementById ("customerreference").value = main.case.customerreference;		
-		document.getElementById ("commisionfeepercentage").value = main.case.commisionfeepercentage;		
-		document.getElementById ("commisionfeeminimum").value = main.case.commisionfeeminimum;		
-		
-		document.getElementById ("title").focus ();
+		document.getElementById ("textbox.customerreference").value = main.case.customerreference;		
+		document.getElementById ("textbox.commisionfeepercentage").value = main.case.commisionfeepercentage;		
+		document.getElementById ("textbox.commisionfeeminimum").value = main.case.commisionfeeminimum;		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -235,11 +234,11 @@ var details =
 	// ------------------------------------------------------------------------------------------------------	
 	get : function ()	
 	{
-		main.case.title = document.getElementById ("title").value;		
+		main.case.title = document.getElementById ("textbox.title").value;		
 		
-		main.case.customerreference = document.getElementById ("customerreference").value;		
-		main.case.commisionfeepercentage = document.getElementById ("commisionfeepercentage").value;		
-		main.case.commisionfeeminimum = document.getElementById ("commisionfeeminimum").value;		
+		main.case.customerreference = document.getElementById ("textbox.customerreference").value;		
+		main.case.commisionfeepercentage = document.getElementById ("textbox.commisionfeepercentage").value;		
+		main.case.commisionfeeminimum = document.getElementById ("textbox.commisionfeeminimum").value;		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -267,7 +266,7 @@ var items =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{		
-		items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: items.edit});
+		items.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.items"), sortColumn: "catalogno", sortDirection: "descending", onDoubleClick: items.edit});
 		items.set ();
 	},
 	
@@ -280,7 +279,7 @@ var items =
 		{
 			case "NEW":
 			{
-				document.getElementById ("items").disabled = false;
+				document.getElementById ("tree.items").disabled = false;
 				items.onChange ();				
 				break;
 			}
@@ -305,7 +304,7 @@ var items =
 									items.itemsTreeHelper.enableRefresh ();
 							
 									// Enable controls
-									document.getElementById ("items").disabled = false;
+									document.getElementById ("tree.items").disabled = false;
 									items.onChange ();
 								};
 								
@@ -322,22 +321,22 @@ var items =
 	{
 		if (items.itemsTreeHelper.getCurrentIndex () != -1)
 		{
-			document.getElementById ("itemCreate").disabled = false;
-			document.getElementById ("itemEdit").disabled = false;
-			document.getElementById ("itemDestroy").disabled = false;
+			document.getElementById ("button.itemcreate").disabled = false;
+			document.getElementById ("button.itemedit").disabled = false;
+			document.getElementById ("button.itemdestroy").disabled = false;
 		}
 		else
 		{
-			document.getElementById ("itemCreate").disabled = false;
-			document.getElementById ("itemEdit").disabled = true;
-			document.getElementById ("itemDestroy").disabled = true;
+			document.getElementById ("button.itemcreate").disabled = false;
+			document.getElementById ("button.itemedit").disabled = true;
+			document.getElementById ("button.itemdestroy").disabled = true;
 		}
 		
 		if (main.auction.status == "Closed" || main.auction.status == "Running")
 		{
-			document.getElementById ("itemCreate").disabled = true;
-			document.getElementById ("itemEdit").disabled = false;
-			document.getElementById ("itemDestroy").disabled = true;
+			document.getElementById ("button.itemcreate").disabled = true;
+			document.getElementById ("button.itemedit").disabled = false;
+			document.getElementById ("button.itemdestroy").disabled = true;
 		}
 	},
 	
