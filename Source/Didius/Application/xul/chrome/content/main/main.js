@@ -481,8 +481,7 @@ var main =
 		
 		run : function ()
 		{
-			var current = main.auctions.auctionsTreeHelper.getRow ();												
-			window.openDialog ("chrome://didius/content/auctionrun/auctionrun.xul", "auctionrun-"+ current.id, "chrome", {auctionId: current.id});
+			app.window.open (window, "chrome://didius/content/auction/run.xul", "didius.auction.run."+ main.auctions.auctionsTreeHelper.getRow ().id, null, {auctionId: main.auctions.auctionsTreeHelper.getRow ().id});
 		},
 		
 		bidNotation : function ()
@@ -492,8 +491,7 @@ var main =
 		
 		display : function ()
 		{
-			var current = main.auctions.auctionsTreeHelper.getRow ();
-			app.window.open (window, "chrome://didius/content/auctionrun/display.xul", "display-"+ current.id, "chrome, resizable, dialog=no", {auctionId: current.id});
+			app.window.open (window, "chrome://didius/content/auction/display.xul", "didius.auction.run."+ main.auctions.auctionsTreeHelper.getRow ().id, null, {auctionId: main.auctions.auctionsTreeHelper.getRow ().id});
 		}				
 	},
 	
