@@ -33,6 +33,24 @@ createProfile : function (name, email, onDone)
 	request.send (content);		
 },
 
+parseBuyerNos : function (buyerNos)
+{
+	var nos = buyerNos.split ("|");
+	var result = {};
+	for (var index in nos)
+	{
+		try
+		{
+			result[nos[index].split (":")[0]] = nos[index].split (":")[1];
+		}
+		catch (exception)
+		{		
+			sXUL.console.log (exception);
+		}
+	}	
+	return result;
+},
+
 verifyProfile : function (id, onDone)
 {
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.VerifyProfile", "data", "POST", true);			

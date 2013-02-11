@@ -504,7 +504,7 @@ var bids =
 	// ------------------------------------------------------------------------------------------------------
 	create : function ()
 	{
-		window.openDialog ("chrome://didius/content/bid/create.xul", "didius.bid.create."+ SNDK.tools.newGuid (), "chrome", {customerId: main.customer.id});
+		app.window.open (window, "chrome://didius/content/bid/create.xul", "didius.bid.create."+ SNDK.tools.newGuid (), "modal", {customerId: main.customer.id});		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -512,7 +512,7 @@ var bids =
 	// ------------------------------------------------------------------------------------------------------
 	edit : function ()
 	{
-		window.openDialog ("chrome://didius/content/bid/edit.xul", "didius.bid.edit."+ bids.bidsTreeHelper.getRow ().id, "chrome", {bidId: bids.bidsTreeHelper.getRow ().id});
+		app.window.open (window, "chrome://didius/content/bid/edit.xul", "didius.bid.edit."+ bids.bidsTreeHelper.getRow ().id, "modal", {bidId: bids.bidsTreeHelper.getRow ().id});				
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -632,8 +632,8 @@ var settlements =
 	// | SHOW																								|	
 	// ------------------------------------------------------------------------------------------------------
 	show : function ()
-	{		
-		window.openDialog ("chrome://didius/content/case/settlement/show.xul", "didius.case.settlement.show."+ settlements.settlementsTreeHelper.getRow ().id, "chrome", {settlementId: settlements.settlementsTreeHelper.getRow ().id});
+	{				
+		app.window.open (window, "chrome://didius/content/case/settlement/show.xul", "didius.case.settlement.show."+ settlements.settlementsTreeHelper.getRow ().id, null, {settlementId: settlements.settlementsTreeHelper.getRow ().id});				
 	}
 }
 
@@ -722,14 +722,6 @@ var invoices =
 			document.getElementById ("button.invoicecreate").disabled = false;				
 		}						
 	},
-				
-	// ------------------------------------------------------------------------------------------------------
-	// | SHOW																								|	
-	// ------------------------------------------------------------------------------------------------------																																																				
-	show : function ()
-	{				
-		window.openDialog ("chrome://didius/content/invoice/show.xul", "didius.auction.invoice.show."+ invoices.invoicesTreeHelper.getRow ().id, "chrome", {invoiceId: invoices.invoicesTreeHelper.getRow ().id});
-	},
 	
 	// ------------------------------------------------------------------------------------------------------
 	// | CREATE																								|	
@@ -741,14 +733,22 @@ var invoices =
 							if (result)
 							{								
 								if (result != null)
-								{								
-									window.openDialog ("chrome://didius/content/invoice/create.xul", "didius.auction.invoice.show."+ SNDK.tools.newGuid (), "chrome", {customerId: main.customer.id, auctionId: result.id});
+								{																	
+									app.window.open (window, "chrome://didius/content/invoice/create.xul", "didius.auction.invoice.create."+ SNDK.tools.newGuid (), "modal", {customerId: main.customer.id, auctionId: result.id});				
 								}									
 							}																												
 						};
 																				
 		app.choose.auction ({onDone: onDone, parentWindow: window});		
-	},
+	},	
+										
+	// ------------------------------------------------------------------------------------------------------
+	// | SHOW																								|	
+	// ------------------------------------------------------------------------------------------------------																																																				
+	show : function ()
+	{						
+		app.window.open (window, "chrome://didius/content/invoice/show.xul", "didius.auction.invoice.show."+ invoices.invoicesTreeHelper.getRow ().id, null, {invoiceId: invoices.invoicesTreeHelper.getRow ().id});				
+	}	
 }
 
 // ----------------------------------------------------------------------------------------------------------

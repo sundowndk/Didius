@@ -1,11 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/signin.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius.Addin/Ajax.cs">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/signin.js" Line="315" Column="18" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/signin.xul" Line="87" Column="61" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/edit.js" Line="10" Column="107" />
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="751" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/signin.js" Line="211" Column="70" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.js" Line="27" Column="26" />
+      <File FileName="Didius/Application/xul/chrome/content/item/edit.js" Line="510" Column="26" />
+      <File FileName="Didius/Application/js/didius/bid.js" Line="20" Column="37" />
+      <File FileName="Didius/Didius/Bid.cs" Line="1" Column="1" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="274" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,17 +20,24 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="auction" expanded="True">
-                      <Node name="signin.js" selected="True" />
+                    <Node name="auction" expanded="True" />
+                    <Node name="auctionrun" expanded="True" />
+                    <Node name="bid" expanded="True" />
+                    <Node name="case" expanded="True">
+                      <Node name="salesagreement" expanded="True" />
                     </Node>
-                    <Node name="case" expanded="True" />
                     <Node name="chooser" expanded="True" />
                     <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
+                    <Node name="item" expanded="True" />
                     <Node name="main" expanded="True" />
                   </Node>
                 </Node>
               </Node>
+            </Node>
+            <Node name="Didius" expanded="True" />
+            <Node name="Didius.Addin" expanded="True">
+              <Node name="Ajax.cs" selected="True" />
             </Node>
           </Node>
         </State>

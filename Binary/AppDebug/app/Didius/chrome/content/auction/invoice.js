@@ -73,10 +73,10 @@ var main =
 							document.getElementById ("checkbox.itemwonnotifcationsmail").disabled = false;																												
 							
 							document.getElementById ("button.close").disabled = false;
-							document.getElementById ("button.settle").disabled = false;
+							document.getElementById ("button.invoice").disabled = false;
 						}
 	
-		document.title = "Auktion afregning: "+ main.current.title +" ["+ main.current.no +"]";		
+		document.title = "Auktion fakturering: "+ main.current.title +" ["+ main.current.no +"]";		
 		
 		didius.item.list ({auction: main.current, async: true, onDone: onDone});
 	},
@@ -103,9 +103,9 @@ var main =
 		window.close ();
 	},
 	
-	settle : function ()
+	invoice : function ()
 	{	
-		var progresswindow = app.window.open (window, "chrome://didius/content/auction/settleprogress.xul", "auction.settle.progress."+ main.current.id, "", {});	
+		var progresswindow = app.window.open (window, "chrome://didius/content/auction/invoiceprogress.xul", "auction.invoice.progress."+ main.current.id, "dialog", {});	
 										
 		var workload = function ()
 		{

@@ -118,7 +118,7 @@ var main =
 			document.getElementById ("button.close").disabled = false;
 		}
 		
-		document.getElementById ("button.settle").disabled = false;
+		document.getElementById ("button.invoice").disabled = false;
 //		
 //		if (main.current.type == "Web" || main.current.type == "LiveWeb")
 //		{
@@ -181,11 +181,11 @@ var main =
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
-	// | SETTLE																								|	
+	// | INVOICE																							|	
 	// ------------------------------------------------------------------------------------------------------
-	settle : function ()
+	invoice : function ()
 	{		
-		app.window.open (window, "chrome://didius/content/auction/settle.xul", "didius.auction.settle."+ main.auction.id, "modal", {auctionId: main.auction.id});
+		app.window.open (window, "chrome://didius/content/auction/invoice.xul", "didius.auction.invoice."+ main.auction.id, "modal", {auctionId: main.auction.id});
 	}
 }
 
@@ -312,7 +312,8 @@ var cases =
 			case "EDIT":
 			{
 				var onDone = 	function (items)
-								{															
+								{					
+									cases.casesTreeHelper.disableRefresh ();										
 									for (idx in items)
 									{	
 										var _case = items[idx];
@@ -323,10 +324,11 @@ var cases =
 										data.title = _case.title;
 																	
 										var customer = didius.customer.load (_case.customerid);								
-										data.customer = customer.name;
+										data.customername = customer.name;
 																								
 										cases.casesTreeHelper.addRow ({data: data});
 									}
+									cases.casesTreeHelper.enableRefresh ();
 									
 									// Enable controls
 									document.getElementById ("tree.cases").disabled = false;																
@@ -462,9 +464,9 @@ var items =
 								data.no = item.no;
 								data.title = item.title;
 								
-								var case_ = didius.case.load ({id: item.caseid});
-								var customer = didius.customer.load (case_.customerid);								
-								data.customername = customer.name;																								
+							//	var case_ = didius.case.load ({id: item.caseid});
+							//	var customer = didius.customer.load (case_.customerid);								
+							//	data.customername = customer.name;																								
 							
 								items.itemsTreeHelper.addRow ({data: data});
 							}
@@ -667,7 +669,5 @@ var eventHandlers =
 	{
 		items.itemsTreeHelper.removeRow ({id: eventData.id});	
 	}
-			
-	
 }
 		

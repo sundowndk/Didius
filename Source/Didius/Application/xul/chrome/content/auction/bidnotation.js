@@ -1,37 +1,30 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ---------------------------------------------------------------------------------------------------------
 var main =
 {
-	current : null,
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	auction : null,
 	running : false,
 	items : null,
-	currentCatalogNo : 1,
+	currentIndex : 0,
 	buyernos: {},
 	
 	itemsTreeHelper: null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
 		try
 		{
-			main.current = didius.auction.load (window.arguments[0].auctionId);
-			main.items = didius.item.list ({auction: main.current, async: false});
-			
-			var buyernos = main.current.buyernos.split ("|");
-			for (idx in buyernos)
-			{
-				try
-				{
-					var buyerno = buyernos[idx].split (":")[0];
-					var customerid = buyernos[idx].split (":")[1];
-			
-					main.buyernos[buyerno] = customerid;
-				}
-				catch (exception)
-				{		
-					sXUL.console.log (exception)		
-				}
-			}
+			main.auction = didius.auction.load (window.arguments[0].auctionId);				
+			main.buyernos = didius.helpers.parseBuyerNos (main.auction.buyernos);				
 		}
 		catch (error)
 		{
@@ -40,105 +33,115 @@ var main =
 			return;
 		}								
 	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending"});
+		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.items"), sortColumn: "catalogno", sortDirection: "descending"});
 	
 		main.set ();
 		
 		// Hook events.			
-		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);				
+		app.events.onAuctionSave.addHandler (eventHandlers.onAuctionSave);
+		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);
+		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);
 	},
-	
-	eventHandlers : 
-	{								
-		onAuctionDestroy : function (eventData)
-		{
-			if (main.current.id == eventData.id)
-			{
-				main.close (true);
-			}
-		}
-	},
-		
+			
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------		
 	set : function ()
 	{
-		for (idx in main.items)
-		{									
-			main.itemsTreeHelper.addRow ({data: main.items[idx]});
-		}
-								
-		// Enable controls
-		document.getElementById ("items").disabled = false;																
-		//main.items.onChange ();
-		
-		document.title = "Auktion budnotering: "+ main.current.title +" ["+ main.current.no +"]";
-		
-		if (main.items.length > 0)
-		{
-			main.setItem (1);
-		}	
-		else
-		{
-			document.getElementById ("bidBuyerNo").disabled = true;
-			document.getElementById ("bidAmount").disabled = true;		
-		}	
+		var onDone = 	function (result)
+						{	
+							main.items = result;
+							main.itemsTreeHelper.disableRefresh ();
+							for (var index in main.items)
+							{				
+								var item = main.items[index];					
+								var data = {};
+								data.id = item.id;
+								data.count = index;
+								data.catalogno = item.catalogno;
+								data.no = item.no;
+								data.title = item.title;
+							
+								main.itemsTreeHelper.addRow ({data: data});
+							}					
+							main.itemsTreeHelper.enableRefresh ();
+							
+							if (main.items.length > 0)
+							{
+								main.setItem (0);
+							}	
+							else
+							{
+								document.getElementById ("bidBuyerNo").disabled = true;
+								document.getElementById ("bidAmount").disabled = true;		
+							}								
+							
+							document.getElementById ("tree.items").disabled = false;							
+							document.getElementById ("button.close").disabled = false;							
+						};
+	
+		main.items = didius.item.list ({auction: main.auction, async: true, onDone: onDone});
+													
+		document.title = "Auktion budnotering: "+ main.auction.title +" ["+ main.auction.no +"]";				
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | GET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
 	{
-		
 		if (main.itemsTreeHelper.getCurrentIndex () != -1)
 		{										
-			main.setItem (parseInt (main.itemsTreeHelper.getRow ().catalogno));
-		}
-		else
-		{				
-			
+			main.setItem (parseInt (main.itemsTreeHelper.getRow ().count));
 		}
 	},
-	
+		
+	// ------------------------------------------------------------------------------------------------------
+	// | GETBID																								|	
+	// ------------------------------------------------------------------------------------------------------
 	getBid : function ()
 	{
-		if (document.getElementById ("bidBuyerNo").value != 0 && document.getElementById ("bidAmount").value != 0.00)
+		if (document.getElementById ("textbox.bidbuyerno").value != 0 && document.getElementById ("textbox.bidamount").value != 0.00)
 		{
-			var buyerno = document.getElementById ("bidBuyerNo").value;
-			var amount = document.getElementById ("bidAmount").value;
+			var buyerno = document.getElementById ("textbox.bidbuyerno").value;
+			var amount = document.getElementById ("textbox.bidamount").value;
 									
-			for (idx in main.buyernos)
+			for (var index in main.buyernos)
 			{							
-				if (idx == buyerno)
+				if (index == buyerno)
 				{									
-					var customer = didius.customer.load (main.buyernos[idx]);
-					var item = main.items[(main.currentCatalogNo - 1)];
+					//var customer = didius.customer.load (main.buyernos[index]);
+					var item = main.items[(main.currentIndex)];
 														
 					if (amount <= item.bidamount)
 					{
-						var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-						prompts.alert (null, "Bud", "Budet er ikke større end nuværende bud, og kan derfor ikke accepteres");
+						app.window.prompt.alert ("Bud", "Budet er mindre end nuværende bud, og kan derfor ikke accepteres");
 						return false;
 					}
 					
 					if (amount < item.minimumbid )
 					{
-						var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService); 
-						var result = prompts.confirm (null, "Minimums bud", "Budet er mindre end effektens minimumsbuds grænse, vil du fjerne denne grænse og tillade budet ?");
-												
-						if (!result)
+						if (!app.window.prompt.confirm ("Minimums bud", "Budet er mindre end effektens minimumsbuds grænse, vil du fjerne denne grænse og tillade budet ?"))
 						{
 							return false;
 						}	
 						
 						item.minimumbid = 0;
-						didius.item.save (item);						
 					}
 				
-					var bid = didius.bid.create (customer, item, amount);
-					didius.bid.save (bid);			
+					var bid = didius.bid.create ({customerId: main.buyernos[index], item: item, amount: amount});
+					didius.bid.save ({bid: bid});
 					
-					main.items[(main.currentCatalogNo - 1)] = didius.item.load (item.id);
+					didius.item.save ({item: item});
+					
 					return true;		
 				}
 			}
@@ -153,16 +156,51 @@ var main =
 		}
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONBIDAMOUNTKEYPRESS																				|	
+	// ------------------------------------------------------------------------------------------------------
 	onBidAmountKeyPress : function (event)
 	{	 
+		// PAGEUP
+		if (event.keyCode == 33)
+		{
+			main.itemPrev ();
+			return false;
+		}
+		
+		// PAGEDOWN
+		if (event.keyCode == 34)
+		{
+			main.itemNext ();
+			return false;
+		}
+	
+		// ENTER
 		if (event.keyCode == 13)
 		{
-			document.getElementById ("bidBuyerNo").focus ();
+			document.getElementById ("textbox.bidbuyerno").focus ();
 		}
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONBUYERNOKEYPRESS																					|	
+	// ------------------------------------------------------------------------------------------------------
 	onBuyerNoKeyPress : function (event)
 	{
+		// PAGEUP
+		if (event.keyCode == 33)
+		{
+			main.itemPrev ();
+			return false;
+		}
+		
+		// PAGEDOWN
+		if (event.keyCode == 34)
+		{
+			main.itemNext ();
+			return false;
+		}
+	
 		if (event.keyCode == 13)
 		{
 			if (main.getBid ())
@@ -172,90 +210,173 @@ var main =
 		}
 	},
 
+	// ------------------------------------------------------------------------------------------------------
+	// | ITEMPREV																							|	
+	// ------------------------------------------------------------------------------------------------------
 	itemPrev : function ()
 	{
-		if (main.currentCatalogNo > 1)
+		if (main.currentIndex > 0)
 		{					
-			main.setItem ((main.currentCatalogNo - 1));						
-		}
-		else
-		{
-			main.setItem ((main.currentCatalogNo));						
+			main.setItem ((main.currentIndex - 1));
 		}
 	},
 			
+	// ------------------------------------------------------------------------------------------------------
+	// | ITEMNEXT																							|	
+	// ------------------------------------------------------------------------------------------------------			
 	itemNext : function ()
 	{
-		if (main.currentCatalogNo < main.items.length)
+		if (main.currentIndex < (main.items.length - 1))
 		{
-			main.setItem ((main.currentCatalogNo + 1));										
-		}
-		else
-		{
-			main.setItem ((main.currentCatalogNo));
+			main.setItem ((main.currentIndex + 1));										
 		}
 	},
 	
-	setItem : function (catalogNo)
+	// ------------------------------------------------------------------------------------------------------
+	// | SETITEM																							|	
+	// ------------------------------------------------------------------------------------------------------
+	setItem : function (index)
 	{									
-		main.currentCatalogNo = catalogNo;
+		main.currentIndex = index;
 	
-		document.getElementById ("counter").label = "Effekt "+ catalogNo +" af "+ main.items.length;
+		document.getElementById ("caption.counter").label = "Effekt "+ (main.currentIndex + 1)  +" af "+ main.items.length;
 		
-		catalogNo--;
-	
-		document.getElementById ("itemDescription").value = main.items[catalogNo].description;
+		document.getElementById ("textbox.itemcatalogno").value = main.items[main.currentIndex].catalogno;
+		document.getElementById ("textbox.itemdescription").value = main.items[main.currentIndex].description;
 		
-		document.getElementById ("itemMinimumBid").value = main.items[catalogNo].minimumbid;
-		document.getElementById ("itemAppraisal1").value = main.items[catalogNo].appraisal1;
-		document.getElementById ("itemAppraisal2").value = main.items[catalogNo].appraisal2;
-		document.getElementById ("itemAppraisal3").value = main.items[catalogNo].appraisal3;
+		document.getElementById ("textbox.itemminimumbid").value = main.items[main.currentIndex].minimumbid;
+		document.getElementById ("textbox.itemappraisal1").value = main.items[main.currentIndex].appraisal1;
+		document.getElementById ("textbox.itemappraisal2").value = main.items[main.currentIndex].appraisal2;
+		document.getElementById ("textbox.itemappraisal3").value = main.items[main.currentIndex].appraisal3;
 			
-		if (main.items[catalogNo].pictureid != SNDK.tools.emptyGuid)
+		if (main.items[main.currentIndex].pictureid != SNDK.tools.emptyGuid)
 		{
-			document.getElementById ("itemPicture").src = didius.runtime.ajaxUrl +"getmedia/" + main.items[catalogNo].pictureid;
+			document.getElementById ("image.itempicture").src = didius.runtime.ajaxUrl +"getmedia/" + main.items[main.currentIndex].pictureid;
 		}
 		else
 		{
-			document.getElementById ("itemPicture").src = "chrome://didius/content/icons/noimage.jpg";
+			document.getElementById ("image.itempicture").src = "chrome://didius/content/icons/noimage.jpg";
 		}
-		
-		if (main.items[catalogNo].currentbidid != SNDK.tools.emptyGuid)
+									
+		if (main.items[main.currentIndex].currentbidid != SNDK.tools.emptyGuid)
 		{
-			var bid = didius.bid.load (main.items[catalogNo].currentbidid);
+			var bid = didius.bid.load ({id: main.items[main.currentIndex].currentbidid});
 		
-			document.getElementById ("itemCurrentBidCustomer").value = bid.customer.name;
-			document.getElementById ("itemCurrentBidAmount").value = bid.amount;
+			document.getElementById ("textbox.currentbidcustomername").value = bid.customer.name;
+			document.getElementById ("textbox.currentbidamount").value = bid.amount;
 		}
 		else
 		{
-			document.getElementById ("itemCurrentBidCustomer").value = "";
-			document.getElementById ("itemCurrentBidAmount").value = "";
+			document.getElementById ("textbox.currentbidcustomername").value = "";
+			document.getElementById ("textbox.currentbidamount").value = "";
 		}
 		
-		document.getElementById ("bidBuyerNo").value = "";
-		document.getElementById ("bidAmount").value = "";
+		document.getElementById ("textbox.bidbuyerno").value = "";
+		document.getElementById ("textbox.bidamount").value = "";
 		
-		if (!main.items[catalogNo].invoiced)
+		if (!main.items[main.currentIndex].invoiced)
 		{
-			document.getElementById ("bidBuyerNo").disabled = false;
-			document.getElementById ("bidAmount").disabled = false;
+			document.getElementById ("textbox.bidbuyerno").disabled = false;
+			document.getElementById ("textbox.bidamount").disabled = false;
 		}
 		else
 		{
-			document.getElementById ("bidBuyerNo").disabled = true;
-			document.getElementById ("bidAmount").disabled = true;
+			document.getElementById ("textbox.bidbuyerno").disabled = true;
+			document.getElementById ("textbox.bidamount").disabled = true;
 		}
 		
-		document.getElementById ("bidAmount").focus ();
+		document.getElementById ("textbox.bidamount").focus ();
 	},	
-							
-	close : function (force)
-	{							
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------						
+	close : function ()
+	{				
 		// Unhook events.						
-		app.events.onAuctionDestroy.removeHandler (main.eventHandlers.onAuctionDestroy);
+		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);
+		app.events.onAuctionDestroy.removeHandler (eventHandlers.onItemSave);
 							
 		// Close window.		
 		window.close ();
 	}	
+}
+
+
+// ----------------------------------------------------------------------------------------------------------
+// | EVENTHANDLERS																							|
+// ----------------------------------------------------------------------------------------------------------	
+var eventHandlers =
+{	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONSAVE																						|	
+	// ------------------------------------------------------------------------------------------------------		
+	onAuctionSave : function (eventData)
+	{
+		if (main.auction.id == eventData.id)
+		{
+			main.auction = eventData;
+			main.buyernos = didius.helpers.parseBuyerNos (main.auction.buyernos);
+		}
+	},
+					
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONDESTROY																					|	
+	// ------------------------------------------------------------------------------------------------------		
+	onAuctionDestroy : function (eventData)
+	{
+		if (main.auction.id == eventData.id)
+		{
+			main.close (true);
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMSAVE																							|	
+	// ------------------------------------------------------------------------------------------------------		
+	onItemSave : function (eventData)
+	{
+		var case_ = didius.case.load ({id: eventData.caseid});
+					
+		if (main.auction.id == case_.auctionid)
+		{
+			// Update tree.items.
+			main.itemsTreeHelper.setRow ({data: eventData})
+							
+			// Update main.items.
+			for (var index in main.items)
+			{
+				var item = main.items[index];		
+				if (item.id == eventData.id)
+				{
+					main.items[index] = eventData;
+					break;
+				}
+			}		
+			
+			// Update display.
+			if (main.items[main.currentIndex].id == eventData.id)
+			{
+				sXUL.console.log ("CHANGE")
+				main.setItem (main.currentIndex);	
+			}				
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONITEMDESTROY																						|	
+	// ------------------------------------------------------------------------------------------------------		
+	onItemDestroy : function (eventData)
+	{			
+		main.itemsTreeHelper.removeRow ({id: eventData.id})
+		
+		for (var index in main.items)
+		{
+			var item = main.items[index];
+			if (item.id == eventData.id)
+			{
+				break;
+			}
+		}
+	}
 }

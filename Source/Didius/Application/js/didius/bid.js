@@ -6,8 +6,19 @@ create : function (attributes)
 	var cmd = "cmd=Ajax;cmd.function=Didius.Bid.Create";
 
 	var content = new Array ();
-	content.customerid = attributes.customer.id;
-	content.itemid = attributes.item.id;
+	
+	if (attributes.customer)
+		content.customerid = attributes.customer.id;
+		
+	if (attributes.customerId)
+		content.customerid = attributes.customerId;
+		
+	if (attributes.item)
+		content.itemid = attributes.item.id;
+		
+	if (attributes.itemId)
+		content.itemid = attributes.itemId;
+			
 	content.amount = attributes.amount;
 	
 	if (attributes.onDone != null)

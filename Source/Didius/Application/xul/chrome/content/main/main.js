@@ -487,8 +487,7 @@ var main =
 		
 		bidNotation : function ()
 		{
-			var current = main.auctions.auctionsTreeHelper.getRow ();
-			app.window.open (window, "chrome://didius/content/auction/bidnotation.xul", "bidnotation-"+ current.id, "chrome", {auctionId: current.id});
+			app.window.open (window, "chrome://didius/content/auction/bidnotation.xul", "didius.auction.bidnotation."+ main.auctions.auctionsTreeHelper.getRow ().id, null, {auctionId: main.auctions.auctionsTreeHelper.getRow ().id});
 		},
 		
 		display : function ()

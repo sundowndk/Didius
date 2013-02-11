@@ -65,7 +65,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Addins, Version=0.6.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
       <Private>False</Private>
-      <Package>mono-addins</Package>
     </Reference>
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -270,11 +269,7 @@
     <None Include="Application\xul\chrome\content\templates\label.tpl" />
     <None Include="Application\xul\chrome\content\templates\catalogsmall-old.tpl" />
     <None Include="Application\xul\chrome\content\templates\catalogsmall.tpl" />
-    <None Include="Application\xul\chrome\content\auction\settle.xul" />
-    <None Include="Application\xul\chrome\content\auction\settle.js" />
     <None Include="Application\xul\chrome\content\auction\bidnotation.xul" />
-    <None Include="Application\xul\chrome\content\auction\settleprogress.js" />
-    <None Include="Application\xul\chrome\content\auction\settleprogress.xul" />
     <None Include="Application\js\didius\newsletter.js" />
     <None Include="Application\xul\chrome\content\newsletter\edit.js" />
     <None Include="Application\xul\chrome\content\newsletter\edit.xul" />
@@ -342,6 +337,10 @@
     <None Include="Application\js\didius\common\print\label.js" />
     <None Include="Application\xul\chrome\content\auction\turnover.xul" />
     <None Include="Application\xul\chrome\content\auction\turnover.js" />
+    <None Include="Application\xul\chrome\content\auction\invoice.xul" />
+    <None Include="Application\xul\chrome\content\auction\invoice.js" />
+    <None Include="Application\xul\chrome\content\auction\invoiceprogress.js" />
+    <None Include="Application\xul\chrome\content\auction\invoiceprogress.xul" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

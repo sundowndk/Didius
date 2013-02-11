@@ -125,8 +125,7 @@
 								<treecol id="id" hidden="true"/>
 								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="items.sort ({column: 'catalogno'});"/>
 								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="items.sort ({column: 'no'});"/>
-								<treecol id="title" label="Title" flex="2" persist="width" onclick="items.sort ({column: 'title'});"/>
-								<treecol id="customername" label="Kunde" flex="2" persist="width" onclick="cases.sort ({column: 'customername'});"/>
+								<treecol id="title" label="Title" flex="2" persist="width" onclick="items.sort ({column: 'title'});"/>								
 							</treecols>								
 						</tree>
 					</hbox>
@@ -148,7 +147,7 @@
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
-		<button id="button.settle" label="Afregn" oncommand="main.settle ();" disabled="true" accesskey="A"/>
+		<button id="button.invoice" label="Fakturere" oncommand="main.invoice ();" disabled="true" accesskey="F"/>
 		<button id="button.turnover" label="Omsætning" oncommand="main.turnover ();" disabled="true" accesskey="m"/>
 		<space flex="1"/>
 		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>

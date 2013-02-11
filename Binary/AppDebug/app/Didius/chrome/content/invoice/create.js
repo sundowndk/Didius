@@ -17,7 +17,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "no", sortDirection: "descending"});
+		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.items"), sortColumn: "no", sortDirection: "descending"});
 	
 		var onInit =	function ()
 						{
@@ -33,11 +33,6 @@ var main =
 								return;
 							}												
 							
-							onDone ();
-						};
-						
-		var onDone =	function ()
-						{
 							main.set ();
 						};
 						
@@ -69,10 +64,10 @@ var main =
 			}
 			main.itemsTreeHelper.enableRefresh ();
 	
-			document.getElementById ("totalSale").value = main.invoice.sales;
-			document.getElementById ("totalCommissionFee").value = main.invoice.commissionfee;
-			document.getElementById ("totalVat").value = main.invoice.vat;
-			document.getElementById ("totalTotal").value = main.invoice.total;									
+			document.getElementById ("textbox.totalSale").value = main.invoice.sales;
+			document.getElementById ("textbox.totalCommissionFee").value = main.invoice.commissionfee;
+			document.getElementById ("textbox.totalVat").value = main.invoice.vat;
+			document.getElementById ("textbox.totalTotal").value = main.invoice.total;									
 		}
 		catch (exception)
 		{
@@ -83,31 +78,31 @@ var main =
 		{
 			if (main.invoice.lines.length > 0)
 			{
-				document.getElementById ("printInvoice").disabled = false;
-				document.getElementById ("mailInvoice").disabled = false;				
-				document.getElementById ("create").disabled = false;
+				document.getElementById ("checkbox.invoiceprint").disabled = false;
+				document.getElementById ("checkbox.invoicemail").disabled = false;				
+				document.getElementById ("button.create").disabled = false;
 			}
 			
-			document.getElementById ("totalSale").disabled = false;
-			document.getElementById ("totalCommissionFee").disabled = false;			
-			document.getElementById ("totalVat").disabled = false;						
-			document.getElementById ("totalTotal").disabled = false;
+			document.getElementById ("textbox.totalSale").disabled = false;
+			document.getElementById ("textbox.totalCommissionFee").disabled = false;			
+			document.getElementById ("textbox.totalVat").disabled = false;						
+			document.getElementById ("textbox.totalTotal").disabled = false;
 			
 			if (main.customer.email == "")
 			{
-				document.getElementById ("mailInvoice").disabled = false;
-				document.getElementById ("mailInvoice").checked = false;				
+				document.getElementById ("checkbox.invoicemail").disabled = false;
+				document.getElementById ("checkbox.invoicemail").checked = false;				
 			}
 		}
 		else
 		{
-			document.getElementById ("totalSale").disabled = true;
-			document.getElementById ("totalCommissionFee").disabled = true;			
-			document.getElementById ("totalVat").disabled = true;						
-			document.getElementById ("totalTotal").disabled = true;
+			document.getElementById ("textbox.totalSale").disabled = true;
+			document.getElementById ("textbox.totalCommissionFee").disabled = true;			
+			document.getElementById ("textbox.totalVat").disabled = true;						
+			document.getElementById ("textbox.totalTotal").disabled = true;
 		}
 				
-		document.getElementById ("close").disabled = false;
+		document.getElementById ("button.close").disabled = false;
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -158,7 +153,7 @@ var main =
 													nextWorker ();
 												};
 													
-								if (document.getElementById ("printInvoice").checked)
+								if (document.getElementById ("checkbox.invoiceprint").checked)
 								{
 									didius.common.print.invoice ({invoice: main.invoice, onDone: onDone});			
 								}
@@ -191,7 +186,7 @@ var main =
 													nextWorker ();
 												};
 
-								if (document.getElementById ("mailInvoice").checked)
+								if (document.getElementById ("checkbox.invoicemail").checked)
 								{																																				
 									didius.common.print.invoice ({invoice: main.invoice, mail: true, onDone: onDone});			
 								}

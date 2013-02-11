@@ -81,7 +81,7 @@ var main =
 			setTimeout (function () {window.arguments[0].onDone (main.customersTreeHelper.getRow ())}, 0);			
 		}
 		
-		main.close ();
+		setTimeout (main.close, 100);
 	},
 	
 	close : function ()

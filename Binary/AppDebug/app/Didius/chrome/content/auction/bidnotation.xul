@@ -1,185 +1,111 @@
 <?xml version="1.0"?>
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="runauction" minwidth="750" minheight="600" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY">
+<window id="didius.auction.bidnotation" minwidth="750" minheight="600" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY">
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+	<script type="application/javascript" src="chrome://didius/content/auction/bidnotation.js"/>	
 
-<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>
-<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
-<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+	<keyset>
+   		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
+   		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>	
 
-<script type="application/javascript" src="chrome://didius/content/auction/bidnotation.js"/>	
-
-<keyset>
-   <key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
-</keyset>	
-
-<hbox class="WindowInnerPadding" flex="1">
-<tabbox selectedIndex="0" flex="1">	
-<tabs>
-<tab label="Bud"/>	
-</tabs>	
-
-<tabpanels flex="1">
-<tabpanel>
-<vbox flex="1">	
-<vbox>	
-<hbox flex="1">
-<tree id="items" flex="1" height="150" hidecolumnpicker="true" disabled="true" onselect="main.onChange ();" seltype="single">
-<treecols>
-<treecol id="id" hidden="true"/>
-<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="main.items.sort ({column: 'catalogno'});"/>
-<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="main.items.sort ({column: 'no'});"/>
-<treecol id="title" label="Title" flex="2" persist="width" onclick="main.items.sort ({column: 'title'});"/>
-</treecols>	
-</tree>
-</hbox>
-
-<groupbox >
-<caption id="counter" label="Effekt 0 af 0"/>
-
-<grid>
-<rows>
-     <row>
-     </row>
-   </rows>
-
-<columns>
-     <column flex="2">
-     <vbox>	
-<hbox align="top">
-<label class="Label">Beskrivelse:</label>
-<textbox id="itemDescription" flex="1" multiline="true" height="176" disabled="true"/>
-</hbox>	
-</vbox>
-     </column>
-<column >
-     <vbox flex="1">	
-     <hbox>
-     <image class="ItemImage" id="itemPicture" src='chrome://didius/content/icons/noimage.jpg' maxwidth="300" maxheight="176"/>
-     </hbox>
-     </vbox>
-     </column>
-   </columns>
-</grid>	
-<separator class="groove-thin"/>
-<hbox align="center">
-<label class="Label">Min bud:</label>
-<textbox id="itemMinimumBid" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
-<label class="Label">Vurdering 1:</label>
-<textbox id="itemAppraisal1" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
-</hbox>	
-<hbox align="center">
-<label class="Label">Vurdering 2:</label>
-<textbox id="itemAppraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
-<label class="Label">Vurdering 3:</label>
-<textbox id="itemAppraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
-</hbox>	
-</groupbox>
-<groupbox >
-<caption label="Nuværende bud"/>	
-<hbox align="center">
-<label class="Label">Kunde:</label>
-<textbox id="itemCurrentBidCustomer" flex="1" disabled="true"/>
-<label class="Label">Bud:</label>
-<textbox id="itemCurrentBidAmount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
-</hbox>	
-</groupbox>	
-<groupbox >
-<caption id="tester" label="Bud"/>	
-<hbox align="center">
-<label class="Label">Pris:</label>
-<textbox id="bidAmount" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" style="font-size: 25px;" clickSelectsAll="true" onkeypress="return main.onBidAmountKeyPress (event);"/>
-</hbox>	
-<hbox align="center">
-<label class="Label">Køber nr.:</label>
-<textbox id="bidBuyerNo" flex="1" type="number" hidespinbuttons="true" style="font-size: 25px;" clickSelectsAll="true" onkeypress="return main.onBuyerNoKeyPress (event);"/>
-</hbox>	
-</groupbox>	
-</vbox>	
-</vbox>
-     </tabpanel>
-    
-<tabpanel>
-<vbox flex="1">
-
-<groupbox >
-<caption id="tester" label="Effekt ? af ?"/>
-<grid>
-<rows>
-     <row>
-     </row>
-   </rows>
-
-<columns>
-     <column flex="2">
-     <vbox>	
-<hbox align="top">
-<label class="Label">Beskrivelse:</label>
-<textbox id="itemDescription" flex="1" multiline="true" height="176" readonly="true"/>
-</hbox>	
-</vbox>
-     </column>
-<column >
-     <vbox flex="1">	
-     <hbox>
-     <image class="ItemImage" id="picture" src='chrome://didius/content/icons/noimage.jpg' maxwidth="300" maxheight="176"/>
-     </hbox>
-     </vbox>
-     </column>
-   </columns>
-</grid>	
-<separator class="groove-thin"/>
-<hbox align="center">
-<label class="Label">Min bud:</label>
-<textbox id="itemMinimumBid" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true"/>
-<label class="Label">Vurdering 1:</label>
-<textbox id="itemAppraisal1" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true"/>
-</hbox>	
-<hbox align="center">
-<label class="Label">Vurdering 2:</label>
-<textbox id="itemAppraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true"/>
-<label class="Label">Vurdering 3:</label>
-<textbox id="itemAppraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true"/>
-</hbox>	
-</groupbox>
-<groupbox >
-<caption id="tester" label="Bud"/>	
-<hbox align="center">
-<label class="Label">Kunde:</label>
-<textbox id="itemCurrentBidCustomer" flex="1" readonly="true"/>
-<label class="Label">Bud:</label>
-<textbox id="itemCurrentBidAmount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true"/>
-</hbox>	
-<separator class="groove-thin"/>
-<hbox align="center">
-<label class="Label">Køber nr.:</label>
-<textbox id="bidBuyerNo" flex="1" type="number" hidespinbuttons="true" style="font-size: 25px;" disabled="true"/>
-</hbox>	
-<hbox align="center">
-<label class="Label">Pris:</label>
-<textbox id="bidAmount" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" style="font-size: 25px;" disabled="true"/>
-</hbox>	
-</groupbox>	
-<separator class="groove-thin"/>
-<separator class="groove-thin"/>
-<hbox align="center">
-<button id="itemPrev" label="Forrige" style="height: 60px;" flex="1" disabled="true" oncommand="main.itemPrev ();"/>
-<button id="itemNext" label="Næste" style="height: 60px;" flex="1" disabled="true" oncommand="main.itemNext ();"/>
-</hbox>	
-</vbox>
-
-     </tabpanel>
-    
-</tabpanels>
-</tabbox>
-</hbox>
-
-<hbox flex="1">
-<hbox class="WindowButtons" flex="1" align="left">	
-</hbox>
-<hbox class="WindowButtons" flex="1" align="right">	
-<button id="close" label="Luk" oncommand="main.close ();" />	
-</hbox>
-</hbox>
+	<hbox class="WindowInnerPadding" flex="1">
+		<tabbox selectedIndex="0" flex="1">					
+			<tabpanels flex="1">
+				<tabpanel>			
+					<vbox flex="1">						
+						<hbox flex="1">
+							<tree id="tree.items" flex="1" height="150" hidecolumnpicker="true" disabled="true" onselect="main.onChange ();" seltype="single">
+								<treecols>
+									<treecol id="id" hidden="true"/>
+									<treecol id="count" hidden="true"/>
+									<treecol id="catalogno" label="Katalog nr." width="30" persist="width" />
+									<treecol id="no" label="Effekt nr." width="140" persist="width" />
+									<treecol id="title" label="Title" flex="2" persist="width" />
+								</treecols>	
+							</tree>
+						</hbox>
+						<hbox>
+							<groupbox flex="1">
+								<caption id="caption.counter" label="Effekt 0 af 0"/>
+								<grid>
+									<rows>
+    									<row>
+    									</row>
+  									</rows>
+									<columns>
+    									<column flex="2">
+    										<vbox>	
+    											<hbox align="top">
+													<label class="Label">Katalog nr.:</label>
+													<textbox id="textbox.itemcatalogno" flex="1" disabled="true"/>
+												</hbox>	
+												<hbox align="top">
+													<label class="Label">Beskrivelse:</label>
+													<textbox id="textbox.itemdescription" flex="1" multiline="true" height="176" disabled="true"/>
+												</hbox>	
+											</vbox>
+    									</column>
+										<column>
+    										<vbox flex="1">	
+   												<hbox>
+   													<image class="ItemImage" id="image.itempicture" src='chrome://didius/content/icons/noimage.jpg' width="140"/>
+   												</hbox>
+   											</vbox>
+   										</column>
+									</columns>
+								</grid>	
+								<separator class="groove-thin"/>
+								<hbox align="center">
+									<label class="Label">Min bud:</label>
+									<textbox id="textbox.itemminimumbid" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
+									<label class="Label">Vurdering 1:</label>
+									<textbox id="textbox.itemappraisal1" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
+								</hbox>	
+								<hbox align="center">
+									<label class="Label">Vurdering 2:</label>
+									<textbox id="textbox.itemappraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
+									<label class="Label">Vurdering 3:</label>
+									<textbox id="textbox.itemappraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
+								</hbox>	
+							</groupbox>
+						</hbox>
+						<hbox>
+							<groupbox flex="1">
+								<caption label="Nuværende bud"/>	
+									<hbox align="center">
+										<label class="Label">Kunde:</label>
+										<textbox id="textbox.currentbidcustomername" flex="1" disabled="true"/>
+										<label class="Label">Bud:</label>
+										<textbox id="textbox.currentbidamount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>										
+									</hbox>	
+							</groupbox>
+						</hbox>
+						<hbox>
+							<groupbox flex="1">
+								<caption label="Bud"/>	
+								<hbox align="center">
+									<label class="Label">Pris:</label>
+									<textbox id="textbox.bidamount" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" style="font-size: 25px;" clickSelectsAll="true" onkeypress="return main.onBidAmountKeyPress (event);"/>									
+								</hbox>	
+								<hbox align="center">
+									<label class="Label">Køber nr.:</label>
+									<textbox id="textbox.bidbuyerno" flex="1" type="number" hidespinbuttons="true" style="font-size: 25px;" clickSelectsAll="true" onkeypress="return main.onBuyerNoKeyPress (event);"/>									
+								</hbox>	
+							</groupbox>	
+						</hbox>						
+					</vbox>
+				</tabpanel>								
+			</tabpanels>
+		</tabbox>
+	</hbox>
+	
+	<hbox class="WindowButtons" align="right" >
+		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>
+	</hbox>
 </window>
