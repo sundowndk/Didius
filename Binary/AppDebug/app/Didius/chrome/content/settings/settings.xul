@@ -281,6 +281,7 @@
 									<tab label="Afregning"/>
 									<tab label="Faktura"/>
 									<tab label="Kreditnota"/>
+									<tab label="Præsentation"/>
 								</tabs>
 							</arrowscrollbox>
 							
@@ -313,6 +314,11 @@
 				    			<tabpanel flex="1">
 									<vbox flex="1">		
 										<textbox id="templatesCreditnote" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+									</vbox>
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<textbox id="templatesDisplay" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 									</vbox>
 				    			</tabpanel>
 							</tabpanels>

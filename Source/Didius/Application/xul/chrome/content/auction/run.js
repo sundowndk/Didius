@@ -8,12 +8,10 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------
-	checksum : null,
 	auction : null,
 	running : false,
 	items : null,
 	currentIndex : 0,
-	buyernos: {},
 
 	// ------------------------------------------------------------------------------------------------------
 	// | INIT																								|	
@@ -23,7 +21,6 @@ var main =
 		try
 		{
 			main.auction = didius.auction.load (window.arguments[0].auctionId);
-			main.buyernos = didius.helpers.parseBuyerNos (main.auction.buyernos);												
 		}
 		catch (error)
 		{
@@ -40,7 +37,7 @@ var main =
 	
 		main.items = didius.item.list ({auction: main.auction, async: true, onDone: onDone});	
 				
-		// Hook events.			
+		// Hook events.					
 		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);				
 	},
 			
@@ -129,6 +126,64 @@ var main =
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------				
+	close : function ()
+	{							
+		if ((main.auction.status == "Running"))
+		{
+			if (!app.window.prompt.confirm ("Auktionen er i gang", "Er du sikker på du vil stoppe den igangværende auktion ?"))
+			{
+				return false;
+			}	
+			
+			main.auctionStop ();
+		}
+		
+		// Unhook events.						
+		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);
+							
+		// Close window.		
+		window.close ();
+	},
+		
+	// ------------------------------------------------------------------------------------------------------
+	// | AUCTIONSTART																						|	
+	// ------------------------------------------------------------------------------------------------------
+	auctionStart : function ()
+	{
+		main.auction.status = "Running";
+		didius.auction.save (main.auction);
+		
+		main.set ();												
+		main.itemSet (main.currentIndex);	
+		
+		var eventData = {};
+		eventData.auctionid = main.auction.id;
+		eventData.action = "auctionstart";
+		eventData.actiondata = main.items[0].id;
+	
+		app.events.onAuctionControl.execute (eventData);
+	},
+		
+	// ------------------------------------------------------------------------------------------------------
+	// | AUCTIONSTOP																						|	
+	// ------------------------------------------------------------------------------------------------------		
+	auctionStop : function ()
+	{
+		main.auction.status = "Open";
+		didius.auction.save (main.auction);
+						
+		main.set ();
+		
+		var eventData = {};
+		eventData.auctionid = main.auction.id;
+		eventData.action = "auctionstop";	
+		
+		app.events.onAuctionControl.execute (eventData);	
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
 	// | ITEMSET																							|	
 	// ------------------------------------------------------------------------------------------------------						
 	itemSet : function (index)
@@ -174,16 +229,19 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	itemPrev : function ()
 	{
-		if (main.currentIndex > 0)
-		{					
-			main.itemSet ((main.currentIndex - 1));
+		if (main.auction.status == "Running")
+		{
+			if (main.currentIndex > 0)
+			{					
+				main.itemSet ((main.currentIndex - 1));
 			
-			var eventData = {};
-			eventData.auctionid = main.auction.id;
-			eventData.action = "itemprev";
-			eventData.actiondata = main.items[main.currentIndex].id;
+				var eventData = {};
+				eventData.auctionid = main.auction.id;
+				eventData.action = "itemprev";
+				eventData.actiondata = main.items[main.currentIndex].id;
 	
-			app.events.onAuctionControl.execute (eventData);
+				app.events.onAuctionControl.execute (eventData);
+			}
 		}
 	},
 	
@@ -192,82 +250,21 @@ var main =
 	// ------------------------------------------------------------------------------------------------------		
 	itemNext : function ()
 	{
-		if (main.currentIndex < main.items.length)
-		{					
-			main.itemSet ((main.currentIndex + 1));
-							
-			var eventData = {};
-			eventData.auctionid = main.auction.id;
-			eventData.action = "itemnext";
-			eventData.actiondata = main.items[main.currentIndex].id;
-	 
-			app.events.onAuctionControl.execute (eventData);
-		}
-	},
-		
-
-		
-	// ------------------------------------------------------------------------------------------------------
-	// | CLOSE																								|	
-	// ------------------------------------------------------------------------------------------------------				
-	close : function ()
-	{							
-		if ((main.auction.status == "Running"))
+		if (main.auction.status == "Running")
 		{
-			if (!app.window.prompt.confirm ("Auktionen er i gang", "Er du sikker på du vil stoppe den igangværende auktion ?"));
-			{
-				return false;
-			}	
-			
-			main.auctionStop ();
+			if (main.currentIndex < (main.items.length - 1))
+			{						
+				main.itemSet ((main.currentIndex + 1));
+								
+				var eventData = {};
+				eventData.auctionid = main.auction.id;
+				eventData.action = "itemnext";
+				eventData.actiondata = main.items[main.currentIndex].id;
+	 
+				app.events.onAuctionControl.execute (eventData);
+			}
 		}
-		
-		// Unhook events.						
-		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);
-							
-		// Close window.		
-		window.close ();
-	},
-	
-
-	
-	
-	// ------------------------------------------------------------------------------------------------------
-	// | AUCTIONSTART																						|	
-	// ------------------------------------------------------------------------------------------------------
-	auctionStart : function ()
-	{
-		main.auction.status = "Running";
-		didius.auction.save (main.auction);
-		
-		main.set ();												
-		main.itemSet (main.currentIndex);	
-		
-		var eventData = {};
-		eventData.auctionid = main.auction.id;
-		eventData.action = "auctionstart";
-		eventData.actiondata = main.items[0].id;
-	
-		app.events.onAuctionControl.execute (eventData);
-	},
-		
-	// ------------------------------------------------------------------------------------------------------
-	// | AUCTIONSTOP																						|	
-	// ------------------------------------------------------------------------------------------------------		
-	auctionStop : function ()
-	{
-		main.auction.status = "Open";
-		didius.auction.save (main.auction);
-						
-		main.set ();
-		
-		var eventData = {};
-		eventData.auctionid = main.auction.id;
-		eventData.action = "auctionstop";	
-		
-		app.events.onAuctionControl.execute (eventData);	
-	}	
-	
+	}			
 }
 
 // ----------------------------------------------------------------------------------------------------------

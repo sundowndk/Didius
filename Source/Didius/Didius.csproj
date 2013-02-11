@@ -65,7 +65,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Addins, Version=0.6.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
       <Private>False</Private>
-      <Package>mono-addins</Package>
     </Reference>
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -157,7 +156,6 @@
     <Folder Include="Application\xul\chrome\icons\" />
     <Folder Include="Application\xul\chrome\icons\default\" />
     <Folder Include="Application\xul\chrome\content\item\" />
-    <Folder Include="Application\xul\chrome\content\catalogedit-REMOVE\" />
     <Folder Include="Application\xul\chrome\content\invoice\" />
     <Folder Include="Application\xul\chrome\content\creditnote\" />
     <Folder Include="Application\xul\chrome\content\auctionrun-REMOVE\" />
@@ -307,8 +305,6 @@
     <None Include="Application\xul\chrome\icons\default\didius.main.xpm" />
     <None Include="Application\xul\chrome\content\item\edit.xul" />
     <None Include="Application\xul\chrome\content\item\edit.js" />
-    <None Include="Application\xul\chrome\content\catalogedit-REMOVE\catalogedit.js" />
-    <None Include="Application\xul\chrome\content\catalogedit-REMOVE\catalogedit.xul" />
     <None Include="Application\xul\chrome\content\case\settlement\progress.js" />
     <None Include="Application\xul\chrome\content\case\settlement\progress.xul" />
     <None Include="Application\xul\chrome\content\customer\edit.js" />

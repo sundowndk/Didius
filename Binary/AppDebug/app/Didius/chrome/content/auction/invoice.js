@@ -61,7 +61,16 @@ var main =
 								
 									data.customername = currentbid.customer.name;
 									data.customerno = currentbid.customer.no;
-									data.invoiced = main.items[idx].invoiced;
+									
+									if (items[idx].invoiced)
+									{
+										data.invoiced = "Ja";
+									}
+									else
+									{
+										data.invoiced = "Nej";
+									}
+									
 								
 									main.itemsTreeHelper.addRow ({data: data});
 								}

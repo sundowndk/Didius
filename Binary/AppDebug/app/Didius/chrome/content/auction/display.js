@@ -1,14 +1,23 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ---------------------------------------------------------------------------------------------------------
 var main =
 {	
-	current : null,
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	auction : null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
 		try
 		{
-			main.current = didius.auction.load (window.arguments[0].auctionId);			
+			main.auction = didius.auction.load (window.arguments[0].auctionId);			
 		}
 		catch (error)
 		{
@@ -20,60 +29,18 @@ var main =
 		main.set ();
 		
 		// Hook events.			
-		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);				
-		
-		app.events.onAuctionControl.addHandler (main.eventHandlers.onAuctionControl);
-	},
-	
-	eventHandlers : 
-	{								
-		onAuctionDestroy : function (eventData)
-		{
-			if (main.current.id == eventData.id)
-			{
-				main.close (true);
-			}
-		},
-		
-		onAuctionControl : function (eventData)
-		{
-			if (eventData.auctionid == main.current.id)
-			{		
-				switch (eventData.action)
-				{
-					case "auctionstart":
-					{
-						main.setItem (eventData.actiondata);		
-						break;
-					}
-					
-					case "auctionstop":
-					{
-						main.setItem ();		
-						break;
-					}			
-				
-					case "itemnext":
-					{
-						main.setItem (eventData.actiondata);		
-						break;
-					}
-					
-					case "itemprev":
-					{
-						main.setItem (eventData.actiondata);
-						break;
-					}				
-				}					
-			}
-		}
+		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);						
+		app.events.onAuctionControl.addHandler (eventHandlers.onAuctionControl);
 	},
 		
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/display.tpl"));
+		var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_display"}));
 	
-		var display = document.getElementById ("display");	
+		var display = document.getElementById ("iframe.display");	
 		display.contentDocument.body.innerHTML = " ";						
 	
 		// Add styles.																		
@@ -89,44 +56,27 @@ var main =
 		var render = template.page;
 		content.innerHTML = render;
 				
-		document.title = "Auktion display: "+ main.current.title +" ["+ main.current.no +"] - Tryk F11 for fuldskærm";
+		document.title = "Auktion display: "+ main.auction.title +" ["+ main.auction.no +"] - Tryk F11 for fuldskærm";
 		
-		main.setItem (window.arguments[0].itemId);			
+		main.itemSet (window.arguments[0].itemId);			
 	},
 	
-	setItem : function  (itemId)
-	{
-		if (itemId != null)
-		{	
-			var item = didius.item.load (itemId);
-	
-			document.getElementById ("display").contentDocument.getElementById ("ItemPicture").src = didius.runtime.ajaxUrl +"getmedia/"+ item.pictureid;		
-			document.getElementById ("display").contentDocument.getElementById ("ItemCatalogNo").innerHTML = item.catalogno;				
-			document.getElementById ("display").contentDocument.getElementById ("ItemDescription").innerHTML = item.description;
-			document.getElementById ("display").contentDocument.getElementById ("ContainerItemCatalogNo").style.display = "block";				
-			document.getElementById ("display").contentDocument.getElementById ("ContainerItemDescription").style.display = "block";				
-		}
-		else
-		{
-			document.getElementById ("display").contentDocument.getElementById ("ItemPicture").src = "";
-			document.getElementById ("display").contentDocument.getElementById ("ItemCatalogNo").innerHTML = " ";				
-			document.getElementById ("display").contentDocument.getElementById ("ItemDescription").innerHTML = " ";			
-			document.getElementById ("display").contentDocument.getElementById ("ContainerItemCatalogNo").style.display = "none";				
-			document.getElementById ("display").contentDocument.getElementById ("ContainerItemDescription").style.display = "none";				
-		}
-	},
-				
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------			
 	close : function (force)
 	{							
 		// Unhook events.						
-		app.events.onAuctionDestroy.removeHandler (main.eventHandlers.onAuctionDestroy);
-		
-		app.events.onAuctionControl.removeHandler (main.eventHandlers.onAuctionControl);
+		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);		
+		app.events.onAuctionControl.removeHandler (eventHandlers.onAuctionControl);
 							
 		// Close window.		
 		window.close ();
-	},
-	
+	},	
+		
+	// ------------------------------------------------------------------------------------------------------
+	// | FULLSCREEN																							|	
+	// ------------------------------------------------------------------------------------------------------
 	fullscreen : function ()
 	{
 		if (!window.fullScreen)
@@ -136,6 +86,78 @@ var main =
 		else
 		{
 			window.fullScreen = false;
+		}
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ITEMSET																							|	
+	// ------------------------------------------------------------------------------------------------------
+	itemSet : function  (itemId)
+	{
+		if (itemId != null)
+		{	
+			var item = didius.item.load ({id: itemId});
+	
+			document.getElementById ("iframe.display").contentDocument.getElementById ("ItemPicture").src = didius.runtime.ajaxUrl +"getmedia/"+ item.pictureid;		
+			document.getElementById ("iframe.display").contentDocument.getElementById ("ItemCatalogNo").innerHTML = item.catalogno;				
+			document.getElementById ("iframe.display").contentDocument.getElementById ("ItemDescription").innerHTML = item.description;
+			document.getElementById ("iframe.display").contentDocument.getElementById ("ContainerItemCatalogNo").style.display = "block";				
+			document.getElementById ("iframe.display").contentDocument.getElementById ("ContainerItemDescription").style.display = "block";				
+		}
+		else
+		{
+			document.getElementById ("iframe.display").contentDocument.getElementById ("ItemPicture").src = "";
+			document.getElementById ("iframe.display").contentDocument.getElementById ("ItemCatalogNo").innerHTML = " ";				
+			document.getElementById ("iframe.display").contentDocument.getElementById ("ItemDescription").innerHTML = " ";			
+			document.getElementById ("iframe.display").contentDocument.getElementById ("ContainerItemCatalogNo").style.display = "none";				
+			document.getElementById ("iframe.display").contentDocument.getElementById ("ContainerItemDescription").style.display = "none";				
+		}
+	}	
+}
+
+// ----------------------------------------------------------------------------------------------------------
+// | EVENTHANDLERS																							|
+// ---------------------------------------------------------------------------------------------------------
+var eventHandlers =
+{								
+	onAuctionDestroy : function (eventData)
+	{
+		if (main.current.id == eventData.id)
+		{
+			main.close (true);
+		}
+	},
+	
+	onAuctionControl : function (eventData)
+	{
+		if (eventData.auctionid == main.auction.id)
+		{		
+			switch (eventData.action)
+			{
+				case "auctionstart":
+				{
+					main.itemSet (eventData.actiondata);		
+					break;
+				}
+				
+				case "auctionstop":
+				{
+					main.itemSet ();		
+					break;
+				}			
+			
+				case "itemnext":
+				{
+					main.itemSet (eventData.actiondata);		
+					break;
+				}
+				
+				case "itemprev":
+				{
+					main.itemSet (eventData.actiondata);
+					break;
+				}				
+			}					
 		}
 	}
 }
