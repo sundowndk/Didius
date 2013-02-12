@@ -92,6 +92,7 @@ namespace Didius
 			{ Enums.SettingsKey.didius_template_settlement, string.Empty },
 			{ Enums.SettingsKey.didius_template_invoice, string.Empty },
 			{ Enums.SettingsKey.didius_template_creditnote, string.Empty },
+			{ Enums.SettingsKey.didius_template_display, string.Empty },
 
 			{ Enums.SettingsKey.didius_item_datafields, "stelnummer;Stelnummer|aargang;Årgang|regnr;Reg.nr" }
 		};

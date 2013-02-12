@@ -491,7 +491,7 @@ var main =
 		
 		display : function ()
 		{
-			app.window.open (window, "chrome://didius/content/auction/display.xul", "didius.auction.run."+ main.auctions.auctionsTreeHelper.getRow ().id, null, {auctionId: main.auctions.auctionsTreeHelper.getRow ().id});
+			app.window.open (window, "chrome://didius/content/auction/display.xul", "didius.auction.display."+ main.auctions.auctionsTreeHelper.getRow ().id, null, {auctionId: main.auctions.auctionsTreeHelper.getRow ().id});
 		}				
 	},
 	

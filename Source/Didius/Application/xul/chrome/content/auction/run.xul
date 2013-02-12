@@ -3,7 +3,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="runauction" minwidth="750" minheight="600" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="return main.close ();" persist="screenX screenY">	
+<window id="didius.auction.run" minwidth="750" minheight="600" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();"  onclose="return main.close ();" persist="screenX screenY">	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>			
@@ -12,7 +12,8 @@
 	<keyset>
   		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
   		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/>
-  		<key id="key.itemprev" key="" oncommand="main.itemPrev ();">
+  		<key id="key.itemprev" keycode="VK_PAGE_DOWN" oncommand="main.itemPrev ();"/>
+  		<key id="key.itemnext" keycode="VK_PAGE_UP" oncommand="main.itemNext ();"/>
 	</keyset>			
 			
 	<hbox class="WindowInnerPadding" flex="1">
@@ -20,8 +21,8 @@
 			<tabpanels flex="1">
 				<tabpanel>
 					<vbox flex="1">						
-						<vbox>	
-							<groupbox >
+						<hbox flex="1">
+							<groupbox flex="1">
 								<caption id="caption.counter" label="Effekt 0 af 0"/>
 								<grid>
 									<rows>
@@ -61,7 +62,9 @@
 									<textbox id="textbox.itemappraisal3" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
 								</hbox>							
 							</groupbox>
-							<groupbox >
+						</hbox>
+						<hbox>
+							<groupbox flex="1">
 								<caption label="Nuværende bud"/>			
 								<hbox align="center">
 									<label class="Label">Kunde:</label>
@@ -70,26 +73,28 @@
 									<textbox id="textbox.currentbidamount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
 								</hbox>																		
 							</groupbox>		
-							<separator class="groove-thin"/>
-							<separator class="groove-thin"/>
-							<hbox align="center">
-								<button id="button.itemprev" label="Forrige" style="height: 60px;" flex="1" disabled="true" oncommand="main.itemPrev ();"/>
-								<button id="button.itemnext" label="Næste" style="height: 60px;" flex="1" disabled="true" oncommand="main.itemNext ();"/>
-							</hbox>																			
-						</vbox>													
+						</hbox>
+						<hbox>
+							<vbox flex="1">
+								<separator class="groove-thin"/>
+								<separator class="groove-thin"/>
+								<hbox align="center">
+									<button id="button.itemprev" label="Forrige" style="height: 60px;" flex="1" disabled="true" oncommand="main.itemPrev ();"/>
+									<button id="button.itemnext" label="Næste" style="height: 60px;" flex="1" disabled="true" oncommand="main.itemNext ();"/>
+								</hbox>																			
+							</vbox>
+						</hbox>
 					</vbox>
     			</tabpanel>    			    						
 			</tabpanels>
 		</tabbox>
 	</hbox>
 	
-	<hbox flex="1">
-		<hbox class="WindowButtons" flex="1" align="left">		
-			<button id="button.auctionstart" label="Start auktion" oncommand="main.auctionStart ();" disabled="true" collapsed="true" accesskey="S"/>		
-			<button id="button.auctionstop" label="Stop auktion" oncommand="main.auctionStop ();" disabled="true" collapsed="true" accesskey="o"/>								
-		</hbox>
-		<hbox class="WindowButtons" flex="1" align="right">		
-			<button id="button.close" label="Luk" oncommand="main.close ();" accesskey="L"/>		
-		</hbox>
-	</hbox>
+	
+	<hbox class="WindowButtons">		
+		<button id="button.auctionstart" label="Start auktion" oncommand="main.auctionStart ();" disabled="true" collapsed="true" accesskey="S"/>		
+		<button id="button.auctionstop" label="Stop auktion" oncommand="main.auctionStop ();" disabled="true" collapsed="true" accesskey="o"/>								
+		<space flex="1"/>	
+		<button id="button.close" label="Luk" oncommand="main.close ();" accesskey="L"/>		
+	</hbox>	
 </window>
