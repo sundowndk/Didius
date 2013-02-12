@@ -20,8 +20,9 @@ pref("javascript.options.strict", true);
 pref("nglayout.debug.disable_xul_cache", true);      
 pref("nglayout.debug.disable_xul_fastload", true);
 
+/* Disable direct2d on windows */
+pref("gfx.direct2d.disabled", true);				
+/* pref("layers.acceleration.disabled", true); */	// WINDOWS
 
-
-
-
-
+/* Disable direct2d on linux */
+/* pref("layers.prefer-opengl", true); */			// MAC, LINUX

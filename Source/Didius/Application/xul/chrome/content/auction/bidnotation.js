@@ -73,8 +73,8 @@ var main =
 							}	
 							else
 							{
-								document.getElementById ("bidBuyerNo").disabled = true;
-								document.getElementById ("bidAmount").disabled = true;		
+								document.getElementById ("textbox.bidbuyerno").disabled = true;
+								document.getElementById ("textbox.bidamount").disabled = true;		
 							}								
 							
 							document.getElementById ("tree.items").disabled = false;							
@@ -239,7 +239,11 @@ var main =
 	{									
 		main.currentIndex = index;
 	
+		main.itemsTreeHelper.select (index);
+	
 		document.getElementById ("caption.counter").label = "Effekt "+ (main.currentIndex + 1)  +" af "+ main.items.length;
+		
+		 
 		
 		document.getElementById ("textbox.itemcatalogno").value = main.items[main.currentIndex].catalogno;
 		document.getElementById ("textbox.itemdescription").value = main.items[main.currentIndex].description;

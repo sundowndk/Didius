@@ -11,7 +11,7 @@
 	<keyset>
   		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
   		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/>
-  		<key id="key.search" keycode="VK_F2" oncommand="main.search ();"/>
+  		<key id="key.search" keycode="VK_F2" oncommand="main.search ();"/>  		
 	</keyset>				
 			
 	<hbox class="WindowInnerPadding" flex="1">
@@ -21,7 +21,7 @@
 					<vbox flex="1">
 						<hbox align="center">				
 							<hbox flex="1">
-								<textbox id="textbox.customersearch" type="search" flex="1" onkeyup="main.filter ();" oncommand="main.filter ();" disabled="true"/>									
+								<textbox id="textbox.customersearch" type="search" flex="1"   disabled="true" onkeyup="return main.onCustomerSearchKeyPress (event);"/>
 							</hbox>			
 						</hbox>		
 						<hbox flex="1">		
@@ -52,7 +52,7 @@
 								<hbox align="center">
 									<label class="Label">Kunde nr.:</label>
 									<textbox id="textbox.customerno" flex="1" readonly="true" />					
-								</hbox>				
+								</hbox>								
 								<hbox align="center">
 									<label class="Label">Navn:</label>
 									<textbox id="textbox.customername" flex="1" readonly="true" onkeyup="main.onChange ();"/>					
@@ -75,10 +75,10 @@
 									<label class="Label">Land:</label>
 									<textbox id="textbox.customercountry" flex="1" readonly="true" onkeyup="main.onChange ();"/>					
 								</hbox>				
-								<hbox align="center">
-									<label class="Label">Telefon:</label>
-									<textbox id="textbox.customerphone" flex="1" readonly="true" onkeyup="main.onChange ();"/>					
-									<label class="Label">Mobil:</label>
+								<hbox align="center">									
+									<label class="Label">Telefon 1:</label>
+									<textbox id="textbox.customerphone" flex="1" readonly="true" onkeyup="main.onChange ();"/>														
+									<label class="Label">Telefon 2:</label>
 									<textbox id="textbox.customermobile" flex="1" readonly="true" onkeyup="main.onChange ();"/>					
 								</hbox>		
 								<hbox align="center">
@@ -107,8 +107,8 @@
 									<textbox id="textbox.auctiontitle" flex="1" readonly="true" />
 								</hbox>																							
 								<hbox align="center">
-									<label class="Label">Køber nr.:</label>
-									<textbox id="textbox.buyerno" flex="1" disabled="true" onkeyup="main.onChange ();" />
+									<label class="Label" accesskey="K" control="textbox.buyerno">Køber nr.:</label>
+									<textbox id="textbox.buyerno" flex="1" disabled="true" onkeyup="return main.onKeyUpTextboxBuyerNo (event);" />
 									<button id="button.buyernoset" label="Angiv" disabled="true" oncommand="customer.setBuyerNo ();" accesskey="A"/>
 									<button id="button.invoicecreate" label="Fakturere" disabled="true" width="70" oncommand="main.createInvoice ();" accesskey="F"/>
 								</hbox>																	

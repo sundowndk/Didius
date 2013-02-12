@@ -12,6 +12,7 @@
 	<keyset>
   		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
   		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.itemprev" key="" oncommand="main.itemPrev ();">
 	</keyset>			
 			
 	<hbox class="WindowInnerPadding" flex="1">

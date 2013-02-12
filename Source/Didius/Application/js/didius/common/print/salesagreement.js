@@ -404,6 +404,7 @@ salesAgreement : function (attributes)
 													
 							var onDone = 		function ()							
 												{													
+													
 													if (attributes.onDone != null)
 													{
 														setTimeout (attributes.onDone, 1);
@@ -411,7 +412,8 @@ salesAgreement : function (attributes)
 												}
 												
 							var worker = function ()
-							{															
+							{	
+								sXUL.console.log ("UPLOAD START")														
 								sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailSalesAgreement", customerid: attributes.case.customerid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
 							}
 							

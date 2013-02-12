@@ -33,7 +33,7 @@ var main =
 			return;
 		}				
 		
-		main.customersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.customers"), sortColumn: "name", sortDirection: "descending"});			
+		main.customersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.customers"), sortColumn: "name", sortDirection: "descending", onEnter: ""});			
 			
 		main.set ();
 					
@@ -232,7 +232,39 @@ var main =
 	createInvoice : function ()
 	{				
 		window.openDialog ("chrome://didius/content/invoice/create.xul", "didius.auction.invoice.show."+ SNDK.tools.newGuid (), "modal", {customerId: main.customer.id, auctionId: main.auction.id});
-	}		
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCUSTOMERSEARCHKEYPRESS																			|	
+	// ------------------------------------------------------------------------------------------------------
+	onCustomerSearchKeyPress : function (event)
+	{	 		
+		// DOWN
+		if (event.keyCode == 40)
+		{
+			document.getElementById ("tree.customers").focus ();
+			main.customersTreeHelper.select (0);
+			return false;
+		}
+
+		main.filter ();
+	},		
+	
+	onKeyUpTextboxBuyerNo : function (event)
+	{
+		sXUL.console.log (event.keyCode);
+		
+		// ENTER
+		if (event.keyCode == 13)
+		{	
+			main.onChange ();
+			document.getElementById ("button.buyernoset").click ();
+			return false;
+		}
+		
+		main.onChange ();
+	
+	}
 }
 
 

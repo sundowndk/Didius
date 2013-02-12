@@ -133,6 +133,8 @@ var sXUL =
 			this.setRow = setRow;
 			this.getRow = getRow;
 			
+			this.select = select;
+			
 			this.enableRefresh = enableRefresh;
 			this.disableRefresh = disableRefresh;
 									
@@ -367,6 +369,23 @@ var sXUL =
 				
 				_elements.tree.view = newView;
 			};
+			
+			
+			function select (row)
+			{
+				if (row == -1)
+				{
+					_elements.tree.view.selection.clear ();
+				}
+				
+				sXUL.console.log (row +" "+ _elements.tree.view.rowCount)
+				
+				if (row > -1 && row <= (_elements.tree.view.rowCount - 1))		
+				{
+					_elements.tree.view.selection.select (row);	
+				}
+			}
+			
 			
 			function onDoubleClick (event)
 			{
@@ -1125,32 +1144,32 @@ var sXUL =
 				{
 					onStateChange: function (aWebProgress, aRequest, aStateFlags, aStatus) 
 		      		{
-		      			//	sXUL.console.log (aStateFlags);
+		      				sXUL.console.log (aStateFlags);
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_REQUEST)
 		      			{
-		      			//	sXUL.console.log ("STATE_IS_REQUEST")
+		      				sXUL.console.log ("STATE_IS_REQUEST")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT)
 		      			{
-		      			//	sXUL.console.log ("STATE_IS_DOCUMENT")
+		      				sXUL.console.log ("STATE_IS_DOCUMENT")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK)
 		      			{
-		      			//	sXUL.console.log ("STATE_IS_NETWORK")
+		      				sXUL.console.log ("STATE_IS_NETWORK")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_WINDOW)
 		      			{
-		      			//	sXUL.console.log ("STATE_IS_WINDOW")
+		      				sXUL.console.log ("STATE_IS_WINDOW")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_START)
 		      			{
-		      			//	sXUL.console.log ("STATE_START")
+		      				sXUL.console.log ("STATE_START")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP)
 		      			{
-		      			//	sXUL.console.log ("STATE_STOP")
+		      				sXUL.console.log ("STATE_STOP")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT) 
@@ -1160,7 +1179,7 @@ var sXUL =
 		      		
 						if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK) 
 		      			{
-		      			//	sXUL.console.log ("DONE");
+		      				sXUL.console.log ("DONE");
 		      				if (attributes.onDone != null)
 		    				{
 		    					setTimeout (attributes.onDone, 1);
