@@ -274,19 +274,13 @@ var app =
 		{
 			switch (attributes.errorCode.split ("|")[0])
 			{			
-				// AUCTION
-				case "APP00281":
+				// AUCTION.SIGNIN
+				case "APP00280":
 				{
-					text = "Denne kunde er allerede tildelt et andet kÃ¸ber nr.";
+					text = "Køber nummer er allerede tildelt en anden kunde.";
 					break;
 				}
-				
-				case "APP00281":
-				{
-					text = "KÃ¸ber nummer er allerede tildelt en anden kunde.";
-					break;
-				}
-									
+																
 				// ITEM
 				case "APP00480":
 				{
@@ -308,10 +302,12 @@ var app =
 				// DEFAULT
 				default:
 				{
-					text = "Der er opstÃ¥et en ukendt fejl. '"+ attributes.errorCode +"'";
+					text = "Der er opstået en ukendt fejl. '"+ attributes.errorCode +"'";
 					break;
 				}
-			}			
+			}	
+			
+			//text = "["+ attributes.errorCode.split ("|")[0] +"]: "+ text;		
 		}
 								
 		if (attributes.exception != null)
@@ -329,38 +325,38 @@ var app =
 			
 				case "00130":
 				{
-					text = "Kunne ikke finde kunden der skulle slettes, prÃ¸v igen.";	
+					text = "Kunne ikke finde kunden der skulle slettes, prøv igen.";	
 					break;																
 				}
 									
 				case "00131":
 				{
-					text = "Kan ikke slette kunden da denne har tilknyttet sager. Slet alle sagerne og forsÃ¸g igen.";
+					text = "Kan ikke slette kunden da denne har tilknyttet sager. Slet alle sagerne og forsøg igen.";
 					break;
 				}
 				
 				// CASE
 				case "00330":
 				{
-					text = "Kunne ikke finde sagen der skulle slettes, prÃ¸v igen.";	
+					text = "Kunne ikke finde sagen der skulle slettes, prøv igen.";	
 					break;
 				}
 			
 				case "00331":
 				{
-					text = "Kan ikke slette sagen da denne har tilknyttet effekter. Slet effekter og forsÃ¸g igen.";	
+					text = "Kan ikke slette sagen da denne har tilknyttet effekter. Slet effekter og forsøg igen.";	
 					break;
 				}
 				
 				case "00530":
 				{
-					text = "Kunne ikke finde auktion der skulle slettes, prÃ¸v igen.";	
+					text = "Kunne ikke finde auktion der skulle slettes, prøv igen.";	
 					break;																
 				}
 				
 				case "00531":
 				{
-					text = "Kan ikke slette auktion da denne har tilknyttet sager. Slet sagerne og forsÃ¸g igen.";
+					text = "Kan ikke slette auktion da denne har tilknyttet sager. Slet sagerne og forsøg igen.";
 					break;
 				}
 				
@@ -390,7 +386,7 @@ var app =
 				// DEFAULT
 				default:
 				{
-					text = "Der er opstÃ¥et en ukendt fejl. '"+ attributes.exception +"'";
+					text = "Der er opstået en ukendt fejl. '"+ attributes.exception +"'";
 					break;
 				}
 			}

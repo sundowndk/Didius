@@ -32,8 +32,7 @@ var didius =
 				app.events.onCaseLoad = new sXUL.event ({id: "onCaseLoad", remotePropagation: true});
 				app.events.onCaseSave = new sXUL.event ({id: "onCaseSave", remotePropagation: true});
 				app.events.onCaseDestroy = new sXUL.event ({id: "onCaseDestroy", remotePropagation: true});
-			
-				app.events.onItemCreate = new sXUL.event ({id: "onItemCreate", remotePropagation: true});
+					
 				app.events.onItemLoad = new sXUL.event ({id: "onItemLoad", remotePropagation: true});
 				app.events.onItemSave = new sXUL.event ({id: "onItemSave", remotePropagation: true});
 				app.events.onItemDestroy = new sXUL.event ({id: "onItemDestroy", remotePropagation: true});
@@ -497,7 +496,7 @@ var didius =
 			var cmd = "cmd=Ajax;cmd.function=Didius.Item.Load";
 			var content = new Array ();
 			content.id = attributes.id;
-		
+			
 			if (attributes.onDone != null)
 			{
 				var onDone = 	function (respons)
@@ -522,6 +521,7 @@ var didius =
 			else
 			{
 				var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+				
 				request.send (content);
 			
 				var result = request.respons ()["didius.item"];
@@ -567,9 +567,12 @@ var didius =
 				request.send (content);
 				
 				var result = request.respons ()["didius.item"];
-										
+																	
 				if (!didius.runtime.browserMode)	
+				{		
 					app.events.onItemSave.execute (result);
+				}
+				
 			}									
 		},		
 		
@@ -1130,7 +1133,7 @@ var didius =
 			{
 				content["auctionid"] = attributes.auction.id;
 			}
-			else if (attributes.auctionid)
+			else if (attributes.auctionId)
 			{
 				content["auctionid"] = attributes.auctionId;
 			}
@@ -1162,7 +1165,7 @@ var didius =
 			{
 				content["auctionid"] = attributes.auction.id;
 			}
-			else if (attributes.auctionid)
+			else if (attributes.auctionId)
 			{
 				content["auctionid"] = attributes.auctionId;
 			}
@@ -2646,6 +2649,7 @@ var didius =
 							
 									var result = print.contentDocument.body.innerHTML;
 									
+									
 									app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
 									
 									return result;
@@ -3549,7 +3553,7 @@ var didius =
 				}																											
 			},
 		
-			label : function (attributes)
+			catalog : function (attributes)
 			{	
 				var Cc = Components.classes;
 				var Ci = Components.interfaces;
@@ -3557,160 +3561,250 @@ var didius =
 				var Cr = Components.results;
 			
 				var render = 	function (attributes)
-								{											
-									//attributes.customer = didius.customer.load (attributes.invoice.customerid);
-								
-									//var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_invoice"}));					
-									var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
-				
-									var print = app.mainWindow.document.createElement ("iframe");
-									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
-															
-									var pageCount = 1;				
-									var totalSale = 0;
-									var totalCommissionFee = 0;							
-									var totalTotal = 0;																																								
-																																																						
-									var page = function (from)
+								{	
+									var print = document.getElementById ("iframe.print");
+									print.contentDocument.body.innerHTML = " ";
+																												
+									var items = didius.item.list ({auction: attributes.auction});			
+									SNDK.tools.sortArrayHash (items, "catalogno", "numeric");																			
+									
+									var template;
+									if (attributes.template == "large")
 									{
+										template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_cataloglarge"}));							
+									}
+									else if (attributes.template == "small")
+									{
+										template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_catalogsmall"}));
+									}
+															
+									var pageCount = 0;
+									var page = function (from)
+									{		
+										pageCount++;
+									
 										// Add styles.																		
 										var styles = print.contentDocument.createElement ("style");					
 										print.contentDocument.body.appendChild (styles);					
 										styles.innerHTML = template.styles;
-								
+												
 										// Create page.				
 										var page = print.contentDocument.createElement ("div");
-										page.className = "Page A4";
+										page.className = "A4";
 										print.contentDocument.body.appendChild (page);
-																													
-										// Add content holder.																						
+										
+										// Add content holder.																																												
 										var content = print.contentDocument.createElement ("div")
-										content.className = "PrintContent";
+										content.className = "Page";
 										page.appendChild (content);
-																								
-										// Add inital content.
-										var render = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
+																									
+										// Add inital content.					
+										var render = template.page;			
 										content.innerHTML = render;
-									
-										// Caluculate page maxheight for printing.										
-			//							var maxHeight = page.offsetHeight 
-			//							var maxHeight2 = page.offsetHeight;
-																												
+																
+										// Caluculate page maxheight for content.			
+										var headerHeight = 0;
+										var footerHeight = 0;
 										
-																								
-										// CUSTOMERNAME
-			//							{
-			//								render = render.replace ("%%CUSTOMERNAME%%", attributes.customer.name);
-			//								content.innerHTML = render;
-			//							}										
+										// PAGENUMBER
+										{
+											render = render.replace ("%%PAGENUMBER%%", pageCount);
+											content.innerHTML = render;
+										}
 										
-									//	return count;				
+										// AUCTIONBEGIN
+										{
+											var begin = new Date (Date.parse (main.auction.begin));
+											render = render.replace ("%%AUCTIONBEGIN%%", begin.getDate () +"-"+ (begin.getMonth () + 1)  +"-"+ begin.getFullYear ());
+											content.innerHTML = render;
+										}			
+											
+										// AUCTIONBEGINTIME
+										{
+											var begin = new Date (Date.parse (main.auction.begin));											
+											
+											render = render.replace ("%%AUCTIONBEGINTIME%%", SNDK.tools.padLeft (begin.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (begin.getMinutes (), 2, "0"));
+											content.innerHTML = render;
+										}			
+										
+										if (print.contentDocument.getElementById ("Header"))
+										{
+											headerHeight = print.contentDocument.getElementById ("Header").offsetHeight;
+										}
+										
+										if (print.contentDocument.getElementById ("Footer"))
+										{
+											print.contentDocument.getElementById ("Footer").id = "Footer"+ pageCount;
+											footerHeight = print.contentDocument.getElementById ("Footer"+ pageCount).offsetHeight;
+										}
+																				
+										//var maxHeight = page.offsetHeight - headerHeight - footerHeight;
+										var maxHeight = page.offsetHeight;
+																																																										
+										var count = 0;					
+										var rows = "";
+										
+										// Add data rows.																																					
+										for (var idx = from; idx < items.length; idx++)
+										{																			
+											var item = items[idx];				
+											
+											var case_ = didius.case.load ({id: item.caseid});
+											var customer = didius.customer.load (case_.customerid);
+											
+											var row = template.row;
+											
+											// ITEMCATALOGNO
+											{
+												row = row.replace ("%%ITEMCATALOGNO%%", item.catalogno);
+											}
+											
+											// ITEMNO
+											{
+												row = row.replace ("%%ITEMNO%%", item.no);
+											}
+											
+											// ITEMDESCRIPTION
+											{
+												row = row.replace ("%%ITEMDESCRIPTION%%", item.description);
+											}
+											
+											// ITEMVAT
+											{
+												var vat = "";
+												if (item.vat)
+												{					
+													row = row.replace ("%%ITEMVAT%%", "&#10004;");
+												}
+												else
+												{
+													row = row.replace ("%%ITEMVAT%%", "");
+												}
+											}
+											
+											// ITEMAPPRAISAL1
+											{
+												row = row.replace ("%%ITEMAPPRAISAL1%%", item.appraisal1);
+											}
+											
+											// ITEMAPPRAISAL2
+											{
+												row = row.replace ("%%ITEMAPPRAISAL2%%", item.appraisal2);
+											}
+											
+											// ITEMAPPRAISAL3
+											{
+												row = row.replace ("%%ITEMAPPRAISAL3%%", item.appraisal3);
+											}
+											
+											// ITEMMINIMUMBID
+											{
+												row = row.replace ("%%ITEMMINIMUMBID%%", item.minimumbid);
+											}
+											
+											// CUSTOMERNAME
+											{
+												row = row.replace ("%%CUSTOMERNAME%%", customer.name);
+											}
+											
+											// CUSTOMERNO
+											{
+												row = row.replace ("%%CUSTOMERNO%%", customer.no);
+											}
+											
+											// CUSTOMERPHONE
+											{
+												row = row.replace ("%%CUSTOMERPHONE%%", customer.phone);
+											}
+											
+											// CUSTOMEREMAIL
+											{
+												row = row.replace ("%%CUSTOMEREMAIL%%", customer.email);
+											}
+															
+											// BID / BUYER								
+											{
+												var bidcustomername = "";
+												var bidcustomerno = "";
+												var bidamount = "";
+											
+												if (item.currentbidid != SNDK.tools.emptyGuid)
+												{
+													var bid = didius.bid.load ({id: item.currentbidid});
+													
+													bidcustomername = bid.customer.name;
+													bidcustomerno = bid.customer.no;
+													bidamount = bid.amount;
+												}
+												
+												// BIDCUSTOMERNAME
+												{
+													row = row.replace ("%%BIDCUSTOMERNAME%%", bidcustomername);
+												}
+													
+												// BIDCUSTOMERNO
+												{						
+													row = row.replace ("%%BIDCUSTOMERNO%%", bidcustomerno);
+												}
+													
+												// BIDAMOUNT
+												{
+													row = row.replace ("%%BIDAMOUNT%%", bidamount);
+												}
+											}
+																														
+											// Test if rows fit inside maxheight of page.
+											content.innerHTML = render.replace ("%%ROWS%%", rows + row);
+											
+											// If rows exceed, use last amount of rows that fit.					
+											if (content.offsetHeight > maxHeight)
+											{												
+												content.innerHTML = render.replace ("%%ROWS%%", rows);
+												break;	
+											}
+																							
+											rows += row;
+											count++;	
+										}									
+										
+										content.style.height = maxHeight  + "px";
+										
+										return count;
 									}
-			
-									page ();																																																			
-																																																																																																																																																									
-									var result = print.contentDocument.body.innerHTML;
-									app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
-									return result;
+										
+									
+									var c = 0;				
+									while (c < items.length)
+									{							
+									 	c += page (c);				 				
+									}		
+															
+									return print.contentDocument.body.innerHTML;
 								};
 			
-				var data = "";
-																						
-			//	if (attributes.invoice)
-			//	{
-					//data = render ({invoice: attributes.invoice});
-					data = render ();
-			//	}
-			//	else if (attributes.invoices)
-			//	{
-			//		for (index in attributes.invoices)
-			//		{
-			//			data += render ({invoice: attributes.invoices[index]});
-			//		}			
-			//	}
+				var data = render ({auction: attributes.auction, template: attributes.template});		
 				
-				//var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/invoice.tpl"));										
-				var print = app.mainWindow.document.createElement ("iframe");
-				app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
-					
+				var print = document.getElementById ("iframe.print");			
 				print.contentDocument.body.innerHTML = data;
 								
 				var settings = PrintUtils.getPrintSettings ();
-						
-				//ppd_17x54					
-				//ppd_17x87
-				//ppd_23x23
-				//ppd_29x42
-				//ppd_29x90
-				//ppd_38x90
-				//ppd_39x48
-				//ppd_52x29
-				//ppd_62x29
-				//ppd_62x100
-				//ppd_12Dia
-				//ppd_24Dia
-				//ppd_12X1
-				//ppd_29X1
-				//ppd_62X1
-				//ppd_12X2
-				//ppd_29X2
-				//ppd_62X2
-				//ppd_12X3
-				//ppd_29X3
-				//ppd_62X3
-				//ppd_12X4
-				//ppd_29X4
-				//ppd_62X4
-				//ppd_50X1
-				//ppd_54X1
-				//ppd_54X1
-				//ppd_38X1
-				//ppd_23x23
-				//ppd_39x48
-				//ppd_52x29
-				//ppd_38X2
-				//ppd_50X2
-				//ppd_54X2
-				//ppd_38X3
-				//ppd_50X3
-				//ppd_54X3
-				//ppd_38X4
-				//ppd_50X4
-				//ppd_54X4
-				
-																																																																																																											
-				settings.marginLeft = 0.28;
-				settings.marginRight = 0.29;
-				settings.marginTop = 0.14;
-				settings.marginBottom = 0.14;
+																																											
+				settings.marginLeft = 0.5;
+				settings.marginRight = 0.5;
+				settings.marginTop = 0.5;
+				settings.marginBottom = 0.0;
 				settings.shrinkToFit = true;
-				
-				settings.unwriteableMarginTop = 0;
-			    settings.unwriteableMarginRight = 0;
-			    settings.unwriteableMarginBottom = 0;
-			    settings.unwriteableMarginLeft = 0;
-			
 					
-				settings.orientation = Ci.nsIPrintSettings.kLandscapeOrientation;
+				settings.paperName =  "iso_a4";
+				settings.paperWidth = 210;
+				settings.paperHeight = 297
 				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
-				//settings.paperName = "ppd_62x29";
-				settings.paperWidth = 62;
-				settings.paperHeight = 50;
-				
-				//settings.setPaperSizeType = Ci.nsIPrintSettings.kPaperSizeDefined;  	
-			  	//settings.setPaperSize = Ci.nsIPrintSettings.kPaperSizeNativeData;
-				
-				
-				
-				
-					
-				attributes = {};
 					
 				if (attributes.mail) 
 				{
 					var localDir = sXUL.tools.getLocalDirectory ();
 					//var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
-					var filename = localDir.path + app.session.pathSeperator + attributes.invoice.id +".pdf";
+					var filename = localDir.path + app.session.pathSeperator + attributes.creditnote.id +".pdf";
 					//var filename = "F:\\test.pdf";
 								
 			    	settings.printSilent = true;
@@ -3737,7 +3831,7 @@ var didius =
 			    	settings.headerStrLeft = "";
 			    	settings.headerStrRight = "";
 			    	settings.printBGColors = true;
-			    	settings.title = "Didius Invoice";    		
+			    	settings.title = "Didius Catalog";    		
 			
 					settings.toFileName = filename;
 						
@@ -3796,7 +3890,7 @@ var didius =
 															
 										var worker = function ()
 										{																
-											sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailInvoice", invoiceid: attributes.invoice.id, customerid: attributes.invoice.customerid, auctionid: attributes.invoice.auctionid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
+											sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailCreditnote", creditnoteid: attributes.creditnote.id, customerid: attributes.creditnote.customerid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
 											//sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailInvoice", invoiceid: attributes.invoice.id}, onLoad: onLoad, onProgress: onProgress, onError: onError});
 										}
 										
@@ -3818,7 +3912,6 @@ var didius =
 					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
 				}		
 			}
-			
 		}
 	}
 }

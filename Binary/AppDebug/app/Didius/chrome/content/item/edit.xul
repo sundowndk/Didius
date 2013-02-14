@@ -72,7 +72,7 @@
     								<column>
     									<vbox flex="1">		
     										<hbox>
-    											<image class="ItemImage" id="image.picture" src='chrome://didius/content/icons/noimage.jpg' width="140"/>
+    											<image class="ItemImage" id="image.picture" src='chrome://didius/content/icons/noimage.jpg' width="180"/>
     										</hbox>
     										<hbox align="center">
     											<button id="button.picturechoose" label="Vælg billede" oncommand="details.setPicture ();" flex="1" accesskey="V" key="key.picturechoose"/>

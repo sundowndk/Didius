@@ -1,46 +1,37 @@
 <?xml version="1.0"?>
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="printcatalog" width="300" height="100" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">
-	
-	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
-	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>  	
-	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>
+<window id="didius.auction.catalog.print" title="Udskriv katalog" width="300" height="100" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY">
+	<script type="application/x-javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/x-javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>  	
+	<script type="application/x-javascript" src="chrome://didius/content/js/didius.js"/>
 	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
-	<script type="application/javascript" src="chrome://didius/content/auction/catalog/print.js"/>	
+	<script type="application/x-javascript" src="chrome://didius/content/auction/catalog/print.js"/>	
 			
 	<keyset>
-  		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
+  		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
+  		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/>
 	</keyset>			
-
-	<vbox  collapsed="true">				
-		<iframe id="printframe" style="height: 0px; width: 0px; margin: 0px; padding: 0px;">
-		</iframe>			
-	</vbox>								
 	
-	<vbox id="main" class="Main" flex="1">				
+	<iframe id="iframe.print" style="height: 0px; width: 0px; margin: 0px; padding: 0px;" collapsed="true">
+	</iframe>							
+
+	<vbox class="Main" flex="1">				
 		<hbox align="center">
-			<label class="Label">Skabelon:</label>
-			<menulist id="template" oncommand="main.onChange ();" flex="1">
-  				<menupopup>
-    				<menuitem label="Internt katalog" value="internal"/>
-    				<menuitem label="Køber katalog" value="buyer"/>
-    				<menuitem label="Labels" value="label"/>
+			<label class="Label" accesskey="s" control="menulist.template">Skabelon:</label>
+			<menulist id="menulist.template" oncommand="main.onChange ();" flex="1">
+  				<menupopup>    				
+  					<menuitem label="Internt katalog" value="large"/>
+    				<menuitem label="Køber katalog" value="small"/>    				    				
   				</menupopup>
 			</menulist>				
 		</hbox>					
 	</vbox>	
-	
-	<vbox id="progress" class="Main" flex="1" hidden="true">				
-		<hbox align="center">
-			<label class="Label">Bygger:</label>
-			<progressmeter id="progressmeter" flex="1" mode="determined" value="" />
-		</hbox>					
-	</vbox>
-								
+									
 	<hbox class="WindowButtons" align="right" >
-		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
-		<button id="print" label="Udskriv" oncommand="main.print ();" disabled="true"/>
+		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>
+		<button id="button.print" label="Udskriv" oncommand="main.print ();" disabled="true" accesskey="U"/>
 	</hbox>
 </window>

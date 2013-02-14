@@ -19,8 +19,7 @@ initialize : function ()
 		app.events.onCaseLoad = new sXUL.event ({id: "onCaseLoad", remotePropagation: true});
 		app.events.onCaseSave = new sXUL.event ({id: "onCaseSave", remotePropagation: true});
 		app.events.onCaseDestroy = new sXUL.event ({id: "onCaseDestroy", remotePropagation: true});
-	
-		app.events.onItemCreate = new sXUL.event ({id: "onItemCreate", remotePropagation: true});
+			
 		app.events.onItemLoad = new sXUL.event ({id: "onItemLoad", remotePropagation: true});
 		app.events.onItemSave = new sXUL.event ({id: "onItemSave", remotePropagation: true});
 		app.events.onItemDestroy = new sXUL.event ({id: "onItemDestroy", remotePropagation: true});

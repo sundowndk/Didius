@@ -54,9 +54,7 @@ var main =
 		items.init ();
 		
 		// Hook events.		
-		app.events.onCaseDestroy.addHandler (eventHandlers.onCaseDestroy);
-		
-		app.events.onItemCreate.addHandler (eventHandlers.onItemCreate);
+		app.events.onCaseDestroy.addHandler (eventHandlers.onCaseDestroy);			
 		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
 		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);
 	},
@@ -187,9 +185,7 @@ var main =
 		}
 		
 		// Unhook events.
-		app.events.onCaseDestroy.removeHandler (eventHandlers.onCaseDestroy);
-		
-		app.events.onItemCreate.removeHandler (eventHandlers.onItemCreate);
+		app.events.onCaseDestroy.removeHandler (eventHandlers.onCaseDestroy);			
 		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
 		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);
 	
@@ -642,23 +638,12 @@ var eventHandlers =
 			main.close (true);
 		}
 	},
-
-	// ------------------------------------------------------------------------------------------------------
-	// | ONITEMCREATE																						|	
-	// ------------------------------------------------------------------------------------------------------
-	onItemCreate : function (eventData)
-	{			
-		if (main.case.id == eventData.caseid)
-		{
-			items.itemsTreeHelper.addRow ({data: eventData});
-		}
-	},
 	
 	// ------------------------------------------------------------------------------------------------------
 	// | ONITEMSAVE																							|	
 	// ------------------------------------------------------------------------------------------------------
 	onItemSave : function (eventData)
-	{			
+	{						
 		if (main.case.id == eventData.caseid)
 		{
 			items.itemsTreeHelper.setRow ({data: eventData});

@@ -550,7 +550,7 @@ var catalog =
 	// ------------------------------------------------------------------------------------------------------
 	print : function ()
 	{
-		window.openDialog ("chrome://didius/content/auction/catalog/print.xul", "printcatalog", "chrome, modal", {auctionId: main.current.id});	
+		app.window.open (window, "chrome://didius/content/auction/catalog/print.xul", "didius.auction.catalog.print."+ main.auction.id, "modal", {auctionId: main.auction.id});
 	}
 }
 

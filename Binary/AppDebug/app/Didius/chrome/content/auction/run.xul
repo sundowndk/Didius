@@ -21,7 +21,7 @@
 			<tabpanels flex="1">
 				<tabpanel>
 					<vbox flex="1">						
-						<hbox flex="1">
+						<hbox>
 							<groupbox flex="1">
 								<caption id="caption.counter" label="Effekt 0 af 0"/>
 								<grid>
@@ -55,7 +55,7 @@
 									<label class="Label">Vurdering 1:</label>
 									<textbox id="textbox.itemappraisal1" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
 								</hbox>							
-								<hbox align="center">
+								<hbox align="center" collapsed="true">
 									<label class="Label">Vurdering 2:</label>
 									<textbox id="textbox.itemappraisal2" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
 									<label class="Label">Vurdering 3:</label>
@@ -70,8 +70,19 @@
 									<label class="Label">Kunde:</label>
 									<textbox id="textbox.currentbidcustomername" flex="1" disabled="true"/>
 									<label class="Label">Bud:</label>
-									<textbox id="textbox.currentbidamount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>
-								</hbox>																		
+									<textbox id="textbox.currentbidamount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>									
+								</hbox>																										
+							</groupbox>		
+						</hbox>
+						<hbox>
+							<groupbox flex="1">
+								<caption label="Max autobud"/>			
+								<hbox align="center">
+									<label class="Label">Kunde:</label>
+									<textbox id="textbox.currentmaxautobidcustomername" flex="1" disabled="true"/>
+									<label class="Label">Bud:</label>
+									<textbox id="textbox.currentmaxautobidamount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>									
+								</hbox>																										
 							</groupbox>		
 						</hbox>
 						<hbox>

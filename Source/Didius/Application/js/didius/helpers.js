@@ -103,7 +103,7 @@ isCatalogNoTaken : function (attributes)
 	{
 		content["auctionid"] = attributes.auction.id;
 	}
-	else if (attributes.auctionid)
+	else if (attributes.auctionId)
 	{
 		content["auctionid"] = attributes.auctionId;
 	}
@@ -135,7 +135,7 @@ newCatalogNo : function (attributes)
 	{
 		content["auctionid"] = attributes.auction.id;
 	}
-	else if (attributes.auctionid)
+	else if (attributes.auctionId)
 	{
 		content["auctionid"] = attributes.auctionId;
 	}

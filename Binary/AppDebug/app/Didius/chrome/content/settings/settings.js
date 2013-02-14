@@ -145,7 +145,9 @@ var main =
 		
 		// VALUES		
 		main.current.didius_value_seller_commission_percentage = document.getElementById ("valueSellerCommissionPercentage").value;
-		main.current.didius_value_seller_commission_minimum = document.getElementById ("valueSellerCommissionMinimum").value;			
+		main.current.didius_value_seller_commission_minimum = document.getElementById ("valueSellerCommissionMinimum").value;					
+		main.current.didius_value_buyer_commission_percentage = document.getElementById ("valueBuyerCommissionPercentage").value;
+		main.current.didius_value_buyer_commission_minimum = document.getElementById ("valueBuyerCommissionMinimum").value;					
 		
 		// EMAIL
 		main.current.didius_email_sender = document.getElementById ("emailSender").value;

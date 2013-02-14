@@ -219,6 +219,7 @@ creditnote : function (attributes)
 				
 						var result = print.contentDocument.body.innerHTML;
 						
+						
 						app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
 						
 						return result;

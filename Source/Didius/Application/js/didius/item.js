@@ -44,7 +44,7 @@ load : function (attributes)
 	var cmd = "cmd=Ajax;cmd.function=Didius.Item.Load";
 	var content = new Array ();
 	content.id = attributes.id;
-
+	
 	if (attributes.onDone != null)
 	{
 		var onDone = 	function (respons)
@@ -69,6 +69,7 @@ load : function (attributes)
 	else
 	{
 		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);
+		
 		request.send (content);
 	
 		var result = request.respons ()["didius.item"];
@@ -114,9 +115,12 @@ save : function (attributes)
 		request.send (content);
 		
 		var result = request.respons ()["didius.item"];
-								
+															
 		if (!didius.runtime.browserMode)	
+		{		
 			app.events.onItemSave.execute (result);
+		}
+		
 	}									
 },		
 

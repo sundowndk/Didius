@@ -52,7 +52,13 @@
 								<hbox align="center">
 									<label class="Label">Kunde nr.:</label>
 									<textbox id="textbox.customerno" flex="1" readonly="true" />					
-								</hbox>								
+								</hbox>				
+								<hbox align="center">									
+									<label class="Label">Telefon 1:</label>
+									<textbox id="textbox.customerphone" flex="1" readonly="true" onkeyup="main.onChange ();"/>														
+									<label class="Label">Telefon 2:</label>
+									<textbox id="textbox.customermobile" flex="1" readonly="true" onkeyup="main.onChange ();"/>					
+								</hbox>						
 								<hbox align="center">
 									<label class="Label">Navn:</label>
 									<textbox id="textbox.customername" flex="1" readonly="true" onkeyup="main.onChange ();"/>					
@@ -74,13 +80,7 @@
 								<hbox align="center">
 									<label class="Label">Land:</label>
 									<textbox id="textbox.customercountry" flex="1" readonly="true" onkeyup="main.onChange ();"/>					
-								</hbox>				
-								<hbox align="center">									
-									<label class="Label">Telefon 1:</label>
-									<textbox id="textbox.customerphone" flex="1" readonly="true" onkeyup="main.onChange ();"/>														
-									<label class="Label">Telefon 2:</label>
-									<textbox id="textbox.customermobile" flex="1" readonly="true" onkeyup="main.onChange ();"/>					
-								</hbox>		
+								</hbox>												
 								<hbox align="center">
 									<label class="Label">Email:</label>
 									<textbox id="textbox.customeremail" flex="1" readonly="true" onkeyup="main.onChange ();"/>					

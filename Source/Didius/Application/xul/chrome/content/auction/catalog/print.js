@@ -1,15 +1,24 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ----------------------------------------------------------------------------------------------------------
 var main = 
 {
-	templateName : "internal",
-	current : null,
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	template : "small",
+	auction : null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																							|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
 		try
 		{
-			main.current = didius.auction.load (window.arguments[0].auctionId);
+			main.auction = didius.auction.load (window.arguments[0].auctionId);
 		}
 		catch (error)
 		{
@@ -22,62 +31,134 @@ var main =
 		main.set ();					
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																							|	
+	// ------------------------------------------------------------------------------------------------------
 	set : function ()
 	{
-		document.getElementById ("close").disabled = false;
-		document.getElementById ("print").disabled = false;
+		document.getElementById ("button.close").disabled = false;
+		document.getElementById ("button.print").disabled = false;
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | GET																							|	
+	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.templateName = document.getElementById ("template").value;
+		main.template = document.getElementById ("menulist.template").value;
 	},
 			
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------			
 	onChange : function ()
 	{
 		main.get ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																							|	
+	// ------------------------------------------------------------------------------------------------------
 	close : function ()
 	{										
 		// Close window.
 		window.close ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | PRINT																							|	
+	// ------------------------------------------------------------------------------------------------------
 	print : function ()
-	{				
-		document.getElementById ("main").hidden = true;						
-		document.getElementById ("progress").hidden = false;
-
-		document.getElementById ("close").disabled = true;
-		document.getElementById ("print").disabled = true;
+	{	
+		var progresswindow = app.window.open (window, "chrome://didius/content/auction/catalog/progress.xul", "didius.auction.catalog.progress."+ main.auction.id, "", {});	
+										
+		var workload = function ()
+		{
+			progresswindow.removeEventListener ("load", workload, false)
 		
-		var progressmeter = document.getElementById ("progressmeter");
+			var overallprogress = 0;
+			var totalprogress = 1;
+			
+			var customers = new Array ();		
+			var invoices = new Array ();
+		
+			var start =	function ()	
+						{						
+							worker1 ();
+						};
+								
+			// Email invoice.
+			var worker1 =	function ()
+							{
+								// Reset progressmeter #1.
+								progresswindow.document.getElementById ("description1").textContent = "Udskriver ...";
+								progresswindow.document.getElementById ("progressmeter1").mode = "undetermined"
+								progresswindow.document.getElementById ("progressmeter1").value = 0;
+																						
+								var nextWorker =	function ()
+													{
+														// Update progressmeter #1
+														overallprogress++;
+														progresswindow.document.getElementById ("progressmeter1").mode = "determined"
+														progresswindow.document.getElementById ("progressmeter1").value = (overallprogress / totalprogress) * 100;
+																																				
+														setTimeout (finish, 100);
+													};
+																							
+								var onDone = 	function ()
+												{
+													nextWorker ();
+												};
+																																						
+								didius.common.print.catalog ({printContainer: document.getElementById ("vbox.printholder"), auction: main.auction, template: main.template, onDone: onDone});			
+							};
+																
+			var finish =	function ()	
+							{															
+								progresswindow.close ();
+							};
+			
+			// Start worker1;				
+			setTimeout (start, 100);
+		}
+		
+		progresswindow.addEventListener ("load", workload);		
+	
+	},
+	
+	
+	printbla : function ()
+	{						
+				
 
-		var items = didius.item.list ({auction: main.current});			
+		var items = didius.item.list ({auction: main.auction});			
 		SNDK.tools.sortArrayHash (items, "catalogno", "numeric");
 				
 		var template = "";
 		
-		if (main.templateName == "internal")
-		{
+//		if (main.templateName == "internal")
+//		{
 			template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_cataloglarge"}));
 			//template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/cataloglarge.tpl"));
-		}
-		else if (main.templateName == "buyer")
-		{
-			template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_catalogsmall"}));
+//		}
+//		else if (main.templateName == "buyer")
+//		{
+//			template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_catalogsmall"}));
 			//template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/catalogsmall.tpl"));
-		}
-		else if (main.templateName == "label")
-		{
-			template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_label"}));
+//		}
+//		else if (main.templateName == "label")
+//		{
+//			template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_label"}));
 			//template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
-		}
+//		}
 																																		
 		var pageCount = 0;			
 												
-		var printDocument = document.getElementById ("printframe").contentDocument;		
+//		var printDocument = document.getElementById ("printframe").contentDocument;		
+		
+//		var printDocument = app.mainWindow.document.createElement ("iframe");
+//		app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
+		
 		printDocument.body.innerHTML = " ";
 		
 		var page = function (from)
@@ -115,14 +196,14 @@ var main =
 			
 			// AUCTIONBEGIN
 			{
-				var begin = new Date (Date.parse (main.current.begin));
+				var begin = new Date (Date.parse (main.auction.begin));
 				render = render.replace ("%%AUCTIONBEGIN%%", begin.getDate () +"-"+ (begin.getMonth () + 1)  +"-"+ begin.getFullYear ());
 				content.innerHTML = render;
 			}			
 				
 			// AUCTIONBEGINTIME
 			{
-				var begin = new Date (Date.parse (main.current.begin));											
+				var begin = new Date (Date.parse (main.auction.begin));											
 				
 				render = render.replace ("%%AUCTIONBEGINTIME%%", SNDK.tools.padLeft (begin.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (begin.getMinutes (), 2, "0"));
 				content.innerHTML = render;
@@ -145,12 +226,14 @@ var main =
 			var count = 0;					
 			var rows = "";
 			
-			progressmeter.value = 0;
+		//	progressmeter.value = 0;
 																				
 			// Add data rows.																																					
 			for (var idx = from; idx < items.length; idx++)
 			{																			
 				var item = items[idx];				
+				
+				var case_ = didius.case.load ({id: item.caseid});
 				var row = template.row;
 				
 				// ITEMCATALOGNO
@@ -203,55 +286,56 @@ var main =
 				
 				// CUSTOMERNAME
 				{
-					row = row.replace ("%%CUSTOMERNAME%%", items[idx].case.customer.name);
+//					row = row.replace ("%%CUSTOMERNAME%%", items[idx].case.customer.name);
 				}
 				
 				// CUSTOMERNO
 				{
-					row = row.replace ("%%CUSTOMERNO%%", items[idx].case.customer.no);
+//					row = row.replace ("%%CUSTOMERNO%%", items[idx].case.customer.no);
 				}
 				
 				// CUSTOMERPHONE
 				{
-					row = row.replace ("%%CUSTOMERPHONE%%", items[idx].case.customer.phone);
+//					row = row.replace ("%%CUSTOMERPHONE%%", items[idx].case.customer.phone);
 				}
 				
 				// CUSTOMEREMAIL
 				{
-					row = row.replace ("%%CUSTOMEREMAIL%%", items[idx].case.customer.email);
+//					row = row.replace ("%%CUSTOMEREMAIL%%", items[idx].case.customer.email);
 				}
 								
 			
 				// BID / BUYER
-				{
-					var bidcustomername = "";
-					var bidcustomerno = "";
-					var bidamount = "";
 				
-					if (items[idx].currentbidid != SNDK.tools.emptyGuid)
-					{
-						var bid = didius.bid.load (items[idx].currentbidid);
-						
-						bidcustomername = bid.customer.name;
-						bidcustomerno = bid.customer.no;
-						bidamount = bid.amount;
-					}
+//				{
+//					var bidcustomername = "";
+//					var bidcustomerno = "";
+//					var bidamount = "";
+				
+//					if (items[idx].currentbidid != SNDK.tools.emptyGuid)
+//					{
+//						var bid = didius.bid.load (items[idx].currentbidid);
+//						
+//						bidcustomername = bid.customer.name;
+//						bidcustomerno = bid.customer.no;
+//						bidamount = bid.amount;
+//					}
 					
 					// BIDCUSTOMERNAME
-					{
-						row = row.replace ("%%BIDCUSTOMERNAME%%", bidcustomername);
-					}
+//					{
+//						row = row.replace ("%%BIDCUSTOMERNAME%%", bidcustomername);
+//					}
 						
 					// BIDCUSTOMERNO
-					{						
-						row = row.replace ("%%BIDCUSTOMERNO%%", bidcustomerno);
-					}
+//					{						
+//						row = row.replace ("%%BIDCUSTOMERNO%%", bidcustomerno);
+//					}
 						
 					// BIDAMOUNT
-					{
-						row = row.replace ("%%BIDAMOUNT%%", bidamount);
-					}
-				}
+//					{
+//						row = row.replace ("%%BIDAMOUNT%%", bidamount);
+//					}
+//				}
 																							
 				// Test if rows fit inside maxheight of page.
 				content.innerHTML = render.replace ("%%ROWS%%", rows + row);
@@ -266,7 +350,7 @@ var main =
 				rows += row;
 				count++;	
 				
-				progressmeter.value = (count / items.length) * 100;					
+				//progressmeter.value = (count / items.length) * 100;					
 			}									
 			
 			content.style.height = maxHeight  + "px";
@@ -282,13 +366,13 @@ var main =
 		}		
 						
 														
-		progressmeter.value = 100;
+		//progressmeter.value = 100;
 		
-		document.getElementById ("main").hidden = false;						
-		document.getElementById ("progress").hidden = true;
+//		document.getElementById ("main").hidden = false;						
+//		document.getElementById ("progress").hidden = true;
 		
-		document.getElementById ("close").disabled = false;
-		document.getElementById ("print").disabled = false;
+//		document.getElementById ("close").disabled = false;
+//		document.getElementById ("print").disabled = false;
 		
 		var settings = PrintUtils.getPrintSettings ();
 																																								
@@ -306,7 +390,10 @@ var main =
 //			settings.printToFile = true;
 //			settings.toFileName = "/home/rvp/test.pdf";
 
-		sXUL.tools.print (document.getElementById ("printframe").contentWindow, settings);
+		//sXUL.tools.print (document.getElementById ("printframe").contentWindow, settings);
+		
+		sXUL.console.log (document.getElementById ("printframe").contentDocument.body.innerHTML)
+		return
 	},
 	
 	printold : function ()

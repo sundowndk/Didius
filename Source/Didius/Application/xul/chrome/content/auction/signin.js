@@ -348,7 +348,7 @@ var customer =
 		main.checksum = SNDK.tools.arrayChecksum (main.customer);
 		customer.set ();				
 		
-		document.getElementById ("textbox.customername").focus ();
+		document.getElementById ("textbox.customerphone").focus ();
 		
 		main.onChange ();
 	},
@@ -359,6 +359,7 @@ var customer =
 	edit : function ()
 	{
 		main.mode = "EDIT";		
+		document.getElementById ("textbox.customerphone").focus ();
 		main.checksum = SNDK.tools.arrayChecksum (main.customer);
 		main.onChange ();				
 	},
@@ -436,7 +437,8 @@ var customer =
 					return;
 				}
 				catch (exception)
-				{						
+				{		
+					app.error ({exception: exception});
 				}
 			}
 				
@@ -481,6 +483,8 @@ var customer =
 		}				
 			
 		main.customersTreeHelper.setRow ({data: data});
+		
+		document.getElementById ("textbox.customersearch").focus ();
 	}
 }
 

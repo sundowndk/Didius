@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Addins, Version=0.6.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
       <Private>False</Private>
+      <Package>mono-addins</Package>
     </Reference>
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -158,7 +159,6 @@
     <Folder Include="Application\xul\chrome\content\item\" />
     <Folder Include="Application\xul\chrome\content\invoice\" />
     <Folder Include="Application\xul\chrome\content\creditnote\" />
-    <Folder Include="Application\xul\chrome\content\auctionrun-REMOVE\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -338,10 +338,8 @@
     <None Include="Application\xul\chrome\content\auction\run.xul" />
     <None Include="Application\xul\chrome\content\auction\display.js" />
     <None Include="Application\xul\chrome\content\auction\display.xul" />
-    <None Include="Application\xul\chrome\content\auctionrun-REMOVE\auctionrun.js" />
-    <None Include="Application\xul\chrome\content\auctionrun-REMOVE\auctionrun.xul" />
-    <None Include="Application\xul\chrome\content\auctionrun-REMOVE\display.xul" />
-    <None Include="Application\xul\chrome\content\auctionrun-REMOVE\display.js" />
+    <None Include="Application\xul\chrome\content\auction\catalog\progress.xul" />
+    <None Include="Application\xul\chrome\content\auction\catalog\progress.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

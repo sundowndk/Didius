@@ -54,7 +54,7 @@
 										<column>
     										<vbox flex="1">	
    												<hbox>
-   													<image class="ItemImage" id="image.itempicture" src='chrome://didius/content/icons/noimage.jpg' width="140"/>
+   													<image class="ItemImage" id="image.itempicture" src='chrome://didius/content/icons/noimage.jpg' width="280"/>
    												</hbox>
    											</vbox>
    										</column>

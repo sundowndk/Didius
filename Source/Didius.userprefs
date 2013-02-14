@@ -1,63 +1,47 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/defaults/preferences/prefs.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/signin.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/run.js" Line="97" Column="90" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/run.xul" Line="88" Column="81" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.js" Line="84" Column="88" />
-      <File FileName="Didius/Application/xul/defaults/preferences/prefs.js" Line="28" Column="58" />
-=======
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
-    <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/run.xul" Line="78" Column="21" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/display.js" Line="69" Column="26" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/run.js" Line="10" Column="107" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/display.xul" Line="10" Column="76" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="491" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/display.tpl" Line="35" Column="15" />
-      <File FileName="Didius/Application/js/didius/common/print/creditnote.js" Line="12" Column="116" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice.js" Line="64" Column="10" />
-      <File FileName="Didius/Application/xul/application.ini" Line="4" Column="13" />
->>>>>>> 9f2cc7ea1e65d438cdb1ccf35370da6e7de6aae7
+      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="73" Column="1" />
+      <File FileName="Didius/Application/js/didius/common/print/catalog.js" Line="40" Column="8" />
+      <File FileName="Didius/Application/xul/application.ini" Line="11" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/signin.js" Line="450" Column="7" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
-              <Node name="js" expanded="True" />
+              <Node name="js" expanded="True">
+                <Node name="didius" expanded="True">
+                  <Node name="common" expanded="True">
+                    <Node name="print" expanded="True" />
+                  </Node>
+                </Node>
+              </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="auction" expanded="True" />
-                    <Node name="bid" expanded="True" />
+                    <Node name="auction" expanded="True">
+                      <Node name="catalog" expanded="True" />
+                      <Node name="signin.js" selected="True" />
+                    </Node>
                     <Node name="case" expanded="True">
                       <Node name="salesagreement" expanded="True" />
+                      <Node name="settlement" expanded="True" />
                     </Node>
-                    <Node name="chooser" expanded="True" />
-                    <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
                     <Node name="item" expanded="True" />
+                    <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
                     <Node name="settings" expanded="True" />
-                    <Node name="templates" expanded="True" />
                   </Node>
                 </Node>
-<<<<<<< HEAD
                 <Node name="defaults" expanded="True">
-                  <Node name="preferences" expanded="True">
-                    <Node name="prefs.js" selected="True" />
-                  </Node>
+                  <Node name="preferences" expanded="True" />
                 </Node>
-=======
-                <Node name="application.ini" selected="True" />
->>>>>>> 9f2cc7ea1e65d438cdb1ccf35370da6e7de6aae7
               </Node>
             </Node>
-            <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True" />
-            <Node name="Didius.Enums" expanded="True" />
           </Node>
         </State>
       </Pad>

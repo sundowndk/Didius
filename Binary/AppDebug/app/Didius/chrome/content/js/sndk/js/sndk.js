@@ -20192,9 +20192,11 @@ var SNDK =
 				}
 			}
 			
-			function send (data)
+			function send (data, test)
 			{
 				var success = false;
+				
+				
 			
 				if (_initialized)			
 				{
@@ -20239,13 +20241,14 @@ var SNDK =
 						
 					}
 					else if (_requestmethod == "POST")
-					{
+					{			
 						// Create request URL.
 						var url = "";
 						url += _application;
 						
+						
 						// Open request.
-						_xmlhttp.open("POST", url, _asynchronous);							
+						_xmlhttp.open("POST", url, _asynchronous);																					
 						
 						// Then we encode the XML data into multipart/form-data.
 						var boundaryseed = Math.floor(Math.random()*100001) +''+  Math.floor(Math.random()*100001) +''+ Math.floor(Math.random()*100001);
@@ -20290,10 +20293,17 @@ var SNDK =
 						_xmlhttp.setRequestHeader("Content-type", "multipart/form-data; boundary=" + boundaryseed);
 						_xmlhttp.setRequestHeader("Content-length", requestbody.length);
 													
-						_sentdata = requestbody;								
-							
-						// Send request.				
+						_sentdata = requestbody;	
+											
+						// Send request.		
 						_xmlhttp.send(requestbody);
+						
+						if (test)
+				{
+					
+						return true;
+				}							
+				
 					}
 						
 					// If not asynchronous we need to parse respons manually.
