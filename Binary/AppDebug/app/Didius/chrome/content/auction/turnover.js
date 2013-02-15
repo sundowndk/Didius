@@ -1,16 +1,26 @@
 Components.utils.import("resource://didius/js/app.js");
 
+// ----------------------------------------------------------------------------------------------------------
+// | MAIN																									|
+// ---------------------------------------------------------------------------------------------------------
 var main =
 {
-	current : null,	
-	items : null,		
-	itemsTreeHelper: null,
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	auction : null,	
+	items : null,
+	cases : null,	
+	casesTreeHelper: null,
 
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
 		try
 		{
-			main.current = didius.auction.load (window.arguments[0].auctionId);			
+			main.auction = didius.auction.load (window.arguments[0].auctionId);
 		}
 		catch (error)
 		{
@@ -19,72 +29,147 @@ var main =
 			return;
 		}								
 	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.items"), sortColumn: "catalogno", sortDirection: "descending"});
+		main.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.cases"), sortColumn: "customername", sortDirection: "descending"});
+		
+		main.buyersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.buyers"), sortColumn: "id", sortDirection: "descending"});
 	
 		main.set ();
 		
 		// Hook events.			
-		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);				
+		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);
 	},
-	
-	eventHandlers : 
-	{								
-		onAuctionDestroy : function (eventData)
-		{
-			if (main.current.id == eventData.id)
-			{
-				main.close (true);
-			}
-		}
-	},
-		
+
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------		
 	set : function ()
 	{
-		var onDone =	function (items)
-						{
-							main.items = items;
+		var onDone =	function (result)
+						{																													
+							main.casesTreeHelper.disableRefresh ();
 							
-							main.itemsTreeHelper.clear ();
-							main.itemsTreeHelper.disableRefresh ();
-							for (idx in main.items)
-							{									
-								if (main.items[idx].bidamount > 0)
+							try
+							{
+								var totalsale = 0;
+								var totalvat = 0;
+								var totalcommissionfee = 0;
+								var totalsettle = 0;
+							
+							for (var index in result)
+							{	
+								var case_ = result[index];	
+																	
+								var items = didius.item.list ({case: case_});
+								SNDK.tools.sortArrayHash (items, "catalogno", "numeric");
+							
+								var sale = 0;						
+								var vatamount = 0;
+								var commissionfee = 0;
+								var settle = 0;								
+							
+								for (var index in items)
 								{
-									var data = {};
-									data.id = main.items[idx].id;
-									data.catalogno = main.items[idx].catalogno;
-									data.no = main.items[idx].no;
-									data.title = main.items[idx].title;
-									data.bidamount = main.items[idx].bidamount.toFixed (2) +" kr.";;											
-				
-									var currentbid = didius.bid.load ({id: main.items[idx].currentbidid});
+									var item = items[index];
 								
-									data.customername = currentbid.customer.name;
-									data.customerno = currentbid.customer.no;
-									data.invoiced = main.items[idx].invoiced;
+									// SELLERS
+									{																	
+										var data = {};								
+										data.id = item.id;
+										data.customername = "";								
+										data.itemcatalogno = item.catalogno;									
+										data.title = item.title;									
+																		
+										data.sale = item.bidamount.toFixed (2) +" kr.";																																			
+										data.commissionfee = item.commissionfee.toFixed (2) +" kr.";
+										data.settlement = (item.bidamount - item.commissionfee).toFixed (2) +" kr."
+										data.vat = item.vatamount.toFixed (2) +" kr.";
+									
+										data.settle = item.bidamount.toFixed (2) +" kr.";
+																																																																													
+										main.casesTreeHelper.addRow ({isChildOfId: item.caseid, data: data});								
 								
-									main.itemsTreeHelper.addRow ({data: data});
+										sale += item.bidamount;
+									
+										commissionfee += item.commissionfee;
+								
+										vatamount += item.vatamount;																		
+									}
+									
+									// BUYER
+									{
+									//sXUL.console.log (SNDK.tools.newGuid ())
+									
+										if (item.currentbidid != SNDK.tools.emptyGuid)
+										{
+											var bid = didius.bid.load ({id: item.currentbidid});
+											var customer = didius.customer.load (bid.customerid);
+										
+											var data1 = {};
+											data1.id = customer.id;
+											data1.catalogno = "";
+											data1.title = customer.name;
+											
+											var data2 = {};
+											data2.id = item.id;
+											data2.catalogno = item.catalogno;
+											data2.title = item.title;
+											
+											main.buyersTreeHelper.addRow ({data: data1});
+											main.buyersTreeHelper.addRow ({isChildOfId: customer.id, data: data2});
+										}
+									}
 								}
-							}	
-							main.itemsTreeHelper.enableRefresh ();
+								
+																																									
+								var data = {};
+								data.id = case_.id;								
+								
+								var customer = didius.customer.load (case_.customerid);								
+								data.customername = customer.name;
+								data.itemcatalogno = "";
+								data.title = case_.title;								
+								data.sale = sale.toFixed (2) +" kr.";
+								data.commissionfee = commissionfee.toFixed (2) +" kr.";								
+								data.vat = vatamount.toFixed (2) +" kr.";			
+								data.settlement = (sale - commissionfee).toFixed (2) +" kr.";																													
+								
+								main.casesTreeHelper.addRow ({data: data});
+							}
+							}
+							catch (e)
+							{
+								sXUL.console.log (e)
+							}
 							
-							document.getElementById ("checkbox.invoicesprint").disabled = false;
-							document.getElementById ("checkbox.invoicesmail").disabled = false;
-							document.getElementById ("checkbox.itemwonnotifcationsmail").disabled = false;																												
 							
-							document.getElementById ("button.close").disabled = false;
-							document.getElementById ("button.settle").disabled = false;
+							
+							
+							
+							
+							
+							
+							main.casesTreeHelper.enableRefresh ();
+																					
+							document.getElementById ("button.close").disabled = false;							
 						}
 	
-		document.title = "Auktion afregning: "+ main.current.title +" ["+ main.current.no +"]";		
+		didius.case.list ({auction: main.auction, async: true, onDone: onDone});
 		
-		didius.item.list ({auction: main.current, async: true, onDone: onDone});
+		
+	
+		document.title = "Omsætning : "+ main.auction.title;		
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | GET																								|	
+	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
 	onChange : function ()
 	{
 		
@@ -98,11 +183,17 @@ var main =
 		}
 	},
 		
+	// ------------------------------------------------------------------------------------------------------
+	// | CLOSE																								|	
+	// ------------------------------------------------------------------------------------------------------		
 	close : function ()
 	{
 		window.close ();
 	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | SETTLE																								|	
+	// ------------------------------------------------------------------------------------------------------	
 	settle : function ()
 	{	
 		var progresswindow = app.window.open (window, "chrome://didius/content/auction/settleprogress.xul", "auction.settle.progress."+ main.current.id, "", {});	
@@ -386,3 +477,18 @@ var main =
 		progresswindow.addEventListener ("load", workload);
 	}
 }
+
+// ----------------------------------------------------------------------------------------------------------
+// | EVENTHANDLERS																							|
+// ----------------------------------------------------------------------------------------------------------	
+var	eventHandlers =
+{								
+	onAuctionDestroy : function (eventData)
+	{
+		if (main.auction.id == eventData.id)
+		{
+			main.close (true);
+		}
+	}
+}
+		

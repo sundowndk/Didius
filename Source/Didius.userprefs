@@ -1,11 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/signin.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/turnover.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="73" Column="1" />
-      <File FileName="Didius/Application/js/didius/common/print/catalog.js" Line="40" Column="8" />
-      <File FileName="Didius/Application/xul/application.ini" Line="11" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/signin.js" Line="450" Column="7" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/turnover.js" Line="97" Column="10" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/turnover.xul" Line="87" Column="28" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/signin.xul" Line="51" Column="37" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/invoice.js" Line="58" Column="75" />
+      <File FileName="Didius/Application/js/didius/case.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="55" Column="56" />
+      <File FileName="Didius/Application/js/didius/common/print/catalog.js" Line="14" Column="64" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="1" Column="1" />
+      <File FileName="Didius/Didius/Bid.cs" Line="1" Column="1" />
+      <File FileName="Didius/Didius/Item.cs" Line="398" Column="41" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/invoice.xul" Line="29" Column="103" />
+      <File FileName="Didius/Application/js/didius/item.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/case/settlement/print.js" Line="1" Column="1" />
+      <File FileName="Didius/Didius/Settlement.cs" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/item/edit.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/item/edit.xul" Line="49" Column="15" />
+      <File FileName="Didius/Application/xul/chrome/content/invoice/show.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/invoice/show.xul" Line="25" Column="24" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.xul" Line="72" Column="78" />
+      <File FileName="Didius/Application/js/didius/bid.js" Line="22" Column="37" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -24,8 +40,9 @@
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
                       <Node name="catalog" expanded="True" />
-                      <Node name="signin.js" selected="True" />
+                      <Node name="turnover.js" selected="True" />
                     </Node>
+                    <Node name="bid" expanded="True" />
                     <Node name="case" expanded="True">
                       <Node name="salesagreement" expanded="True" />
                       <Node name="settlement" expanded="True" />
@@ -42,6 +59,7 @@
                 </Node>
               </Node>
             </Node>
+            <Node name="Didius" expanded="True" />
           </Node>
         </State>
       </Pad>

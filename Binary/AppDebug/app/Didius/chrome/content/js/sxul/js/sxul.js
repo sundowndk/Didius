@@ -361,7 +361,8 @@ var sXUL =
 					
 			 		toggleOpenState : function (index)
 					{
-						return oldView.toogleOpenState (index)
+					//sXUL.console.log (oldView.toggleOpenState)
+						return oldView.toggleOpenState (index)
 					}		
 				};
 				
@@ -530,7 +531,7 @@ var sXUL =
 											
 				// If isChildOfId is set, append TreeItem to correct TreeChildren.
 				if (attributes.isChildOfId)
-				{														
+				{		
 					if (!_elements[attributes.isChildOfId] +"-treeChildren")
 					{						
 						var treeChildren = document.createElement ("treechildren");
@@ -538,6 +539,7 @@ var sXUL =
 						
 						document.getElementById (attributes.isChildOfId +"-treeitem").appendChild (treeChildren);
 						document.getElementById (attributes.isChildOfId +"-treeitem").setAttribute ("container", true);						
+						document.getElementById (attributes.isChildOfId +"-treeitem").setAttribute ("open", false);						
 					}
 					
 					document.getElementById (attributes.isChildOfId +"-treechildren").appendChild (treeItem);
@@ -667,9 +669,9 @@ var sXUL =
 										
 				if (!attributes.isOpen)
 					attributes.isOpen = false;
-					
+				
 				if (attributes.isChildOfId)
-				{
+				{		
 					attributes.level = getLevel2 (attributes.isChildOfId);
 					
 					dump (attributes.level +"\n");

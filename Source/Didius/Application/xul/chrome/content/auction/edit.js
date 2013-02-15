@@ -119,6 +119,7 @@ var main =
 		}
 		
 		document.getElementById ("button.invoice").disabled = false;
+		document.getElementById ("button.turnover").disabled = false;
 //		
 //		if (main.current.type == "Web" || main.current.type == "LiveWeb")
 //		{
@@ -186,6 +187,14 @@ var main =
 	invoice : function ()
 	{		
 		app.window.open (window, "chrome://didius/content/auction/invoice.xul", "didius.auction.invoice."+ main.auction.id, "modal", {auctionId: main.auction.id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | TURNOVER																							|	
+	// ------------------------------------------------------------------------------------------------------
+	turnover : function ()
+	{		
+		app.window.open (window, "chrome://didius/content/auction/turnover.xul", "didius.auction.turnover."+ main.auction.id, "modal", {auctionId: main.auction.id});
 	}
 }
 

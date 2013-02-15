@@ -164,6 +164,8 @@ namespace Didius
 			}
 		}
 
+
+
 		public decimal MinimumBid
 		{
 			get
@@ -369,14 +371,34 @@ namespace Didius
 				if (currentbid != null)
 				{
 					result = (currentbid.Amount * commissionfee) / 100;
-				}
 
-				if (result < commissionfeeminimum)
+					if (result < commissionfeeminimum)
+					{
+						result = commissionfeeminimum;
+					}
+				}
+				else
 				{
-					result = commissionfeeminimum;
+					result = 0;
 				}
 
 				return Math.Round (result, 2);
+			}
+		}
+
+		public decimal VatAmount
+		{
+			get
+			{
+				decimal result = 0;
+				if (this._vat)
+				{
+					if (this.BidAmount > 0)
+					{
+						result = (this.BidAmount * 0.25m);
+					}
+				}
+				return result;
 			}
 		}
 
@@ -531,6 +553,7 @@ namespace Didius
 			result.Add ("bidamount", this.BidAmount);
 			result.Add ("nextbidamount", this.NextBidAmount);
 			result.Add ("commissionfee", this.CommissionFee);
+			result.Add ("vatamount", this.VatAmount);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}

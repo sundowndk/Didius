@@ -3,7 +3,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.auction.turnover" minwidth="700" minheight="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">	
+<window id="didius.auction.turnover" minwidth="850" minheight="550" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">	
 	<script type="application/x-javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/x-javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/x-javascript" src="chrome://didius/content/js/didius.js"/>		
@@ -25,21 +25,95 @@
 			</arrowscrollbox>
 			<tabpanels flex="1">
 				<tabpanel flex="1">
-					<vbox flex="1">																		
-						<tree id="tree.items" flex="1" hidecolumnpicker="true" readonly="true" seltype="single">
-							<treecols>
-								<treecol id="id" hidden="true"/>
-								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" />
-								<treecol id="no" label="Effekt nr." width="100" persist="width"/>
-								<treecol id="title" label="Title" flex="3" persist="width" />
-								<treecol id="bidamount" label="Salgs pris" flex="1" persist="width" style="text-align: right;" />
-								<treecol id="customername" label="Køber" flex="2" persist="width" />
-								<treecol id="customerno" label="Køber nr." flex="1" persist="width" />
-								<treecol id="invoiced" label="Faktureret" persist="width" />			
-							</treecols>								
-						</tree>													
-					</vbox>
+					<vbox flex="1">
+						<hbox flex="1">								
+							<tree id="tree.cases" flex="1" hidecolumnpicker="true" readonly="true" seltype="single">
+								<treecols>
+									<treecol id="id" hidden="true"/>
+									<splitter class="tree-splitter" hidden="true"/>
+									<treecol primary="true" id="customername" label="Kunde" flex="1" persist="width" />
+									<splitter class="tree-splitter"/>
+									<treecol id="itemcatalogno" label="Katalog nr." width="30" persist="width" />
+									<splitter class="tree-splitter"/>
+									<treecol id="title" label="Title" flex="1" persist="width" />								
+									<splitter class="tree-splitter"/>								
+								
+																
+									<treecol id="sale" label="Salg" flex="1" persist="width" style="text-align: right;"/>								
+									<splitter class="tree-splitter"/>								
+									<treecol id="commissionfee" label="Salær" flex="1" persist="width"  style="text-align: right;"/>																
+									<splitter class="tree-splitter"/>								
+									<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>								
+									<splitter class="tree-splitter"/>																								
+									<treecol id="settlement" label="Afregning" flex="1" persist="width" style="text-align: right;"/>								
+								</treecols>								
+							</tree>													
+						</hbox>	
+						<hbox>	
+							<groupbox flex="1">
+								<caption label="Total"/>														
+							<hbox align="center">
+								<label class="Label">Salg:</label>
+								<textbox id="textbox.totalsale" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+							</hbox>				
+							<hbox align="center">
+								<label class="Label">Salær:</label>
+								<textbox id="textbox.totalcommissionfee" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+							</hbox>									
+							<hbox align="center">
+								<label class="Label">Moms:</label>
+								<textbox id="textbox.totalvat" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+							</hbox>				
+							<hbox align="center">
+								<label class="Label">Afregning:</label>
+								<textbox id="textbox.totalsettle" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true"/>					
+							</hbox>					
+							</groupbox>						
+						</hbox>									
+					</vbox>			
     			</tabpanel>
+				<tabpanel flex="1">
+					<vbox flex="1">
+						<hbox flex="1">								
+							<tree id="tree.buyers" flex="1" hidecolumnpicker="true" readonly="true" seltype="single">
+								<treecols>
+									<treecol id="id" hidden="true"/>
+									<splitter class="tree-splitter" hidden="true"/>
+									<treecol primary="true" id="customername" label="Kunde" flex="1" persist="width" />
+									<splitter class="tree-splitter"/>
+									<treecol id="itemcatalogno" label="Katalog nr." width="30" persist="width" />
+									<splitter class="tree-splitter"/>
+									<treecol id="title" label="Title" flex="1" persist="width" />								
+									<splitter class="tree-splitter"/>								
+								
+																
+									
+								</treecols>								
+							</tree>													
+						</hbox>	
+						<hbox>	
+							<groupbox flex="1">
+								<caption label="Total"/>														
+							<hbox align="center">
+								<label class="Label">Salg:</label>
+								<textbox id="textbox.totalbuy" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+							</hbox>				
+							<hbox align="center">
+								<label class="Label">Salær:</label>
+								<textbox id="textbox.totalbuycommissionfee" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+							</hbox>									
+							<hbox align="center">
+								<label class="Label">Moms:</label>
+								<textbox id="textbox.totalbuyvat" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+							</hbox>				
+							<hbox align="center">
+								<label class="Label">Afregning:</label>
+								<textbox id="textbox.totalbuyinvoice" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true"/>					
+							</hbox>					
+							</groupbox>						
+						</hbox>									
+					</vbox>			
+    			</tabpanel>    			
 			</tabpanels>
 		</tabbox>
 	</hbox>
