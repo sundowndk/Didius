@@ -164,15 +164,25 @@ invoice : function (attributes)
 									{
 										row = row.replace ("%%AMOUNT%%", attributes.invoice.lines[idx].amount.toFixed (2));
 									}
-								
+																										
+									// VATAMOUNT
+									{
+										row = row.replace ("%%VATAMOUNT%%", attributes.invoice.lines[idx].vatamount.toFixed (2));
+									}
+									
 									// COMMISSIONFEE
 									{
 										row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.lines[idx].commissionfee.toFixed (2));
 									}					
 									
-									// VAT
+									// VATCOMMISSIONFEE
 									{
-										row = row.replace ("%%COMMISSIONFEE%%", attributes.invoice.lines[idx].commissionfee.toFixed (2));
+										row = row.replace ("%%VATCOMMISSIONFEE%%", attributes.invoice.lines[idx].vatcommissionfee.toFixed (2));
+									}					
+									
+									// TOTAL
+									{
+										row = row.replace ("%%TOTAL%%", attributes.invoice.lines[idx].total.toFixed (2));
 									}					
 
 									content.innerHTML = render.replace ("%%ROWS%%", rows + row);

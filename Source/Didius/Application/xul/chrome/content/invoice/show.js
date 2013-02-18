@@ -16,7 +16,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "no", sortDirection: "descending"});	
+		main.linesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.lines"), sortColumn: "no", sortDirection: "descending"});	
 	 	 	
 		var onInit =	function ()
 						{
@@ -49,12 +49,12 @@ var main =
 	set : function ()
 	{				
 		document.title = "Faktura: "+ main.invoice.no +" ["+ main.customer.name +"]";
-		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.invoice.createtimestamp);
+		document.getElementById ("datepicker.createdate").dateValue = SNDK.tools.timestampToDate (main.invoice.createtimestamp);
 		
-		document.getElementById ("no").value = main.invoice.no;
-		document.getElementById ("customername").value = main.customer.name;
+		document.getElementById ("textbox.no").value = main.invoice.no;
+		document.getElementById ("textbox.customername").value = main.customer.name;
 					
-		main.itemsTreeHelper.disableRefresh ();
+		main.linesTreeHelper.disableRefresh ();
 		for (idx in main.invoice.lines)
 		{						
 			var line = main.invoice.lines[idx];
@@ -64,31 +64,30 @@ var main =
 			data["no"] = line.no;
 			data["text"] = line.text;
 			data["amount"] = line.amount.toFixed (2)+ " kr.";
+			data["vatamount"] = line.vatamount.toFixed (2)+ " kr.";
 			data["commissionfee"] = line.commissionfee.toFixed (2) +" kr.";
-			data["vat"] = line.vat.toFixed (2) +" kr.";
+			data["vatcommissionfee"] = line.vatcommissionfee.toFixed (2) +" kr.";			
 			data["total"] = line.total.toFixed (2) +" kr.";
 			
-			sXUL.console.log (line.total)
-											
-			main.itemsTreeHelper.addRow ({data: data});
+			main.linesTreeHelper.addRow ({data: data});
 		}		
-		main.itemsTreeHelper.enableRefresh ();
+		main.linesTreeHelper.enableRefresh ();
 				
-		document.getElementById ("totalsales").value = main.invoice.sales;
-		document.getElementById ("totalcommissionFee").value = main.invoice.commissionfee;
-		document.getElementById ("totalvat").value = main.invoice.vat;
-		document.getElementById ("totaltotal").value = main.invoice.total;
+		document.getElementById ("textbox.totalsales").value = main.invoice.sales;
+		document.getElementById ("textbox.totalcommissionFee").value = main.invoice.commissionfee;
+		document.getElementById ("textbox.totalvat").value = main.invoice.vat;
+		document.getElementById ("textbox.totaltotal").value = main.invoice.total;
 				
-		document.getElementById ("print").disabled = false;		
+		document.getElementById ("button.print").disabled = false;		
 		
 		if (main.customer.email != "")
 		{
-			document.getElementById ("mail").disabled = false;
+			document.getElementById ("button.mail").disabled = false;
 		}
 		
-		document.getElementById ("credit").disabled = false;
+		document.getElementById ("button.credit").disabled = false;
 		
-		document.getElementById ("close").disabled = false;
+		document.getElementById ("button.close").disabled = false;
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -216,7 +215,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	credit : function ()
 	{
-		window.openDialog ("chrome://didius/content/creditnote/create.xul", "didius.creditnote.show."+ SNDK.tools.newGuid (), "chrome", {invoiceId: main.invoice.id});
+		app.window.open (window, "chrome://didius/content/creditnote/create.xul", "didius.creditnote.show."+ SNDK.tools.newGuid (), "modal", {invoiceId: main.invoice.id});
 	},
 		
 	// ------------------------------------------------------------------------------------------------------

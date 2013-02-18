@@ -16,7 +16,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "no", sortDirection: "descending"});	
+		main.linesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.lines"), sortColumn: "no", sortDirection: "descending"});	
 	 	 	
 		var onInit =	function ()
 						{
@@ -49,18 +49,16 @@ var main =
 	set : function ()
 	{				
 		document.title = "Kreditnota: "+ main.creditnote.no +" ["+ main.customer.name +"]";
-		document.getElementById ("createdate").dateValue = SNDK.tools.timestampToDate (main.creditnote.createtimestamp);
+		document.getElementById ("datepicker.createdate").dateValue = SNDK.tools.timestampToDate (main.creditnote.createtimestamp);
 		
-		document.getElementById ("no").value = main.creditnote.no;
-		document.getElementById ("customername").value = main.customer.name;
+		document.getElementById ("textbox.no").value = main.creditnote.no;
+		document.getElementById ("textbox.customername").value = main.customer.name;
 
-		main.itemsTreeHelper.disableRefresh ();
+		main.linesTreeHelper.disableRefresh ();
 		for (idx in main.creditnote.lines)
 		{						
 			var line = main.creditnote.lines[idx];
 			
-			sXUL.console.log (line.amount)
-		
 			var data = {};
 			data["id"] = line.id;			
 			data["no"] = line.no;
@@ -69,22 +67,22 @@ var main =
 			data["vat"] = line.vat.toFixed (2) +" kr.";
 			data["total"] = line.total.toFixed (2) +" kr.";						
 											
-			main.itemsTreeHelper.addRow ({data: data});
+			main.linesTreeHelper.addRow ({data: data});
 		}		
-		main.itemsTreeHelper.enableRefresh ();
+		main.linesTreeHelper.enableRefresh ();
 				
-		document.getElementById ("totalsales").value = main.creditnote.sales;		
-		document.getElementById ("totalvat").value = main.creditnote.vat;
-		document.getElementById ("totaltotal").value = main.creditnote.total;
+		document.getElementById ("textbox.amount").value = main.creditnote.amount;
+		document.getElementById ("textbox.vat").value = main.creditnote.vat;
+		document.getElementById ("textbox.total").value = main.creditnote.total;
 				
-		document.getElementById ("print").disabled = false;
+		document.getElementById ("button.print").disabled = false;
 		
 		if (main.customer.email != "")
 		{
-			document.getElementById ("mail").disabled = false;
+			document.getElementById ("button.mail").disabled = false;
 		}
 		
-		document.getElementById ("close").disabled = false;
+		document.getElementById ("button.close").disabled = false;
 	},
 		
 	// ------------------------------------------------------------------------------------------------------

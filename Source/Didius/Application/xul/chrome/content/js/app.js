@@ -135,17 +135,17 @@ var app =
 	{
 		customer : function (attributes)
 		{
-			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/customer.xul", "didius.chooser.customer", "chrome,modal", attributes);				
+			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/customer.xul", "didius.chooser.customer", "modal", attributes);				
 		},
 		
 		auction : function (attributes)
 		{			
-			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/auction.xul", "didius.chooser.auction", "chrome,modal", attributes);				
+			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/auction.xul", "didius.chooser.auction", "modal", attributes);				
 		},
 		
 		item : function (attributes)
-		{
-			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/item.xul", "didius.chooser.item", "chrome,modal", attributes);											
+		{		
+			app.window.open (attributes.parentWindow, "chrome://didius/content/chooser/item.xul", "didius.chooser.item", "", attributes);											
 		}
 	},
 	

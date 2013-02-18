@@ -311,7 +311,6 @@
     <None Include="Application\xul\chrome\content\chooser\auction.js" />
     <None Include="Application\xul\chrome\content\chooser\auction.xul" />
     <None Include="Application\xul\chrome\content\chooser\item.xul" />
-    <None Include="Application\xul\chrome\content\chooser\item.js" />
     <None Include="Application\xul\chrome\content\invoice\create.js" />
     <None Include="Application\xul\chrome\content\invoice\create.xul" />
     <None Include="Application\xul\chrome\content\invoice\progress.js" />
@@ -340,6 +339,7 @@
     <None Include="Application\xul\chrome\content\auction\display.xul" />
     <None Include="Application\xul\chrome\content\auction\catalog\progress.xul" />
     <None Include="Application\xul\chrome\content\auction\catalog\progress.js" />
+    <None Include="Application\xul\chrome\content\chooser\item.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

@@ -942,12 +942,12 @@ var eventHandlers =
 	onBidSave : function (eventData)
 	{
 		if (main.customer.id == eventData.customer.id)
-		{
+		{			
 			var data = {};
 			
-			var item = didius.item.load (eventData.itemid);
-			var _case = didius.case.load (item.caseid);																
-			var auction = didius.auction.load (_case.auctionid);
+			var item = didius.item.load ({id: eventData.itemid});
+			var case_ = didius.case.load ({id: item.caseid});																
+			var auction = didius.auction.load (case_.auctionid);			
 									
 			var data = {};
 			data.id = eventData.id;

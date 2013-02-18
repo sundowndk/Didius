@@ -154,18 +154,25 @@ var main =
 			document.getElementById ("textbox.customername").value = "";
 			document.getElementById ("button.choosecustomer").disabled = false;					
 		}		
+		else
+		{
+			document.getElementById ("button.chooseauction").disabled = false;
+		}
 					
 		if (main.auction == null)
 		{
-			document.getElementById ("textbox.auctiontitle").value = "";			
-			document.getElementById ("button.chooseauction").disabled = true;
+			document.getElementById ("textbox.auctiontitle").value = "";					
 			document.getElementById ("button.chooseitem").disabled = true;					
+		}
+		else
+		{
+			document.getElementById ("button.chooseitem").disabled = false;
 		}
 
 		if (main.item == null)
 		{
-			document.getElementById ("textbox.itemtitle").value = "";
-			document.getElementById ("textbox.amount").disabled = true;
+			document.getElementById ("textbox.itemtitle").value = "";			
+			document.getElementById ("textbox.amount").disabled = true;						
 		}
 		else
 		{
@@ -245,7 +252,7 @@ var main =
 							
 							main.onChange ();
 						};
-																				
+																															
 		app.choose.item ({auctionId: main.auction.id, onDone: onDone, parentWindow: window});
 	},
 			

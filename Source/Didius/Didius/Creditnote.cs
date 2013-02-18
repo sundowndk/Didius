@@ -32,7 +32,6 @@ namespace Didius
 		private int _no;	
 		private Guid _customerid;
 		
-		private decimal _sales;
 		private decimal _vat;
 		private decimal _total;
 		
@@ -88,7 +87,7 @@ namespace Didius
 			}
 		}
 		
-		public decimal Sales
+		public decimal Amount
 		{
 			get
 			{
@@ -141,7 +140,6 @@ namespace Didius
 
 			this._customerid = Customer.Id;
 			
-			this._sales = 0;
 			this._vat = 0;
 			this._total = 0;
 
@@ -157,7 +155,6 @@ namespace Didius
 
 			this._customerid = Guid.Empty;
 			
-			this._sales = 0;
 			this._vat = 0;
 			this._total = 0;
 			
@@ -187,7 +184,6 @@ namespace Didius
 
 				item.Add ("customerid", this._customerid);
 				
-				item.Add ("sales", this._sales);
 				item.Add ("vat", this._vat);
 				item.Add ("total", this._total);
 
@@ -227,7 +223,7 @@ namespace Didius
 			
 			result.Add ("no", this._no);
 			result.Add ("customerid", this._customerid);
-			result.Add ("sales", this.Sales);
+			result.Add ("amount", this.Amount);
 			result.Add ("vat", this.Vat);
 			result.Add ("total", this.Total);
 
@@ -267,11 +263,6 @@ namespace Didius
 				if (item.ContainsKey ("customerid"))
 				{
 					result._customerid = new Guid ((string)item["customerid"]);
-				}				
-				
-				if (item.ContainsKey ("sales"))
-				{
-					result._sales = decimal.Parse ((string)item["sales"]);
 				}				
 				
 				if (item.ContainsKey ("total"))

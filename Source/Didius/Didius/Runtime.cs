@@ -65,6 +65,7 @@ namespace Didius
 			{ Enums.SettingsKey.didius_value_seller_commission_minimum, 100 },
 			{ Enums.SettingsKey.didius_value_buyer_commission_percentage, 15 },
 			{ Enums.SettingsKey.didius_value_buyer_commission_minimum, 100 },
+			{ Enums.SettingsKey.didius_value_vat_percentage, 25 },
 
 			{ Enums.SettingsKey.didius_email_sender, string.Empty },
 			{ Enums.SettingsKey.didius_email_template_itemwon_subject, string.Empty },

@@ -47,6 +47,7 @@ var main =
 		keys[keys.length] = "didius_value_seller_commission_minimum"; 
 		keys[keys.length] = "didius_value_buyer_commission_percentage";
 		keys[keys.length] = "didius_value_buyer_commission_minimum";
+		keys[keys.length] = "didius_value_vat_percentage";
 		keys[keys.length] = "didius_email_sender";
 		keys[keys.length] = "didius_email_template_itemwon_subject";
 		keys[keys.length] = "didius_email_template_itemwon_body";
@@ -72,7 +73,7 @@ var main =
 		keys[keys.length] = "didius_template_settlement";
 		keys[keys.length] = "didius_template_invoice";
 		keys[keys.length] = "didius_template_creditnote";
-		keys[keys.length] = "didius_template_display";
+		keys[keys.length] = "didius_template_display";		
 	
 		main.current = didius.settings.get ({keys: keys});
 		
@@ -99,6 +100,7 @@ var main =
 		document.getElementById ("valueSellerCommissionMinimum").value = main.current.didius_value_seller_commission_minimum;			
 		document.getElementById ("valueBuyerCommissionPercentage").value = main.current.didius_value_buyer_commission_percentage;
 		document.getElementById ("valueBuyerCommissionMinimum").value = main.current.didius_value_buyer_commission_minimum;			
+		document.getElementById ("valueVatPercentage").value = main.current.didius_value_vat_percentage;			
 		
 		// EMAIL
 		document.getElementById ("emailSender").value = main.current.didius_email_sender;
@@ -148,6 +150,7 @@ var main =
 		main.current.didius_value_seller_commission_minimum = document.getElementById ("valueSellerCommissionMinimum").value;					
 		main.current.didius_value_buyer_commission_percentage = document.getElementById ("valueBuyerCommissionPercentage").value;
 		main.current.didius_value_buyer_commission_minimum = document.getElementById ("valueBuyerCommissionMinimum").value;					
+		main.current.didius_value_vat_percentage = document.getElementById ("valueVatPercentage").value;					
 		
 		// EMAIL
 		main.current.didius_email_sender = document.getElementById ("emailSender").value;

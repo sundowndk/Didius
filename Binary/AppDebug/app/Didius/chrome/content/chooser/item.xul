@@ -3,7 +3,6 @@
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
 <window id="didius.chooser.item" title="Vælg effekt" minwidth="750" minheight="250" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY">
-	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>	

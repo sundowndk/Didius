@@ -153,6 +153,15 @@
 							</hbox>  					
 						</groupbox>										
 					</hbox>				
+					<hbox>	
+						<groupbox flex="1">
+							<caption label="Moms"/>							
+							<hbox align="center">
+								<label class="Label">Procent:</label>							
+								<textbox id="valueVatPercentage" type="number" decimalplaces="0" flex="1" hidespinbuttons="true" onchange="main.onChange ();" />
+							</hbox>  												
+						</groupbox>																
+					</hbox>				
 				</vbox>
 			</vbox>
 		</hbox>

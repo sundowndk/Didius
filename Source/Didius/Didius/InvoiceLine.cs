@@ -14,7 +14,8 @@ namespace Didius
 		private string _text;
 		private decimal _commissionfee;
 		private decimal _amount;
-		private decimal _vat;
+		private decimal _vatamount;
+		private decimal _vatcommissionfee;
 		#endregion
 
 		#region Public Fields
@@ -67,11 +68,27 @@ namespace Didius
 			}
 		}
 
-		public decimal Vat
+		public decimal VatAmount
 		{
 			get
 			{
-				return this._vat;
+				return this._vatamount;
+			}
+		}
+
+		public decimal VatCommissionfee
+		{
+			get
+			{
+				return this._vatcommissionfee;
+			}
+		}
+
+		public decimal VatTotal
+		{
+			get
+			{
+				return this._vatamount + this._vatcommissionfee;
 			}
 		}
 
@@ -82,7 +99,7 @@ namespace Didius
 				decimal result = 0;
 				result += this._commissionfee;
 				result += this._amount;
-				result += this._vat;
+				result += this.VatTotal;
 				return result;
 			}
 		}
@@ -94,15 +111,18 @@ namespace Didius
 			this._id = Guid.NewGuid ();
 			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._itemid = Item.Id;
-			this._text = Item.Title;
-			this._commissionfee = Item.CommissionFee;
+
+			this._text = Auction.Load (Case.Load (Item.CaseId).AuctionId).No +"-"+ Item.CatalogNo +" "+ Item.Title;
+			this._commissionfee = Helpers.CalculateBuyerCommissionFee (Item.BidAmount);
 			this._amount = Item.BidAmount;
 
-			this._vat = (Item.CommissionFee * 0.25m);
+			this._vatamount = 0;
 			if (Item.Vat)
 			{
-				this._vat += (this._amount * 0.25m);
+				this._vatamount += ((this._amount * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
 			}
+
+			this._vatcommissionfee = ((this._commissionfee * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
 		}
 
 		private InvoiceLine ()
@@ -113,7 +133,8 @@ namespace Didius
 			this._text = string.Empty;
 			this._commissionfee = 0;
 			this._amount = 0;
-			this._vat = 0;
+			this._vatamount = 0;
+			this._vatcommissionfee = 0;
 		}
 		#endregion
 
@@ -128,7 +149,9 @@ namespace Didius
 			result.Add ("text", this._text);
 			result.Add ("commissionfee", this._commissionfee);
 			result.Add ("amount", this._amount);
-			result.Add ("vat", this._vat);
+			result.Add ("vatamount", this._vatamount);
+			result.Add ("vatcommissionfee", this._vatcommissionfee);
+			result.Add ("vattotal", this.VatTotal);
 			result.Add ("total", this.Total);
 				
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
@@ -188,9 +211,14 @@ namespace Didius
 				result._amount = decimal.Parse ((string)item["amount"], System.Globalization.CultureInfo.InvariantCulture);
 			}
 
-			if (item.ContainsKey ("vat"))
+			if (item.ContainsKey ("vatamount"))
 			{
-				result._vat = decimal.Parse ((string)item["vat"], System.Globalization.CultureInfo.InvariantCulture);
+				result._vatamount = decimal.Parse ((string)item["vatamount"], System.Globalization.CultureInfo.InvariantCulture);
+			}
+
+			if (item.ContainsKey ("vatcommissionfee"))
+			{
+				result._vatcommissionfee = decimal.Parse ((string)item["vatcommissionfee"], System.Globalization.CultureInfo.InvariantCulture);
 			}
 
 			return result;

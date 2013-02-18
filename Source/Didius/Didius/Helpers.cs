@@ -45,6 +45,32 @@ namespace Didius
 			}
 		}
 
+		public static decimal CalculateBuyerCommissionFee (decimal Amount)
+		{
+			decimal result = 0;
+
+			result = ((Amount * SorentoLib.Services.Settings.Get<Decimal> (Enums.SettingsKey.didius_value_buyer_commission_percentage) / 100));
+			if (result < SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_buyer_commission_minimum))
+			{
+				result = SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_buyer_commission_minimum);
+			}
+
+			return result ;
+		}
+
+		public static decimal CalculateSellerCommissionFee (decimal Amount)
+		{
+			decimal result = 0;
+
+			result = ((Amount * SorentoLib.Services.Settings.Get<Decimal> (Enums.SettingsKey.didius_value_seller_commission_percentage) / 100));
+			if (result < SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_seller_commission_minimum))
+			{
+				result = SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_seller_commission_minimum);
+			}
+
+			return result;
+		}
+
 		public static void MailInvoice (Invoice Invoice, string PdfFilename)
 		{
 			Customer customer = Customer.Load (Invoice.CustomerId);

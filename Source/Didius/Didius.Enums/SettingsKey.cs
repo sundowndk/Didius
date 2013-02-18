@@ -17,6 +17,7 @@ namespace Didius.Enums
 		didius_value_seller_commission_minimum,
 		didius_value_buyer_commission_percentage,
 		didius_value_buyer_commission_minimum,
+		didius_value_vat_percentage,
 
 		didius_email_sender,
 		didius_email_template_itemwon_subject,

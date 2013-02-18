@@ -17,7 +17,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.items"), sortColumn: "no", sortDirection: "descending"});
+		main.linesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.lines"), sortColumn: "no", sortDirection: "descending"});
 	
 		var onInit =	function ()
 						{
@@ -48,7 +48,7 @@ var main =
 		{		
 			main.invoice = didius.invoice.create ({auction: main.auction, customer: main.customer, simulate: true});
 	
-			main.itemsTreeHelper.disableRefresh ();
+			main.linesTreeHelper.disableRefresh ();
 			for (idx in main.invoice.lines)
 			{
 				var line = main.invoice.lines[idx];
@@ -57,17 +57,19 @@ var main =
 				data.no = line.no;				
 				data.text = line.text;
 				data.amount = line.amount.toFixed (2) +" kr.";
-				data.vat = line.vat.toFixed (2) +" kr.";
+				data.vatamount = line.vatamount.toFixed (2) +" kr.";
 				data.commissionfee = line.commissionfee.toFixed (2) +" kr.";			
+				data.vatcommissionfee = line.vatcommissionfee.toFixed (2) +" kr.";			
+				data.total = line.total.toFixed (2) +" kr.";			
 							
-				main.itemsTreeHelper.addRow ({data: data});
+				main.linesTreeHelper.addRow ({data: data});
 			}
-			main.itemsTreeHelper.enableRefresh ();
+			main.linesTreeHelper.enableRefresh ();
 	
-			document.getElementById ("textbox.totalSale").value = main.invoice.sales;
-			document.getElementById ("textbox.totalCommissionFee").value = main.invoice.commissionfee;
-			document.getElementById ("textbox.totalVat").value = main.invoice.vat;
-			document.getElementById ("textbox.totalTotal").value = main.invoice.total;									
+			document.getElementById ("textbox.totalsale").value = main.invoice.sales;
+			document.getElementById ("textbox.totalcommissionfee").value = main.invoice.commissionfee;
+			document.getElementById ("textbox.totalvat").value = main.invoice.vat;
+			document.getElementById ("textbox.totaltotal").value = main.invoice.total;									
 		}
 		catch (exception)
 		{
@@ -78,28 +80,28 @@ var main =
 		{
 			if (main.invoice.lines.length > 0)
 			{
-				document.getElementById ("checkbox.invoiceprint").disabled = false;
-				document.getElementById ("checkbox.invoicemail").disabled = false;				
+				document.getElementById ("checkbox.print").disabled = false;
+				document.getElementById ("checkbox.email").disabled = false;				
 				document.getElementById ("button.create").disabled = false;
 			}
 			
-			document.getElementById ("textbox.totalSale").disabled = false;
-			document.getElementById ("textbox.totalCommissionFee").disabled = false;			
-			document.getElementById ("textbox.totalVat").disabled = false;						
-			document.getElementById ("textbox.totalTotal").disabled = false;
+			document.getElementById ("textbox.totalsale").disabled = false;
+			document.getElementById ("textbox.totalcommissionfee").disabled = false;			
+			document.getElementById ("textbox.totalvat").disabled = false;						
+			document.getElementById ("textbox.totaltotal").disabled = false;
 			
 			if (main.customer.email == "")
 			{
-				document.getElementById ("checkbox.invoicemail").disabled = false;
-				document.getElementById ("checkbox.invoicemail").checked = false;				
+				document.getElementById ("checkbox.email").disabled = false;
+				document.getElementById ("checkbox.email").checked = false;				
 			}
 		}
 		else
 		{
-			document.getElementById ("textbox.totalSale").disabled = true;
-			document.getElementById ("textbox.totalCommissionFee").disabled = true;			
-			document.getElementById ("textbox.totalVat").disabled = true;						
-			document.getElementById ("textbox.totalTotal").disabled = true;
+			document.getElementById ("textbox.totalsale").disabled = true;
+			document.getElementById ("textbox.totalcommissionfee").disabled = true;			
+			document.getElementById ("textbox.totalvat").disabled = true;						
+			document.getElementById ("textbox.totaltotal").disabled = true;
 		}
 				
 		document.getElementById ("button.close").disabled = false;
@@ -153,7 +155,7 @@ var main =
 													nextWorker ();
 												};
 													
-								if (document.getElementById ("checkbox.invoiceprint").checked)
+								if (document.getElementById ("checkbox.print").checked)
 								{
 									didius.common.print.invoice ({invoice: main.invoice, onDone: onDone});			
 								}
@@ -186,7 +188,7 @@ var main =
 													nextWorker ();
 												};
 
-								if (document.getElementById ("checkbox.invoicemail").checked)
+								if (document.getElementById ("checkbox.email").checked)
 								{																																				
 									didius.common.print.invoice ({invoice: main.invoice, mail: true, onDone: onDone});			
 								}

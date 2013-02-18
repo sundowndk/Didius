@@ -110,7 +110,7 @@ namespace Didius
 				decimal result = 0;
 				foreach (InvoiceLine line in this._lines)
 				{
-					result += line.Vat;
+					result += line.VatTotal;
 				}
 				return Math.Round (result, 2);
 			}

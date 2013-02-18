@@ -87,7 +87,7 @@ namespace Didius
 			this._text = InvoiceLine.Text;
 			this._amount = InvoiceLine.Amount;
 			this._amount += InvoiceLine.CommissionFee;
-			this._vat = InvoiceLine.Vat;
+			this._vat = InvoiceLine.VatTotal;
 		}
 
 		public CreditnoteLine (Item Item)
@@ -96,12 +96,14 @@ namespace Didius
 			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._itemid = Item.Id;
 			this._text = Item.Title;
+
 			this._amount = Item.BidAmount;
-			this._amount += Item.CommissionFee;
-			this._vat = (Item.CommissionFee * 0.25m);
+			this._amount += Helpers.CalculateBuyerCommissionFee (Item.BidAmount);
+
+			this._vat = ((Helpers.CalculateBuyerCommissionFee (Item.BidAmount) * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
 			if (Item.Vat)
 			{
-				this._vat += (Item.BidAmount * 0.25m);
+				this._vat += ((Item.BidAmount * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) ) / 100);
 			}			
 		}
 

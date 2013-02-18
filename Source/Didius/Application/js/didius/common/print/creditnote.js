@@ -195,8 +195,7 @@ creditnote : function (attributes)
 							// TOTAL
 							{
 								render = render.replace ("%%TOTAL%%", template.total);
-								render = render.replace ("%%TOTALSALE%%", parseInt (attributes.creditnote.sales).toFixed (2));
-								render = render.replace ("%%TOTALCOMMISSIONFEE%%", parseInt (attributes.creditnote.commissionfee).toFixed (2));
+								render = render.replace ("%%TOTALAMOUNT%%", parseInt (attributes.creditnote.amount).toFixed (2));								
 								render = render.replace ("%%TOTALVAT%%", parseInt (attributes.creditnote.vat).toFixed (2));
 								render = render.replace ("%%TOTALTOTAL%%", parseInt (attributes.creditnote.total).toFixed (2));
 								content.innerHTML = render;

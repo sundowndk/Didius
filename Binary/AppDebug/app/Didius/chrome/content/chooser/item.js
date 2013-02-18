@@ -15,14 +15,9 @@ var main =
 	// | INIT																								|	
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
-	{				
+	{							
 		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "title", sortDirection: "descending", onDoubleClick: main.choose});				
-		
-		// Hook events.			
-		app.events.onItemCreate.addHandler (eventHandlers.onItemCreate);		
-		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
-		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);
-		
+						
 		var onInit = 	function ()
 						{
 							try
@@ -35,17 +30,17 @@ var main =
 								main.close ();
 								return;
 							}
-							
-							onDone ();							
-						};
-						
-		var onDone =	function ()
-						{
-							// Set
+
+
+																					
 							main.set ();
 						};
-						
-		setTimeout (onInit, 1);		
+																								
+		setTimeout (onInit, 0);		
+		
+		// Hook events.					
+		app.events.onItemSave.addHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -112,7 +107,7 @@ var main =
 	{
 		if (window.arguments[0].onDone != null)
 		{
-			setTimeout (function () {window.arguments[0].onDone (main.itemsTreeHelper.getRow ()}, 0);
+			setTimeout (function () {window.arguments[0].onDone (main.itemsTreeHelper.getRow ())}, 0);
 		}
 		
 		setTimeout (main.close, 100);				
@@ -124,7 +119,6 @@ var main =
 	close : function ()
 	{					
 		// Unhook events.
-		app.events.onItemCreate.removeHandler (eventHandlers.onItemCreate);		
 		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
 		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);			
 	
@@ -168,3 +162,4 @@ var	eventHandlers =
 		main.itemsTreeHelper.removeRow ({id: eventData.id});
 	}		
 }
+

@@ -17,7 +17,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "no", sortDirection: "descending"});
+		main.linesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.lines"), sortColumn: "no", sortDirection: "descending"});
 	
 		var onInit =	function ()
 						{
@@ -53,7 +53,7 @@ var main =
 		{		
 			main.creditnote = didius.creditnote.create ({invoiceId: main.invoice.id, simulate: true});
 	
-			main.itemsTreeHelper.disableRefresh ();
+			main.linesTreeHelper.disableRefresh ();
 			for (idx in main.creditnote.lines)
 			{
 				var line = main.creditnote.lines[idx];
@@ -65,13 +65,13 @@ var main =
 				data.amount = line.amount.toFixed (2) +" kr.";				
 				data.total = line.total.toFixed (2) +" kr.";				
 							
-				main.itemsTreeHelper.addRow ({data: data});
+				main.linesTreeHelper.addRow ({data: data});
 			}
-			main.itemsTreeHelper.enableRefresh ();
+			main.linesTreeHelper.enableRefresh ();
 	
-			document.getElementById ("totalSale").value = main.creditnote.sales;			
-			document.getElementById ("totalVat").value = main.creditnote.vat;
-			document.getElementById ("totalTotal").value = main.creditnote.total;									
+			document.getElementById ("textbox.amount").value = main.creditnote.amount;			
+			document.getElementById ("textbox.vat").value = main.creditnote.vat;
+			document.getElementById ("textbox.total").value = main.creditnote.total;									
 		}
 		catch (exception)
 		{
@@ -82,29 +82,31 @@ var main =
 		{
 			if (main.creditnote.lines.length > 0)
 			{
-				document.getElementById ("print").disabled = false;
-				document.getElementById ("mail").disabled = false;				
-				document.getElementById ("create").disabled = false;
+				document.getElementById ("checkbox.print").disabled = false;
+				document.getElementById ("checkbox.mail").disabled = false;				
+				document.getElementById ("button.create").disabled = false;
 			}
 			
-			document.getElementById ("totalSale").disabled = false;			
-			document.getElementById ("totalVat").disabled = false;						
-			document.getElementById ("totalTotal").disabled = false;
+			document.getElementById ("textbox.amount").disabled = false;			
+			document.getElementById ("textbox.vat").disabled = false;						
+			document.getElementById ("textbox.total").disabled = false;
 			
 			if (main.customer.email == "")
 			{
-				document.getElementById ("mail").disabled = false;
-				document.getElementById ("mail").checked = false;				
+				document.getElementById ("button.mail").disabled = false;
+				document.getElementById ("button.mail").checked = false;				
 			}
 		}
 		else
 		{
-			document.getElementById ("totalSale").disabled = true;			
-			document.getElementById ("totalVat").disabled = true;						
-			document.getElementById ("totalTotal").disabled = true;
+			document.getElementById ("textbox.amount").disabled = true;			
+			document.getElementById ("textbox.vat").disabled = true;						
+			document.getElementById ("textbox.total").disabled = true;
 		}
+		
+		document.getElementById ("textbox.customername").value = main.customer.name;			
 				
-		document.getElementById ("close").disabled = false;
+		document.getElementById ("button.close").disabled = false;
 	},
 		
 	// ------------------------------------------------------------------------------------------------------
@@ -155,7 +157,7 @@ var main =
 													nextWorker ();
 												};
 													
-								if (document.getElementById ("print").checked)
+								if (document.getElementById ("checkbox.print").checked)
 								{
 									didius.common.print.creditnote ({creditnote: main.creditnote , onDone: onDone});			
 								}
@@ -188,7 +190,7 @@ var main =
 													nextWorker ();
 												};
 
-								if (document.getElementById ("mail").checked)
+								if (document.getElementById ("checkbox.mail").checked)
 								{																																				
 									didius.common.print.creditnote ({creditnote: main.creditnote, mail: true, onDone: onDone});			
 								}
