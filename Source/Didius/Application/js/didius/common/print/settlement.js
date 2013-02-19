@@ -1,31 +1,23 @@
-settlement : function (attributes)		
-{					
-	if (!attributes.settlement)
-		throw "DIDIUS.COMMON.PRINT.SETTLEMENT.PRINT: No SETTLEMENT given, cannot print nothing.";
-
+settlement : function (attributes)
+{	
 	var Cc = Components.classes;
 	var Ci = Components.interfaces;
 	var Cu = Components.utils;
 	var Cr = Components.results;
 
-	// ------------------------------------------------------------------------------------------------------
-	// | RENDER																								|	
-	// ------------------------------------------------------------------------------------------------------
 	var render = 	function (attributes)
-					{
-						var settlement = attributes.settlement;
-						var _case = didius.case.load (settlement.caseid);
-						var customer = didius.customer.load (settlement.customerid);
-						var items = settlement.items;
-						
-						SNDK.tools.sortArrayHash (items, "catalogno", "numeric");		
+					{											
+						attributes.customer = didius.customer.load (attributes.settlement.customerid);
 					
 						var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_settlement"}));						
 						var print = app.mainWindow.document.createElement ("iframe");
 						app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
 												
 						var pageCount = 1;				
-					
+						var totalSale = 0;
+						var totalCommissionFee = 0;							
+						var totalTotal = 0;																																								
+																																																			
 						var page = function (from)
 						{
 							// Add styles.																		
@@ -50,169 +42,221 @@ settlement : function (attributes)
 							// Caluculate page maxheight for printing.										
 							var maxHeight = page.offsetHeight 
 							var maxHeight2 = page.offsetHeight;
-							
-							// SETTLEMENTNO
-							{
-								render = render.replace ("%%SETTLEMENTNO%%", settlement.no);
+																		
+							// Calculate DISCLAIMER height.														
+							// DISCLAIMER
+							{										
+								content.innerHTML = template.disclaimer;										
+								maxHeight2 -= content.offsetHeight;
 							}
 							
-							// CUSTOMERNO
+							// TOTAL
 							{
-								render = render.replace ("%%CUSTOMERNO%%", customer.no);
+								content.innerHTML = template.total;					
+								maxHeight2 -= content.offsetHeight;
 							}
 							
+				//			sXUL.console.log ("maxHeight: "+ maxHeight);
+				//			sXUL.console.log ("maxHeight2: "+ maxHeight2);			
+																					
 							// CUSTOMERNAME
 							{
-								render = render.replace ("%%CUSTOMERNAME%%", customer.name);
+								render = render.replace ("%%CUSTOMERNAME%%", attributes.customer.name);
+								content.innerHTML = render;
 							}
-							
+					
 							// CUSTOMERADDRESS
 							{
-								var address = customer.address1;
+								var customeraddress = attributes.customer.address1;
 								
-								if (customer.address2 != "")
+								if (attributes.customer.address2 != "")
 								{
-									address += "<br>"+ customer.address2;
+									address += "<br>"+ attributes.customer.address2;
 								}
 							
-								render = render.replace ("%%CUSTOMERADDRESS%%", address);
+								render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
+								content.innerHTML = render;
 							}
 							
-							// CUSTOMERPOSTCODE
+							// POSTCODE
 							{
-								render = render.replace ("%%CUSTOMERPOSTCODE%%", customer.postcode);
+								render = render.replace ("%%CUSTOMERPOSTCODE%%", attributes.customer.postcode);
+								content.innerHTML = render;
 							}
 							
 							// CUSTOMERCITY
 							{
-								render = render.replace ("%%CUSTOMERCITY%%", customer.city);
+								render = render.replace ("%%CUSTOMERCITY%%", attributes.customer.city);
+								content.innerHTML = render;
 							}
 							
 							// CUSTOMERCOUNTRY
 							{
-								render = render.replace ("%%CUSTOMERCOUNTRY%%", customer.country);
+								render = render.replace ("%%CUSTOMERCOUNTRY%%", attributes.customer.country);
+								content.innerHTML = render;
+							}
+							
+							// CUSTOMERNO
+							{
+								render = render.replace ("%%CUSTOMERNO%%", attributes.customer.no);
+								content.innerHTML = render;
 							}
 							
 							// CUSTOMERPHONE
 							{
-								render = render.replace ("%%CUSTOMERPHONE%%", customer.phone);
+								render = render.replace ("%%CUSTOMERPHONE%%", attributes.customer.phone);
+								content.innerHTML = render;
 							}
 							
 							// CUSTOMEREMAIL
 							{
-								render = render.replace ("%%CUSTOMEREMAIL%%", customer.email);
-							}
-			
-							// CUSTOMERBANKACCOUNT
-							{
-								render = render.replace ("%%CUSTOMERBANKACCOUNT%%", customer.bankregistrationno +" "+ customer.bankaccountno);
+								render = render.replace ("%%CUSTOMEREMAIL%%", attributes.customer.email);
 								content.innerHTML = render;
 							}
 							
-							// CASENO
+							// AUCTIONNO
 							{
-								render = render.replace ("%%CASENO%%", _case.no);
+//								render = render.replace ("%%AUCTIONNO%%", attributes.invoice.auction.no);
+//								content.innerHTML = render;
 							}
 							
-							// CASETITLE
+							// AUCTIONTITLE
 							{
-								render = render.replace ("%%CASETITLE%%", _case.title);
+//								render = render.replace ("%%AUCTIONTITLE%%", attributes.invoice.auction.title);
+//								content.innerHTML = render;
 							}
-			
+													
+							// SETTLEMENTNO
+							{
+								render = render.replace ("%%SETTLEMENTNO%%", attributes.settlement.no);
+								content.innerHTML = render;
+							}
+							
+							// SETTLEMENTDATE
+							{															
+								var date = SNDK.tools.timestampToDate (attributes.settlement.createtimestamp)
+								render = render.replace ("%%SETTLEMENTDATE%%", SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ());
+								content.innerHTML = render;				
+							}
+							
+							// CUSTOMERBANKACCOUNT
+							{
+								render = render.replace ("%%CUSTOMERBANKACCOUNT%%", attributes.customer.bankregistrationno +" "+ attributes.customer.bankaccountno);
+								content.innerHTML = render;
+							}
+					
 							// ROWS
 							{
 								// Add data rows.
 								var rows = "";	
-								var count = 0;				
-								for (var idx = from; idx < items.length; idx++)
+								var count = 0;
+														
+								for (var idx = from; idx < attributes.settlement.lines.length; idx++)
 								{							
 									var row = template.row;
 									
-									if (items[idx].bidamount != "0.00")
-									{							
-										// CATALOGNO						
-										{
-											row = row.replace ("%%CATALOGNO%%", items[idx].catalogno);
-										}			
+									// TEXT
+									{
+										row = row.replace ("%%TEXT%%", attributes.settlement.lines[idx].text);
+									}		
 								
-										// DESCRIPTION
-										{
-											row = row.replace ("%%DESCRIPTION%%", items[idx].description);
-										}		
-								
-										// BIDAMOUNT
-										{
-											row = row.replace ("%%BIDAMOUNT%%",  items[idx].bidamount.toFixed (2));
-										}
-								
-										// COMMISSIONFEE
-										{
-											row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee.toFixed (2));
-										}					
-
-										content.innerHTML = render.replace ("%%ROWS%%", rows + row);
-																															
-										if (content.offsetHeight > (maxHeight2))
-										{						
-											render = render.replace ("%%ROWS%%", rows);															
-											render = render.replace ("%%TRANSFER%%", template.transfer)
-											render = render.replace ("%%TOTAL%%", "");		
-											render = render.replace ("%%DISCLAIMER%%", "");							
-											content.innerHTML = render;
-											break;	
-										}
-																		
-										totalSale += parseInt (items[idx].bidamount);
-										totalCommissionFee += parseInt (items[idx].commissionfee);
-										totalTotal = totalSale + totalCommissionFee;				
-									
-										rows += row;
+									// AMOUNT
+									{
+										row = row.replace ("%%AMOUNT%%", attributes.settlement.lines[idx].amount.toFixed (2));
 									}
-																				
+																										
+									// VATAMOUNT
+									{
+										row = row.replace ("%%VATAMOUNT%%", attributes.settlement.lines[idx].vatamount.toFixed (2));
+									}
+									
+									// COMMISSIONFEE
+									{
+										row = row.replace ("%%COMMISSIONFEE%%", attributes.settlement.lines[idx].commissionfee.toFixed (2));
+									}					
+									
+									// VATCOMMISSIONFEE
+									{
+										row = row.replace ("%%VATCOMMISSIONFEE%%", attributes.settlement.lines[idx].vatcommissionfee.toFixed (2));
+									}					
+									
+									// TOTAL
+									{
+										row = row.replace ("%%TOTAL%%", attributes.settlement.lines[idx].total.toFixed (2));
+									}					
+
+									content.innerHTML = render.replace ("%%ROWS%%", rows + row);
+																															
+									if (content.offsetHeight > (maxHeight2))
+									{						
+										render = render.replace ("%%ROWS%%", rows);															
+										render = render.replace ("%%TRANSFER%%", template.transfer)						
+										render = render.replace ("%%TOTAL%%", "");		
+										render = render.replace ("%%DISCLAIMER%%", "");							
+										content.innerHTML = render;
+										break;	
+									}
+																						
+									rows += row;																	
 									count++;						
 								}																		
-							
+								
 								render = render.replace ("%%ROWS%%", rows);
 								render = render.replace ("%%TRANSFER%%", "");
 								
 								content.innerHTML = render;
 							}
-			
+							
 							// TOTAL
 							{
 								render = render.replace ("%%TOTAL%%", template.total);
-								render = render.replace ("%%TOTALSALE%%", settlement.sales.toFixed (2));
-								render = render.replace ("%%TOTALCOMMISSIONFEE%%", settlement.commissionfee.toFixed (2));
-								render = render.replace ("%%TOTALTOTAL%%", settlement.total.toFixed (2));
-								render = render.replace ("%%TOTALVAT%%", settlement.vat.toFixed (2));
+								render = render.replace ("%%TOTALSALE%%", parseInt (attributes.settlement.sales).toFixed (2));
+								render = render.replace ("%%TOTALCOMMISSIONFEE%%", parseInt (attributes.settlement.commissionfee).toFixed (2));
+								render = render.replace ("%%TOTALVAT%%", parseInt (attributes.settlement.vat).toFixed (2));
+								render = render.replace ("%%TOTALTOTAL%%", parseInt (attributes.settlement.total).toFixed (2));
 								content.innerHTML = render;
 							}				
-														
+															
 							// DISCLAIMER
 							{
 								render = render.replace ("%%DISCLAIMER%%", template.disclaimer);
 								content.innerHTML = render;
 							}
-																				
+							
 							return count;				
-						}												
-						
-						var c = 0;				
-						while (c < items.length)
+						}
+																																																		
+						var c = page (0);
+						while (c < attributes.settlement.lines.length)
 						{							
-			 				c += page (c);				 				
-						}			
-																		
-						var result = print.contentDocument.body.innerHTML;						
+						 	c += page (c);				 				
+						}	
+				
+						var result = print.contentDocument.body.innerHTML;
+						
 						app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
 						
-						return result;						
+						return result;
 					};
-					
-	var data = render ({settlement: attributes.settlement});
+
+	var data = "";
+																			
+	if (attributes.settlement)
+	{
+		data = render ({settlement: attributes.settlement});
+	}
+	else if (attributes.settlement)
+	{
+		for (index in attributes.settlement)
+		{
+			data += render ({invoice: attributes.settlements[index]});
+		}			
+	}
 	
+	//var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/invoice.tpl"));										
 	var print = app.mainWindow.document.createElement ("iframe");
-	app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);		
+	app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
+		
 	print.contentDocument.body.innerHTML = data;
 					
 	var settings = PrintUtils.getPrintSettings ();
@@ -226,39 +270,45 @@ settlement : function (attributes)
 	settings.paperName =  "iso_a4";
 	settings.paperWidth = 210;
 	settings.paperHeight = 297
-	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
-	
-	settings.printBGImages = true;
-    settings.printBGColors = true;    	
-    	
-    settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
-    //settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
-    
-    settings.footerStrCenter = "";
-    settings.footerStrLeft = "";
-    settings.footerStrRight = "";
-    settings.headerStrCenter = "";
-    settings.headerStrLeft = "";
-    settings.headerStrRight = "";    	
-	
-	settings.title = "Didius Settlement";
-	
+	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
+		
 	if (attributes.mail) 
 	{
-		var localDir = sXUL.tools.getLocalDirectory ();		
-		var filename = localDir.path + app.session.pathSeperator + SNDK.tools.newGuid () +".pdf";		
-				
-		// Hide print dialog.
-		settings.printToFile = true;    					
+		var localDir = sXUL.tools.getLocalDirectory ();
+		//var filename = localDir.path + app.session.pathSeperator +"temp"+ app.session.pathSeperator + main.current.id;
+		var filename = localDir.path + app.session.pathSeperator + attributes.settlement.id +".pdf";
+		//var filename = "F:\\test.pdf";
+					
     	settings.printSilent = true;
-  		settings.showPrintProgress = false;
-	    		    		
-	   	// Set output format to PDF.    		    		           	
+    	settings.showPrintProgress = false;
+	    settings.printToFile = true;    		
+		    		    		    		   
+    	//settings.printFrameType = 1;
+    		
     	settings.outputFormat = 2;
-    				        	        	    
-  		// Set output filename.
+    		
+		settings.printSilent = true;
+    	settings.showPrintProgress = false;
+    	settings.printBGImages = true;
+    	settings.printBGColors = true;
+    	settings.printToFile = true;
+    
+    	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
+    	settings.outputFormat = Ci.nsIPrintSettings.kOutputFormatPDF;
+    
+    	settings.footerStrCenter = "";
+    	settings.footerStrLeft = "";
+    	settings.footerStrRight = "";
+    	settings.headerStrCenter = "";
+    	settings.headerStrLeft = "";
+    	settings.headerStrRight = "";
+    	settings.printBGColors = true;
+    	settings.title = "Didius Invoice";    		
+
 		settings.toFileName = filename;
-													
+			
+		sXUL.console.log (filename)
+			
 		var onDone =	function ()
 						{
 							var onLoad = 		function (respons)
@@ -268,14 +318,22 @@ settlement : function (attributes)
 													switch (respons[0].toLowerCase ())
 													{
 														case "success":
-														{																
-															//sXUL.tools.fileDelete (filename);																														
+														{	
+															try
+															{
+																sXUL.tools.fileDelete (filename);
+															}
+															catch (e)
+															{
+																sXUL.console.log (e);
+															}
+																															
 															break;
 														}
 									
 														default:
 														{
-															onError ();
+															app.error ({errorCode: "APP00001"});																
 															break;
 														}							
 													}
@@ -288,15 +346,14 @@ settlement : function (attributes)
 												};
 							
 							var onError =		function (event)
-												{																											
-													if (attributes.onError != null)
-													{
-														setTimeout (attributes.onError, 1);
-													}
+												{														
+													app.error ({errorCode: "APP00001"});
+													onDone ();
 												};
 													
 							var onDone = 		function ()							
-												{													
+												{
+													sXUL.console.log ("ondone");
 													if (attributes.onDone != null)
 													{
 														setTimeout (attributes.onDone, 1);
@@ -304,17 +361,27 @@ settlement : function (attributes)
 												}
 												
 							var worker = function ()
-							{							
-								sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailSettlement", customerid: attributes.settlement.customerid}, onLoad: onLoad, onProgress: onProgress, onError: onError});																
+							{																
+								sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailSettlement", settlementid: attributes.settlement.id, customerid: attributes.settlement.customerid, auctionid: attributes.settlement.auctionid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
+								//sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailInvoice", invoiceid: attributes.invoice.id}, onLoad: onLoad, onProgress: onProgress, onError: onError});
 							}
 							
 							setTimeout (worker, 5000);																																
 						};
-							
+			
 		sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: onDone, onError: attributes.onError});
 	}
 	else
-	{								
+	{
+		var onDone =	function ()
+						{
+							if (attributes.onDone != null)
+							{
+								setTimeout (attributes.onDone, 1);
+							}
+						};
+	
 		sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
-	}																											
+	}		
 }
+

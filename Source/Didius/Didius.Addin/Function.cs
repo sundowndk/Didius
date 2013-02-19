@@ -197,6 +197,37 @@ namespace Didius.Addin
 							break;
 						}
 
+					case "mailsettlement":
+						{
+							try
+							{
+								string filename = SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_temp) + "/"+ Guid.NewGuid ();
+								SNDK.IO.ByteArrayToFile (filename, Session.Request.QueryJar.Get ("file").BinaryData);
+
+
+
+								try
+								{
+									Helpers.MailSettlement (Settlement.Load (new Guid (Session.Request.QueryJar.Get ("settlementid").Value)), filename);
+								}
+								catch
+								{
+									// TODO: remove this.
+//									Invoice invoice = Invoice.Create (Auction.Load (new Guid (Session.Request.QueryJar.Get ("auctionid").Value)), Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), true);
+//									Helpers.MailInvoice (invoice, filename);
+								}
+
+								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");								
+							}
+							catch (Exception e)
+							{
+								Console.WriteLine (e);
+								Session.Page.Lines.Add ("ERROR");
+								return true;
+							}
+							break;
+						}
+
 				case "mailcreditnote":
 						{
 							try
@@ -248,25 +279,25 @@ namespace Didius.Addin
 							break;
 						}
 
-						case "mailsettlement":
-						{
-							try
-							{
-								string filename = SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_temp) + "/"+ Guid.NewGuid ();
-								SNDK.IO.ByteArrayToFile (filename, Session.Request.QueryJar.Get ("file").BinaryData);
-								
-								Helpers.MailSettlement (Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), filename);
-								
-								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");								
-							}
-							catch (Exception e)
-							{
-								Console.WriteLine (e);
-								Session.Page.Lines.Add ("ERROR");
-								return true;
-							}
-							break;
-						}
+//						case "mailsettlement":
+//						{
+//							try
+//							{
+//								string filename = SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_temp) + "/"+ Guid.NewGuid ();
+//								SNDK.IO.ByteArrayToFile (filename, Session.Request.QueryJar.Get ("file").BinaryData);
+//								
+//								Helpers.MailSettlement (Customer.Load (new Guid (Session.Request.QueryJar.Get ("customerid").Value)), filename);
+//								
+//								Session.Page.Lines.Add ("SUCCESS:"+ "TRUE");								
+//							}
+//							catch (Exception e)
+//							{
+//								Console.WriteLine (e);
+//								Session.Page.Lines.Add ("ERROR");
+//								return true;
+//							}
+//							break;
+//						}
 					}
 					break;
 				}

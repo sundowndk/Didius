@@ -1,5 +1,5 @@
 // 
-//  Bid.cs
+//  Settlement.cs
 //  
 //  Author:
 //      Rasmus Pedersen (rvp@qnax.net)
@@ -20,25 +20,18 @@ namespace Didius
 	public class Settlement
 	{
 		#region Public Static Fields
-		public static string DatastoreAisle = "didius_settlement";
+		public static string DatastoreAisle = "didius_settlements";
 		#endregion
 		
 		#region Private Fields
-		private Guid _id;
-		
+		private Guid _id;		
 		private int _createtimestamp;
-		private int _updatetimestamp;
-
+		private int _updatetimestamp;		
 		private int _no;
+		private Guid _auctionid;
 		private Guid _caseid;
 		private Guid _customerid;
-		
-		private decimal _sales;
-		private decimal _vat;
-		private decimal _commissionfee;
-		private decimal _total;
-
-		private List<Guid> _itemids;
+		private List<SettlementLine> _lines;
 		#endregion
 		
 		#region Public Fields
@@ -65,7 +58,7 @@ namespace Didius
 				return this._updatetimestamp;
 			}
 		}
-
+		
 		public int No
 		{
 			get
@@ -73,7 +66,15 @@ namespace Didius
 				return this._no;
 			}
 		}
-				
+
+		public Guid AuctionId
+		{
+			get
+			{
+				return this._auctionid;
+			}
+		}
+
 		public Guid CaseId
 		{
 			get
@@ -89,12 +90,30 @@ namespace Didius
 				return this._customerid;
 			}
 		}
-		
+
 		public decimal Sales
 		{
 			get
 			{
-				return this._sales;
+				decimal result = 0;
+				foreach (SettlementLine line in this._lines)
+				{
+					result += line.Amount;
+				}
+				return result;
+			}
+		}
+		
+		public decimal CommissionFee
+		{
+			get
+			{
+				decimal result = 0;
+				foreach (SettlementLine line in this._lines)
+				{
+					result += line.CommissionFee;
+				}
+				return result;
 			}
 		}
 
@@ -102,15 +121,12 @@ namespace Didius
 		{
 			get
 			{
-				return this._vat;
-			}
-		}
-
-		public decimal CommissionFee
-		{
-			get
-			{
-				return this._commissionfee;
+				decimal result = 0;
+				foreach (SettlementLine line in this._lines)
+				{
+					result += line.VatTotal;
+				}
+				return result;
 			}
 		}
 
@@ -118,48 +134,46 @@ namespace Didius
 		{
 			get
 			{
-				return this._total;
+				decimal result = 0;
+				foreach (SettlementLine line in this._lines)
+				{
+					result += line.Total;
+				}
+				return result;
+			}
+		}
+
+		public List<SettlementLine> Lines
+		{
+			get
+			{
+				return this._lines;
 			}
 		}
 		#endregion
 		
 		#region Constructor
-		private Settlement (Case Case)
+		public Settlement (Case Case)
 		{
-			this._id = Guid.NewGuid ();
-			
+			this._id = Guid.NewGuid ();			
 			this._createtimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
-			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
-
+			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();			
 			this._no = 0;
-			
-			this._caseid = Case.Id;
+			this._auctionid = Case.AuctionId;
+			this._caseid = Case.Id;			
 			this._customerid = Case.CustomerId;
-						
-			this._sales = 0;
-			this._vat = 0;
-			this._commissionfee = 0;
-			this._total = 0;
-
-			this._itemids = new List<Guid> ();
-
+			this._lines = new List<SettlementLine> ();
 		}	
-		
+				
 		private Settlement ()
 		{
 			this._createtimestamp = 0;
-			this._updatetimestamp = 0;
-
+			this._updatetimestamp = 0;			
 			this._no = 0;
-
-			this._caseid = Guid.Empty;
-
-			this._sales = 0;
-			this._vat = 0;
-			this._commissionfee = 0;
-			this._total = 0;
-
-			this._itemids = new List<Guid> ();
+			this._auctionid = Guid.Empty;
+			this._caseid = Guid.Empty;			
+			this._customerid = Guid.Empty;
+			this._lines = new List<SettlementLine> ();
 		}
 		#endregion
 		
@@ -172,29 +186,30 @@ namespace Didius
 				{
 					this._no = NewSettlementNo ();
 				}
-
+				
 				this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 				
 				Hashtable item = new Hashtable ();
 				
 				item.Add ("id", this._id);
 				item.Add ("createtimestamp", this._createtimestamp);
-				item.Add ("updatetimestamp", this._updatetimestamp);		
-
+				item.Add ("updatetimestamp", this._updatetimestamp);						
 				item.Add ("no", this._no);
-
-				item.Add ("caseid", this._caseid);		
+				item.Add ("auctionid", this._auctionid);
+				item.Add ("caseid", this._caseid);
 				item.Add ("customerid", this._customerid);
-
-				item.Add ("sales", this._sales);
-				item.Add ("vat", this._vat);
-				item.Add ("commissionfee", this._commissionfee);
-				item.Add ("total", this._total);
-
-				item.Add ("itemids", SNDK.Convert.ListToString<List<Guid>> (this._itemids));
-
+				item.Add ("lines", this._lines);
+				
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
+				meta.Add ("auctionid", this._auctionid);
 				meta.Add ("caseid", this._caseid);
+
+				List<Guid> itemids = new List<Guid> ();
+				foreach (SettlementLine line in this._lines)
+				{
+					itemids.Add (line.ItemId);
+				}
+				meta.Add ("itemids", SNDK.Convert.ListToString<List<Guid>> (itemids));
 				meta.Add ("customerid", this._customerid);
 				
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
@@ -215,57 +230,29 @@ namespace Didius
 			
 			result.Add ("id", this._id);
 			result.Add ("createtimestamp", this._createtimestamp);
-			result.Add ("updatetimestamp", this._updatetimestamp);				
-
+			result.Add ("updatetimestamp", this._updatetimestamp);							
 			result.Add ("no", this._no);
+			result.Add ("auctionid", this._auctionid);
 			result.Add ("caseid", this._caseid);
-			result.Add ("case", Case.Load (this._caseid));		
 			result.Add ("customerid", this._customerid);
-			result.Add ("customer", Customer.Load (this._customerid));
-			result.Add ("sales", this._sales);
-			result.Add ("vat", this._vat);
-			result.Add ("commissionfee", this._commissionfee);
-			result.Add ("total", this._total);
-
-			List<Item> items = new List<Item> ();
-			foreach (Guid itemid in this._itemids)
-			{
-				items.Add (Item.Load (itemid));
-			}
-
-			result.Add ("items", items);
+			result.Add ("sales", this.Sales);
+			result.Add ("commissionfee", this.CommissionFee);
+			result.Add ("vat", this.Vat);
+			result.Add ("total", this.Total);
+			result.Add ("lines", this._lines);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
 		#endregion
 		
 		#region Public Static Methods
-		public static Settlement Load (Case Case)
-		{
-			return Load (Guid.Empty, Case);
-		}
-
 		public static Settlement Load (Guid Id)
-		{
-			return Load (Id, null);
-		}
-
-		private static Settlement Load (Guid Id, Case Case)
 		{
 			Settlement result;
 			
 			try
 			{
-				Hashtable item = null;
-				if (Id != Guid.Empty)
-				{
-					item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.settlement)[1]")));
-				}
-				else if (Case != null)
-				{
-					item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("caseid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Case.Id)).SelectSingleNode ("(//didius.settlement)[1]")));
-				}
-
+				Hashtable item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.settlement)[1]")));
 				result = new Settlement ();
 				
 				result._id = new Guid ((string)item["id"]);
@@ -279,55 +266,66 @@ namespace Didius
 				{
 					result._updatetimestamp = int.Parse ((string)item["updatetimestamp"]);
 				}				
-
+				
 				if (item.ContainsKey ("no"))
 				{
 					result._no = int.Parse ((string)item["no"]);
 				}				
 
+				if (item.ContainsKey ("auctionid"))
+				{
+					result._auctionid = new Guid ((string)item["auctionid"]);
+				}
+
 				if (item.ContainsKey ("caseid"))
 				{
 					result._caseid = new Guid ((string)item["caseid"]);
 				}				
-
+				
 				if (item.ContainsKey ("customerid"))
 				{
 					result._customerid = new Guid ((string)item["customerid"]);
 				}				
-				
-				if (item.ContainsKey ("sales"))
-				{
-					result._sales = decimal.Parse ((string)item["sales"]);
-				}				
 
-				if (item.ContainsKey ("vat"))
+				if (item.ContainsKey ("lines"))
 				{
-					result._vat = decimal.Parse ((string)item["vat"]);
-				}				
-
-				if (item.ContainsKey ("commissionfee"))
-				{
-					result._commissionfee = decimal.Parse ((string)item["commissionfee"]);
-				}				
-
-				if (item.ContainsKey ("total"))
-				{
-					result._total = decimal.Parse ((string)item["total"]);
-				}				
-
-				if (item.ContainsKey ("itemids"))
-				{
-					result._itemids = SNDK.Convert.StringToList<Guid> ((string)item["itemids"]);
-				}				
+					foreach (XmlDocument settlementline in (List<XmlDocument>)item["lines"])
+					{
+						result._lines.Add (SettlementLine.FromXmlDocument (settlementline));
+					}
+				}
 			}
 			catch (Exception exception)
 			{
 				// LOG: LogDebug.ExceptionUnknown
 				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.SETTLEMENT", exception.Message));
 				
-				// EXCEPTION: Excpetion.SettlementLoadGuid
-				throw new Exception (string.Format (Strings.Exception.SettlementLoadGuid, Id));
+				// EXCEPTION: Excpetion.InvoiceLoadGuid
+				throw new Exception (string.Format (Strings.Exception.SettlementLoadGuid, Id, exception.Message));
 			}	
+			
+			return result;
+		}
+		
+		public static List<Settlement> List (Auction Auction)
+		{
+			List<Settlement> result = new List<Settlement> ();
+			
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("auctionid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Auction.Id)))
+			{
+				try
+				{
+					result.Add (Load (new Guid (id)));
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.SETTLEMENT", exception.Message));
+					
+					// LOG: LogDebug.SettlementList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.SettlementList, id));
+				}
+			}
 			
 			return result;
 		}
@@ -351,7 +349,30 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.SettlementList, id));
 				}
 			}
-						
+			
+			return result;
+		}
+
+		public static List<Settlement> List (Item Item)
+		{
+			List<Settlement> result = new List<Settlement> ();
+
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, Item.Id)))
+			{
+				try
+				{
+					result.Add (Load (new Guid (id)));
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.SETTLEMENT", exception.Message));
+					
+					// LOG: LogDebug.SettlementList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.SettlementList, id));
+				}
+			}
+			
 			return result;
 		}
 		
@@ -374,7 +395,7 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.SettlementList, id));
 				}
 			}
-
+			
 			return result;
 		}
 		
@@ -409,74 +430,57 @@ namespace Didius
 		public static Settlement Create (Case Case, bool Simulate)
 		{
 			Settlement result = new Settlement (Case);
-			
-			if (!Case.Settled)
+
+			List<Item> items = Item.List (Case.Id);
+
+			foreach (Item item in items)
 			{
-				foreach (Item item in Item.List (Case))
+				if (!item.Settled)
 				{
-					if (!item.Settled)
+					if (item.CurrentBid != null)
 					{
-						if (item.CurrentBid != null)
-						{
-							if (item.Vat)
-							{
-								result._vat += (item.CurrentBid.Amount * 0.25m);
-							}
-							
-							result._sales += item.CurrentBid.Amount;
-							result._commissionfee += item.CommissionFee;
-							result._itemids.Add (item.Id);
-							
-							if (!Simulate)
-							{
-								item.Settled = true;
-								item.Save ();
-							}
-						}
+						result.Lines.Add (new SettlementLine (item));
 					}
 				}
-				
-				result._vat = result._vat - (result._commissionfee * 0.25m);
-				result._total = result._sales + result._commissionfee + result._vat;
-				
-				if (result._total == 0)
-				{
-					// EXCEPTION: Exception.SettlementEmpty
-					throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
-				}
-				
-				if (!Simulate)
-				{
-					Case.Settled = true;
-					Case.Save ();				
-					result.Save ();
-				}
 			}
-			else
+
+			if (result.Lines.Count == 0)
 			{
-				// EXCEPTION: Exception.SettlementCaseSettled
-				throw new Exception (string.Format (Strings.Exception.SettlementCaseSettled));
+				// EXCEPTION: Exception.SettlementEmpty
+				throw new Exception (string.Format (Strings.Exception.SettlementEmpty));
+			}
+			
+			if (!Simulate)
+			{
+				foreach (SettlementLine line in result.Lines)
+				{
+					Item item = Item.Load (line.ItemId);
+					item.Settled = true;
+					item.Save ();
+				}
+
+				result.Save ();
 			}
 			
 			return result;
 		}
 		#endregion
-
+		
 		#region Private Static Methods
 		private static int NewSettlementNo ()
 		{
 			int result = 1;
-
+			
 			List<Settlement> settlements = List ();
-
+			
 			if (settlements.Count > 0) 
 			{
-				settlements.Sort (delegate(Settlement s1, Settlement s2) { return s1.No.CompareTo (s2.No);});
+				settlements.Sort (delegate(Settlement t1, Settlement t2) { return t1.No.CompareTo (t2.No);});
 				settlements.Reverse ();
-
+				
 				result = (settlements[0].No + 1);
 			}
-
+			
 			return result;
 		}
 		#endregion

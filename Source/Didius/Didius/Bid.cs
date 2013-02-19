@@ -9,9 +9,9 @@
 
 using System;
 using System.Xml;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 using SNDK;
 using SorentoLib;
@@ -20,10 +20,6 @@ namespace Didius
 {
 	public class Bid
 	{
-		#region Public Static Fields
-		public static string DatastoreAisle = "didius_bids";
-		#endregion
-		
 		#region Private Fields
 		private Guid _id;
 		
@@ -39,6 +35,14 @@ namespace Didius
 		#endregion
 		
 		#region Public Fields
+		public static string DatastoreAisle
+		{
+			get
+			{
+				return "didius_bids";
+			}
+		}
+
 		public Guid Id
 		{
 			get
@@ -91,7 +95,7 @@ namespace Didius
 		{
 			get
 			{
-				return Math.Round (this._amount, 2);
+				return this._amount;
 			}
 		}
 		#endregion
@@ -116,7 +120,8 @@ namespace Didius
 				// EXCEPTION: Exception.BidItemInvoiced
 				throw new Exception (Strings.Exception.BidItemInvoiced);
 			}
-			else if (Item.Settled)
+
+			if (Item.Settled)
 			{
 				// EXCEPTION: Exception.BidItemSettled
 				throw new Exception (Strings.Exception.BidItemSettled);
@@ -127,6 +132,9 @@ namespace Didius
 		{
 			this._createtimestamp = 0;
 			this._updatetimestamp = 0;
+			this._customerid = Guid.Empty;
+			this._itemid = Guid.Empty;
+			this._sort = 0;
 			this._amount = 0;
 		}
 		#endregion
@@ -136,26 +144,39 @@ namespace Didius
 		{
 			try
 			{
+				Item item = Item.Load (this._itemid);
+				if (item.Invoiced)
+				{
+					// EXCEPTION: Exception.BidItemInvoiced
+					throw new Exception (Strings.Exception.BidItemInvoiced);
+				}
+
+				if (item.Settled)
+				{
+					// EXCEPTION: Exception.BidItemSettled
+					throw new Exception (Strings.Exception.BidItemSettled);
+				}
+
 				this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 				
-				Hashtable item = new Hashtable ();
+				Hashtable hashtable = new Hashtable ();
 				
-				item.Add ("id", this._id);
-				item.Add ("createtimestamp", this._createtimestamp);
-				item.Add ("updatetimestamp", this._updatetimestamp);		
+				hashtable.Add ("id", this._id);
+				hashtable.Add ("createtimestamp", this._createtimestamp);
+				hashtable.Add ("updatetimestamp", this._updatetimestamp);		
 
-				item.Add ("customerid", this._customerid);		
-				item.Add ("itemid", this._itemid);		
+				hashtable.Add ("customerid", this._customerid);		
+				hashtable.Add ("itemid", this._itemid);		
 
-				item.Add ("sort", this._sort);		
+				hashtable.Add ("sort", this._sort);		
 
-				item.Add ("amount", this._amount);
+				hashtable.Add ("amount", this._amount);
 
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("customerid", this._customerid);
 				meta.Add ("itemid", this._itemid);
 				
-				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
+				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (hashtable, this.GetType ().FullName.ToLower ()), meta);
 			}
 			catch (Exception exception)
 			{
@@ -174,13 +195,10 @@ namespace Didius
 			result.Add ("id", this._id);
 			result.Add ("createtimestamp", this._createtimestamp);
 			result.Add ("updatetimestamp", this._updatetimestamp);				
-
 			result.Add ("customerid", this._customerid);
 			result.Add ("customer", Customer.Load (this._customerid));
 			result.Add ("itemid", this._itemid);
-			result.Add ("item", Item.Load (this._itemid));
 			result.Add ("sort", this._sort);
-
 			result.Add ("amount", this._amount);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
@@ -245,6 +263,20 @@ namespace Didius
 		{
 			try
 			{
+				Bid bid = Bid.Load (Id);
+				Item item = Item.Load (bid._itemid);
+				if (item.Invoiced)
+				{
+					// EXCEPTION: Exception.BidItemInvoiced
+					throw new Exception (Strings.Exception.BidItemInvoiced);
+				}
+
+				if (item.Settled)
+				{
+					// EXCEPTION: Exception.BidItemSettled
+					throw new Exception (Strings.Exception.BidItemSettled);
+				}
+
 				SorentoLib.Services.Datastore.Delete (DatastoreAisle, Id.ToString ());
 			}
 			catch (Exception exception)
@@ -282,9 +314,7 @@ namespace Didius
 				}
 			}
 
-			result = result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<Bid> ();
-
-			return  result;
+			return  result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<Bid> ();
 		}
 
 		public static List<Bid> List (Customer Customer)
@@ -307,14 +337,7 @@ namespace Didius
 				}
 			}
 			
-//			result.Sort (delegate(Bid b1, Bid b2) { return b1.Amount.CompareTo (b2.Amount); });
-//			result.Reverse ();
-
-//			result = result.OrderBy (o => o.Amount).ThenBy (o => o.CreateTimestamp);
-			
-			result = result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<Bid> ();
-
-			return result;
+			return result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<Bid> ();
 		}
 		
 		public static List<Bid> List ()
@@ -336,13 +359,8 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
 				}
 			}
-
-//			result.Sort (delegate(Bid b1, Bid b2) { return b1.Amount.CompareTo (b2.Amount); });
-//			result.Reverse ();
 			
-			result = result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<Bid> ();
-
-			return result;
+			return result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<Bid> ();
 		}
 		
 		public static Bid FromXmlDocument (XmlDocument xmlDocument)

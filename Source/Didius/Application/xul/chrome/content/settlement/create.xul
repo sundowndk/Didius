@@ -1,13 +1,14 @@
 <?xml version="1.0"?>
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.invoice.create" title="Opret faktura" minwidth="850" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">	
-	<script type="application/x-javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
-	<script type="application/x-javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
-	<script type="application/x-javascript" src="chrome://didius/content/js/didius.js"/>		
+<window id="didius.settlement.create" title="Afregning" minwidth="850" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">	
+	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
-	<script type="application/x-javascript" src="chrome://didius/content/invoice/create.js"/>	
+	<script type="application/javascript" src="chrome://didius/content/settlement/create.js"/>	
 			
 	<keyset>
   		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
@@ -15,13 +16,26 @@
 	</keyset>			
 			
 	<hbox class="Main" flex="1">
-		<tabbox selectedIndex="0" flex="1">								
+		<tabbox selectedIndex="0" flex="1">					
 			<tabpanels flex="1">
 				<tabpanel flex="1">
 					<vbox flex="1">				
-																		
 						<groupbox>
-							<caption label="Linjer"/>	
+							<caption label="Meta"/>														
+							<hbox align="center">
+								<label class="Label">Kunde:</label>
+								<textbox id="textbox.customername" flex="1" readonly="true"/>								
+							</hbox>
+							<hbox align="center">								
+								<label class="Label">Auktion:</label>
+								<textbox id="textbox.auctiontitle" flex="1" readonly="true"/>
+								<label class="Label">Sag:</label>
+								<textbox id="textbox.casetitle" flex="1" readonly="true"/>
+							</hbox>
+						</groupbox>	
+									
+						<groupbox>
+							<caption label="Effekter"/>	
 							<hbox align="center">
 								<tree id="tree.lines" flex="1" hidecolumnpicker="true" readonly="true" seltype="single" height="200">
 									<treecols>
@@ -49,23 +63,19 @@
 							<caption label="Total"/>							
 							<hbox align="center">
 								<label class="Label">Salg:</label>							
-								<textbox id="textbox.totalsale" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" disabled="true"/>
-								<label> kr.</label>
+								<textbox id="textbox.sale" type="number" min="-Infinity" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 							</hbox>  					
 							<hbox align="center">
 								<label class="Label">Salær:</label>								
-								<textbox id="textbox.totalcommissionfee" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" disabled="true"/>
-								<label> kr.</label>
-							</hbox>  												
+								<textbox id="textbox.commissionfee" type="number" min="-Infinity" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+							</hbox> 
 							<hbox align="center">
 								<label class="Label">Moms:</label>								
-								<textbox id="textbox.totalvat" type="number" min="-Infinity" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" disabled="true"/>
-								<label> kr.</label>
-							</hbox>  												
+								<textbox id="textbox.vat" type="number" min="-Infinity" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
+							</hbox> 
 							<hbox align="center">
 								<label class="Label">I alt:</label>								
-								<textbox id="textbox.totaltotal" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" disabled="true"/>
-								<label> kr.</label>
+								<textbox id="textbox.total" type="number" min="-Infinity" decimalplaces="2" flex="1" hidespinbuttons="true" readonly="true" />
 							</hbox>  					
 						</groupbox>
 					</vbox>
@@ -74,12 +84,12 @@
 		</tabbox>
 	</hbox>
 	
-	<hbox class="WindowButtons">
+	<hbox class="WindowButtons">	
 		<hbox align="right" flex="1"> 
-			<checkbox id="checkbox.print" label="Udskriv faktura" checked="true" disabled="true" accesskey="U"/>
-			<checkbox id="checkbox.email" label="Send faktura på e-mail" checked="true" disabled="true" accesskey="S"/>			
+			<checkbox id="checkbox.print" label="Udskriv afregning" checked="true" disabled="true" accesskey="U"/>
+			<checkbox id="checkbox.email" label="Send afregning på e-mail" checked="true" disabled="true" accesskey="S"/>			
 			<space flex="1"/>
-			<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>
+			<button id="button.close" label="Luk" oncommand="main.close ();" accesskey="L" />
 			<button id="button.create" label="Godkend" oncommand="main.create ();" disabled="true" accesskey="G"/>
 		</hbox>
 	</hbox>

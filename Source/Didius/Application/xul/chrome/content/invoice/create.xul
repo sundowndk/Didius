@@ -75,11 +75,10 @@
 	</hbox>
 	
 	<hbox class="WindowButtons">
-		<hbox align="left" flex="1"> 						
+		<hbox align="right" flex="1"> 
 			<checkbox id="checkbox.print" label="Udskriv faktura" checked="true" disabled="true" accesskey="U"/>
 			<checkbox id="checkbox.email" label="Send faktura på e-mail" checked="true" disabled="true" accesskey="S"/>			
-		</hbox>
-		<hbox align="right" flex="1"> 
+			<space flex="1"/>
 			<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>
 			<button id="button.create" label="Godkend" oncommand="main.create ();" disabled="true" accesskey="G"/>
 		</hbox>

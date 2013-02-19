@@ -1,9 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/invoice/create.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/settlement/show.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/invoice/create.js" Line="158" Column="48" />
-      <File FileName="Didius/Application/xul/chrome/content/invoice/create.xul" Line="62" Column="36" />
+      <File FileName="Didius/Application/xul/chrome/content/settlement/show.js" Line="77" Column="42" />
+      <File FileName="Didius/Application/xul/chrome/content/settlement/show.xul" Line="67" Column="94" />
+      <File FileName="Didius/Application/xul/chrome/content/settlement/create.js" Line="69" Column="42" />
+      <File FileName="Didius/Application/xul/chrome/content/settlement/create.xul" Line="66" Column="65" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,15 +22,16 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
+                    <Node name="case" expanded="True" />
                     <Node name="creditnote" expanded="True" />
                     <Node name="customer" expanded="True" />
-                    <Node name="invoice" expanded="True">
-                      <Node name="create.js" selected="True" />
-                    </Node>
+                    <Node name="invoice" expanded="True" />
                     <Node name="item" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
-                    <Node name="settings" expanded="True" />
+                    <Node name="settlement" expanded="True">
+                      <Node name="show.js" selected="True" />
+                    </Node>
                   </Node>
                 </Node>
                 <Node name="defaults" expanded="True">
@@ -37,6 +40,7 @@
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />
+            <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
           </Node>
         </State>

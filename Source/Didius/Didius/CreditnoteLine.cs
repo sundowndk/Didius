@@ -98,9 +98,9 @@ namespace Didius
 			this._text = Item.Title;
 
 			this._amount = Item.BidAmount;
-			this._amount += Helpers.CalculateBuyerCommissionFee (Item.BidAmount);
+			this._amount += Helpers.CalculateBuyerCommissionFee (Item);
 
-			this._vat = ((Helpers.CalculateBuyerCommissionFee (Item.BidAmount) * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
+			this._vat = ((Helpers.CalculateBuyerCommissionFee (Item) * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
 			if (Item.Vat)
 			{
 				this._vat += ((Item.BidAmount * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) ) / 100);

@@ -120,6 +120,15 @@ var main =
 //			document.getElementById ("showSettlementBox").collapsed = true;		
 //		}
 		
+		if (main.auction.status == "Closed")
+		{
+			document.getElementById ("button.settle").disabled = false;
+		}
+		else
+		{
+			document.getElementById ("button.settle").disabled = true;
+		}
+
 		if (main.auction.status == "Closed" || main.auction.status == "Running")
 		{
 			document.getElementById ("textbox.title").disabled = true;
@@ -136,18 +145,18 @@ var main =
 			document.getElementById ("textbox.commisionfeepercentage").disabled = false;
 			document.getElementById ("textbox.commisionfeeminimum").disabled = false;
 		}
-		
+				
 		if (main.mode == "NEW")
 		{
 			document.getElementById ("tab.details").disabled = false;
 			document.getElementById ("tab.items").disabled = true;
-			document.getElementById ("button.salesagreementshow").disabled = true;
+			document.getElementById ("button.salesagreement").disabled = true;
 		}
 		else
 		{
 			document.getElementById ("tab.details").disabled = false;
 			document.getElementById ("tab.items").disabled = false;
-			document.getElementById ("button.salesagreementshow").disabled = false;
+			document.getElementById ("button.salesagreement").disabled = false;
 		}
 	},
 			
@@ -191,6 +200,11 @@ var main =
 	
 		// Close window.
 		window.close ();
+	},
+	
+	settle : function ()
+	{
+		app.window.open (window, "chrome://didius/content/settlement/create.xul", "didius.settlement.create."+ SNDK.tools.newGuid (), "modal", {caseId: main.case.id});
 	}
 }
 

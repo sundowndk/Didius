@@ -97,12 +97,10 @@
 	</hbox>
 	
 	<hbox class="WindowButtons">
-		<hbox align="left"> 
-			<button id="buttin.settlementcreate" label="Afregn" oncommand="settlement.create ();" disabled="true" collapsed="true" accesskey="A"/>
-			<button id="button.settlementshow" label="Vis afregning" oncommand="settlement.show ();" disabled="true" collapsed="true" accesskey="V"/>
-			<button id="button.salesagreementshow" label="Salgsaftale" oncommand="salesAgreement.show ();" accesskey="a"/>
-		</hbox>
 		<hbox align="right" flex="1"> 
+			<button id="button.settle" label="Afregn" oncommand="main.settle ();" disabled="true" accesskey="A"/>			
+			<button id="button.salesagreement" label="Salgsaftale" oncommand="salesAgreement.show ();" disabled="true" accesskey="a"/>
+			<space flex="1"/>
 			<button id="button.close" label="Luk" oncommand="main.close ();"  modifiers="control" accesskey="L"/>
 			<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G"/>
 		</hbox>

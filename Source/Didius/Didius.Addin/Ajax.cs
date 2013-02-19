@@ -341,27 +341,21 @@ namespace Didius.Addin
 							
 						case "load":
 						{
-							if (request.ContainsXPath ("id"))
-							{
-
-								result.Add (Settlement.Load (request.getValue<Guid>("id")));
-								break;
-							}
-							else if (request.ContainsXPath ("caseid"))
-							{
-								result.Add (Settlement.Load (Case.Load (request.getValue<Guid> ("caseid"))));
-								break;
-							}
+							result.Add (Settlement.Load (request.getValue<Guid> ("id")));
 							break;
 						}
 							
 						case "list":
 						{
-							if (request.ContainsXPath ("caseid"))
+					if (request.ContainsXPath ("caseid"))
 							{
 								result.Add (Settlement.List (Case.Load (request.getValue<Guid> ("caseid"))));
 							}
-							if (request.ContainsXPath ("customerid"))
+							if (request.ContainsXPath ("auctionid"))
+							{
+								result.Add (Settlement.List (Auction.Load (request.getValue<Guid> ("auctionid"))));
+							}
+					if (request.ContainsXPath ("customerid"))
 							{
 								result.Add (Settlement.List (Customer.Load (request.getValue<Guid> ("customerid"))));
 							}

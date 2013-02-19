@@ -61,12 +61,14 @@ namespace Didius.Strings
 		public static string NewsletterFromXmlDocument = "00940|Cannot create Newsletter from XmlDocument, missing {0}";
 		#endregion
 
-		public static string BidSave = "SRV00810|Could not save Bid with id: {0}";
-		public static string BidLoadGuid = "SRV00820|Could not load Bid with id: {0}";
-		public static string BidDeleteGuid = "SRV00830|Could not delete Bid with id: {0}";
-		public static string BidFromXmlDocument = "SRV00840|Cannot create Bid from XmlDocument, missing {0}";
-		public static string BidItemInvoiced = "SRV00880|Cannot append Bid on an Item that has been invoiced.";
-		public static string BidItemSettled = "SRV00881|Cannot append Bid on an Item that has been settled.";
+		#region BID : 1000 - 1099
+		public static string BidSave = "SRV01010|Could not save Bid with id: {0}";
+		public static string BidLoadGuid = "SRV01020|Could not load Bid with id: {0}";
+		public static string BidDeleteGuid = "SRV01030|Could not delete Bid with id: {0}";
+		public static string BidFromXmlDocument = "SRV01050|Cannot create Bid from XmlDocument, missing {0}";
+		public static string BidItemInvoiced = "SRV01060|Cannot create, save or delete a Bid on an Item that has been invoiced.";
+		public static string BidItemSettled = "SRV01061|Cannot create, save or delete a Bid on an Item that has been settled.";
+		#endregion
 
 		public static string AutoBidSave = "SRV00810|Could not save AutoBid with id: {0}";
 		public static string AutoBidLoadGuid = "SRV00820|Could not load AutoBid with id: {0}";

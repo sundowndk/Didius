@@ -5,7 +5,7 @@ using System.Collections;
 
 namespace Didius
 {
-	public class InvoiceLine
+	public class SettlementLine
 	{
 		#region Private Fields
 		private Guid _id;
@@ -106,14 +106,13 @@ namespace Didius
 		#endregion
 
 		#region Constructor
-		public InvoiceLine (Item Item)
+		public SettlementLine (Item Item)
 		{
 			this._id = Guid.NewGuid ();
 			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._itemid = Item.Id;
-
 			this._text = Auction.Load (Case.Load (Item.CaseId).AuctionId).No +"-"+ Item.CatalogNo +" "+ Item.Title;
-			this._commissionfee = Helpers.CalculateBuyerCommissionFee (Item);
+			this._commissionfee = (Helpers.CalculateSellerCommissionFee (Item) * -1);
 			this._amount = Item.BidAmount;
 
 			this._vatamount = 0;
@@ -125,7 +124,7 @@ namespace Didius
 			this._vatcommissionfee = ((this._commissionfee * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
 		}
 
-		private InvoiceLine ()
+		private SettlementLine ()
 		{
 			this._id = Guid.Empty;
 			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
@@ -159,14 +158,14 @@ namespace Didius
 		#endregion
 
 		#region Public Static Methods
-		public static InvoiceLine FromXmlDocument (XmlDocument xmlDocument)
+		public static SettlementLine FromXmlDocument (XmlDocument xmlDocument)
 		{
 			Hashtable item;
-			InvoiceLine result = new InvoiceLine ();
+			SettlementLine result = new SettlementLine ();
 			
 			try
 			{
-				item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (xmlDocument.SelectSingleNode ("(//didius.invoiceline)[1]")));
+				item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (xmlDocument.SelectSingleNode ("(//didius.settlementline)[1]")));
 			}
 			catch
 			{

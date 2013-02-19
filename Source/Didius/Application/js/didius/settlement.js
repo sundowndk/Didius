@@ -1,27 +1,26 @@
-create : function (Case, simulate)
+create : function (attributes)
 {
 	var content = new Array ();
-	content.caseid = Case.id;
 	
-	if (simulate != null)
-	{
-		content.simulate = simulate;
-	}
-	else
-	{
-		content.simulate = false;
-	}
-
+	if (attributes.caseId)
+		content.caseid = attributes.caseId;
+		
+	if (attributes.case)
+		content.caseid = attributes.case.id;
+		
+	content.simulate = false;	
+	
+	if (attributes.simulate)
+		content.simulate = attributes.simulate;
+			
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Settlement.Create", "data", "POST", false);	
 	request.send (content);
 	
 	var result = request.respons ()["didius.settlement"];
-	
-//	app.events.onSettlementCreate.execute (result);
-	
+
 	return result;
 },
-	
+
 load : function (attributes)
 {
 	var content = new Array ();

@@ -45,11 +45,11 @@ namespace Didius
 			}
 		}
 
-		public static decimal CalculateBuyerCommissionFee (decimal Amount)
+		public static decimal CalculateBuyerCommissionFee (Item Item)
 		{
 			decimal result = 0;
 
-			result = ((Amount * SorentoLib.Services.Settings.Get<Decimal> (Enums.SettingsKey.didius_value_buyer_commission_percentage) / 100));
+			result = ((Item.BidAmount * SorentoLib.Services.Settings.Get<Decimal> (Enums.SettingsKey.didius_value_buyer_commission_percentage) / 100));
 			if (result < SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_buyer_commission_minimum))
 			{
 				result = SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_buyer_commission_minimum);
@@ -58,14 +58,34 @@ namespace Didius
 			return result ;
 		}
 
-		public static decimal CalculateSellerCommissionFee (decimal Amount)
+		public static decimal CalculateSellerCommissionFee (Item Item)
 		{
 			decimal result = 0;
 
-			result = ((Amount * SorentoLib.Services.Settings.Get<Decimal> (Enums.SettingsKey.didius_value_seller_commission_percentage) / 100));
-			if (result < SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_seller_commission_minimum))
+			Case case_ = Case.Load (Item.CaseId);
+
+			if (case_.CommisionFeePercentage != 0)
 			{
-				result = SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_seller_commission_minimum);
+				result = ((Item.BidAmount * case_.CommisionFeePercentage) / 100);
+			}
+			else
+			{
+				result = ((Item.BidAmount * SorentoLib.Services.Settings.Get<Decimal> (Enums.SettingsKey.didius_value_seller_commission_percentage) / 100));
+			}
+
+			if (case_.CommisionFeeMinimum != 0)
+			{
+				if (result < case_.CommisionFeeMinimum)
+				{
+					result = case_.CommisionFeeMinimum;
+				}
+			}
+			else
+			{
+				if (result < SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_seller_commission_minimum))
+				{
+					result = SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_seller_commission_minimum);
+				}
 			}
 
 			return result;
@@ -95,6 +115,32 @@ namespace Didius
 			
 			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
 		}
+
+		public static void MailSettlement (Settlement Settlement, string PdfFilename)
+		{
+			Customer customer = Customer.Load (Settlement.CustomerId);
+			
+			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
+			
+			string to = customer.Email;
+//			string to = "rasmus@akvaservice.dk";
+			
+			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_settlement_subject);
+			subject = ReplacePlaceholders (customer, subject);
+			subject = ReplacePlaceholders (Settlement, subject);
+			
+			string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_settlement_body);
+			body = ReplacePlaceholders (customer, body);
+			body = ReplacePlaceholders (Settlement, body);
+			
+			bool isbodyhtml = SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_settlement_isbodyhtml);
+			
+			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
+			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (PdfFilename), "afregning"+ Settlement.No +".pdf", SNDK.IO.GetMimeType (PdfFilename)));
+			
+			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
+		}
+
 
 		public static void MailCreditnote (Creditnote Creditnote, string PdfFilename)
 		{

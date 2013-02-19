@@ -77,9 +77,7 @@ var main =
 	// | SET																								|	
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
-	{
-		main.checksum = SNDK.tools.arrayChecksum (main.current);
-
+	{			
 		if (main.customer)
 		{
 			document.getElementById ("textbox.customername").value = main.customer.name;			

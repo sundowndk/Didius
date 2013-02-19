@@ -594,8 +594,12 @@ var settlements =
 										data.id = items[idx].id;
 										data.createtimestamp = items[idx].createtimestamp;
 										data.no = items[idx].no;
-										data.caseno = items[idx].case.no;
-										data.auctiontitle = items[idx].case.auction.title;
+										
+										var case_ = didius.case.load ({id: items[idx].caseid})										
+										data.caseno = case_.no;
+										
+										var auction = didius.auction.load (items[idx].auctionid)										
+										data.auctiontitle = auction.title;
 										data.total = items[idx].total.toFixed (2) +" kr.";	
 										
 										settlements.settlementsTreeHelper.addRow ({data: data});
@@ -633,7 +637,7 @@ var settlements =
 	// ------------------------------------------------------------------------------------------------------
 	show : function ()
 	{				
-		app.window.open (window, "chrome://didius/content/case/settlement/show.xul", "didius.case.settlement.show."+ settlements.settlementsTreeHelper.getRow ().id, null, {settlementId: settlements.settlementsTreeHelper.getRow ().id});				
+		app.window.open (window, "chrome://didius/content/settlement/show.xul", "didius.settlement.show."+ settlements.settlementsTreeHelper.getRow ().id, null, {settlementId: settlements.settlementsTreeHelper.getRow ().id});				
 	}
 }
 

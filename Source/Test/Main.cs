@@ -66,6 +66,7 @@ namespace Test
 					{
 						Console.WriteLine (item.Title);
 						item.Invoiced = false;
+						item.Settled = false;
 						item.Save ();
 					}
 				}

@@ -57,6 +57,7 @@ var main =
 		setTimeout (onInit, 0);
 		
 		// Hook events.		
+		app.events.onCustomerSave.addHandler (eventHandlers.onCustomerSave);
 		app.events.onItemDestroy.addHandler (eventHandlers.onItemDestroy);				
 		app.events.onBidSave.addHandler (eventHandlers.onBidSave);
 		app.events.onBidDestroy.addHandler (eventHandlers.onBidDestroy);
@@ -123,6 +124,16 @@ var main =
 			document.getElementById ("tab.details").disabled = false;
 			document.getElementById ("tab.bids").disabled = false;
 		}
+		
+		if (main.customer.vat)
+		{
+			document.getElementById ("checkbox.vat").disabled = false;			
+		}
+		else
+		{
+			document.getElementById ("checkbox.vat").checked = false;
+			document.getElementById ("checkbox.vat").disabled = true;
+		}
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -133,8 +144,6 @@ var main =
 		main.get ();
 		
 		// Check if CatalogNo has been changed.
-		
-		sXUL.console.log (main.item.catalogno + " "+ main.catalogNo)
 		if (main.item.catalogno != main.catalogNo)
 		{																				
 			if (didius.helpers.isCatalogNoTaken ({auctionId: main.auction.id, catalogNo: main.item.catalogno}))
@@ -174,8 +183,8 @@ var main =
 		}
 		
 		// Unhook events.		
-		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);		
-				
+		app.events.onCustomerSave.removeHandler (eventHandlers.onCustomerSave);
+		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);						
 		app.events.onBidSave.removeHandler (eventHandlers.onBidSave);
 		app.events.onBidDestroy.removeHandler (eventHandlers.onBidDestroy);
 		
@@ -605,8 +614,11 @@ var eventHandlers =
 	onCustomerSave : function (eventData)
 	{
 		if (main.customer.id == eventData.id)
-		{
-			document.getElementById ("textbox.customername").value = eventdata.name;	
+		{			
+			document.getElementById ("textbox.customername").value = eventData.name;	
+			main.customer = eventData;
+			details.get ();
+			main.onChange ();
 		}
 	},
 

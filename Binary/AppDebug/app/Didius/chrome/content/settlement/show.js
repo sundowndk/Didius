@@ -16,7 +16,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{	 	
-		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("items"), sortColumn: "catalogno", sortDirection: "descending"});
+		main.linesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.lines"), sortColumn: "no", sortDirection: "descending"});
 	
 		var onInit = 	function ()
 						{
@@ -58,34 +58,37 @@ var main =
 	{		
 		document.title = "Afregning: "+ main.settlement.no +" ["+ main.customer.name +"]";
 		
-		for (idx in main.settlement.items)
-		{
-			var item = main.settlement.items[idx];
-			
-			var data = {};
-			data.id = item.id;
-			data.catalogno = item.catalogno;
-			data.no = item.no;
-			data.title = item.title;
-			data.bidamount = item.bidamount.toFixed (2) +" kr.";
-			data.commissionfee = item.commissionfee.toFixed (2) +" kr.";
-			
-			main.itemsTreeHelper.addRow ({data: data});
-		}
+		main.linesTreeHelper.disableRefresh ();
+			for (var index in main.settlement.lines)
+			{
+				var line = main.settlement.lines[index];
+				var data = {};
+				data.id = line.id;
+				data.no = line.no;				
+				data.text = line.text;
+				data.amount = line.amount.toFixed (2) +" kr.";
+				data.vatamount = line.vatamount.toFixed (2) +" kr.";
+				data.commissionfee = line.commissionfee.toFixed (2) +" kr.";			
+				data.vatcommissionfee = line.vatcommissionfee.toFixed (2) +" kr.";			
+				data.total = line.total.toFixed (2) +" kr.";			
+							
+				main.linesTreeHelper.addRow ({data: data});
+			}
+			main.linesTreeHelper.enableRefresh ();
 
-		document.getElementById ("totalSale").value = main.settlement.sales;
-		document.getElementById ("totalCommissionFee").value = main.settlement.commissionfee;
-		document.getElementById ("totalVat").value = main.settlement.vat;
-		document.getElementById ("totalTotal").value = main.settlement.total;		
+		document.getElementById ("textbox.sale").value = main.settlement.sales;
+		document.getElementById ("textbox.commissionfee").value = main.settlement.commissionfee;
+		document.getElementById ("textbox.vat").value = main.settlement.vat;
+		document.getElementById ("textbox.total").value = main.settlement.total;		
 			
-		document.getElementById ("print").disabled = false;
+		document.getElementById ("button.print").disabled = false;
 		
 		if (main.customer.email != "")
 		{
-			document.getElementById ("mail").disabled = false;
+			document.getElementById ("button.mail").disabled = false;
 		}		
 		
-		document.getElementById ("close").disabled = false;
+		document.getElementById ("button.close").disabled = false;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -93,7 +96,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	print : function ()
 	{
-		var progresswindow = app.window.open (window, "chrome://didius/content/case/settlement/progress.xul", "didius.case.settlement.progress."+ main.settlement.id, "", {});	
+		var progresswindow = app.window.open (window, "chrome://didius/content/settlement/progress.xul", "didius.settlement.progress."+ main.settlement.id, "", {});	
 										
 		var workload = function ()
 		{
@@ -160,7 +163,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	mail : function ()
 	{
-		var progresswindow = app.window.open (window, "chrome://didius/content/case/settlement/progress.xul", "didius.case.settlement.progress."+ main.settlement.id, "", {});	
+		var progresswindow = app.window.open (window, "chrome://didius/content/settlement/progress.xul", "didius.settlement.progress."+ main.settlement.id, "", {});	
 										
 		var workload = function ()
 		{

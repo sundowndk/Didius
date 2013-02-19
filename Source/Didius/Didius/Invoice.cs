@@ -1,5 +1,5 @@
 // 
-//  Bid.cs
+//  Invoice.cs
 //  
 //  Author:
 //      Rasmus Pedersen (rvp@qnax.net)
