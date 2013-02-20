@@ -17,6 +17,48 @@ mailBidWon : function (item)
 	request.send (content);		
 },
 
+createTurnoverReport : function (attributes)
+{
+	var cmd = "cmd=Ajax;cmd.function=Didius.Helpers.CreateTurnoverReport";
+
+	var content = new Array ();
+	
+	if (attributes.auction)
+		content.auctionid = attributes.auction.id;
+		
+	if (attributes.auctionId)
+		content.auctionid = attributes.auctionId;
+		
+	if (attributes.onDone != null)
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);	
+		
+		var onDone = 	function (respons)
+						{
+							attributes.onDone (respons["didius.turnoverreport"]);
+						};
+						
+		var onError = 	function (exception)
+						{
+							attributes.onError (exception);
+						};
+			
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+		request.onLoaded (onDone);
+		request.onError (onError);
+		request.send (content);	
+	}
+	else
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);	
+		request.send (content);	
+		
+		var result = request.respons ()["didius.turnoverreport"];
+			
+		return result;
+	}
+},
+
 createProfile : function (name, email, onDone)
 {
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.CreateProfile", "data", "POST", true);			

@@ -27,25 +27,25 @@
 				<tabpanel flex="1">
 					<vbox flex="1">
 						<hbox flex="1">								
-							<tree id="tree.cases" flex="1" hidecolumnpicker="true" readonly="true" seltype="single">
+							<tree id="tree.sellerlines" flex="1" hidecolumnpicker="true" readonly="true" seltype="single">
 								<treecols>
 									<treecol id="id" hidden="true"/>
 									<splitter class="tree-splitter" hidden="true"/>
 									<treecol primary="true" id="customername" label="Kunde" flex="1" persist="width" />
 									<splitter class="tree-splitter"/>
-									<treecol id="itemcatalogno" label="Katalog nr." width="30" persist="width" />
+									<treecol id="catalogno" label="Katalog nr." width="30" persist="width" />
 									<splitter class="tree-splitter"/>
-									<treecol id="title" label="Title" flex="1" persist="width" />								
+									<treecol id="text" label="Tekst" flex="1" persist="width" />	
+									<splitter class="tree-splitter"/>																																
+									<treecol id="amount" label="Salg" flex="1" persist="width" style="text-align: right;"/>								
 									<splitter class="tree-splitter"/>								
-								
-																
-									<treecol id="sale" label="Salg" flex="1" persist="width" style="text-align: right;"/>								
+									<treecol id="vatamount" label="Salg moms" flex="1" persist="width" style="text-align: right;"/>								
 									<splitter class="tree-splitter"/>								
 									<treecol id="commissionfee" label="Salær" flex="1" persist="width"  style="text-align: right;"/>																
 									<splitter class="tree-splitter"/>								
-									<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>								
-									<splitter class="tree-splitter"/>																								
-									<treecol id="settlement" label="Afregning" flex="1" persist="width" style="text-align: right;"/>								
+									<treecol id="vatcommissionfee" label="Salær moms" flex="1" persist="width"  style="text-align: right;"/>																
+									<splitter class="tree-splitter"/>																
+									<treecol id="total" label="I alt" flex="1" persist="width" style="text-align: right;"/>								
 								</treecols>								
 							</tree>													
 						</hbox>	
@@ -54,19 +54,19 @@
 								<caption label="Total"/>														
 							<hbox align="center">
 								<label class="Label">Salg:</label>
-								<textbox id="textbox.totalsale" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+								<textbox id="textbox.selleramount" flex="1" type="number" in="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Salær:</label>
-								<textbox id="textbox.totalcommissionfee" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+								<textbox id="textbox.sellercommissionfee" flex="1" type="number" in="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
 							</hbox>									
 							<hbox align="center">
 								<label class="Label">Moms:</label>
-								<textbox id="textbox.totalvat" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+								<textbox id="textbox.sellervat" flex="1" type="number" in="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
 							</hbox>				
 							<hbox align="center">
-								<label class="Label">Afregning:</label>
-								<textbox id="textbox.totalsettle" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true"/>					
+								<label class="Label">Total:</label>
+								<textbox id="textbox.sellertotal" flex="1" type="number" in="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true"/>					
 							</hbox>					
 							</groupbox>						
 						</hbox>									
@@ -75,40 +75,46 @@
 				<tabpanel flex="1">
 					<vbox flex="1">
 						<hbox flex="1">								
-							<tree id="tree.buyers" flex="1" hidecolumnpicker="true" readonly="true" seltype="single">
+							<tree id="tree.buyerlines" flex="1" hidecolumnpicker="true" readonly="true" seltype="single">
 								<treecols>
 									<treecol id="id" hidden="true"/>
 									<splitter class="tree-splitter" hidden="true"/>
 									<treecol primary="true" id="customername" label="Kunde" flex="1" persist="width" />
 									<splitter class="tree-splitter"/>
-									<treecol id="itemcatalogno" label="Katalog nr." width="30" persist="width" />
+									<treecol id="catalogno" label="Katalog nr." width="30" persist="width" />
 									<splitter class="tree-splitter"/>
-									<treecol id="title" label="Title" flex="1" persist="width" />								
+									<treecol id="text" label="Tekst" flex="1" persist="width" />	
+									<splitter class="tree-splitter"/>																																
+									<treecol id="amount" label="Salg" flex="1" persist="width" style="text-align: right;"/>								
 									<splitter class="tree-splitter"/>								
-								
-																
-									
+									<treecol id="vatamount" label="Salg moms" flex="1" persist="width" style="text-align: right;"/>								
+									<splitter class="tree-splitter"/>								
+									<treecol id="commissionfee" label="Salær" flex="1" persist="width"  style="text-align: right;"/>																
+									<splitter class="tree-splitter"/>								
+									<treecol id="vatcommissionfee" label="Salær moms" flex="1" persist="width"  style="text-align: right;"/>																
+									<splitter class="tree-splitter"/>																
+									<treecol id="total" label="I alt" flex="1" persist="width" style="text-align: right;"/>								
 								</treecols>								
-							</tree>													
+							</tree>														
 						</hbox>	
 						<hbox>	
 							<groupbox flex="1">
 								<caption label="Total"/>														
 							<hbox align="center">
 								<label class="Label">Salg:</label>
-								<textbox id="textbox.totalbuy" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+								<textbox id="textbox.buyeramount" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Salær:</label>
-								<textbox id="textbox.totalbuycommissionfee" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+								<textbox id="textbox.buyercommissionfee" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
 							</hbox>									
 							<hbox align="center">
 								<label class="Label">Moms:</label>
-								<textbox id="textbox.totalbuyvat" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+								<textbox id="textbox.buyervat" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
 							</hbox>				
 							<hbox align="center">
-								<label class="Label">Afregning:</label>
-								<textbox id="textbox.totalbuyinvoice" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true"/>					
+								<label class="Label">Total:</label>
+								<textbox id="textbox.buyertotal" flex="1" type="number" decimalplaces="2" hidespinbuttons="true" readonly="true"/>					
 							</hbox>					
 							</groupbox>						
 						</hbox>									
@@ -120,8 +126,7 @@
 	
 	<hbox class="WindowButtons">		
 		<hbox align="right" flex="1"> 
-			<button id="button.print" label="Udskriv" oncommand="main.print ();" disabled="true" accesskey="U"/>
-			<button id="button.mail" label="Send på mail" oncommand="main.print ();" disabled="true" accesskey="S"/>
+			<button id="button.print" label="Udskriv" oncommand="main.print ();" disabled="true" accesskey="U"/>			
 			<space flex="1" />
 			<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>			
 		</hbox>

@@ -101,6 +101,11 @@
     <Compile Include="Didius\CreditnoteLine.cs" />
     <Compile Include="Didius\InvoiceLine.cs" />
     <Compile Include="Didius\SettlementLine.cs" />
+    <Compile Include="Didius\TurnoverReport.cs" />
+    <Compile Include="Didius\TurnoverReportBuyerLine.cs" />
+    <Compile Include="Didius\TurnoverReportSellerLine.cs" />
+    <Compile Include="Didius\TurnoverReportSeller.cs" />
+    <Compile Include="Didius\TurnoverReportBuyer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

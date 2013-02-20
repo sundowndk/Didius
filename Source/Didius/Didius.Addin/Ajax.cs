@@ -459,6 +459,12 @@ namespace Didius.Addin
 				{	
 					switch (Method.ToLower ())
 					{					
+						case "createturnoverreport":
+						{
+							result.Add (TurnoverReport.Create (Auction.Load (request.getValue<Guid> ("auctionid"))));
+							break;
+						}
+
 						case "createprofile":
 						{
 							Didius.Helpers.CreateProfile (request.getValue<string> ("name"), request.getValue<string> ("email"));

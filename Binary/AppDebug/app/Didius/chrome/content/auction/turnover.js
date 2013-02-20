@@ -29,9 +29,9 @@ var main =
 			return;
 		}								
 	
-		main.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.cases"), sortColumn: "customername", sortDirection: "descending"});
+		main.sellerLinesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.sellerlines"), sortColumn: "customername", sortDirection: "descending"});
 		
-		main.buyersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.buyers"), sortColumn: "id", sortDirection: "descending"});
+		main.buyerLinesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.buyerlines"), sortColumn: "id", sortDirection: "descending"});
 	
 		main.set ();
 		
@@ -44,7 +44,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------		
 	set : function ()
 	{
-		var onDone =	function (result)
+		var onDone1 =	function (result)
 						{																													
 							main.casesTreeHelper.disableRefresh ();
 							
@@ -153,11 +153,118 @@ var main =
 							document.getElementById ("button.close").disabled = false;							
 						}
 	
-		didius.case.list ({auction: main.auction, async: true, onDone: onDone});
+		//didius.case.list ({auction: main.auction, async: true, onDone: onDone});
 		
+		var onDone =	function (result)
+						{
+//							for (var index in result.sellerlines)
+//							{
+//								var line = result.sellerlines[index];
+//																	
+//								var data = {};								
+//								data.id = line.id;
+//								data.customername = "";								
+//								data.catalogno = line.catalogno;
+//								data.text = line.text;	
+//								data.amount = line.amount.toFixed (2) +" kr.";
+//								data.vatamount = line.vatamount.toFixed (2) +" kr.";
+//								data.commissionfee = line.commissionfee.toFixed (2) +" kr.";
+//								data.vatcommissionfee = line.vatcommissionfee.toFixed (2) +" kr.";									
+//								data.total = line.total.toFixed (2) +" kr.";
+																																																																													
+//								main.sellerLinesTreeHelper.addRow ({isChildOfId: line.customerid, data: data});								
+								//main.sellerLinesTreeHelper.addRow ({data: data});								
+//							}
+							
+							try
+							
+							{
+							
+//							for (var index in result.sellers)
+//							{
+//								var seller = result.sellers[index];
+//							
+//								var data = {}
+//								data.id = seller.id;
+//								data.customername = seller.text;
+//								data.catalogno = "";
+//								data.text = "";
+//								data.amount = seller.amount.toFixed (2) +" kr.";
+//								data.vatamount = seller.vatamount.toFixed (2) +" kr.";
+//								data.commissionfee = seller.commissionfee.toFixed (2) +" kr.";								
+//								data.vatcommissionfee = seller.vatcommissionfee.toFixed (2) +" kr.";								
+//								data.total = seller.total.toFixed (2) +" kr.";								
+//								
+//								main.sellerLinesTreeHelper.addRow ({data: data});
+//							}
+							
+							document.getElementById ("textbox.selleramount").value = result.selleramount;
+							document.getElementById ("textbox.sellercommissionfee").value = result.sellercommissionfee;
+							document.getElementById ("textbox.sellervat").value = result.sellervat;
+							document.getElementById ("textbox.sellertotal").value = result.sellertotal;
+																		
+																					
+							for (var index in result.buyerlines)
+							{
+								var line = result.buyerlines[index];
+																	
+								var data = {};								
+								data.id = line.id;
+								data.customername = "";								
+								data.catalogno = line.catalogno;
+								data.text = line.text;	
+								data.amount = line.amount.toFixed (2) +" kr.";
+								data.vatamount = line.vatamount.toFixed (2) +" kr.";
+								data.commissionfee = line.commissionfee.toFixed (2) +" kr.";
+								data.vatcommissionfee = line.vatcommissionfee.toFixed (2) +" kr.";									
+								data.total = line.total.toFixed (2) +" kr.";
+																																																																													
+								//main.buyerLinesTreeHelper.addRow ({isChildOfId: line.customerid, data: data});
+								main.buyerLinesTreeHelper.addRow ({data: data});
+							}
+							
+							return;
+							
+							for (var index in result.buyers)
+							{
+								var buyer = result.buyers[index];
+																
+							
+								var data = {}
+								data.id = buyer.id;
+								data.customername = buyer.text;
+								data.catalogno = "";
+								data.text = "";
+								data.amount = buyer.amount.toFixed (2) +" kr.";
+								data.vatamount = buyer.vatamount.toFixed (2) +" kr.";
+								data.commissionfee = buyer.commissionfee.toFixed (2) +" kr.";								
+								data.vatcommissionfee = buyer.vatcommissionfee.toFixed (2) +" kr.";								
+								data.total = buyer.total.toFixed (2) +" kr.";								
+								
+								main.buyerLinesTreeHelper.addRow ({data: data});
+								
+								sXUL.console.log (buyer.id)
+							}
+							
+							
+							document.getElementById ("textbox.buyeramount").value = result.buyeramount;
+							document.getElementById ("textbox.buyercommissionfee").value = result.buyercommissionfee;
+							document.getElementById ("textbox.buyervat").value = result.buyervat;
+							document.getElementById ("textbox.buyertotal").value = result.buyertotal;
+							
+							}
+							catch (r)
+							{
+							sXUL.console.log (r)
+							}
+						};
 		
-	
+		didius.helpers.createTurnoverReport ({auction: main.auction, async: true, onDone: onDone});
+				
 		document.title = "Omsætning : "+ main.auction.title;		
+		
+		document.getElementById ("button.print").disabled = false;		
+		document.getElementById ("button.close").disabled = false;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
