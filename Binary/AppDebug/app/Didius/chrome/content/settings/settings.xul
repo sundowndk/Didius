@@ -291,6 +291,7 @@
 									<tab label="Faktura"/>
 									<tab label="Kreditnota"/>
 									<tab label="Præsentation"/>
+									<tab label="Omsætningsliste"/>
 								</tabs>
 							</arrowscrollbox>
 							
@@ -328,6 +329,11 @@
 				    			<tabpanel flex="1">
 									<vbox flex="1">		
 										<textbox id="templatesDisplay" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+									</vbox>
+				    			</tabpanel>
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<textbox id="templatesTurnoverReport" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 									</vbox>
 				    			</tabpanel>
 							</tabpanels>

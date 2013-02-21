@@ -45,6 +45,7 @@ namespace Didius
 		private string _email;
 		private string _phone;
 		private string _mobile;	
+		private bool _newssms;
 
 		private bool _vat;
 		private string _vatno;
@@ -256,6 +257,19 @@ namespace Didius
 			}
 		}
 
+		public bool NewsSMS
+		{
+			get
+			{
+				return this._newssms;
+			}
+
+			set
+			{
+				this._newssms = value;
+			}
+		}
+
 		public string Email
 		{
 			get
@@ -444,6 +458,8 @@ namespace Didius
 			this._phone = string.Empty;
 			this._mobile = string.Empty;
 
+			this._newssms = false;
+
 			this._vat = false;
 			this._vatno = string.Empty;
 
@@ -531,6 +547,8 @@ namespace Didius
 				item.Add ("mobile", this._mobile);
 				item.Add ("email", this._email);
 
+				item.Add ("newssms", this._newssms);
+
 				item.Add ("vat", this._vat);
 				item.Add ("vatno", this._vatno);
 
@@ -584,6 +602,8 @@ namespace Didius
 			result.Add ("phone", this._phone);
 			result.Add ("mobile", this._mobile);
 			result.Add ("email", this._email);
+
+			result.Add ("newssms", this._newssms);
 
 			result.Add ("vat", this._vat);
 			result.Add ("vatno", this._vatno);
@@ -712,6 +732,11 @@ namespace Didius
 //						result._phonenumbers.Add ((string)((Hashtable)SNDK.Convert.FromXmlDocument (phonenumber))["value"]);
 //					}
 //				}	
+
+				if (item.ContainsKey ("newssms"))
+				{
+					result._newssms = (bool)item["newssms"];
+				}
 
 				if (item.ContainsKey ("vat"))
 				{
@@ -960,7 +985,13 @@ namespace Didius
 //					result._phonenumbers.Add ((string)((Hashtable)SNDK.Convert.FromXmlDocument (phonenumber))["value"]);
 //				}
 //			}	
-			
+
+
+			if (item.ContainsKey ("newssms"))
+			{
+				result._newssms = (bool)item["newssms"];
+			}
+
 			if (item.ContainsKey ("vat"))
 			{
 				result._vat = (bool)item["vat"];

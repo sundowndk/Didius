@@ -125,7 +125,7 @@ namespace Didius
 			this._customerid = Case.Load (Item.CaseId).CustomerId;
 			this._catalogno = Item.CatalogNo;
 			this._text = Item.Title;
-			this._commissionfee = Helpers.CalculateSellerCommissionFee (Item);
+			this._commissionfee = (Helpers.CalculateSellerCommissionFee (Item) * -1);
 			this._amount = Item.BidAmount;
 			this._vatamount = 0;
 			if (Item.Vat)
@@ -170,72 +170,6 @@ namespace Didius
 			result.Add ("total", this.Total);
 
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
-		}
-		#endregion
-
-		#region Public Static Methods
-		public static TurnoverReportSellerLine FromXmlDocument (XmlDocument xmlDocument)
-		{
-			Hashtable item;
-			TurnoverReportSellerLine result = new TurnoverReportSellerLine ();
-			
-			try
-			{
-				item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (xmlDocument.SelectSingleNode ("(//didius.turnoverreportsellerline)[1]")));
-			}
-			catch
-			{
-				item = (Hashtable)SNDK.Convert.FromXmlDocument (xmlDocument);
-			}
-			
-			if (item.ContainsKey ("id"))
-			{
-				result._id = new Guid ((string)item["id"]);
-			}
-			else
-			{
-				throw new Exception (string.Format (Strings.Exception.CreditnoteLineFromXmlDocument, "ID"));
-			}
-
-			if (item.ContainsKey ("caseid"))
-			{
-				result._caseid = new Guid ((string)item["caseid"]);
-			}
-			else
-			{
-				throw new Exception (string.Format (Strings.Exception.CreditnoteLineFromXmlDocument, "ITEMID"));
-			}
-
-			if (item.ContainsKey ("itemid"))
-			{
-				result._itemid = new Guid ((string)item["itemid"]);
-			}
-			else
-			{
-				throw new Exception (string.Format (Strings.Exception.CreditnoteLineFromXmlDocument, "ITEMID"));
-			}
-						
-			if (item.ContainsKey ("amount"))
-			{
-				result._amount = decimal.Parse ((string)item["amount"], System.Globalization.CultureInfo.InvariantCulture);
-			}
-
-			if (item.ContainsKey ("vatamount"))
-			{
-				result._vatamount = decimal.Parse ((string)item["vatamount"], System.Globalization.CultureInfo.InvariantCulture);
-			}
-
-			if (item.ContainsKey ("commissionfee"))
-			{
-				result._commissionfee = decimal.Parse ((string)item["commissionfee"], System.Globalization.CultureInfo.InvariantCulture);
-			}
-
-			if (item.ContainsKey ("vatcommissionfee"))
-			{
-				result._vatcommissionfee = decimal.Parse ((string)item["vatcommissionffee"], System.Globalization.CultureInfo.InvariantCulture);
-			}
-
-			return result;
 		}
 		#endregion
 	}

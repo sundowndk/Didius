@@ -228,6 +228,20 @@ parsePrintTemplate : function (data)
 					continue;
 				}							
 				
+				case "#BEGINBUYERINFOROW":
+				{
+					block = "buyerinforow";
+					result.buyerinforow = "";
+					continue;
+				}
+				
+				case "#BEGINBUYERITEMROW":
+				{
+					block = "buyeritemrow";
+					result.buyeritemrow = "";
+					continue;
+				}
+				
 				case "#BEGINTRANFER":
 				{
 					block = "transfer";
@@ -268,6 +282,18 @@ parsePrintTemplate : function (data)
 				}
 				
 				case "#ENDROW":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDBUYERINFOROW":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDBUYERITEMROW":
 				{
 					block = "";
 					continue;
@@ -316,6 +342,18 @@ parsePrintTemplate : function (data)
 			case "row":
 			{
 				result.row += data[idx] +"\n";
+				break;
+			}
+			
+			case "buyerinforow":
+			{
+				result.buyerinforow += data[idx] +"\n";
+				break;
+			}
+			
+			case "buyeritemrow":
+			{
+				result.buyeritemrow += data[idx] +"\n";
 				break;
 			}
 			

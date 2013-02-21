@@ -1,14 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/turnover.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.xul">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/turnover.js" Line="223" Column="57" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/turnover.xul" Line="78" Column="28" />
-      <File FileName="Didius/Didius/TurnoverReportSellerLine.cs" Line="177" Column="29" />
-      <File FileName="Didius/Didius/TurnoverReportBuyerLine.cs" Line="219" Column="5" />
-      <File FileName="Didius/Didius/TurnoverReport.cs" Line="202" Column="4" />
-      <File FileName="Didius/Didius/TurnoverReportSeller.cs" Line="141" Column="1" />
-      <File FileName="Didius/Didius/TurnoverReportBuyer.cs" Line="110" Column="29" />
+      <File FileName="Didius/Didius/Customer.cs" Line="992" Column="42" />
+      <File FileName="Didius/Application/xul/chrome/content/newsletter/edit.xul" Line="46" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="138" Column="104" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -25,16 +21,18 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="auction" expanded="True">
-                      <Node name="turnover.js" selected="True" />
-                    </Node>
+                    <Node name="auction" expanded="True" />
                     <Node name="case" expanded="True" />
                     <Node name="creditnote" expanded="True" />
                     <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
                     <Node name="item" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True" />
+                    <Node name="main" expanded="True">
+                      <Node name="main.xul" selected="True" />
+                    </Node>
+                    <Node name="newsletter" expanded="True" />
+                    <Node name="settings" expanded="True" />
                     <Node name="settlement" expanded="True" />
                   </Node>
                 </Node>

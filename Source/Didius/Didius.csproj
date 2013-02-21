@@ -345,6 +345,7 @@
     <None Include="Application\xul\chrome\content\settlement\print.xul" />
     <None Include="Application\xul\chrome\content\settlement\progress.js" />
     <None Include="Application\xul\chrome\content\settlement\progress.xul" />
+    <None Include="Application\js\didius\common\print\turnoverreport.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

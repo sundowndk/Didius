@@ -227,6 +227,7 @@ var details =
 		document.getElementById ("textbox.phone").value = main.customer.phone;
 		document.getElementById ("textbox.mobile").value = main.customer.mobile;
 		document.getElementById ("textbox.email").value = main.customer.email;		
+		document.getElementById ("checkbox.newssms").checked = main.customer.newssms;
 		
 		document.getElementById ("checkbox.vat").checked = main.customer.vat;
 		document.getElementById ("textbox.vatno").value = main.customer.vatno;
@@ -252,13 +253,14 @@ var details =
 		main.customer.phone = document.getElementById ("textbox.phone").value;
 		main.customer.mobile = document.getElementById ("textbox.mobile").value;
 		main.customer.email = document.getElementById ("textbox.email").value;
+		main.customer.newssms = document.getElementById ("checkbox.newssms").checked;
 		
 		main.customer.vat = document.getElementById ("checkbox.vat").checked;
 		main.customer.vatno = document.getElementById ("textbox.vatno").value;
 		
 		main.customer.bankname = document.getElementById ("textbox.bankname").value;
 		main.customer.bankregistrationno = document.getElementById ("textbox.bankregistrationno").value;
-		main.customer.bankaccountno = document.getElementById ("textbox.bankaccountno").value;				
+		main.customer.bankaccountno = document.getElementById ("textbox.bankaccountno").value;	
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

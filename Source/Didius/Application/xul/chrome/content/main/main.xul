@@ -134,6 +134,8 @@
 							<button id="newsletterCreate" label="Opret" disabled="true" oncommand="main.newsletters.create ();"/>
 							<button id="newsletterEdit" label="Redigere" disabled="true" oncommand="main.newsletters.edit ();"/>
 							<button id="newsletterDestroy" label="Slet" disabled="true" oncommand="main.newsletters.destroy ();"/>						
+							<spacer flex="1"/>
+							<button id="button.sendsms" label="Send SMS" disabled="true" oncommand="main.newsletters.sendSMS ();"/>						
 						</vbox>
 					</hbox>					
 				</tabpanel>			

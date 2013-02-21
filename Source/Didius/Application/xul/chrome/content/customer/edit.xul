@@ -92,6 +92,10 @@
 								<label class="Label">Email:</label>
 								<textbox id="textbox.email" flex="1" onkeyup="details.onChange ();"/>
 							</hbox>
+							<hbox align="center">
+								<label class="Label"></label>
+								<checkbox id="checkbox.newssms" label="Nyhedsbrev på SMS" oncommand="details.onChange ();"/>								
+							</hbox>
 						</groupbox>
 	    
 						<groupbox>

@@ -54,19 +54,19 @@
 								<caption label="Total"/>														
 							<hbox align="center">
 								<label class="Label">Salg:</label>
-								<textbox id="textbox.selleramount" flex="1" type="number" in="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+								<textbox id="textbox.selleramount" flex="1" type="number" min="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Salær:</label>
-								<textbox id="textbox.sellercommissionfee" flex="1" type="number" in="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+								<textbox id="textbox.sellercommissionfee" flex="1" type="number" min="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
 							</hbox>									
 							<hbox align="center">
 								<label class="Label">Moms:</label>
-								<textbox id="textbox.sellervat" flex="1" type="number" in="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
+								<textbox id="textbox.sellervat" flex="1" type="number" min="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true" />					
 							</hbox>				
 							<hbox align="center">
 								<label class="Label">Total:</label>
-								<textbox id="textbox.sellertotal" flex="1" type="number" in="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true"/>					
+								<textbox id="textbox.sellertotal" flex="1" type="number" min="-Infinity" decimalplaces="2" hidespinbuttons="true" readonly="true"/>					
 							</hbox>					
 							</groupbox>						
 						</hbox>									

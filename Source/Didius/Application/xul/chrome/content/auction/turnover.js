@@ -43,167 +43,57 @@ var main =
 	// | SET																								|	
 	// ------------------------------------------------------------------------------------------------------		
 	set : function ()
-	{
-		var onDone1 =	function (result)
-						{																													
-							main.casesTreeHelper.disableRefresh ();
-							
-							try
-							{
-								var totalsale = 0;
-								var totalvat = 0;
-								var totalcommissionfee = 0;
-								var totalsettle = 0;
-							
-							for (var index in result)
-							{	
-								var case_ = result[index];	
-																	
-								var items = didius.item.list ({case: case_});
-								SNDK.tools.sortArrayHash (items, "catalogno", "numeric");
-							
-								var sale = 0;						
-								var vatamount = 0;
-								var commissionfee = 0;
-								var settle = 0;								
-							
-								for (var index in items)
-								{
-									var item = items[index];
-								
-									// SELLERS
-									{																	
-										var data = {};								
-										data.id = item.id;
-										data.customername = "";								
-										data.itemcatalogno = item.catalogno;									
-										data.title = item.title;									
-																		
-										data.sale = item.bidamount.toFixed (2) +" kr.";																																			
-										data.commissionfee = item.commissionfee.toFixed (2) +" kr.";
-										data.settlement = (item.bidamount - item.commissionfee).toFixed (2) +" kr."
-										data.vat = item.vatamount.toFixed (2) +" kr.";
-									
-										data.settle = item.bidamount.toFixed (2) +" kr.";
-																																																																													
-										main.casesTreeHelper.addRow ({isChildOfId: item.caseid, data: data});								
-								
-										sale += item.bidamount;
-									
-										commissionfee += item.commissionfee;
-								
-										vatamount += item.vatamount;																		
-									}
-									
-									// BUYER
-									{
-									//sXUL.console.log (SNDK.tools.newGuid ())
-									
-										if (item.currentbidid != SNDK.tools.emptyGuid)
-										{
-											var bid = didius.bid.load ({id: item.currentbidid});
-											var customer = didius.customer.load (bid.customerid);
-										
-											var data1 = {};
-											data1.id = customer.id;
-											data1.catalogno = "";
-											data1.title = customer.name;
-											
-											var data2 = {};
-											data2.id = item.id;
-											data2.catalogno = item.catalogno;
-											data2.title = item.title;
-											
-											main.buyersTreeHelper.addRow ({data: data1});
-											main.buyersTreeHelper.addRow ({isChildOfId: customer.id, data: data2});
-										}
-									}
-								}
-								
-																																									
-								var data = {};
-								data.id = case_.id;								
-								
-								var customer = didius.customer.load (case_.customerid);								
-								data.customername = customer.name;
-								data.itemcatalogno = "";
-								data.title = case_.title;								
-								data.sale = sale.toFixed (2) +" kr.";
-								data.commissionfee = commissionfee.toFixed (2) +" kr.";								
-								data.vat = vatamount.toFixed (2) +" kr.";			
-								data.settlement = (sale - commissionfee).toFixed (2) +" kr.";																													
-								
-								main.casesTreeHelper.addRow ({data: data});
-							}
-							}
-							catch (e)
-							{
-								sXUL.console.log (e)
-							}
-							
-							
-							
-							
-							
-							
-							
-							
-							main.casesTreeHelper.enableRefresh ();
-																					
-							document.getElementById ("button.close").disabled = false;							
-						}
-	
-		//didius.case.list ({auction: main.auction, async: true, onDone: onDone});
-		
+	{			
 		var onDone =	function (result)
 						{
-//							for (var index in result.sellerlines)
-//							{
-//								var line = result.sellerlines[index];
-//																	
-//								var data = {};								
-//								data.id = line.id;
-//								data.customername = "";								
-//								data.catalogno = line.catalogno;
-//								data.text = line.text;	
-//								data.amount = line.amount.toFixed (2) +" kr.";
-//								data.vatamount = line.vatamount.toFixed (2) +" kr.";
-//								data.commissionfee = line.commissionfee.toFixed (2) +" kr.";
-//								data.vatcommissionfee = line.vatcommissionfee.toFixed (2) +" kr.";									
-//								data.total = line.total.toFixed (2) +" kr.";
-																																																																													
-//								main.sellerLinesTreeHelper.addRow ({isChildOfId: line.customerid, data: data});								
-								//main.sellerLinesTreeHelper.addRow ({data: data});								
-//							}
+							for (var index in result.sellerlines)
+							{
+								var line = result.sellerlines[index];
+																	
+								var data = {};								
+								data.id = line.id;
+								data.customername = "";								
+								data.catalogno = line.catalogno;
+								data.text = line.text;	
+								data.amount = line.amount.toFixed (2) +" kr.";
+								data.vatamount = line.vatamount.toFixed (2) +" kr.";
+								data.commissionfee = line.commissionfee.toFixed (2) +" kr.";
+								data.vatcommissionfee = line.vatcommissionfee.toFixed (2) +" kr.";									
+								data.total = line.total.toFixed (2) +" kr.";
+
+								main.sellerLinesTreeHelper.addRow ({isChildOfId: line.customerid, data: data});
+//								main.sellerLinesTreeHelper.addRow ({data: data});								
+							}
 							
 							try
 							
 							{
 							
-//							for (var index in result.sellers)
-//							{
-//								var seller = result.sellers[index];
-//							
-//								var data = {}
-//								data.id = seller.id;
-//								data.customername = seller.text;
-//								data.catalogno = "";
-//								data.text = "";
-//								data.amount = seller.amount.toFixed (2) +" kr.";
-//								data.vatamount = seller.vatamount.toFixed (2) +" kr.";
-//								data.commissionfee = seller.commissionfee.toFixed (2) +" kr.";								
-//								data.vatcommissionfee = seller.vatcommissionfee.toFixed (2) +" kr.";								
-//								data.total = seller.total.toFixed (2) +" kr.";								
-//								
-//								main.sellerLinesTreeHelper.addRow ({data: data});
-//							}
+							for (var index in result.sellers)
+							{
+								var seller = result.sellers[index];
+							
+								var data = {}
+								data.id = seller.id;
+								data.customername = seller.text;
+								data.catalogno = "";
+								data.text = "";
+								data.amount = seller.amount.toFixed (2) +" kr.";
+								data.vatamount = seller.vatamount.toFixed (2) +" kr.";
+								data.commissionfee = seller.commissionfee.toFixed (2) +" kr.";								
+								data.vatcommissionfee = seller.vatcommissionfee.toFixed (2) +" kr.";								
+								data.total = seller.total.toFixed (2) +" kr.";								
+							
+								main.sellerLinesTreeHelper.addRow ({data: data});
+							}
+							
+							sXUL.console.log (result.sellercommissionfee)
 							
 							document.getElementById ("textbox.selleramount").value = result.selleramount;
 							document.getElementById ("textbox.sellercommissionfee").value = result.sellercommissionfee;
 							document.getElementById ("textbox.sellervat").value = result.sellervat;
 							document.getElementById ("textbox.sellertotal").value = result.sellertotal;
 																		
-																					
 							for (var index in result.buyerlines)
 							{
 								var line = result.buyerlines[index];
@@ -219,12 +109,10 @@ var main =
 								data.vatcommissionfee = line.vatcommissionfee.toFixed (2) +" kr.";									
 								data.total = line.total.toFixed (2) +" kr.";
 																																																																													
-								//main.buyerLinesTreeHelper.addRow ({isChildOfId: line.customerid, data: data});
-								main.buyerLinesTreeHelper.addRow ({data: data});
+								main.buyerLinesTreeHelper.addRow ({isChildOfId: line.customerid, data: data});
+								//main.buyerLinesTreeHelper.addRow ({data: data});
 							}
-							
-							return;
-							
+																					
 							for (var index in result.buyers)
 							{
 								var buyer = result.buyers[index];
@@ -296,6 +184,71 @@ var main =
 	close : function ()
 	{
 		window.close ();
+	},
+	
+	print : function ()
+	{
+		var progresswindow = app.window.open (window, "chrome://didius/content/settlement/progress.xul", "didius.auction.turnover.progress."+ main.auction.id, "", {});	
+										
+		var workload = function ()
+		{
+			progresswindow.removeEventListener ("load", workload, false)
+		
+			var overallprogress = 0;
+			var totalprogress = 1;
+			
+			var customers = new Array ();		
+			var invoices = new Array ();
+		
+			// Start.
+			var start =	function ()	
+						{						
+							worker1 ();
+						};
+								
+			// Email invoice.
+			var worker1 =	function ()
+							{
+								// Reset progressmeter #1.
+								progresswindow.document.getElementById ("description1").textContent = "Udskriver ...";
+								progresswindow.document.getElementById ("progressmeter1").mode = "undetermined"
+								progresswindow.document.getElementById ("progressmeter1").value = 0;
+																						
+								var nextWorker =	function ()
+													{
+														// Update progressmeter #1
+														overallprogress++;
+														progresswindow.document.getElementById ("progressmeter1").mode = "determined"
+														progresswindow.document.getElementById ("progressmeter1").value = (overallprogress / totalprogress) * 100;
+																																				
+														setTimeout (finish, 100);
+													};
+																							
+								var onDone = 	function ()
+												{
+													nextWorker ();
+												};
+												
+								var onError = 	function ()
+												{
+													app.error ({errorCode: "APP00150"});	
+													finish ();
+												}
+													
+								didius.common.print.turnoverReport ({auction: main.auction, onDone: onDone, onError: onError});	
+							};
+																
+			var finish =	function ()	
+							{															
+								progresswindow.close ();
+							};
+			
+			// Start worker.
+			setTimeout (start, 100);
+		}
+		
+		progresswindow.addEventListener ("load", workload);		
+	
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

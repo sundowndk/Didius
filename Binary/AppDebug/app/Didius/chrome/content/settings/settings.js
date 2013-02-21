@@ -74,6 +74,7 @@ var main =
 		keys[keys.length] = "didius_template_invoice";
 		keys[keys.length] = "didius_template_creditnote";
 		keys[keys.length] = "didius_template_display";		
+		keys[keys.length] = "didius_template_turnoverreport";		
 	
 		main.current = didius.settings.get ({keys: keys});
 		
@@ -130,6 +131,7 @@ var main =
 		document.getElementById ("templatesInvoice").value = main.current.didius_template_invoice;
 		document.getElementById ("templatesCreditnote").value = main.current.didius_template_creditnote;		
 		document.getElementById ("templatesDisplay").value = main.current.didius_template_display;		
+		document.getElementById ("templatesTurnoverReport").value = main.current.didius_template_turnoverreport;		
 	},
 	
 	get : function ()
@@ -180,6 +182,7 @@ var main =
 		main.current.didius_template_invoice = document.getElementById ("templatesInvoice").value;				
 		main.current.didius_template_creditnote = document.getElementById ("templatesCreditnote").value;				
 		main.current.didius_template_display = document.getElementById ("templatesDisplay").value;				
+		main.current.didius_template_turnoverreport = document.getElementById ("templatesTurnoverReport").value;				
 	},
 	
 	onChange : function ()
