@@ -17,6 +17,42 @@ mailBidWon : function (item)
 	request.send (content);		
 },
 
+sendSMS : function (attributes)
+{
+	var cmd = "cmd=Ajax;cmd.function=Didius.Helpers.SendSMS";
+
+	var content = new Array ();
+	
+	if (attributes.message)
+		content.message = attributes.message
+		
+	if (attributes.onDone != null)
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);	
+		
+		var onDone = 	function (respons)
+						{
+							attributes.onDone ();
+						};
+						
+		var onError = 	function (exception)
+						{
+							attributes.onError (exception);
+						};
+			
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", true);		
+		request.onLoaded (onDone);
+		request.onError (onError);
+		request.send (content);	
+	}
+	else
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, cmd, "data", "POST", false);	
+		request.send (content);				
+	}
+
+},
+
 createTurnoverReport : function (attributes)
 {
 	var cmd = "cmd=Ajax;cmd.function=Didius.Helpers.CreateTurnoverReport";

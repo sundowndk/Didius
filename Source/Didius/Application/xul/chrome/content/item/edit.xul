@@ -65,7 +65,7 @@
 											</hbox>							
 											<hbox align="top">
 												<label class="Label">Beskrivelse:</label>
-												<textbox id="textbox.description" flex="1" multiline="true" style="height: 200px;"  onkeyup="details.onChange ();" disabled="true"/>
+												<textbox id="textbox.description" flex="1" multiline="true" style="height: 200px;"  onkeyup="details.onChange ();" disabled="true"/>												
 											</hbox>																		
 										</vbox>
     								</column>

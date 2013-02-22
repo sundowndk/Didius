@@ -1,10 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.xul">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/settings/settings.xul">
     <Files>
-      <File FileName="Didius/Didius/Customer.cs" Line="992" Column="42" />
-      <File FileName="Didius/Application/xul/chrome/content/newsletter/edit.xul" Line="46" Column="4" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="138" Column="104" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/edit.js" Line="600" Column="36" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/edit.xul" Line="11" Column="87" />
+      <File FileName="Didius/Application/js/didius/common/print/label.js" Line="48" Column="8" />
+      <File FileName="Didius/Application/xul/chrome/content/templates/label.tpl" Line="74" Column="1" />
+      <File FileName="Didius/Didius.Enums/SettingsKey.cs" Line="50" Column="24" />
+      <File FileName="Didius/Didius/Runtime.cs" Line="98" Column="45" />
+      <File FileName="Didius/Application/xul/chrome/content/settings/settings.xul" Line="342" Column="105" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,27 +26,16 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True" />
-                    <Node name="case" expanded="True" />
-                    <Node name="creditnote" expanded="True" />
-                    <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
-                    <Node name="item" expanded="True" />
-                    <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True">
-                      <Node name="main.xul" selected="True" />
+                    <Node name="settings" expanded="True">
+                      <Node name="settings.xul" selected="True" />
                     </Node>
-                    <Node name="newsletter" expanded="True" />
-                    <Node name="settings" expanded="True" />
-                    <Node name="settlement" expanded="True" />
+                    <Node name="templates" expanded="True" />
                   </Node>
-                </Node>
-                <Node name="defaults" expanded="True">
-                  <Node name="preferences" expanded="True" />
                 </Node>
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />
-            <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
           </Node>
         </State>

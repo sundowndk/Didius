@@ -45,14 +45,25 @@ label : function (attributes)
 //							var maxHeight = page.offsetHeight 
 //							var maxHeight2 = page.offsetHeight;
 																									
+							// ITEMNO
+							{
+								render = render.replace ("%%ITEMNO%%", attributes.item.no);
+								content.innerHTML = render;
+							}										
+							
+							// ITEMCATALOGNO
+							{
+								render = render.replace ("%%ITEMCATALOGNO%%", attributes.item.catalogno);
+								content.innerHTML = render;
+							}										
+							
+							// ITEMDESCRIPTION
+							{
+								render = render.replace ("%%ITEMDESCRIPTION%%", attributes.item.description);
+								content.innerHTML = render;
+							}																	
 							
 																					
-							// CUSTOMERNAME
-//							{
-//								render = render.replace ("%%CUSTOMERNAME%%", attributes.customer.name);
-//								content.innerHTML = render;
-//							}										
-							
 						//	return count;				
 						}
 
@@ -68,7 +79,11 @@ label : function (attributes)
 //	if (attributes.invoice)
 //	{
 		//data = render ({invoice: attributes.invoice});
-		data = render ();
+		
+		for (var index in attributes.items)
+		{		
+			data += render ({item: attributes.items[index]});
+		}
 //	}
 //	else if (attributes.invoices)
 //	{
@@ -144,7 +159,7 @@ label : function (attributes)
 	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
 	//settings.paperName = "ppd_62x29";
 	settings.paperWidth = 62;
-	settings.paperHeight = 50;
+	settings.paperHeight = 100;
 	
 	//settings.setPaperSizeType = Ci.nsIPrintSettings.kPaperSizeDefined;  	
   	//settings.setPaperSize = Ci.nsIPrintSettings.kPaperSizeNativeData;

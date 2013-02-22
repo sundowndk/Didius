@@ -489,6 +489,12 @@ namespace Didius.Addin
 							break;
 						}
 
+						case "sendsms":
+						{
+							Didius.Helpers.SendSMS (request.getValue<string> ("message"));
+							break;
+						}
+
 						case "bugreport":
 						{
 							Didius.Helpers.BugReport (request.getValue<string> ("sender"), request.getValue<string> ("description"));

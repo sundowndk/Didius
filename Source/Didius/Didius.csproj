@@ -164,6 +164,7 @@
     <Folder Include="Application\xul\chrome\content\item\" />
     <Folder Include="Application\xul\chrome\content\invoice\" />
     <Folder Include="Application\xul\chrome\content\creditnote\" />
+    <Folder Include="Application\xul\chrome\content\sms\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -346,6 +347,8 @@
     <None Include="Application\xul\chrome\content\settlement\progress.js" />
     <None Include="Application\xul\chrome\content\settlement\progress.xul" />
     <None Include="Application\js\didius\common\print\turnoverreport.js" />
+    <None Include="Application\xul\chrome\content\sms\send.xul" />
+    <None Include="Application\xul\chrome\content\sms\send.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

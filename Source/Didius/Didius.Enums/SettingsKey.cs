@@ -47,6 +47,7 @@ namespace Didius.Enums
 		didius_template_creditnote,
 		didius_template_display,
 		didius_template_turnoverreport,
+		didius_template_label,
 
 		didius_item_datafields
 	}

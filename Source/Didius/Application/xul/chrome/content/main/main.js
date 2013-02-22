@@ -528,6 +528,8 @@ var main =
 			document.getElementById ("newsletterDestroy").disabled = true;
 					
 			didius.newsletter.list ({async: true, onDone: onDone});				
+			
+			document.getElementById ("button.newslettersendsms").disabled = false;
 		},	
 		
 		onChange : function ()
@@ -577,7 +579,12 @@ var main =
 					app.error ({exception: error})
 				}								
 			}
-		}			
+		},
+		
+		sendSMS : function ()
+		{
+			app.window.open (window, "chrome://didius/content/sms/send.xul", "didius.sms.send."+ SNDK.tools.newGuid (), null, {});
+		}	
 	},
 	
 	

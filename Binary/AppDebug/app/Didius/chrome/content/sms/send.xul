@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
+
+<window id="didius.auction.catalog.print" title="Send SMS" width="300" height="100" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY">
+	<script type="application/x-javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
+	<script type="application/x-javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>  	
+	<script type="application/x-javascript" src="chrome://didius/content/js/didius.js"/>
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
+	<script type="application/x-javascript" src="chrome://didius/content/sms/send.js"/>	
+			
+	<keyset>
+  		<key id="key.close" modifiers="control" key="c" oncommand="main.close ();"/>
+  		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/>
+	</keyset>			
+	
+	<iframe id="iframe.print" style="height: 0px; width: 0px; margin: 0px; padding: 0px;" collapsed="true">
+	</iframe>							
+
+	<vbox class="Main" flex="1">				
+		<hbox align="center" valign="top">
+			<label id="label.message" class="Label">Besked:<br/></label>
+			<textbox id="textbox.message" flex="1" multiline="true" style="height: 100px;"  onkeyup="main.onChange ();" disabled="true"/>			
+		</hbox>							
+	</vbox>	
+									
+	<hbox class="WindowButtons" align="right" >
+		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>
+		<button id="button.send" label="Send" oncommand="main.send ();" disabled="true" accesskey="S"/>
+	</hbox>
+</window>

@@ -8,6 +8,7 @@
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
 	<script type="application/javascript" src="chrome://didius/content/auction/edit.js"/>	
 			
 	<keyset>		
@@ -135,6 +136,7 @@
 								<button id="button.itemdestroy" label="Slet" disabled="true" oncommand="items.destroy ();" accesskey="S"/>
 								<space flex="1"/>																
 								<button id="button.printcatalog" label="Udskriv" oncommand="catalog.print ();" accesskey="U"/>
+								<button id="button.printlabels" label="Labels" oncommand="labels.print ();" />
 							</vbox>																			
 					</hbox>										
 				</tabpanel>

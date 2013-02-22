@@ -116,28 +116,32 @@
 					</vbox>
 				</tabpanel>		
 						
-				<tabpanel>					
-					<hbox flex="1">
-						<tree id="newsletters" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.newsletters.onChange ();" seltype="single">
-							<treecols>
-								<treecol id="id" hidden="true"/>
-								<splitter class="tree-splitter" hidden="true"/>								
-								<treecol id="createtimestamp" hidden="true" />
-								<splitter class="tree-splitter" hidden="true"/>
-								<treecol id="title" label="Title" flex="3" onclick="main.newsletters.sort ({column: 'title'});" />
-								<splitter class="tree-splitter" />
-							</treecols>								
-						</tree>
-					</hbox>
-					<hbox>
-						<vbox>
-							<button id="newsletterCreate" label="Opret" disabled="true" oncommand="main.newsletters.create ();"/>
-							<button id="newsletterEdit" label="Redigere" disabled="true" oncommand="main.newsletters.edit ();"/>
-							<button id="newsletterDestroy" label="Slet" disabled="true" oncommand="main.newsletters.destroy ();"/>						
-							<spacer flex="1"/>
-							<button id="button.sendsms" label="Send SMS" disabled="true" oncommand="main.newsletters.sendSMS ();"/>						
-						</vbox>
-					</hbox>					
+				<tabpanel>		
+					<hbox flex="1">			
+						<hbox flex="1">
+							<hbox flex="1">
+								<tree id="newsletters" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.newsletters.onChange ();" seltype="single">
+									<treecols>
+										<treecol id="id" hidden="true"/>
+										<splitter class="tree-splitter" hidden="true"/>								
+										<treecol id="createtimestamp" hidden="true" />
+										<splitter class="tree-splitter" hidden="true"/>
+										<treecol id="title" label="Title" flex="3" onclick="main.newsletters.sort ({column: 'title'});" />
+										<splitter class="tree-splitter" />
+									</treecols>								
+								</tree>
+							</hbox>
+							<hbox>
+							<vbox>
+								<button id="newsletterCreate" label="Opret" disabled="true" oncommand="main.newsletters.create ();"/>
+								<button id="newsletterEdit" label="Redigere" disabled="true" oncommand="main.newsletters.edit ();"/>
+								<button id="newsletterDestroy" label="Slet" disabled="true" oncommand="main.newsletters.destroy ();"/>						
+								<spacer flex="1"/>
+								<button id="button.newslettersendsms" label="Send SMS" disabled="true" oncommand="main.newsletters.sendSMS ();"/>						
+							</vbox>
+						</hbox>	
+						</hbox>
+					</hbox>				
 				</tabpanel>			
 			</tabpanels>
 			

@@ -1,4 +1,8 @@
 using System;
+using System.Text;
+using System.Net;
+using System.IO;
+
 using System.Collections.Generic;
 
 namespace Didius
@@ -14,6 +18,61 @@ namespace Didius
 			
 			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, false);
 		}
+
+		public static void SendSMS (string Message)
+		{
+			List<string> Recipients = new List<string> ();
+			string From = "York Auktion";
+
+			foreach (Customer customer in Customer.List ())
+			{
+				if (customer.NewsSMS)
+				{
+					if (customer.Mobile != string.Empty)
+					{
+						Recipients.Add ("45" + customer.Mobile);
+					}
+				}
+			}
+
+			string url = "http://sms-a.qnax.net/";
+
+			ASCIIEncoding encoding = new ASCIIEncoding ();
+
+			string data = string.Empty;
+			data += "username=yorkauktion";
+			data += "&password=qwerty";
+
+			foreach (string recipient in Recipients)
+			{
+				data += "&recipient="+ recipient;
+			}
+
+			data += "&sender="+ From;
+			data += "&message="+ Message;
+
+
+			WebRequest r = WebRequest.Create(url +"?"+ data);
+			WebResponse resp = r.GetResponse();
+
+//			byte[] bytedata = encoding.GetBytes(data);
+
+//			HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create (url+data);
+//			webrequest.
+//			webrequest.Method = "GET";
+
+//			Stream stream = webrequest.GetRequestStream ();
+//			stream.Close ();
+
+//			webrequest.ContentType = "application/x-www-form-urlencoded";
+//			webrequest.ContentLength = bytedata.Length;
+
+//			using (Stream stream = webrequest.GetRequestStream ())
+//			{
+//				stream.Write (bytedata, 0, bytedata.Length);
+//			}
+		}
+
 
 		public static void MailItemWon (Item Item)
 		{

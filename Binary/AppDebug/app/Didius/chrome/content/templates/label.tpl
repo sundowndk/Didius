@@ -16,8 +16,8 @@ body
 
 .A4
 {				
-	width: 								62mm; 
-	height: 							50mm; 
+	width: 								100mm; 
+	height: 							62mm; 
 	
 	display: 							block;
 	page-break-after:					always; 
@@ -46,8 +46,8 @@ body
 
 	font-size:							11px;
 	
-	width: 								10mm;
-	height: 							10mm;
+	width: 								100mm;
+	height: 							62mm;
 	
 	overflow: hidden;
 }
@@ -70,10 +70,12 @@ body
 }
 #ENDSTYLES
 
-62mmx100mm<br>
-2-3/7"x4"<br>
-Landscape<br>
-Brother Industries, Ltd.<br>
+<div class="Label">
+Kunde nr. %%CUSTOMERNAMENO%%<br>
+Effekt nr. %%ITEMNO%%<br>
+Katalog nr. %%ITEMCATALOGNO%%<br>
+%%ITEMDESCRIPTION%%
+</div>
 
 
 

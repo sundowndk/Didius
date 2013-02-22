@@ -57,6 +57,7 @@
 					<js file="js/didius/common/print/settlement.js" />	
 					<js file="js/didius/common/print/catalog.js" />	
 					<js file="js/didius/common/print/turnoverreport.js" />	
+					<js file="js/didius/common/print/label.js" />	
 				</class>						
 			</class>						
 		</class>
