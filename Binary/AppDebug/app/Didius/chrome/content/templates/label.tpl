@@ -71,7 +71,6 @@ body
 #ENDSTYLES
 
 <div class="Label">
-Kunde nr. %%CUSTOMERNAMENO%%<br>
 Effekt nr. %%ITEMNO%%<br>
 Katalog nr. %%ITEMCATALOGNO%%<br>
 %%ITEMDESCRIPTION%%

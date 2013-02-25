@@ -278,6 +278,13 @@ parsePrintTemplate : function (data)
 					continue;
 				}
 				
+				case "#BEGINBUYERTOTALROW":
+				{
+					block = "buyertotalrow";
+					result.buyertotalrow = "";
+					continue;
+				}
+				
 				case "#BEGINTRANFER":
 				{
 					block = "transfer";
@@ -330,6 +337,12 @@ parsePrintTemplate : function (data)
 				}
 				
 				case "#ENDBUYERITEMROW":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDBUYERTOTALROW":
 				{
 					block = "";
 					continue;
@@ -390,6 +403,12 @@ parsePrintTemplate : function (data)
 			case "buyeritemrow":
 			{
 				result.buyeritemrow += data[idx] +"\n";
+				break;
+			}
+			
+			case "buyertotalrow":
+			{
+				result.buyertotalrow += data[idx] +"\n";
 				break;
 			}
 			

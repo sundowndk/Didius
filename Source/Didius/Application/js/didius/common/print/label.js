@@ -9,8 +9,8 @@ label : function (attributes)
 					{											
 						//attributes.customer = didius.customer.load (attributes.invoice.customerid);
 					
-						//var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_invoice"}));					
-						var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
+						var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_label"}));					
+						//var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
 	
 						var print = app.mainWindow.document.createElement ("iframe");
 						app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);

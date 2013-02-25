@@ -7,13 +7,19 @@ turnoverReport : function (attributes)
 
 	var render = 	function (attributes)
 					{											
-						attributes.turnoverReport = didius.helpers.createTurnoverReport ({auction: main.auction, async: true, onDone: onDone});
+						attributes.turnoverReport = didius.helpers.createTurnoverReport ({auction: main.auction});
 					
 						//attributes.customer = didius.customer.load (attributes.settlement.customerid);
 					
-						var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_settlement"}));						
+						
+						
+						
+					
+						var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_turnoverreport"}));
 						var print = app.mainWindow.document.createElement ("iframe");
 						app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
+						
+						
 												
 						var pageCount = 1;				
 						var totalSale = 0;
@@ -63,57 +69,57 @@ turnoverReport : function (attributes)
 																					
 							// CUSTOMERNAME
 							{
-								render = render.replace ("%%CUSTOMERNAME%%", attributes.customer.name);
-								content.innerHTML = render;
+//								render = render.replace ("%%CUSTOMERNAME%%", attributes.customer.name);
+//								content.innerHTML = render;
 							}
 					
 							// CUSTOMERADDRESS
 							{
-								var customeraddress = attributes.customer.address1;
-								
-								if (attributes.customer.address2 != "")
-								{
-									address += "<br>"+ attributes.customer.address2;
-								}
+//								var customeraddress = attributes.customer.address1;
+//								
+//								if (attributes.customer.address2 != "")
+//								{
+//									address += "<br>"+ attributes.customer.address2;
+//								}
 							
-								render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
-								content.innerHTML = render;
+//								render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
+//								content.innerHTML = render;
 							}
 							
 							// POSTCODE
 							{
-								render = render.replace ("%%CUSTOMERPOSTCODE%%", attributes.customer.postcode);
-								content.innerHTML = render;
+///								render = render.replace ("%%CUSTOMERPOSTCODE%%", attributes.customer.postcode);
+//								content.innerHTML = render;
 							}
 							
 							// CUSTOMERCITY
 							{
-								render = render.replace ("%%CUSTOMERCITY%%", attributes.customer.city);
-								content.innerHTML = render;
+//								render = render.replace ("%%CUSTOMERCITY%%", attributes.customer.city);
+//								content.innerHTML = render;
 							}
 							
 							// CUSTOMERCOUNTRY
 							{
-								render = render.replace ("%%CUSTOMERCOUNTRY%%", attributes.customer.country);
-								content.innerHTML = render;
+//								render = render.replace ("%%CUSTOMERCOUNTRY%%", attributes.customer.country);
+//								content.innerHTML = render;
 							}
 							
 							// CUSTOMERNO
 							{
-								render = render.replace ("%%CUSTOMERNO%%", attributes.customer.no);
-								content.innerHTML = render;
+//								render = render.replace ("%%CUSTOMERNO%%", attributes.customer.no);
+//								content.innerHTML = render;
 							}
 							
 							// CUSTOMERPHONE
 							{
-								render = render.replace ("%%CUSTOMERPHONE%%", attributes.customer.phone);
-								content.innerHTML = render;
+//								render = render.replace ("%%CUSTOMERPHONE%%", attributes.customer.phone);
+//								content.innerHTML = render;
 							}
 							
 							// CUSTOMEREMAIL
 							{
-								render = render.replace ("%%CUSTOMEREMAIL%%", attributes.customer.email);
-								content.innerHTML = render;
+//								render = render.replace ("%%CUSTOMEREMAIL%%", attributes.customer.email);
+//								content.innerHTML = render;
 							}
 							
 							// AUCTIONNO
@@ -130,83 +136,83 @@ turnoverReport : function (attributes)
 													
 							// SETTLEMENTNO
 							{
-								render = render.replace ("%%SETTLEMENTNO%%", attributes.settlement.no);
-								content.innerHTML = render;
+//								render = render.replace ("%%SETTLEMENTNO%%", attributes.settlement.no);
+//								content.innerHTML = render;
 							}
 							
 							// SETTLEMENTDATE
 							{															
-								var date = SNDK.tools.timestampToDate (attributes.settlement.createtimestamp)
-								render = render.replace ("%%SETTLEMENTDATE%%", SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ());
-								content.innerHTML = render;				
+//								var date = SNDK.tools.timestampToDate (attributes.settlement.createtimestamp)
+//								render = render.replace ("%%SETTLEMENTDATE%%", SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ());
+//								content.innerHTML = render;				
 							}
 							
 							// CUSTOMERBANKACCOUNT
 							{
-								render = render.replace ("%%CUSTOMERBANKACCOUNT%%", attributes.customer.bankregistrationno +" "+ attributes.customer.bankaccountno);
-								content.innerHTML = render;
+//								render = render.replace ("%%CUSTOMERBANKACCOUNT%%", attributes.customer.bankregistrationno +" "+ attributes.customer.bankaccountno);
+//								content.innerHTML = render;
 							}
 					
 							// ROWS
 							{
 								// Add data rows.
-								var rows = "";	
-								var count = 0;
+//								var rows = "";	
+//								var count = 0;
 														
-								for (var idx = from; idx < attributes.settlement.lines.length; idx++)
-								{							
-									var row = template.row;
+//								for (var idx = from; idx < attributes.settlement.lines.length; idx++)
+//								{							
+//									var row = template.row;
 									
 									// TEXT
 									{
-										row = row.replace ("%%TEXT%%", attributes.settlement.lines[idx].text);
+//										row = row.replace ("%%TEXT%%", attributes.settlement.lines[idx].text);
 									}		
 								
 									// AMOUNT
 									{
-										row = row.replace ("%%AMOUNT%%", attributes.settlement.lines[idx].amount.toFixed (2));
+//										row = row.replace ("%%AMOUNT%%", attributes.settlement.lines[idx].amount.toFixed (2));
 									}
 																										
 									// VATAMOUNT
 									{
-										row = row.replace ("%%VATAMOUNT%%", attributes.settlement.lines[idx].vatamount.toFixed (2));
+//										row = row.replace ("%%VATAMOUNT%%", attributes.settlement.lines[idx].vatamount.toFixed (2));
 									}
 									
 									// COMMISSIONFEE
 									{
-										row = row.replace ("%%COMMISSIONFEE%%", attributes.settlement.lines[idx].commissionfee.toFixed (2));
+//										row = row.replace ("%%COMMISSIONFEE%%", attributes.settlement.lines[idx].commissionfee.toFixed (2));
 									}					
 									
 									// VATCOMMISSIONFEE
 									{
-										row = row.replace ("%%VATCOMMISSIONFEE%%", attributes.settlement.lines[idx].vatcommissionfee.toFixed (2));
+//										row = row.replace ("%%VATCOMMISSIONFEE%%", attributes.settlement.lines[idx].vatcommissionfee.toFixed (2));
 									}					
 									
 									// TOTAL
 									{
-										row = row.replace ("%%TOTAL%%", attributes.settlement.lines[idx].total.toFixed (2));
+//										row = row.replace ("%%TOTAL%%", attributes.settlement.lines[idx].total.toFixed (2));
 									}					
 
-									content.innerHTML = render.replace ("%%ROWS%%", rows + row);
+//									content.innerHTML = render.replace ("%%ROWS%%", rows + row);
 																															
-									if (content.offsetHeight > (maxHeight2))
-									{						
-										render = render.replace ("%%ROWS%%", rows);															
-										render = render.replace ("%%TRANSFER%%", template.transfer)						
-										render = render.replace ("%%TOTAL%%", "");		
-										render = render.replace ("%%DISCLAIMER%%", "");							
-										content.innerHTML = render;
-										break;	
-									}
-																						
-									rows += row;																	
-									count++;						
-								}																		
+//									if (content.offsetHeight > (maxHeight2))
+//									{						
+//										render = render.replace ("%%ROWS%%", rows);															
+//										render = render.replace ("%%TRANSFER%%", template.transfer)						
+//										render = render.replace ("%%TOTAL%%", "");		
+//										render = render.replace ("%%DISCLAIMER%%", "");							
+//										content.innerHTML = render;
+//										break;	
+//									}
+//																						
+//									rows += row;																	
+//									count++;						
+//								}																		
 								
-								render = render.replace ("%%ROWS%%", rows);
-								render = render.replace ("%%TRANSFER%%", "");
+//								render = render.replace ("%%ROWS%%", rows);
+//								render = render.replace ("%%TRANSFER%%", "");
 								
-								content.innerHTML = render;
+//								content.innerHTML = render;
 							}
 							
 							// TOTAL
@@ -229,20 +235,22 @@ turnoverReport : function (attributes)
 						}
 						
 						var rows = new Array ();
+						var customerids
 															
 						for (var index in attributes.turnoverReport.buyerlines)
 						{
 							var line = attributes.turnoverReport.buyerlines[index];
-							
+								
+							var row = template.buyer
 							
 						}
 																																																		
 																																																																																																																																				
 						var c = page (0);
-						while (c < attributes.settlement.lines.length)
-						{							
-						 	c += page (c);				 				
-						}	
+//						while (c < attributes.settlement.lines.length)
+//						{							
+//						 	c += page (c);				 				
+//						}	
 				
 						var result = print.contentDocument.body.innerHTML;
 						

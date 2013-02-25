@@ -1,14 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/settings/settings.xul">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/common/print/turnoverreport.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/edit.js" Line="600" Column="36" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/edit.xul" Line="11" Column="87" />
-      <File FileName="Didius/Application/js/didius/common/print/label.js" Line="48" Column="8" />
-      <File FileName="Didius/Application/xul/chrome/content/templates/label.tpl" Line="74" Column="1" />
-      <File FileName="Didius/Didius.Enums/SettingsKey.cs" Line="50" Column="24" />
+      <File FileName="Didius/Application/js/didius/common/print/turnoverreport.js" Line="244" Column="32" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/turnover.js" Line="201" Column="32" />
       <File FileName="Didius/Didius/Runtime.cs" Line="98" Column="45" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/settings.xul" Line="342" Column="105" />
+      <File FileName="Didius/Didius/TurnoverReport.cs" Line="139" Column="4" />
+      <File FileName="Didius/Application/js/didius/helpers.js" Line="270" Column="25" />
+      <File FileName="Didius/Didius/TurnoverReportBuyer.cs" Line="1" Column="1" />
+      <File FileName="Didius/Didius/TurnoverReportBuyerLine.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,7 +18,9 @@
               <Node name="js" expanded="True">
                 <Node name="didius" expanded="True">
                   <Node name="common" expanded="True">
-                    <Node name="print" expanded="True" />
+                    <Node name="print" expanded="True">
+                      <Node name="turnoverreport.js" selected="True" />
+                    </Node>
                   </Node>
                 </Node>
               </Node>
@@ -27,9 +29,7 @@
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True" />
                     <Node name="invoice" expanded="True" />
-                    <Node name="settings" expanded="True">
-                      <Node name="settings.xul" selected="True" />
-                    </Node>
+                    <Node name="settings" expanded="True" />
                     <Node name="templates" expanded="True" />
                   </Node>
                 </Node>
