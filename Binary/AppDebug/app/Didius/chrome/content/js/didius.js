@@ -1315,6 +1315,41 @@ var didius =
 							continue;
 						}
 						
+						case "#BEGINSELLERINFOROW":
+						{
+							block = "sellerinforow";
+							result.sellerinforow = "";
+							continue;
+						}
+						
+						case "#BEGINSELLERITEMROW":
+						{
+							block = "selleritemrow";
+							result.selleritemrow = "";
+							continue;
+						}
+						
+						case "#BEGINSELLERTOTALROW":
+						{
+							block = "sellertotalrow";
+							result.sellertotalrow = "";
+							continue;
+						}
+						
+						case "#BEGINTOTALROW":
+						{
+							block = "totalrow";
+							result.totalrow = "";
+							continue;
+						}
+						
+						case "#BEGINNOTSOLDROW":
+						{
+							block = "notsoldrow";
+							result.notsoldrow = "";
+							continue;
+						}
+						
 						case "#BEGINTRANFER":
 						{
 							block = "transfer";
@@ -1378,6 +1413,36 @@ var didius =
 							continue;
 						}
 						
+						case "#ENDSELLERINFOROW":
+						{
+							block = "";
+							continue;
+						}
+						
+						case "#ENDSELLERITEMROW":
+						{
+							block = "";
+							continue;
+						}
+						
+						case "#ENDSELLERTOTALROW":
+						{
+							block = "";
+							continue;
+						}				
+						
+						case "#ENDTOTALROW":
+						{
+							block = "";
+							continue;
+						}				
+						
+						case "#ENDNOTSOLDROW":
+						{
+							block = "";
+							continue;
+						}				
+						
 						case "#ENDTRANSFER":
 						{
 							block = "";
@@ -1439,6 +1504,36 @@ var didius =
 					case "buyertotalrow":
 					{
 						result.buyertotalrow += data[idx] +"\n";
+						break;
+					}
+					
+					case "sellerinforow":
+					{
+						result.sellerinforow += data[idx] +"\n";
+						break;
+					}
+					
+					case "selleritemrow":
+					{
+						result.selleritemrow += data[idx] +"\n";
+						break;
+					}
+					
+					case "sellertotalrow":
+					{
+						result.sellertotalrow += data[idx] +"\n";
+						break;
+					}
+					
+					case "totalrow":
+					{
+						result.totalrow += data[idx] +"\n";
+						break;
+					}
+					
+					case "notsoldrow":
+					{
+						result.notsoldrow += data[idx] +"\n";
 						break;
 					}
 					
@@ -4141,11 +4236,14 @@ var didius =
 									
 								
 									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_turnoverreport"}));
+									
+									
 									var print = app.mainWindow.document.createElement ("iframe");
 									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
 									
 									
-															
+									
+									var rows = new Array ();						
 									var pageCount = 1;				
 									var totalSale = 0;
 									var totalCommissionFee = 0;							
@@ -4169,7 +4267,7 @@ var didius =
 										page.appendChild (content);
 																								
 										// Add inital content.
-										var render = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
+										var render = template.page.replace ("%%PAGENUMMER%%", pageCount++);					
 										content.innerHTML = render;
 									
 										// Caluculate page maxheight for printing.										
@@ -4191,202 +4289,433 @@ var didius =
 										
 							//			sXUL.console.log ("maxHeight: "+ maxHeight);
 							//			sXUL.console.log ("maxHeight2: "+ maxHeight2);			
-																								
-										// CUSTOMERNAME
-										{
-			//								render = render.replace ("%%CUSTOMERNAME%%", attributes.customer.name);
-			//								content.innerHTML = render;
-										}
-								
-										// CUSTOMERADDRESS
-										{
-			//								var customeraddress = attributes.customer.address1;
-			//								
-			//								if (attributes.customer.address2 != "")
-			//								{
-			//									address += "<br>"+ attributes.customer.address2;
-			//								}
-										
-			//								render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
-			//								content.innerHTML = render;
-										}
-										
-										// POSTCODE
-										{
-			///								render = render.replace ("%%CUSTOMERPOSTCODE%%", attributes.customer.postcode);
-			//								content.innerHTML = render;
-										}
-										
-										// CUSTOMERCITY
-										{
-			//								render = render.replace ("%%CUSTOMERCITY%%", attributes.customer.city);
-			//								content.innerHTML = render;
-										}
-										
-										// CUSTOMERCOUNTRY
-										{
-			//								render = render.replace ("%%CUSTOMERCOUNTRY%%", attributes.customer.country);
-			//								content.innerHTML = render;
-										}
-										
-										// CUSTOMERNO
-										{
-			//								render = render.replace ("%%CUSTOMERNO%%", attributes.customer.no);
-			//								content.innerHTML = render;
-										}
-										
-										// CUSTOMERPHONE
-										{
-			//								render = render.replace ("%%CUSTOMERPHONE%%", attributes.customer.phone);
-			//								content.innerHTML = render;
-										}
-										
-										// CUSTOMEREMAIL
-										{
-			//								render = render.replace ("%%CUSTOMEREMAIL%%", attributes.customer.email);
-			//								content.innerHTML = render;
-										}
-										
-										// AUCTIONNO
-										{
-			//								render = render.replace ("%%AUCTIONNO%%", attributes.invoice.auction.no);
-			//								content.innerHTML = render;
-										}
-										
-										// AUCTIONTITLE
-										{
-			//								render = render.replace ("%%AUCTIONTITLE%%", attributes.invoice.auction.title);
-			//								content.innerHTML = render;
-										}
-																
-										// SETTLEMENTNO
-										{
-			//								render = render.replace ("%%SETTLEMENTNO%%", attributes.settlement.no);
-			//								content.innerHTML = render;
-										}
-										
-										// SETTLEMENTDATE
-										{															
-			//								var date = SNDK.tools.timestampToDate (attributes.settlement.createtimestamp)
-			//								render = render.replace ("%%SETTLEMENTDATE%%", SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ());
-			//								content.innerHTML = render;				
-										}
-										
-										// CUSTOMERBANKACCOUNT
-										{
-			//								render = render.replace ("%%CUSTOMERBANKACCOUNT%%", attributes.customer.bankregistrationno +" "+ attributes.customer.bankaccountno);
-			//								content.innerHTML = render;
-										}
-								
+																				
+																																														
 										// ROWS
 										{
 											// Add data rows.
-			//								var rows = "";	
-			//								var count = 0;
+											var blabla = "";	
+											var count = 0;
 																	
-			//								for (var idx = from; idx < attributes.settlement.lines.length; idx++)
-			//								{							
-			//									var row = template.row;
+											for (var index = from; index < rows.length; index++)
+											{
+												var row = rows[index];
 												
-												// TEXT
+												if (row == "NEWPAGE")
 												{
-			//										row = row.replace ("%%TEXT%%", attributes.settlement.lines[idx].text);
-												}		
-											
-												// AMOUNT
-												{
-			//										row = row.replace ("%%AMOUNT%%", attributes.settlement.lines[idx].amount.toFixed (2));
+													render = render.replace ("%%ROWS%%", blabla);															
+													content.innerHTML = render;
+													count++;
+													break;
 												}
 																													
-												// VATAMOUNT
-												{
-			//										row = row.replace ("%%VATAMOUNT%%", attributes.settlement.lines[idx].vatamount.toFixed (2));
-												}
-												
-												// COMMISSIONFEE
-												{
-			//										row = row.replace ("%%COMMISSIONFEE%%", attributes.settlement.lines[idx].commissionfee.toFixed (2));
-												}					
-												
-												// VATCOMMISSIONFEE
-												{
-			//										row = row.replace ("%%VATCOMMISSIONFEE%%", attributes.settlement.lines[idx].vatcommissionfee.toFixed (2));
-												}					
-												
-												// TOTAL
-												{
-			//										row = row.replace ("%%TOTAL%%", attributes.settlement.lines[idx].total.toFixed (2));
-												}					
-			
-			//									content.innerHTML = render.replace ("%%ROWS%%", rows + row);
+												content.innerHTML = render.replace ("%%ROWS%%", blabla + row);
 																																		
-			//									if (content.offsetHeight > (maxHeight2))
-			//									{						
-			//										render = render.replace ("%%ROWS%%", rows);															
-			//										render = render.replace ("%%TRANSFER%%", template.transfer)						
-			//										render = render.replace ("%%TOTAL%%", "");		
-			//										render = render.replace ("%%DISCLAIMER%%", "");							
-			//										content.innerHTML = render;
-			//										break;	
-			//									}
-			//																						
-			//									rows += row;																	
-			//									count++;						
-			//								}																		
-											
-			//								render = render.replace ("%%ROWS%%", rows);
-			//								render = render.replace ("%%TRANSFER%%", "");
-											
-			//								content.innerHTML = render;
+												if (content.offsetHeight > (maxHeight2))
+												{						
+													render = render.replace ("%%ROWS%%", blabla);															
+													content.innerHTML = render;
+													break;	
+												}
+																									
+												blabla += row;																	
+												count++;											
+											}
 										}
-										
-										// TOTAL
-										{
-											render = render.replace ("%%TOTAL%%", template.total);
-											render = render.replace ("%%TOTALSALE%%", parseInt (attributes.settlement.sales).toFixed (2));
-											render = render.replace ("%%TOTALCOMMISSIONFEE%%", parseInt (attributes.settlement.commissionfee).toFixed (2));
-											render = render.replace ("%%TOTALVAT%%", parseInt (attributes.settlement.vat).toFixed (2));
-											render = render.replace ("%%TOTALTOTAL%%", parseInt (attributes.settlement.total).toFixed (2));
-											content.innerHTML = render;
-										}				
-																		
-										// DISCLAIMER
-										{
-											render = render.replace ("%%DISCLAIMER%%", template.disclaimer);
-											content.innerHTML = render;
-										}
-										
+																	
 										return count;				
 									}
 									
-									var rows = new Array ();
-									var customerids
-																		
-									for (var index in attributes.turnoverReport.buyerlines)
+																					
+									for (var index in attributes.turnoverReport.buyers)
 									{
-										var line = attributes.turnoverReport.buyerlines[index];
-											
-										var row = template.buyer
+										var buyer = attributes.turnoverReport.buyers[index];
 										
+										// INFO
+										{
+											var row = template.buyerinforow;
+											var customer = didius.customer.load (buyer.id);
+											
+											// CUSTOMERNO
+											{
+												row = row.replace ("%%CUSTOMERNO%%", customer.no);
+											}
+											
+											// CUSTOMERNAME
+											{
+												row = row.replace ("%%CUSTOMERNAME%%", customer.name);
+											}
+											
+											// CUSTOMERADDRESS
+											{
+												var address = customer.address1 +" "+ customer.address2
+												row = row.replace ("%%CUSTOMERADDRESS%%", address);
+											}
+											
+											// CUSTOMERPOSTCODE CUSTOMERCITY
+											{
+												row = row.replace ("%%CUSTOMERPOSTCODE%%", customer.postcode);
+												row = row.replace ("%%CUSTOMERCITY%%", customer.city);
+											}
+											
+											// CUSTOMERPHONE
+											{
+												row = row.replace ("%%CUSTOMERPHONE%%", customer.phone);
+											}								
+																							
+											rows[rows.length] = row;
+										}
+										
+										// ITEMS
+										{							
+											for (var index in attributes.turnoverReport.buyerlines)
+											{
+												var line = attributes.turnoverReport.buyerlines[index];
+												
+												if (line.customerid == buyer.id)
+												{
+													var row = template.buyeritemrow;
+													
+													// ITEM
+													{
+														// LINECATALOGNO
+														{
+															row = row.replace ("%%LINECATALOGNO%%", line.catalogno )
+														}
+														
+														// LINETEXT
+														{
+															row = row.replace ("%%LINETEXT%%", line.text)
+														}
+														
+														// LINEAMOUNT
+														{
+															row = row.replace ("%%LINEAMOUNT%%", line.amount.toFixed (2) +" kr.")
+														}
+														
+														// LINEVATAMOUNT
+														{
+															row = row.replace ("%%LINEVATAMOUNT%%", line.vatamount.toFixed (2) +" kr.")
+														}
+														
+														// LINECOMMISSIONFEE
+														{
+															row = row.replace ("%%LINECOMMISSIONFEE%%", line.commissionfee.toFixed (2) +" kr.")
+														}
+																																				
+														// LINEVATCOMMISSIONFEE
+														{
+															row = row.replace ("%%LINEVATCOMMISSIONFEE%%", line.vatcommissionfee.toFixed (2) +" kr.")
+														}										
+														
+														// LINETOTAL
+														{
+															row = row.replace ("%%LINETOTAL%%", line.total.toFixed (2) +" kr.")
+														}										
+													}
+																
+													rows[rows.length] = row;									
+												}
+											}
+										}
+										
+										// TOTAL
+										{							
+											var row = template.buyertotalrow;
+											
+											// AMOUNT
+											{
+												row = row.replace ("%%BUYERAMOUNT%%", buyer.amount.toFixed (2) +" kr.");
+											}
+											
+											// VATAMOUNT
+											{
+												row = row.replace ("%%BUYERVATAMOUNT%%", buyer.amount.toFixed (2) +" kr.");
+											}
+											
+											// COMMISSIONFEE
+											{
+												row = row.replace ("%%BUYERCOMMISSFIONFEE%%", buyer.commissionfee.toFixed (2) +" kr.");
+											}
+											
+											// VATCOMMISSIONFEE
+											{
+												row = row.replace ("%%BUYERVATCOMMISSFIONFEE%%", buyer.commissionfee.toFixed (2) +" kr.");
+											}
+											
+											// TOTAL
+											{
+												row = row.replace ("%%BUYERTOTAL%%", buyer.total.toFixed (2) +" kr.");
+											}								
+																							
+											rows[rows.length] = row;
+										}														
 									}
+									
+									rows[rows.length] = "NEWPAGE";
+									
+									for (var index in attributes.turnoverReport.sellers)
+									{
+										var seller = attributes.turnoverReport.sellers[index];
+										
+										// INFO
+										{
+											var row = template.sellerinforow;
+											var customer = didius.customer.load (seller.id);
+											
+											// CUSTOMERNO
+											{
+												row = row.replace ("%%CUSTOMERNO%%", customer.no);
+											}
+											
+											// CUSTOMERNAME
+											{
+												row = row.replace ("%%CUSTOMERNAME%%", customer.name);
+											}
+											
+											// CUSTOMERADDRESS
+											{
+												var address = customer.address1 +" "+ customer.address2
+												row = row.replace ("%%CUSTOMERADDRESS%%", address);
+											}
+											
+											// CUSTOMERPOSTCODE CUSTOMERCITY
+											{
+												row = row.replace ("%%CUSTOMERPOSTCODE%%", customer.postcode);
+												row = row.replace ("%%CUSTOMERCITY%%", customer.city);
+											}
+											
+											// CUSTOMERPHONE
+											{
+												row = row.replace ("%%CUSTOMERPHONE%%", customer.phone);
+											}								
+																							
+											rows[rows.length] = row;
+										}
+										
+										// ITEMS
+										{							
+											for (var index in attributes.turnoverReport.sellerlines)
+											{
+												var line = attributes.turnoverReport.sellerlines[index];
+												
+												if (line.customerid == seller.id)
+												{
+													var row = template.selleritemrow;
+													
+													// ITEM
+													{
+														// LINECATALOGNO
+														{
+															row = row.replace ("%%LINECATALOGNO%%", line.catalogno )
+														}
+														
+														// LINETEXT
+														{
+															row = row.replace ("%%LINETEXT%%", line.text)
+														}
+														
+														// LINEAMOUNT
+														{
+															row = row.replace ("%%LINEAMOUNT%%", line.amount.toFixed (2) +" kr.")
+														}
+														
+														// LINEVATAMOUNT
+														{
+															row = row.replace ("%%LINEVATAMOUNT%%", line.vatamount.toFixed (2) +" kr.")
+														}
+														
+														// LINECOMMISSIONFEE
+														{
+															row = row.replace ("%%LINECOMMISSIONFEE%%", line.commissionfee.toFixed (2) +" kr.")
+														}
+																																				
+														// LINEVATCOMMISSIONFEE
+														{
+															row = row.replace ("%%LINEVATCOMMISSIONFEE%%", line.vatcommissionfee.toFixed (2) +" kr.")
+														}										
+														
+														// LINETOTAL
+														{
+															row = row.replace ("%%LINETOTAL%%", line.total.toFixed (2) +" kr.")
+														}										
+													}
+																
+													rows[rows.length] = row;									
+												}
+											}
+										}
+										
+										// TOTAL
+										{							
+											var row = template.sellertotalrow;
+											
+											// AMOUNT
+											{
+												row = row.replace ("%%SELLERAMOUNT%%", seller.amount.toFixed (2) +" kr.");
+											}
+											
+											// VATAMOUNT
+											{
+												row = row.replace ("%%SELLERVATAMOUNT%%", seller.amount.toFixed (2) +" kr.");
+											}
+											
+											// COMMISSIONFEE
+											{
+												row = row.replace ("%%SELLERCOMMISSFIONFEE%%", seller.commissionfee.toFixed (2) +" kr.");
+											}
+											
+											// VATCOMMISSIONFEE
+											{
+												row = row.replace ("%%SELLERVATCOMMISSFIONFEE%%", seller.commissionfee.toFixed (2) +" kr.");
+											}
+											
+											// TOTAL
+											{
+												row = row.replace ("%%SELLERTOTAL%%", seller.total.toFixed (2) +" kr.");
+											}								
+																							
+											rows[rows.length] = row;
+										}														
+									}						
+																
+									rows[rows.length] = "NEWPAGE";
+									
+									// NOTSOLD
+									{							
+										for (var index in attributes.turnoverReport.notsoldlines)
+										{
+											var line = attributes.turnoverReport.notsoldlines[index];
+												
+											var row = template.notsoldrow;
+													
+											// LINECATALOGNO
+											{
+												row = row.replace ("%%LINECATALOGNO%%", line.catalogno);
+											}
+														
+											// LINETEXT
+											{
+												row = row.replace ("%%LINETEXT%%", line.text);
+											}
+											
+											// CUSTOMER
+											{
+												var customer = didius.customer.load (line.customerid);
+												
+												// CUSTOMERNAME
+												{
+													row = row.replace ("%%CUSTOMERNAME%%", customer.name);
+												}
+												
+												// CUSTOMERPHONE
+												{
+													row = row.replace ("%%CUSTOMERPHONE%%", customer.phone);	
+												}
+											}
+																										
+											rows[rows.length] = row;									
+										}
+									}
+																																		
+									rows[rows.length] = "NEWPAGE";
+									
+									// TOTAL
+									{
+										var row = template.totalrow;
+										
+										// BUYERAMOUNT
+										{
+											row = row.replace ("%%BUYERAMOUNT%%", attributes.turnoverReport.buyeramount.toFixed (2) +" kr.");
+										}
+										
+										// BUYERVATAMOUNT
+										{
+											row = row.replace ("%%BUYERVATAMOUNT%%", attributes.turnoverReport.buyervatamount.toFixed (2) +" kr.");
+										}
+										
+										// BUYERCOMMISSIONFEE
+										{
+											row = row.replace ("%%BUYERCOMMISSIONFEE%%", attributes.turnoverReport.buyercommissionfee.toFixed (2) +" kr.");
+										}
+										
+										// BUYERVATCOMMISSIONFEE
+										{
+											row = row.replace ("%%BUYERVATCOMMISSIONFEE%%", attributes.turnoverReport.buyervatcommissionfee.toFixed (2) +" kr.");
+										}
+										
+										// BUYERTOTAL
+										{
+											row = row.replace ("%%BUYERTOTAL%%", attributes.turnoverReport.buyertotal.toFixed (2) +" kr.");
+										}
+										
+										// SELLERAMOUNT
+										{
+											row = row.replace ("%%SELLERAMOUNT%%", attributes.turnoverReport.selleramount.toFixed (2) +" kr.");
+										}
+										
+										// SELLERVATAMOUNT
+										{
+											row = row.replace ("%%SELLERVATAMOUNT%%", attributes.turnoverReport.sellervatamount.toFixed (2) +" kr.");
+										}
+										
+										// SELLERCOMMISSIONFEE
+										{
+											row = row.replace ("%%SELLERCOMMISSIONFEE%%", attributes.turnoverReport.sellercommissionfee.toFixed (2) +" kr.");
+										}
+										
+										// SELLERVATCOMMISSIONFEE
+										{
+											row = row.replace ("%%SELLERVATCOMMISSIONFEE%%", attributes.turnoverReport.sellervatcommissionfee.toFixed (2) +" kr.");
+										}
+										
+										// SELLERTOTAL
+										{
+											row = row.replace ("%%SELLERTOTAL%%", attributes.turnoverReport.sellertotal.toFixed (2) +" kr.");
+										}
+										
+										// NETTO
+										{
+											row = row.replace ("%%NETTO%%", attributes.turnoverReport.netto.toFixed (2) +" kr.");
+										}
+										
+										rows[rows.length] = row;
+									}
+																																																														
+			//						for (var index in attributes.turnoverReport.buyerlines)
+			//						{
+			//							var line = attributes.turnoverReport.buyerlines[index];
+			//								
+			//							var row = template.buyerinforow;
+			//							
+			//						}
 																																																					
 																																																																																																																																							
 									var c = page (0);
-			//						while (c < attributes.settlement.lines.length)
-			//						{							
-			//						 	c += page (c);				 				
-			//						}	
+									while (c < rows.length)
+									{							
+									 	c += page (c);				 				
+									}	
+			
+			
+									
 							
+							
+								
 									var result = print.contentDocument.body.innerHTML;
 									
 									app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
 									
+									
+									//sXUL.console.log (result)
 									return result;
 								};
 			
 				var data = "";
 																						
 				data = render ({auction: attributes.auction});
+				
+			//	sXUL.console.log (data)
 				
 				//var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/invoice.tpl"));										
 				var print = app.mainWindow.document.createElement ("iframe");
@@ -4406,7 +4735,10 @@ var didius =
 				settings.paperWidth = 210;
 				settings.paperHeight = 297
 				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
-					
+			
+				settings.printBGImages = true;
+			    settings.printBGColors = true;		
+									
 				if (attributes.mail) 
 				{
 					var localDir = sXUL.tools.getLocalDirectory ();
@@ -4424,8 +4756,7 @@ var didius =
 			    		
 					settings.printSilent = true;
 			    	settings.showPrintProgress = false;
-			    	settings.printBGImages = true;
-			    	settings.printBGColors = true;
+			    	
 			    	settings.printToFile = true;
 			    
 			    	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;

@@ -285,6 +285,41 @@ parsePrintTemplate : function (data)
 					continue;
 				}
 				
+				case "#BEGINSELLERINFOROW":
+				{
+					block = "sellerinforow";
+					result.sellerinforow = "";
+					continue;
+				}
+				
+				case "#BEGINSELLERITEMROW":
+				{
+					block = "selleritemrow";
+					result.selleritemrow = "";
+					continue;
+				}
+				
+				case "#BEGINSELLERTOTALROW":
+				{
+					block = "sellertotalrow";
+					result.sellertotalrow = "";
+					continue;
+				}
+				
+				case "#BEGINTOTALROW":
+				{
+					block = "totalrow";
+					result.totalrow = "";
+					continue;
+				}
+				
+				case "#BEGINNOTSOLDROW":
+				{
+					block = "notsoldrow";
+					result.notsoldrow = "";
+					continue;
+				}
+				
 				case "#BEGINTRANFER":
 				{
 					block = "transfer";
@@ -348,6 +383,36 @@ parsePrintTemplate : function (data)
 					continue;
 				}
 				
+				case "#ENDSELLERINFOROW":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDSELLERITEMROW":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDSELLERTOTALROW":
+				{
+					block = "";
+					continue;
+				}				
+				
+				case "#ENDTOTALROW":
+				{
+					block = "";
+					continue;
+				}				
+				
+				case "#ENDNOTSOLDROW":
+				{
+					block = "";
+					continue;
+				}				
+				
 				case "#ENDTRANSFER":
 				{
 					block = "";
@@ -409,6 +474,36 @@ parsePrintTemplate : function (data)
 			case "buyertotalrow":
 			{
 				result.buyertotalrow += data[idx] +"\n";
+				break;
+			}
+			
+			case "sellerinforow":
+			{
+				result.sellerinforow += data[idx] +"\n";
+				break;
+			}
+			
+			case "selleritemrow":
+			{
+				result.selleritemrow += data[idx] +"\n";
+				break;
+			}
+			
+			case "sellertotalrow":
+			{
+				result.sellertotalrow += data[idx] +"\n";
+				break;
+			}
+			
+			case "totalrow":
+			{
+				result.totalrow += data[idx] +"\n";
+				break;
+			}
+			
+			case "notsoldrow":
+			{
+				result.notsoldrow += data[idx] +"\n";
 				break;
 			}
 			

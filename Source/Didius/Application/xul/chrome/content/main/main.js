@@ -19,6 +19,18 @@ var main =
 		main.customers.init ();		
 		main.auctions.init ();		
 		main.newsletters.init ();
+		
+		
+		
+		var postcodes = sXUL.tools.fileToString ("chrome://didius/content/data/postcodes.dat").split ("\n");		
+		for (var index in postcodes)
+		{
+			var postcode = postcodes[index].split (";")[0]; 
+			var cityname = postcodes[index].split (";")[1];
+			
+			app.data.postcodes[postcode] = cityname;
+		}
+
 				
 		//sXUL.console.log (app.window.filePicker.result.OK)
 				

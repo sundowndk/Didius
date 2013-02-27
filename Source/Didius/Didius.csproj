@@ -106,6 +106,7 @@
     <Compile Include="Didius\TurnoverReportSellerLine.cs" />
     <Compile Include="Didius\TurnoverReportSeller.cs" />
     <Compile Include="Didius\TurnoverReportBuyer.cs" />
+    <Compile Include="Didius\TurnoverReportNotSoldLine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -165,6 +166,8 @@
     <Folder Include="Application\xul\chrome\content\invoice\" />
     <Folder Include="Application\xul\chrome\content\creditnote\" />
     <Folder Include="Application\xul\chrome\content\sms\" />
+    <Folder Include="Application\xul\chrome\Ny folder\" />
+    <Folder Include="Application\xul\chrome\content\data\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -349,6 +352,7 @@
     <None Include="Application\js\didius\common\print\turnoverreport.js" />
     <None Include="Application\xul\chrome\content\sms\send.xul" />
     <None Include="Application\xul\chrome\content\sms\send.js" />
+    <None Include="Application\xul\chrome\content\data\postcodes.dat" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

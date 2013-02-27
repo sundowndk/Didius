@@ -140,7 +140,18 @@ var main =
 			document.getElementById ("button.customercreate").collapsed = true;
 			document.getElementById ("button.customeredit").collapsed = true;
 			document.getElementById ("button.customerclose").collapsed = false;						
-			document.getElementById ("button.customersave").collapsed = false;						
+			document.getElementById ("button.customersave").collapsed = false;				
+			
+			if (app.data.postcodes[main.customer.postcode] != null)
+			{
+				main.customer.city = app.data.postcodes[main.customer.postcode];
+				document.getElementById ("textbox.customercity").value = main.customer.city;
+			}
+			else
+			{
+				main.customer.city = "";
+				document.getElementById ("textbox.customercity").value = "";
+			}		
 			
 			if ((SNDK.tools.arrayChecksum (main.customer) != main.checksum))
 			{

@@ -120,7 +120,7 @@ namespace Didius
 			this._id = Guid.NewGuid ();
 			this._caseid = Item.CaseId;
 			this._itemid = Item.Id;
-			this._customerid = Case.Load (Item.CaseId).CustomerId;
+			this._customerid = Bid.Load (Item.CurrentBidId).CustomerId;
 			this._catalogno = Item.CatalogNo;
 			this._text = Item.Title;
 			this._commissionfee = Helpers.CalculateBuyerCommissionFee (Item);

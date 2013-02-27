@@ -64,7 +64,7 @@
 							</hbox>
 							<hbox align="center">
 								<label class="Label">Post nr.:</label>
-								<textbox id="textbox.postcode" width="60" />
+								<textbox id="textbox.postcode" width="60" onkeyup="details.onChange ();"/>
 								<label class="Label">By:</label>
 								<textbox id="textbox.city" flex="1" onkeyup="details.onChange ();"/>
 							</hbox>

@@ -432,34 +432,107 @@ var sXUL =
 				var compareFunc;
 				if (_temp.sortDirection == "ascending") 
 				{
-				compareFunc = 	function (second, first) 
-								{    									    							
-									if (first.data[_temp.sortColumn].toLowerCase () < second.data[_temp.sortColumn].toLowerCase ())
-									{
-										return -1;	
-									}
-									
-									if (first.data[_temp.sortColumn].toLowerCase () > second.data[_temp.sortColumn].toLowerCase ())
-									{
-										return 1;	
-									}
-								}
+					compareFunc = function (a, b) 
+					{
+						function chunkify (t) 
+						{
+		    				var tz = [], x = 0, y = -1, n = 0, i, j;
+		
+		    				while (i = (j = t.charAt(x++)).charCodeAt(0)) 
+		    				{
+		      					var m = (i == 46 || (i >=48 && i <= 57));
+		      					if (m !== n) 
+		      					{
+		        					tz[++y] = "";
+		        					n = m;
+		      					}
+		      					tz[y] += j;
+		    				}
+		    				return tz;
+		  				}
+		
+		  				var aa = chunkify(a+"".toLowerCase ());
+		  				var bb = chunkify(b+"".toLowerCase ());
+		
+		  				for (x = 0; aa[x] && bb[x]; x++) 
+		  				{
+		    				if (aa[x] !== bb[x]) 
+		    				{
+		      					var c = Number(aa[x]), d = Number(bb[x]);
+		      					if (c == aa[x] && d == bb[x]) 
+		      					{
+		        					return c - d;
+		      					} else return (aa[x] > bb[x]) ? 1 : -1;
+		    				}
+		  				}
+		  				return aa.length - bb.length;
+					};
+				
+				
+		//		compareFunc = 	function (second, first) 
+		//						{    									    							
+		//							if (first.data[_temp.sortColumn].toLowerCase () < second.data[_temp.sortColumn].toLowerCase ())
+		//							{
+		//								return -1;	
+		//							}
+		//							
+		//							if (first.data[_temp.sortColumn].toLowerCase () > second.data[_temp.sortColumn].toLowerCase ())
+		//							{
+		//								return 1;	
+		//							}
+		//						}
 				} 
 				else 
-				{  				
-				compareFunc = 	function (first, second) 
-								{       									
-									if (first.data[_temp.sortColumn].toLowerCase () < second.data[_temp.sortColumn].toLowerCase ())
-									{
-										return -1;	
-									}
-									
-									if (first.data[_temp.sortColumn].toLowerCase () > second.data[_temp.sortColumn].toLowerCase ())
-									{
-										return 1;	
-									}
-									return 0;      								
-								}
+				{  	
+				compareFunc = function (b, a) 
+					{
+						function chunkify (t) 
+						{
+		    				var tz = [], x = 0, y = -1, n = 0, i, j;
+		
+		    				while (i = (j = t.charAt(x++)).charCodeAt(0)) 
+		    				{
+		      					var m = (i == 46 || (i >=48 && i <= 57));
+		      					if (m !== n) 
+		      					{
+		        					tz[++y] = "";
+		        					n = m;
+		      					}
+		      					tz[y] += j;
+		    				}
+		    				return tz;
+		  				}
+		
+		  				var aa = chunkify(a+"".toLowerCase ());
+		  				var bb = chunkify(b+"".toLowerCase ());
+		
+		  				for (x = 0; aa[x] && bb[x]; x++) 
+		  				{
+		    				if (aa[x] !== bb[x]) 
+		    				{
+		      					var c = Number(aa[x]), d = Number(bb[x]);
+		      					if (c == aa[x] && d == bb[x]) 
+		      					{
+		        					return c - d;
+		      					} else return (aa[x] > bb[x]) ? 1 : -1;
+		    				}
+		  				}
+		  				return aa.length - bb.length;
+					};
+										
+		//		compareFunc = 	function (first, second) 
+		//						{       									
+		//							if (first.data[_temp.sortColumn].toLowerCase () < second.data[_temp.sortColumn].toLowerCase ())
+		//							{
+		//								return -1;	
+		//							}
+		//							
+		//							if (first.data[_temp.sortColumn].toLowerCase () > second.data[_temp.sortColumn].toLowerCase ())
+		//							{
+		//								return 1;	
+		//							}
+		//							return 0;      								
+		//						}
 				}
 				
 				// Sort rows.

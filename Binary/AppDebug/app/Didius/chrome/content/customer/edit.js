@@ -269,6 +269,18 @@ var details =
 	onChange : function ()
 	{		
 		main.onChange ();
+		
+		if (app.data.postcodes[main.customer.postcode] != null)
+		{
+			main.customer.city = app.data.postcodes[main.customer.postcode];
+			document.getElementById ("textbox.city").value = main.customer.city;
+			main.onChange ();
+		}
+		else
+		{			
+			document.getElementById ("textbox.city").value = "";
+			main.onChange ();
+		}
 	}
 }
 

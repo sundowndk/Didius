@@ -1,14 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/common/print/turnoverreport.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
     <Files>
-      <File FileName="Didius/Application/js/didius/common/print/turnoverreport.js" Line="244" Column="32" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/turnover.js" Line="201" Column="32" />
-      <File FileName="Didius/Didius/Runtime.cs" Line="98" Column="45" />
-      <File FileName="Didius/Didius/TurnoverReport.cs" Line="139" Column="4" />
-      <File FileName="Didius/Application/js/didius/helpers.js" Line="270" Column="25" />
-      <File FileName="Didius/Didius/TurnoverReportBuyer.cs" Line="1" Column="1" />
-      <File FileName="Didius/Didius/TurnoverReportBuyerLine.cs" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="280" Column="4" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="67" Column="81" />
+      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,9 +14,7 @@
               <Node name="js" expanded="True">
                 <Node name="didius" expanded="True">
                   <Node name="common" expanded="True">
-                    <Node name="print" expanded="True">
-                      <Node name="turnoverreport.js" selected="True" />
-                    </Node>
+                    <Node name="print" expanded="True" />
                   </Node>
                 </Node>
               </Node>
@@ -28,11 +22,13 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True" />
-                    <Node name="invoice" expanded="True" />
-                    <Node name="settings" expanded="True" />
-                    <Node name="templates" expanded="True" />
+                    <Node name="customer" expanded="True" />
+                    <Node name="data" expanded="True" />
+                    <Node name="js" expanded="True" />
+                    <Node name="main" expanded="True" />
                   </Node>
                 </Node>
+                <Node name="application.ini" selected="True" />
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />

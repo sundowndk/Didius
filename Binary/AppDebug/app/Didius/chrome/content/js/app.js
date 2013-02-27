@@ -149,6 +149,11 @@ var app =
 		}
 	},
 	
+	data : 
+	{
+		postcodes : {},
+	},
+	
 	window :
 	{
 		focusTab : function (tab)
