@@ -413,7 +413,7 @@ namespace Didius
 			this._updatetimestamp = SNDK.Date.CurrentDateTimeToTimestamp ();
 
 			this._no = Helpers.NewNo ();
-			this._catalogno = Helpers.NewCatelogNo (Case.Auction);
+			this._catalogno = Helpers.NewCatalogNo (Case.Auction);
 
 			this._caseid = Case.Id;
 			

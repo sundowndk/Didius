@@ -464,9 +464,16 @@ namespace Didius
 			return (DateTime.Now.Second.ToString () + DateTime.Now.Day.ToString () + DateTime.Now.Month.ToString () + DateTime.Now.Hour.ToString () + DateTime.Now.Minute.ToString ()).PadRight (10, '0');
 		}
 
-		public static int NewCatelogNo (Auction Auction)
+		public static int NewCatalogNo (Auction Auction)
 		{
-			int result = 1;
+			return NewCatalogNo (Auction, 1);
+		}
+
+		public static int NewCatalogNo (Auction Auction, int MinCatalogNo)
+		{
+			int result = MinCatalogNo;
+
+
 
 			List<int> used = new List<int> ();
 
@@ -474,23 +481,45 @@ namespace Didius
 			{
 				foreach (Item i in Item.List (c))
 				{
+
+//					Console.WriteLine (i.CatalogNo);
 					used.Add (i.CatalogNo);
 				}
 			}
 
 			//used.Sort (delegate (int int1, int int2) { return int1.CompareTo (int2); });
 
-			if (used.Count > 0)
-			{							
-				for (int i = 1; i <= (used.Count+1); i++) 
-				{
-					if (!used.Contains (i))
-					{
-						result = i;
-						break;
-					}
-				}
-			}		
+			Console.WriteLine (used.Contains (MinCatalogNo));
+
+			while (used.Contains (result))
+			{
+				result++;
+			}
+
+			Console.WriteLine ("BLALB"+ result);
+
+//			{
+//				if (!used.Find (19));
+//				{
+//					Console.WriteLine ("FOUND");
+//					result = MinCatalogNo;
+//					break;
+//				}
+
+//				MinCatalogNo++;
+//			}
+
+//			if (used.Count > 0)
+//			{							
+//				for (int i = MinCatalogNo; i <= (used.Count+1); i++) 
+//				{
+//					if (!used.Contains (i))
+//					{
+//						result = i;
+//						break;
+//					}
+//				}
+//			}		
 
 			return result;
 		}

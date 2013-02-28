@@ -701,8 +701,8 @@ var eventHandlers =
 			data.title = eventData.title;
 			
 			var customer = didius.customer.load (eventData.customerid);
-			data.customer = customer.name;
-		
+			data.customername = customer.name;
+			
 			cases.casesTreeHelper.setRow ({data: data});
 		}
 	},

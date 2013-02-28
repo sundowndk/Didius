@@ -1252,6 +1252,11 @@ var didius =
 				throw "didius.helpers.isCatalogNoTaken - missing auction or auctionId attribute.";
 			}
 				
+			if (attributes.minCatalogNo)
+			{
+				content["mincatalogno"] = attributes.minCatalogNo;
+			}
+				
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.NewCatalogNo", "data", "POST", false);	
 			request.send (content);
 			

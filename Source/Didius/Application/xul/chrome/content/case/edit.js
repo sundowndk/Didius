@@ -18,6 +18,7 @@ var main =
 	auction : null,
 	customer : null,
 	checksum : null,	
+	minCatalogNo : 1,
 
 	// ------------------------------------------------------------------------------------------------------
 	// | INIT																								|	
@@ -86,6 +87,7 @@ var main =
 		{
 			document.title = "Sag: "+ main.case.title +" ["+ main.case.no +"] *";
 		
+			document.getElementById ("button.saveclose").disabled = false;
 			document.getElementById ("button.save").disabled = false;
 			document.getElementById ("button.close").disabled = false;
 		}
@@ -93,8 +95,9 @@ var main =
 		{
 			document.title = "Sag: "+ main.case.title +" ["+ main.case.no +"]";
 		
+			document.getElementById ("button.saveclose").disabled = true;
 			document.getElementById ("button.save").disabled = true;
-			document.getElementById ("button.close").disabled = false;
+			document.getElementById ("button.close").disabled = false;			
 		}
 		
 //		if (main.auction.status == "Closed")
@@ -174,6 +177,15 @@ var main =
 		main.checksum = SNDK.tools.arrayChecksum (main.case);
 		main.onChange ();				
 	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SAVECLOSE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	saveClose : function ()
+	{
+		main.save ();
+		main.close ();
+	},	
 	
 	// ------------------------------------------------------------------------------------------------------
 	// | CLOSE																								|	
@@ -306,6 +318,12 @@ var items =
 										
 										data.id = item.id;
 										data.catalogno = item.catalogno;
+										
+										if (main.minCatalogNo < parseInt (item.catalogno))
+										{
+											main.minCatalogNo = parseInt (item.catalogno);
+										}
+										
 										data.no = item.no;
 										data.title = item.title;
 																									
@@ -363,7 +381,7 @@ var items =
 	// ------------------------------------------------------------------------------------------------------
 	create : function ()
 	{					
-		app.window.open (window, "chrome://didius/content/item/edit.xul", "didius.item.edit."+ SNDK.tools.newGuid (), null, {caseId: main.case.id});
+		app.window.open (window, "chrome://didius/content/item/edit.xul", "didius.item.edit."+ SNDK.tools.newGuid (), null, {caseId: main.case.id, minCatalogNo: main.minCatalogNo});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

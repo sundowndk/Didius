@@ -14,7 +14,7 @@
 	<vbox class="WindowInnerPadding" flex="1">
 		<hbox align="center">				
 			<hbox flex="1">
-				<textbox id="customerSearch" type="search" flex="1" onkeyup="main.filter ();" oncommand="main.filter ();" focused="true"/>
+				<textbox id="customerSearch" type="search" flex="1" onkeyup="main.filter ();" oncommand="main.filter ();" disabled="true"/>
 			</hbox>			
 		</hbox>		
 		<hbox flex="1">		
@@ -37,7 +37,7 @@
 	</vbox>						
 										
 	<hbox align="right"  class="WindowButtons">
-		<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
-		<button id="choose" label="Vælg" oncommand="main.choose ();" disabled="true"/>
+		<button id="close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>
+		<button id="choose" label="Vælg" oncommand="main.choose ();" disabled="true" accesskey="V"/>
 	</hbox>
 </window>

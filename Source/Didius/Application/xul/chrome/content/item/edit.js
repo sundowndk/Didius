@@ -15,6 +15,7 @@ var main =
 	customer : null,
 	auction : null,
 	catalogNo : null,
+	prevCatalogNo : null,
 		
 	// ------------------------------------------------------------------------------------------------------
 	// | INIT																								|	
@@ -28,7 +29,7 @@ var main =
 								if (!window.arguments[0].itemId)
 								{
 									main.mode = "NEW";
-									main.item = didius.item.create ({caseId: window.arguments[0].caseId});
+									main.item = didius.item.create ({caseId: window.arguments[0].caseId});																		
 								}
 								else if (window.arguments[0].itemId)
 								{
@@ -39,6 +40,13 @@ var main =
 								main.case = didius.case.load ({id: main.item.caseid});
 								main.auction = didius.auction.load (main.case.auctionid);
 								main.customer = didius.customer.load (main.case.customerid);			
+								
+								sXUL.console.log (window.arguments[0].minCatalogNo)
+								
+								if (window.arguments[0].minCatalogNo)
+								{
+									main.item.catalogno = didius.helpers.newCatalogNo ({auctionId: main.auction.id, minCatalogNo: window.arguments[0].minCatalogNo});
+								}
 							}
 							catch (error)
 							{
@@ -103,6 +111,7 @@ var main =
 		{
 			document.title = "Effekt: "+ main.item.title +" [katalog nr.: "+ main.item.catalogno +"] *";
 		
+			document.getElementById ("button.savecreate").disabled = false;
 			document.getElementById ("button.save").disabled = false;
 			document.getElementById ("button.close").disabled = false;
 		}
@@ -110,6 +119,7 @@ var main =
 		{
 			document.title = "Effekt: "+ main.item.title +" [katalog nr.: "+ main.item.catalogno +"]";
 		
+			document.getElementById ("button.savecreate").disabled = true;
 			document.getElementById ("button.save").disabled = true;
 			document.getElementById ("button.close").disabled = false;
 		}
@@ -148,8 +158,8 @@ var main =
 		{																				
 			if (didius.helpers.isCatalogNoTaken ({auctionId: main.auction.id, catalogNo: main.item.catalogno}))
 			{
-				app.window.prompt.alert ("Der opstod en fejl", "Det angivet katalog nummer er i brug. Systemmet har derfor fundet det laveste ubrugte katalog nummer og angivet dette i stedet.");				
-				document.getElementById ("textbox.catalogno").value = didius.helpers.newCatalogNo ({auctionId: main.auction.id});
+				app.window.prompt.alert ("Der opstod en fejl", "Det angivet katalog nummer er i brug. Systemmet har derfor fundet det næste ubrugte katalog nummer og angivet dette i stedet.");				
+				document.getElementById ("textbox.catalogno").value = didius.helpers.newCatalogNo ({auctionId: main.auction.id, minCatalogNo: main.item.catalogno});
 				details.onChange ();				
 				return;
 			}								
@@ -162,6 +172,21 @@ var main =
 		main.checksum = SNDK.tools.arrayChecksum (main.item);
 		main.catalogNo = main.item.catalogno;
 		main.onChange ();			
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SAVECREATE																							|	
+	// ------------------------------------------------------------------------------------------------------		
+	saveCreate : function ()	
+	{
+		main.save ();
+		
+		main.mode = "NEW";		
+		var prevcatalogno = main.item.catalogno;
+		main.item = didius.item.create ({caseId: window.arguments[0].caseId});
+		main.item.catalogno = didius.helpers.newCatalogNo ({auctionId: main.auction.id, minCatalogNo: prevcatalogno});
+		
+		details.set ();
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

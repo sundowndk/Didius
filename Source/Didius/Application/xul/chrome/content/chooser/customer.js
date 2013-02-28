@@ -38,14 +38,11 @@ var main =
 							
 							// Enable controls
 							document.getElementById ("customers").disabled = false;																								
+							document.getElementById ("customerSearch").disabled = false;;
+							document.getElementById ("customerSearch").focus ();
 							main.onChange ();
 						};
-
-		// Disable controls
-		document.getElementById ("customers").disabled = true;								
-		document.getElementById ("close").disabled = true;
-		document.getElementById ("choose").disabled = true;
-			
+		
 		didius.customer.list ({async: true, onDone: onDone});					
 	},
 	

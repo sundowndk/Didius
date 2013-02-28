@@ -30,7 +30,11 @@ namespace Test
 			{
 				Console.WriteLine ("Connected to database.");
 
-				Didius.Helpers.SendSMS ("0");
+				Didius.Auction auction = Didius.Auction.Load (new Guid ("fbc361f3-f060-4a8f-818e-8b266fad8503"));
+
+				Console.WriteLine (Didius.Helpers.NewCatalogNo (auction, 60));
+
+//				Didius.Helpers.SendSMS ("0");
 
 //				Didius.Creditnote creditnote = Didius.Creditnote.Create (Didius.Invoice.Load (new Guid ("709de68b-ac61-4d2d-81cd-cb4e39789c0b")), true);
 //

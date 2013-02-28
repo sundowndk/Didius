@@ -503,7 +503,15 @@ namespace Didius.Addin
 
 						case "newcatalogno":
 						{
-							result.Add (Helpers.NewCatelogNo (Auction.Load (request.getValue<Guid> ("auctionid"))));
+							if (request.ContainsXPath ("mincatalogno"))
+							{
+								result.Add (Helpers.NewCatalogNo (Auction.Load (request.getValue<Guid> ("auctionid")), int.Parse (request.getValue<string> ("mincatalogno"))));
+							}
+							else
+							{
+								result.Add (Helpers.NewCatalogNo (Auction.Load (request.getValue<Guid> ("auctionid"))));
+							}
+
 							break;
 						}
 

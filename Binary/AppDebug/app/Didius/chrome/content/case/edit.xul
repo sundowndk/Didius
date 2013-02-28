@@ -101,8 +101,9 @@
 			<button id="button.settle" label="Afregn" oncommand="main.settle ();" disabled="true" accesskey="A"/>			
 			<button id="button.salesagreement" label="Salgsaftale" oncommand="salesAgreement.show ();" disabled="true" accesskey="a"/>
 			<space flex="1"/>
+			<button id="button.saveclose" label="Gem og Luk" oncommand="main.saveClose ();" disabled="true" accesskey="o"/>
 			<button id="button.close" label="Luk" oncommand="main.close ();"  modifiers="control" accesskey="L"/>
-			<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G"/>
+			<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G"/>			
 		</hbox>
 	</hbox>
 </window>

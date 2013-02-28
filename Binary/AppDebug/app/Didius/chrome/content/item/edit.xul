@@ -139,6 +139,7 @@
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
+		<button id="button.savecreate" label="Gem og Opret" oncommand="main.saveCreate ();" disabled="true" accesskey="O"/>
 		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L" key="key.close"/>
 		<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G" key="key.save"/>
 	</hbox>

@@ -942,7 +942,16 @@ var eventHandlers =
 	{
 		if (main.customer.id == eventData.customerid)
 		{
-			cases.casesTreeHelper.setRow ({data: eventData});
+			var data = {};	
+			var case_ = eventData
+			var auction = didius.auction.load (case_.auctionid);
+															
+			data.id = case_.id;
+			data.no = case_.no;
+			data.title = case_.title;
+			data.auctiontitle = auction.title;																
+																																																			
+			cases.casesTreeHelper.addRow ({data: data});								
 		}
 	},
 		
