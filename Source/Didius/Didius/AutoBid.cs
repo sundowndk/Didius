@@ -312,7 +312,10 @@ namespace Didius
 			{
 				try
 				{
+
 					result.Add (Load (new Guid (id)));
+
+
 				}
 				catch (Exception exception)
 				{

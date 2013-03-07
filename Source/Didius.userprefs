@@ -1,43 +1,45 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/case/edit.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/item/edit.js" Line="44" Column="27" />
-      <File FileName="Didius/Application/xul/chrome/content/item/edit.xul" Line="142" Column="27" />
-      <File FileName="Didius/Application/js/didius/helpers.js" Line="228" Column="3" />
-      <File FileName="Didius/Didius/Helpers.cs" Line="499" Column="40" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="507" Column="9" />
-      <File FileName="Didius/Didius/Item.cs" Line="416" Column="37" />
-      <File FileName="Test/Main.cs" Line="35" Column="64" />
-      <File FileName="Didius/Application/xul/chrome/content/case/edit.js" Line="298" Column="19" />
+      <File FileName="Didius/Application/xul/chrome/content/settings/settings.js" Line="70" Column="41" />
+      <File FileName="Didius/Application/xul/chrome/content/settings/settings.xul" Line="251" Column="19" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="630" Column="62" />
+      <File FileName="Didius/Didius.addin.xml" Line="24" Column="1" />
+      <File FileName="Didius/Didius/Customer.cs" Line="923" Column="51" />
+      <File FileName="Didius/Didius/Runtime.cs" Line="89" Column="4" />
+      <File FileName="Didius/Didius.Enums/SettingsKey.cs" Line="54" Column="43" />
+      <File FileName="Didius/Didius/Newsletter.cs" Line="133" Column="51" />
+      <File FileName="Didius/Application/js/didius/newsletter.js" Line="56" Column="26" />
+      <File FileName="Didius/Application/xul/chrome/content/newsletter/edit.xul" Line="64" Column="14" />
+      <File FileName="Didius/Application/xul/chrome/content/newsletter/edit.js" Line="154" Column="73" />
+      <File FileName="Didius/Application/xul/chrome/content/invoice/show.js" Line="179" Column="41" />
+      <File FileName="Didius/Application/xul/application.ini" Line="4" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
+            <Node name="References" expanded="True" />
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
-                <Node name="didius" expanded="True">
-                  <Node name="common" expanded="True">
-                    <Node name="print" expanded="True" />
-                  </Node>
-                </Node>
+                <Node name="didius" expanded="True" />
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True" />
-                    <Node name="case" expanded="True">
-                      <Node name="edit.js" selected="True" />
-                    </Node>
-                    <Node name="chooser" expanded="True" />
                     <Node name="customer" expanded="True" />
-                    <Node name="data" expanded="True" />
+                    <Node name="invoice" expanded="True" />
                     <Node name="item" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
+                    <Node name="newsletter" expanded="True" />
+                    <Node name="settings" expanded="True" />
+                    <Node name="templates" expanded="True" />
                   </Node>
                 </Node>
+                <Node name="application.ini" selected="True" />
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />

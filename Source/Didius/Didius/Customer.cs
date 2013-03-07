@@ -14,6 +14,7 @@ using System.Collections.Generic;
 
 using SNDK;
 using SorentoLib;
+using Paperboy;
 
 namespace Didius
 {
@@ -45,7 +46,72 @@ namespace Didius
 		private string _email;
 		private string _phone;
 		private string _mobile;	
+
+//		private bool _newsemail;
 		private bool _newssms;
+
+		private bool _newsemail
+		{
+			get
+			{
+				bool result = false;
+
+				if (this._email != string.Empty)
+				{
+					try
+					{
+						if (Paperboy.Subscriber.Load (this._email).IsSubscribedTo (SorentoLib.Services.Settings.Get<Guid> (Enums.SettingsKey.didius_newsletter_paperboysubscriptionid)))
+						{
+							result = true;
+						}
+					}
+					catch {}
+				}
+
+				return result;
+			}
+
+			set
+			{
+				if (value)
+				{
+					if (this._email != string.Empty)
+					{
+						Paperboy.Subscriber subscriber = null;
+
+						try
+						{
+							subscriber = Paperboy.Subscriber.Load (this._email);
+						}
+						catch (Exception exception)
+						{
+							subscriber = new Paperboy.Subscriber (this._email);
+						}
+
+						try
+						{
+							subscriber.Subscribe (SorentoLib.Services.Settings.Get<Guid> (Enums.SettingsKey.didius_newsletter_paperboysubscriptionid));
+							subscriber.Save ();
+						}
+						catch {}						
+					}
+				}
+				else
+				{
+					if (this._email != string.Empty)
+					{
+						try
+						{
+							Paperboy.Subscriber subscriber = Paperboy.Subscriber.Load (this._email);
+							subscriber.UnSubscribe (SorentoLib.Services.Settings.Get<Guid> (Enums.SettingsKey.didius_newsletter_paperboysubscriptionid));
+							subscriber.Save ();
+						}
+						catch {}
+					}
+				}
+			}
+		}
+
 
 		private bool _vat;
 		private string _vatno;
@@ -257,6 +323,19 @@ namespace Didius
 			}
 		}
 
+		public bool NewsEmail
+		{
+			get
+			{
+				return this._newsemail;
+			}
+
+			set
+			{
+				this._newsemail = value;
+			}
+		}
+
 		public bool NewsSMS
 		{
 			get
@@ -459,6 +538,7 @@ namespace Didius
 			this._mobile = string.Empty;
 
 			this._newssms = false;
+			this._newsemail = false;
 
 			this._vat = false;
 			this._vatno = string.Empty;
@@ -517,6 +597,7 @@ namespace Didius
 					{
 						try
 						{
+							this._newsemail = false;
 							SorentoLib.User.Delete (this._userid);
 							this._userid = Guid.Empty;
 						}
@@ -547,6 +628,7 @@ namespace Didius
 				item.Add ("mobile", this._mobile);
 				item.Add ("email", this._email);
 
+//				item.Add ("newsemail", this._newsemail);
 				item.Add ("newssms", this._newssms);
 
 				item.Add ("vat", this._vat);
@@ -603,6 +685,7 @@ namespace Didius
 			result.Add ("mobile", this._mobile);
 			result.Add ("email", this._email);
 
+			result.Add ("newsemail", this._newsemail);
 			result.Add ("newssms", this._newssms);
 
 			result.Add ("vat", this._vat);
@@ -732,6 +815,11 @@ namespace Didius
 //						result._phonenumbers.Add ((string)((Hashtable)SNDK.Convert.FromXmlDocument (phonenumber))["value"]);
 //					}
 //				}	
+
+//				if (item.ContainsKey ("newsemail"))
+//				{
+//					result._newsemail = (bool)item["newsemail"];
+//				}
 
 				if (item.ContainsKey ("newssms"))
 				{
@@ -986,6 +1074,10 @@ namespace Didius
 //				}
 //			}	
 
+			if (item.ContainsKey ("newsemail"))
+			{
+				result._newsemail = (bool)item["newsemail"];
+			}
 
 			if (item.ContainsKey ("newssms"))
 			{

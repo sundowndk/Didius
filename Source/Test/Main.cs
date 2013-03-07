@@ -30,6 +30,17 @@ namespace Test
 			{
 				Console.WriteLine ("Connected to database.");
 
+
+//				DateTime date1 = DateTime.Now;
+//				DateTime date2 = DateTime.Now;
+//
+//				if (date1 > date2)
+//				{
+//
+//				}
+
+				Environment.Exit (0);
+
 				Didius.Auction auction = Didius.Auction.Load (new Guid ("fbc361f3-f060-4a8f-818e-8b266fad8503"));
 
 				Console.WriteLine (Didius.Helpers.NewCatalogNo (auction, 60));

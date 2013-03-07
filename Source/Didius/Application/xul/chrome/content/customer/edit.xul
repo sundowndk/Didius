@@ -94,8 +94,10 @@
 							</hbox>
 							<hbox align="center">
 								<label class="Label"></label>
-								<checkbox id="checkbox.newssms" label="Nyhedsbrev på SMS" oncommand="details.onChange ();"/>								
+								<checkbox id="checkbox.newsemail" label="Nyhedsbrev på Email" oncommand="details.onChange ();"/>
+								<checkbox id="checkbox.newssms" label="Nyhedsbrev på SMS" oncommand="details.onChange ();"/>
 							</hbox>
+							
 						</groupbox>
 	    
 						<groupbox>

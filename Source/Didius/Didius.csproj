@@ -68,6 +68,10 @@
       <Package>mono-addins</Package>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="Paperboy">
+      <HintPath>..\Lib\Paperboy.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -166,7 +170,6 @@
     <Folder Include="Application\xul\chrome\content\invoice\" />
     <Folder Include="Application\xul\chrome\content\creditnote\" />
     <Folder Include="Application\xul\chrome\content\sms\" />
-    <Folder Include="Application\xul\chrome\Ny folder\" />
     <Folder Include="Application\xul\chrome\content\data\" />
   </ItemGroup>
   <ItemGroup>
@@ -353,6 +356,8 @@
     <None Include="Application\xul\chrome\content\sms\send.xul" />
     <None Include="Application\xul\chrome\content\sms\send.js" />
     <None Include="Application\xul\chrome\content\data\postcodes.dat" />
+    <None Include="Application\xul\chrome\content\js\simpleeditor.js" />
+    <None Include="Application\js\didius\autobid.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

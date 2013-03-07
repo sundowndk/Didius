@@ -220,6 +220,28 @@ var main =
 			document.getElementById ("textbox.currentbidcustomername").value = "";
 			document.getElementById ("textbox.currentbidamount").value = "";
 		}
+		
+		var autobids = didius.autobid.list ({itemId: main.items[main.currentIndex].id});
+		
+		if (autobids != null)
+		{
+			if (autobids.length > 0)
+			{
+				var customer = didius.customer.load (autobids[0].customerid);
+				var amount = autobids[0].amount;
+			
+				document.getElementById ("textbox.currentmaxautobidcustomername").value = customer.name;
+				document.getElementById ("textbox.currentmaxautobidamount").value = amount;						
+			}
+			else
+			{
+				document.getElementById ("textbox.currentmaxautobidcustomername").value = "";
+				document.getElementById ("textbox.currentmaxautobidamount").value = "";			
+			}
+		
+		}
+		
+		sXUL.console.log (main.items[main.currentIndex].id)
 						
 		main.onChange ();
 	},				

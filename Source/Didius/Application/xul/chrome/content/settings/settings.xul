@@ -170,7 +170,7 @@
 				<hbox class="SettingsHeader">
 					<label>E-mail</label>
 				</hbox>
-				<vbox class="SettingsContent" flex="1" style="overflow:auto">				
+				<vbox class="SettingsContent" flex="1">				
 					<hbox flex="1">	
 						<tabbox selectedIndex="0" flex="1">
 							<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">
@@ -183,6 +183,7 @@
 									<tab label="Afregning"/>
 									<tab label="Salgsaftale"/>
 									<tab label="Kreditnota"/>
+									<tab label="Nyhedsbrev"/>
 								</tabs>
 							</arrowscrollbox>
 							
@@ -266,7 +267,55 @@
 											<textbox id="emailTemplateCreditnoteBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 										</hbox>			
 									</vbox>
-				    			</tabpanel>				    					    			
+				    			</tabpanel>	
+				    			<tabpanel flex="1" style="overflow:auto">
+									<vbox flex="1">		
+										<groupbox>
+											<caption label="Tilmeld"/>	
+											<hbox align="top">
+												<label class="Label">Emne:</label>
+												<textbox id="emailTemplateNewsletterSubscribeSubject" flex="1" onkeyup="main.onChange ();"/>
+											</hbox>							
+											<hbox align="top">
+												<label class="Label">Indhold:</label>
+												<textbox id="emailTemplateNewsletterSubscribeBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+											</hbox>			
+										</groupbox>
+										<groupbox>
+											<caption label="Tilmeldt"/>	
+											<hbox align="top">
+												<label class="Label">Emne:</label>
+												<textbox id="emailTemplateNewsletterSubscribedSubject" flex="1" onkeyup="main.onChange ();"/>
+											</hbox>							
+											<hbox align="top">
+												<label class="Label">Indhold:</label>
+												<textbox id="emailTemplateNewsletterSubscribedBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+											</hbox>			
+										</groupbox>
+										<groupbox>
+											<caption label="Afmeld"/>	
+											<hbox align="top">
+												<label class="Label">Emne:</label>
+												<textbox id="emailTemplateNewsletterUnsubscribeSubject" flex="1" onkeyup="main.onChange ();"/>
+											</hbox>							
+											<hbox align="top">
+												<label class="Label">Indhold:</label>
+												<textbox id="emailTemplateNewsletterUnsubscribeBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+											</hbox>			
+										</groupbox>
+										<groupbox>
+											<caption label="Afmeldt"/>	
+											<hbox align="top">
+												<label class="Label">Emne:</label>
+												<textbox id="emailTemplateNewsletterUnsubscribedSubject" flex="1" onkeyup="main.onChange ();"/>
+											</hbox>							
+											<hbox align="top">
+												<label class="Label">Indhold:</label>
+												<textbox id="emailTemplateNewsletterUnsubscribedBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+											</hbox>			
+										</groupbox>
+									</vbox>
+				    			</tabpanel>			    					    			
 							</tabpanels>						
 						</tabbox>
 					</hbox>										

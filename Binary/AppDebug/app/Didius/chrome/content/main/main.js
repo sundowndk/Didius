@@ -76,9 +76,8 @@ var main =
 		app.events.onAuctionSave.addHandler (main.eventHandlers.onAuctionSave);
 		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
 		
-//		app.events.onNewsletterCreate.addHandler (main.eventHandlers.onNewsletterCreate);
-//		app.events.onNewsletterSave.addHandler (main.eventHandlers.onNewsletterSave);
-//		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);						
+		app.events.onNewsletterSave.addHandler (main.eventHandlers.onNewsletterSave);
+		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);						
 
 	},
 	
@@ -200,12 +199,7 @@ var main =
 		{
 			main.auctions.auctionsTreeHelper.removeRow ({id: eventData.id});
 		},
-		
-		onNewsletterCreate : function (eventData)
-		{
-			main.newsletters.newslettersTreeHelper.addRow ({data: eventData});			
-		},
-		
+				
 		onNewsletterSave : function (eventData)
 		{
 			main.newsletters.newslettersTreeHelper.setRow ({data: eventData});
@@ -572,7 +566,7 @@ var main =
 		
 		edit : function ()
 		{		
-			app.window.open (window, "chrome://didius/content/newsletter/edit.xul", "didius.auction.edit."+ main.newsletters.newslettersTreeHelper.getRow ().id, null, {auctionId: main.newsletters.newslettersTreeHelper.getRow ().id});													
+			app.window.open (window, "chrome://didius/content/newsletter/edit.xul", "didius.auction.edit."+ main.newsletters.newslettersTreeHelper.getRow ().id, null, {newsletterId: main.newsletters.newslettersTreeHelper.getRow ().id});													
 		},
 		
 		destroy : function ()

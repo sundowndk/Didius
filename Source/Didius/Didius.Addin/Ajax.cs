@@ -322,6 +322,37 @@ namespace Didius.Addin
 				}
 				#endregion
 
+				#region Didius.AutoBid
+				case "didius.autobid":
+				{	
+					switch (Method.ToLower ())
+					{						
+						case "load":
+						{
+							result.Add (AutoBid.Load (request.getValue<Guid>("id")));
+							break;
+						}
+						case "list":
+						{
+							if (request.ContainsXPath ("itemid"))
+							{
+								result.Add (AutoBid.List (request.getValue<Guid> ("itemid")));
+							}
+							if (request.ContainsXPath ("customerid"))
+							{
+								result.Add (AutoBid.List (Customer.Load (request.getValue<Guid> ("customerid"))));
+							}
+							else
+							{
+								result.Add (AutoBid.List ());
+							}
+							break;
+						}
+					}
+					break;
+				}
+				#endregion
+
 				#region Didius.Settlement
 				case "didius.settlement":
 				{	
@@ -591,6 +622,12 @@ namespace Didius.Addin
 						case "destroy":
 						{
 							Newsletter.Delete (request.getValue<Guid> ("id"));
+							break;
+						}
+
+						case "send":
+						{
+							Newsletter.Load (request.getValue<Guid>("id")).Send ();
 							break;
 						}
 							

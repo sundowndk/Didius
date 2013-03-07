@@ -6,9 +6,7 @@ create : function ()
 	request.send (content);
 	
 	var result = request.respons ()["didius.newsletter"];
-	
-	app.events.onNewsletterCreate.execute (result);
-	
+		
 	return result;
 },
 	
@@ -50,7 +48,30 @@ destroy : function (id)
 	data.id = id;
 			
 	app.events.onNewsletterDestroy.execute (data);
-},				
+},			
+
+send : function (attributes)
+{
+	var content = new Array ();
+	content.id = attributes.id;
+	
+	if (attributes.onDone)
+	{
+		var onDone = 	function ()
+						{
+							attributes.onDone ();
+						};
+		
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Newsletter.Send", "data", "POST", true);			
+		request.onLoaded (onDone);
+		request.send (content);
+	}
+	else
+	{
+		var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Newsletter.Send", "data", "POST", false);	
+		request.send (content);		
+	}	
+},	
 		
 list : function (attributes)
 {

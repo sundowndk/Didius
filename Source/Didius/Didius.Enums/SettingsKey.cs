@@ -49,6 +49,8 @@ namespace Didius.Enums
 		didius_template_turnoverreport,
 		didius_template_label,
 
-		didius_item_datafields
+		didius_item_datafields,
+
+		didius_newsletter_paperboysubscriptionid
 	}
 }

@@ -19,6 +19,9 @@
 			<class name="bid">
 				<js file="js/didius/bid.js" />				
 			</class>				
+			<class name="autobid">
+				<js file="js/didius/autobid.js" />				
+			</class>				
 			<class name="auction">
 				<js file="js/didius/auction.js" />				
 			</class>							

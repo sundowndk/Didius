@@ -70,19 +70,19 @@
 								</menulist>				
 							</hbox>				
 							<hbox align="center">
-								<label class="Label">Start:</label>
+								<label class="Label">Auktions dag:</label>
 								<datepicker id="datepicker.begin" type="popup" onchange="details.onChange ();"/>
 								<label class="Label" width="25">kl.:</label>
 								<textbox id="textbox.begintime" width="50" maxlength="5" onkeyup="details.onChange ();" />
 							</hbox>				
 							<hbox align="center">
-								<label class="Label">Slut:</label>
+								<label class="Label">Online bud lukkes:</label>
 								<datepicker id="datepicker.end" type="popup" onchange="details.onChange ();"/>
 								<label class="Label" width="25">kl.:</label>
 								<textbox id="textbox.endtime" width="50" maxlength="5" onkeyup="details.onChange ();" />
 							</hbox>				
 							<hbox align="center">
-								<label class="Label">Deadline:</label>
+								<label class="Label">Indleverings deadline:</label>
 								<datepicker id="datepicker.deadline" type="popup" onchange="details.onChange ();"/>
 								<label class="Label" width="25">kl. :</label>
 								<textbox id="textbox.deadlinetime" width="50" maxlength="5" onkeyup="details.onChange ();" />

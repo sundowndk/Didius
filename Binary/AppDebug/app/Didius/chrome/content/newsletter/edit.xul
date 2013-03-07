@@ -8,6 +8,7 @@
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
 	<script type="application/javascript" src="chrome://didius/content/newsletter/edit.js"/>		
+	<script type="application/javascript" src="chrome://didius/content/js/simpleeditor.js"/>			
 			
 	<keyset>
   		<key id="shortcut-quit" modifiers="control" key="w" oncommand="main.close ();"/>
@@ -37,24 +38,40 @@
 							<caption label="Andet"/>	
 							<hbox align="center">
 								<label class="Label">Title:</label>
+							</hbox>
+							<hbox>
 								<textbox id="title" flex="1" onkeyup="main.onChange ();" />
 							</hbox>							
 						</groupbox>																													
 					</vbox>
     			</tabpanel>
-    			
+    				
 				<tabpanel>
-				    <editor id="content" type="content" editortype="html" src="chrome://didius/content/templates/newsletter.tpl" flex="1" onchange="main.onChange ();"/>					
+					<vbox flex="1">
+						<hbox align="center">				
+							<hbox flex="1">
+								<toolbox>
+  									<toolbar id="toolbar.editor">
+    									<toolbarbutton id="toolbarbutton.bold" image="chrome://didius/content/icons/16/format-text-bold.png" oncommand="main.editor.command ({command: 'bold'})"/>
+    									<toolbarbutton id="toolbarbutton.italic" image="chrome://didius/content/icons/16/format-text-italic.png" oncommand="main.editor.command ({command: 'italic'})"/>
+    									<toolbarbutton id="toolbarbutton.underline" image="chrome://didius/content/icons/16/format-text-underline.png" oncommand="main.editor.command ({command: 'underline'})"/>
+  									</toolbar>
+								</toolbox>						
+							</hbox>			
+						</hbox>		
+						<hbox flex="1">		
+								<iframe id="editor" flex="1"/>
+						</hbox>
+					</vbox>				
 				</tabpanel>
 			</tabpanels>
 		</tabbox>
 	</hbox>
 	
-	<hbox class="WindowButtons">
-		<hbox id="createSettlementBox" align="left"  collapsed="true"> 
-			<button id="createSettlement" label="Afregn" oncommand="main.settlement.create ();" disabled="true"/>
-		</hbox>		
+	<hbox class="WindowButtons">		
 		<hbox align="right" flex="1"> 
+			<button id="send" label="Send" oncommand="main.send ();"/>
+			<spacer flex="1"/>
 			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
 			<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>
 		</hbox>

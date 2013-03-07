@@ -97,7 +97,9 @@ namespace Didius
 			{ Enums.SettingsKey.didius_template_turnoverreport, string.Empty },
 			{ Enums.SettingsKey.didius_template_label, string.Empty },
 
-			{ Enums.SettingsKey.didius_item_datafields, "stelnummer;Stelnummer|aargang;Årgang|regnr;Reg.nr" }
+			{ Enums.SettingsKey.didius_item_datafields, "stelnummer;Stelnummer|aargang;Årgang|regnr;Reg.nr" },
+
+			{ Enums.SettingsKey.didius_newsletter_paperboysubscriptionid, new Guid ("58a003c1-02ed-4424-b559-208ce2011870") }
 		};
 
 		static void EventhandlerServiceGarbageCollector (object Sender, EventArgs E)

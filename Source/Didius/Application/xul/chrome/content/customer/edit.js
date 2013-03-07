@@ -227,6 +227,7 @@ var details =
 		document.getElementById ("textbox.phone").value = main.customer.phone;
 		document.getElementById ("textbox.mobile").value = main.customer.mobile;
 		document.getElementById ("textbox.email").value = main.customer.email;		
+		document.getElementById ("checkbox.newsemail").checked = main.customer.newsemail;
 		document.getElementById ("checkbox.newssms").checked = main.customer.newssms;
 		
 		document.getElementById ("checkbox.vat").checked = main.customer.vat;
@@ -253,6 +254,7 @@ var details =
 		main.customer.phone = document.getElementById ("textbox.phone").value;
 		main.customer.mobile = document.getElementById ("textbox.mobile").value;
 		main.customer.email = document.getElementById ("textbox.email").value;
+		main.customer.newsemail = document.getElementById ("checkbox.newsemail").checked;
 		main.customer.newssms = document.getElementById ("checkbox.newssms").checked;
 		
 		main.customer.vat = document.getElementById ("checkbox.vat").checked;

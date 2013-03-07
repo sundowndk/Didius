@@ -318,11 +318,9 @@ var items =
 										
 										data.id = item.id;
 										data.catalogno = item.catalogno;
-																				
 										
 										if (main.minCatalogNo < parseInt (item.catalogno))
 										{
-										//sXUL.console.log (item.catalogno);
 											main.minCatalogNo = parseInt (item.catalogno);
 										}
 										

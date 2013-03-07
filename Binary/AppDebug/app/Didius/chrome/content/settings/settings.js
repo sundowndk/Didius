@@ -67,6 +67,19 @@ var main =
 		keys[keys.length] = "didius_email_template_creditnote_subject";
 		keys[keys.length] = "didius_email_template_creditnote_body";
 		keys[keys.length] = "didius_email_template_creditnote_isbodyhtml";
+		keys[keys.length] = "paperboy_mailfrom";
+		keys[keys.length] = "paperboy_email_subscribe_subject";
+		keys[keys.length] = "paperboy_email_subscribe_body";
+		keys[keys.length] = "paperboy_email_subscribe_isbodyhtml";
+		keys[keys.length] = "paperboy_email_subscribed_subject";
+		keys[keys.length] = "paperboy_email_subscribed_body";
+		keys[keys.length] = "paperboy_email_subscribed_isbodyhtml";
+		keys[keys.length] = "paperboy_email_unsubscribe_subject";
+		keys[keys.length] = "paperboy_email_unsubscribe_body";
+		keys[keys.length] = "paperboy_email_unsubscribe_isbodyhtml";
+		keys[keys.length] = "paperboy_email_unsubscribed_subject";
+		keys[keys.length] = "paperboy_email_unsubscribed_body";
+		keys[keys.length] = "paperboy_email_unsubscribed_isbodyhtml";
 		keys[keys.length] = "didius_template_catalogsmall";
 		keys[keys.length] = "didius_template_cataloglarge";
 		keys[keys.length] = "didius_template_salesagreement";
@@ -123,6 +136,18 @@ var main =
 		
 		document.getElementById ("emailTemplateCreditnoteSubject").value = main.current.didius_email_template_creditnote_subject;
 		document.getElementById ("emailTemplateCreditnoteBody").value = main.current.didius_email_template_creditnote_body;
+						
+		document.getElementById ("emailTemplateNewsletterSubscribeSubject").value = main.current.paperboy_email_subscribe_subject;
+		document.getElementById ("emailTemplateNewsletterSubscribeBody").value = main.current.paperboy_email_subscribe_body;
+		
+		document.getElementById ("emailTemplateNewsletterSubscribedSubject").value = main.current.paperboy_email_subscribed_subject;
+		document.getElementById ("emailTemplateNewsletterSubscribedBody").value = main.current.paperboy_email_subscribed_body;
+		
+		document.getElementById ("emailTemplateNewsletterUnsubscribeSubject").value = main.current.paperboy_email_unsubscribe_subject;
+		document.getElementById ("emailTemplateNewsletterUnsubscribeBody").value = main.current.paperboy_email_unsubscribe_body;
+		
+		document.getElementById ("emailTemplateNewsletterUnsubscribedSubject").value = main.current.paperboy_email_unsubscribed_subject;
+		document.getElementById ("emailTemplateNewsletterUnsubscribedBody").value = main.current.paperboy_email_unsubscribed_body;
 		
 		// TEMPLATES
 		document.getElementById ("templatesCatalogSmall").value = main.current.didius_template_catalogsmall;
@@ -157,7 +182,8 @@ var main =
 		main.current.didius_value_vat_percentage = document.getElementById ("valueVatPercentage").value;					
 		
 		// EMAIL
-		main.current.didius_email_sender = document.getElementById ("emailSender").value;
+		main.current.didius_email_sender = document.getElementById ("emailSender").value;		
+		
 		main.current.didius_email_template_itemwon_subject = document.getElementById ("emailTemplateItemWonSubject").value;
 		main.current.didius_email_template_itemwon_body = document.getElementById ("emailTemplateItemWonBody").value;
 		
@@ -175,6 +201,20 @@ var main =
 		
 		main.current.didius_email_template_creditnote_subject = document.getElementById ("emailTemplateCreditnoteSubject").value;
 		main.current.didius_email_template_creditnote_body = document.getElementById ("emailTemplateCreditnoteBody").value;
+		
+		main.current.paperboy_mailfrom = document.getElementById ("emailSender").value;
+		
+		main.current.paperboy_email_subscribe_subject = document.getElementById ("emailTemplateNewsletterSubscribeSubject").value;
+		main.current.paperboy_email_subscribe_body = document.getElementById ("emailTemplateNewsletterSubscribeBody").value;
+		
+		main.current.paperboy_email_subscribed_subject = document.getElementById ("emailTemplateNewsletterSubscribedSubject").value;
+		main.current.paperboy_email_subscribed_body = document.getElementById ("emailTemplateNewsletterSubscribedBody").value;
+		
+		main.current.paperboy_email_unsubscribe_subject = document.getElementById ("emailTemplateNewsletterUnsubscribeSubject").value;
+		main.current.paperboy_email_unsubscribe_body = document.getElementById ("emailTemplateNewsletterUnsubscribeBody").value;
+		
+		main.current.paperboy_email_unsubscribed_subject = document.getElementById ("emailTemplateNewsletterUnsubscribedSubject").value;
+		main.current.paperboy_email_unsubscribed_body = document.getElementById ("emailTemplateNewsletterUnsubscribedBody").value;
 		
 		// TEMPLATES
 		main.current.didius_template_catalogsmall = document.getElementById ("templatesCatalogSmall").value;		
