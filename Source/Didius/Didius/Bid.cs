@@ -320,7 +320,9 @@ namespace Didius
 		public static List<Bid> List (Customer Customer)
 		{
 			List<Bid> result = new List<Bid> ();
-			
+
+			Console.WriteLine ("List bids via customers");
+
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Customer.Id)))
 			{
 				try

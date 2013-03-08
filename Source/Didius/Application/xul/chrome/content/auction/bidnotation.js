@@ -109,40 +109,81 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	getBid : function ()
 	{
-		if (document.getElementById ("textbox.bidbuyerno").value != 0 && document.getElementById ("textbox.bidamount").value != 0.00)
+		//if (document.getElementById ("textbox.bidbuyerno").value != 0 && document.getElementById ("textbox.bidamount").value != 0.00)
+		if (document.getElementById ("textbox.bidamount").value != 0.00)
 		{
 			var buyerno = document.getElementById ("textbox.bidbuyerno").value;
 			var amount = document.getElementById ("textbox.bidamount").value;
-									
-			for (var index in main.buyernos)
-			{							
-				if (index == buyerno)
-				{									
-					//var customer = didius.customer.load (main.buyernos[index]);
-					var item = main.items[(main.currentIndex)];
-														
-					if (amount <= item.bidamount)
+			var maxautobidamount = document.getElementById ("textbox.currentmaxautobidamount").value; 
+			
+			if (buyerno == "0")
+			{
+				if (document.getElementById ("textbox.currentmaxautobidamount").value != "")
+				{
+												
+					if (parseInt (maxautobidamount) >= parseInt (amount))
 					{
-						app.window.prompt.alert ("Bud", "Budet er mindre end nuværende bud, og kan derfor ikke accepteres");
-						return false;
-					}
-					
-					if (amount < item.minimumbid )
-					{
-						if (!app.window.prompt.confirm ("Minimums bud", "Budet er mindre end effektens minimumsbuds grænse, vil du fjerne denne grænse og tillade budet ?"))
+						if (!app.window.prompt.confirm ("Bud unden køber nr.", "Der vil blive afgivet et bude uden køber nr. for at byde autobud op, vil du tillade dette ?"))
 						{
 							return false;
-						}	
+						}
+						else
+						{
 						
-						item.minimumbid = 0;
+							var item = main.items[(main.currentIndex)];						
+						
+							var onDone = 	function ()
+											{												
+											};
+																		
+							didius.item.bid (item, amount, onDone);
+							return true;
+						}
 					}
-				
-					var bid = didius.bid.create ({customerId: main.buyernos[index], item: item, amount: amount});
-					didius.bid.save ({bid: bid});
+					else
+					{
+						app.window.prompt.alert ("Bud", "Det angivet bud er højere end max autobud. Derfor kan bud uden køber nr. ikke accepteres.");
+						return false;									
+					}
+				}	
+				else
+				{
+					app.window.prompt.alert ("Bud", "Der er ingen autobud på denne effekt. Derfor kan bud uden køber nr. ikke accepteres.");
+					return false;				
+				}			
+			}	
+			else
+			{																						
+				for (var index in main.buyernos)
+				{							
+					if (index == buyerno)
+					{									
+						//var customer = didius.customer.load (main.buyernos[index]);
+						var item = main.items[(main.currentIndex)];
+															
+						if (amount <= item.bidamount)
+						{
+							app.window.prompt.alert ("Bud", "Budet er mindre end nuværende bud, og kan derfor ikke accepteres");
+							return false;
+						}
+						
+						if (amount < item.minimumbid )
+						{
+							if (!app.window.prompt.confirm ("Minimums bud", "Budet er mindre end effektens minimumsbuds grænse, vil du fjerne denne grænse og tillade budet ?"))
+							{
+								return false;
+							}	
+							
+							item.minimumbid = 0;
+						}
 					
-					didius.item.save ({item: item});
-					
-					return true;		
+						var bid = didius.bid.create ({customerId: main.buyernos[index], item: item, amount: amount});
+						didius.bid.save ({bid: bid});
+						
+						didius.item.save ({item: item});
+						
+						return true;		
+					}
 				}
 			}
 			
@@ -289,7 +330,29 @@ var main =
 			document.getElementById ("textbox.bidamount").disabled = true;
 		}
 		
+		var autobids = didius.autobid.list ({itemId: main.items[main.currentIndex].id});
+		
+		if (autobids != null)
+		{
+			if (autobids.length > 0)
+			{
+				var customer = didius.customer.load (autobids[0].customerid);
+				var amount = autobids[0].amount;
+			
+				document.getElementById ("textbox.currentmaxautobidcustomername").value = customer.name;
+				document.getElementById ("textbox.currentmaxautobidamount").value = amount;						
+			}
+			else
+			{
+				document.getElementById ("textbox.currentmaxautobidcustomername").value = "";
+				document.getElementById ("textbox.currentmaxautobidamount").value = "";			
+			}		
+		}
+		
 		document.getElementById ("textbox.bidamount").focus ();
+		
+		
+		
 	},	
 	
 	// ------------------------------------------------------------------------------------------------------

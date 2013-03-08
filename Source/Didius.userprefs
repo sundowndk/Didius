@@ -2,19 +2,15 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/settings/settings.js" Line="70" Column="41" />
-      <File FileName="Didius/Application/xul/chrome/content/settings/settings.xul" Line="251" Column="19" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="630" Column="62" />
-      <File FileName="Didius/Didius.addin.xml" Line="24" Column="1" />
-      <File FileName="Didius/Didius/Customer.cs" Line="923" Column="51" />
-      <File FileName="Didius/Didius/Runtime.cs" Line="89" Column="4" />
-      <File FileName="Didius/Didius.Enums/SettingsKey.cs" Line="54" Column="43" />
-      <File FileName="Didius/Didius/Newsletter.cs" Line="133" Column="51" />
-      <File FileName="Didius/Application/js/didius/newsletter.js" Line="56" Column="26" />
-      <File FileName="Didius/Application/xul/chrome/content/newsletter/edit.xul" Line="64" Column="14" />
-      <File FileName="Didius/Application/xul/chrome/content/newsletter/edit.js" Line="154" Column="73" />
-      <File FileName="Didius/Application/xul/chrome/content/invoice/show.js" Line="179" Column="41" />
-      <File FileName="Didius/Application/xul/application.ini" Line="4" Column="13" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/run.js" Line="224" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.xul" Line="96" Column="54" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.js" Line="121" Column="56" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/run.xul" Line="87" Column="14" />
+      <File FileName="Didius/Application/js/didius/item.js" Line="173" Column="1" />
+      <File FileName="Didius/Didius/Item.cs" Line="40" Column="12" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="217" Column="83" />
+      <File FileName="Didius/Didius/Helpers.cs" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/application.ini" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

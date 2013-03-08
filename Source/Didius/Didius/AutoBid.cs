@@ -307,15 +307,15 @@ namespace Didius
 		public static List<AutoBid> List (Guid ItemId)
 		{
 			List<AutoBid> result = new List<AutoBid> ();
-			
+		
+			Console.WriteLine ("FIlteR:"+ ItemId);
+
 			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, ItemId)))
 			{
+
 				try
 				{
-
 					result.Add (Load (new Guid (id)));
-
-
 				}
 				catch (Exception exception)
 				{
@@ -328,6 +328,8 @@ namespace Didius
 			}
 
 			result = result.OrderByDescending (o => o._amount).ThenBy(o => o._sort).ToList<AutoBid> ();
+
+			Console.WriteLine ("****************************"+ result.Count);
 
 //			result.Sort (delegate(AutoBid b1, AutoBid b2) { return b1.CreateTimestamp.CompareTo (b2.CreateTimestamp); });
 //			result.Reverse ();

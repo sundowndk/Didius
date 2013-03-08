@@ -237,12 +237,9 @@ var main =
 			{
 				document.getElementById ("textbox.currentmaxautobidcustomername").value = "";
 				document.getElementById ("textbox.currentmaxautobidamount").value = "";			
-			}
-		
+			}		
 		}
-		
-		sXUL.console.log (main.items[main.currentIndex].id)
-						
+									
 		main.onChange ();
 	},				
 

@@ -84,7 +84,18 @@
 										<label class="Label">Bud:</label>
 										<textbox id="textbox.currentbidamount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>										
 									</hbox>	
-							</groupbox>
+							</groupbox>						
+						</hbox>
+						<hbox>
+							<groupbox flex="1">
+								<caption label="Max autobud"/>			
+								<hbox align="center">
+									<label class="Label">Kunde:</label>
+									<textbox id="textbox.currentmaxautobidcustomername" flex="1" disabled="true"/>
+									<label class="Label">Bud:</label>
+									<textbox id="textbox.currentmaxautobidamount" type="number" decimalplaces="2" flex="1" hidespinbuttons="true" disabled="true"/>									
+								</hbox>																										
+							</groupbox>		
 						</hbox>
 						<hbox>
 							<groupbox flex="1">

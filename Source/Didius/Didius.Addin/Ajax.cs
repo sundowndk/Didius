@@ -208,7 +208,16 @@ namespace Didius.Addin
 								amount = decimal.Parse (request.getValue<string> ("amount"));
 							}
 
-							Item.Bid (Customer.Load (Session.User), Item.Load (request.getValue<Guid> ("itemid")), amount);
+							if (Session.User != null)
+							{
+								Item.Bid (Customer.Load (Session.User), Item.Load (request.getValue<Guid> ("itemid")), amount);
+							}
+							else
+							{
+								Item.Bid (Customer.Load (new Guid ("be829dbb-1f7b-47ca-85ae-6874541b74f8")), Item.Load (request.getValue<Guid> ("itemid")), amount);
+							}
+
+
 							break;
 						}
 							
@@ -307,7 +316,7 @@ namespace Didius.Addin
 							{
 								result.Add (Bid.List (request.getValue<Guid> ("itemid")));
 							}
-							if (request.ContainsXPath ("customerid"))
+							else if (request.ContainsXPath ("customerid"))
 							{
 								result.Add (Bid.List (Customer.Load (request.getValue<Guid> ("customerid"))));
 							}
@@ -338,7 +347,7 @@ namespace Didius.Addin
 							{
 								result.Add (AutoBid.List (request.getValue<Guid> ("itemid")));
 							}
-							if (request.ContainsXPath ("customerid"))
+							else if (request.ContainsXPath ("customerid"))
 							{
 								result.Add (AutoBid.List (Customer.Load (request.getValue<Guid> ("customerid"))));
 							}
