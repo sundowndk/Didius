@@ -262,12 +262,40 @@ parsePrintTemplate : function (data)
 					continue;
 				}
 				
+				case "#BEGINCONTENTTYPE1":
+				{
+					block = "contenttype1";
+					result.contenttype1 = "";
+					continue;
+				}
+				
+				case "#BEGINCONTENTTYPE2":
+				{
+					block = "contenttype2";
+					result.contenttype2 = "";
+					continue;
+				}
+				
 				case "#BEGINROW":
 				{
 					block = "row";
 					result.row = "";
 					continue;
 				}							
+				
+				case "#BEGINHEADER":
+				{
+					block = "header";
+					result.header = "";
+					continue;
+				}
+				
+				case "#BEGINFOOTER":
+				{
+					block = "footer";
+					result.footer = "";
+					continue;
+				}
 				
 				case "#BEGINBUYERINFOROW":
 				{
@@ -364,6 +392,30 @@ parsePrintTemplate : function (data)
 					continue;
 				}
 				
+				case "#ENDHEADER":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDFOOTER":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDCONTENTTYPE1":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDCONTENTTYPE2":
+				{
+					block = "";
+					continue;
+				}
+				
 				case "#ENDROW":
 				{
 					block = "";
@@ -455,6 +507,30 @@ parsePrintTemplate : function (data)
 			case "styles":
 			{
 				result.styles += data[idx] +"\n";
+				break;
+			}
+			
+			case "header":
+			{
+				result.header += data[idx] +"\n";
+				break;
+			}
+			
+			case "footer":
+			{
+				result.footer += data[idx] +"\n";
+				break;
+			}
+			
+			case "contenttype1":
+			{
+				result.contenttype1 += data[idx] +"\n";
+				break;
+			}
+			
+			case "contenttype2":
+			{
+				result.contenttype2 += data[idx] +"\n";
 				break;
 			}
 			

@@ -16,7 +16,8 @@
   		<key id="key.tabdetails" modifiers="alt" key="1" oncommand="document.getElementById ('tab.details').click ();"/>
   		<key id="key.tabitems" modifiers="alt" key="2" oncommand="document.getElementById ('tab.items').click ();"/>  		
 	</keyset>
-			
+	
+
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">		
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal"> 			

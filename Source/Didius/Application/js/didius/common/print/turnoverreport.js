@@ -53,6 +53,8 @@ turnoverReport : function (attributes)
 							// Caluculate page maxheight for printing.										
 							var maxHeight = page.offsetHeight 
 							var maxHeight2 = page.offsetHeight;
+							
+							
 																		
 							// Calculate DISCLAIMER height.														
 							// DISCLAIMER
@@ -67,7 +69,7 @@ turnoverReport : function (attributes)
 								maxHeight2 -= content.offsetHeight;
 							}
 							
-				//			sXUL.console.log ("maxHeight: "+ maxHeight);
+							sXUL.console.log ("maxHeight: "+ maxHeight);
 				//			sXUL.console.log ("maxHeight2: "+ maxHeight2);			
 																	
 																																											

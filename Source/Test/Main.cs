@@ -39,11 +39,11 @@ namespace Test
 //
 //				}
 
-				Environment.Exit (0);
+//				Environment.Exit (0);
 
-				Didius.Auction auction = Didius.Auction.Load (new Guid ("fbc361f3-f060-4a8f-818e-8b266fad8503"));
+//				Didius.Auction auction = Didius.Auction.Load (new Guid ("fbc361f3-f060-4a8f-818e-8b266fad8503"));
 
-				Console.WriteLine (Didius.Helpers.NewCatalogNo (auction, 60));
+//				Console.WriteLine (Didius.Helpers.NewCatalogNo (auction, 60));
 
 //				Didius.Helpers.SendSMS ("0");
 
@@ -77,16 +77,16 @@ namespace Test
 //
 //				c.ToXmlDocument ();
 
-//				foreach (Didius.Item item in Didius.Item.List ())
-//				{
-//					if (item.Invoiced)
-//					{
-//						Console.WriteLine (item.Title);
-//						item.Invoiced = false;
-//						item.Settled = false;
-//						item.Save ();
-//					}
-//				}
+				foreach (Didius.Item item in Didius.Item.List ())
+				{
+					if (item.Invoiced)
+					{
+						Console.WriteLine (item.Title);
+						item.Invoiced = false;
+						item.Settled = false;
+						item.Save ();
+					}
+				}
 
 			
 

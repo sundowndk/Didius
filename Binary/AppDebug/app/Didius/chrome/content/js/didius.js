@@ -1386,12 +1386,40 @@ var didius =
 							continue;
 						}
 						
+						case "#BEGINCONTENTTYPE1":
+						{
+							block = "contenttype1";
+							result.contenttype1 = "";
+							continue;
+						}
+						
+						case "#BEGINCONTENTTYPE2":
+						{
+							block = "contenttype2";
+							result.contenttype2 = "";
+							continue;
+						}
+						
 						case "#BEGINROW":
 						{
 							block = "row";
 							result.row = "";
 							continue;
 						}							
+						
+						case "#BEGINHEADER":
+						{
+							block = "header";
+							result.header = "";
+							continue;
+						}
+						
+						case "#BEGINFOOTER":
+						{
+							block = "footer";
+							result.footer = "";
+							continue;
+						}
 						
 						case "#BEGINBUYERINFOROW":
 						{
@@ -1488,6 +1516,30 @@ var didius =
 							continue;
 						}
 						
+						case "#ENDHEADER":
+						{
+							block = "";
+							continue;
+						}
+						
+						case "#ENDFOOTER":
+						{
+							block = "";
+							continue;
+						}
+						
+						case "#ENDCONTENTTYPE1":
+						{
+							block = "";
+							continue;
+						}
+						
+						case "#ENDCONTENTTYPE2":
+						{
+							block = "";
+							continue;
+						}
+						
 						case "#ENDROW":
 						{
 							block = "";
@@ -1579,6 +1631,30 @@ var didius =
 					case "styles":
 					{
 						result.styles += data[idx] +"\n";
+						break;
+					}
+					
+					case "header":
+					{
+						result.header += data[idx] +"\n";
+						break;
+					}
+					
+					case "footer":
+					{
+						result.footer += data[idx] +"\n";
+						break;
+					}
+					
+					case "contenttype1":
+					{
+						result.contenttype1 += data[idx] +"\n";
+						break;
+					}
+					
+					case "contenttype2":
+					{
+						result.contenttype2 += data[idx] +"\n";
 						break;
 					}
 					
@@ -2457,7 +2533,7 @@ var didius =
 											maxHeight2 -= content.offsetHeight;
 										}
 										
-							//			sXUL.console.log ("maxHeight: "+ maxHeight);
+										sXUL.console.log ("maxHeight: "+ maxHeight);
 							//			sXUL.console.log ("maxHeight2: "+ maxHeight2);			
 																								
 										// CUSTOMERNAME
@@ -3162,20 +3238,11 @@ var didius =
 		
 			salesAgreement : function (attributes)		
 			{					
-			//	sXUL.console.log (attributes.case.id)
-				
-				
-				if (!attributes.case)
-					throw "DIDIUS.COMMON.PRINT.SALESAGREEMENT.PRINT: No CASE given, cannot print nothing.";
-			
 				var Cc = Components.classes;
 				var Ci = Components.interfaces;
 				var Cu = Components.utils;
 				var Cr = Components.results;
 			
-				// ------------------------------------------------------------------------------------------------------
-				// | RENDER																								|	
-				// ------------------------------------------------------------------------------------------------------
 				var render = 	function (attributes)
 								{
 									var _case = attributes.case;						
@@ -3185,12 +3252,12 @@ var didius =
 									var items = didius.item.list ({case: _case});
 									SNDK.tools.sortArrayHash (items, "catalogno", "numeric");		
 								
-									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_salesagreement"}));						
-									var print = app.mainWindow.document.createElement ("iframe");
-									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
-															
-									var pageCount = 1;				
-								
+									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_salesagreement"}));																	
+									
+									var print = document.getElementById ("iframe.print");
+									print.contentDocument.body.innerHTML = " ";
+									
+									var pageCount = 1;									
 									var page = function (from)
 									{
 										// Add styles.																		
@@ -3202,133 +3269,142 @@ var didius =
 										var page = print.contentDocument.createElement ("div");
 										page.className = "Page A4";
 										print.contentDocument.body.appendChild (page);
-																													
+										
+										// Page
+										{							
+											var render = "";
+											render += template.header;
+											render += template.footer;									
+										
+											// PAGENUMBER
+											{				
+												render = render.replace ("%%PAGENUMBER%%", pageCount++);
+											}
+											
+											page.innerHTML = render;
+										}
+										
 										// Add content holder.																						
 										var content = print.contentDocument.createElement ("div")
 										content.className = "PrintContent";
+										content.style.top = print.contentDocument.getElementById ("PageHeader").offsetHeight;
 										page.appendChild (content);
-																								
-										// Add inital content.
-										var render = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
-										content.innerHTML = render;
-									
-										// Caluculate page maxheight for printing.										
-										var maxHeight = page.offsetHeight 
-										var maxHeight2 = page.offsetHeight;
-										
-										// CUSTOMERNAME
-										{
-											render = render.replace ("%%CUSTOMERNAME%%", customer.name);
-											content.innerHTML = render;
-										}
-									
-										// CUSTOMERADDRESS
-										{
-											var customeraddress = customer.address1;
-										
-											if (customer.address2 != "")
+			
+										// CONTENTTYPE1
+										{					
+											var render = template.contenttype1.replace ("%%CONTENTTYPE1%%", template.contenttype1).replace ("%%CONTENTTYPE2%%", "");
+											// CUSTOMERNAME
 											{
-												address += "<br>"+ customer.address2;
+												render = render.replace ("%%CUSTOMERNAME%%", customer.name);
 											}
 									
-											render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
-											content.innerHTML = render;
-										}
-						
-										// POSTCODE
-										{
-											render = render.replace ("%%CUSTOMERPOSTCODE%%", customer.postcode);
-											content.innerHTML = render;
-										}
-										
-										// CUSTOMERCITY
-										{
-											render = render.replace ("%%CUSTOMERCITY%%", customer.city);
-											content.innerHTML = render;
-										}
-										
-										// CUSTOMERCOUNTRY
-										{
-											render = render.replace ("%%CUSTOMERCOUNTRY%%", customer.country);
-											content.innerHTML = render;
-										}
-										
-										// CUSTOMERNO
-										{
-											render = render.replace ("%%CUSTOMERNO%%", customer.no);
-											content.innerHTML = render;
-										}
-							
-										// CUSTOMERPHONE
-										{
-											render = render.replace ("%%CUSTOMERPHONE%%", customer.phone);
-											content.innerHTML = render;
-										}
-									
-										// CUSTOMEREMAIL
-										{
-											render = render.replace ("%%CUSTOMEREMAIL%%", customer.email);
-											content.innerHTML = render;
-										}
-										
-										// CASENO
-										{
-											render = render.replace ("%%CASENO%%", _case.no);
-											content.innerHTML = render;
-										}
-										
-										// CASETITLE
-										{
-											render = render.replace ("%%CASETITLE%%", _case.title);
-											content.innerHTML = render;
-										}
-																	
-										// ROWS
-										{
-											// Add data rows.
-											var rows = "";	
-											var count = 0;				
-											for (var idx = from; idx < items.length; idx++)
-											{							
-												var row = template.row;
+											// CUSTOMERADDRESS
+											{
+												var customeraddress = customer.address1;
 											
-												// CATALOGNO						
+												if (customer.address2 != "")
 												{
-													row = row.replace ("%%CATALOGNO%%", items[idx].catalogno);
-												}			
-											
-												// DESCRIPTION
-												{
-													row = row.replace ("%%DESCRIPTION%%", items[idx].description);
-												}		
-											
-												// MINIMUMBID
-												{
-													row = row.replace ("%%MINIMUMBID%%", items[idx].minimumbid.toFixed (2));
-												}											
-												
-												// COMMISSIONFEE
-												{
-													row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee.toFixed (2));
-												}											
-			
-												content.innerHTML = render.replace ("%%ROWS%%", rows + row);
-																																		
-												if (content.offsetHeight > (maxHeight2))
-												{						
-													render = render.replace ("%%ROWS%%", rows);															
-													render = render.replace ("%%DISCLAIMER%%", "");							
-													content.innerHTML = render;
-													break;	
+													address += "<br>"+ customer.address2;
 												}
-																																
-												rows += row;
-																								
-												count++;						
-											}																		
+									
+												render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
+											}
+						
+											// POSTCODE
+											{
+												render = render.replace ("%%CUSTOMERPOSTCODE%%", customer.postcode);
+											}
+										
+											// CUSTOMERCITY
+											{
+												render = render.replace ("%%CUSTOMERCITY%%", customer.city);
+											}
+										
+											// CUSTOMERCOUNTRY
+											{
+												render = render.replace ("%%CUSTOMERCOUNTRY%%", customer.country);
+											}
+										
+											// CUSTOMERNO
+											{
+												render = render.replace ("%%CUSTOMERNO%%", customer.no);						
+											}
+							
+											// CUSTOMERPHONE
+											{
+												render = render.replace ("%%CUSTOMERPHONE%%", customer.phone);						
+											}
+									
+											// CUSTOMEREMAIL
+											{
+												render = render.replace ("%%CUSTOMEREMAIL%%", customer.email);						
+											}
+										
+											// CASENO
+											{
+												render = render.replace ("%%CASENO%%", _case.no);						
+											}
+										
+											// CASETITLE
+											{
+												render = render.replace ("%%CASETITLE%%", _case.title);						
+											}
 											
-											render = render.replace ("%%ROWS%%", rows);											
+											// DATE
+											{					
+												var now = new Date ();
+												render = render.replace ("%%DATE%%", SNDK.tools.padLeft (now.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((now.getMonth () + 1), 2, "0") +"-"+ now.getFullYear ());						
+											}																
+																																
 											content.innerHTML = render;
+											
+											// ROWS
+											{
+												// Add data rows.
+												var rows = "";	
+												var count = 0;				
+												for (var idx = from; idx < items.length; idx++)
+												{							
+													var row = template.row;
+											
+													// CATALOGNO						
+													{
+														row = row.replace ("%%CATALOGNO%%", items[idx].catalogno);
+													}			
+												
+													// DESCRIPTION
+													{
+														row = row.replace ("%%DESCRIPTION%%", items[idx].description);
+													}		
+												
+													// MINIMUMBID
+													{
+														row = row.replace ("%%MINIMUMBID%%", items[idx].minimumbid.toFixed (2));
+													}											
+													
+													// COMMISSIONFEE
+													{
+														row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee.toFixed (2));
+													}											
+			
+													content.innerHTML = render.replace ("%%ROWS%%", rows + row);																									
+																						
+													if ((page.offsetHeight - print.contentDocument.getElementById ("PageFooter").offsetHeight - print.contentDocument.getElementById ("PageHeader").offsetHeight ) < (content.offsetHeight))
+													{   
+														render = render.replace ("%%ROWS%%", rows);															
+														render = render.replace ("%%DISCLAIMER%%", "");							
+														content.innerHTML = render;
+														break;										
+													}												
+																																										
+													rows += row;
+																									
+													count++;						
+												}																		
+											
+												render = render.replace ("%%ROWS%%", rows);											
+												content.innerHTML = render;
+											}
 										}
 																							
 										return count;				
@@ -3338,9 +3414,9 @@ var didius =
 									while (c < items.length)
 									{							
 						 				c += page (c);				 				
-									}			
-									
-									// DISCLAIMERPAGE
+									}	
+																					
+									// CONTENTYPE2
 									{
 										// Add styles.																		
 										var styles = print.contentDocument.createElement ("style");					
@@ -3351,18 +3427,32 @@ var didius =
 										var page = print.contentDocument.createElement ("div");
 										page.className = "Page A4";
 										print.contentDocument.body.appendChild (page);
-																													
+										
+										// Page
+										{							
+											var render = "";
+											render += template.header;
+											render += template.footer;									
+										
+											// PAGENUMBER
+											{				
+												render = render.replace ("%%PAGENUMBER%%", pageCount++);
+											}
+											
+											page.innerHTML = render;
+										}
+										
 										// Add content holder.																						
 										var content = print.contentDocument.createElement ("div")
 										content.className = "PrintContent";
+										content.style.top = print.contentDocument.getElementById ("PageHeader").offsetHeight;
 										page.appendChild (content);
-																								
-										// Add inital content.
-										var render = template.disclaimer;
-										content.innerHTML = render;
 												
-										// DISCLAIMER
-										{				
+										// CONTENTTYPE2
+										{		
+											var render = template.contenttype2.replace ("%%CONTENTTYPE2%%", template.contenttype2).replace ("%%CONTENTTYPE1%%", "");
+											
+															
 											// CASECOMMISIONFEEPERCENTAGE
 											{
 												render = render.replace ("%%CASECOMMISIONFEEPERCENTAGE%%", _case.commisionfeepercentage);
@@ -3472,19 +3562,25 @@ var didius =
 								
 											content.innerHTML = render;
 										}
-									}
+									}										
+														
 									
-									var result = print.contentDocument.body.innerHTML;
+									//var result = print.contentDocument.body.innerHTML;
 									
-									app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
+									//app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
 									
-									return result;						
+										return print.contentDocument.body.innerHTML;
+									
+									//return result;						
 								};
 								
 				var data = render ({case: attributes.case});				
-									
-				var print = app.mainWindow.document.createElement ("iframe");
-				app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);		
+			sXUL.console.log (data)						
+				
+				var print = document.getElementById ("iframe.print");
+				print.contentDocument.body.innerHTML = " ";
+				
+			//	app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);		
 				print.contentDocument.body.innerHTML = data;
 								
 				var settings = PrintUtils.getPrintSettings ();
@@ -3492,7 +3588,7 @@ var didius =
 				settings.marginLeft = 0.5;
 				settings.marginRight = 0.5;
 				settings.marginTop = 0.5;
-				settings.marginBottom = 0.0;
+				settings.marginBottom = 0.5;
 				settings.shrinkToFit = true;		
 				settings.paperName =  "iso_a4";
 				settings.paperWidth = 210;
@@ -4065,6 +4161,8 @@ var didius =
 																				
 										//var maxHeight = page.offsetHeight - headerHeight - footerHeight;
 										var maxHeight = page.offsetHeight;
+										
+										sXUL.console.log (maxHeight)
 																																																										
 										var count = 0;					
 										var rows = "";
@@ -4393,6 +4491,8 @@ var didius =
 										// Caluculate page maxheight for printing.										
 										var maxHeight = page.offsetHeight 
 										var maxHeight2 = page.offsetHeight;
+										
+										
 																					
 										// Calculate DISCLAIMER height.														
 										// DISCLAIMER
@@ -4407,7 +4507,7 @@ var didius =
 											maxHeight2 -= content.offsetHeight;
 										}
 										
-							//			sXUL.console.log ("maxHeight: "+ maxHeight);
+										sXUL.console.log ("maxHeight: "+ maxHeight);
 							//			sXUL.console.log ("maxHeight2: "+ maxHeight2);			
 																				
 																																														
@@ -5117,12 +5217,18 @@ var didius =
 				//ppd_54X4
 				
 																																																																																																											
-				settings.marginLeft = 0.28;
-				settings.marginRight = 0.29;
-				settings.marginTop = 0.14;
-				settings.marginBottom = 0.14;
+			//	settings.marginLeft = 0.28;
+			//	settings.marginRight = 0.29;
+			//	settings.marginTop = 0.14;
+			//	settings.marginBottom = 0.14;
 				settings.shrinkToFit = true;
-				
+			
+				settings.marginLeft = 0;
+				settings.marginRight = 0;
+				settings.marginTop = 0;
+				settings.marginBottom = 0;
+			
+						
 				settings.unwriteableMarginTop = 0;
 			    settings.unwriteableMarginRight = 0;
 			    settings.unwriteableMarginBottom = 0;
@@ -5132,8 +5238,12 @@ var didius =
 				settings.orientation = Ci.nsIPrintSettings.kLandscapeOrientation;
 				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
 				//settings.paperName = "ppd_62x29";
-				settings.paperWidth = 62;
+				//settings.paperWidth = 62;
+				//settings.paperHeight = 100;
+				
+				settings.paperWidth = 29;
 				settings.paperHeight = 100;
+				settings.orientation = 1;
 				
 				//settings.setPaperSizeType = Ci.nsIPrintSettings.kPaperSizeDefined;  	
 			  	//settings.setPaperSize = Ci.nsIPrintSettings.kPaperSizeNativeData;
@@ -5142,7 +5252,7 @@ var didius =
 				
 				
 					
-				attributes = {};
+				//attributes = {};
 					
 				if (attributes.mail) 
 				{
@@ -5246,13 +5356,13 @@ var didius =
 				else
 				{
 					var onDone =	function ()
-									{
+									{																																																	
 										if (attributes.onDone != null)
-										{
-											setTimeout (attributes.onDone, 1);
+										{							
+											setTimeout (attributes.onDone, 0);
 										}
 									};
-				
+											
 					sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
 				}		
 			}

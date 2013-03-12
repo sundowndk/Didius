@@ -17,7 +17,10 @@
   		<key id="key.mail" modifiers="control" key="m" oncommand="main.close ();"/>
   		
   		window.arguments[0].onDone (main.auctionsTreeHelper.getRow ());
-	</keyset>			
+	</keyset>
+	
+	<iframe id="iframe.print" collapsed="true">
+	</iframe>								
 			
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">

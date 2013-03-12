@@ -18,6 +18,8 @@
   		<key id="key.tabitems" modifiers="alt" key="3" oncommand="document.getElementById ('tab.items').click ();"/>
   		<key id="key.tabnotes" modifiers="alt" key="4" oncommand="document.getElementById ('tab.notes').click ();"/>
 	</keyset>			
+				
+		
 			
 	<hbox class="WindowInnerPadding" flex="1">
 		<tabbox selectedIndex="0" flex="1">		

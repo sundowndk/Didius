@@ -128,15 +128,12 @@ var main =
 							return false;
 						}
 						else
-						{
-						
-							var item = main.items[(main.currentIndex)];						
-						
-							var onDone = 	function ()
-											{												
-											};
+						{					
+							var autobids = didius.autobid.list ({itemId: main.items[main.currentIndex].id});									
+							var customer = didius.customer.load (autobids[0].customerid);																	
+							var bid = didius.bid.create ({customerId: customer.id, item: item, amount: amount});
+							didius.bid.save ({bid: bid});						
 																		
-							didius.item.bid (item, amount, onDone);
 							return true;
 						}
 					}

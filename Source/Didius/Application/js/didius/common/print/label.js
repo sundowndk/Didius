@@ -143,12 +143,18 @@ label : function (attributes)
 	//ppd_54X4
 	
 																																																																																																								
-	settings.marginLeft = 0.28;
-	settings.marginRight = 0.29;
-	settings.marginTop = 0.14;
-	settings.marginBottom = 0.14;
+//	settings.marginLeft = 0.28;
+//	settings.marginRight = 0.29;
+//	settings.marginTop = 0.14;
+//	settings.marginBottom = 0.14;
 	settings.shrinkToFit = true;
-	
+
+	settings.marginLeft = 0;
+	settings.marginRight = 0;
+	settings.marginTop = 0;
+	settings.marginBottom = 0;
+
+			
 	settings.unwriteableMarginTop = 0;
     settings.unwriteableMarginRight = 0;
     settings.unwriteableMarginBottom = 0;
@@ -158,8 +164,12 @@ label : function (attributes)
 	settings.orientation = Ci.nsIPrintSettings.kLandscapeOrientation;
 	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
 	//settings.paperName = "ppd_62x29";
-	settings.paperWidth = 62;
+	//settings.paperWidth = 62;
+	//settings.paperHeight = 100;
+	
+	settings.paperWidth = 29;
 	settings.paperHeight = 100;
+	settings.orientation = 1;
 	
 	//settings.setPaperSizeType = Ci.nsIPrintSettings.kPaperSizeDefined;  	
   	//settings.setPaperSize = Ci.nsIPrintSettings.kPaperSizeNativeData;
@@ -168,7 +178,7 @@ label : function (attributes)
 	
 	
 		
-	attributes = {};
+	//attributes = {};
 		
 	if (attributes.mail) 
 	{
@@ -272,13 +282,13 @@ label : function (attributes)
 	else
 	{
 		var onDone =	function ()
-						{
+						{																																																	
 							if (attributes.onDone != null)
-							{
-								setTimeout (attributes.onDone, 1);
+							{							
+								setTimeout (attributes.onDone, 0);
 							}
 						};
-	
+								
 		sXUL.tools.print ({contentWindow: print.contentWindow, settings: settings, onDone: attributes.onDone, onError: attributes.onError});				
 	}		
 }

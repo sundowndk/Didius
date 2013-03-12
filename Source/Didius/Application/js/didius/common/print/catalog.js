@@ -85,6 +85,8 @@ catalog : function (attributes)
 																	
 							//var maxHeight = page.offsetHeight - headerHeight - footerHeight;
 							var maxHeight = page.offsetHeight;
+							
+							sXUL.console.log (maxHeight)
 																																																							
 							var count = 0;					
 							var rows = "";

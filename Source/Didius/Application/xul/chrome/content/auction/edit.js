@@ -599,6 +599,8 @@ var labels =
 																						
 								var nextWorker =	function ()
 													{
+													
+													
 														// Update progressmeter #1
 														overallprogress++;
 														progresswindow.document.getElementById ("progressmeter1").mode = "determined"
