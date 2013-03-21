@@ -473,6 +473,15 @@ var items =
 								data.no = item.no;
 								data.title = item.title;
 								
+								if (item.vat)
+								{
+									data.vat = "ja";								
+								}
+								else
+								{
+									data.vat = "nej";								
+								}
+								
 							//	var case_ = didius.case.load ({id: item.caseid});
 							//	var customer = didius.customer.load (case_.customerid);								
 							//	data.customername = customer.name;																								

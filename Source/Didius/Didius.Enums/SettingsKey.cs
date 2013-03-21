@@ -48,6 +48,7 @@ namespace Didius.Enums
 		didius_template_display,
 		didius_template_turnoverreport,
 		didius_template_label,
+		didius_template_newsletter,
 
 		didius_item_datafields,
 

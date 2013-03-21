@@ -55,6 +55,15 @@
     									<toolbarbutton id="toolbarbutton.bold" image="chrome://didius/content/icons/16/format-text-bold.png" oncommand="main.editor.command ({command: 'bold'})"/>
     									<toolbarbutton id="toolbarbutton.italic" image="chrome://didius/content/icons/16/format-text-italic.png" oncommand="main.editor.command ({command: 'italic'})"/>
     									<toolbarbutton id="toolbarbutton.underline" image="chrome://didius/content/icons/16/format-text-underline.png" oncommand="main.editor.command ({command: 'underline'})"/>
+    									<toolbarseparator />    									
+    									<menulist id="toolbarbutton.formatblock" oncommand="main.formatBlock ();" flex="1" width="100px">
+  											<menupopup>
+    											<menuitem label="Overskrift" value="h1"/>
+    											<menuitem label="Tekst" value="p"/> 
+	  										</menupopup>
+										</menulist>													
+										<toolbarseparator />
+										<toolbarbutton id="toolbarbutton.link" image="chrome://didius/content/icons/16/insert-link.png" oncommand="main.editor.command ({command: 'createlink', value: 'blabla.dk'})"/> 
   									</toolbar>
 								</toolbox>						
 							</hbox>			
@@ -70,7 +79,7 @@
 	
 	<hbox class="WindowButtons">		
 		<hbox align="right" flex="1"> 
-			<button id="send" label="Send" oncommand="main.send ();"/>
+			<button id="send" label="Send" oncommand="main.send ();" disabled="true"/>
 			<spacer flex="1"/>
 			<button id="close" label="Luk" oncommand="main.close ();" disabled="true"/>
 			<button id="save" label="Gem" oncommand="main.save ();" disabled="true"/>

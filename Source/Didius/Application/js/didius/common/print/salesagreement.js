@@ -66,7 +66,7 @@ salesAgreement : function (attributes)
 								
 									if (customer.address2 != "")
 									{
-										address += "<br>"+ customer.address2;
+										customeraddress += "<br>"+ customer.address2;
 									}
 						
 									render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);
@@ -147,8 +147,21 @@ salesAgreement : function (attributes)
 										// COMMISSIONFEE
 										{
 											row = row.replace ("%%COMMISSIONFEE%%", items[idx].commissionfee.toFixed (2));
-										}											
-
+										}		
+										
+										// ITEMVAT
+										{
+											var vat = "";
+											if (items[idx].vat)
+											{					
+												row = row.replace ("%%ITEMVAT%%", "&#10004;");
+											}
+											else
+											{
+												row = row.replace ("%%ITEMVAT%%", "");
+											}
+										}			
+																				
 										content.innerHTML = render.replace ("%%ROWS%%", rows + row);																									
 																			
 										if ((page.offsetHeight - print.contentDocument.getElementById ("PageFooter").offsetHeight - print.contentDocument.getElementById ("PageHeader").offsetHeight ) < (content.offsetHeight))
@@ -243,7 +256,7 @@ salesAgreement : function (attributes)
 								
 									if (customer.address2 != "")
 									{
-										address += "<br>"+ customer.address2;
+										customeraddress += "<br>"+ customer.address2;
 									}
 							
 									render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);

@@ -128,6 +128,7 @@
 								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="items.sort ({column: 'catalogno'});"/>
 								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="items.sort ({column: 'no'});"/>
 								<treecol id="title" label="Title" flex="2" persist="width" onclick="items.sort ({column: 'title'});"/>								
+								<treecol id="vat" label="Moms" flex="2" persist="width" onclick="items.sort ({column: 'vat'});"/>								
 							</treecols>								
 						</tree>
 					</hbox>

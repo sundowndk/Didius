@@ -342,6 +342,7 @@
 									<tab label="Præsentation"/>
 									<tab label="Omsætningsliste"/>
 									<tab label="Label"/>
+									<tab label="Nyhedsbrev"/>
 								</tabs>
 							</arrowscrollbox>
 							
@@ -391,8 +392,12 @@
 										<textbox id="templatesLabel" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
 									</vbox>
 				    			</tabpanel>
-							</tabpanels>
-							
+				    			<tabpanel flex="1">
+									<vbox flex="1">		
+										<textbox id="templatesNewsletter" flex="1" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+									</vbox>
+				    			</tabpanel>				    			
+							</tabpanels>							
 						</tabbox>
 					</hbox>										
 				</vbox>

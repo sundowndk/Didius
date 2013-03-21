@@ -244,7 +244,7 @@ namespace Didius
 
 				if (item.ContainsKey ("amount"))
 				{
-					result._amount = decimal.Parse ((string)item["amount"]);
+					result._amount = decimal.Parse ((string)item["amount"], System.Globalization.CultureInfo.InvariantCulture);
 				}				
 			}
 			catch (Exception exception)
@@ -423,7 +423,7 @@ namespace Didius
 
 			if (item.ContainsKey ("amount"))
 			{
-				result._amount = decimal.Parse ((string)item["amount"]);
+				result._amount = decimal.Parse ((string)item["amount"], System.Globalization.CultureInfo.InvariantCulture);
 			}
 
 			return result;

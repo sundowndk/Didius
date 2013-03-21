@@ -89,6 +89,7 @@ var main =
 		keys[keys.length] = "didius_template_display";		
 		keys[keys.length] = "didius_template_turnoverreport";		
 		keys[keys.length] = "didius_template_label";		
+		keys[keys.length] = "didius_template_newsletter";		
 	
 		main.current = didius.settings.get ({keys: keys});
 		
@@ -159,6 +160,7 @@ var main =
 		document.getElementById ("templatesDisplay").value = main.current.didius_template_display;		
 		document.getElementById ("templatesTurnoverReport").value = main.current.didius_template_turnoverreport;		
 		document.getElementById ("templatesLabel").value = main.current.didius_template_label;		
+		document.getElementById ("templatesNewsletter").value = main.current.didius_template_newsletter;		
 	},
 	
 	get : function ()
@@ -226,6 +228,7 @@ var main =
 		main.current.didius_template_display = document.getElementById ("templatesDisplay").value;				
 		main.current.didius_template_turnoverreport = document.getElementById ("templatesTurnoverReport").value;				
 		main.current.didius_template_label = document.getElementById ("templatesLabel").value;				
+		main.current.didius_template_newsletter = document.getElementById ("templatesNewsletter").value;				
 	},
 	
 	onChange : function ()

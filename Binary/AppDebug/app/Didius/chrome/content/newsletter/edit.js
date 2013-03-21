@@ -15,7 +15,9 @@ var main =
 			{
 				main.mode = "NEW";
 				main.newsletter = didius.newsletter.create ();
-				main.newsletter.content = sXUL.tools.fileToString ("chrome://didius/content/templates/newsletter.tpl");
+				//main.newsletter.content = sXUL.tools.fileToString ("chrome://didius/content/templates/newsletter.tpl");
+				main.newsletter.content = didius.settings.get ({key: "didius_template_newsletter"});
+
 			}
 			else if (window.arguments[0].newsletterId)
 			{
@@ -49,6 +51,14 @@ var main =
 		// Hook events.		
 		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);				
 	},
+	
+	formatBlock : function ()
+	{
+	
+		main.editor.command ({command: "formatblock", value: document.getElementById ("toolbarbutton.formatblock").value});	
+	
+	},
+	
 	
 	eventHandlers :
 	{			
@@ -102,6 +112,8 @@ var main =
 		main.get ();
 		
 		didius.newsletter.save (main.newsletter);
+		
+		main.mode = "EDIT";
 				
 		main.checksum = SNDK.tools.arrayChecksum (main.newsletter);
 		main.onChange ();
@@ -208,6 +220,15 @@ var main =
 		
 			document.getElementById ("save").disabled = true;
 			document.getElementById ("close").disabled = false;
-		}							
+		}	
+		
+		if (main.mode == "NEW")
+		{
+			document.getElementById ("send").disabled = true;		
+		}						
+		else if (main.mode == "EDIT")
+		{
+			document.getElementById ("send").disabled = false;				
+		}
 	}
 }

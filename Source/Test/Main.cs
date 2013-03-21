@@ -8,6 +8,7 @@ using SNDK.DBI;
 
 using SorentoLib;
 
+using Paperboy;
 
 namespace Test
 {
@@ -29,6 +30,169 @@ namespace Test
 			if (SorentoLib.Services.Database.Connection.Connect ())
 			{
 				Console.WriteLine ("Connected to database.");
+
+
+				int counter = 0;
+				foreach (string line in SNDK.IO.ReadTextFile ("/home/rvp/Skrivebord/yorkmails.txt"))
+				{
+					string name = line.Split (":".ToCharArray ())[0];
+					string email = line.Split (":".ToCharArray ())[1];
+
+//					Console.WriteLine ("name: "+ name +" email: "+ email);
+
+				
+
+//
+					if (!Paperboy.Subscriber.IsEmailSubscriber (email))
+					{
+						counter++;
+						try
+						{
+							Console.WriteLine ("name: "+ name +" email: "+ email);
+							Paperboy.Subscriber subscriber = new Subscriber (email);
+							subscriber.Title = name;
+							subscriber.Subscribe (new Guid ("58a003c1-02ed-4424-b559-208ce2011870"));
+							subscriber.Save ();
+						}
+						catch
+						{
+							Console.WriteLine ("#### INVALID name: "+ name +" email: "+ email);
+						}
+					}
+//
+				}
+
+
+
+				Environment.Exit (0);
+
+//				for (int i = 0; i < 6000; i++)
+//				{
+//					Guid id = Guid.NewGuid ();
+//
+//					Subscriber s = new Subscriber (id.ToString () + "@netparty.dk");
+//					s.Title = id.ToString ();
+//					s.Subscribe (new Guid ("58a003c1-02ed-4424-b559-208ce2011870"));
+//					s.Save ();
+//					Console.WriteLine (s.Title);
+//				}
+//
+//				Environment.Exit (0);
+
+				foreach (Subscriber subscriber in Subscriber.List ())
+				{
+//					subscriber.Subscribe (new Guid ("58a003c1-02ed-4424-b559-208ce2011870"));
+//					subscriber.Save ();
+
+//					if (subscriber.Email == "rvp@qnax.net")
+//					{
+//						Console.WriteLine ("Found");
+//					}
+//					else
+//					{
+//						subscriber.SubscriptionIds.Clear ();
+//						subscriber.Save ();
+//					}
+
+//					foreach (Guid id in subscriber.SubscriptionIds)
+//					{
+//						Console.WriteLine (id +" "+ subscriber.Email);
+//					}
+
+					Console.WriteLine ("Deleting: "+ subscriber.Title);
+					Subscriber.Delete (subscriber);
+
+//					Console.WriteLine (subscriber.Title +":"+ subscriber.Email);
+				}
+
+//				58a003c1-02ed-4424-b559-208ce2011870
+
+				//if (!Paperboy.Subscriber.IsEmailSubscriber (email))
+//					{
+//						counter++;
+//						Console.WriteLine ("name: "+ name +" email: "+ email);
+//						Paperboy.Subscriber subscriber = new Subscriber (email);
+//						subscriber.Title = name;
+//						subscriber.Save ();
+//					}
+
+				Environment.Exit (0);
+
+//
+//				foreach (Didius.Customer customer in Didius.Customer.List ())
+//				{
+//					Console.WriteLine (customer.Name +" "+ customer.Id);
+//				}
+
+				Didius.Customer customer1 = Didius.Customer.Load (new Guid ("fd8b8da1-311f-44c2-8a92-cbaa9b700d63"));  // Rasmus Pedersen
+				Didius.Customer customer2 = Didius.Customer.Load (new Guid ("02b5a747-7aa0-481f-8b3c-c0c1c70d5d84"));  // ! Rasmus Pedersen
+				Didius.Customer customer3 = Didius.Customer.Load (new Guid ("be829dbb-1f7b-47ca-85ae-6874541b74f8"));  // York Auktion ApS
+
+//				foreach (Didius.Item i in Didius.Item.List (new Guid ("04195b87-930d-456a-867d-c8c275cad858")))
+//				{
+//					Console.WriteLine (i.Id +" "+ i.Title);
+//				}
+
+				Didius.Item item = Didius.Item.Load (new Guid ("93c0fced-e1e1-4e82-9b83-28ca2a55b649"));
+
+				Console.WriteLine ("next bid: "+ item.NextBidAmount);
+
+				Didius.Item.Bid (customer1, item, 1000);
+				Didius.Item.Bid (customer2, item, 3000);
+				Didius.Item.Bid (customer3, item, 3000);
+
+				Console.WriteLine ("\nBids:");
+				foreach (Didius.Bid bid in Didius.Bid.List (item))
+				{
+					Console.WriteLine ("name: "+ Didius.Customer.Load (bid.CustomerId).Name +" bid: "+ bid.Amount);
+				}
+
+				Console.WriteLine ("\nAutoBids:");
+				foreach (Didius.AutoBid autobid in Didius.AutoBid.List (item))
+				{
+					Console.WriteLine ("name: "+ Didius.Customer.Load (autobid.CustomerId).Name +" autobid: "+ autobid.Amount);
+				}
+
+
+//				Environment.Exit (0);
+
+				foreach (Didius.Bid bid in Didius.Bid.List (item))
+				{
+					Didius.Bid.Delete (bid.Id);
+				}
+
+				foreach (Didius.AutoBid autobid in Didius.AutoBid.List (item))
+				{
+					Didius.AutoBid.Delete (autobid.Id);
+				}
+
+
+
+//				1292222000
+
+//				int counter = 0;
+//				foreach (string line in SNDK.IO.ReadTextFile ("/home/rvp/Skrivebord/emails.csv"))
+//				{
+//					string name = line.Split (";".ToCharArray ())[0];
+//					string email = line.Split (";".ToCharArray ())[1];
+//
+//
+//
+//					if (!Paperboy.Subscriber.IsEmailSubscriber (email))
+//					{
+//						counter++;
+//						Console.WriteLine ("name: "+ name +" email: "+ email);
+//						Paperboy.Subscriber subscriber = new Subscriber (email);
+//						subscriber.Title = name;
+//						subscriber.Save ();
+//					}
+//
+//				}
+//
+//
+//				Console.WriteLine (counter);
+
+
 
 
 //				DateTime date1 = DateTime.Now;
@@ -77,16 +241,16 @@ namespace Test
 //
 //				c.ToXmlDocument ();
 
-				foreach (Didius.Item item in Didius.Item.List ())
-				{
-					if (item.Invoiced)
-					{
-						Console.WriteLine (item.Title);
-						item.Invoiced = false;
-						item.Settled = false;
-						item.Save ();
-					}
-				}
+//				foreach (Didius.Item item in Didius.Item.List ())
+//				{
+//					if (item.Invoiced)
+//					{
+//						Console.WriteLine (item.Title);
+//						item.Invoiced = false;
+//						item.Settled = false;
+//						item.Save ();
+//					}
+//				}
 
 			
 

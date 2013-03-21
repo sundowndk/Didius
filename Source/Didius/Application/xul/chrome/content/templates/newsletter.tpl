@@ -34,9 +34,8 @@
 		}
 		
 		.Main
-		{
-			background-image: url(http://172.20.0.34/newsletter/images/content-background.jpg);
-			
+		{			
+			background-color: #2a2a2a;
 			padding-top: 5px;
 			padding-left: 20px;
 			padding-right: 20px;
@@ -44,7 +43,7 @@
 			color: #fff;
 		}
 		
-		.Button
+		a
 		{					
 			background-color: #2C6DA0;	    	
 			border: medium none;
@@ -65,7 +64,7 @@
 		.Content
 		{
 			padding-top: 5px;
-			padding-right: 5px;
+			padding-right: 15px;
 		}
 		
 		.News
@@ -78,7 +77,12 @@
 			padding-top: 5px;
 			padding-left: 5px;
 			width: 250px;
-		}
+		}	
+		
+		.SideBarContent
+		{
+			padding-bottom: 15px;		
+		}			
 		
 		.SideBar h1
 		{
@@ -96,6 +100,7 @@
 			background-color: #000;
 			text-align: center;
 			color: #666;
+			padding-top: 10px;
 			
 		}
 	</style>
@@ -114,64 +119,49 @@
 							<td class="Content" valign="top">
 								<table cellpadding="0" cellspacing="0">
 									<tr>
-										<td class="News" simpleeditor-id="data" simpleeditor-type="full">
-											<h1>Ut consequat mauris quis</h1>
+										<td class="News" simpleeditor-id="content" simpleeditor-type="full">
+											<h1>Overskrift</h1>
 											<p>
-												Pellentesque a lorem est. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
-											</p>
-											<p>
-												Donec sed lectus lectus, vitae adipiscing lectus. Cras sed posuere ligula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
-												Etiam nulla purus, ornare vel egestas et, vehicula vitae magna. Aenean non risus ac nisl consequat vestibulum vel eget urna. 
-											</p>
-											<br>
-											<a href="" class="Button">LÃ¦s mere...</a>
+												Tekst
+											</p>											
 										</td>
-									</tr>
-									<tr>
-										<td class="News" contenteditable="true">
-											<h1>Ut consequat mauris quis</h1>
-											<p>
-												Pellentesque a lorem est. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
-											</p>
-											<p>
-												Donec sed lectus lectus, vitae adipiscing lectus. Cras sed posuere ligula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
-												Etiam nulla purus, ornare vel egestas et, vehicula vitae magna. Aenean non risus ac nisl consequat vestibulum vel eget urna. 
-											</p>
-											<br>
-											<a href="" class="Button">LÃ¦s mere...</a>
-										</td>
-									</tr>
+									</tr>									
 								</table>
 							<td class="SideBar" valign="top">
-								<table cellpadding="0" cellspacing="0">
+								<table cellpadding="0" cellspacing="0">									
 									<tr>
-										<td contenteditable="true">
-											<h1>Ut consequat mauris quis</h1>
-											<p>
-												Donec sed lectus lectus, vitae adipiscing lectus. Cras sed posuere ligula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
-												Etiam nulla purus, ornare vel egestas et, vehicula vitae magna. Aenean non risus ac nisl consequat vestibulum vel eget urna. 
-											</p>
+										<td class="SideBarContent"  simpleeditor-id="sidebar1" simpleeditor-type="full">
+											<h1>Åbningstider / indleveringstider:</h1>
+											<p>											 
+												Mandag - onsdag 10.00 - 16.00<br>											
+												Torsdag 10.00 - 12.00<br>
+												Fredag, lørdag, søndag ( lukket )<br><br>
 
+												Auktionsdage ( lørdag ) 8.30 - 17.00
+											</p>
 										</td>
-									</tr>
+									</tr>								
 									<tr>
-										<td contenteditable="true">
-											<h1>Ut consequat mauris quis</h1>
+										<td class="SideBarContent"  simpleeditor-id="sidebar2" simpleeditor-type="full">
+											<h1>Kontakt</h1>
 											<p>
-												Donec sed lectus lectus, vitae adipiscing lectus. Cras sed posuere ligula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
-												Etiam nulla purus, ornare vel egestas et, vehicula vitae magna. Aenean non risus ac nisl consequat vestibulum vel eget urna. 
-											</p>
+												York-Auktion ApS<br>
+												Waldemarsvej 1<br>
+												4296 Nyrup<br><br>
+											
+												Tlf: 7020 3606 / 5050 3706<br><br>
 
+												Mail: info@york-auktion.dk												
+											</p>
 										</td>
-									</tr>
+									</tr>									
 									<tr>
-										<td contenteditable="true">
-											<h1>Ut consequat mauris quis</h1>
+										<td class="SideBarContent"  simpleeditor-id="sidebar3" simpleeditor-type="full">
+											<h1>Afmeldning af nyhedsbrev</h1>
 											<p>
-												Donec sed lectus lectus, vitae adipiscing lectus. Cras sed posuere ligula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
-												Etiam nulla purus, ornare vel egestas et, vehicula vitae magna. Aenean non risus ac nisl consequat vestibulum vel eget urna. 
-											</p>
-
+												Hvis du ønsker at afmelde vores nyhedsbrev skal du blot trykke på knappen herunder.<br><br>
+												<a href="%%PAPERBOYURL%%unsubscribe/%%SUBSCRIBEREMAIL%%/%%SUBSCRIPTIONID%%">Afmeld nyhedsbrev</a>.
+											</p>											
 										</td>
 									</tr>
 								</table>
@@ -182,7 +172,7 @@
 			</tr>
 			<tr>
 				<td class="Footer">
-					<h2>Â© 2013 York-Auktion ApS</h2>
+					<h2>© 2013 York-Auktion ApS</h2>
 				</td>
 			</tr>
 		</table>

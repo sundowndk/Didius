@@ -243,6 +243,7 @@ var details =
 		
 		document.getElementById ("textbox.catalogno").value = main.item.catalogno;		
 		document.getElementById ("textbox.description").value = main.item.description;						
+		document.getElementById ("textbox.description").focus ();						
 						
 		document.getElementById ("textbox.minimumbid").value = main.item.minimumbid;
 		
@@ -256,6 +257,8 @@ var details =
 			document.getElementById ("image.picture").src = didius.runtime.ajaxUrl +"getmedia/" + main.item.pictureid;
 		}
 				
+		
+		
 		details.setDataFields ();
 							
 		details.onChange ();

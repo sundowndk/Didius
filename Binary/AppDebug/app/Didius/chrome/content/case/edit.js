@@ -326,6 +326,15 @@ var items =
 										
 										data.no = item.no;
 										data.title = item.title;
+										
+										if (item.vat)
+										{
+											data.vat = "ja";										
+										}
+										else
+										{
+											data.vat = "nej";																				
+										}
 																									
 										items.itemsTreeHelper.addRow ({data: data});
 									}

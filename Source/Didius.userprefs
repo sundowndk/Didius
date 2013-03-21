@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Test/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.js" Line="210" Column="27" />
-      <File FileName="Test/Main.cs" Line="56" Column="8" />
+      <File FileName="Didius/Application/js/didius/common/print/salesagreement.js" Line="164" Column="21" />
+      <File FileName="Didius/Application/js/didius/common/print/catalog.js" Line="119" Column="1" />
+      <File FileName="Didius/Application/xul/application.ini" Line="4" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,11 +21,18 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="auction" expanded="True" />
+                    <Node name="auction" expanded="True">
+                      <Node name="catalog" expanded="True" />
+                    </Node>
                     <Node name="case" expanded="True" />
                     <Node name="invoice" expanded="True" />
+                    <Node name="item" expanded="True" />
+                    <Node name="newsletter" expanded="True" />
+                    <Node name="settings" expanded="True" />
+                    <Node name="templates" expanded="True" />
                   </Node>
                 </Node>
+                <Node name="application.ini" selected="True" />
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />

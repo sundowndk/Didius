@@ -651,7 +651,7 @@ namespace Didius
 					Bid bid = new Bid (Customer, Item, nextbidamount);
 					bid.Save ();
 
-					SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et bud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
+//					SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et bud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
 
 					if (autobidplaced)
 					{
@@ -686,10 +686,17 @@ namespace Didius
 					
 					if (high.Amount > nextbidamount)
 					{
-						Bid bid = new Bid (Customer.Load (high.CustomerId), Item, CalculateNextBidAmount (low));
+						decimal bla = CalculateNextBidAmount (low);
+//						Console.WriteLine (bla);
+						if (bla > high.Amount)
+						{
+							bla = high.Amount;
+						}
+
+						Bid bid = new Bid (Customer.Load (high.CustomerId), Item, bla);
 						bid.Save ();
 
-//						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (high.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ CalculateNextBidAmount (low) +" kr.\n\n");
+////						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (high.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ CalculateNextBidAmount (low) +" kr.\n\n");
 					}
 				}
 
@@ -701,7 +708,7 @@ namespace Didius
 						Bid bid = new Bid (Customer.Load (autobid.CustomerId), Item, autobid.Amount);
 						bid.Save ();
 
-//						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ autobid.Amount +" kr.\n\n");
+////						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ autobid.Amount +" kr.\n\n");
 
 					}
 				}

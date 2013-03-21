@@ -96,6 +96,7 @@ namespace Didius
 			{ Enums.SettingsKey.didius_template_display, string.Empty },
 			{ Enums.SettingsKey.didius_template_turnoverreport, string.Empty },
 			{ Enums.SettingsKey.didius_template_label, string.Empty },
+			{ Enums.SettingsKey.didius_template_newsletter, string.Empty },
 
 			{ Enums.SettingsKey.didius_item_datafields, "stelnummer;Stelnummer|aargang;Årgang|regnr;Reg.nr" },
 

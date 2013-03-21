@@ -82,6 +82,7 @@
 								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="items.sort ({column: 'catalogno'});"/>
 								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="items.sort ({column: 'no'});"/>
 								<treecol id="title" label="Title" flex="2" persist="width" onclick="items.sort ({column: 'title'});"/>
+								<treecol id="vat" label="Moms" flex="2" persist="width" onclick="items.sort ({column: 'vat'});"/>
 							</treecols>								
 						</tree>
 					</hbox>
@@ -102,7 +103,7 @@
 			<button id="button.settle" label="Afregn" oncommand="main.settle ();" disabled="true" accesskey="A"/>			
 			<button id="button.salesagreement" label="Salgsaftale" oncommand="salesAgreement.show ();" disabled="true" accesskey="a"/>
 			<space flex="1"/>
-			<button id="button.saveclose" label="Gem og Luk" oncommand="main.saveClose ();" disabled="true" accesskey="o"/>
+			<button id="button.saveclose" label="Gem og Luk" oncommand="main.saveClose ();" disabled="true" accesskey="m"/>
 			<button id="button.close" label="Luk" oncommand="main.close ();"  modifiers="control" accesskey="L"/>
 			<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G"/>			
 		</hbox>
