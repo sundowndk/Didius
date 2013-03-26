@@ -1,10 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Newsletter.cs">
     <Files>
       <File FileName="Didius/Application/js/didius/common/print/salesagreement.js" Line="164" Column="21" />
       <File FileName="Didius/Application/js/didius/common/print/catalog.js" Line="119" Column="1" />
       <File FileName="Didius/Application/xul/application.ini" Line="4" Column="13" />
+      <File FileName="Test/Main.cs" Line="120" Column="5" />
+      <File FileName="Didius/Didius/Runtime.cs" Line="26" Column="5" />
+      <File FileName="Didius/Didius/Newsletter.cs" Line="121" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -32,10 +35,11 @@
                     <Node name="templates" expanded="True" />
                   </Node>
                 </Node>
-                <Node name="application.ini" selected="True" />
               </Node>
             </Node>
-            <Node name="Didius" expanded="True" />
+            <Node name="Didius" expanded="True">
+              <Node name="Newsletter.cs" selected="True" />
+            </Node>
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
           </Node>

@@ -63,6 +63,16 @@ var main =
 								data["catalogno"] = item.catalogno;
 								data["no"] = item.no;
 								data["title"] = item.title;			
+								
+								if (item.vat)
+								{
+									data["vat"] = "Ja";								
+								}
+								else								
+								{
+									data["vat"] = "Nej";
+								}
+								
 								data["minimumbid"] = item.minimumbid.toFixed (2) + " kr.";
 																														
 								main.itemsTreeHelper.addRow ({data: data});

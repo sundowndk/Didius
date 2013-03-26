@@ -20297,13 +20297,6 @@ var SNDK =
 											
 						// Send request.		
 						_xmlhttp.send(requestbody);
-						
-						if (test)
-				{
-					
-						return true;
-				}							
-				
 					}
 						
 					// If not asynchronous we need to parse respons manually.

@@ -133,7 +133,7 @@ var main =
 							document.getElementById ("checkbox.itemwonnotifcationsmail").disabled = true;
 							
 							document.getElementById ("button.close").disabled = true;
-							document.getElementById ("button.settle").disabled = true;
+							document.getElementById ("button.invoice").disabled = true;
 							
 							worker1 ();
 						};
@@ -154,7 +154,7 @@ var main =
 									var item = main.items[index];								
 									if ((item.bidamount > 0) && (item.invoiced == false))
 									{									
-										var currentbid = didius.bid.load (item.currentbidid);
+										var currentbid = didius.bid.load ({id: item.currentbidid});
 										var customer = didius.customer.load (currentbid.customerid);
 									
 										var add = true;
@@ -201,8 +201,8 @@ var main =
 								// Do work.
 								for (index in customers)
 								{
-									var customer = customers[index];								
-									var invoice = didius.invoice.create ({auction: main.current, customer: customer, simulate: true});
+									var customer = customers[index];																										
+									var invoice = didius.invoice.create ({auction: main.current, customer: customer});
 									invoices[invoices.length] = invoice;
 						
 									sXUL.console.log (customer.name);																	
@@ -376,12 +376,12 @@ var main =
 																
 			var finish =	function ()	
 							{
-								document.getElementById ("printInvoices").disabled = false;
-								document.getElementById ("sendInvoices").disabled = false;
-								document.getElementById ("sendItemWonNotifications").disabled = false;
+								document.getElementById ("checkbox.invoicesprint").disabled = false;
+								document.getElementById ("checkbox.invoicesmail").disabled = false;
+								document.getElementById ("checkbox.itemwonnotifcationsmail").disabled = false;
 							
-								document.getElementById ("close").disabled = false;
-								document.getElementById ("settle").disabled = false;
+								document.getElementById ("button.close").disabled = false;
+								document.getElementById ("button.invoice").disabled = false;
 								
 								main.set ();
 							

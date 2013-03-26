@@ -3,7 +3,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.auction.settle" minwidth="700" minheight="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">	
+<window id="didius.auction.invoice" minwidth="700" minheight="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="main.close ();" persist="screenX screenY">	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
@@ -46,7 +46,7 @@
 		</hbox>
 		<hbox align="right" flex="1"> 
 			<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>
-			<button id="button.invoice" label="Fakturere" oncommand="main.settle ();" disabled="true" accesskey="F"/>
+			<button id="button.invoice" label="Fakturere" oncommand="main.invoice ();" disabled="true" accesskey="F"/>
 		</hbox>
 	</hbox>
 </window>

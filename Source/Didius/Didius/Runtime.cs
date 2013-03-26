@@ -23,13 +23,13 @@ namespace Didius
 			// Set default settings.
 			foreach (Enums.SettingsKey key in Enum.GetValues (typeof (Enums.SettingsKey)))
 			{
-				if (!SorentoLib.Services.Settings.Exist (key))
-				{
-					SorentoLib.Services.Settings.Set (key, defaults[key]);
-					
-					// LOG: LogDebug.ExceptionUnknown
-					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ServiceSettingsDefaultSet, key.ToString ().ToLower ()));
-				}
+//				if (!SorentoLib.Services.Settings.Exist (key))
+//				{
+//					SorentoLib.Services.Settings.Set (key, defaults[key]);
+//					
+//					// LOG: LogDebug.ExceptionUnknown
+//					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ServiceSettingsDefaultSet, key.ToString ().ToLower ()));
+//				}
 			}
 
 			// Remove current symlinks

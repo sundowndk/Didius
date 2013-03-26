@@ -32,39 +32,39 @@ namespace Test
 				Console.WriteLine ("Connected to database.");
 
 
-				int counter = 0;
-				foreach (string line in SNDK.IO.ReadTextFile ("/home/rvp/Skrivebord/yorkmails.txt"))
-				{
-					string name = line.Split (":".ToCharArray ())[0];
-					string email = line.Split (":".ToCharArray ())[1];
-
-//					Console.WriteLine ("name: "+ name +" email: "+ email);
-
-				
-
+//				int counter = 0;
+//				foreach (string line in SNDK.IO.ReadTextFile ("/home/rvp/Skrivebord/yorkmails.txt"))
+//				{
+//					string name = line.Split (":".ToCharArray ())[0];
+//					string email = line.Split (":".ToCharArray ())[1];
 //
-					if (!Paperboy.Subscriber.IsEmailSubscriber (email))
-					{
-						counter++;
-						try
-						{
-							Console.WriteLine ("name: "+ name +" email: "+ email);
-							Paperboy.Subscriber subscriber = new Subscriber (email);
-							subscriber.Title = name;
-							subscriber.Subscribe (new Guid ("58a003c1-02ed-4424-b559-208ce2011870"));
-							subscriber.Save ();
-						}
-						catch
-						{
-							Console.WriteLine ("#### INVALID name: "+ name +" email: "+ email);
-						}
-					}
+////					Console.WriteLine ("name: "+ name +" email: "+ email);
 //
-				}
+//				
+//
+////
+//					if (!Paperboy.Subscriber.IsEmailSubscriber (email))
+//					{
+//						counter++;
+//						try
+//						{
+//							Console.WriteLine ("name: "+ name +" email: "+ email);
+//							Paperboy.Subscriber subscriber = new Subscriber (email);
+//							subscriber.Title = name;
+//							subscriber.Subscribe (new Guid ("58a003c1-02ed-4424-b559-208ce2011870"));
+//							subscriber.Save ();
+//						}
+//						catch
+//						{
+//							Console.WriteLine ("#### INVALID name: "+ name +" email: "+ email);
+//						}
+//					}
+////
+//				}
 
 
 
-				Environment.Exit (0);
+//				Environment.Exit (0);
 
 //				for (int i = 0; i < 6000; i++)
 //				{
@@ -99,10 +99,12 @@ namespace Test
 //						Console.WriteLine (id +" "+ subscriber.Email);
 //					}
 
-					Console.WriteLine ("Deleting: "+ subscriber.Title);
-					Subscriber.Delete (subscriber);
+//					Console.WriteLine ("Deleting: "+ subscriber.Title);
+//					Subscriber.Delete (subscriber);
 
-//					Console.WriteLine (subscriber.Title +":"+ subscriber.Email);
+				
+
+					Console.WriteLine (subscriber.Title +";"+ subscriber.Email);
 				}
 
 //				58a003c1-02ed-4424-b559-208ce2011870

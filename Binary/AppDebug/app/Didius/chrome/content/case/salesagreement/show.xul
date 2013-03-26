@@ -36,6 +36,7 @@
 										<treecol id="catalogno" label="Katalog nr." width="30" persist="width" />
 										<treecol id="no" label="Effekt nr." width="100" persist="width"/>
 										<treecol id="title" label="Title" flex="3" persist="width" />										
+										<treecol id="vat" label="Moms" flex="1" persist="width" />
 										<treecol id="minimumbid" label="Min. salgs pris" flex="1" persist="width" style="text-align: right;" />
 									</treecols>								
 								</tree>
