@@ -9,8 +9,9 @@ namespace Didius
 	{
 		#region Private Fields
 		private Guid _id;
-		private int _no;
+		private int _sort;
 		private Guid _itemid;
+		private string _no;
 		private string _text;
 		private decimal _commissionfee;
 		private decimal _amount;
@@ -27,11 +28,11 @@ namespace Didius
 			}
 		}
 
-		public int No 
+		public int Sort 
 		{
 			get 
 			{
-				return this._no;
+				return this._sort;
 			}
 		}
 
@@ -43,6 +44,15 @@ namespace Didius
 			}
 
 		}
+
+		public string No
+		{
+			get
+			{
+				return this._no;
+			}
+		}
+
 
 		public string Text
 		{
@@ -109,10 +119,11 @@ namespace Didius
 		public InvoiceLine (Item Item)
 		{
 			this._id = Guid.NewGuid ();
-			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._sort = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._itemid = Item.Id;
 
-			this._text = Auction.Load (Case.Load (Item.CaseId).AuctionId).No +"-"+ Item.CatalogNo +" "+ Item.Title;
+			this._no = Auction.Load (Case.Load (Item.CaseId).AuctionId).No +"-"+ Item.CatalogNo; 
+			this._text = Item.Title;
 			this._commissionfee = Helpers.CalculateBuyerCommissionFee (Item);
 			this._amount = Item.BidAmount;
 
@@ -128,8 +139,9 @@ namespace Didius
 		private InvoiceLine ()
 		{
 			this._id = Guid.Empty;
-			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._sort = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._itemid = Guid.Empty;
+			this._no = string.Empty;
 			this._text = string.Empty;
 			this._commissionfee = 0;
 			this._amount = 0;
@@ -144,8 +156,9 @@ namespace Didius
 			Hashtable result = new Hashtable ();
 			
 			result.Add ("id", this._id);			
-			result.Add ("no", this._no);
+			result.Add ("sort", this._sort);
 			result.Add ("itemid", this._itemid);
+			result.Add ("no", this._no);
 			result.Add ("text", this._text);
 			result.Add ("commissionfee", this._commissionfee);
 			result.Add ("amount", this._amount);
@@ -184,7 +197,12 @@ namespace Didius
 
 			if (item.ContainsKey ("no"))
 			{
-				result._no = int.Parse ((string)item["no"]);
+				result._no = (string)item["no"];
+			}
+
+			if (item.ContainsKey ("sort"))
+			{
+				result._sort = int.Parse ((string)item["sort"]);
 			}
 
 			if (item.ContainsKey ("itemid"))
@@ -195,7 +213,12 @@ namespace Didius
 			{
 				throw new Exception (string.Format (Strings.Exception.InvoiceLineFromXmlDocument, "ITEMID"));
 			}
-						
+
+			if (item.ContainsKey ("no"))
+			{
+				result._no = (string)item["no"];
+			}
+
 			if (item.ContainsKey ("text"))
 			{
 				result._text = (string)item["text"];

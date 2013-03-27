@@ -432,8 +432,11 @@ var sXUL =
 				var compareFunc;
 				if (_temp.sortDirection == "ascending") 
 				{
-					compareFunc = function (a, b) 
+					compareFunc = function (second, first) 
 					{
+						var a = first.data[_temp.sortColumn].toLowerCase ();
+						var b = second.data[_temp.sortColumn].toLowerCase ();
+					
 						function chunkify (t) 
 						{
 		    				var tz = [], x = 0, y = -1, n = 0, i, j;
@@ -461,16 +464,17 @@ var sXUL =
 		      					var c = Number(aa[x]), d = Number(bb[x]);
 		      					if (c == aa[x] && d == bb[x]) 
 		      					{
-		        					return c - d;
+		       					return c - d;
 		      					} else return (aa[x] > bb[x]) ? 1 : -1;
 		    				}
 		  				}
 		  				return aa.length - bb.length;
-					};
+				};
 				
 				
 		//		compareFunc = 	function (second, first) 
-		//						{    									    							
+		//						{    									
+		//							
 		//							if (first.data[_temp.sortColumn].toLowerCase () < second.data[_temp.sortColumn].toLowerCase ())
 		//							{
 		//								return -1;	
@@ -484,8 +488,11 @@ var sXUL =
 				} 
 				else 
 				{  	
-				compareFunc = function (b, a) 
+				compareFunc = function (first, second) 
 					{
+						var a = first.data[_temp.sortColumn].toLowerCase ();
+						var b = second.data[_temp.sortColumn].toLowerCase ();
+					
 						function chunkify (t) 
 						{
 		    				var tz = [], x = 0, y = -1, n = 0, i, j;
@@ -496,7 +503,7 @@ var sXUL =
 		      					if (m !== n) 
 		      					{
 		        					tz[++y] = "";
-		        					n = m;
+		        				n = m;
 		      					}
 		      					tz[y] += j;
 		    				}
@@ -521,24 +528,39 @@ var sXUL =
 					};
 										
 		//		compareFunc = 	function (first, second) 
-		//						{       									
-		//							if (first.data[_temp.sortColumn].toLowerCase () < second.data[_temp.sortColumn].toLowerCase ())
-		//							{
-		//								return -1;	
-		//							}
-		//							
-		//							if (first.data[_temp.sortColumn].toLowerCase () > second.data[_temp.sortColumn].toLowerCase ())
-		//							{
-		//								return 1;	
-		//							}
-		//							return 0;      								
-		//						}
+		//						{       	
+								//	
+								//	
+								//	if (first.data[_temp.sortColumn].toLowerCase () < second.data[_temp.sortColumn].toLowerCase ())
+								//	{
+								//		return -1;	
+								//	}
+								//	
+								//	if (first.data[_temp.sortColumn].toLowerCase () > second.data[_temp.sortColumn].toLowerCase ())
+								//	{
+								//		return 1;	
+								//	}
+								//	return 0;      								
+								//};
 				}
 				
 				// Sort rows.
 				if (_temp.sortColumn != null)
 				{
 					_rows.sort (compareFunc);
+					
+		
+					
+					
+					//_rows.sort (naturalSort);
+					
+		//			if (_temp.sortDirection != "ascending") 
+		//			{
+		//				_rows.reverse ();
+		//			}
+					
+		//			sXUL.console.log (_temp.sortDirection)
+								
 				}
 				
 				var filterColumnsLength = _temp.filterColumns.length;
@@ -1219,32 +1241,32 @@ var sXUL =
 				{
 					onStateChange: function (aWebProgress, aRequest, aStateFlags, aStatus) 
 		      		{
-		      				sXUL.console.log (aStateFlags);
+		      	//			sXUL.console.log (aStateFlags);
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_REQUEST)
 		      			{
-		      				sXUL.console.log ("STATE_IS_REQUEST")
+		      	//			sXUL.console.log ("STATE_IS_REQUEST")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT)
 		      			{
-		      				sXUL.console.log ("STATE_IS_DOCUMENT")
+		      	//			sXUL.console.log ("STATE_IS_DOCUMENT")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK)
 		      			{
-		      				sXUL.console.log ("STATE_IS_NETWORK")
+		      	//			sXUL.console.log ("STATE_IS_NETWORK")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_WINDOW)
 		      			{
-		      				sXUL.console.log ("STATE_IS_WINDOW")
+		      //				sXUL.console.log ("STATE_IS_WINDOW")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_START)
 		      			{
-		      				sXUL.console.log ("STATE_START")
+		    //  				sXUL.console.log ("STATE_START")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP)
 		      			{
-		      				sXUL.console.log ("STATE_STOP")
+		  //    				sXUL.console.log ("STATE_STOP")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT) 
@@ -1254,9 +1276,9 @@ var sXUL =
 		      		
 						if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK) 
 		      			{
-		      				sXUL.console.log ("DONE");
+		//      				sXUL.console.log ("DONE");      				      				
 		      				if (attributes.onDone != null)
-		    				{
+		    				{    					
 		    					setTimeout (attributes.onDone, 1);
 		    				}      				
 			 			}

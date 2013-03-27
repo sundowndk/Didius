@@ -241,7 +241,9 @@ var details =
 		document.getElementById ("textbox.deadlinetime").value = SNDK.tools.padLeft (deadline.getHours (), 2, "0") +":"+ SNDK.tools.padLeft (deadline.getMinutes (), 2, "0");
 		
 		document.getElementById ("textbox.location").value = main.auction.location;								
-		document.getElementById ("textbox.description").value = main.auction.description;						
+		document.getElementById ("textbox.description").value = main.auction.description;									
+																			
+		document.getElementById ("textbox.pickuptext").value = main.auction.pickuptext;
 																			
 		details.onChange ();
 	},
@@ -269,10 +271,12 @@ var details =
 		var deadline = document.getElementById ("datepicker.deadline").dateValue;
 		deadline.setHours (document.getElementById ("textbox.deadlinetime").value.split (":")[0]);
 		deadline.setMinutes (document.getElementById ("textbox.deadlinetime").value.split (":")[1]);
-		main.auction.deadline = SNDK.tools.dateToYMDHM (deadline);
+		main.auction.deadline = SNDK.tools.dateToYMDHM (deadline);		
 						
 		main.auction.location = document.getElementById ("textbox.location").value;						
 		main.auction.description = document.getElementById ("textbox.description").value;						
+				
+		main.auction.pickuptext = document.getElementById ("textbox.pickuptext").value;
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -300,7 +304,7 @@ var cases =
 	// ------------------------------------------------------------------------------------------------------
 	init : function ()
 	{
-		cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.cases"), sortColumn: "no", sortDirection: "descending", onDoubleClick: cases.edit});		
+		cases.casesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.cases"), sortColumn: "customername", sortDirection: "descending", onDoubleClick: cases.edit});		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -379,7 +383,7 @@ var cases =
 	// | SORT																								|	
 	// ------------------------------------------------------------------------------------------------------
 	sort : function (attributes)
-	{
+	{	
 		cases.casesTreeHelper.sort (attributes);
 	},
 	

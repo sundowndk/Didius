@@ -261,6 +261,11 @@ namespace Didius.Addin
 							return ((Didius.Item)Variable).CatalogNo;
 						}
 
+						case "vat":
+						{
+							return ((Didius.Item)Variable).Vat;
+						}
+
 						case "title":
 						{
 							return ((Didius.Item)Variable).Title;

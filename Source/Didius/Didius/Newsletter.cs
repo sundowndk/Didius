@@ -130,7 +130,7 @@ namespace Didius
 		public void Send ()
 		{
 			Paperboy.Subscription subscription = Paperboy.Subscription.Load (SorentoLib.Services.Settings.Get<Guid> (Enums.SettingsKey.didius_newsletter_paperboysubscriptionid));
-//			subscription.Send (this._title, this._content);
+			subscription.Send (this._title, this._content);
 		}
 		
 		public XmlDocument ToXmlDocument ()

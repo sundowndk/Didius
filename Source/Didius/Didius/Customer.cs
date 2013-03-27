@@ -58,14 +58,14 @@ namespace Didius
 
 				if (this._email != string.Empty)
 				{
-					try
-					{
-						if (Paperboy.Subscriber.Load (this._email).IsSubscribedTo (SorentoLib.Services.Settings.Get<Guid> (Enums.SettingsKey.didius_newsletter_paperboysubscriptionid)))
-						{
-							result = true;
-						}
-					}
-					catch {}
+//					try
+//					{
+//						if (Paperboy.Subscriber.Load (this._email).IsSubscribedTo (SorentoLib.Services.Settings.Get<Guid> (Enums.SettingsKey.didius_newsletter_paperboysubscriptionid)))
+//						{
+//							result = true;
+//						}
+//					}
+//					catch {}
 				}
 
 				return result;
@@ -75,39 +75,39 @@ namespace Didius
 			{
 				if (value)
 				{
-					if (this._email != string.Empty)
-					{
-						Paperboy.Subscriber subscriber = null;
-
-						try
-						{
-							subscriber = Paperboy.Subscriber.Load (this._email);
-						}
-						catch (Exception exception)
-						{
-							subscriber = new Paperboy.Subscriber (this._email);
-						}
-
-						try
-						{
-							subscriber.Subscribe (SorentoLib.Services.Settings.Get<Guid> (Enums.SettingsKey.didius_newsletter_paperboysubscriptionid));
-							subscriber.Save ();
-						}
-						catch {}						
-					}
+//					if (this._email != string.Empty)
+//					{
+//						Paperboy.Subscriber subscriber = null;
+//
+//						try
+//						{
+//							subscriber = Paperboy.Subscriber.Load (this._email);
+//						}
+//						catch (Exception exception)
+//						{
+//							subscriber = new Paperboy.Subscriber (this._email);
+//						}
+//
+//						try
+//						{
+//							subscriber.Subscribe (SorentoLib.Services.Settings.Get<Guid> (Enums.SettingsKey.didius_newsletter_paperboysubscriptionid));
+//							subscriber.Save ();
+//						}
+//						catch {}						
+//					}
 				}
 				else
 				{
-					if (this._email != string.Empty)
-					{
-						try
-						{
-							Paperboy.Subscriber subscriber = Paperboy.Subscriber.Load (this._email);
-							subscriber.UnSubscribe (SorentoLib.Services.Settings.Get<Guid> (Enums.SettingsKey.didius_newsletter_paperboysubscriptionid));
-							subscriber.Save ();
-						}
-						catch {}
-					}
+//					if (this._email != string.Empty)
+//					{
+//						try
+//						{
+//							Paperboy.Subscriber subscriber = Paperboy.Subscriber.Load (this._email);
+//							subscriber.UnSubscribe (SorentoLib.Services.Settings.Get<Guid> (Enums.SettingsKey.didius_newsletter_paperboysubscriptionid));
+//							subscriber.Save ();
+//						}
+//						catch {}
+//					}
 				}
 			}
 		}

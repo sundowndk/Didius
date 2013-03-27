@@ -36,6 +36,9 @@ namespace Didius
 		private int _begin;
 		private int _end;
 		private int _deadline;
+		private int _pickupbegin;
+		private int _pickupend;
+		private string _pickuptext;
 
 		private string _location;
 
@@ -121,6 +124,35 @@ namespace Didius
 			}
 		}
 
+		public DateTime PickupBegin
+		{
+			get
+			{
+				return SNDK.Date.TimestampToDateTime (this._pickupbegin);
+			}
+		}
+
+		public DateTime PickupEnd
+		{
+			get
+			{
+				return SNDK.Date.TimestampToDateTime (this._pickupend);
+			}
+		}
+
+		public string PickupText
+		{
+			get
+			{
+				return this._pickuptext;
+			}
+
+			set
+			{
+				this._pickuptext = value;
+			}
+		}
+
 		public string Location
 		{
 			get
@@ -133,7 +165,6 @@ namespace Didius
 				this._location = value;
 			}
 		}
-
 
 		public string Description
 		{
@@ -219,6 +250,9 @@ namespace Didius
 			this._begin = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._end = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._deadline = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._pickupbegin = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._pickupend = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._pickuptext = string.Empty;
 
 			this._location = string.Empty;
 
@@ -255,6 +289,9 @@ namespace Didius
 				item.Add ("begin", this._begin);
 				item.Add ("end", this._end);
 				item.Add ("deadline", this._deadline);
+				item.Add ("pickupbegin", this._pickupbegin);
+				item.Add ("pickupend", this._pickupend);
+				item.Add ("pickuptext", this._pickuptext);
 
 				item.Add ("location", this._location);
 
@@ -308,6 +345,10 @@ namespace Didius
 			result.Add ("begin", String.Format("{0:yyyy/MM/dd HH:mm}", SNDK.Date.TimestampToDateTime (this._begin)));
 			result.Add ("end", String.Format("{0:yyyy/MM/dd HH:mm}", SNDK.Date.TimestampToDateTime (this._end)));
 			result.Add ("deadline", String.Format("{0:yyyy/MM/dd HH:mm}", SNDK.Date.TimestampToDateTime (this._deadline)));
+
+			result.Add ("pickupbegin", String.Format("{0:yyyy/MM/dd HH:mm}", SNDK.Date.TimestampToDateTime (this._pickupbegin)));
+			result.Add ("pickupend", String.Format("{0:yyyy/MM/dd HH:mm}", SNDK.Date.TimestampToDateTime (this._pickupend)));
+			result.Add ("pickuptext", this._pickuptext);
 
 			result.Add ("location", this._location);
 
@@ -372,6 +413,21 @@ namespace Didius
 				{
 					result._deadline = int.Parse ((string)item["deadline"]);
 				}			
+
+				if (item.ContainsKey ("pickupbegin"))
+				{
+					result._pickupbegin = int.Parse ((string)item["pickupbegin"]);
+				}
+
+				if (item.ContainsKey ("pickupend"))
+				{
+					result._pickupend = int.Parse ((string)item["pickupend"]);
+				}
+
+				if (item.ContainsKey ("pickuptext"))
+				{
+					result._pickuptext = (string)item["pickuptext"];
+				}
 
 				if (item.ContainsKey ("location"))
 				{
@@ -527,6 +583,21 @@ namespace Didius
 			if (item.ContainsKey ("deadline"))
 			{			
 				result._deadline = SNDK.Date.DateTimeToTimestamp (DateTime.ParseExact ((string)item["deadline"], "yyyy/MM/dd HH:mm", null));
+			}
+
+			if (item.ContainsKey ("pickupbegin"))
+			{			
+				result._pickupbegin = SNDK.Date.DateTimeToTimestamp (DateTime.ParseExact ((string)item["pickupbegin"], "yyyy/MM/dd HH:mm", null));
+			}
+
+			if (item.ContainsKey ("pickupend"))
+			{			
+				result._pickupend = SNDK.Date.DateTimeToTimestamp (DateTime.ParseExact ((string)item["pickupend"], "yyyy/MM/dd HH:mm", null));
+			}
+
+			if (item.ContainsKey ("pickuptext"))
+			{			
+				result._pickuptext = (string)item["pickuptext"];
 			}
 
 			if (item.ContainsKey ("location"))

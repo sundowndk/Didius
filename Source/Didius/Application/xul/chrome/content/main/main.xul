@@ -99,6 +99,8 @@
 										<splitter class="tree-splitter"/>
 										<treecol id="phone" label="Telefon" flex="1" persist="width" onclick="main.customers.sort ({column: 'phone'});"/>
 										<splitter class="tree-splitter"/>
+										<treecol id="mobile" label="Mobil" flex="1" persist="width" onclick="main.customers.sort ({column: 'mobile'});"/>
+										<splitter class="tree-splitter"/>
 										<treecol id="email" label="Email" flex="1" persist="width" onclick="main.customers.sort ({column: 'email'});"/>
 										<splitter class="tree-splitter"/>										
 									</treecols>								

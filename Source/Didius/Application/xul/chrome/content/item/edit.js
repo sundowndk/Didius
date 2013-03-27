@@ -256,8 +256,10 @@ var details =
 		{
 			document.getElementById ("image.picture").src = didius.runtime.ajaxUrl +"getmedia/" + main.item.pictureid;
 		}
-				
-		
+		else
+		{
+			document.getElementById ("image.picture").src = "chrome://didius/content/icons/noimage.jpg"		
+		}						
 		
 		details.setDataFields ();
 							

@@ -88,7 +88,7 @@
 								<datepicker id="datepicker.deadline" type="popup" onchange="details.onChange ();"/>
 								<label class="Label" width="25">kl. :</label>
 								<textbox id="textbox.deadlinetime" width="50" maxlength="5" onkeyup="details.onChange ();" />
-							</hbox>				
+							</hbox>																			
 							<hbox align="center">
 								<label class="Label">Lokation:</label>							
 								<textbox id="textbox.location" flex="1" onkeyup="details.onChange ();" />
@@ -97,6 +97,13 @@
 								<label class="Label">Tekst:</label>
 								<textbox id="textbox.description" flex="1" rows="12" multiline="true" onkeyup="details.onChange ();"/>
 							</hbox>																	
+						</groupbox>
+						<groupbox>
+							<caption label="Afhentning"/>																
+							<hbox align="center">
+								<label class="Label">Tekst:</label>
+								<textbox id="textbox.pickuptext" flex="1" rows="5" multiline="true" onkeyup="details.onChange ();"/>
+							</hbox>			
 						</groupbox>
 					</vbox>
     			</tabpanel>
@@ -108,7 +115,7 @@
 								<treecol id="id" hidden="true"/>
 								<treecol id="no" label="Sags nr." width="140" persist="width" onclick="cases.sort ({column: 'no'});"/>
 								<treecol id="title" label="Title" flex="2"  persist="width" onclick="cases.sort ({column: 'title'});"/>
-								<treecol id="customername" label="Kunde" flex="2" persist="width" onclick="cases.sort ({column: 'customer'});"/>
+								<treecol id="customername" label="Kunde" flex="2" persist="width" onclick="cases.sort ({column: 'customername'});"/>
 							</treecols>								
 						</tree>
 					</hbox>

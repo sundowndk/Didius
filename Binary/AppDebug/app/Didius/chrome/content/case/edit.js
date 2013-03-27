@@ -431,7 +431,7 @@ var salesAgreement =
 	// ------------------------------------------------------------------------------------------------------
 	show : function ()
 	{
-		window.openDialog ("chrome://didius/content/case/salesagreement/show.xul", "didius.case.salesagreement.show."+ main.case.id, "chrome", {caseId: main.case.id});
+		app.window.open (window, "chrome://didius/content/case/salesagreement/show.xul", "didius.case.salesagreement.show."+ main.case.id, "modal", {caseId: main.case.id});
 	}			
 }
 
@@ -687,6 +687,29 @@ var eventHandlers =
 	{						
 		if (main.case.id == eventData.caseid)
 		{
+			var data = {};
+			
+										
+			data.id = eventData.id;
+			data.catalogno = eventData.catalogno;
+										
+			//if (main.minCatalogNo < parseInt (item.catalogno))
+			//{
+			//	main.minCatalogNo = parseInt (item.catalogno);
+			//}
+										
+			data.no = eventData.no;
+			data.title = eventData.title;
+						
+			if (eventData.vat)
+			{
+				eventData.vat = "ja";										
+			}
+			else
+			{
+				eventData.vat = "nej";																				
+			}
+																												
 			items.itemsTreeHelper.setRow ({data: eventData});
 		}
 	},
