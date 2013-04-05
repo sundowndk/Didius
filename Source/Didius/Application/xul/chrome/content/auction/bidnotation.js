@@ -131,8 +131,11 @@ var main =
 						{					
 							var autobids = didius.autobid.list ({itemId: main.items[main.currentIndex].id});									
 							var customer = didius.customer.load (autobids[0].customerid);																	
-							var bid = didius.bid.create ({customerId: customer.id, item: item, amount: amount});
+							var bid = didius.bid.create ({customerId: customer.id, item: item, amount: amount});							
 							didius.bid.save ({bid: bid});						
+							
+							item.approvedforinvoice = true;
+							didius.item.save ({item: item});
 																		
 							return true;
 						}
@@ -177,7 +180,9 @@ var main =
 						var bid = didius.bid.create ({customerId: main.buyernos[index], item: item, amount: amount});
 						didius.bid.save ({bid: bid});
 						
+						item.approvedforinvoice = true;
 						didius.item.save ({item: item});
+						
 						
 						return true;		
 					}
@@ -358,9 +363,11 @@ var main =
 	close : function ()
 	{				
 		// Unhook events.						
+		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionSave);
 		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);
 		app.events.onAuctionDestroy.removeHandler (eventHandlers.onItemSave);
-							
+		app.events.onAuctionDestroy.removeHandler (eventHandlers.onItemDestroy);
+																							
 		// Close window.		
 		window.close ();
 	}	

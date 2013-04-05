@@ -28,4 +28,8 @@
 	<Extension path = "/SorentoLib/Resolver/Functions">
 		<Type type="Didius.Addin.Function"/>
 	</Extension>	
+	
+	<Extension path = "/SorentoLib/Runtime">
+		<Type type="Didius.Addin.Runtime"/>
+	</Extension>
 </Addin>

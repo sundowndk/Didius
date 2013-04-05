@@ -420,16 +420,19 @@ namespace Didius
 
 			foreach (Item item in items)
 			{
-				if (!item.Invoiced)
+				if (item.AppovedForInvoice)
 				{
-					if (item.CurrentBid != null)
+					if (!item.Invoiced)
 					{
-						if (item.CurrentBid.CustomerId == Customer.Id)
+						if (item.CurrentBid != null)
 						{
-							Case _case = Case.Load (item.CaseId);
-							result._auctionids.Add (_case.AuctionId);
+							if (item.CurrentBid.CustomerId == Customer.Id)
+							{
+								Case _case = Case.Load (item.CaseId);
+								result._auctionids.Add (_case.AuctionId);
 
-							result.Lines.Add (new InvoiceLine (item));
+								result.Lines.Add (new InvoiceLine (item));
+							}
 						}
 					}
 				}

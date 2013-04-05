@@ -308,12 +308,14 @@ namespace Didius
 		{
 			List<AutoBid> result = new List<AutoBid> ();
 		
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, ItemId)))
+//			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, ItemId)))
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, ItemId)))
 			{
-
 				try
 				{
-					result.Add (Load (new Guid (id)));
+//					result.Add (Load (new Guid (id)));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
+
 				}
 				catch (Exception exception)
 				{
@@ -321,7 +323,8 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUTOBID", exception.Message));
 					
 					// LOG: LogDebug.AutoBidList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, id));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, id));
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, item.Id));
 				}
 			}
 
@@ -339,11 +342,13 @@ namespace Didius
 		{
 			List<AutoBid> result = new List<AutoBid> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Customer.Id)))
+//			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Customer.Id)))
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Customer.Id)))
 			{
 				try
 				{
-					result.Add (Load (new Guid (id)));
+//					result.Add (Load (new Guid (id)));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
 				}
 				catch (Exception exception)
 				{
@@ -351,7 +356,8 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUTOBID", exception.Message));
 					
 					// LOG: LogDebug.AutoBidList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, id));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, id));
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, item.Id));
 				}
 			}
 
@@ -367,11 +373,13 @@ namespace Didius
 		{
 			List<AutoBid> result = new List<AutoBid> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
+//			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle))
 			{
 				try
 				{
-					result.Add (Load (new Guid (id)));
+//					result.Add (Load (new Guid (id)));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
 				}
 				catch (Exception exception)
 				{
@@ -379,7 +387,8 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.AUTOBID", exception.Message));
 					
 					// LOG: LogDebug.AutoBidList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, id));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, id));
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.AutoBidList, item.Id));
 				}
 			}
 

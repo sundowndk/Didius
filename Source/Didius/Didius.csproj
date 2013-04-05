@@ -54,10 +54,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="SorentoLib">
-      <HintPath>..\Lib\SorentoLib.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="SNDK">
       <HintPath>..\Lib\SNDK.dll</HintPath>
       <Private>False</Private>
@@ -71,6 +67,9 @@
     <Reference Include="Paperboy">
       <HintPath>..\Lib\Paperboy.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="SorentoLib">
+      <HintPath>..\Lib\SorentoLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +110,7 @@
     <Compile Include="Didius\TurnoverReportSeller.cs" />
     <Compile Include="Didius\TurnoverReportBuyer.cs" />
     <Compile Include="Didius\TurnoverReportNotSoldLine.cs" />
+    <Compile Include="Didius.Addin\Runtime.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -13,7 +13,7 @@ namespace Didius.Addin
 	{
 		public Init ()
 		{
-			Runtime.Initialize ();
+			Didius.Runtime.Initialize ();
 		}
 	}
 }

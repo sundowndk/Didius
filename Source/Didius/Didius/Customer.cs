@@ -920,11 +920,13 @@ namespace Didius
 		{
 			List<Customer> result = new List<Customer> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customergroupids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, CustomerGroupId)))
+//			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customergroupids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, CustomerGroupId)))
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customergroupids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, CustomerGroupId)))
 			{
 				try
 				{
-					result.Add (Load (new Guid (id)));
+//					result.Add (Load (new Guid (id)));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
 				}
 				catch (Exception exception)
 				{
@@ -932,7 +934,8 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CUSTOMER", exception.Message));
 					
 					// LOG: LogDebug.CustomerList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CustomerList, id));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CustomerList, id));
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CustomerList, item.Id));
 				}
 			}
 			
@@ -943,11 +946,13 @@ namespace Didius
 		{
 			List<Customer> result = new List<Customer> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
+//			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle))
 			{
 				try
 				{
-					result.Add (Load (new Guid (id)));
+//					result.Add (Load (new Guid (id)));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));				
 				}
 				catch (Exception exception)
 				{
@@ -955,7 +960,8 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CUSTOMER", exception.Message));
 					
 					// LOG: LogDebug.PageList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CustomerList, id));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CustomerList, id));
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.CustomerList, item.Id));
 				}
 			}
 					

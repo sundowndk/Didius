@@ -298,11 +298,13 @@ namespace Didius
 		{
 			List<Bid> result = new List<Bid> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, ItemId)))
+//			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, ItemId)))
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, ItemId)))
 			{
 				try
 				{
-					result.Add (Load (new Guid (id)));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
+//					result.Add (Load (new Guid (id)));
 				}
 				catch (Exception exception)
 				{
@@ -310,7 +312,8 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
 					
 					// LOG: LogDebug.BidList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, item.Id));
 				}
 			}
 
@@ -321,13 +324,13 @@ namespace Didius
 		{
 			List<Bid> result = new List<Bid> ();
 
-			Console.WriteLine ("List bids via customers");
-
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Customer.Id)))
+//			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Customer.Id)))
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Customer.Id)))
 			{
 				try
 				{
-					result.Add (Load (new Guid (id)));
+//					result.Add (Load (new Guid (id)));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
 				}
 				catch (Exception exception)
 				{
@@ -335,7 +338,8 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
 					
 					// LOG: LogDebug.BidList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, item.Id));
 				}
 			}
 			
@@ -346,11 +350,11 @@ namespace Didius
 		{
 			List<Bid> result = new List<Bid> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle))
 			{
 				try
 				{
-					result.Add (Load (new Guid (id)));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
 				}
 				catch (Exception exception)
 				{
@@ -358,7 +362,7 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.BID", exception.Message));
 					
 					// LOG: LogDebug.BidList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, id));
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.BidList, item.Id));
 				}
 			}
 			

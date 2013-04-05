@@ -54,7 +54,7 @@ destroy : function (id)
 list : function (attributes)
 {
 	if (!attributes) attributes = new Array ();
-	
+		
 	var content = new Array ();
 	
 	if (attributes.customergroup)

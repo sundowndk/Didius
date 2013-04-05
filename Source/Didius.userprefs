@@ -1,40 +1,34 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/auction/bidnotation.js">
     <Files>
-      <File FileName="Didius/Application/js/didius/common/print/salesagreement.js" Line="350" Column="53" />
-      <File FileName="Didius/Application/js/didius/common/print/catalog.js" Line="75" Column="1" />
-      <File FileName="Didius/Application/js/didius/common/print/invoice.js" Line="228" Column="100" />
-      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
+      <File FileName="Didius/Didius/Item.cs" Line="1070" Column="4" />
+      <File FileName="Didius/Application/js/didius/item.js" Line="1" Column="1" />
+      <File FileName="Didius/Didius/Invoice.cs" Line="423" Column="9" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.js" Line="371" Column="3" />
+      <File FileName="Didius/Application/xul/chrome/content/chooser/customer.js" Line="39" Column="39" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
+            <Node name="References" expanded="True" />
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
                 <Node name="didius" expanded="True">
-                  <Node name="common" expanded="True">
-                    <Node name="print" expanded="True" />
-                  </Node>
+                  <Node name="common" expanded="True" />
                 </Node>
               </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True">
-                      <Node name="catalog" expanded="True" />
+                      <Node name="bidnotation.js" selected="True" />
                     </Node>
-                    <Node name="case" expanded="True" />
-                    <Node name="invoice" expanded="True" />
-                    <Node name="item" expanded="True" />
+                    <Node name="chooser" expanded="True" />
                     <Node name="main" expanded="True" />
-                    <Node name="newsletter" expanded="True" />
-                    <Node name="settings" expanded="True" />
-                    <Node name="templates" expanded="True" />
                   </Node>
                 </Node>
-                <Node name="application.ini" selected="True" />
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />

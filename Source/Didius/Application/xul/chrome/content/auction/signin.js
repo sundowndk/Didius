@@ -51,9 +51,10 @@ var main =
 	set : function ()
 	{
 		var onDone = 	function (result)
-						{
+						{			
+							main.customersTreeHelper.disableRefresh ();			
 							for (var index in result)
-							{					
+							{												
 								var customer = result[index];
 								var data = {};								
 								data.id = customer.id;
@@ -76,6 +77,7 @@ var main =
 								
 								main.customersTreeHelper.addRow ({data: data});								
 							}
+							main.customersTreeHelper.enableRefresh ();			
 								
 							// Enable controls
 							document.getElementById ("tree.customers").disabled = false;							

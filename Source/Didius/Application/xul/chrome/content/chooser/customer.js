@@ -31,10 +31,12 @@ var main =
 	{
 		var onDone = 	function (items)
 						{
+							main.customersTreeHelper.disableRefresh ();
 							for (idx in items)
 							{									
 								main.customersTreeHelper.addRow ({data: items[idx]});
 							}
+							main.customersTreeHelper.enableRefresh ();
 							
 							// Enable controls
 							document.getElementById ("customers").disabled = false;																								

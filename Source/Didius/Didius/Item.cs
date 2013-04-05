@@ -48,7 +48,10 @@ namespace Didius
 		private Hashtable _fields;
 
 		private bool _invoiced;
+		private bool _approvedforinvoice;
 		private bool _settled;	
+
+
 
 		private Guid _pictureid;
 		#endregion
@@ -236,6 +239,19 @@ namespace Didius
 			set
 			{
 				this._invoiced = value;
+			}
+		}
+
+		public bool AppovedForInvoice
+		{
+			get
+			{
+				return this._approvedforinvoice;
+			}
+
+			set
+			{
+				this._approvedforinvoice = value;
 			}
 		}
 
@@ -431,6 +447,7 @@ namespace Didius
 			this._fields = new Hashtable ();		
 
 			this._invoiced = false;
+			this._approvedforinvoice = false;
 			this._settled = false;
 
 			this._pictureid = Guid.Empty;
@@ -458,6 +475,7 @@ namespace Didius
 			this._fields = new Hashtable ();
 
 			this._invoiced = false;
+			this._approvedforinvoice = false;
 			this._settled = false;
 
 			this._pictureid = Guid.Empty;
@@ -495,6 +513,7 @@ namespace Didius
 				item.Add ("appraisal3", this._appraisal3);
 
 				item.Add ("invoiced", this._invoiced);
+				item.Add ("approvedforinvoice", this._approvedforinvoice);
 				item.Add ("settled", this._settled);
 
 				item.Add ("pictureid", this._pictureid);
@@ -545,6 +564,7 @@ namespace Didius
 			result.Add ("fields", this._fields);
 
 			result.Add ("invoiced", this._invoiced);
+			result.Add ("approvedforinvoice", this._approvedforinvoice);
 			result.Add ("settled", this._settled);
 
 			result.Add ("pictureid", this._pictureid);
@@ -717,8 +737,8 @@ namespace Didius
 
 		public static Item Load (Guid Id)
 		{
-			Item result;
-			
+			Item result = null;
+		
 			try
 			{
 				Hashtable item = (Hashtable)SNDK.Convert.FromXmlDocument (SNDK.Convert.XmlNodeToXmlDocument (SorentoLib.Services.Datastore.Get<XmlDocument> (DatastoreAisle, Id.ToString ()).SelectSingleNode ("(//didius.item)[1]")));
@@ -809,6 +829,11 @@ namespace Didius
 					result._invoiced = (bool)item["invoiced"];
 				}
 
+				if (item.ContainsKey ("approvedforinvoice"))
+				{					
+					result._approvedforinvoice = (bool)item["approvedforinvoice"];
+				}
+
 				if (item.ContainsKey ("settled"))
 				{					
 					result._settled = (bool)item["settled"];
@@ -882,11 +907,13 @@ namespace Didius
 		{
 			List<Item> result = new List<Item> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("caseid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, CaseId)))
+//			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("caseid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, CaseId)))
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("caseid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, CaseId)))
 			{
 				try
 				{
-					result.Add (Load (new Guid (id)));
+//					result.Add (Load (new Guid (id)));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
 				}
 				catch (Exception exception)
 				{
@@ -894,7 +921,8 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.ITEM", exception.Message));
 					
 					// LOG: LogDebug.ItemList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.ItemList, id));
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.ItemList, id));
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.ItemList, item.Id));
 				}
 			}
 
@@ -906,12 +934,12 @@ namespace Didius
 		public static List<Item> List ()
 		{
 			List<Item> result = new List<Item> ();
-			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle))
+
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle))
 			{
 				try
 				{
-					result.Add (Load (new Guid (id)));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
 				}
 				catch (Exception exception)
 				{
@@ -919,9 +947,11 @@ namespace Didius
 					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.ITEM", exception.Message));
 					
 					// LOG: LogDebug.ItemList
-					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.ItemList, id));
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.ItemList, item.Id));
 				}
 			}
+
+
 			
 			return result;
 		}
@@ -1032,6 +1062,11 @@ namespace Didius
 			if (item.ContainsKey ("invoiced"))
 			{					
 				result._invoiced = (bool)item["invoiced"];
+			}
+
+			if (item.ContainsKey ("approvedforinvoice"))
+			{					
+				result._approvedforinvoice = (bool)item["approvedforinvoice"];
 			}
 			
 			if (item.ContainsKey ("settled"))

@@ -31,6 +31,16 @@ namespace Test
 			{
 				Console.WriteLine ("Connected to database.");
 
+				SorentoLib.Tools.Timer timer = new SorentoLib.Tools.Timer ();
+				timer.Start ();
+				foreach (Didius.Case t in Didius.Case.List (Didius.Customer.Load (new Guid ("fd8b8da1-311f-44c2-8a92-cbaa9b700d63"))))
+				{
+					Console.WriteLine (t.Title);
+				}
+
+				timer.Stop ();
+
+				Console.WriteLine (timer.Duration);
 
 //				int counter = 0;
 //				foreach (string line in SNDK.IO.ReadTextFile ("/home/rvp/Skrivebord/yorkmails.txt"))
@@ -79,8 +89,8 @@ namespace Test
 //
 //				Environment.Exit (0);
 
-				foreach (Subscriber subscriber in Subscriber.List ())
-				{
+//				foreach (Subscriber subscriber in Subscriber.List ())
+//				{
 //					subscriber.Subscribe (new Guid ("58a003c1-02ed-4424-b559-208ce2011870"));
 //					subscriber.Save ();
 
@@ -104,8 +114,8 @@ namespace Test
 
 				
 
-					Console.WriteLine (subscriber.Title +";"+ subscriber.Email);
-				}
+//					Console.WriteLine (subscriber.Title +";"+ subscriber.Email);
+//				}
 
 //				58a003c1-02ed-4424-b559-208ce2011870
 
@@ -135,38 +145,38 @@ namespace Test
 //					Console.WriteLine (i.Id +" "+ i.Title);
 //				}
 
-				Didius.Item item = Didius.Item.Load (new Guid ("93c0fced-e1e1-4e82-9b83-28ca2a55b649"));
-
-				Console.WriteLine ("next bid: "+ item.NextBidAmount);
-
-				Didius.Item.Bid (customer1, item, 1000);
-				Didius.Item.Bid (customer2, item, 3000);
-				Didius.Item.Bid (customer3, item, 3000);
-
-				Console.WriteLine ("\nBids:");
-				foreach (Didius.Bid bid in Didius.Bid.List (item))
-				{
-					Console.WriteLine ("name: "+ Didius.Customer.Load (bid.CustomerId).Name +" bid: "+ bid.Amount);
-				}
-
-				Console.WriteLine ("\nAutoBids:");
-				foreach (Didius.AutoBid autobid in Didius.AutoBid.List (item))
-				{
-					Console.WriteLine ("name: "+ Didius.Customer.Load (autobid.CustomerId).Name +" autobid: "+ autobid.Amount);
-				}
+//				Didius.Item item = Didius.Item.Load (new Guid ("93c0fced-e1e1-4e82-9b83-28ca2a55b649"));
+//
+//				Console.WriteLine ("next bid: "+ item.NextBidAmount);
+//
+//				Didius.Item.Bid (customer1, item, 1000);
+//				Didius.Item.Bid (customer2, item, 3000);
+//				Didius.Item.Bid (customer3, item, 3000);
+//
+//				Console.WriteLine ("\nBids:");
+//				foreach (Didius.Bid bid in Didius.Bid.List (item))
+//				{
+//					Console.WriteLine ("name: "+ Didius.Customer.Load (bid.CustomerId).Name +" bid: "+ bid.Amount);
+//				}
+//
+//				Console.WriteLine ("\nAutoBids:");
+//				foreach (Didius.AutoBid autobid in Didius.AutoBid.List (item))
+//				{
+//					Console.WriteLine ("name: "+ Didius.Customer.Load (autobid.CustomerId).Name +" autobid: "+ autobid.Amount);
+//				}
 
 
 //				Environment.Exit (0);
 
-				foreach (Didius.Bid bid in Didius.Bid.List (item))
-				{
-					Didius.Bid.Delete (bid.Id);
-				}
-
-				foreach (Didius.AutoBid autobid in Didius.AutoBid.List (item))
-				{
-					Didius.AutoBid.Delete (autobid.Id);
-				}
+//				foreach (Didius.Bid bid in Didius.Bid.List (item))
+//				{
+//					Didius.Bid.Delete (bid.Id);
+//				}
+//
+//				foreach (Didius.AutoBid autobid in Didius.AutoBid.List (item))
+//				{
+//					Didius.AutoBid.Delete (autobid.Id);
+//				}
 
 
 
