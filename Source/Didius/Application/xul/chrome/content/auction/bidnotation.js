@@ -134,8 +134,8 @@ var main =
 							var bid = didius.bid.create ({customerId: customer.id, item: item, amount: amount});							
 							didius.bid.save ({bid: bid});						
 							
-							item.approvedforinvoice = true;
-							didius.item.save ({item: item});
+							//item.approvedforinvoice = true;
+							//didius.item.save ({item: item});
 																		
 							return true;
 						}

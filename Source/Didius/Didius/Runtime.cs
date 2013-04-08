@@ -33,6 +33,36 @@ namespace Didius
 //				}
 			}
 
+			foreach (SorentoLib.Media media in SorentoLib.Media.List ())
+				{
+				try
+				{
+					if (media.Type == SorentoLib.Enums.MediaType.Restricted)
+					{
+						if (media.Path.Contains ("didius"))
+						{
+							media.Type = SorentoLib.Enums.MediaType.Public;
+							media.Path = media.Directory +"/"+ media.Filename +".jpg";
+							media.Save ();
+							Console.WriteLine ("FIXED:"+ media.Id);
+//							break;
+						}
+						else
+						{
+							media.Type = SorentoLib.Enums.MediaType.Public;
+							media.Save ();
+							Console.WriteLine ("FIXED:"+ media.Id);
+						}
+					}
+				}
+				catch
+				{
+					Console.WriteLine ("NOTFIXED:"+ media.Id);
+				}
+//					break;
+				}
+
+
 			// Remove current symlinks
 			SNDK.IO.RemoveSymlink (SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_content) + "/didius");
 			SNDK.IO.RemoveSymlink (SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_html) + "/didius");

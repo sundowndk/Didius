@@ -31,16 +31,25 @@ namespace Test
 			{
 				Console.WriteLine ("Connected to database.");
 
-				SorentoLib.Tools.Timer timer = new SorentoLib.Tools.Timer ();
-				timer.Start ();
-				foreach (Didius.Case t in Didius.Case.List (Didius.Customer.Load (new Guid ("fd8b8da1-311f-44c2-8a92-cbaa9b700d63"))))
+
+				foreach (SorentoLib.Media media in SorentoLib.Media.List ())
 				{
-					Console.WriteLine (t.Title);
+					Console.WriteLine (media.Path);
+//					media.Type = SorentoLib.Enums.MediaType.Public;
+//					media.Save ();
+					break;
 				}
 
-				timer.Stop ();
-
-				Console.WriteLine (timer.Duration);
+//				SorentoLib.Tools.Timer timer = new SorentoLib.Tools.Timer ();
+//				timer.Start ();
+//				foreach (Didius.Case t in Didius.Case.List (Didius.Customer.Load (new Guid ("fd8b8da1-311f-44c2-8a92-cbaa9b700d63"))))
+//				{
+//					Console.WriteLine (t.Title);
+//				}
+//
+//				timer.Stop ();
+//
+//				Console.WriteLine (timer.Duration);
 
 //				int counter = 0;
 //				foreach (string line in SNDK.IO.ReadTextFile ("/home/rvp/Skrivebord/yorkmails.txt"))
