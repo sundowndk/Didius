@@ -71,7 +71,7 @@ creditnote : function (attributes)
 								
 								if (attributes.customer.address2 != "")
 								{
-									address += "<br>"+ attributes.customer.address2;
+									customeraddress += "<br>"+ attributes.customer.address2;
 								}
 							
 								render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);

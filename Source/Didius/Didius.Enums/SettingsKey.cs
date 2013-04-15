@@ -38,6 +38,12 @@ namespace Didius.Enums
 		didius_email_template_creditnote_subject,
 		didius_email_template_creditnote_body,
 		didius_email_template_creditnote_isbodyhtml,
+		didius_email_template_profile_confirm_subject,
+		didius_email_template_profile_confirm_body,
+		didius_email_template_profile_confirm_isbodyhtml,
+		didius_email_template_profile_confirmed_subject,
+		didius_email_template_profile_confirmed_body,
+		didius_email_template_profile_confirmed_isbodyhtml,
 
 		didius_template_salesagreement,
 		didius_template_catalogsmall,

@@ -83,8 +83,16 @@
   								</columns>
 							</grid>
 							<hbox align="center">
-								<label class="Label"></label>
-								<checkbox id="checkbox.vat" oncommand="details.onChange ();" label="Moms på effekt" disabled="true"/>
+								<vbox flex="1">		
+    								<hbox>
+    									<label class="Label"></label>
+										<checkbox id="checkbox.vat" oncommand="details.onChange ();" label="Moms på effekt" disabled="true"/>
+    								</hbox>
+    								<hbox >
+    									<label class="Label"></label>
+										<checkbox id="checkbox.approvedforinvoice" oncommand="details.onChange ();" label="Kan faktureres" disabled="true"/>
+    								</hbox>
+    							</vbox>																
 							</hbox>			
 						</groupbox>
 						

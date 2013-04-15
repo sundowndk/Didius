@@ -1219,13 +1219,19 @@ var didius =
 			}
 		},
 		
-		createProfile : function (name, email, onDone)
+		createProfile : function (name, address, postcode, city, phone, mobile, email, password, onDone)
 		{
 			var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.CreateProfile", "data", "POST", true);			
 			
 			var content = new Array ();
 			content["name"] = name;	
+			content["address1"] = address;
+			content["postcode"] = postcode;
+			content["city"] = city;
+			content["phone"] = phone;
+			content["mobile"] = mobile;
 			content["email"] = email;
+			content["password"] = password;
 			
 			if (onDone != null)
 			{	
@@ -2540,7 +2546,7 @@ var didius =
 																	
 																	if (customer.address2 != "")
 																	{
-																		address += "<br>"+ customer.address2;
+																		customeraddress += "<br>"+ customer.address2;
 																	}
 																
 																	render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);														
@@ -2940,7 +2946,7 @@ var didius =
 											
 											if (attributes.customer.address2 != "")
 											{
-												address += "<br>"+ attributes.customer.address2;
+												customeraddress += "<br>"+ attributes.customer.address2;
 											}
 										
 											render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);

@@ -63,7 +63,7 @@ invoice : function (attributes)
 														
 														if (customer.address2 != "")
 														{
-															address += "<br>"+ customer.address2;
+															customeraddress += "<br>"+ customer.address2;
 														}
 													
 														render = render.replace ("%%CUSTOMERADDRESS%%", customeraddress);														

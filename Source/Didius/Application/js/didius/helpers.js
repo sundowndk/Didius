@@ -95,13 +95,19 @@ createTurnoverReport : function (attributes)
 	}
 },
 
-createProfile : function (name, email, onDone)
+createProfile : function (name, address, postcode, city, phone, mobile, email, password, onDone)
 {
 	var request = new SNDK.ajax.request (didius.runtime.ajaxUrl, "cmd=Ajax;cmd.function=Didius.Helpers.CreateProfile", "data", "POST", true);			
 	
 	var content = new Array ();
 	content["name"] = name;	
+	content["address1"] = address;
+	content["postcode"] = postcode;
+	content["city"] = city;
+	content["phone"] = phone;
+	content["mobile"] = mobile;
 	content["email"] = email;
+	content["password"] = password;
 	
 	if (onDone != null)
 	{	

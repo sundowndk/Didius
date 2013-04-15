@@ -85,6 +85,7 @@ var main =
 		document.getElementById ("textbox.description").focus ();
 		document.getElementById ("button.picturechoose").disabled = false;
 		document.getElementById ("checkbox.vat").disabled = false;		
+		document.getElementById ("checkbox.approvedforinvoice").disabled = false;		
 		document.getElementById ("textbox.minimumbid").disabled = false;
 		document.getElementById ("textbox.appraisal1").disabled = false;
 		document.getElementById ("textbox.appraisal2").disabled = false;
@@ -251,6 +252,7 @@ var details =
 		document.getElementById ("textbox.appraisal2").value = main.item.appraisal2;
 		document.getElementById ("textbox.appraisal3").value = main.item.appraisal3;
 		document.getElementById ("checkbox.vat").checked = main.item.vat;
+		document.getElementById ("checkbox.approvedforinvoice").checked = main.item.approvedforinvoice;
 				
 		if (main.item.pictureid != SNDK.tools.emptyGuid)
 		{
@@ -278,6 +280,7 @@ var details =
 		main.item.appraisal2 = document.getElementById ("textbox.appraisal2").value;	
 		main.item.appraisal3 = document.getElementById ("textbox.appraisal3").value;	
 		main.item.vat = document.getElementById ("checkbox.vat").checked;
+		main.item.approvedforinvoice = document.getElementById ("checkbox.approvedforinvoice").checked;
 		
 		details.getDataFields ();
 	},	

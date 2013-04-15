@@ -46,8 +46,8 @@
 									<treecols>
 										<treecol id="id" hidden="true"/>						
 										<splitter class="tree-splitter" hidden="true"/>		
-										<treecol id="no" hidden="true"/>					
-										<splitter class="tree-splitter" hidden="true"/>							
+										<treecol id="no" label="Vare nr." flex="2" persist="width" />
+										<splitter class="tree-splitter"/>							
 										<treecol id="text" label="Tekst" flex="3" persist="width" />
 										<splitter class="tree-splitter"/>		
 										<treecol id="amount" label="Salgs pris" flex="1" persist="width" style="text-align: right;"/>										

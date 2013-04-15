@@ -33,6 +33,7 @@ namespace Didius
 		private int _catalogno;
 
 		private Guid _caseid;
+		private Guid _auctionid;
 
 		private string _title;
 		private string _description;
@@ -107,6 +108,19 @@ namespace Didius
 			get
 			{
 				return this._caseid;
+			}
+		}
+
+		public Guid AuctionId
+		{
+			get
+			{
+				return this._auctionid;
+			}
+
+			set
+			{
+				this._auctionid = value;
 			}
 		}
 
@@ -432,6 +446,7 @@ namespace Didius
 			this._catalogno = Helpers.NewCatalogNo (Case.Auction);
 
 			this._caseid = Case.Id;
+			this._auctionid = Case.AuctionId;
 			
 			this._title = string.Empty;
 			this._description = string.Empty;
@@ -461,6 +476,8 @@ namespace Didius
 			this._no = Helpers.NewNo ();
 			this._catalogno = 0;
 
+
+			this._auctionid = Guid.Empty;
 			this._title = string.Empty;
 			this._description = string.Empty;
 
@@ -499,6 +516,9 @@ namespace Didius
 				item.Add ("catalogno", this._catalogno);
 
 				item.Add ("caseid", this._caseid);			
+				item.Add ("auctionid", this._auctionid);
+
+
 //				item.Add ("title", this._title);
 
 				item.Add ("description", this._description);
@@ -520,6 +540,7 @@ namespace Didius
 								
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("caseid", this._caseid);
+				meta.Add ("auctionid", this._auctionid);
 				
 				SorentoLib.Services.Datastore.Set (DatastoreAisle, this._id.ToString (), SNDK.Convert.ToXmlDocument (item, this.GetType ().FullName.ToLower ()), meta);
 			}
@@ -547,6 +568,7 @@ namespace Didius
 			result.Add ("catalogno", this._catalogno);
 
 			result.Add ("caseid", this._caseid);
+			result.Add ("auctionid", this._auctionid);
 			result.Add ("case", Case.Load (this._caseid));
 
 //			result.Add ("title", this._title);
@@ -620,17 +642,19 @@ namespace Didius
 				AutoBid autobid = new AutoBid (Customer, Item, Amount);
 				autobid.Save ();
 
+//				Console.WriteLine ("[1]SENDMAIL: Autobid placed: "+ Amount);
 				SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Autobud oprettet","Du har oprettet et autobud på effekt: "+ Item.Title +"\n\n"+"Autobud max: "+ Amount +" kr.\n\n");
 
 				// If no other bids have been made, place the first one.
-				if (Item.BidAmount == 0)
-				{
-					decimal nextbidamount = Item.NextBidAmount;
-					Bid bid = new Bid (Customer, Item, nextbidamount);
-					bid.Save ();
+//				if (Item.BidAmount == 0)
+//				{
+//					decimal nextbidamount = Item.NextBidAmount;
+//					Bid bid = new Bid (Customer, Item, nextbidamount);
+//					bid.Save ();
 
-					SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
-				}
+//					Console.WriteLine ("[2]SENDMAIL: Autobid Bid placed: "+ nextbidamount);
+//					SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
+//				}
 
 				SorentoLib.Services.Logging.LogDebug ("[DIDIUS.ITEM]: Autobid placed on item "+ Item.Id);
 			}
@@ -639,7 +663,9 @@ namespace Didius
 				Bid bid = new Bid (Customer, Item, Amount);
 				bid.Save ();
 
+//				Console.WriteLine ("[2]SENDMAIL: Bid placed: "+ Amount);
 				SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et bud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ Amount +" kr.\n\n");
+//				Console.WriteLine ("[3]SENDMAIL: Bid overbid: "+ Amount +" < "+ Item.NextBidAmount);
 				SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Overbudt","Din bud sum på "+ Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
 
 				SorentoLib.Services.Logging.LogDebug ("[DIDIUS.ITEM]: Low bid placed on item "+ Item.Id);
@@ -661,6 +687,7 @@ namespace Didius
 
 							autobidplaced = true;
 
+//							Console.WriteLine ("[4]SENDMAIL: Autobid Bid placed: "+ nextbidamount +" ("+ Customer.Load (autobid.CustomerId).Name +")");
 							SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
 						}
 					}
@@ -671,12 +698,14 @@ namespace Didius
 					Bid bid = new Bid (Customer, Item, nextbidamount);
 					bid.Save ();
 
-//					SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et bud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
+//					Console.WriteLine ("[5]SENDMAIL: Bid placed: "+ nextbidamount);
+					SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et bud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
 
-					if (autobidplaced)
-					{
-						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Overbudt","Din bud sum på "+ nextbidamount +" kr. på effekt: "+ Item.Title +" er blevet overbudt af et tidligere bud med samme sum.\n\n");
-					}
+//					if (autobidplaced)
+//					{
+//						Console.WriteLine ("[7]SENDMAIL: Bid overbid: "+ nextbidamount +" < ???");
+//						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Overbudt","Din bud sum på "+ nextbidamount +" kr. på effekt: "+ Item.Title +" er blevet overbudt af et tidligere bud med samme sum.\n\n");
+//					}
 				}
 
 				SorentoLib.Services.Logging.LogDebug ("[DIDIUS.ITEM]: High bid placed on item "+ Item.Id);
@@ -687,6 +716,9 @@ namespace Didius
 				decimal nextbidamount = Item.NextBidAmount;
 				decimal currentbidamount = Item.BidAmount;
 				List<AutoBid> autobids = AutoBid.List (Item);	
+
+
+
 
 				// Place highest AutoBid.
 				if (autobids.Count > 0)
@@ -704,7 +736,7 @@ namespace Didius
 						}
 					}
 					
-					if (high.Amount > nextbidamount)
+					if (high.Amount >= nextbidamount)
 					{
 						decimal bla = CalculateNextBidAmount (low);
 //						Console.WriteLine (bla);
@@ -715,21 +747,38 @@ namespace Didius
 
 						Bid bid = new Bid (Customer.Load (high.CustomerId), Item, bla);
 						bid.Save ();
+//						Console.WriteLine ("[6]SENDMAIL: Autobid Bid placed: "+ bla +" ("+ Customer.Load (high.CustomerId).Name +")");
+						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (high.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ CalculateNextBidAmount (low) +" kr.\n\n");
+					
+						foreach (AutoBid autobid in autobids)
+						{
+							if (autobid.Id != high.Id && autobid.Amount == bla)
+							{
+								Bid bid2 = new Bid (Customer.Load (autobid.CustomerId), Item, bla);
+								bid2.Save ();
+//								Console.WriteLine ("[7]SENDMAIL: Autobid Bid placed: "+ bla +" ("+ Customer.Load (autobid.CustomerId).Name +")");
+								SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
 
-////						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (high.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ CalculateNextBidAmount (low) +" kr.\n\n");
+//								Console.WriteLine ("[9]SENDMAIL: Bid overbid by Autobid : "+ Amount +" < "+ bla +"("+ Customer.Load (autobid.CustomerId).Name +")");
+								SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Overbudt","Din bud sum på "+ Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
+
+							}
+						}
 					}
 				}
 
 				// Place any AutoBids that equal next bid amount.
 				foreach (AutoBid autobid in autobids)
 				{
-					if (autobid.Amount >= currentbidamount && autobid.Amount < Item.BidAmount)
+					if (autobid.Amount > currentbidamount && autobid.Amount < Item.BidAmount)
 					{
 						Bid bid = new Bid (Customer.Load (autobid.CustomerId), Item, autobid.Amount);
 						bid.Save ();
+//						Console.WriteLine ("[8]SENDMAIL: Autobid Bid placed: "+ autobid.Amount +" ("+ Customer.Load (autobid.CustomerId).Name +")");
+						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ autobid.Amount +" kr.\n\n");
 
-////						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ autobid.Amount +" kr.\n\n");
-
+//						Console.WriteLine ("[9]SENDMAIL: Bid overbid: "+ Amount +" < "+ Item.NextBidAmount +"("+ Customer.Load (autobid.CustomerId).Name +")");
+						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Overbudt","Din bud sum på "+ Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
 					}
 				}
 			}
@@ -782,6 +831,11 @@ namespace Didius
 				{
 					// EXCEPTION: Excpetion.ItemFromXmlDocument
 					throw new Exception (string.Format (Strings.Exception.ItemFromXmlDocument, "CASEID"));
+				}
+
+				if (item.ContainsKey ("auctionid"))
+				{					
+					result._auctionid = new Guid ((string)item["auctionid"]);
 				}
 
 //				if (item.ContainsKey ("title"))
@@ -884,18 +938,102 @@ namespace Didius
 			}			
 		}
 
+		public static List<Item> List (Auction Auction, int Index, int Count)
+		{
+			List<Item> result = new List<Item> ();
+
+			List<SorentoLib.Services.DatastoreItem> datastoreitems = SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("auctionid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Auction.Id));
+
+			int counter = 0;
+
+			List<Item> temp = new List<Item> ();
+
+			foreach (SorentoLib.Services.DatastoreItem datastoreitem in datastoreitems)
+			{
+				try
+				{
+
+
+
+//					if (((dd*count) => counter) && ((dd*count) => counter))
+//					{
+
+//					}
+
+
+
+
+			
+					temp.Add (FromXmlDocument (datastoreitem.Get<XmlDocument> ()));
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.ITEM", exception.Message));
+					
+					// LOG: LogDebug.ItemList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.ItemList, datastoreitem.Id));
+				}
+
+//				counter++;
+			}
+
+			temp.Sort (delegate (Item item1, Item item2) { return item1._catalogno.CompareTo (item2._catalogno); });
+
+			foreach (Item item in temp)
+			{
+//				Console.WriteLine ((Index * Count) +" < "+ counter +"   "+ counter +"<"+ ((Index * Count)));
+
+				if ((Index * Count) <= counter && counter < ((Index * Count) + Count))
+				{
+//					Item item = Item.FromXmlDocument (datastoreitem.Get<XmlDocument> ());
+//					result.Add (FromXmlDocument (datastoreitem.Get<XmlDocument> ()));
+					result.Add (item);
+
+				}
+				counter++;
+			}
+
+
+
+
+			return result;
+		}
+
 		public static List<Item> List (Auction Auction)
 		{
 			List<Item> result = new List<Item> ();
 
-			foreach (Case c in Auction.Cases)
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsNew (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("auctionid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Auction.Id)))
 			{
-				result.AddRange (Item.List (c));
+				try
+				{
+					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.ITEM", exception.Message));
+					
+					// LOG: LogDebug.ItemList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.ItemList, item.Id));
+				}
 			}
 
 			result.Sort (delegate (Item item1, Item item2) { return item1._catalogno.CompareTo (item2._catalogno); });
 
 			return result;
+
+//			List<Item> result = new List<Item> ();
+//
+//			foreach (Case c in Auction.Cases)
+//			{
+//				result.AddRange (Item.List (c));
+//			}
+//
+//			result.Sort (delegate (Item item1, Item item2) { return item1._catalogno.CompareTo (item2._catalogno); });
+//
+//			return result;
 		}
  
 		public static List<Item> List (Case Case)
@@ -1010,6 +1148,11 @@ namespace Didius
 			else
 			{
 				throw new Exception (string.Format (Strings.Exception.ItemFromXmlDocument, "ITEMID"));
+			}
+
+			if (item.ContainsKey ("auctionid"))
+			{					
+				result._auctionid = new Guid ((string)item["auctionid"]);
 			}
 
 //			if (item.ContainsKey ("title"))

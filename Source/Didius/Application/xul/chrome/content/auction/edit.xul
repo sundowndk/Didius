@@ -132,10 +132,18 @@
 						<tree id="tree.items" flex="1" hidecolumnpicker="true" disabled="true" onselect="items.onChange ();" seltype="single">
 							<treecols>
 								<treecol id="id" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>
 								<treecol id="catalogno" label="Katalog nr." width="30" persist="width" onclick="items.sort ({column: 'catalogno'});"/>
+								<splitter class="tree-splitter"/>
 								<treecol id="no" label="Effekt nr." width="140" persist="width" onclick="items.sort ({column: 'no'});"/>
+								<splitter class="tree-splitter"/>
 								<treecol id="title" label="Title" flex="2" persist="width" onclick="items.sort ({column: 'title'});"/>								
+								<splitter class="tree-splitter"/>
 								<treecol id="vat" label="Moms" flex="2" persist="width" onclick="items.sort ({column: 'vat'});"/>								
+								<splitter class="tree-splitter"/>
+								<treecol id="invoiced" label="Faktureret" flex="1" persist="width" onclick="items.sort ({column: 'invoiced'});"/>
+								<splitter class="tree-splitter"/>
+								<treecol id="approvedforinvoice" label="Kan faktureres" flex="2" persist="width" onclick="items.sort ({column: 'approvedforinvoice'});"/>
 							</treecols>								
 						</tree>
 					</hbox>

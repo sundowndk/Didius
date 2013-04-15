@@ -32,13 +32,160 @@ namespace Test
 				Console.WriteLine ("Connected to database.");
 
 
-				foreach (SorentoLib.Media media in SorentoLib.Media.List ())
+//				Didius.Item item = Didius.Item.Load ()
+
+//				foreach (Didius.Auction auction in Didius.Auction.List ())
+//				{
+//					Console.WriteLine (auction.Id +" "+ auction.Title);
+//				}
+
+
+//				Didius.Auction auction = Didius.Auction.Load (new Guid ("663451dc-502f-4d78-8dab-56a713312048"));
+//
+//				foreach (Didius.Item item in Didius.Item.List (auction))
+//				{
+//					Console.WriteLine (item.Id +" "+ item.Title);
+//				}
+
+//				foreach (Didius.Customer customer in Didius.Customer.List ())
+//				{
+//					Console.WriteLine (customer.Id +" "+ customer.Name);
+//				}
+
+//				02b5a747-7aa0-481f-8b3c-c0c1c70d5d84
+
+//				64aaad50-804b-4bfd-9a4f-db094d7b3a3c
+
+				Didius.Item item = Didius.Item.Load (new Guid ("64aaad50-804b-4bfd-9a4f-db094d7b3a3c"));
+				Didius.Customer customer1 = Didius.Customer.Load (new Guid ("02b5a747-7aa0-481f-8b3c-c0c1c70d5d84"));
+				Didius.Customer customer2 = Didius.Customer.Load (new Guid ("0cfed09c-ffa4-4d6f-ba04-1592524ca75f"));
+				Didius.Customer customer3 = Didius.Customer.Load (new Guid ("be829dbb-1f7b-47ca-85ae-6874541b74f8"));
+
+				foreach (Didius.AutoBid autobid in Didius.AutoBid.List (customer1))
 				{
-					Console.WriteLine (media.Path);
+//					if (autobid.ItemId == item.Id)
+//					{
+						Console.WriteLine (autobid.ItemId);
+//					}
+				}
+
+
+				Environment.Exit (0);
+
+
+				foreach (Didius.Bid bid in Didius.Bid.List (item))
+				{
+					Didius.Bid.Delete (bid.Id);
+				}
+
+				foreach (Didius.AutoBid autobid in Didius.AutoBid.List (item))
+				{
+					Didius.AutoBid.Delete (autobid.Id);
+				}
+
+				Console.WriteLine ("Current Bid: "+ item.BidAmount);
+
+				Console.WriteLine ("");
+
+				#region TEST1
+				Console.WriteLine ("Bidder: "+ customer1.Name);
+				Didius.Item.Bid (customer1, item);
+
+				Console.WriteLine ("");
+				Console.WriteLine ("Bidder: "+ customer2.Name);
+				Didius.Item.Bid (customer2, item, 2100);
+
+				Console.WriteLine ("");
+				Console.WriteLine ("Bidder: "+ customer3.Name);
+				Didius.Item.Bid (customer3, item, 2100);
+
+				Console.WriteLine ("");
+				Console.WriteLine ("Bidder: "+ customer1.Name);
+				Didius.Item.Bid (customer1, item, 2100);
+				#endregion
+
+
+				#region TEST2
+//				Console.WriteLine ("Bidder: "+ customer1.Name);
+//				Didius.Item.Bid (customer1, item, 1000);
+//
+//				Console.WriteLine ("");
+//				Console.WriteLine ("Bidder: "+ customer2.Name);
+//				Didius.Item.Bid (customer2, item, 2000);
+//
+//				Console.WriteLine ("");
+//				Console.WriteLine ("Bidder: "+ customer3.Name);
+//				Didius.Item.Bid (customer3, item, 1200);
+//
+//				Console.WriteLine ("");
+//				Console.WriteLine ("Bidder: "+ customer1.Name);
+//				Didius.Item.Bid (customer1, item, 2000);
+				#endregion
+
+
+				Console.WriteLine ("");
+				Console.WriteLine ("Current bid: "+ item.BidAmount);
+				Console.WriteLine ("Current bid winner: "+ Didius.Customer.Load (item.CurrentBid.CustomerId).Name);
+
+//				Console.WriteLine ("");
+//				Console.WriteLine ("Bidder: "+ customer2.Name);
+//				Didius.Item.Bid (customer2, item);
+//
+//				Console.WriteLine ("");
+//				Console.WriteLine ("Bidder: "+ customer3.Name);
+//				Didius.Item.Bid (customer3, item);
+
+
+
+//				foreach (Didius.Auction auction in Didius.Auction.List ())
+//				{
+//					Console.WriteLine (auction.Title +" "+ auction.Id); 
+//				}
+
+
+
+//				Didius.Auction auction = Didius.Auction.Load (new Guid ("18d4c40b-112c-4301-b3fc-6db79f896b93"));
+//
+//				SorentoLib.Tools.Timer timer = new SorentoLib.Tools.Timer ();
+//
+//				timer.Start ();
+//
+//				for (int i = 0; i < 20; i++)
+//				{
+//				Didius.Helpers.GetNumberOfItemsInAuction (auction);	
+//				}
+//
+//				timer.Stop ();
+//
+//				Console.WriteLine (timer.Duration);
+
+
+
+//
+//				foreach (Didius.Item item in Didius.Item.List (auction, 0, 10))
+//				{
+//					Console.WriteLine (item.CatalogNo +" "+ item.Title);
+//				}
+//
+//				Console.WriteLine ("");
+//
+//				foreach (Didius.Item item in Didius.Item.List (auction, 1, 10))
+//				{
+//					Console.WriteLine (item.CatalogNo +" "+ item.Title);
+//				}
+
+//				Console.WriteLine (Didius.Customer.List ().Count);
+
+				Environment.Exit (0);
+
+
+//				foreach (SorentoLib.Media media in SorentoLib.Media.List ())
+//				{
+//					Console.WriteLine (media.Path);
 //					media.Type = SorentoLib.Enums.MediaType.Public;
 //					media.Save ();
-					break;
-				}
+//					break;
+//				}
 
 //				SorentoLib.Tools.Timer timer = new SorentoLib.Tools.Timer ();
 //				timer.Start ();
@@ -145,9 +292,9 @@ namespace Test
 //					Console.WriteLine (customer.Name +" "+ customer.Id);
 //				}
 
-				Didius.Customer customer1 = Didius.Customer.Load (new Guid ("fd8b8da1-311f-44c2-8a92-cbaa9b700d63"));  // Rasmus Pedersen
-				Didius.Customer customer2 = Didius.Customer.Load (new Guid ("02b5a747-7aa0-481f-8b3c-c0c1c70d5d84"));  // ! Rasmus Pedersen
-				Didius.Customer customer3 = Didius.Customer.Load (new Guid ("be829dbb-1f7b-47ca-85ae-6874541b74f8"));  // York Auktion ApS
+//				Didius.Customer customer1 = Didius.Customer.Load (new Guid ("fd8b8da1-311f-44c2-8a92-cbaa9b700d63"));  // Rasmus Pedersen
+//				Didius.Customer customer2 = Didius.Customer.Load (new Guid ("02b5a747-7aa0-481f-8b3c-c0c1c70d5d84"));  // ! Rasmus Pedersen
+//				Didius.Customer customer3 = Didius.Customer.Load (new Guid ("be829dbb-1f7b-47ca-85ae-6874541b74f8"));  // York Auktion ApS
 
 //				foreach (Didius.Item i in Didius.Item.List (new Guid ("04195b87-930d-456a-867d-c8c275cad858")))
 //				{

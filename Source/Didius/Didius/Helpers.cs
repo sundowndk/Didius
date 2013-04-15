@@ -9,6 +9,45 @@ namespace Didius
 {
 	public class Helpers
 	{
+
+		public static int GetNumberOfItemsInAuction (Auction Auction)
+		{
+			return SorentoLib.Services.Datastore.ListOfShelfsNew (Item.DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("auctionid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Equal, Auction.Id)).Count;
+
+//			foreach ()
+//			{
+//				try
+//				{
+//					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
+//				}
+//				catch (Exception exception)
+//				{
+//					// LOG: LogDebug.ExceptionUnknown
+//					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.ITEM", exception.Message));
+//					
+//					// LOG: LogDebug.ItemList
+//					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.ItemList, item.Id));
+//				}
+//			}
+//
+//			result.Sort (delegate (Item item1, Item item2) { return item1._catalogno.CompareTo (item2._catalogno); });
+//
+//			return result;
+
+//			List<Item> result = new List<Item> ();
+//
+//			foreach (Case c in Auction.Cases)
+//			{
+//				result.AddRange (Item.List (c));
+//			}
+//
+//			result.Sort (delegate (Item item1, Item item2) { return item1._catalogno.CompareTo (item2._catalogno); });
+//
+//			return result;
+		}
+
+
+
 		public static void BugReport (string Sender, string Description)
 		{
 			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);			
@@ -385,7 +424,13 @@ namespace Didius
 			user.Status = SorentoLib.Enums.UserStatus.NotVerified;
 			user.Save ();
 
-			SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", customer.Email, "Bekræftigelse af email adresse på york-auktion.dk","Her er din bekræftigelses kode: "+ customer.User.Id +"\n\n" );
+			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_profile_confirm_subject);
+			string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_profile_confirm_body);
+
+			body = body.Replace ("%%NAME%%", customer.Name);
+			body = body.Replace ("%%VERIFICATIONCODE%%", customer.User.Id.ToString ());
+
+			SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", customer.Email, subject, body, SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_profile_confirm_isbodyhtml));
 
 			return customer;
 		}
@@ -403,7 +448,15 @@ namespace Didius
 					user.Status = SorentoLib.Enums.UserStatus.Enabled;
 					user.Save ();
 
-					SendNewPassword (UserId);
+					Customer customer = Customer.Load (user);			
+
+					string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_profile_confirmed_subject);
+					string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_profile_confirmed_body);
+
+					body = body.Replace ("%%NAME%%", customer.Name);
+					body = body.Replace ("%%VERIFICATIONCODE%%", customer.User.Id.ToString ());
+
+					SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", customer.Email, subject, body, SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_profile_confirmed_isbodyhtml));
 
 					result = true;
 				}

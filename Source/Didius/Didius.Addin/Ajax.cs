@@ -507,7 +507,26 @@ namespace Didius.Addin
 
 						case "createprofile":
 						{
-							Didius.Helpers.CreateProfile (request.getValue<string> ("name"), request.getValue<string> ("email"));
+							Customer customer = Didius.Helpers.CreateProfile (request.getValue<string> ("name"), request.getValue<string> ("email"));
+
+							customer.User.Password = request.getValue<string> ("password");
+
+							if (request.xPathExists ("address1"))
+								customer.Address1 = request.getValue<string> ("address1");
+
+							if (request.xPathExists ("postcode"))
+								customer.PostCode = request.getValue<string> ("postcode");
+
+							if (request.xPathExists ("city"))
+								customer.City = request.getValue<string> ("city");
+
+							if (request.xPathExists ("phone"))
+								customer.Phone = request.getValue<string> ("phone");
+
+							if (request.xPathExists ("mobile"))
+								customer.Mobile = request.getValue<string> ("mobile");
+
+							customer.Save ();
 							break;
 						}
 

@@ -201,11 +201,19 @@ var main =
 								// Do work.
 								for (index in customers)
 								{
-									var customer = customers[index];																										
-									var invoice = didius.invoice.create ({auction: main.current, customer: customer});
-									invoices[invoices.length] = invoice;
+									try
+									{																		
+										var customer = customers[index];																																		
+										var invoice = didius.invoice.create ({auction: main.current, customer: customer});
+										invoices[invoices.length] = invoice;
 						
-									sXUL.console.log (customer.name);																	
+										sXUL.console.log (customer.name);																	
+									}
+									catch (exception)
+									{
+										sXUL.console.log (exception);									
+									}
+									
 									
 									// Update progressmeter #1
 									progresswindow.document.getElementById ("description1").textContent = "Fremstiller faktura ["+ index +"/"+ customers.length +"] ...";
@@ -297,9 +305,9 @@ var main =
 																				subworker (index + 1);
 																			};
 														
-															if (main.items[index].bidamount > 0)
+															if (main.items[index].bidamount > 0 || (main.items[index].approvedforinvoice == true))
 															{
-																didius.helpers.mailBidWon (main.items[index]);
+																sXUL.console.log ("SENDING BIDWON");																
 																onDone ();
 															}
 															else

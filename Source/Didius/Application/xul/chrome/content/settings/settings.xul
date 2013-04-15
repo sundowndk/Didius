@@ -184,6 +184,7 @@
 									<tab label="Salgsaftale"/>
 									<tab label="Kreditnota"/>
 									<tab label="Nyhedsbrev"/>
+									<tab label="Profile"/>
 								</tabs>
 							</arrowscrollbox>
 							
@@ -315,7 +316,33 @@
 											</hbox>			
 										</groupbox>
 									</vbox>
-				    			</tabpanel>			    					    			
+				    			</tabpanel>	
+				    			<tabpanel flex="1" style="overflow:auto">
+									<vbox flex="1">		
+										<groupbox>
+											<caption label="Bekræft"/>	
+											<hbox align="top">
+												<label class="Label">Emne:</label>
+												<textbox id="emailTemplateProfileConfirmSubject" flex="1" onkeyup="main.onChange ();"/>
+											</hbox>							
+											<hbox align="top">
+												<label class="Label">Indhold:</label>
+												<textbox id="emailTemplateProfileConfirmBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+											</hbox>			
+										</groupbox>
+										<groupbox>
+											<caption label="Bekræftet"/>	
+											<hbox align="top">
+												<label class="Label">Emne:</label>
+												<textbox id="emailTemplateProfileConfirmedSubject" flex="1" onkeyup="main.onChange ();"/>
+											</hbox>							
+											<hbox align="top">
+												<label class="Label">Indhold:</label>
+												<textbox id="emailTemplateProfileConfirmedBody" flex="1" rows="10" multiline="true" wrap="off" onkeyup="main.onChange ();"/>
+											</hbox>			
+										</groupbox>										
+									</vbox>
+				    			</tabpanel>			    			    					    			
 							</tabpanels>						
 						</tabbox>
 					</hbox>										

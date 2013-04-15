@@ -486,10 +486,24 @@ var items =
 									data.vat = "nej";								
 								}
 								
-							//	var case_ = didius.case.load ({id: item.caseid});
-							//	var customer = didius.customer.load (case_.customerid);								
-							//	data.customername = customer.name;																								
-							
+								if (item.invoiced)
+								{
+									data.invoiced = "ja";								
+								}
+								else
+								{
+									data.invoiced = "nej";								
+								}
+								
+								if (item.approvedforinvoice)
+								{
+									data.approvedforinvoice = "ja";								
+								}
+								else
+								{
+									data.approvedforinvoice = "nej";								
+								}
+															
 								items.itemsTreeHelper.addRow ({data: data});
 							}
 							items.itemsTreeHelper.enableRefresh ();
@@ -744,9 +758,36 @@ var eventHandlers =
 			data.catalogno = eventData.catalogno;
 			data.no = eventData.no;
 			data.title = eventData.title;
-								
-			var customer = didius.customer.load (case_.customerid);								
-			data.customername = customer.name;																								
+											
+			if (eventData.vat)
+			{
+				data.vat = "ja";
+			}
+			else
+			{
+				data.vat = "nej";								
+			}
+			
+			if (eventData.invoiced)
+			{
+				data.invoiced = "ja";								
+			}
+			else
+			{
+				data.invoiced = "nej";								
+			}								
+																		
+			if (eventData.approvedforinvoice)
+			{
+				data.approvedforinvoice = "ja";								
+			}
+			else
+			{
+				data.approvedforinvoice = "nej";								
+			}
+																						
+//			var customer = didius.customer.load (case_.customerid);								
+//			data.customername = customer.name;																								
 							
 			items.itemsTreeHelper.setRow ({data: data});	
 		}

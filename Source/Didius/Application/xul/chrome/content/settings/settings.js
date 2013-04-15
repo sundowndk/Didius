@@ -67,6 +67,12 @@ var main =
 		keys[keys.length] = "didius_email_template_creditnote_subject";
 		keys[keys.length] = "didius_email_template_creditnote_body";
 		keys[keys.length] = "didius_email_template_creditnote_isbodyhtml";
+		keys[keys.length] = "didius_email_template_profile_confirm_subject";
+		keys[keys.length] = "didius_email_template_profile_confirm_body";
+		keys[keys.length] = "didius_email_template_profile_confirm_isbodyhtml";
+		keys[keys.length] = "didius_email_template_profile_confirmed_subject";
+		keys[keys.length] = "didius_email_template_profile_confirmed_body";
+		keys[keys.length] = "didius_email_template_profile_confirmed_isbodyhtml";
 		keys[keys.length] = "paperboy_mailfrom";
 		keys[keys.length] = "paperboy_email_subscribe_subject";
 		keys[keys.length] = "paperboy_email_subscribe_body";
@@ -150,6 +156,12 @@ var main =
 		document.getElementById ("emailTemplateNewsletterUnsubscribedSubject").value = main.current.paperboy_email_unsubscribed_subject;
 		document.getElementById ("emailTemplateNewsletterUnsubscribedBody").value = main.current.paperboy_email_unsubscribed_body;
 		
+		document.getElementById ("emailTemplateProfileConfirmSubject").value = main.current.didius_email_template_profile_confirm_subject;
+		document.getElementById ("emailTemplateProfileConfirmBody").value = main.current.didius_email_template_profile_confirm_body;
+		
+		document.getElementById ("emailTemplateProfileConfirmedSubject").value = main.current.didius_email_template_profile_confirmed_subject;
+		document.getElementById ("emailTemplateProfileConfirmedBody").value = main.current.didius_email_template_profile_confirmed_body;
+		
 		// TEMPLATES
 		document.getElementById ("templatesCatalogSmall").value = main.current.didius_template_catalogsmall;
 		document.getElementById ("templatesCatalogLarge").value = main.current.didius_template_cataloglarge;
@@ -217,6 +229,12 @@ var main =
 		
 		main.current.paperboy_email_unsubscribed_subject = document.getElementById ("emailTemplateNewsletterUnsubscribedSubject").value;
 		main.current.paperboy_email_unsubscribed_body = document.getElementById ("emailTemplateNewsletterUnsubscribedBody").value;
+		
+		main.current.didius_email_template_profile_confirm_subject = document.getElementById ("emailTemplateProfileConfirmSubject").value;
+		main.current.didius_email_template_profile_confirm_body = document.getElementById ("emailTemplateProfileConfirmBody").value;
+		
+		main.current.didius_email_template_profile_confirmed_subject = document.getElementById ("emailTemplateProfileConfirmedSubject").value;
+		main.current.didius_email_template_profile_confirmed_body = document.getElementById ("emailTemplateProfileConfirmedBody").value;
 		
 		// TEMPLATES
 		main.current.didius_template_catalogsmall = document.getElementById ("templatesCatalogSmall").value;		

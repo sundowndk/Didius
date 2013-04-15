@@ -85,6 +85,14 @@
 									<label class="Label">Email:</label>
 									<textbox id="textbox.customeremail" flex="1" readonly="true" onkeyup="main.onChange ();"/>					
 								</hbox>								
+								<hbox align="center">
+									<label class="Label">Moms</label>
+									<checkbox id="checkbox.customervat" flex="1" disabled="true" oncommand="main.onChange ();"/>	
+								</hbox>								
+								<hbox align="center">
+									<label class="Label">CVR nr.</label>
+									<textbox id="textbox.customervatno" flex="1" readonly="true" onkeyup="main.onChange ();"/>	
+								</hbox>								
 								<hbox align="center"> 
 									<hbox flex="1" align="right">		
 										<button id="button.customercreate" label="Opret" disabled="true" oncommand="customer.create ();" collapsed="false" accesskey="O"/>

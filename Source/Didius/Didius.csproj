@@ -69,7 +69,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="SorentoLib">
-      <HintPath>..\Lib\SorentoLib.dll</HintPath>
+      <HintPath>..\..\..\Sorento\Binary\Release\Sorento\Lib\SorentoLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

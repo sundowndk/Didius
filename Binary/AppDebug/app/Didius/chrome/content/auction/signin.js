@@ -134,6 +134,8 @@ var main =
 			document.getElementById ("textbox.customerphone").readOnly = false;
 			document.getElementById ("textbox.customermobile").readOnly = false;
 			document.getElementById ("textbox.customeremail").readOnly = false;	
+			document.getElementById ("checkbox.customervat").disabled = false;	
+			document.getElementById ("textbox.customervatno").readOnly = false;	
 							
 			document.getElementById ("textbox.buyerno").disabled = true;	
 			document.getElementById ("button.buyernoset").disabled = true;
@@ -178,6 +180,8 @@ var main =
 			document.getElementById ("textbox.customerphone").readOnly = true;
 			document.getElementById ("textbox.customermobile").readOnly = true;
 			document.getElementById ("textbox.customeremail").readOnly = true;	
+			document.getElementById ("checkbox.customervat").disabled = true;	
+			document.getElementById ("textbox.customervatno").readOnly = true;	
 
 			if (main.customer)
 			{							
@@ -307,6 +311,8 @@ var customer =
 		document.getElementById ("textbox.customerphone").value = "";
 		document.getElementById ("textbox.customermobile").value = "";
 		document.getElementById ("textbox.customeremail").value = "";			
+		document.getElementById ("checkbox.customervat").checked = false;		
+		document.getElementById ("textbox.customervatno").value = "";				
 	
 		if (main.customer)
 		{
@@ -319,7 +325,9 @@ var customer =
 			document.getElementById ("textbox.customercountry").value = main.customer.country;
 			document.getElementById ("textbox.customerphone").value = main.customer.phone;
 			document.getElementById ("textbox.customermobile").value = main.customer.mobile;
-			document.getElementById ("textbox.customeremail").value = main.customer.email		
+			document.getElementById ("textbox.customeremail").value = main.customer.email;	
+			document.getElementById ("checkbox.customervat").checked = main.customer.vat;
+			document.getElementById ("textbox.customervatno").value = main.customer.vatno;	
 		
 			for (var index in main.buyernos)
 			{					
@@ -348,6 +356,8 @@ var customer =
 		main.customer.phone = document.getElementById ("textbox.customerphone").value;
 		main.customer.mobile = document.getElementById ("textbox.customermobile").value;
 		main.customer.email = document.getElementById ("textbox.customeremail").value;			
+		main.customer.vat = document.getElementById ("checkbox.customervat").checked;			
+		main.customer.vatno = document.getElementById ("textbox.customervatno").value;			
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

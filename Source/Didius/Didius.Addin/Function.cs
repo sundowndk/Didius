@@ -80,7 +80,8 @@ namespace Didius.Addin
 
 								Console.WriteLine ("BLA");
 								SorentoLib.Media image = new SorentoLib.Media ("/media/didius/app/"+ Guid.NewGuid ().ToString (), Session.Request.QueryJar.Get ("image").BinaryData);
-								image.Type = SorentoLib.Enums.MediaType.Restricted;
+								image.Path = image.Directory +"/"+ image.Id.ToString () +".jpg";
+								image.Type = SorentoLib.Enums.MediaType.Public;
 								image.Save ();
 
 								MediaTransformation.Transform (image, SorentoLib.Services.Config.Get<string> (SorentoLib.Enums.ConfigKey.path_script) + "didius/item_picture_resize.xml");

@@ -24,43 +24,45 @@ namespace Didius
 			foreach (Enums.SettingsKey key in Enum.GetValues (typeof (Enums.SettingsKey)))
 			{
 
-//				if (!SorentoLib.Services.Settings.Exist (key))
-//				{
-//					SorentoLib.Services.Settings.Set (key, defaults[key]);
-//					
-//					// LOG: LogDebug.ExceptionUnknown
-//					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ServiceSettingsDefaultSet, key.ToString ().ToLower ()));
-//				}
+
+
+				if (!SorentoLib.Services.Settings.Exist (key))
+				{
+					SorentoLib.Services.Settings.Set (key, defaults[key]);
+					
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ServiceSettingsDefaultSet, key.ToString ().ToLower ()));
+				}
 			}
 
-			foreach (SorentoLib.Media media in SorentoLib.Media.List ())
-				{
-				try
-				{
-					if (media.Type == SorentoLib.Enums.MediaType.Restricted)
-					{
-						if (media.Path.Contains ("didius"))
-						{
-							media.Type = SorentoLib.Enums.MediaType.Public;
-							media.Path = media.Directory +"/"+ media.Filename +".jpg";
-							media.Save ();
-							Console.WriteLine ("FIXED:"+ media.Id);
-//							break;
-						}
-						else
-						{
-							media.Type = SorentoLib.Enums.MediaType.Public;
-							media.Save ();
-							Console.WriteLine ("FIXED:"+ media.Id);
-						}
-					}
-				}
-				catch
-				{
-					Console.WriteLine ("NOTFIXED:"+ media.Id);
-				}
-//					break;
-				}
+//			foreach (SorentoLib.Media media in SorentoLib.Media.List ())
+//				{
+//				try
+//				{
+//					if (media.Type == SorentoLib.Enums.MediaType.Restricted)
+//					{
+//						if (media.Path.Contains ("didius"))
+//						{
+//							media.Type = SorentoLib.Enums.MediaType.Public;
+//							media.Path = media.Directory +"/"+ media.Filename +".jpg";
+//							media.Save ();
+//							Console.WriteLine ("FIXED:"+ media.Id);
+////							break;
+//						}
+//						else
+//						{
+//							media.Type = SorentoLib.Enums.MediaType.Public;
+//							media.Save ();
+//							Console.WriteLine ("FIXED:"+ media.Id);
+//						}
+//					}
+//				}
+//				catch
+//				{
+//					Console.WriteLine ("NOTFIXED:"+ media.Id);
+//				}
+////					break;
+//				}
 
 
 			// Remove current symlinks
@@ -117,6 +119,12 @@ namespace Didius
 			{ Enums.SettingsKey.didius_email_template_creditnote_subject, string.Empty },
 			{ Enums.SettingsKey.didius_email_template_creditnote_body, string.Empty },
 			{ Enums.SettingsKey.didius_email_template_creditnote_isbodyhtml, false },
+			{ Enums.SettingsKey.didius_email_template_profile_confirm_subject, string.Empty },
+			{ Enums.SettingsKey.didius_email_template_profile_confirm_body, string.Empty },
+			{ Enums.SettingsKey.didius_email_template_profile_confirm_isbodyhtml, true },
+			{ Enums.SettingsKey.didius_email_template_profile_confirmed_subject, string.Empty },
+			{ Enums.SettingsKey.didius_email_template_profile_confirmed_body, string.Empty },
+			{ Enums.SettingsKey.didius_email_template_profile_confirmed_isbodyhtml, true },
 
 			{ Enums.SettingsKey.didius_template_salesagreement, string.Empty },
 			{ Enums.SettingsKey.didius_template_catalogsmall, string.Empty },

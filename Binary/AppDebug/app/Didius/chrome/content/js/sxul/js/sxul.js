@@ -565,12 +565,15 @@ var sXUL =
 				
 				var filterColumnsLength = _temp.filterColumns.length;
 			
+				
 				for (var idx = 0; idx < 11; idx++) 
 				{
 					for (index in _rows)
 					{	
 						if (filterColumnsLength > 0)
 						{	
+							if (_temp.filterValue.length > 3)
+							{
 							var skip = true;
 														
 							if (_temp.filterDirection == "in")
@@ -600,6 +603,7 @@ var sXUL =
 							{
 								continue;
 							}
+							}
 						}				
 													
 						if (_rows[index].level == idx)
@@ -613,8 +617,8 @@ var sXUL =
 							{							
 							}							
 						}
-					}
-				}	
+					}		
+				}
 				}			
 			}	
 			
@@ -744,7 +748,10 @@ var sXUL =
 				_temp.filterValue = attributes.value;
 				_temp.filterDirection = attributes.direction;
 				
+				if (_temp.filterValue.length > 3 || _temp.filterValue.length == 0)
+				{		
 				refresh ();
+				}
 			}
 					
 			function addRow (attributes)
