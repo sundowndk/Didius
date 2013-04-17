@@ -665,6 +665,73 @@ var settlement =
 }
 
 // ----------------------------------------------------------------------------------------------------------
+// | LABELS																								|
+// ----------------------------------------------------------------------------------------------------------
+var labels =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | PRINT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	print : function ()
+	{
+		var progresswindow = app.window.open (window, "chrome://didius/content/invoice/progress.xul", "auction.invoice.progress."+ main.case.id, "", {});	
+										
+		var workload = function ()
+		{
+			progresswindow.removeEventListener ("load", workload, false)
+		
+			var overallprogress = 0;
+			var totalprogress = 1;
+						
+			var items = didius.item.list ({case: main.case});
+		
+			var start =	function ()	
+						{						
+							worker1 ();
+						};
+								
+			// Email invoice.
+			var worker1 =	function ()
+							{
+								// Reset progressmeter #1.
+								progresswindow.document.getElementById ("description1").textContent = "Udskriver ...";
+								progresswindow.document.getElementById ("progressmeter1").mode = "undetermined"
+								progresswindow.document.getElementById ("progressmeter1").value = 0;
+																						
+								var nextWorker =	function ()
+													{
+													
+													
+														// Update progressmeter #1
+														overallprogress++;
+														progresswindow.document.getElementById ("progressmeter1").mode = "determined"
+														progresswindow.document.getElementById ("progressmeter1").value = (overallprogress / totalprogress) * 100;
+																																				
+														setTimeout (finish, 100);
+													};
+																							
+								var onDone = 	function ()
+												{
+													nextWorker ();
+												};
+													
+								didius.common.print.label ({items: items, onDone: onDone});			
+							};
+																
+			var finish =	function ()	
+							{															
+								progresswindow.close ();
+							};
+			
+			// Start worker1;				
+			setTimeout (start, 100);
+		}
+		
+		progresswindow.addEventListener ("load", workload);		
+	}
+}
+
+// ----------------------------------------------------------------------------------------------------------
 // | EVENTHANDLERS																							|
 // ----------------------------------------------------------------------------------------------------------
 var eventHandlers =

@@ -55,8 +55,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="SNDK">
-      <HintPath>..\Lib\SNDK.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\Skrivebord\SORENTO-PRO\SNDK.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Addins, Version=0.6.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
@@ -69,7 +68,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="SorentoLib">
-      <HintPath>..\..\..\Sorento\Binary\Release\Sorento\Lib\SorentoLib.dll</HintPath>
+      <HintPath>..\..\..\..\..\Skrivebord\SORENTO-PRO\SorentoLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

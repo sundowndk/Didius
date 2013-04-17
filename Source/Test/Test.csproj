@@ -46,10 +46,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="SorentoLib">
-      <HintPath>..\Lib\SorentoLib.dll</HintPath>
+      <HintPath>..\..\..\..\..\Skrivebord\SORENTO-PRO\SorentoLib.dll</HintPath>
     </Reference>
     <Reference Include="SNDK">
-      <HintPath>..\Lib\SNDK.dll</HintPath>
+      <HintPath>..\..\..\..\..\Skrivebord\SORENTO-PRO\SNDK.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Paperboy">

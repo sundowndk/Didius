@@ -2,39 +2,24 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Test" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Test/Main.cs">
     <Files>
-      <File FileName="Test/Main.cs" Line="65" Column="6" />
-      <File FileName="Didius/Didius/Item.cs" Line="782" Column="1" />
+      <File FileName="Test/Main.cs" Line="77" Column="32" />
+      <File FileName="Didius/Didius/Item.cs" Line="976" Column="6" />
+      <File FileName="Didius/Didius/Customer.cs" Line="127" Column="24" />
+      <File FileName="Didius/Application/xul/chrome/content/case/edit.xul" Line="80" Column="18" />
+      <File FileName="Didius/Application/xul/chrome/content/case/edit.js" Line="677" Column="135" />
+      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
+      <File FileName="Didius/Didius.Addin/Runtime.cs" Line="32" Column="50" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
             <Node name="References" expanded="True" />
-            <Node name="Application" expanded="True">
-              <Node name="js" expanded="True">
-                <Node name="didius" expanded="True">
-                  <Node name="common" expanded="True">
-                    <Node name="print" expanded="True" />
-                  </Node>
-                </Node>
-              </Node>
-              <Node name="xul" expanded="True">
-                <Node name="chrome" expanded="True">
-                  <Node name="content" expanded="True">
-                    <Node name="auction" expanded="True" />
-                    <Node name="chooser" expanded="True" />
-                    <Node name="customer" expanded="True" />
-                    <Node name="invoice" expanded="True" />
-                    <Node name="item" expanded="True" />
-                    <Node name="main" expanded="True" />
-                    <Node name="settings" expanded="True" />
-                  </Node>
-                </Node>
-              </Node>
-            </Node>
-            <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
-            <Node name="Didius.Enums" expanded="True" />
+          </Node>
+          <Node name="Test" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="Main.cs" selected="True" />
           </Node>
         </State>
       </Pad>

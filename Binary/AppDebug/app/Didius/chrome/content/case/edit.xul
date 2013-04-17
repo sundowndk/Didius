@@ -91,6 +91,8 @@
 							<button id="button.itemcreate" label="Opret" disabled="true" oncommand="items.create ();" accesskey="O"/>
 							<button id="button.itemedit" label="Redigere" disabled="true" oncommand="items.edit ();" accesskey="R"/>
 							<button id="button.itemdestroy" label="Slet" disabled="true" oncommand="items.destroy ();" accesskey="S"/>	
+							<spacer flex="1"/>
+							<button id="button.printlabels" label="Labels" oncommand="labels.print ();" />
 						</vbox>	
 					</hbox>						
 				</tabpanel>
