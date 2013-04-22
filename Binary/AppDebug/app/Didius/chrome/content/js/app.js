@@ -285,6 +285,13 @@ var app =
 					text = "Køber nummer er allerede tildelt en anden kunde.";
 					break;
 				}
+				
+				// AUCTION.BIDNOTATION
+				case "APP00290":
+				{
+					text = "Køber nummer er ikke tildelt en kunde.";
+					break;
+				}
 																
 				// ITEM
 				case "APP00480":

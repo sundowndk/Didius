@@ -233,6 +233,19 @@ namespace Didius
 				return Case.List (this);
 			}
 		}
+
+		public string BuyerNos
+		{
+			get
+			{
+				return this._buyernos;
+			}
+
+			set
+			{
+				this._buyernos = value;
+			}
+		}
 		#endregion
 		
 		#region Constructor

@@ -86,7 +86,8 @@ namespace Didius
 				{
 					result += line.Amount;
 				}
-				return Math.Round (result, 2);
+				return result;
+//				return Math.Round (result, 2);
 			}
 		}
 		
@@ -99,7 +100,8 @@ namespace Didius
 				{
 					result += line.CommissionFee;
 				}
-				return Math.Round (result, 2);
+				return result;
+//				return Math.Round (result, 2);
 			}
 		}
 
@@ -112,7 +114,8 @@ namespace Didius
 				{
 					result += line.VatTotal;
 				}
-				return Math.Round (result, 2);
+				return result;
+//				return Math.Round (result, 2);
 			}
 		}
 
@@ -125,7 +128,8 @@ namespace Didius
 				{
 					result += line.Total;
 				}
-				return Math.Round (result, 2);
+				return result;
+//				return Math.Round (result, 2);
 			}
 		}
 

@@ -28,6 +28,7 @@
 					<tab id="tab.details" label="Detaljer" disabled="true"/>
 					<tab id="tab.cases" label="Sager" disabled="true"/>							
 					<tab id="tab.items" label="Katalog" disabled="true"/>
+					<tab id="tab.buyers" label="Købere" disabled="true"/>
 					<tab id="tab.notes" label="Noter" disabled="true"/>
 				</tabs>
 			</arrowscrollbox>
@@ -154,6 +155,26 @@
 								<space flex="1"/>																
 								<button id="button.printcatalog" label="Udskriv" oncommand="catalog.print ();" accesskey="U"/>
 								<button id="button.printlabels" label="Labels" oncommand="labels.print ();" />
+							</vbox>																			
+					</hbox>										
+				</tabpanel>
+				
+				<tabpanel>
+					<hbox flex="1">
+						<tree id="tree.buyers" flex="1" hidecolumnpicker="true" disabled="true" onselect="buyers.onChange ();" seltype="single">
+							<treecols>
+								<treecol id="id" hidden="true"/>
+								<splitter class="tree-splitter" hidden="true"/>
+								<treecol id="buyerno" label="Køber nr." width="30" persist="width" onclick="items.sort ({column: 'buyerno'});"/>
+								<splitter class="tree-splitter"/>
+								<treecol id="customername" label="Navn" persist="width" onclick="items.sort ({column: 'customername'});"/>
+								<splitter class="tree-splitter"/>								
+							</treecols>								
+						</tree>
+					</hbox>
+					<hbox>						
+							<vbox>																					
+								<button id="button.buyerremove" label="Fjern" disabled="true" oncommand="buyer.remove ();"/>								
 							</vbox>																			
 					</hbox>										
 				</tabpanel>

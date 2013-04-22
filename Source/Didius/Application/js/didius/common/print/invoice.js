@@ -210,12 +210,14 @@ invoice : function (attributes)
 													
 													// TOTAL
 													{	
+													
+													sXUL.console.log (attributes.invoice.vat)
 														var render = page.innerHTML;
 														render = render.replace ("%%TOTAL%%", template.total);
-														render = render.replace ("%%TOTALSALE%%", parseInt (attributes.invoice.sales).toFixed (2));
-														render = render.replace ("%%TOTALCOMMISSIONFEE%%", parseInt (attributes.invoice.commissionfee).toFixed (2));
-														render = render.replace ("%%TOTALVAT%%", parseInt (attributes.invoice.vat).toFixed (2));
-														render = render.replace ("%%TOTALTOTAL%%", parseInt (attributes.invoice.total).toFixed (2));
+														render = render.replace ("%%TOTALSALE%%", attributes.invoice.sales.toFixed (2));
+														render = render.replace ("%%TOTALCOMMISSIONFEE%%", attributes.invoice.commissionfee.toFixed (2));
+														render = render.replace ("%%TOTALVAT%%", attributes.invoice.vat.toFixed (2));
+														render = render.replace ("%%TOTALTOTAL%%", attributes.invoice.total.toFixed (2));
 														page.innerHTML = render;
 													}				
 																					

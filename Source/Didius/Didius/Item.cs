@@ -760,7 +760,7 @@ namespace Didius
 								SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
 
 //								Console.WriteLine ("[9]SENDMAIL: Bid overbid by Autobid : "+ Amount +" < "+ bla +"("+ Customer.Load (autobid.CustomerId).Name +")");
-								SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Overbudt","Din bud sum på "+ Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
+								SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Overbudt","Din bud sum på "+ autobid.Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
 
 							}
 						}
@@ -775,9 +775,9 @@ namespace Didius
 						Bid bid = new Bid (Customer.Load (autobid.CustomerId), Item, autobid.Amount);
 						bid.Save ();
 //						Console.WriteLine ("[8]SENDMAIL: Autobid Bid placed: "+ autobid.Amount +" ("+ Customer.Load (autobid.CustomerId).Name +")");
-						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ autobid.Amount +" kr.\n\n");
+						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ Amount +" kr.\n\n");
 
-//						Console.WriteLine ("[9]SENDMAIL: Bid overbid: "+ Amount +" < "+ Item.NextBidAmount +"("+ Customer.Load (autobid.CustomerId).Name +")");
+//						Console.WriteLine ("[9]SENDMAIL: Bid overbid: "+ autobid.Amount +" < "+ Item.NextBidAmount +"("+ Customer.Load (autobid.CustomerId).Name +")");
 						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Overbudt","Din bud sum på "+ Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
 					}
 				}

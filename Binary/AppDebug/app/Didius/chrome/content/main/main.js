@@ -17,7 +17,8 @@ var main =
 //		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
 				
 		main.customers.init ();		
-		main.auctions.init ();		
+		main.auctions.init ();	
+		main.books.init ();	
 		main.newsletters.init ();
 		
 		
@@ -498,6 +499,154 @@ var main =
 		display : function ()
 		{
 			app.window.open (window, "chrome://didius/content/auction/display.xul", "didius.auction.display."+ main.auctions.auctionsTreeHelper.getRow ().id, null, {auctionId: main.auctions.auctionsTreeHelper.getRow ().id});
+		}				
+	},
+	
+	books : 
+	{	
+		init : function ()
+		{
+			main.books.invoices.init ();
+			main.books.creditnotes.init ();
+		},
+		
+		invoices : 
+		{
+			invoicesTreeHelper : null,
+		
+			init : function ()
+			{
+				main.books.invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.booksinvoices"), sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.books.invoices.show});
+				main.books.invoices.set ();
+			},
+			
+			set : function ()
+			{
+				var onDone = 	function (invoices)
+								{
+									main.books.invoices.invoicesTreeHelper.disableRefresh ();
+									for (index in invoices)
+									{
+										var item = invoices[index];
+																														
+										var data = {};
+										data.id = item.id;
+										data.createtimestamp = item.createtimestamp;
+										data.no = item.no;	
+										data.customerno = "";
+										data.customername = "";
+										
+										var date = SNDK.tools.timestampToDate (item.createtimestamp)										
+										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+																				
+										data.vat = item.vat.toFixed (2) +" kr."; 
+										data.total = item.total.toFixed (2) +" kr.";			
+										
+										main.books.invoices.invoicesTreeHelper.addRow ({data: data});
+									}
+									main.books.invoices.invoicesTreeHelper.enableRefresh ();
+							
+									// Enable controls
+									document.getElementById ("tree.booksinvoices").disabled = false;									
+									main.books.invoices.onChange ();
+								};
+
+				// Disable controls
+				document.getElementById ("tree.booksinvoices").disabled = true;	
+				document.getElementById ("button.booksinvoiceshow").disabled = true;							
+					
+				didius.invoice.list ({async: true, onDone: onDone});
+			},
+			
+			onChange : function ()
+			{
+				if (main.books.invoices.invoicesTreeHelper.getCurrentIndex () != -1)
+				{					
+					document.getElementById ("button.booksinvoiceshow").disabled = false;					
+				}
+				else
+				{												
+					document.getElementById ("button.booksinvoiceshow").disabled = true;					
+				}		
+			},
+			
+			// ------------------------------------------------------------------------------------------------------
+			// | SHOW																								|	
+			// ------------------------------------------------------------------------------------------------------																																																				
+			show : function ()
+			{						
+				app.window.open (window, "chrome://didius/content/invoice/show.xul", "didius.auction.invoice.show."+ main.books.invoices.invoicesTreeHelper.getRow ().id, null, {invoiceId: main.books.invoices.invoicesTreeHelper.getRow ().id});				
+			}				
+		},
+		
+		creditnotes : 
+		{
+			creditnotesTreeHelper : null,
+		
+			init : function ()
+			{
+				main.books.creditnotes.creditnotesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.bookscreditnotes"), sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.books.creditnotes.show});
+				main.books.creditnotes.set ();
+			},
+			
+			set : function ()
+			{
+				var onDone = 	function (creditnotes)
+								{								
+									main.books.creditnotes.creditnotesTreeHelper.disableRefresh ();
+									for (index in creditnotes)
+									{
+										var item = creditnotes[index];
+																														
+										var data = {};
+										data.id = item.id;
+										data.createtimestamp = item.createtimestamp;
+										data.no = item.no;	
+										data.customerno = "";
+										data.customername = "";
+										
+										var date = SNDK.tools.timestampToDate (item.createtimestamp)										
+										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+																				
+										data.vat = item.vat.toFixed (2) +" kr."; 
+										data.total = item.total.toFixed (2) +" kr.";			
+										
+										main.books.creditnotes.creditnotesTreeHelper.addRow ({data: data});
+									}
+									main.books.creditnotes.creditnotesTreeHelper.enableRefresh ();
+							
+									// Enable controls
+									document.getElementById ("tree.bookscreditnotes").disabled = false;									
+									main.books.creditnotes.onChange ();
+								};
+
+				// Disable controls
+				document.getElementById ("tree.bookscreditnotes").disabled = true;	
+				document.getElementById ("button.bookscreditnoteshow").disabled = true;							
+					
+				didius.creditnote.list ({async: true, onDone: onDone});
+			},
+			
+			onChange : function ()
+			{
+				if (main.books.creditnotes.creditnotesTreeHelper.getCurrentIndex () != -1)
+				{					
+					document.getElementById ("button.bookscreditnoteshow").disabled = false;					
+				}
+				else
+				{												
+					document.getElementById ("button.bookscreditnoteshow").disabled = true;					
+				}		
+			},
+			
+			// ------------------------------------------------------------------------------------------------------
+			// | SHOW																								|	
+			// ------------------------------------------------------------------------------------------------------																																																				
+			show : function ()
+			{						
+			sXUL.console.log ("dfdf")
+				window.openDialog ("chrome://didius/content/creditnote/show.xul", "didius.creditnote.show."+ main.books.creditnotes.creditnotesTreeHelper.getRow ().id, "chrome", {creditnoteId: main.books.creditnotes.creditnotesTreeHelper.getRow ().id});
+			}				
 		}				
 	},
 	

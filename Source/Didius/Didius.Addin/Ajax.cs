@@ -485,7 +485,7 @@ namespace Didius.Addin
 							}
 							else
 							{
-								result.Add (Invoice.List ());
+								result.Add (Creditnote.List ());
 							}
 							break;
 						}

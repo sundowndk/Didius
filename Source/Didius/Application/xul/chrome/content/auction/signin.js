@@ -521,8 +521,32 @@ var eventHandlers =
 	{
 		if (main.auction.id == eventData.id)
 		{
-			main.auction = eventData;
-			main.buyernos = didius.helpers.parseBuyerNos (main.auction.buyernos);
+			sXUL.console.log ("Updating...");			
+			var update = didius.helpers.parseBuyerNos (eventData.buyernos);						
+			for (index1 in update)
+			{			
+				var found = false;
+													
+				for (index2 in main.buyernos)
+				{
+					if (index1 == index2)
+					{
+						found = true;
+						break;
+					}
+				}
+				
+				if (!found)
+				{				
+					sXUL.console.log ("ADD: "+ index1 +" "+ update[index1])
+					
+					var customer = didius.customer.load (update[index1]);
+					customer.buyerno = "#"+ index1;
+					main.customersTreeHelper.setRow ({data: customer});
+					
+					main.buyernos[index1] = update[index1];
+				}
+			}			
 		}
 	},
 

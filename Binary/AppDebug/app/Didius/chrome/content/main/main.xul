@@ -42,6 +42,7 @@
 				<tabs style="overflow:hidden">				
 					<tab id="tab.auctions" image="chrome://didius/content/icons/auctions.png"/>			
 					<tab id="tab.customers" image="chrome://didius/content/icons/customers.png"/>
+					<tab id="tab.books" image="chrome://didius/content/icons/books.png"/>
 					<tab id="tab.newsletters" image="chrome://didius/content/icons/newsletter.png"/>
 				</tabs>			
 			</arrowscrollbox>		
@@ -122,6 +123,87 @@
 					<hbox flex="1">			
 						<hbox flex="1">
 							<hbox flex="1">
+							
+								<tabbox selectedIndex="0" flex="1">		
+									<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">      
+										<tabs style="overflow:hidden">				
+											<tab id="tab.booksinvoices" label="Faktura"/>
+											<tab id="tab.bookscreditnotes" label="Kreditnota"/>
+											<tab id="tab.bookssettlements" label="Afregninger" disabled="true"/>											
+										</tabs>			
+									</arrowscrollbox>	
+									
+									<tabpanels flex="1">
+										<tabpanel>									
+											<hbox flex="1">
+												<tree id="tree.booksinvoices" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.books.invoices.onChange ();" seltype="single">
+													<treecols>
+														<treecol id="id" hidden="true"/>
+														<splitter class="tree-splitter" hidden="true"/>								
+														<treecol id="createtimestamp" hidden="true"/>
+														<splitter class="tree-splitter" hidden="true"/>								
+														<treecol id="no" label="Nr." width="50" persist="width"/>
+														<splitter class="tree-splitter"/>								
+														<treecol id="date" label="Dato" flex="1" persist="width" />
+														<splitter class="tree-splitter"/>								
+														<treecol id="customerno" label="Kunde nr." flex="1" persist="width"/>
+														<splitter class="tree-splitter"/>								
+														<treecol id="customername" label="Kunde" flex="1" persist="width"/>
+														<splitter class="tree-splitter"/>								
+														<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>		
+														<splitter class="tree-splitter"/>																								
+														<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;" />														
+														<splitter class="tree-splitter"/>								
+													</treecols>						
+												</tree>
+											</hbox>
+											<hbox>
+												<vbox>
+													<button id="button.booksinvoiceshow" label="Vis" disabled="true" oncommand="main.books.invoices.show ();"/>
+												</vbox>									
+											</hbox>										
+										</tabpanel>		
+										
+										<tabpanel>									
+											<hbox flex="1">
+												<tree id="tree.bookscreditnotes" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.books.creditnotes.onChange ();" seltype="single">
+													<treecols>
+														<treecol id="id" hidden="true"/>
+														<splitter class="tree-splitter" hidden="true"/>								
+														<treecol id="createtimestamp" hidden="true"/>
+														<splitter class="tree-splitter" hidden="true"/>								
+														<treecol id="no" label="Nr." width="50" persist="width"/>
+														<splitter class="tree-splitter"/>								
+														<treecol id="date" label="Dato" flex="1" persist="width" />
+														<splitter class="tree-splitter"/>								
+														<treecol id="customerno" label="Kunde nr." flex="1" persist="width"/>
+														<splitter class="tree-splitter"/>								
+														<treecol id="customername" label="Kunde" flex="1" persist="width"/>
+														<splitter class="tree-splitter"/>								
+														<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>		
+														<splitter class="tree-splitter"/>																								
+														<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;" />														
+														<splitter class="tree-splitter"/>								
+													</treecols>						
+												</tree>
+											</hbox>
+											<hbox>
+												<vbox>
+													<button id="button.bookscreditnoteshow" label="Vis" disabled="true" oncommand="main.books.creditnotes.show ();"/>
+												</vbox>									
+											</hbox>										
+										</tabpanel>																																																					
+									</tabpanels>			
+								</tabbox>															
+							</hbox>							
+						</hbox>
+					</hbox>				
+				</tabpanel>									
+						
+				<tabpanel>		
+					<hbox flex="1">			
+						<hbox flex="1">
+							<hbox flex="1">
 								<tree id="newsletters" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.newsletters.onChange ();" seltype="single">
 									<treecols>
 										<treecol id="id" hidden="true"/>
@@ -134,14 +216,14 @@
 								</tree>
 							</hbox>
 							<hbox>
-							<vbox>
-								<button id="newsletterCreate" label="Opret" disabled="true" oncommand="main.newsletters.create ();"/>
-								<button id="newsletterEdit" label="Redigere" disabled="true" oncommand="main.newsletters.edit ();"/>
-								<button id="newsletterDestroy" label="Slet" disabled="true" oncommand="main.newsletters.destroy ();"/>						
-								<spacer flex="1"/>
-								<button id="button.newslettersendsms" label="Send SMS" disabled="true" oncommand="main.newsletters.sendSMS ();"/>						
-							</vbox>
-						</hbox>	
+								<vbox>
+									<button id="newsletterCreate" label="Opret" disabled="true" oncommand="main.newsletters.create ();"/>
+									<button id="newsletterEdit" label="Redigere" disabled="true" oncommand="main.newsletters.edit ();"/>
+									<button id="newsletterDestroy" label="Slet" disabled="true" oncommand="main.newsletters.destroy ();"/>						
+									<spacer flex="1"/>
+									<button id="button.newslettersendsms" label="Send SMS" disabled="true" oncommand="main.newsletters.sendSMS ();"/>						
+								</vbox>
+							</hbox>	
 						</hbox>
 					</hbox>				
 				</tabpanel>			

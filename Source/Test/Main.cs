@@ -32,6 +32,8 @@ namespace Test
 				Console.WriteLine ("Connected to database.");
 
 
+
+
 //				Didius.Item item = Didius.Item.Load ()
 
 //				foreach (Didius.Auction auction in Didius.Auction.List ())
@@ -39,6 +41,40 @@ namespace Test
 //					Console.WriteLine (auction.Id +" "+ auction.Title);
 //				}
 
+				#region CLEAR BUYERNOS FROM AUCTION
+//				Didius.Auction auction = Didius.Auction.Load (new Guid ("4462388d-876d-419b-a27d-47b2fc3e468e"));
+//				Console.WriteLine (auction.BuyerNos);
+//				auction.BuyerNos = string.Empty;
+//				auction.Save ();
+				#endregion
+
+				#region CLEAR ALL BIDS IN AUCTION
+//				foreach (Didius.Item item in Didius.Item.List (Didius.Auction.Load (new Guid ("4462388d-876d-419b-a27d-47b2fc3e468e"))))
+//				{
+//					Console.WriteLine (item.Title);
+//					foreach (Didius.Bid bid in Didius.Bid.List (item))
+//					{
+//						Console.WriteLine ("\t"+ bid.Amount);
+//						Didius.Bid.Delete (bid.Id);
+//					}
+//				}
+				#endregion
+
+				#region CLEAR APPROVEDFORINVOICE ON ALL ITEMS IN AUCTION
+//				foreach (Didius.Item item in Didius.Item.List (Didius.Auction.Load (new Guid ("4462388d-876d-419b-a27d-47b2fc3e468e"))))
+//				{
+//					Console.WriteLine (item.Title);
+//					if (item.AppovedForInvoice)
+//					{
+//						item.AppovedForInvoice = false;
+//						item.Save ();
+//					}
+//				}
+				#endregion
+
+//				
+
+				Environment.Exit (0);
 
 //				Didius.Auction auction = Didius.Auction.Load (new Guid ("663451dc-502f-4d78-8dab-56a713312048"));
 //
@@ -60,40 +96,9 @@ namespace Test
 //				Didius.Customer customer1 = Didius.Customer.Load (new Guid ("02b5a747-7aa0-481f-8b3c-c0c1c70d5d84"));
 //				Didius.Customer customer2 = Didius.Customer.Load (new Guid ("0cfed09c-ffa4-4d6f-ba04-1592524ca75f"));
 //				Didius.Customer customer3 = Didius.Customer.Load (new Guid ("be829dbb-1f7b-47ca-85ae-6874541b74f8"));
-
-				List<Didius.Auction> auctions = new List<Didius.Auction> ();
-				foreach (Didius.Auction auction in Didius.Auction.List ())
-				{
-					if (auction.Status == Didius.Enums.AuctionStatus.Open)
-					{
-						auctions.Add (auction);
-					}
-				}
-
-				Random rnd = new Random ();
-
-				foreach (Didius.Item item in Didius.Item.List (auctions[rnd.Next (0, auctions.Count)]))
-				{
-					Console.WriteLine (item.Id);
-				}
-
-//				Console.WriteLine (choose);
-
-//					if (auction.Status == Didius.Enums.AuctionStatus.Open)
-//					{
-//						foreach (Didius.Item item in Didius.Item.List (auction, 0, 4))
-//						{
-//						}
-//					}
-//					break;
-//				}
-
-
-
-
-				Environment.Exit (0);
-
-
+//
+//
+//
 //				foreach (Didius.Bid bid in Didius.Bid.List (item))
 //				{
 //					Didius.Bid.Delete (bid.Id);
@@ -107,14 +112,14 @@ namespace Test
 //				Console.WriteLine ("Current Bid: "+ item.BidAmount);
 //
 //				Console.WriteLine ("");
-//
-				#region TEST1
+
+//				#region TEST1
 //				Console.WriteLine ("Bidder: "+ customer1.Name);
 //				Didius.Item.Bid (customer1, item);
 //
 //				Console.WriteLine ("");
 //				Console.WriteLine ("Bidder: "+ customer2.Name);
-//				Didius.Item.Bid (customer2, item, 2100);
+//				Didius.Item.Bid (customer2, item, 1000);
 //
 //				Console.WriteLine ("");
 //				Console.WriteLine ("Bidder: "+ customer3.Name);
@@ -122,8 +127,8 @@ namespace Test
 //
 //				Console.WriteLine ("");
 //				Console.WriteLine ("Bidder: "+ customer1.Name);
-//				Didius.Item.Bid (customer1, item, 2100);
-				#endregion
+//				Didius.Item.Bid (customer1, item, 2200);
+//				#endregion
 
 
 				#region TEST2

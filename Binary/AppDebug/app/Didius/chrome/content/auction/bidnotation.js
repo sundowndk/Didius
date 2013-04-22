@@ -34,7 +34,7 @@ var main =
 		}								
 	
 		main.itemsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.items"), sortColumn: "catalogno", sortDirection: "descending"});
-	
+				
 		main.set ();
 		
 		// Hook events.			
@@ -99,7 +99,7 @@ var main =
 	onChange : function ()
 	{
 		if (main.itemsTreeHelper.getCurrentIndex () != -1)
-		{										
+		{											
 			main.setItem (parseInt (main.itemsTreeHelper.getRow ().count));
 		}
 	},
@@ -119,36 +119,36 @@ var main =
 			if (buyerno == "0")
 			{
 				if (document.getElementById ("textbox.currentmaxautobidamount").value != "")
-				{
-												
+				{											
 					if (parseInt (maxautobidamount) >= parseInt (amount))
 					{
-						if (!app.window.prompt.confirm ("Bud unden køber nr.", "Der vil blive afgivet et bude uden køber nr. for at byde autobud op, vil du tillade dette ?"))
+						if (!app.window.prompt.confirm ("Opbud af autobud", "Da der ikke er angivet et køber nummer, vil autobudet blive opbudt til budsum. Vil du tillade dette ?"))
 						{
 							return false;
 						}
 						else
-						{					
-							var autobids = didius.autobid.list ({itemId: main.items[main.currentIndex].id});									
+						{	
+							var item = main.items[(main.currentIndex)];													
+							var autobids = didius.autobid.list ({itemId: item.id});
 							var customer = didius.customer.load (autobids[0].customerid);																	
 							var bid = didius.bid.create ({customerId: customer.id, item: item, amount: amount});							
 							didius.bid.save ({bid: bid});						
-							
-							//item.approvedforinvoice = true;
-							//didius.item.save ({item: item});
+																					
+							item.approvedforinvoice = true;
+							didius.item.save ({item: item});
 																		
 							return true;
 						}
 					}
 					else
 					{
-						app.window.prompt.alert ("Bud", "Det angivet bud er højere end max autobud. Derfor kan bud uden køber nr. ikke accepteres.");
+						app.window.prompt.alert ("Opbud af autobud", "Det angivet bud er højere end autobudet. Og det er derfor ikke muligt at opbyde autobudet.");
 						return false;									
 					}
 				}	
 				else
 				{
-					app.window.prompt.alert ("Bud", "Der er ingen autobud på denne effekt. Derfor kan bud uden køber nr. ikke accepteres.");
+					app.window.prompt.alert ("Opbud af autobud", "Der er intet autobud på denne effekt, opbud ikke muligt.");
 					return false;				
 				}			
 			}	
@@ -173,23 +173,33 @@ var main =
 							{
 								return false;
 							}	
-							
+														
 							item.minimumbid = 0;
 						}
+												
+						if (document.getElementById ("textbox.currentmaxautobidamount").value != "")
+						{											
+							if (parseInt (document.getElementById ("textbox.currentmaxautobidamount").value) >= parseInt (amount))
+							{
+								if (!app.window.prompt.confirm ("Bud lavere end autobud", "Det angivet bud er mindre end højste autobud. Vil du fortsætte ?"))
+								{
+									return false;
+								}
+							}
+						}	
 					
 						var bid = didius.bid.create ({customerId: main.buyernos[index], item: item, amount: amount});
 						didius.bid.save ({bid: bid});
 						
 						item.approvedforinvoice = true;
-						didius.item.save ({item: item});
-						
+						didius.item.save ({item: item});						
 						
 						return true;		
 					}
 				}
 			}
 			
-			app.error ({errorCode: "APP00280"});
+			app.error ({errorCode: "APP00290"});
 			
 			return false;
 		}
@@ -298,7 +308,7 @@ var main =
 			
 		if (main.items[main.currentIndex].pictureid != SNDK.tools.emptyGuid)
 		{
-			document.getElementById ("image.itempicture").src = didius.runtime.ajaxUrl +"getmedia/" + main.items[main.currentIndex].pictureid;
+			document.getElementById ("image.itempicture").src = didius.runtime.ajaxUrl +"getmedia/" + main.items[main.currentIndex].pictureid;			
 		}
 		else
 		{
@@ -351,10 +361,7 @@ var main =
 			}		
 		}
 		
-		document.getElementById ("textbox.bidamount").focus ();
-		
-		
-		
+		document.getElementById ("textbox.bidamount").focus ();				
 	},	
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -363,11 +370,11 @@ var main =
 	close : function ()
 	{				
 		// Unhook events.						
-		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionSave);
+		app.events.onAuctionSave.removeHandler (eventHandlers.onAuctionSave);
 		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);
-		app.events.onAuctionDestroy.removeHandler (eventHandlers.onItemSave);
-		app.events.onAuctionDestroy.removeHandler (eventHandlers.onItemDestroy);
-																							
+		app.events.onItemSave.removeHandler (eventHandlers.onItemSave);
+		app.events.onItemDestroy.removeHandler (eventHandlers.onItemDestroy);
+																										
 		// Close window.		
 		window.close ();
 	}	
@@ -407,13 +414,14 @@ var eventHandlers =
 	// ------------------------------------------------------------------------------------------------------		
 	onItemSave : function (eventData)
 	{
-		var case_ = didius.case.load ({id: eventData.caseid});
+		//var case_ = didius.case.load ({id: eventData.caseid});
 					
-		if (main.auction.id == case_.auctionid)
+		//if (main.auction.id == case_.auctionid)
+		if (main.auction.id == eventData.auctionid)
 		{
-			// Update tree.items.
-			main.itemsTreeHelper.setRow ({data: eventData})
-							
+			// Update tree.items.			
+			main.itemsTreeHelper.setRow ({data: eventData})			
+								
 			// Update main.items.
 			for (var index in main.items)
 			{
@@ -427,11 +435,53 @@ var eventHandlers =
 			
 			// Update display.
 			if (main.items[main.currentIndex].id == eventData.id)
-			{
-				sXUL.console.log ("CHANGE")
+			{				
 				main.setItem (main.currentIndex);	
 			}				
 		}
+
+		if (main.auction.id == eventData.auctionid)
+		{				
+			var data = {};
+			data.id = eventData.id;
+			data.catalogno = eventData.catalogno;
+			data.no = eventData.no;
+			data.title = eventData.title;
+											
+			if (eventData.vat)
+			{
+				data.vat = "ja";
+			}
+			else
+			{
+				data.vat = "nej";								
+			}
+			
+			if (eventData.invoiced)
+			{
+				data.invoiced = "ja";								
+			}
+			else
+			{
+				data.invoiced = "nej";								
+			}								
+																		
+			if (eventData.approvedforinvoice)
+			{
+				data.approvedforinvoice = "ja";								
+			}
+			else
+			{
+				data.approvedforinvoice = "nej";								
+			}
+																						
+//			var customer = didius.customer.load (case_.customerid);								
+//			data.customername = customer.name;																								
+							
+			main.itemsTreeHelper.setRow ({data: data});	
+		}
+
+
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
