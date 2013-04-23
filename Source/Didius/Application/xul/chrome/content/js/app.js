@@ -152,6 +152,7 @@ var app =
 	data : 
 	{
 		postcodes : {},
+		customers : {}
 	},
 	
 	window :

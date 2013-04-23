@@ -161,20 +161,20 @@
 				
 				<tabpanel>
 					<hbox flex="1">
-						<tree id="tree.buyers" flex="1" hidecolumnpicker="true" disabled="true" onselect="buyers.onChange ();" seltype="single">
+						<tree id="tree.buyers" flex="1" hidecolumnpicker="true" disabled="true" onselect="buyers.onChange ();" seltype="single" readonly="true">
 							<treecols>
 								<treecol id="id" hidden="true"/>
 								<splitter class="tree-splitter" hidden="true"/>
-								<treecol id="buyerno" label="Køber nr." width="30" persist="width" onclick="items.sort ({column: 'buyerno'});"/>
+								<treecol id="buyerno" label="Køber nr." width="100" persist="width" onclick="buyers.sort ({column: 'buyerno'});"/>
 								<splitter class="tree-splitter"/>
-								<treecol id="customername" label="Navn" persist="width" onclick="items.sort ({column: 'customername'});"/>
-								<splitter class="tree-splitter"/>								
+								<treecol id="customerno" label="Kunde nr." flex="1" persist="width"/>
+								<splitter class="tree-splitter"/>
+								<treecol id="customername" label="Kunde" flex="1" persist="width"/>								
 							</treecols>								
 						</tree>
 					</hbox>
 					<hbox>						
-							<vbox>																					
-								<button id="button.buyerremove" label="Fjern" disabled="true" oncommand="buyer.remove ();"/>								
+							<vbox>																													
 							</vbox>																			
 					</hbox>										
 				</tabpanel>

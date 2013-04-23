@@ -8,6 +8,13 @@ invoice : function (attributes)
 	var render = 	function (attributes)
 					{							
 						var customer = didius.customer.load (attributes.invoice.customerid)
+						
+						var auctions = {};
+						
+						for (index in attributes.invoice.auctionids)
+						{
+							auctions[auctions.length] = didius.auction.load (attributes.invoice.auctionids[index]);
+						}
 																					
 						var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_invoice"}));
 						
@@ -103,10 +110,42 @@ invoice : function (attributes)
 													{
 														render = render.replace ("%%CUSTOMEREMAIL%%", customer.email);														
 													}
-													
-													// AUCTIONNO
+																										
+													// AUCTIONINFO
 													{
-						//								render = render.replace ("%%AUCTIONNO%%", attributes.invoice.auction.no);
+														var auctioninfo = template.auctioninfo;
+													
+														for (index in auctions)
+														{															
+															var auction = auctions[index];
+															
+															// AUCTIONNO
+															{
+																auctioninfo = auctioninfo.replace ("%%AUCTIONNO%%", auction.no);
+															}
+															
+															// AUCTIONTITLE
+															{
+																auctioninfo = auctioninfo.replace ("%%AUCTIONTITLE%%", auction.title);
+															}
+															
+															// BUYERNO
+															{
+																var buyernos = didius.helpers.parseBuyerNos (auction.buyernos);
+	
+																for (index in buyernos)
+																{
+																	if (buyernos[index] == customer.id)
+																	{																		
+																		auctioninfo = auctioninfo.replace ("%%BUYERNO%%", buyernos[index]);
+																	}																																
+																}
+																
+																auctioninfo = auctioninfo.replace ("%%BUYERNO%%", "");
+															}
+														}													
+													
+														render = render.replace ("%%AUCTIONINFO%%", auctioninfo);
 													}
 													
 													// AUCTIONTITLE
@@ -209,9 +248,7 @@ invoice : function (attributes)
 													}
 													
 													// TOTAL
-													{	
-													
-													sXUL.console.log (attributes.invoice.vat)
+													{																										
 														var render = page.innerHTML;
 														render = render.replace ("%%TOTAL%%", template.total);
 														render = render.replace ("%%TOTALSALE%%", attributes.invoice.sales.toFixed (2));

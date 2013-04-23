@@ -15,8 +15,11 @@
   		<key id="key.closeextra" modifiers="control" key="w" oncommand="main.close ();"/> 
   		<key id="key.print" modifiers="control" key="p" oncommand="main.print ();"/>  
   		<key id="key.mail" modifiers="control" key="m" oncommand="main.mail ();"/>  
-	</keyset>			
-			
+	</keyset>	
+	
+	<iframe id="iframe.print" collapsed="true">
+	</iframe>											
+								
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">		
 			<tabpanels flex="1">
@@ -42,9 +45,9 @@
 								<tree id="tree.lines" flex="1" hidecolumnpicker="true" readonly="true" seltype="single" height="200">
 									<treecols>
 										<treecol id="id" hidden="true"/>										
-										<splitter class="tree-splitter" hidden="true"/>
-										<treecol id="no" hidden="true"/>
-										<splitter class="tree-splitter" hidden="true"/>
+										<splitter class="tree-splitter" hidden="true"/>																																					
+										<treecol id="no" label="Vare nr." flex="2" persist="width" />
+										<splitter class="tree-splitter"/>																	
 										<treecol id="text" label="Tekst" flex="3" persist="width" />
 										<splitter class="tree-splitter"/>
 										<treecol id="amount" label="Beløb" flex="1" persist="width"  style="text-align: right;"  />										

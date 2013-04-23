@@ -9,7 +9,8 @@ namespace Didius
 	{
 		#region Private Fields
 		private Guid _id;
-		private int _no;
+		private int _sort;
+		private string _no;
 		private Guid _itemid;
 		private string _text;
 		private decimal _amount;
@@ -25,7 +26,15 @@ namespace Didius
 			}
 		}
 
-		public int No
+		public int Sort 
+		{
+			get 
+			{
+				return this._sort;
+			}
+		}
+
+		public string No
 		{
 			get
 			{
@@ -82,7 +91,8 @@ namespace Didius
 		public CreditnoteLine (InvoiceLine InvoiceLine)
 		{
 			this._id = Guid.NewGuid ();
-			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._sort = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._no = InvoiceLine.No;
 			this._itemid = InvoiceLine.ItemId;
 			this._text = InvoiceLine.Text;
 			this._amount = InvoiceLine.Amount;
@@ -93,7 +103,8 @@ namespace Didius
 		public CreditnoteLine (Item Item)
 		{
 			this._id = Guid.NewGuid ();
-			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._sort = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._no = Auction.Load (Item.AuctionId).No +"-"+ Item.CatalogNo; 
 			this._itemid = Item.Id;
 			this._text = Item.Title;
 
@@ -110,7 +121,8 @@ namespace Didius
 		private CreditnoteLine ()
 		{
 			this._id = Guid.Empty;
-			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._sort = SNDK.Date.CurrentDateTimeToTimestamp ();
+			this._no = string.Empty;
 			this._itemid = Guid.Empty;
 			this._text = string.Empty;
 			this._amount = 0;
@@ -123,7 +135,8 @@ namespace Didius
 		{
 			Hashtable result = new Hashtable ();
 			
-			result.Add ("id", this._id);			
+			result.Add ("id", this._id);		
+			result.Add ("sort", this._sort);
 			result.Add ("no", this._no);
 			result.Add ("itemid", this._itemid);
 			result.Add ("text", this._text);
@@ -159,9 +172,14 @@ namespace Didius
 				throw new Exception (string.Format (Strings.Exception.CreditnoteLineFromXmlDocument, "ID"));
 			}
 
+			if (item.ContainsKey ("sort"))
+			{
+				result._sort = int.Parse ((string)item["sort"]);
+			}
+
 			if (item.ContainsKey ("no"))
 			{
-				result._no = int.Parse ((string)item["no"]);
+				result._no = (string)item["no"];
 			}
 
 			if (item.ContainsKey ("itemid"))

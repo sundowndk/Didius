@@ -88,7 +88,9 @@ var main =
 							main.onChange ();
 						};
 
-		didius.customer.list ({async: true, onDone: onDone});		
+		//didius.customer.list ({async: true, onDone: onDone});		
+		
+		onDone (app.data.customers);
 		
 		document.title = "Auktions registering: "+ main.auction.title +" ["+ main.auction.no +"]";
 		

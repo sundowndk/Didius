@@ -15,11 +15,29 @@ var main =
 				
 //		main.controls.statusbar.progressmeter.setMode ("undetermined");
 //		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
-				
-		main.customers.init ();		
+		
+		var onDone = 	function (customers)
+						{
+							
+							for (var index in customers)
+							{
+								app.data.customers[customers[index].id] = customers[index];	
+							
+							}
+						
+							//app.data.customers = customers;
+							main.customers.init ();							 
+							main.books.init ();	
+						}
+		
+		didius.customer.list ({async: true, onDone: onDone});		
+											
+		
 		main.auctions.init ();	
-		main.books.init ();	
+		
 		main.newsletters.init ();
+		
+		
 		
 		
 		
@@ -327,7 +345,9 @@ var main =
 				document.getElementById ("customerEdit").disabled = true;
 				document.getElementById ("customerDestroy").disabled = true;
 						
-				didius.customer.list ({async: true, onDone: onDone});				
+				//didius.customer.list ({async: true, onDone: onDone});										
+				
+				onDone (app.data.customers);
 		},		
 										
 		onChange : function ()
@@ -533,8 +553,19 @@ var main =
 										data.id = item.id;
 										data.createtimestamp = item.createtimestamp;
 										data.no = item.no;	
-										data.customerno = "";
-										data.customername = "";
+										
+										try											
+										{	
+											var customer = app.data.customers[item.customerid]
+										
+											data.customerno = customer.no;
+											data.customername = customer.name;
+										}
+										catch (exception)
+										{
+											data.customerno = "";							
+											data.customername = "";
+										}
 										
 										var date = SNDK.tools.timestampToDate (item.createtimestamp)										
 										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
@@ -602,8 +633,19 @@ var main =
 										data.id = item.id;
 										data.createtimestamp = item.createtimestamp;
 										data.no = item.no;	
-										data.customerno = "";
-										data.customername = "";
+										
+										try											
+										{	
+											var customer = app.data.customers[item.customerid]
+										
+											data.customerno = customer.no;
+											data.customername = customer.name;
+										}
+										catch (exception)
+										{
+											data.customerno = "";							
+											data.customername = "";
+										}
 										
 										var date = SNDK.tools.timestampToDate (item.createtimestamp)										
 										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					

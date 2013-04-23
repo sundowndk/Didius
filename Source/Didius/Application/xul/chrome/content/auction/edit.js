@@ -42,6 +42,7 @@ var main =
 		details.init ();
 		cases.init ();
 		items.init ();
+		buyers.init ();
 		notes.init ();
 	
 		main.set ();
@@ -93,6 +94,7 @@ var main =
 			document.getElementById ("tab.details").disabled = false;
 			document.getElementById ("tab.cases").disabled = true;
 			document.getElementById ("tab.items").disabled = true;
+			document.getElementById ("tab.buyers").disabled = true;
 			document.getElementById ("tab.notes").disabled = false;
 		}
 		else
@@ -100,6 +102,7 @@ var main =
 			document.getElementById ("tab.details").disabled = false;
 			document.getElementById ("tab.cases").disabled = false;
 			document.getElementById ("tab.items").disabled = false;
+			document.getElementById ("tab.buyers").disabled = false;
 			document.getElementById ("tab.notes").disabled = false;
 		}
 	
@@ -656,6 +659,80 @@ var labels =
 		progresswindow.addEventListener ("load", workload);		
 	}
 }
+
+// ----------------------------------------------------------------------------------------------------------
+// | BUYERS																									|
+// ----------------------------------------------------------------------------------------------------------
+var buyers =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | VARIABLES																							|	
+	// ------------------------------------------------------------------------------------------------------
+	buyersTreeHelper : null,
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	init : function ()
+	{
+		buyers.buyersTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.buyers"), sortColumn: "buyerno", sortDirection: "descending"});
+		buyers.set ();
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
+	set : function ()
+	{
+		document.getElementById ("tree.buyers").disabled = true;
+		
+		var buyernos = didius.helpers.parseBuyerNos (main.auction.buyernos);
+	
+		buyers.buyersTreeHelper.disableRefresh ();
+		for (index in buyernos)
+		{																																
+			var data = {};				
+			data.id = buyernos[index];
+			data.buyerno = index;				
+										
+			try											
+			{				
+				var customer = app.data.customers[buyernos[index]];
+										
+				data.customerno = customer.no;
+				data.customername = customer.name;
+			}
+			catch (exception)
+			{
+				data.customerno = "";							
+				data.customername = "";
+			}											
+			
+			buyers.buyersTreeHelper.addRow ({data: data});
+		}
+		buyers.buyersTreeHelper.enableRefresh ();
+
+		// Enable controls
+		document.getElementById ("tree.buyers").disabled = false;
+		
+		buyers.onChange ();		
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onChange : function ()
+	{
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SORT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	sort : function (attributes)
+	{
+		buyers.buyersTreeHelper.sort (attributes);
+	},
+}
+
 
 
 // ----------------------------------------------------------------------------------------------------------

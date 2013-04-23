@@ -116,7 +116,7 @@
 								</hbox>																							
 								<hbox align="center">
 									<label class="Label" accesskey="K" control="textbox.buyerno">Køber nr.:</label>
-									<textbox id="textbox.buyerno" flex="1" disabled="true" onkeyup="return main.onKeyUpTextboxBuyerNo (event);" />
+									<textbox id="textbox.buyerno" flex="1" disabled="true" type="number" hidespinbuttons="true" clickSelectsAll="true" onkeyup="return main.onKeyUpTextboxBuyerNo (event);" />
 									<button id="button.buyernoset" label="Angiv" disabled="true" oncommand="customer.setBuyerNo ();" accesskey="A"/>
 									<button id="button.invoicecreate" label="Fakturere" disabled="true" width="70" oncommand="main.createInvoice ();" accesskey="F"/>
 								</hbox>																	

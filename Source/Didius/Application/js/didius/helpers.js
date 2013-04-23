@@ -124,8 +124,11 @@ parseBuyerNos : function (buyerNos)
 	for (var index in nos)
 	{
 		try
-		{
-			result[nos[index].split (":")[0]] = nos[index].split (":")[1];
+		{			
+			if (nos[index].split (":")[1] != null)
+			{		
+				result[nos[index].split (":")[0]] = nos[index].split (":")[1];
+			}
 		}
 		catch (exception)
 		{		
@@ -386,6 +389,13 @@ parsePrintTemplate : function (data)
 					result.hasvatno = "";
 					continue;
 				}							
+				
+				case "#BEGINAUCTIONINFO":
+				{
+					block = "auctioninfo";
+					result.auctioninfo = "";
+					continue;
+				}
 			}					
 		}
 		else
@@ -495,6 +505,12 @@ parsePrintTemplate : function (data)
 				}
 				
 				case "#ENDHASVATNO":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDAUCTIONINFO":
 				{
 					block = "";
 					continue;
@@ -615,6 +631,12 @@ parsePrintTemplate : function (data)
 			case "hasvatno":
 			{
 				result.hasvatno += data[idx] +"\n";
+				break;
+			}
+			
+			case "auctioninfo":
+			{
+				result.auctioninfo += data[idx] +"\n";
 				break;
 			}
 		}				

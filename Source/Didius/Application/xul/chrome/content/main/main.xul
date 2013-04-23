@@ -42,7 +42,7 @@
 				<tabs style="overflow:hidden">				
 					<tab id="tab.auctions" image="chrome://didius/content/icons/auctions.png"/>			
 					<tab id="tab.customers" image="chrome://didius/content/icons/customers.png"/>
-					<tab id="tab.books" image="chrome://didius/content/icons/books.png"/>
+					<tab id="tab.books" image="chrome://didius/content/icons/books.png" hidden="true"/>
 					<tab id="tab.newsletters" image="chrome://didius/content/icons/newsletter.png"/>
 				</tabs>			
 			</arrowscrollbox>		

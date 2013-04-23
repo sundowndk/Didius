@@ -121,8 +121,7 @@ namespace Didius
 			this._id = Guid.NewGuid ();
 			this._sort = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._itemid = Item.Id;
-
-			this._no = Auction.Load (Case.Load (Item.CaseId).AuctionId).No +"-"+ Item.CatalogNo; 
+			this._no = Auction.Load (Item.AuctionId).No +"-"+ Item.CatalogNo; 
 			this._text = Item.Title;
 			this._commissionfee = Helpers.CalculateBuyerCommissionFee (Item);
 			this._amount = Item.BidAmount;

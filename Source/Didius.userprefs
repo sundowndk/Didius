@@ -1,10 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.xul">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="131" Column="61" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="623" Column="24" />
-      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="863" Column="29" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/edit.js" Line="712" Column="44" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/edit.xul" Line="168" Column="92" />
+      <File FileName="Didius/Application/js/didius/common/print/invoice.js" Line="266" Column="84" />
+      <File FileName="Didius/Application/js/didius/helpers.js" Line="639" Column="23" />
+      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="26" Column="15" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,11 +25,12 @@
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True" />
+                    <Node name="creditnote" expanded="True" />
                     <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True">
-                      <Node name="main.js" selected="True" />
+                      <Node name="main.xul" selected="True" />
                     </Node>
                   </Node>
                 </Node>
