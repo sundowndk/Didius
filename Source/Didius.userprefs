@@ -1,13 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.xul">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/common/print/invoice.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/edit.js" Line="712" Column="44" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/edit.xul" Line="168" Column="92" />
-      <File FileName="Didius/Application/js/didius/common/print/invoice.js" Line="266" Column="84" />
-      <File FileName="Didius/Application/js/didius/helpers.js" Line="639" Column="23" />
-      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
-      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="26" Column="15" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="54" Column="44" />
+      <File FileName="Didius/Application/js/didius/common/print/turnoverreport.js" Line="593" Column="44" />
+      <File FileName="Didius/Application/js/didius/common/print/invoice.js" Line="333" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/turnover.js" Line="243" Column="65" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,7 +15,9 @@
               <Node name="js" expanded="True">
                 <Node name="didius" expanded="True">
                   <Node name="common" expanded="True">
-                    <Node name="print" expanded="True" />
+                    <Node name="print" expanded="True">
+                      <Node name="invoice.js" selected="True" />
+                    </Node>
                   </Node>
                 </Node>
               </Node>
@@ -29,15 +29,14 @@
                     <Node name="customer" expanded="True" />
                     <Node name="invoice" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True">
-                      <Node name="main.xul" selected="True" />
-                    </Node>
+                    <Node name="main" expanded="True" />
                   </Node>
                 </Node>
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
+            <Node name="Didius.Strings" expanded="True" />
           </Node>
         </State>
       </Pad>

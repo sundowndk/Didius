@@ -16,30 +16,34 @@ var main =
 //		main.controls.statusbar.progressmeter.setMode ("undetermined");
 //		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
 		
-		var onDone = 	function (customers)
-						{
-							
-							for (var index in customers)
-							{
-								app.data.customers[customers[index].id] = customers[index];	
-							
-							}
-						
-							//app.data.customers = customers;
-							main.customers.init ();							 
-							main.books.init ();	
-						}
+		var initCustomerCache	=	function (attributes)
+									{
+										var onDone =	function (customers)
+														{							
+															for (var index in customers)											
+															{
+																app.data.customers[customers[index].id] = customers[index];								
+															}
+																
+															if (attributes.onDone != null)
+															{
+																setTimeout (attributes.onDone, 0);
+															}																														
+														};
 		
-		didius.customer.list ({async: true, onDone: onDone});		
-											
+										didius.customer.list ({async: true, onDone: onDone});
+									};						
+									
+		initCustomerCache ({onDone: function () 
+									{
+										main.customers.init ();							 
+										main.books.init ();																	
+									}});
 		
-		main.auctions.init ();	
-		
+		main.auctions.init ();			
 		main.newsletters.init ();
 		
-		
-		
-		
+
 		
 		var postcodes = sXUL.tools.fileToString ("chrome://didius/content/data/postcodes.dat").split ("\n");		
 		for (var index in postcodes)

@@ -137,7 +137,7 @@ invoice : function (attributes)
 																{
 																	if (buyernos[index] == customer.id)
 																	{																		
-																		auctioninfo = auctioninfo.replace ("%%BUYERNO%%", buyernos[index]);
+																		auctioninfo = auctioninfo.replace ("%%BUYERNO%%", index);
 																	}																																
 																}
 																

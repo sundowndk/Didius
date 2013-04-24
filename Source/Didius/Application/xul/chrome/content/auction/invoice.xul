@@ -15,6 +15,9 @@
   		<key id="key.closextra" modifiers="control" key="w" oncommand="main.close ();"/>
 	</keyset>			
 			
+	<iframe id="iframe.print" collapsed="true">
+	</iframe>				
+			
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">					
 			<tabpanels flex="1">

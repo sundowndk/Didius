@@ -888,11 +888,36 @@ namespace Didius
 
 		public static void Delete (Guid Id)
 		{
-			// We can not delete Customer with a Case related to it.
-			if (Case.List (Id).Count > 0)
+			Customer customer = Customer.Load (Id);
+
+			if (Case.List (customer).Count > 0)
 			{
-				// EXCEPTION: Exception.CustomerDeleteHasCase
-				throw new Exception (string.Format (Strings.Exception.CustomerDeleteHasCase, Id.ToString ()));
+				// EXCEPTION: Exception.CustomerDeleteHasRelations
+				throw new Exception (string.Format (Strings.Exception.CustomerDeleteHasRelations, Id.ToString ()));
+			}
+
+			if (Invoice.List (customer).Count > 0)
+			{
+				// EXCEPTION: Exception.CustomerDeleteHasRelations
+				throw new Exception (string.Format (Strings.Exception.CustomerDeleteHasRelations, Id.ToString ()));
+			}
+
+			if (Creditnote.List (customer).Count > 0)
+			{
+				// EXCEPTION: Exception.CustomerDeleteHasRelations
+				throw new Exception (string.Format (Strings.Exception.CustomerDeleteHasRelations, Id.ToString ()));
+			}
+
+			if (Bid.List (customer).Count > 0)
+			{
+				// EXCEPTION: Exception.CustomerDeleteHasRelations
+				throw new Exception (string.Format (Strings.Exception.CustomerDeleteHasRelations, Id.ToString ()));
+			}
+
+			if (AutoBid.List (customer).Count > 0)
+			{
+				// EXCEPTION: Exception.CustomerDeleteHasRelations
+				throw new Exception (string.Format (Strings.Exception.CustomerDeleteHasRelations, Id.ToString ()));
 			}
 
 			try

@@ -7,7 +7,7 @@ turnoverReport : function (attributes)
 
 	var render = 	function (attributes)
 					{											
-						attributes.turnoverReport = didius.helpers.createTurnoverReport ({auction: main.auction});
+						//attributes.turnoverReport = didius.helpers.createTurnoverReport ({auction: main.auction});
 					
 						//attributes.customer = didius.customer.load (attributes.settlement.customerid);
 					
@@ -18,8 +18,11 @@ turnoverReport : function (attributes)
 						var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_turnoverreport"}));
 						
 						
-						var print = app.mainWindow.document.createElement ("iframe");
-						app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
+						var print = document.getElementById ("iframe.print");
+						print.contentDocument.body.innerHTML = " ";
+						
+						//var print = app.mainWindow.document.createElement ("iframe");
+						//app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
 						
 						
 						
@@ -54,7 +57,7 @@ turnoverReport : function (attributes)
 							var maxHeight = page.offsetHeight 
 							var maxHeight2 = page.offsetHeight;
 							
-							
+	sXUL.console.log (maxHeight);							
 																		
 							// Calculate DISCLAIMER height.														
 							// DISCLAIMER
@@ -69,8 +72,8 @@ turnoverReport : function (attributes)
 								maxHeight2 -= content.offsetHeight;
 							}
 							
-							sXUL.console.log ("maxHeight: "+ maxHeight);
-				//			sXUL.console.log ("maxHeight2: "+ maxHeight2);			
+				//			sXUL.console.log ("maxHeight: "+ maxHeight);
+//							sXUL.console.log ("maxHeight2: "+ maxHeight2);			
 																	
 																																											
 							// ROWS
@@ -111,12 +114,13 @@ turnoverReport : function (attributes)
 																		
 						for (var index in attributes.turnoverReport.buyers)
 						{
-							var buyer = attributes.turnoverReport.buyers[index];
+							var buyer = attributes.turnoverReport.buyers[index];														
 							
 							// INFO
 							{
 								var row = template.buyerinforow;
-								var customer = didius.customer.load (buyer.id);
+								var customer = app.data.customers[buyer.id];
+								//var customer = didius.customer.load (buyer.id);
 								
 								// CUSTOMERNO
 								{
@@ -243,7 +247,8 @@ turnoverReport : function (attributes)
 							// INFO
 							{
 								var row = template.sellerinforow;
-								var customer = didius.customer.load (seller.id);
+								var customer = app.data.customers[seller.id];
+								//var customer = didius.customer.load (seller.id);
 								
 								// CUSTOMERNO
 								{
@@ -383,7 +388,8 @@ turnoverReport : function (attributes)
 								
 								// CUSTOMER
 								{
-									var customer = didius.customer.load (line.customerid);
+									//var customer = didius.customer.load (line.customerid);
+									var customer = app.data.customers[line.customerid];
 									
 									// CUSTOMERNAME
 									{
@@ -471,7 +477,9 @@ turnoverReport : function (attributes)
 //							var row = template.buyerinforow;
 //							
 //						}
-																																																		
+													
+						sXUL.console.log (rows.length)																																															
+																																																																																																																												
 																																																																																																																																				
 						var c = page (0);
 						while (c < rows.length)
@@ -483,43 +491,73 @@ turnoverReport : function (attributes)
 						
 				
 				
+						return print.contentDocument.body.innerHTML;
 					
-						var result = print.contentDocument.body.innerHTML;
+						//var result = print.contentDocument.body.innerHTML;
 						
-						app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
+						//app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
 						
 						
 						//sXUL.console.log (result)
-						return result;
+						//return result;
 					};
 
 	var data = "";
-																			
-	data = render ({auction: attributes.auction});
+												
+																										
+	//data = render ({auction: attributes.auction});
+	data = render ({turnoverReport: attributes.report});
 	
 //	sXUL.console.log (data)
 	
 	//var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/invoice.tpl"));										
-	var print = app.mainWindow.document.createElement ("iframe");
-	app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
+	//var print = app.mainWindow.document.createElement ("iframe");
+	//app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
 		
-	print.contentDocument.body.innerHTML = data;
+	//print.contentDocument.body.innerHTML = data;
 					
+	var print = document.getElementById ("iframe.print");
+	print.contentDocument.body.innerHTML = data;		
+							
 	var settings = PrintUtils.getPrintSettings ();
 																																								
 	settings.marginLeft = 0.5;
 	settings.marginRight = 0.5;
 	settings.marginTop = 0.5;
-	settings.marginBottom = 0.0;
-	settings.shrinkToFit = true;
-		
+	settings.marginBottom = 0.5;
+	settings.shrinkToFit = true;		
 	settings.paperName =  "iso_a4";
 	settings.paperWidth = 210;
 	settings.paperHeight = 297
-	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
-
+	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
+   	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;	
 	settings.printBGImages = true;
-    settings.printBGColors = true;		
+    settings.printBGColors = true;    	    	   
+    settings.footerStrCenter = "";
+    settings.footerStrLeft = "";
+    settings.footerStrRight = "";
+    settings.headerStrCenter = "";
+    settings.headerStrLeft = "";
+    settings.headerStrRight = "";    	
+	
+	settings.title = "DidiusTurnoverReport";
+					
+					
+//	var settings = PrintUtils.getPrintSettings ();
+																																								
+//	settings.marginLeft = 0.5;
+//	settings.marginRight = 0.5;
+//	settings.marginTop = 0.5;
+//	settings.marginBottom = 0.0;
+//	settings.shrinkToFit = true;
+		
+//	settings.paperName =  "iso_a4";
+//	settings.paperWidth = 210;
+//	settings.paperHeight = 297
+//	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
+
+//	settings.printBGImages = true;
+  //  settings.printBGColors = true;		
 						
 	if (attributes.mail) 
 	{
@@ -538,7 +576,8 @@ turnoverReport : function (attributes)
     		
 		settings.printSilent = true;
     	settings.showPrintProgress = false;
-    	
+    	settings.printBGImages = true;
+    	settings.printBGColors = true;
     	settings.printToFile = true;
     
     	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;
@@ -551,7 +590,7 @@ turnoverReport : function (attributes)
     	settings.headerStrLeft = "";
     	settings.headerStrRight = "";
     	settings.printBGColors = true;
-    	settings.title = "Didius Invoice";    		
+    	settings.title = "DidiusTurnoverReport";    		
 
 		settings.toFileName = filename;
 			

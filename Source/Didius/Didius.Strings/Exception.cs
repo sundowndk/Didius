@@ -18,7 +18,7 @@ namespace Didius.Strings
 		public static string CustomerLoadGuid = "00120|Could not load Customer with id: {0}";
 		public static string CustomerLoadUserId = "00121|Could not load Customer with userid: {0}";
 		public static string CustomerDeleteGuid = "00130|Could not delete Customer with id: {0}";
-		public static string CustomerDeleteHasCase = "00131|Can not delete Customer with id: {0}, since its related to a case.";
+		public static string CustomerDeleteHasRelations = "00131|Can not delete Customer with id: {0}, since its relations.";
 		public static string CustomerFromXmlDocument = "00140|Can not create Customer from XmlDocument, missing {0}";
 		#endregion		
 
