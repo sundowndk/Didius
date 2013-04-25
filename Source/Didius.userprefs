@@ -1,36 +1,32 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/common/print/invoice.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/customer/edit.xul">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="54" Column="44" />
-      <File FileName="Didius/Application/js/didius/common/print/turnoverreport.js" Line="593" Column="44" />
-      <File FileName="Didius/Application/js/didius/common/print/invoice.js" Line="333" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/turnover.js" Line="243" Column="65" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="39" Column="37" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
             <Node name="Application" expanded="True">
-              <Node name="js" expanded="True">
-                <Node name="didius" expanded="True">
-                  <Node name="common" expanded="True">
-                    <Node name="print" expanded="True">
-                      <Node name="invoice.js" selected="True" />
-                    </Node>
-                  </Node>
-                </Node>
-              </Node>
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
                     <Node name="auction" expanded="True" />
+                    <Node name="bug" expanded="True" />
                     <Node name="creditnote" expanded="True" />
-                    <Node name="customer" expanded="True" />
+                    <Node name="customer" expanded="True">
+                      <Node name="edit.xul" selected="True" />
+                    </Node>
                     <Node name="invoice" expanded="True" />
+                    <Node name="item" expanded="True" />
                     <Node name="js" expanded="True" />
                     <Node name="main" expanded="True" />
+                    <Node name="settings" expanded="True" />
                   </Node>
+                </Node>
+                <Node name="defaults" expanded="True">
+                  <Node name="preferences" expanded="True" />
                 </Node>
               </Node>
             </Node>

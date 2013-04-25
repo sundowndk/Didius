@@ -109,104 +109,167 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	getBid : function ()
 	{
-		//if (document.getElementById ("textbox.bidbuyerno").value != 0 && document.getElementById ("textbox.bidamount").value != 0.00)
-		if (document.getElementById ("textbox.bidamount").value != 0.00)
-		{
-			var buyerno = document.getElementById ("textbox.bidbuyerno").value;
-			var amount = document.getElementById ("textbox.bidamount").value;
-			var maxautobidamount = document.getElementById ("textbox.currentmaxautobidamount").value; 
-			
-			if (buyerno == "0")
-			{
-				if (document.getElementById ("textbox.currentmaxautobidamount").value != "")
-				{											
-					if (parseInt (maxautobidamount) >= parseInt (amount))
-					{
-						if (!app.window.prompt.confirm ("Opbud af autobud", "Da der ikke er angivet et køber nummer, vil autobudet blive opbudt til budsum. Vil du tillade dette ?"))
-						{
-							return false;
-						}
-						else
-						{	
-							var item = main.items[(main.currentIndex)];													
-							var autobids = didius.autobid.list ({itemId: item.id});
-							var customer = didius.customer.load (autobids[0].customerid);																	
-							var bid = didius.bid.create ({customerId: customer.id, item: item, amount: amount});							
-							didius.bid.save ({bid: bid});						
-																					
-							item.approvedforinvoice = true;
-							didius.item.save ({item: item});
-																		
-							return true;
-						}
-					}
-					else
-					{
-						app.window.prompt.alert ("Opbud af autobud", "Det angivet bud er højere end autobudet. Og det er derfor ikke muligt at opbyde autobudet.");
-						return false;									
-					}
-				}	
-				else
-				{
-					app.window.prompt.alert ("Opbud af autobud", "Der er intet autobud på denne effekt, opbud ikke muligt.");
-					return false;				
-				}			
-			}	
-			else
-			{																						
-				for (var index in main.buyernos)
-				{							
-					if (index == buyerno)
-					{									
-						//var customer = didius.customer.load (main.buyernos[index]);
-						var item = main.items[(main.currentIndex)];
-															
-						if (amount <= item.bidamount)
-						{
-							app.window.prompt.alert ("Bud", "Budet er mindre end nuværende bud, og kan derfor ikke accepteres");
-							return false;
-						}
-						
-						if (amount < item.minimumbid )
-						{
-							if (!app.window.prompt.confirm ("Minimums bud", "Budet er mindre end effektens minimumsbuds grænse, vil du fjerne denne grænse og tillade budet ?"))
-							{
-								return false;
-							}	
+		var buyerno = document.getElementById ("textbox.bidbuyerno").value;
+		var amount = parseInt (document.getElementById ("textbox.bidamount").value);
+		var currentbidamount = parseInt (document.getElementById ("textbox.currentbidamount").value); 
+		var maxautobidamount = parseInt (document.getElementById ("textbox.currentmaxautobidamount").value); 		
+		var item = main.items[(main.currentIndex)];
+		var bid;
+		var customerid;
 														
-							item.minimumbid = 0;
-						}
-												
-						if (document.getElementById ("textbox.currentmaxautobidamount").value != "")
-						{											
-							if (parseInt (document.getElementById ("textbox.currentmaxautobidamount").value) >= parseInt (amount))
-							{
-								if (!app.window.prompt.confirm ("Bud lavere end autobud", "Det angivet bud er mindre end højste autobud. Vil du fortsætte ?"))
-								{
-									return false;
-								}
-							}
-						}	
-					
-						var bid = didius.bid.create ({customerId: main.buyernos[index], item: item, amount: amount});
-						didius.bid.save ({bid: bid});
-						
-						item.approvedforinvoice = true;
-						didius.item.save ({item: item});						
-						
-						return true;		
-					}
+		if (buyerno != "0")
+		{
+			var foundbuyer = false;
+			for (var index in main.buyernos)
+			{							
+				if (index == buyerno)
+				{	
+					customerid = main.buyernos[index];	
+					foundbuyer = true;
+					break;				
 				}
 			}
-			
-			app.error ({errorCode: "APP00290"});
-			
-			return false;
-		}
-		else
+		
+			// BUYER NOT FOUND.
+			if (!foundbuyer)
+			{
+				sXUL.console.log ("GETBID: 1");
+				app.window.prompt.alert ("Bud", "Der findes ingen kunde med det angivende køber nummer i denne auktion.");
+				return false;
+			}
+		}		
+				
+		// NO AMOUNT, NO BUYER, NO PREBIDDER, NOT SOLD.
+		if (amount == 0 && buyerno == "0" && currentbidamount == 0)
 		{
+			sXUL.console.log ("GETBID: 2");
+			
+			//app.window.prompt.alert ("Bud", "Der er ikke noget forhåndsbud på denne effekt. Det er derfor ikke muligt at opbyde forhåndsbudet.");
 			return true;
 		}
+				
+		// NO AMOUNT, NO BUYER, PREBIDDER, SOLD TO PREBIDDER.
+		else if (amount == 0 && buyerno == "0" && currentbidamount != 0)
+		{
+			sXUL.console.log ("GETBID: 3");
+					
+			item.approvedforinvoice = true;
+		}
+		
+		// NO AMOUNT, BUYER, NOPREBIDDER, SOLD FOR NOTHING TO BUYER.
+		else if (amount == 0 && buyerno != "0" && currentbidamount == 0)
+		{
+			sXUL.console.log ("GETBID: 4");
+										
+			item.approvedforinvoice = true;
+			bid = didius.bid.create ({customerId: customerid, item: item, amount: 0});
+		}
+		
+		// NO AMOUNT, BUYER, PREBIDDER, NOT SOLD.
+		else if (amount == 0 && buyerno != "0" && currentbidamount != 0)
+		{						
+			sXUL.console.log ("GETBID: 5");
+			
+			app.window.prompt.alert ("Bud", "Bud er mindre end nuværende forhåndsbud. Det er derfor ikke muligt at afgive budet.");
+			return false;		
+		}		
+
+		// NO AMOUNT, NO BUYER, NO PREBIDDER, NOT SOLD.
+		else if (amount != 0 && buyerno == "0" && currentbidamount == 0)
+		{								
+			sXUL.console.log ("GETBID: 6");
+		
+			app.window.prompt.alert ("Bud", "Der er intet forhåndsbud på denne effekt og der ikke angivet et køber nummer. Det er derfor ikke muligt at afgive budet.");					
+			return false;
+		}
+		
+		// AMOUNT, NO BUYER, PREBIDDER, PREBIDMAX HIGHER/EQUAL TO AMOUNT, USER CHOICE, NOT SOLD / SOLD TO PREBIDDER.
+		else if (amount != 0 && buyerno == "0" && currentbidamount != 0 && maxautobidamount >= amount)
+		{			
+			if (!app.window.prompt.confirm ("Bud", "Nuværende forhåndsbud vil blive budt op. Vil du forsætte ?"))
+			{	
+				sXUL.console.log ("GETBID: 7a");
+				return false;
+			}
+			else
+			{	
+				sXUL.console.log ("GETBID: 7b");
+				
+				item.approvedforinvoice = true;				
+				var autobids = didius.autobid.list ({itemId: item.id});				
+				bid = didius.bid.create ({customerId: autobids[0].customerid, item: item, amount: amount});
+			}
+		}
+		
+		// AMOUNT, NO BUYER, PREBIDDER, PREBIDMAX LOWER THAN AMOUNT, NOT SOLD.
+		else if (amount != 0 && buyerno == "0" && currentbidamount != 0 && maxautobidamount != 0 && maxautobidamount < amount)
+		{			
+			sXUL.console.log ("GETBID: 8");
+			
+			app.window.prompt.alert ("Bud", "Det angivet bud er højere end max forhåndsbud. Det er derfor ikke muligt at opbyde forhåndsbudet.");
+			return false;
+		}
+		
+		// AMOUNT, NO BUYER, PREBIDDER, NO PREBIDMAX, NOT SOLD.
+		else if (amount != 0 && buyerno == "0" && currentbidamount != 0 && maxautobidamount == 0)
+		{			
+			sXUL.console.log ("GETBID: 9");
+			
+			app.window.prompt.alert ("Bud", "Effekten har ikke noget max forhåndsbud. Det er derfor ikke muligt at opbyde forhåndsbudet.");
+			return false;
+		}
+		
+		// AMOUNT, BUYER, PREBID HIGHER THAN AMOUNT, NOT SOLD.
+		else if (amount != 0 && buyerno != "0" && currentbidamount > amount)
+		{
+			sXUL.console.log ("GETBID: 10");
+			
+			app.window.prompt.alert ("Bud", "Budet er lavere end nuværende forhåndsbud. Det er derfor ikke muligt at afgive budet.");
+			return false;
+		}
+		
+		// AMOUNT, BUYER, PREBIDMAX HIGHER/EQUAL TO AMOUNT, NOT SOLD.
+		else if (amount != 0 && buyerno != "0" && maxautobidamount >= amount)
+		{
+			sXUL.console.log ("GETBID: 11");
+			
+			app.window.prompt.alert ("Bud", "Budet er ikke højre end nuværende max forhåndsbud. Det er derfor ikke muligt at afgive budet.");
+			return false;
+		}
+		
+		// AMOUNT, BUYER, SOLD TO BUYER.
+		else if (amount != 0 && buyerno != "0")
+		{
+			sXUL.console.log ("GETBID: 12");
+			
+			item.approvedforinvoice = true;
+			bid = didius.bid.create ({customerId: customerid, item: item, amount: amount});
+		}
+		
+		// AMOUNT, BUYER, MINIMUMBUD HIGHER THAN AMOUNT, USER CHOICE, NOT SOLD / REMOVE MINIMUMBID SOLD TO BUYER.
+		if (item.minimumbid > amount)
+		{
+			if (!app.window.prompt.confirm ("Bud", "Budet er mindre end effektens minimumsbud, vil du fjerne minimumbud og tillade budet ?"))
+			{
+				sXUL.console.log ("GETBID: 13a");
+				return false;
+			}
+			else
+			{
+				sXUL.console.log ("GETBID: 14b");
+				
+				item.minimumbid = 0;				
+			}
+		}		
+			
+		if (bid != null)
+		{
+			didius.bid.save ({bid: bid});
+		}
+		
+		didius.item.save ({item: item});			
+		
+		return true;			
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

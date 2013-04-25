@@ -4525,25 +4525,11 @@ var didius =
 			
 				var render = 	function (attributes)
 								{											
-									//attributes.turnoverReport = didius.helpers.createTurnoverReport ({auction: main.auction});
-								
-									//attributes.customer = didius.customer.load (attributes.settlement.customerid);
-								
-									
-									
-									
-								
 									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_turnoverreport"}));
-									
 									
 									var print = document.getElementById ("iframe.print");
 									print.contentDocument.body.innerHTML = " ";
-									
-									//var print = app.mainWindow.document.createElement ("iframe");
-									//app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
-									
-									
-									
+															
 									var rows = new Array ();						
 									var pageCount = 1;				
 									var totalSale = 0;
@@ -4574,9 +4560,7 @@ var didius =
 										// Caluculate page maxheight for printing.										
 										var maxHeight = page.offsetHeight 
 										var maxHeight2 = page.offsetHeight;
-										
-				sXUL.console.log (maxHeight);							
-																					
+																												
 										// Calculate DISCLAIMER height.														
 										// DISCLAIMER
 										{										
@@ -4590,10 +4574,6 @@ var didius =
 											maxHeight2 -= content.offsetHeight;
 										}
 										
-							//			sXUL.console.log ("maxHeight: "+ maxHeight);
-			//							sXUL.console.log ("maxHeight2: "+ maxHeight2);			
-																				
-																																														
 										// ROWS
 										{
 											// Add data rows.
@@ -4601,7 +4581,7 @@ var didius =
 											var count = 0;
 																	
 											for (var index = from; index < rows.length; index++)
-											{
+											{																	
 												var row = rows[index];
 												
 												if (row == "NEWPAGE")
@@ -4613,6 +4593,7 @@ var didius =
 												}
 																													
 												content.innerHTML = render.replace ("%%ROWS%%", blabla + row);
+												app.thread.update ();	
 																																		
 												if (content.offsetHeight > (maxHeight2))
 												{						
@@ -4625,11 +4606,10 @@ var didius =
 												count++;											
 											}
 										}
-																	
+																
 										return count;				
 									}
-									
-																					
+																											
 									for (var index in attributes.turnoverReport.buyers)
 									{
 										var buyer = attributes.turnoverReport.buyers[index];														
@@ -4637,8 +4617,7 @@ var didius =
 										// INFO
 										{
 											var row = template.buyerinforow;
-											var customer = app.data.customers[buyer.id];
-											//var customer = didius.customer.load (buyer.id);
+											var customer = app.data.customers[buyer.id];								
 											
 											// CUSTOMERNO
 											{
@@ -4718,9 +4697,9 @@ var didius =
 														}										
 													}
 																
-													rows[rows.length] = row;									
-												}
-											}
+													rows[rows.length] = row;		
+												}																																			
+											}														
 										}
 										
 										// TOTAL
@@ -4765,8 +4744,7 @@ var didius =
 										// INFO
 										{
 											var row = template.sellerinforow;
-											var customer = app.data.customers[seller.id];
-											//var customer = didius.customer.load (seller.id);
+											var customer = app.data.customers[seller.id];								
 											
 											// CUSTOMERNO
 											{
@@ -4847,8 +4825,8 @@ var didius =
 													}
 																
 													rows[rows.length] = row;									
-												}
-											}
+												}																		
+											}																
 										}
 										
 										// TOTAL
@@ -4920,7 +4898,7 @@ var didius =
 												}
 											}
 																										
-											rows[rows.length] = row;									
+											rows[rows.length] = row;																																	
 										}
 									}
 																																		
@@ -4988,54 +4966,26 @@ var didius =
 										rows[rows.length] = row;
 									}
 																																																														
-			//						for (var index in attributes.turnoverReport.buyerlines)
-			//						{
-			//							var line = attributes.turnoverReport.buyerlines[index];
-			//								
-			//							var row = template.buyerinforow;
-			//							
-			//						}
-																
-									sXUL.console.log (rows.length)																																															
-																																																																																																																															
-																																																																																																																																							
+									var output = "";																																																																																																																																				
 									var c = page (0);
 									while (c < rows.length)
 									{							
-									 	c += page (c);				 				
+									 	c += page (c);			
+									 	
+									 	output += print.contentDocument.body.innerHTML;						 	
+									 	print.contentDocument.body.innerHTML = " ";
+									 	app.thread.update ();	
+									 	
+									 	attributes.progressWindow.document.getElementById ("description1").textContent = "Generere sider ...";
+									 	attributes.progressWindow.document.getElementById ("progressmeter1").mode = "determined";
+										attributes.progressWindow.document.getElementById ("progressmeter1").value = (c / rows.length) * 100;
 									}	
-			
-			
-									
-							
-							
-									return print.contentDocument.body.innerHTML;
 								
-									//var result = print.contentDocument.body.innerHTML;
-									
-									//app.mainWindow.document.getElementById ("PrintHolder").removeChild (print);
-									
-									
-									//sXUL.console.log (result)
-									//return result;
+									return output;
 								};
-			
-				var data = "";
-															
-																													
-				//data = render ({auction: attributes.auction});
-				data = render ({turnoverReport: attributes.report});
 				
-			//	sXUL.console.log (data)
-				
-				//var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/invoice.tpl"));										
-				//var print = app.mainWindow.document.createElement ("iframe");
-				//app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
-					
-				//print.contentDocument.body.innerHTML = data;
-								
 				var print = document.getElementById ("iframe.print");
-				print.contentDocument.body.innerHTML = data;		
+				print.contentDocument.body.innerHTML = render ({turnoverReport: attributes.report, progressWindow: attributes.progressWindow});
 										
 				var settings = PrintUtils.getPrintSettings ();
 																																											
@@ -5058,24 +5008,11 @@ var didius =
 			    settings.headerStrLeft = "";
 			    settings.headerStrRight = "";    	
 				
-				settings.title = "DidiusTurnoverReport";
-								
-								
-			//	var settings = PrintUtils.getPrintSettings ();
-																																											
-			//	settings.marginLeft = 0.5;
-			//	settings.marginRight = 0.5;
-			//	settings.marginTop = 0.5;
-			//	settings.marginBottom = 0.0;
-			//	settings.shrinkToFit = true;
-					
-			//	settings.paperName =  "iso_a4";
-			//	settings.paperWidth = 210;
-			//	settings.paperHeight = 297
-			//	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
-			
-			//	settings.printBGImages = true;
-			  //  settings.printBGColors = true;		
+				settings.title = "Omsætningsliste";
+				
+				attributes.progressWindow.document.getElementById ("description1").textContent = "Udskriver sider ...";
+			 	attributes.progressWindow.document.getElementById ("progressmeter1").mode = "undetermined";
+				attributes.progressWindow.document.getElementById ("progressmeter1").value = 0;
 									
 				if (attributes.mail) 
 				{

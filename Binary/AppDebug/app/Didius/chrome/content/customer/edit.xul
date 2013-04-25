@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.customer.edit" minwidth="750" minheight="650" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY width height">	
+<window id="didius.customer.edit" minwidth="750" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" onclose="return main.close ();" persist="screenX screenY width height">	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/> 	
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
@@ -36,7 +36,7 @@
 			</arrowscrollbox>
 						
 			<tabpanels flex="1">
-				<tabpanel>
+				<tabpanel style="overflow:auto">
 					<vbox flex="1">
 						<groupbox>
 							<caption label="Meta"/>							
@@ -128,7 +128,7 @@
 					</vbox>
     			</tabpanel>
     			    			
-				<tabpanel>
+				<tabpanel style="overflow:auto">
 					<hbox flex="1">
 						<tree id="tree.cases" flex="1" hidecolumnpicker="true" onselect="cases.onChange ();" seltype="single" disabled="true">
 							<treecols>
@@ -152,7 +152,7 @@
 					</hbox>						
 				</tabpanel>		
 				
-				<tabpanel>
+				<tabpanel style="overflow:auto">
 					<hbox flex="1">
 						<tree id="tree.bids" flex="1" hidecolumnpicker="true"  onselect="bids.onChange ();" seltype="single" disabled="true">
 							<treecols>
@@ -184,7 +184,7 @@
 					</hbox>						
 				</tabpanel>
 										
-				<tabpanel>
+				<tabpanel style="overflow:auto">
 					<hbox flex="1">
 						<tree id="tree.settlements" flex="1" hidecolumnpicker="true" onselect="settlements.onChange ();" seltype="single" disabled="true">
 							<treecols>
@@ -210,7 +210,7 @@
 					</hbox>						
 				</tabpanel>		
 				
-				<tabpanel>
+				<tabpanel style="overflow:auto">
 					<hbox flex="1">
 						<tree id="tree.invoices" flex="1" hidecolumnpicker="true" onselect="invoices.onChange ();" seltype="single" disabled="true">
 							<treecols>
@@ -238,7 +238,7 @@
 					</hbox>						
 				</tabpanel>
 				
-				<tabpanel>
+				<tabpanel style="overflow:auto">
 					<hbox flex="1">
 						<tree id="tree.creditnotes" flex="1" hidecolumnpicker="true" onselect="creditnotes.onChange ();" seltype="single" disabled="true">
 							<treecols>
@@ -264,7 +264,7 @@
 					</hbox>						
 				</tabpanel>				
 																		
-				<tabpanel>
+				<tabpanel style="overflow:auto">
 					<textbox id="textbox.notes" flex="1" multiline="true" onkeyup="notes.onChange ();"/>
 				</tabpanel>			
 			</tabpanels>

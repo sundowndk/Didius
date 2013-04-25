@@ -63,6 +63,7 @@ var main =
 								data.address1 = customer.address1;
 								data.city = customer.city;
 								data.phone = customer.phone;
+								data.mobile = customer.mobile;
 								data.email = customer.email;
 								
 								data.buyerno = "";
@@ -112,7 +113,7 @@ var main =
 	filter : function ()
 	{
 		var value = document.getElementById ("textbox.customersearch").value;
-		main.customersTreeHelper.filter ({column: "name", columns: "no,buyerno,name,address1,phone,email", value: value, direction: "in"});
+		main.customersTreeHelper.filter ({column: "name", columns: "no,buyerno,name,address1,phone,mobile,email", value: value, direction: "in"});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -569,6 +570,7 @@ var eventHandlers =
 		data.address1 = eventData.address1;
 		data.city = eventData.city;
 		data.phone = eventData.phone;
+		data.mobile = eventData.mobile;
 		data.email = eventData.email;
 							
 		for (var index in main.buyernos)

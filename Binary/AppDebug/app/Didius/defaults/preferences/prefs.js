@@ -20,6 +20,10 @@ pref("javascript.options.strict", true);
 pref("nglayout.debug.disable_xul_cache", true);      
 pref("nglayout.debug.disable_xul_fastload", true);
 
+pref("dom.max_script_run_time", 20);
+
+
+
 /* Disable direct2d on windows */
 pref("gfx.direct2d.disabled", true);				
 /* pref("layers.acceleration.disabled", true); */	// WINDOWS

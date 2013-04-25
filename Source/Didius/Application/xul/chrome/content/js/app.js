@@ -41,6 +41,15 @@ var app =
 {
 	mainWindow : null,
 	
+	thread : 
+	{	
+		update : function ()
+		{			
+			var thread = Components.classes['@mozilla.org/thread-manager;1'].getService (Components.interfaces.nsIThreadManager).currentThread;
+			thread.processNextEvent (true);																
+		}	
+	},
+	
 	session :
 	{
 		loggedIn : false,

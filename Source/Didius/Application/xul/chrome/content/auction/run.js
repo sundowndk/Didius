@@ -50,6 +50,26 @@ var main =
 	
 		switch (main.auction.status)
 		{
+			case "Hidden":
+			{
+				document.getElementById ("button.auctionstart").collapsed = false;
+				document.getElementById ("button.auctionstart").disabled = false;				
+				document.getElementById ("button.auctionstop").collapsed = true;
+				document.getElementById ("button.auctionstop").disabled = true;				
+												
+				document.getElementById ("textbox.itemdescription").value = "";
+				document.getElementById ("image.itempicture").src = "chrome://didius/content/icons/noimage.jpg";
+				document.getElementById ("textbox.itemminimumbid").value = "";
+				document.getElementById ("textbox.itemappraisal1").value = "";
+				document.getElementById ("textbox.itemappraisal2").value = "";
+				document.getElementById ("textbox.itemappraisal3").value = "";
+				
+				document.getElementById ("button.itemnext").disabled = true;
+				document.getElementById ("button.itemprev").disabled = true;
+				
+				break;
+			}
+		
 			case "Open":
 			{
 				document.getElementById ("button.auctionstart").collapsed = false;

@@ -292,6 +292,10 @@ var details =
 	{		
 		var fields = didius.settings.get ({key: "didius_item_datafields"}).split ("|");
 		
+		var elem = document.getElementById ("groupbox.datafields");
+		while (elem.firstChild)
+		elem.removeChild(elem.firstChild);		
+		
 		for (var index in fields)
 		{
 			var type = fields[index].split (";")[0];

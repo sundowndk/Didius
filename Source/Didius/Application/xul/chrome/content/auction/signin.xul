@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://didius/content/css/default.css" type="text/css"?>
 
-<window id="didius.auction.signin" minwidth="750" minheight="300" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY">	
+<window id="didius.auction.signin" minwidth="750" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="main.init ();" persist="screenX screenY width height">	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  	
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>
 	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>	
@@ -17,7 +17,7 @@
 	<hbox class="WindowInnerPadding" flex="1">
 		<tabbox selectedIndex="0" flex="1">					
 			<tabpanels flex="1">
-				<tabpanel>			
+				<tabpanel style="overflow:auto">			
 					<vbox flex="1">
 						<hbox align="center">				
 							<hbox flex="1">
@@ -25,7 +25,7 @@
 							</hbox>			
 						</hbox>		
 						<hbox flex="1">		
-							<tree id="tree.customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="customer.select ();" seltype="single" height="100">
+							<tree id="tree.customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="customer.select ();" seltype="single" height="100" minheight="100">
 								<treecols>
 									<treecol id="id" hidden="true"/>
 									<splitter class="tree-splitter" hidden="true"/>
@@ -40,6 +40,8 @@
 									<treecol id="city" label="By" flex="2" persist="width"  onclick="main.sort ({column: 'city'});"/>
 									<splitter class="tree-splitter"/>
 									<treecol id="phone" label="Telefon" flex="2" persist="width"  onclick="main.sort ({column: 'phone'});"/>								
+									<splitter class="tree-splitter"/>
+									<treecol id="mobile" label="Mobil" flex="2" persist="width"  onclick="main.sort ({column: 'mobile'});"/>								
 									<splitter class="tree-splitter"/>
 									<treecol id="email" label="Email" flex="1" persist="width"  onclick="main.sort ({column: 'email'});"/>
 									<splitter class="tree-splitter"/>

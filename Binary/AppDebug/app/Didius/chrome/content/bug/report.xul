@@ -23,7 +23,7 @@
 				<tabpanel flex="1">
 					<vbox flex="1">																		
 						<hbox align="top">
-							<label class="Label">Afsender:</label>
+							<label class="Label">Email:</label>
 							<textbox id="sender" flex="1" onkeyup="main.onChange ();"/>
 						</hbox>							
 						<hbox align="top">

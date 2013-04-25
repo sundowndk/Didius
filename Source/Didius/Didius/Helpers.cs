@@ -50,12 +50,27 @@ namespace Didius
 
 		public static void BugReport (string Sender, string Description)
 		{
-			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);			
-			string to = "rasmus@akvaservice.dk";		
-			string subject = "Bug report";
-			string body = Sender +" reported a bug:\n\n"+ Description;
+			{
+				string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);			
+				string to = "rvp@qnax.net";		
+				string subject = "Bug report";
+				string body = "'"+ Sender + "' reported a bug:\n\n" + Description;
 			
-			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, false);
+				SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, false);
+			}
+
+			try
+			{
+				string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);			
+				string to = Sender;		
+				string subject = "Bug report";
+				string body = "'"+ Sender + "' reported a bug:\n\n" + Description;
+			
+				SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, false);
+			}
+			catch
+			{
+			}
 		}
 
 		public static void SendSMS (string Message)
