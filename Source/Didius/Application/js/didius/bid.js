@@ -71,8 +71,8 @@ load : function (attributes)
 	{	
 		var onDone = 	function (respons)
 						{
-							if (!didius.runtime.browserMode)		
-								app.events.onBidLoad.execute (respons["didius.bid"]);
+//							if (!didius.runtime.browserMode)		
+//								app.events.onBidLoad.execute (respons["didius.bid"]);
 								
 							attributes.onDone (respons["didius.bid"]);
 						};
@@ -94,8 +94,8 @@ load : function (attributes)
 		
 		var result = request.respons ()["didius.bid"];
 		
-		if (!didius.runtime.browserMode)		
-			app.events.onBidLoad.execute (result);
+//		if (!didius.runtime.browserMode)		
+//			app.events.onBidLoad.execute (result);
 			
 		return result;
 	}

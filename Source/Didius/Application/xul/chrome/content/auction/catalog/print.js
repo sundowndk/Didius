@@ -8,7 +8,7 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | VARIABLES																							|	
 	// ------------------------------------------------------------------------------------------------------
-	template : "small",
+	template : "large",
 	auction : null,
 
 	// ------------------------------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ var main =
 													nextWorker ();
 												};
 																																						
-								didius.common.print.catalog ({printContainer: document.getElementById ("vbox.printholder"), auction: main.auction, template: main.template, onDone: onDone});			
+								didius.common.print.catalog ({printContainer: document.getElementById ("vbox.printholder"), auction: main.auction, template: main.template, onDone: onDone, progressWindow: progresswindow});
 							};
 																
 			var finish =	function ()	
@@ -553,10 +553,10 @@ var main =
 		
 		var settings = PrintUtils.getPrintSettings ();
 																																								
-		settings.marginLeft = 0.5;
-		settings.marginRight = 0.5;
-		settings.marginTop = 0.5;
-		settings.marginBottom = 0.5;
+		settings.marginLeft = 0.0
+		settings.marginRight = 0.0;
+		settings.marginTop = 0.0;
+		settings.marginBottom = 0.0;
 		settings.shrinkToFit = true;
 		
 		settings.paperName =  "iso_a4";

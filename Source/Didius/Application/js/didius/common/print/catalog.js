@@ -26,6 +26,9 @@ catalog : function (attributes)
 						
 						var pageCount = 1;
 						
+						var cases = new Array ();
+						var bids = new Array ();
+						
 						var contentType1 = 	function ()
 											{												
 												var page = function (from)
@@ -72,7 +75,6 @@ catalog : function (attributes)
 													content.style.top = print.contentDocument.getElementById ("PageHeader").offsetHeight;
 													page.appendChild (content);
 
-
 													var render = template.contenttype1.replace ("%%CONTENTTYPE1%%", template.contenttype1).replace ("%%CONTENTTYPE2%%", "");
 							
 													content.innerHTML = render;	
@@ -85,9 +87,15 @@ catalog : function (attributes)
 														for (var idx = from; idx < items.length; idx++)
 														{							
 															var item = items[idx];				
-														
-															var case_ = didius.case.load ({id: item.caseid});
-															var customer = didius.customer.load (case_.customerid);
+																													
+															if (cases[item.caseid] == null)
+															{																
+																cases[item.caseid] = didius.case.load ({id: item.caseid});
+															}
+															
+															var case_ = cases[item.caseid];
+															
+															var customer = app.data.customers[case_.customerid];																													
 																																																																						
 															var row = template.row;
 													
@@ -163,16 +171,21 @@ catalog : function (attributes)
 															{
 																var bidcustomername = "";
 																var bidcustomerno = "";
-																var bidamount = "";
+																var bidamount = 0;
 															
 																if (item.currentbidid != SNDK.tools.emptyGuid)
 																{
-																	var bid = didius.bid.load ({id: item.currentbidid});
+																	if (bids[item.currentbidid] == null)
+																	{																
+																		bids[item.currentbidid] = didius.bid.load ({id: item.currentbidid});
+																	}
+																																																													
+																	var bid = bids[item.currentbidid];
 																	
 																	bidcustomername = bid.customer.name;
 																	bidcustomerno = bid.customer.no;
 																	bidamount = bid.amount;
-																}
+																}																
 																
 																// BIDCUSTOMERNAME
 																{
@@ -200,7 +213,9 @@ catalog : function (attributes)
 															}												
 																																												
 															rows += row;																										
-															count++;						
+															count++;	
+															
+															app.thread.update ();						
 														}																		
 													
 														render = render.replace ("%%ROWS%%", rows);											
@@ -209,32 +224,39 @@ catalog : function (attributes)
 													
 													return count;	
 												}		
-																														
-												var c = 0;				
+														
+												var output = "";
+												var c = 0;		
 												while (c < items.length)
 												{							
 									 				c += page (c);	
 									 				
-									 				sXUL.console.log (c);
+									 				output += print.contentDocument.body.innerHTML;
+						 							print.contentDocument.body.innerHTML = " ";
+						 							
+						 							app.thread.update ();							 	
+						 							attributes.progressWindow.document.getElementById ("description1").textContent = "Generere sider ...";
+						 							attributes.progressWindow.document.getElementById ("progressmeter1").mode = "determined";
+													attributes.progressWindow.document.getElementById ("progressmeter1").value = (c / items.length) * 100;
 												}	
+												
+												return output;
 											};		
 								
-							contentType1 ();			
-								
-							return print.contentDocument.body.innerHTML;																																	
+							return contentType1 ();			
 					};
 
-	var data = render ({auction: attributes.auction, template: attributes.template});		
+	var data = render ({auction: attributes.auction, template: attributes.template, progressWindow: attributes.progressWindow});		
 	
 	var print = document.getElementById ("iframe.print");
 	print.contentDocument.body.innerHTML = data;		
 					
 	var settings = PrintUtils.getPrintSettings ();
 																																								
-	settings.marginLeft = 0.5;
-	settings.marginRight = 0.5;
-	settings.marginTop = 0.5;
-	settings.marginBottom = 0.5;
+	settings.marginLeft = 0.0;
+	settings.marginRight = 0.0;
+	settings.marginTop = 0.0;
+	settings.marginBottom = 0.0;
 	settings.shrinkToFit = true;		
 	settings.paperName =  "iso_a4";
 	settings.paperWidth = 210;
@@ -251,6 +273,10 @@ catalog : function (attributes)
     settings.headerStrRight = "";    	
 	
 	settings.title = "DidiusCatalog";
+	
+	attributes.progressWindow.document.getElementById ("description1").textContent = "Udskriver sider ...";
+ 	attributes.progressWindow.document.getElementById ("progressmeter1").mode = "undetermined";
+	attributes.progressWindow.document.getElementById ("progressmeter1").value = 0;
 		
 	if (attributes.mail) 
 	{

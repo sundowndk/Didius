@@ -170,6 +170,7 @@
     <Folder Include="Application\xul\chrome\content\creditnote\" />
     <Folder Include="Application\xul\chrome\content\sms\" />
     <Folder Include="Application\xul\chrome\content\data\" />
+    <Folder Include="Application\xul\chrome\content\splash\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Didius\ItemContent.cs" />
@@ -357,6 +358,8 @@
     <None Include="Application\xul\chrome\content\data\postcodes.dat" />
     <None Include="Application\xul\chrome\content\js\simpleeditor.js" />
     <None Include="Application\js\didius\autobid.js" />
+    <None Include="Application\xul\chrome\content\splash\splash.xul" />
+    <None Include="Application\xul\chrome\content\splash\splash.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Didius.addin.xml" />

@@ -49,8 +49,8 @@ load : function (attributes)
 	{
 		var onDone = 	function (respons)
 						{
-							if (!didius.runtime.browserMode)	
-								app.events.onItemLoad.execute (respons["didius.item"]);
+//							if (!didius.runtime.browserMode)	
+//								app.events.onItemLoad.execute (respons["didius.item"]);
 						
 							attributes.onDone (respons["didius.item"]);
 						};
@@ -74,8 +74,8 @@ load : function (attributes)
 	
 		var result = request.respons ()["didius.item"];
 		
-		if (!didius.runtime.browserMode)	
-			app.events.onItemLoad.execute (result);
+//		if (!didius.runtime.browserMode)	
+//			app.events.onItemLoad.execute (result);
 		
 		return result;
 	}

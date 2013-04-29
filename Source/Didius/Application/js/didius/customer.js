@@ -18,8 +18,8 @@ load : function (id)
 
 	var result = request.respons ()["didius.customer"];
 	
-	if (!didius.runtime.browserMode)		
-		app.events.onCustomerLoad.execute (result);
+//	if (!didius.runtime.browserMode)		
+//		app.events.onCustomerLoad.execute (result);
 
 	return result;
 },

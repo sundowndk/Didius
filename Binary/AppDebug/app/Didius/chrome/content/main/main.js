@@ -3,8 +3,20 @@ Components.utils.import("resource://didius/js/app.js");
 var main = 
 {
 	init : function ()
-	{	
+	{		
+//		var splash =	function ()
+//						{
+//							main.splash ();				
+//						};
+	
 		app.startup (window);			
+	
+//		setTimeout (splash, 200);
+	
+		
+//		return;
+	
+		
 		didius.runtime.initialize ();				
 		
 		//main.login.show ();													
@@ -33,7 +45,8 @@ var main =
 		
 										didius.customer.list ({async: true, onDone: onDone});
 									};						
-									
+		
+																							
 		initCustomerCache ({onDone: function () 
 									{
 										main.customers.init ();							 
@@ -42,9 +55,7 @@ var main =
 		
 		main.auctions.init ();			
 		main.newsletters.init ();
-		
-
-		
+				
 		var postcodes = sXUL.tools.fileToString ("chrome://didius/content/data/postcodes.dat").split ("\n");		
 		for (var index in postcodes)
 		{
@@ -53,7 +64,7 @@ var main =
 			
 			app.data.postcodes[postcode] = cityname;
 		}
-
+		
 				
 		//sXUL.console.log (app.window.filePicker.result.OK)
 				
@@ -100,9 +111,22 @@ var main =
 		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
 		
 		app.events.onNewsletterSave.addHandler (main.eventHandlers.onNewsletterSave);
-		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);						
-
+		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);								
 	},
+		
+	splash : function ()
+	{	
+		var progresswindow = app.window.open (window, "chrome://didius/content/splash/splash.xul", "didius.main.splash", "", {});	
+						
+		var workload =	function ()
+						{
+							progresswindow.document.getElementById ("progressmeter1").mode = "undetermined"
+							progresswindow.document.getElementById ("progressmeter1").value = 0;										
+						};
+				
+		progresswindow.addEventListener ("load", workload);								
+	},	
+	
 	
 	createTempFolder : function ()
 	{

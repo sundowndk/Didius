@@ -55,8 +55,8 @@ load : function (attributes)
 
 	var result = request.respons ()["didius.case"];
 	
-	if (!didius.runtime.browserMode)		
-		app.events.onCaseLoad.execute (result); 
+//	if (!didius.runtime.browserMode)		
+//		app.events.onCaseLoad.execute (result); 
 
 	return result;
 },
