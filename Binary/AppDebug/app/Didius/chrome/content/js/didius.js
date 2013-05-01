@@ -4390,8 +4390,8 @@ var didius =
 															{							
 												 				c += page (c);	
 												 				
-												 				output += print.contentDocument.body.innerHTML;
-									 							print.contentDocument.body.innerHTML = " ";
+												 				//output += print.contentDocument.body.innerHTML;
+									 							//print.contentDocument.body.innerHTML = " ";
 									 							
 									 							app.thread.update ();							 	
 									 							attributes.progressWindow.document.getElementById ("description1").textContent = "Generere sider ...";
@@ -4399,7 +4399,7 @@ var didius =
 																attributes.progressWindow.document.getElementById ("progressmeter1").value = (c / items.length) * 100;
 															}	
 															
-															return output;
+															return print.contentDocument.body.innerHTML;
 														};		
 											
 										return contentType1 ();			
@@ -4412,10 +4412,10 @@ var didius =
 								
 				var settings = PrintUtils.getPrintSettings ();
 																																											
-				settings.marginLeft = 0.0;
-				settings.marginRight = 0.0;
-				settings.marginTop = 0.0;
-				settings.marginBottom = 0.0;
+				settings.marginLeft = 0.5;
+				settings.marginRight = 0.5;
+				settings.marginTop = 0.5;
+				settings.marginBottom = 0.5;
 				settings.shrinkToFit = true;		
 				settings.paperName =  "iso_a4";
 				settings.paperWidth = 210;

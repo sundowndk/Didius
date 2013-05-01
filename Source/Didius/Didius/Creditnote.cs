@@ -295,11 +295,23 @@ namespace Didius
 			return result;
 		}
 
+		public static void Delete (Guid Id)
+		{
+			try
+			{
+				SorentoLib.Services.Datastore.Delete (DatastoreAisle, Id.ToString ());
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine (exception);
+			}			
+		}
+
 		public static List<Creditnote> List (Item Item)
 		{
 			List<Creditnote> result = new List<Creditnote> ();
 			
-			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("customerid", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, Item.Id)))
+			foreach (string id in SorentoLib.Services.Datastore.ListOfShelfs (DatastoreAisle, new SorentoLib.Services.Datastore.MetaSearch ("itemids", SorentoLib.Enums.DatastoreMetaSearchComparisonOperator.Contains, Item.Id)))
 			{
 				try
 				{

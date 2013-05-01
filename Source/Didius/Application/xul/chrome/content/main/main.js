@@ -4,66 +4,61 @@ var main =
 {
 	init : function ()
 	{		
-//		var splash =	function ()
-//						{
-//							main.splash ();				
-//						};
-	
+		var splash =	function ()
+						{
+							main.splash ();				
+						};
+
+		
+		
 		app.startup (window);			
+		
+		document.title = "Didius v"+ app.session.appInfo.version +" - "+ didius.settings.get ({key: "didius_company_name"});
+		var environment = Components.classes["@mozilla.org/process/environment;1"].getService(Components.interfaces.nsIEnvironment);
 	
-//		setTimeout (splash, 200);
+		setTimeout (splash, 200);
+		
+		return;
 	
 		
-//		return;
-	
-		
-		didius.runtime.initialize ();				
 		
 		//main.login.show ();													
 												
 		//var appInfo = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo);												
 												
-		document.title = "Didius v"+ app.session.appInfo.version +" - "+ didius.settings.get ({key: "didius_company_name"});
+		
 				
 //		main.controls.statusbar.progressmeter.setMode ("undetermined");
 //		main.controls.statusbar.progressmeter.setDescription ("Arbejder");
 		
-		var initCustomerCache	=	function (attributes)
-									{
-										var onDone =	function (customers)
-														{							
-															for (var index in customers)											
-															{
-																app.data.customers[customers[index].id] = customers[index];								
-															}
-																
-															if (attributes.onDone != null)
-															{
-																setTimeout (attributes.onDone, 0);
-															}																														
-														};
+//		var initCustomerCache	=	function (attributes)
+//									{
+//										var onDone =	function (customers)
+//														{							
+//															for (var index in customers)											
+//															{
+//																app.data.customers[customers[index].id] = customers[index];								
+//															}
+//																
+//															if (attributes.onDone != null)
+//															{
+//																setTimeout (attributes.onDone, 0);
+//															}																														
+//														};
+//		
+//										didius.customer.list ({async: true, onDone: onDone});
+//									};						
+//		
+//																							
+//		initCustomerCache ({onDone: function () 
+//									{
+//										main.customers.init ();							 
+//										main.books.init ();																	
+//									}});
 		
-										didius.customer.list ({async: true, onDone: onDone});
-									};						
-		
-																							
-		initCustomerCache ({onDone: function () 
-									{
-										main.customers.init ();							 
-										main.books.init ();																	
-									}});
-		
-		main.auctions.init ();			
-		main.newsletters.init ();
+//		main.auctions.init ();			
+//		main.newsletters.init ();
 				
-		var postcodes = sXUL.tools.fileToString ("chrome://didius/content/data/postcodes.dat").split ("\n");		
-		for (var index in postcodes)
-		{
-			var postcode = postcodes[index].split (";")[0]; 
-			var cityname = postcodes[index].split (";")[1];
-			
-			app.data.postcodes[postcode] = cityname;
-		}
 		
 				
 		//sXUL.console.log (app.window.filePicker.result.OK)
@@ -73,7 +68,7 @@ var main =
 		
 //		sXUL.console.log (typeof(test))
 		
-		var environment = Components.classes["@mozilla.org/process/environment;1"].getService(Components.interfaces.nsIEnvironment);
+		
 
 //		var path = environment.get("TEMP");
 
@@ -120,8 +115,120 @@ var main =
 						
 		var workload =	function ()
 						{
-							progresswindow.document.getElementById ("progressmeter1").mode = "undetermined"
-							progresswindow.document.getElementById ("progressmeter1").value = 0;										
+							progresswindow.removeEventListener ("load", workload, false)
+							
+							var totalprogress = 3;
+							var currentprogress = 0;
+											
+							var start =	function ()	
+										{		
+											sXUL.console.log ("BEGIN");
+																		
+											worker1 ();
+										};
+								
+							
+							var worker1 =	function ()
+											{
+												// Reset progressmeter #1.
+												progresswindow.document.getElementById ("description1").textContent = "Henter kundedata ...";
+												progresswindow.document.getElementById ("progressmeter1").mode = "undetermined"
+												progresswindow.document.getElementById ("progressmeter1").value = 0;
+																						
+												var nextWorker =	function ()
+																	{
+																		// Update progressmeter #1
+																		currentprogress++;
+																		progresswindow.document.getElementById ("progressmeter1").mode = "determined";
+																		progresswindow.document.getElementById ("progressmeter1").value = (currentprogress / totalprogress) * 100;
+																																			
+																		setTimeout (worker2, 100);
+																	};
+																							
+												var onDone = 		function (customers)
+																	{
+																		for (var index in customers)											
+																		{
+																			app.data.customers[customers[index].id] = customers[index];
+																		}																	
+																	
+																		nextWorker ();
+																	};
+																	
+												didius.customer.list ({async: true, onDone: onDone});													
+											};
+											
+							var worker2 =	function ()
+											{
+												// Reset progressmeter #1.
+												progresswindow.document.getElementById ("description1").textContent = "Henter postnummer ...";												
+																						
+												var nextWorker =	function ()
+																	{
+																		// Update progressmeter #1
+																		currentprogress++;
+																		progresswindow.document.getElementById ("progressmeter1").mode = "determined";
+																		progresswindow.document.getElementById ("progressmeter1").value = (currentprogress / totalprogress) * 100;
+																																			
+																		setTimeout (worker3, 100);
+																	};
+																							
+												var onDone = 		function ()
+																	{																		
+																		nextWorker ();
+																	};
+																																
+												var postcodes = sXUL.tools.fileToString ("chrome://didius/content/data/postcodes.dat").split ("\n");		
+												for (var index in postcodes)
+												{
+													var postcode = postcodes[index].split (";")[0]; 
+													var cityname = postcodes[index].split (";")[1];
+				
+													app.data.postcodes[postcode] = cityname;
+												}						
+												
+												onDone ();
+												
+											};											
+											
+							var worker3 =	function ()
+											{
+												// Reset progressmeter #1.
+												progresswindow.document.getElementById ("description1").textContent = "Opdatere brugerflade ...";												
+																						
+												var nextWorker =	function ()
+																	{
+																		// Update progressmeter #1
+																		currentprogress++;
+																		progresswindow.document.getElementById ("progressmeter1").mode = "determined";
+																		progresswindow.document.getElementById ("progressmeter1").value = (currentprogress / totalprogress) * 100;
+																																			
+																		setTimeout (finish, 100);
+																	};
+																							
+												var onDone = 		function ()
+																	{																		
+																		nextWorker ();
+																	};
+																	
+												main.auctions.init ();
+												main.customers.init ();							 
+												main.books.init ();										
+												main.newsletters.init ();
+												
+												onDone ();
+												
+											};
+																
+							var finish =	function ()	
+											{	
+												progresswindow.close ();
+												
+												sXUL.console.log ("END");
+											};
+			
+							// Start worker1;				
+							setTimeout (start, 100);																												
 						};
 				
 		progresswindow.addEventListener ("load", workload);								

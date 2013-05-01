@@ -162,10 +162,13 @@ namespace Didius
 		{
 			decimal result = 0;
 
-			result = ((Item.BidAmount * SorentoLib.Services.Settings.Get<Decimal> (Enums.SettingsKey.didius_value_buyer_commission_percentage) / 100));
-			if (result < SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_buyer_commission_minimum))
+			if (Item.BidAmount > 0)
 			{
-				result = SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_buyer_commission_minimum);
+				result = ((Item.BidAmount * SorentoLib.Services.Settings.Get<Decimal> (Enums.SettingsKey.didius_value_buyer_commission_percentage) / 100));
+				if (result < SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_buyer_commission_minimum))
+				{
+					result = SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_buyer_commission_minimum);
+				}
 			}
 
 			return result ;

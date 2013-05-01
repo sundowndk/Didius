@@ -31,9 +31,45 @@ namespace Test
 			{
 				Console.WriteLine ("Connected to database.");
 
+				#region RESET AUCTION
+//				foreach (Didius.Auction a in Didius.Auction.List ())
+//				{
+//					Console.WriteLine (a.Id +" "+ a.Title);
+//				}
+//
+//				Environment.Exit (0);
+
+				Didius.Auction auction = Didius.Auction.Load (new Guid ("4462388d-876d-419b-a27d-47b2fc3e468e"));
+
+				foreach (Didius.Item i in Didius.Item.List (auction))
+				{
+					Console.WriteLine (i.Title);
+					i.Invoiced = false;
+					i.Save ();
+
+					foreach (Didius.Invoice inv in Didius.Invoice.List (i))
+					{
+						Console.WriteLine ("\t"+ inv.Id);
+						Didius.Invoice.Delete (inv.Id);
+					}
+
+					foreach (Didius.Creditnote c in Didius.Creditnote.List (i))
+					{
+						Console.WriteLine ("\t"+ c.Id);
+						Didius.Creditnote.Delete (c.Id);
+					}
 
 
+//					foreach (Didius.Bid b in Didius.Bid.List (i))
+//					{
+//						Console.WriteLine ("\t"+ b.Amount);
+//						Didius.Bid.Delete (b.Id);
+//					}
+				}
+				#endregion
 
+
+//				4462388d-876d-419b-a27d-47b2fc3e468e
 //				Didius.Item item = Didius.Item.Load ()
 
 //				foreach (Didius.Auction auction in Didius.Auction.List ())

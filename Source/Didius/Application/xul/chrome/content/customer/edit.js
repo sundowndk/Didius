@@ -45,6 +45,7 @@ var main =
 		settlements.init ();
 		invoices.init ();	
 		creditnotes.init ();	
+		web.init ();
 		notes.init ();
 		
 		main.set ();									
@@ -98,6 +99,7 @@ var main =
 			document.getElementById ("tab.settlements").disabled = true;
 			document.getElementById ("tab.invoices").disabled = true;
 			document.getElementById ("tab.creditnotes").disabled = true;
+			document.getElementById ("tab.web").disabled = true;
 			document.getElementById ("tab.notes").disabled = false;
 		}
 		else
@@ -108,6 +110,7 @@ var main =
 			document.getElementById ("tab.settlements").disabled = false;
 			document.getElementById ("tab.invoices").disabled = false;
 			document.getElementById ("tab.creditnotes").disabled = false;
+			document.getElementById ("tab.web").disabled = false;
 			document.getElementById ("tab.notes").disabled = false;
 		}
 	
@@ -882,7 +885,46 @@ var creditnotes =
 		app.choose.auction ({onDone: onDone, parentWindow: window});		
 	},
 }
+
+// ----------------------------------------------------------------------------------------------------------
+// | WEB																									|
+// ----------------------------------------------------------------------------------------------------------
+var web =
+{
+	// ------------------------------------------------------------------------------------------------------
+	// | INIT																								|	
+	// ------------------------------------------------------------------------------------------------------
+	init : function ()
+	{		
+		web.set ();
+	},
 	
+	// ------------------------------------------------------------------------------------------------------
+	// | SET																								|	
+	// ------------------------------------------------------------------------------------------------------
+	set : function ()
+	{
+		sXUL.console.log (main.customer.status);
+		//document.getElementById ("textbox.notes").value = main.customer.notes;
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | GET																								|	
+	// ------------------------------------------------------------------------------------------------------
+	get : function ()
+	{
+		main.customer.notes = document.getElementById ("textbox.notes").value;
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONCHANGE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	onChange : function ()
+	{		
+		main.onChange ();
+	}
+}
+			
 // ----------------------------------------------------------------------------------------------------------
 // | NOTES																									|
 // ----------------------------------------------------------------------------------------------------------

@@ -376,10 +376,10 @@ var main =
 		
 		var settings = PrintUtils.getPrintSettings ();
 																																								
-		settings.marginLeft = 0.0;
-		settings.marginRight = 0.0;
-		settings.marginTop = 0.0;
-		settings.marginBottom = 0.0;
+		settings.marginLeft = 0.5;
+		settings.marginRight = 0.5;
+		settings.marginTop = 0.5;
+		settings.marginBottom = 0.5;
 		settings.shrinkToFit = true;
 		
 		settings.paperName =  "iso_a4";

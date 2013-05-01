@@ -445,7 +445,23 @@ namespace Didius
 		{
 			get
 			{
-				return this._status;
+				Enums.CustomerStatus result = this._status;
+
+				if (this._userid != Guid.Empty)
+				{
+					User user = User.Load (this._userid);
+
+					if (user.Status == SorentoLib.Enums.UserStatus.Enabled)
+					{
+						result = Didius.Enums.CustomerStatus.Enabled;
+					}
+					else 
+					{
+						result = Didius.Enums.CustomerStatus.Disabled;
+					}
+				}
+
+				return result;
 			}
 
 			set
@@ -697,7 +713,7 @@ namespace Didius
 
 			result.Add ("notes", this._notes);
 
-			result.Add ("status", this._status);
+			result.Add ("status", this.Status);
 
 			result.Add ("userid", this._userid);
 			
@@ -1147,7 +1163,7 @@ namespace Didius
 			
 			if (item.ContainsKey ("status"))
 			{
-				result._status = SNDK.Convert.StringToEnum<Enums.CustomerStatus> ((string)item["status"]);
+				result.Status = SNDK.Convert.StringToEnum<Enums.CustomerStatus> ((string)item["status"]);
 			}
 
 			if (item.ContainsKey ("userid"))

@@ -48,6 +48,7 @@ var main =
 		main.set ();
 		
 		// Hook events.			
+		app.events.onAuctionSave.addHandler (eventHandlers.onAuctionSave);
 		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);
 		
 		app.events.onCaseSave.addHandler (eventHandlers.onCaseSave);
@@ -144,7 +145,7 @@ var main =
 	save : function ()
 	{			
 		main.get ();
-		
+			
 		didius.auction.save (main.auction);
 		
 		main.mode = "EDIT";
@@ -172,6 +173,7 @@ var main =
 		}
 		
 		// Unhook events.						
+		app.events.onAuctionSave.removeHandler (eventHandlers.onAuctionSave);
 		app.events.onAuctionDestroy.removeHandler (eventHandlers.onAuctionDestroy);
 		
 		app.events.onCaseSave.removeHandler (eventHandlers.onCaseSave);
@@ -782,7 +784,19 @@ var notes =
 // | EVENTHANDLERS																							|
 // ---------------------------------------------------------------------------------------------------------
 var eventHandlers =
-{
+{	
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONSAVE																					|	
+	// ------------------------------------------------------------------------------------------------------
+	onAuctionSave : function (eventData)
+	{
+		if (main.auction.id == eventData.id)
+		{
+			var update = didius.helpers.parseBuyerNos (eventData.buyernos);								
+			main.auction.buyeros = update;			
+		}
+	},
+
 	// ------------------------------------------------------------------------------------------------------
 	// | ONAUCTIONDESTROY																					|	
 	// ------------------------------------------------------------------------------------------------------

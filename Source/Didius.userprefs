@@ -1,15 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/main/main.js">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="114" Column="94" />
-      <File FileName="Didius/Application/xul/chrome/content/splash/splash.xul" Line="29" Column="39" />
-      <File FileName="Didius/Application/xul/chrome/content/splash/splash.js" Line="22" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/bug/progress.xul" Line="11" Column="42" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="125" Column="56" />
-      <File FileName="Didius/Application/xul/chrome/content/bug/progress.js" Line="1" Column="1" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.xul" Line="1" Column="1" />
-      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="93" Column="3" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.js" Line="122" Column="28" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -36,7 +30,9 @@
                     <Node name="invoice" expanded="True" />
                     <Node name="item" expanded="True" />
                     <Node name="js" expanded="True" />
-                    <Node name="main" expanded="True" />
+                    <Node name="main" expanded="True">
+                      <Node name="main.js" selected="True" />
+                    </Node>
                     <Node name="settings" expanded="True" />
                     <Node name="splash" expanded="True" />
                   </Node>
@@ -44,11 +40,11 @@
                 <Node name="defaults" expanded="True">
                   <Node name="preferences" expanded="True" />
                 </Node>
-                <Node name="application.ini" selected="True" />
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
+            <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
           </Node>
         </State>

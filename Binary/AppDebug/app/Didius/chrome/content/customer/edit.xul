@@ -31,6 +31,7 @@
 					<tab id="tab.settlements" label="Afregninger" disabled="true"/>
 					<tab id="tab.invoices" label="Faktura" disabled="true"/>
 					<tab id="tab.creditnotes" label="Kreditnota" disabled="true"/>
+					<tab id="tab.web" label="Web" disabled="true"/>
 					<tab id="tab.notes" label="Noter" disabled="true"/>
 				</tabs>
 			</arrowscrollbox>
@@ -262,6 +263,21 @@
 							<button id="button.creditnoteshow" label="Vis" oncommand="creditnotes.show ();" disabled="true" accesskey="V"/>									
 						</vbox>	
 					</hbox>						
+				</tabpanel>				
+				
+				<tabpanel style="overflow:auto">
+					<vbox flex="1">												
+						<groupbox>
+							<caption label="Login"/>							
+							<hbox align="center">																
+								<checkbox id="checkbox.verified" label="Er godkendt til at logge ind på hjemmesiden" oncommand="web.onChange ();"/>
+							</hbox>		
+							<hbox align="center">
+								<label class="Label">Adgangskode:</label>
+								<button id="button.sendnewpassword" label="Send ny adgangskode på mail" oncommand="web.onChange ();"/>
+							</hbox>					
+						</groupbox>																								
+					</vbox>							
 				</tabpanel>				
 																		
 				<tabpanel style="overflow:auto">

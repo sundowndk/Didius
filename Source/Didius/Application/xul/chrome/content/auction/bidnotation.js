@@ -249,6 +249,8 @@ var main =
 		// AMOUNT, BUYER, MINIMUMBUD HIGHER THAN AMOUNT, USER CHOICE, NOT SOLD / REMOVE MINIMUMBID SOLD TO BUYER.
 		if (item.minimumbid > amount)
 		{
+			sXUL.console.log ("GETBID: 13");
+		
 			if (!app.window.prompt.confirm ("Bud", "Budet er mindre end effektens minimumsbud, vil du fjerne minimumbud og tillade budet ?"))
 			{
 				sXUL.console.log ("GETBID: 13a");
@@ -256,7 +258,7 @@ var main =
 			}
 			else
 			{
-				sXUL.console.log ("GETBID: 14b");
+				sXUL.console.log ("GETBID: 13b");
 				
 				item.minimumbid = 0;				
 			}

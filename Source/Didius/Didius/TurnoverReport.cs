@@ -217,7 +217,8 @@ namespace Didius
 
 			foreach (Item item in Item.List (Auction))
 			{
-				if (item.CurrentBidId != Guid.Empty)
+//				if (item.CurrentBidId != Guid.Empty)
+				if (item.Invoiced)
 				{
 					Case case_ = Case.Load (item.CaseId);
 					Bid bid = Bid.Load (item.CurrentBidId);
