@@ -21,7 +21,8 @@
 					<vbox flex="1">
 						<hbox align="center">				
 							<hbox flex="1">
-								<textbox id="textbox.customersearch" type="search" flex="1"   disabled="true" onkeyup="return main.onCustomerSearchKeyPress (event);"/>
+								<textbox id="textbox.customersearch" type="search" flex="1"   disabled="true"  oncommand="return main.onCustomerSearchKeyPress ();"/>	
+
 							</hbox>			
 						</hbox>		
 						<hbox flex="1">		

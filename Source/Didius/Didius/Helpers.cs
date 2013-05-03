@@ -130,7 +130,9 @@ namespace Didius
 
 		public static void MailItemWon (Item Item)
 		{
-			if (Item.BidAmount > 0) {
+//			if (Item.CurrentBidId  > 0) {
+			if (Item.CurrentBidId != Guid.Empty)
+			{
 				Bid bid = Item.CurrentBid;
 				Customer customer = Customer.Load (bid.CustomerId);
 			

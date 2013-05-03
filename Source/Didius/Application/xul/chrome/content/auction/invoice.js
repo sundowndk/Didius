@@ -307,7 +307,9 @@ var main =
 														
 															if (main.items[index].bidamount > 0 || (main.items[index].approvedforinvoice == true))
 															{
-																sXUL.console.log ("SENDING BIDWON");																
+																//sXUL.console.log ("SENDING BIDWON");																
+																didius.helpers.mailBidWon (main.items[index]);
+																
 																onDone ();
 															}
 															else

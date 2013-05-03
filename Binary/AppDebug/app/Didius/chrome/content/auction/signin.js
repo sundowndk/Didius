@@ -111,8 +111,9 @@ var main =
 	// | FILTER																								|	
 	// ------------------------------------------------------------------------------------------------------
 	filter : function ()
-	{
+	{		
 		var value = document.getElementById ("textbox.customersearch").value;
+		main.customersTreeHelper.setCurrentIndex (-1);	
 		main.customersTreeHelper.filter ({column: "name", columns: "no,buyerno,name,address1,phone,mobile,email", value: value, direction: "in"});
 	},
 	
@@ -257,23 +258,14 @@ var main =
 	// ------------------------------------------------------------------------------------------------------
 	// | ONCUSTOMERSEARCHKEYPRESS																			|	
 	// ------------------------------------------------------------------------------------------------------
-	onCustomerSearchKeyPress : function (event)
-	{	 		
-		// DOWN
-		if (event.keyCode == 40)
-		{
-			document.getElementById ("tree.customers").focus ();
-			main.customersTreeHelper.select (0);
-			return false;
-		}
-
+	onCustomerSearchKeyPress : function ()
+	{	 				
 		main.filter ();
 	},		
+		
 	
 	onKeyUpTextboxBuyerNo : function (event)
-	{
-		sXUL.console.log (event.keyCode);
-		
+	{				
 		// ENTER
 		if (event.keyCode == 13)
 		{	
@@ -282,8 +274,7 @@ var main =
 			return false;
 		}
 		
-		main.onChange ();
-	
+		main.onChange ();	
 	}
 }
 

@@ -177,6 +177,11 @@ var app =
 			if (window == null)
 				window = app.mainWindow;
 		
+			var windowx = window.screenX;
+			var windowy = window.screenY;
+			
+			
+		
 			var openNewWindow = true;
 			var windowManager = Components.classes['@mozilla.org/appshell/window-mediator;1'].getService(Components.interfaces.nsIWindowMediator);
 			var test = windowManager.getEnumerator (null);

@@ -40,10 +40,10 @@
 		<tabbox selectedIndex="0" flex="1">		
 			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">      
 				<tabs style="overflow:hidden">				
-					<tab id="tab.auctions" image="chrome://didius/content/icons/auctions.png"/>			
-					<tab id="tab.customers" image="chrome://didius/content/icons/customers.png"/>
-					<tab id="tab.books" image="chrome://didius/content/icons/books.png"/>
-					<tab id="tab.newsletters" image="chrome://didius/content/icons/newsletter.png"/>
+					<tab id="tab.auctions" image="chrome://didius/content/icons/auctions.png" disabled="true"/>			
+					<tab id="tab.customers" image="chrome://didius/content/icons/customers.png" disabled="true"/>
+					<tab id="tab.books" image="chrome://didius/content/icons/books.png" disabled="true"/>
+					<tab id="tab.newsletters" image="chrome://didius/content/icons/newsletter.png" disabled="true"/>
 				</tabs>			
 			</arrowscrollbox>		
 						
@@ -82,7 +82,7 @@
 						<hbox flex="1">
 							<hbox flex="1">																					
 								<vbox flex="1">
-									<textbox id="customerSearch" type="search" focus="true" onkeyup="main.customers.filter ();" oncommand="main.customers.filter ();" focused="true" />
+									<textbox id="customerSearch" type="search" focus="true" oncommand="main.customers.filter ();" focused="true" />
 								
 								<tree id="customers" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.customers.onChange ();" seltype="single">
 									<treecols>

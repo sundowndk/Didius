@@ -18,6 +18,7 @@ var didius =
 		
 		initialize : function ()
 		{
+		sXUL.console.log ("init")
 			try
 			{		
 				app.events.onCustomerLoad = new sXUL.event ({id: "onCustomerLoad", remotePropagation: true});

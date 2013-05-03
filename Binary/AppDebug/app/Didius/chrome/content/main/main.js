@@ -8,14 +8,30 @@ var main =
 						{
 							main.splash ();				
 						};
-
 		
+		didius.runtime.initialize ();																									
+		app.startup (window);								
+																									
+		// Hook events.
+		sXUL.eventListener.attach ();
+								
+		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
+		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
 		
-		app.startup (window);			
+		app.events.onAuctionSave.addHandler (main.eventHandlers.onAuctionSave);
+		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
 		
+		app.events.onInvoiceCreate.addHandler (main.eventHandlers.onInvoiceCreate);
+		app.events.onCreditnoteCreate.addHandler (main.eventHandlers.onCreditnoteCreate);
+		
+		app.events.onNewsletterSave.addHandler (main.eventHandlers.onNewsletterSave);
+		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);								
+		
+		main.createTempFolder ();	
+																
 		document.title = "Didius v"+ app.session.appInfo.version +" - "+ didius.settings.get ({key: "didius_company_name"});
 		var environment = Components.classes["@mozilla.org/process/environment;1"].getService(Components.interfaces.nsIEnvironment);
-	
+				
 		setTimeout (splash, 200);
 		
 		return;
@@ -73,7 +89,6 @@ var main =
 //		var path = environment.get("TEMP");
 
 		
-		main.createTempFolder ();		
 //		sXUL.console.log ("BLA:"+ main.getLocalDirectory ());
 		
 	//	setTimeout('window.fullScreen = true;',1);
@@ -96,17 +111,7 @@ var main =
 		
 		//didius.common.print.label ();
 		
-		// Hook events.
-		sXUL.eventListener.attach ();
-								
-		app.events.onCustomerSave.addHandler (main.eventHandlers.onCustomerSave);
-		app.events.onCustomerDestroy.addHandler (main.eventHandlers.onCustomerDestroy);
 		
-		app.events.onAuctionSave.addHandler (main.eventHandlers.onAuctionSave);
-		app.events.onAuctionDestroy.addHandler (main.eventHandlers.onAuctionDestroy);						
-		
-		app.events.onNewsletterSave.addHandler (main.eventHandlers.onNewsletterSave);
-		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);								
 	},
 		
 	splash : function ()
@@ -122,8 +127,6 @@ var main =
 											
 							var start =	function ()	
 										{		
-											sXUL.console.log ("BEGIN");
-																		
 											worker1 ();
 										};
 								
@@ -215,7 +218,7 @@ var main =
 												main.customers.init ();							 
 												main.books.init ();										
 												main.newsletters.init ();
-												
+					
 												onDone ();
 												
 											};
@@ -223,8 +226,6 @@ var main =
 							var finish =	function ()	
 											{	
 												progresswindow.close ();
-												
-												sXUL.console.log ("END");
 											};
 			
 							// Start worker1;				
@@ -335,13 +336,29 @@ var main =
 	eventHandlers :
 	{
 		onCustomerSave : function (eventData)
-		{
-			main.customers.customersTreeHelper.setRow ({data: eventData});
+		{		
+			main.customers.customersTreeHelper.setRow ({data: eventData});					
+			
+			var found = false;
+			for (var index in app.data.customers)
+			{
+				if (app.data.customers[index].id == eventData.id)
+				{
+					app.data.customers[index] == eventData;
+					found = true;
+					break;
+				}				
+			}		
+			
+			if (!found)
+			{
+				app.data.customers[app.data.customers.length] = eventData;
+			}
 		},
 		
 		onCustomerDestroy : function (eventData)
 		{				
-			main.customers.customersTreeHelper.removeRow ({id: eventData.id});
+			main.customers.customersTreeHelper.removeRow ({id: eventData.id});						
 		},
 				
 		onAuctionSave : function (eventData)
@@ -352,6 +369,64 @@ var main =
 		onAuctionDestroy : function (eventData)
 		{
 			main.auctions.auctionsTreeHelper.removeRow ({id: eventData.id});
+		},
+		
+		onInvoiceCreate : function (eventData)
+		{
+			var data = {};
+			data.id = eventData.id;
+			data.createtimestamp = eventData.createtimestamp;
+			data.no = eventData.no;	
+										
+			try											
+			{	
+				var customer = app.data.customers[eventData.customerid]
+									
+				data.customerno = customer.no;
+				data.customername = customer.name;
+			}
+			catch (exception)
+			{
+				data.customerno = "";							
+				data.customername = "";
+			}
+										
+			var date = SNDK.tools.timestampToDate (eventData.createtimestamp);
+			data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+																				
+			data.vat = eventData.vat.toFixed (2) +" kr."; 
+			data.total = eventData.total.toFixed (2) +" kr.";			
+										
+			main.books.invoices.invoicesTreeHelper.addRow ({data: data});
+		},
+		
+		onCreditnoteCreate : function (eventData)
+		{																															
+			var data = {};
+			data.id = eventData.id;
+			data.createtimestamp = eventData.createtimestamp;
+			data.no = eventData.no;	
+										
+			try											
+			{	
+				var customer = app.data.customers[eventData.customerid]
+			
+				data.customerno = customer.no;
+				data.customername = customer.name;
+			}
+			catch (exception)
+			{
+				data.customerno = "";							
+				data.customername = "";
+			}
+			
+			var date = SNDK.tools.timestampToDate (eventData.createtimestamp)										
+			data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+													
+			data.vat = eventData.vat.toFixed (2) +" kr."; 
+			data.total = eventData.total.toFixed (2) +" kr.";			
+			
+			main.books.creditnotes.creditnotesTreeHelper.addRow ({data: data});
 		},
 				
 		onNewsletterSave : function (eventData)
@@ -469,7 +544,8 @@ var main =
 									main.customers.customersTreeHelper.enableRefresh ();
 								
 									// Enable controls
-									document.getElementById ("customers").disabled = false;														
+									document.getElementById ("customers").disabled = false;
+									document.getElementById ("tab.customers").disabled = false;													
 									main.customers.onChange ();
 								};
 
@@ -566,7 +642,8 @@ var main =
 								main.auctions.auctionsTreeHelper.enableRefresh ();
 							
 							// Enable controls
-							document.getElementById ("auctions").disabled = false;																
+							document.getElementById ("auctions").disabled = false;
+							document.getElementById ("tab.auctions").disabled = false;
 							main.auctions.onChange ();
 						};
 
@@ -663,6 +740,8 @@ var main =
 		{
 			main.books.invoices.init ();
 			main.books.creditnotes.init ();
+			
+			document.getElementById ("tab.books").disabled = false;
 		},
 		
 		invoices : 
@@ -714,6 +793,7 @@ var main =
 							
 									// Enable controls
 									document.getElementById ("tree.booksinvoices").disabled = false;									
+									document.getElementById ("tab.booksinvoices").disabled = false;
 									main.books.invoices.onChange ();
 								};
 
@@ -792,8 +872,9 @@ var main =
 									}
 									main.books.creditnotes.creditnotesTreeHelper.enableRefresh ();
 							
-									// Enable controls
-									document.getElementById ("tree.bookscreditnotes").disabled = false;									
+									// Enable controls									
+									document.getElementById ("tree.bookscreditnotes").disabled = false;	
+									document.getElementById ("tab.bookscreditnotes").disabled = false;								
 									main.books.creditnotes.onChange ();
 								};
 
@@ -820,8 +901,7 @@ var main =
 			// | SHOW																								|	
 			// ------------------------------------------------------------------------------------------------------																																																				
 			show : function ()
-			{						
-			sXUL.console.log ("dfdf")
+			{									
 				window.openDialog ("chrome://didius/content/creditnote/show.xul", "didius.creditnote.show."+ main.books.creditnotes.creditnotesTreeHelper.getRow ().id, "chrome", {creditnoteId: main.books.creditnotes.creditnotesTreeHelper.getRow ().id});
 			}				
 		}				
@@ -850,6 +930,7 @@ var main =
 							
 							// Enable controls
 							document.getElementById ("newsletters").disabled = false;
+							document.getElementById ("tab.newsletters").disabled = false;
 							main.newsletters.onChange ();
 						};
 

@@ -45,6 +45,8 @@ namespace Test
 				{
 					Console.WriteLine (i.Title);
 					i.Invoiced = false;
+					i.AppovedForInvoice = true;
+					i.Settled = false;
 					i.Save ();
 
 					foreach (Didius.Invoice inv in Didius.Invoice.List (i))
@@ -59,11 +61,16 @@ namespace Test
 						Didius.Creditnote.Delete (c.Id);
 					}
 
-
 //					foreach (Didius.Bid b in Didius.Bid.List (i))
 //					{
 //						Console.WriteLine ("\t"+ b.Amount);
 //						Didius.Bid.Delete (b.Id);
+//					}
+//
+//					foreach (Didius.AutoBid ab in Didius.AutoBid.List (i))
+//					{
+//						Console.WriteLine ("\t"+ ab.Amount);
+//						Didius.AutoBid.Delete (ab.Id);
 //					}
 				}
 				#endregion
