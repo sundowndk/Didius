@@ -23,6 +23,7 @@ var main =
 		
 		app.events.onInvoiceCreate.addHandler (main.eventHandlers.onInvoiceCreate);
 		app.events.onCreditnoteCreate.addHandler (main.eventHandlers.onCreditnoteCreate);
+		app.events.onSettlementCreate.addHandler (main.eventHandlers.onSettlementCreate);
 		
 		app.events.onNewsletterSave.addHandler (main.eventHandlers.onNewsletterSave);
 		app.events.onNewsletterDestroy.addHandler (main.eventHandlers.onNewsletterDestroy);								
@@ -428,6 +429,35 @@ var main =
 			
 			main.books.creditnotes.creditnotesTreeHelper.addRow ({data: data});
 		},
+		
+		onSettlementCreate : function (eventData)
+		{																															
+			var data = {};
+			data.id = eventData.id;
+			data.createtimestamp = eventData.createtimestamp;
+			data.no = eventData.no;	
+										
+			try											
+			{	
+				var customer = app.data.customers[eventData.customerid]
+			
+				data.customerno = customer.no;
+				data.customername = customer.name;
+			}
+			catch (exception)
+			{
+				data.customerno = "";							
+				data.customername = "";
+			}
+			
+			var date = SNDK.tools.timestampToDate (eventData.createtimestamp)										
+			data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+													
+			data.vat = eventData.vat.toFixed (2) +" kr."; 
+			data.total = eventData.total.toFixed (2) +" kr.";			
+			
+			main.books.settlements.settlementsTreeHelper.addRow ({data: data});
+		},
 				
 		onNewsletterSave : function (eventData)
 		{
@@ -740,6 +770,7 @@ var main =
 		{
 			main.books.invoices.init ();
 			main.books.creditnotes.init ();
+			main.books.settlements.init ();
 			
 			document.getElementById ("tab.books").disabled = false;
 		},
@@ -904,7 +935,88 @@ var main =
 			{									
 				window.openDialog ("chrome://didius/content/creditnote/show.xul", "didius.creditnote.show."+ main.books.creditnotes.creditnotesTreeHelper.getRow ().id, "chrome", {creditnoteId: main.books.creditnotes.creditnotesTreeHelper.getRow ().id});
 			}				
-		}				
+		},
+		
+		settlements : 
+		{
+			settlementsTreeHelper : null,
+		
+			init : function ()
+			{
+				main.books.settlements.settlementsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.bookssettlements"), sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.books.settlements.show});
+				main.books.settlements.set ();
+			},
+			
+			set : function ()
+			{
+				var onDone = 	function (settlements)
+								{								
+									main.books.settlements.settlementsTreeHelper.disableRefresh ();
+									for (index in settlements)
+									{
+										var item = settlements[index];
+																														
+										var data = {};
+										data.id = item.id;
+										data.createtimestamp = item.createtimestamp;
+										data.no = item.no;	
+										
+										try											
+										{	
+											var customer = app.data.customers[item.customerid]
+										
+											data.customerno = customer.no;
+											data.customername = customer.name;
+										}
+										catch (exception)
+										{
+											data.customerno = "";							
+											data.customername = "";
+										}
+										
+										var date = SNDK.tools.timestampToDate (item.createtimestamp)
+										data.date = SNDK.tools.padLeft (date.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((date.getMonth () + 1), 2, "0") +"-"+ date.getFullYear ();					
+																				
+										data.vat = item.vat.toFixed (2) +" kr."; 
+										data.total = item.total.toFixed (2) +" kr.";			
+										
+										main.books.settlements.settlementsTreeHelper.addRow ({data: data});
+									}
+									main.books.settlements.settlementsTreeHelper.enableRefresh ();
+							
+									// Enable controls									
+									document.getElementById ("tree.bookssettlements").disabled = false;	
+									document.getElementById ("tab.bookssettlements").disabled = false;								
+									main.books.settlements.onChange ();
+								};
+
+				// Disable controls
+				document.getElementById ("tree.bookssettlements").disabled = true;	
+				document.getElementById ("button.bookssettlementshow").disabled = true;							
+					
+				didius.settlement.list ({async: true, onDone: onDone});
+			},
+			
+			onChange : function ()
+			{
+				if (main.books.settlements.settlementsTreeHelper.getCurrentIndex () != -1)
+				{					
+					document.getElementById ("button.bookssettlementshow").disabled = false;					
+				}
+				else
+				{												
+					document.getElementById ("button.bookssettlementshow").disabled = true;					
+				}		
+			},
+			
+			// ------------------------------------------------------------------------------------------------------
+			// | SHOW																								|	
+			// ------------------------------------------------------------------------------------------------------																																																				
+			show : function ()
+			{									
+				window.openDialog ("chrome://didius/content/settlement/show.xul", "didius.settlement.show."+ main.books.settlements.settlementsTreeHelper.getRow ().id, "chrome", {settlementId: main.books.settlements.settlementsTreeHelper.getRow ().id});
+			}				
+		}							
 	},
 	
 	newsletters :

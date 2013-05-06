@@ -123,6 +123,7 @@ var main =
 		}
 		
 		document.getElementById ("button.invoice").disabled = false;
+		document.getElementById ("button.settle").disabled = false;
 		document.getElementById ("button.turnover").disabled = false;
 //		
 //		if (main.current.type == "Web" || main.current.type == "LiveWeb")
@@ -192,6 +193,14 @@ var main =
 	invoice : function ()
 	{		
 		app.window.open (window, "chrome://didius/content/auction/invoice.xul", "didius.auction.invoice."+ main.auction.id, "modal", {auctionId: main.auction.id});
+	},
+	
+	// ------------------------------------------------------------------------------------------------------
+	// | SETTLE																							|	
+	// ------------------------------------------------------------------------------------------------------
+	settle : function ()
+	{		
+		app.window.open (window, "chrome://didius/content/auction/settle.xul", "didius.auction.settle."+ main.auction.id, "modal", {auctionId: main.auction.id});
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

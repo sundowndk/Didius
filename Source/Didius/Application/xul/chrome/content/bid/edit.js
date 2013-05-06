@@ -27,6 +27,8 @@ var main =
 							{
 								main.bid = didius.bid.load ({id: window.arguments[0].bidId});											
 								main.customer = didius.customer.load (main.bid.customerid);
+								
+								
 								main.item = didius.item.load ({id: main.bid.itemid});
 								main.case = didius.case.load ({id: main.item.caseid});
 								main.auction = didius.auction.load (main.case.auctionid);
@@ -77,6 +79,7 @@ var main =
 		{
 			if (app.window.prompt.confirm ("Bud er faktureret", "Før dette bud kan rettes, skal der laves en kreditnota. Vil du gøre dette ?"))
 			{				
+				sXUL.console.log (main.customer.name)
 				var creditnote = didius.creditnote.create ({customer: main.customer, item: main.item, simulate: false});
 				
 				//sXUL.console.log (creditnote);

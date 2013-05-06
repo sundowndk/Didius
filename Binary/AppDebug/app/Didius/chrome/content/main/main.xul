@@ -129,7 +129,7 @@
 										<tabs style="overflow:hidden">				
 											<tab id="tab.booksinvoices" label="Faktura"/>
 											<tab id="tab.bookscreditnotes" label="Kreditnota"/>
-											<tab id="tab.bookssettlements" label="Afregninger" disabled="true"/>											
+											<tab id="tab.bookssettlements" label="Afregninger"/>
 										</tabs>			
 									</arrowscrollbox>	
 									
@@ -192,7 +192,37 @@
 													<button id="button.bookscreditnoteshow" label="Vis" disabled="true" oncommand="main.books.creditnotes.show ();"/>
 												</vbox>									
 											</hbox>										
-										</tabpanel>																																																					
+										</tabpanel>			
+										
+										<tabpanel>									
+											<hbox flex="1">
+												<tree id="tree.bookssettlements" flex="1" hidecolumnpicker="true" disabled="true" onselect="main.books.settlements.onChange ();" seltype="single">
+													<treecols>
+														<treecol id="id" hidden="true"/>
+														<splitter class="tree-splitter" hidden="true"/>								
+														<treecol id="createtimestamp" hidden="true"/>
+														<splitter class="tree-splitter" hidden="true"/>								
+														<treecol id="no" label="Nr." width="50" persist="width"/>
+														<splitter class="tree-splitter"/>								
+														<treecol id="date" label="Dato" flex="1" persist="width" />
+														<splitter class="tree-splitter"/>								
+														<treecol id="customerno" label="Kunde nr." flex="1" persist="width"/>
+														<splitter class="tree-splitter"/>								
+														<treecol id="customername" label="Kunde" flex="1" persist="width"/>
+														<splitter class="tree-splitter"/>								
+														<treecol id="vat" label="Moms" flex="1" persist="width" style="text-align: right;"/>		
+														<splitter class="tree-splitter"/>																								
+														<treecol id="total" label="Total" width="100" persist="width" style="text-align: right;" />														
+														<splitter class="tree-splitter"/>								
+													</treecols>						
+												</tree>
+											</hbox>
+											<hbox>
+												<vbox>
+													<button id="button.bookssettlementshow" label="Vis" disabled="true" oncommand="main.books.settlements.show ();"/>
+												</vbox>									
+											</hbox>										
+										</tabpanel>																																																																																																																			
 									</tabpanels>			
 								</tabbox>															
 							</hbox>							

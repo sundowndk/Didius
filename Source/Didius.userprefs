@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Didius/Helpers.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Test/Main.cs">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/invoice.js" Line="311" Column="63" />
-      <File FileName="Didius/Application/js/didius/helpers.js" Line="16" Column="32" />
-      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="585" Column="27" />
-      <File FileName="Didius/Didius/Helpers.cs" Line="129" Column="1" />
-      <File FileName="Didius/Didius/Item.cs" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.xul" Line="132" Column="64" />
+      <File FileName="Didius/Application/xul/chrome/content/main/main.js" Line="26" Column="26" />
+      <File FileName="Test/Main.cs" Line="53" Column="9" />
+      <File FileName="Didius/Application/js/didius/runtime.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/js/didius/settlement.js" Line="102" Column="2" />
+      <File FileName="Didius/Application/js/didius/invoice.js" Line="27" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -23,29 +24,15 @@
               <Node name="xul" expanded="True">
                 <Node name="chrome" expanded="True">
                   <Node name="content" expanded="True">
-                    <Node name="about" expanded="True" />
-                    <Node name="auction" expanded="True">
-                      <Node name="catalog" expanded="True" />
-                    </Node>
-                    <Node name="bug" expanded="True" />
-                    <Node name="creditnote" expanded="True" />
-                    <Node name="customer" expanded="True" />
-                    <Node name="invoice" expanded="True" />
-                    <Node name="item" expanded="True" />
-                    <Node name="js" expanded="True" />
+                    <Node name="auction" expanded="True" />
+                    <Node name="bid" expanded="True" />
                     <Node name="main" expanded="True" />
-                    <Node name="settings" expanded="True" />
-                    <Node name="splash" expanded="True" />
                   </Node>
                 </Node>
-                <Node name="defaults" expanded="True">
-                  <Node name="preferences" expanded="True" />
-                </Node>
+                <Node name="defaults" expanded="True" />
               </Node>
             </Node>
-            <Node name="Didius" expanded="True">
-              <Node name="Helpers.cs" selected="True" />
-            </Node>
+            <Node name="Didius" expanded="True" />
             <Node name="Didius.Addin" expanded="True" />
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />

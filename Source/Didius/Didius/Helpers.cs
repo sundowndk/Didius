@@ -235,28 +235,32 @@ namespace Didius
 		}
 
 		public static void MailSettlement (Settlement Settlement, string PdfFilename)
-		{
+		{		
 			Customer customer = Customer.Load (Settlement.CustomerId);
+			if (customer.Email != string.Empty)
+			{
 			
-			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
+				string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 			
-			string to = customer.Email;
+				string to = customer.Email;
+
 //			string to = "rasmus@akvaservice.dk";
 			
-			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_settlement_subject);
-			subject = ReplacePlaceholders (customer, subject);
-			subject = ReplacePlaceholders (Settlement, subject);
+				string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_settlement_subject);
+				subject = ReplacePlaceholders (customer, subject);
+				subject = ReplacePlaceholders (Settlement, subject);
 			
-			string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_settlement_body);
-			body = ReplacePlaceholders (customer, body);
-			body = ReplacePlaceholders (Settlement, body);
+				string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_settlement_body);
+				body = ReplacePlaceholders (customer, body);
+				body = ReplacePlaceholders (Settlement, body);
 			
-			bool isbodyhtml = SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_settlement_isbodyhtml);
+				bool isbodyhtml = SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_settlement_isbodyhtml);
 			
-			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
-			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (PdfFilename), "afregning"+ Settlement.No +".pdf", SNDK.IO.GetMimeType (PdfFilename)));
+				List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
+				attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (PdfFilename), "afregning" + Settlement.No + ".pdf", SNDK.IO.GetMimeType (PdfFilename)));
 			
-			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
+				SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
+			}
 		}
 
 

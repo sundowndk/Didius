@@ -187,6 +187,7 @@
 	
 	<hbox class="WindowButtons" align="right" >
 		<button id="button.invoice" label="Fakturere" oncommand="main.invoice ();" disabled="true" accesskey="F"/>
+		<button id="button.settle" label="Afregn" oncommand="main.settle ();" disabled="true" accesskey="A"/>
 		<button id="button.turnover" label="Omsætning" oncommand="main.turnover ();" disabled="true" accesskey="m"/>
 		<space flex="1"/>
 		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L"/>

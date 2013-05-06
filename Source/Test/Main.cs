@@ -37,7 +37,25 @@ namespace Test
 //					Console.WriteLine (a.Id +" "+ a.Title);
 //				}
 //
-//				Environment.Exit (0);
+//				foreach (Didius.Creditnote cn in Didius.Creditnote.List ())
+//				{
+//					if (cn.No == 33)
+//					{
+//						Didius.Creditnote.Delete (cn.Id);
+//					}
+//				}
+
+//				foreach (Didius.Invoice iv in Didius.Invoice.List ())
+//				{
+//					if (iv.No == 457 )
+//					{
+//						Didius.Invoice.Delete (iv.Id);
+//					}
+//				}
+
+
+
+				Environment.Exit (0);
 
 				Didius.Auction auction = Didius.Auction.Load (new Guid ("4462388d-876d-419b-a27d-47b2fc3e468e"));
 
@@ -54,11 +72,17 @@ namespace Test
 						Console.WriteLine ("\t"+ inv.Id);
 						Didius.Invoice.Delete (inv.Id);
 					}
+////
+//					foreach (Didius.Creditnote c in Didius.Creditnote.List (i))
+//					{
+//						Console.WriteLine ("\t"+ c.Id);
+//						Didius.Creditnote.Delete (c.Id);
+//					}
 
-					foreach (Didius.Creditnote c in Didius.Creditnote.List (i))
+					foreach (Didius.Settlement s in Didius.Settlement.List (i))
 					{
-						Console.WriteLine ("\t"+ c.Id);
-						Didius.Creditnote.Delete (c.Id);
+						Console.WriteLine ("\t"+ s.Id);
+						Didius.Settlement.Delete (s.Id);
 					}
 
 //					foreach (Didius.Bid b in Didius.Bid.List (i))

@@ -17,6 +17,12 @@ create : function (attributes)
 	request.send (content);
 	
 	var result = request.respons ()["didius.settlement"];
+	
+	if (!content.simulate)
+	{
+		if (!didius.runtime.browserMode)		
+			app.events.onSettlementCreate.execute (result);
+	}
 
 	return result;
 },

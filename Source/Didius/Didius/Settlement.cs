@@ -464,6 +464,18 @@ namespace Didius
 			
 			return result;
 		}
+
+		public static void Delete (Guid Id)
+		{
+			try
+			{
+				SorentoLib.Services.Datastore.Delete (DatastoreAisle, Id.ToString ());
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine (exception);
+			}			
+		}
 		#endregion
 		
 		#region Private Static Methods
