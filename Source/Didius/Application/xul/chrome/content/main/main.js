@@ -781,7 +781,7 @@ var main =
 		
 			init : function ()
 			{
-				main.books.invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.booksinvoices"), sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.books.invoices.show});
+				main.books.invoices.invoicesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.booksinvoices"), sortColumn: "no", sortDirection: "ascending", onDoubleClick: main.books.invoices.show});
 				main.books.invoices.set ();
 			},
 			
@@ -862,7 +862,7 @@ var main =
 		
 			init : function ()
 			{
-				main.books.creditnotes.creditnotesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.bookscreditnotes"), sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.books.creditnotes.show});
+				main.books.creditnotes.creditnotesTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.bookscreditnotes"), sortColumn: "no", sortDirection: "ascending", onDoubleClick: main.books.creditnotes.show});
 				main.books.creditnotes.set ();
 			},
 			
@@ -943,7 +943,7 @@ var main =
 		
 			init : function ()
 			{
-				main.books.settlements.settlementsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.bookssettlements"), sortColumn: "createtimestamp", sortDirection: "ascending", onDoubleClick: main.books.settlements.show});
+				main.books.settlements.settlementsTreeHelper = new sXUL.helpers.tree ({element: document.getElementById ("tree.bookssettlements"), sortColumn: "no", sortDirection: "ascending", onDoubleClick: main.books.settlements.show});
 				main.books.settlements.set ();
 			},
 			

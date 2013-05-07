@@ -1055,8 +1055,8 @@ var didius =
 		
 			var result = request.respons ()["didius.auction"];
 			
-			if (!didius.runtime.browserMode)			
-				app.events.onAuctionLoad.execute (result);
+		//	if (!didius.runtime.browserMode)			
+		//		app.events.onAuctionLoad.execute (result);
 		
 			return result;
 		},

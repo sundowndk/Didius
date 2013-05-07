@@ -257,6 +257,24 @@ namespace Didius
 				}
 				else
 				{
+					Case case_ = Case.Load (item.CaseId);
+
+					TurnoverReportSellerLine sellerline = new TurnoverReportSellerLine (item);
+					TurnoverReportSeller seller = result._sellers.Find(TurnoverReportSeller => TurnoverReportSeller.Id == case_.CustomerId);
+
+					if (seller == null)
+					{
+						seller = new TurnoverReportSeller (Customer.Load (case_.CustomerId));
+						result._sellers.Add (seller);
+					}
+
+					seller.Amount += sellerline.Amount;
+					seller.VatAmount += sellerline.VatAmount;
+					seller.CommissionFee += sellerline.CommissionFee;
+					seller.VatCommissionFee += sellerline.VatCommissionFee;
+
+					result._sellerlines.Add (sellerline);
+
 					result._notsoldlines.Add (new TurnoverReportNotSoldLine (item));
 				}
 			}

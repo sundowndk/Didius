@@ -36,6 +36,25 @@ namespace Test
 //				{
 //					Console.WriteLine (a.Id +" "+ a.Title);
 //				}
+
+//				foreach (Didius.Item it in Didius.Item.List (Didius.Auction.Load (new Guid ("18d4c40b-112c-4301-b3fc-6db79f896b93"))))
+//				{
+//					if (it.CatalogNo == 100)
+//					{
+//						Didius.Case c = Didius.Case.Load (it.CaseId);
+//
+//						Didius.Settlement sm = Didius.Settlement.Create (c, true);
+//
+//						foreach (Didius.SettlementLine sml in sm.Lines)
+//						{
+//							Console.WriteLine (sml.Text);
+//						}
+//
+//
+////						Console.WriteLine ();
+//					}
+//				}
+
 //
 //				foreach (Didius.Creditnote cn in Didius.Creditnote.List ())
 //				{
@@ -51,6 +70,24 @@ namespace Test
 //					{
 //						Didius.Invoice.Delete (iv.Id);
 //					}
+//				}
+
+//				foreach (Didius.Settlement sm in Didius.Settlement.List ())
+//				{
+////					if (sm.No == 6)
+////					{
+//						Console.WriteLine (sm.No);
+////						sm.No = 59;
+////						sm.Save ();
+////						break;
+//						foreach (Didius.Item it in Didius.Item.List (sm.CaseId))
+//						{
+//							Console.WriteLine ("\t"+ it.Title);
+//							it.Settled = false;
+//							it.Save ();
+//						}
+//						Didius.Settlement.Delete (sm.Id);
+////					}
 //				}
 
 
@@ -72,7 +109,7 @@ namespace Test
 						Console.WriteLine ("\t"+ inv.Id);
 						Didius.Invoice.Delete (inv.Id);
 					}
-////
+
 //					foreach (Didius.Creditnote c in Didius.Creditnote.List (i))
 //					{
 //						Console.WriteLine ("\t"+ c.Id);

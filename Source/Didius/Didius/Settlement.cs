@@ -65,6 +65,11 @@ namespace Didius
 			{
 				return this._no;
 			}
+
+			set
+			{
+				this._no = value;
+			}
 		}
 
 		public Guid AuctionId
@@ -437,10 +442,7 @@ namespace Didius
 			{
 				if (!item.Settled)
 				{
-					if (item.CurrentBid != null)
-					{
-						result.Lines.Add (new SettlementLine (item));
-					}
+					result.Lines.Add (new SettlementLine (item));
 				}
 			}
 

@@ -111,17 +111,28 @@ namespace Didius
 			this._id = Guid.NewGuid ();
 			this._no = SNDK.Date.CurrentDateTimeToTimestamp ();
 			this._itemid = Item.Id;
-			this._text = Auction.Load (Case.Load (Item.CaseId).AuctionId).No +"-"+ Item.CatalogNo +" "+ Item.Title;
-			this._commissionfee = (Helpers.CalculateSellerCommissionFee (Item) * -1);
-			this._amount = Item.BidAmount;
+			this._text = Auction.Load (Case.Load (Item.CaseId).AuctionId).No + "-" + Item.CatalogNo + " " + Item.Title;
 
-			this._vatamount = 0;
-			if (Item.Vat)
+			if (Item.Invoiced)
 			{
-				this._vatamount += ((this._amount * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
-			}
+				this._commissionfee = (Helpers.CalculateSellerCommissionFee (Item) * -1);
+				this._amount = Item.BidAmount;
 
-			this._vatcommissionfee = ((this._commissionfee * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
+				this._vatamount = 0;
+				if (Item.Vat)
+				{
+					this._vatamount += ((this._amount * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
+				}
+
+				this._vatcommissionfee = ((this._commissionfee * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
+			}
+			else
+			{
+				this._commissionfee = 0;
+				this._amount = 0;
+				this._vatamount = 0;
+				this._vatcommissionfee = 0;
+			}
 		}
 
 		private SettlementLine ()

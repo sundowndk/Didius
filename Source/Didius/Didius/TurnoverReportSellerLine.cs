@@ -125,15 +125,26 @@ namespace Didius
 			this._customerid = Case.Load (Item.CaseId).CustomerId;
 			this._catalogno = Item.CatalogNo;
 			this._text = Item.Title;
-			this._commissionfee = (Helpers.CalculateSellerCommissionFee (Item) * -1);
-			this._amount = Item.BidAmount;
-			this._vatamount = 0;
-			if (Item.Vat)
-			{
-				this._vatamount += ((this._amount * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
-			}
 
-			this._vatcommissionfee = ((this._commissionfee * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
+			if (Item.Invoiced)
+			{
+				this._commissionfee = (Helpers.CalculateSellerCommissionFee (Item) * -1);
+				this._amount = Item.BidAmount;
+				this._vatamount = 0;
+				if (Item.Vat)
+				{
+					this._vatamount += ((this._amount * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
+				}
+
+				this._vatcommissionfee = ((this._commissionfee * SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_vat_percentage) / 100));
+			}
+			else
+			{
+				this._commissionfee = 0;
+				this._amount = 0;
+				this._vatamount = 0;
+				this._vatcommissionfee = 0;
+			}
 		}
 
 		private TurnoverReportSellerLine ()

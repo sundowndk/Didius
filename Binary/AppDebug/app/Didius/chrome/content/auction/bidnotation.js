@@ -228,14 +228,26 @@ var main =
 			return false;
 		}
 		
-		// AMOUNT, BUYER, PREBIDMAX HIGHER/EQUAL TO AMOUNT, NOT SOLD.
-		else if (amount != 0 && buyerno != "0" && maxautobidamount >= amount)
+		// AMOUNT, BUYER, PREBIDMAX HIGHER TO AMOUNT, NOT SOLD.
+		else if (amount != 0 && buyerno != "0" && maxautobidamount > amount)
 		{
 			sXUL.console.log ("GETBID: 11");
 			
 			app.window.prompt.alert ("Bud", "Budet er ikke højre end nuværende max forhåndsbud. Det er derfor ikke muligt at afgive budet.");
 			return false;
 		}
+		
+		// AMOUNT, BUYER, PREBIDMAX EQUAL TO AMOUNT, SOLD TO BUYER.
+//		else if (amount != 0 && buyerno != "0" && maxautobidamount == amount)
+//		{
+//			sXUL.console.log ("GETBID: 12");
+//			
+//			item.approvedforinvoice = true;
+//			bid = didius.bid.create ({customerId: customerid, item: item, amount: 0});
+//			
+//			//app.window.prompt.alert ("Bud", "Budet er ikke højre end nuværende max forhåndsbud. Det er derfor ikke muligt at afgive budet.");
+//			//return false;
+//		}
 		
 		// AMOUNT, BUYER, SOLD TO BUYER.
 		else if (amount != 0 && buyerno != "0")

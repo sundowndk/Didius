@@ -527,6 +527,14 @@ namespace Didius.Addin
 								customer.Mobile = request.getValue<string> ("mobile");
 
 							customer.Save ();
+
+							if (request.xPathExists ("password"))
+							{
+								User user = User.Load (customer.UserId);
+								user.Password = request.getValue<string> ("password");
+								user.Save ();
+							}
+
 							break;
 						}
 

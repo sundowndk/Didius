@@ -150,7 +150,8 @@ var main =
 								for (index in main.items)
 								{																										
 									var item = main.items[index];								
-									if ((item.bidamount > 0) && (item.invoiced == true) && (item.settled == false))
+									//if ((item.bidamount > 0) && (item.invoiced == true) && (item.settled == false))
+									if ((item.settled == false))
 									{									
 										var case_ = didius.case.load ({id: item.caseid});																				
 									

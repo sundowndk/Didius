@@ -448,13 +448,14 @@ namespace Didius
 			user.Status = SorentoLib.Enums.UserStatus.NotVerified;
 			user.Save ();
 
+			string from_ = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_profile_confirm_subject);
 			string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_profile_confirm_body);
 
 			body = body.Replace ("%%NAME%%", customer.Name);
 			body = body.Replace ("%%VERIFICATIONCODE%%", customer.User.Id.ToString ());
 
-			SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", customer.Email, subject, body, SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_profile_confirm_isbodyhtml));
+			SorentoLib.Tools.Helpers.SendMail (from_, customer.Email, subject, body, SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_profile_confirm_isbodyhtml));
 
 			return customer;
 		}
@@ -474,13 +475,14 @@ namespace Didius
 
 					Customer customer = Customer.Load (user);			
 
+					string from_ = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 					string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_profile_confirmed_subject);
 					string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_profile_confirmed_body);
 
 					body = body.Replace ("%%NAME%%", customer.Name);
 					body = body.Replace ("%%VERIFICATIONCODE%%", customer.User.Id.ToString ());
 
-					SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", customer.Email, subject, body, SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_profile_confirmed_isbodyhtml));
+					SorentoLib.Tools.Helpers.SendMail (from_, customer.Email, subject, body, SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_profile_confirmed_isbodyhtml));
 
 					result = true;
 				}
@@ -504,9 +506,9 @@ namespace Didius
 				user.Password = password;
 				user.Save ();
 
+				string from_ = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 
-
-				SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", user.Email, "Adgangskode til york-auktion.dk","Her er din nye adgangskode til york-auktion.dk \n\nBrugernavn: "+ user.Username +"\nAdgangskode: "+ password);
+				SorentoLib.Tools.Helpers.SendMail (from_, user.Email, "Adgangskode til york-auktion.dk","Her er din nye adgangskode til york-auktion.dk \n\nBrugernavn: "+ user.Username +"\nAdgangskode: "+ password);
 				result = true;
 			}
 			catch
@@ -518,7 +520,8 @@ namespace Didius
 
 		public static void SendConsignment (string Content)
 		{
-			SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", "jm@york-auktion.dk", "Indleveringsaftale", Content, true);
+			string from_ = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
+			SorentoLib.Tools.Helpers.SendMail (from_, "jm@york-auktion.dk", "Indleveringsaftale", Content, true);
 		}
 
 		public static void VerificationEmail (SorentoLib.User User)
@@ -531,9 +534,10 @@ namespace Didius
 		{
 			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
 			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (Filename), "salgsaftale.pdf", SNDK.IO.GetMimeType (Filename)));
-			
+
+			string from_ = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
 			//SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Salgsaftale", "Salgs aftale er vedhæftet.\n\nMed venlig hilsen\nYork Auktion ApS", false, attatchments);
-			SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", "rasmus@akvaservice.dk", "Salgsaftale", "Salgs aftale er vedhæftet.\n\nMed venlig hilsen\nYork Auktion ApS", false, attatchments);
+			SorentoLib.Tools.Helpers.SendMail (from_, "rasmus@akvaservice.dk", "Salgsaftale", "Salgs aftale er vedhæftet.\n\nMed venlig hilsen\nYork Auktion ApS", false, attatchments);
 		}
 
 		public static string NewNo ()
