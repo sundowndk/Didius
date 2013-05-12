@@ -1,21 +1,24 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/auction.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/common/print/label.js">
     <Files>
       <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.js" Line="273" Column="34" />
       <File FileName="Didius/Application/js/didius/auction.js" Line="25" Column="3" />
+      <File FileName="Didius/Application/js/didius/common/print/label.js" Line="171" Column="27" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Didius" expanded="True">
+            <Node name="References" expanded="True" />
             <Node name="Application" expanded="True">
               <Node name="js" expanded="True">
                 <Node name="didius" expanded="True">
                   <Node name="common" expanded="True">
-                    <Node name="print" expanded="True" />
+                    <Node name="print" expanded="True">
+                      <Node name="label.js" selected="True" />
+                    </Node>
                   </Node>
-                  <Node name="auction.js" selected="True" />
                 </Node>
               </Node>
               <Node name="xul" expanded="True">

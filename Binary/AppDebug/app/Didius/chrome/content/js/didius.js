@@ -5350,8 +5350,8 @@ var didius =
 				//settings.paperWidth = 62;
 				//settings.paperHeight = 100;
 				
-				settings.paperWidth = 29;
-				settings.paperHeight = 100;
+				settings.paperWidth = 100;
+				settings.paperHeight = 62;
 				settings.orientation = 1;
 				
 				//settings.setPaperSizeType = Ci.nsIPrintSettings.kPaperSizeDefined;  	
