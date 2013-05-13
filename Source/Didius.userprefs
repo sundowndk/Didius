@@ -1,10 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/js/didius/common/print/label.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Test/Main.cs">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/auction/bidnotation.js" Line="273" Column="34" />
-      <File FileName="Didius/Application/js/didius/auction.js" Line="25" Column="3" />
-      <File FileName="Didius/Application/js/didius/common/print/label.js" Line="171" Column="27" />
+      <File FileName="Test/Main.cs" Line="37" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,9 +13,7 @@
               <Node name="js" expanded="True">
                 <Node name="didius" expanded="True">
                   <Node name="common" expanded="True">
-                    <Node name="print" expanded="True">
-                      <Node name="label.js" selected="True" />
-                    </Node>
+                    <Node name="print" expanded="True" />
                   </Node>
                 </Node>
               </Node>
@@ -37,7 +33,6 @@
             <Node name="Didius.Enums" expanded="True" />
             <Node name="Didius.Strings" expanded="True" />
           </Node>
-          <Node name="Test" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

@@ -31,6 +31,27 @@ namespace Test
 			{
 				Console.WriteLine ("Connected to database.");
 
+				for (int i = 0; i < max; i++)
+				{
+					
+				}
+
+				List<Didius.Item> items = new List<Didius.Item> ();
+				foreach (Didius.Auction a in Didius.Auction.List ())
+				{
+					if (a.Status == Didius.Enums.AuctionStatus.Open || a.Status == Didius.Enums.AuctionStatus.Hidden)
+					{
+						items.AddRange (Didius.Item.List (a));
+					}
+				}
+
+				Random random = new Random ();
+				Console.WriteLine (items[random.Next (0, items.Count)].Title);
+				Console.WriteLine (items[random.Next (0, items.Count)].Title);
+				Console.WriteLine (items[random.Next (0, items.Count)].Title);
+				Console.WriteLine (items[random.Next (0, items.Count)].Title);
+
+
 				#region RESET AUCTION
 //				foreach (Didius.Auction a in Didius.Auction.List ())
 //				{

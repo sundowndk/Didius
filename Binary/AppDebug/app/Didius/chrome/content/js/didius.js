@@ -5194,6 +5194,9 @@ var didius =
 								
 									var template = didius.helpers.parsePrintTemplate (didius.settings.get ({key: "didius_template_label"}));					
 									//var template = didius.helpers.parsePrintTemplate (sXUL.tools.fileToString ("chrome://didius/content/templates/label.tpl"));
+									
+									var case_ = didius.case.load ({id: attributes.item.caseid});
+									var auction = didius.auction.load (case_.auctionid);
 				
 									var print = app.mainWindow.document.createElement ("iframe");
 									app.mainWindow.document.getElementById ("PrintHolder").appendChild (print);
@@ -5223,11 +5226,7 @@ var didius =
 										// Add inital content.
 										var render = template.page.replace ("%%PAGENUMBER%%", pageCount++);					
 										content.innerHTML = render;
-									
-										// Caluculate page maxheight for printing.										
-			//							var maxHeight = page.offsetHeight 
-			//							var maxHeight2 = page.offsetHeight;
-																												
+																																		
 										// ITEMNO
 										{
 											render = render.replace ("%%ITEMNO%%", attributes.item.no);
@@ -5244,7 +5243,18 @@ var didius =
 										{
 											render = render.replace ("%%ITEMDESCRIPTION%%", attributes.item.description);
 											content.innerHTML = render;
-										}																	
+										}	
+										
+										// AUCTIONDATE
+										{			
+										
+										//sXUL.console.log (new Date (Date.parse (auction.begin)))		
+										//	var date = SNDK.tools.timestampToDate (auction.begin)
+										
+										var begin = new Date (Date.parse (main.auction.begin));
+										render = render.replace ("%%AUCTIONDATE%%", SNDK.tools.padLeft (begin.getDate (), 2, "0") +"-"+ SNDK.tools.padLeft ((begin.getMonth () + 1), 2, "0") +"-"+ begin.getFullYear ());
+											content.innerHTML = render;
+										}																
 										
 																								
 									//	return count;				
@@ -5346,13 +5356,13 @@ var didius =
 					
 				settings.orientation = Ci.nsIPrintSettings.kLandscapeOrientation;
 				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;
-				//settings.paperName = "ppd_62x29";
+				settings.paperName = "ppd_62x100";
 				//settings.paperWidth = 62;
 				//settings.paperHeight = 100;
 				
-				settings.paperWidth = 100;
-				settings.paperHeight = 62;
-				settings.orientation = 1;
+				settings.paperWidth = 62;
+				settings.paperHeight = 100;
+				settings.orientation = 0;
 				
 				//settings.setPaperSizeType = Ci.nsIPrintSettings.kPaperSizeDefined;  	
 			  	//settings.setPaperSize = Ci.nsIPrintSettings.kPaperSizeNativeData;
