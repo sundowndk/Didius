@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Test/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
     <Files>
-      <File FileName="Test/Main.cs" Line="37" Column="6" />
+      <File FileName="Didius/Application/xul/chrome/content/auction/run.js" Line="323" Column="4" />
+      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -26,6 +27,7 @@
                   </Node>
                 </Node>
                 <Node name="defaults" expanded="True" />
+                <Node name="application.ini" selected="True" />
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />

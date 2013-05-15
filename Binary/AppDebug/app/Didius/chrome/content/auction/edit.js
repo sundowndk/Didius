@@ -800,9 +800,8 @@ var eventHandlers =
 	onAuctionSave : function (eventData)
 	{
 		if (main.auction.id == eventData.id)
-		{
-			var update = didius.helpers.parseBuyerNos (eventData.buyernos);								
-			main.auction.buyeros = update;			
+		{		
+			main.auction.buyernos = eventData.buyernos;
 		}
 	},
 

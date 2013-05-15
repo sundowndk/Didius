@@ -139,6 +139,16 @@ settlement : function (attributes)
 														render = render.replace ("%%CUSTOMERBANKACCOUNT%%", customer.bankregistrationno +" "+ customer.bankaccountno);
 													}
 													
+													// CASENO
+													{
+														render = render.replace ("%%CASENO%%", attributes.settlement.caseno);
+													}
+													
+													// REFERENCE
+													{
+														render = render.replace ("%%REFERENCE%%", attributes.settlement.reference);
+													}
+													
 													content.innerHTML = render;	
 															
 													// ROWS

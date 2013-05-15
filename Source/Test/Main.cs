@@ -26,30 +26,62 @@ namespace Test
 			                                                          true);
 			
 			SorentoLib.Services.Database.Prefix = "didiustest_";
+//			DateTime.Now < 
+
+			string test = "bla bla";
+			test.Replace ("\n", "<br>");
+
 
 			if (SorentoLib.Services.Database.Connection.Connect ())
 			{
-				Console.WriteLine ("Connected to database.");
-
-				for (int i = 0; i < max; i++)
+				foreach (Didius.Settlement sm in Didius.Settlement.List ())
 				{
-					
+//					Didius.Case c = Didius.Case.Load (sm.CaseId);
+//
+//					sm.CaseNo = c.No;
+//					sm.Reference = c.CustomerReference;
+//					sm.Save ();
+//
+
+//					if (sm.No == 56)
+//					{
+//						foreach (Didius.SettlementLine sml in sm.Lines)
+//						{
+//							Didius.Item i = Didius.Item.Load (sml.ItemId);
+//
+//							Console.WriteLine (i.Description);
+//							i.Settled = false;
+//							i.Save ();
+//						}
+//						Didius.Settlement.Delete (sm.Id);
+//						sm.No = 24;
+//						sm.Save ();
+//						break;
+//					}					
 				}
 
-				List<Didius.Item> items = new List<Didius.Item> ();
-				foreach (Didius.Auction a in Didius.Auction.List ())
-				{
-					if (a.Status == Didius.Enums.AuctionStatus.Open || a.Status == Didius.Enums.AuctionStatus.Hidden)
-					{
-						items.AddRange (Didius.Item.List (a));
-					}
-				}
 
-				Random random = new Random ();
-				Console.WriteLine (items[random.Next (0, items.Count)].Title);
-				Console.WriteLine (items[random.Next (0, items.Count)].Title);
-				Console.WriteLine (items[random.Next (0, items.Count)].Title);
-				Console.WriteLine (items[random.Next (0, items.Count)].Title);
+//				Console.WriteLine ("Connected to database.");
+//
+//				for (int i = 0; i < max; i++)
+//				{
+//					
+//				}
+//
+//				List<Didius.Item> items = new List<Didius.Item> ();
+//				foreach (Didius.Auction a in Didius.Auction.List ())
+//				{
+//					if (a.Status == Didius.Enums.AuctionStatus.Open || a.Status == Didius.Enums.AuctionStatus.Hidden)
+//					{
+//						items.AddRange (Didius.Item.List (a));
+//					}
+//				}
+//
+//				Random random = new Random ();
+//				Console.WriteLine (items[random.Next (0, items.Count)].Title);
+//				Console.WriteLine (items[random.Next (0, items.Count)].Title);
+//				Console.WriteLine (items[random.Next (0, items.Count)].Title);
+//				Console.WriteLine (items[random.Next (0, items.Count)].Title);
 
 
 				#region RESET AUCTION

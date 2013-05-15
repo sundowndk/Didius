@@ -38,6 +38,7 @@ var main =
 		main.items = didius.item.list ({auction: main.auction, async: true, onDone: onDone});	
 				
 		// Hook events.					
+		app.events.onAuctionSave.addHandler (eventHandlers.onAuctionSave);
 		app.events.onAuctionDestroy.addHandler (eventHandlers.onAuctionDestroy);				
 	},
 			
@@ -310,10 +311,21 @@ var main =
 // | EVENTHANDLERS																							|
 // ----------------------------------------------------------------------------------------------------------
 var eventHandlers =
-{								
+{				
+	// ------------------------------------------------------------------------------------------------------
+	// | ONAUCTIONSAVE																					|	
+	// ------------------------------------------------------------------------------------------------------
+	onAuctionSave : function (eventData)
+	{
+		if (main.auction.id == eventData.id)
+		{		
+			main.auction.buyernos = eventData.buyernos;
+		}
+	},
+								
 	onAuctionDestroy : function (eventData)
 	{
-		if (main.current.id == eventData.id)
+		if (main.auction.id == eventData.id)
 		{
 			main.close (true);
 		}

@@ -186,10 +186,10 @@ namespace Didius
 			{
 				result = ((Item.BidAmount * case_.CommisionFeePercentage) / 100);
 			}
-			else
-			{
-				result = ((Item.BidAmount * SorentoLib.Services.Settings.Get<Decimal> (Enums.SettingsKey.didius_value_seller_commission_percentage) / 100));
-			}
+//			else
+//			{
+//				result = ((Item.BidAmount * SorentoLib.Services.Settings.Get<Decimal> (Enums.SettingsKey.didius_value_seller_commission_percentage) / 100));
+//			}
 
 			if (case_.CommisionFeeMinimum != 0)
 			{
@@ -198,13 +198,13 @@ namespace Didius
 					result = case_.CommisionFeeMinimum;
 				}
 			}
-			else
-			{
-				if (result < SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_seller_commission_minimum))
-				{
-					result = SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_seller_commission_minimum);
-				}
-			}
+//			else
+//			{
+//				if (result < SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_seller_commission_minimum))
+//				{
+//					result = SorentoLib.Services.Settings.Get<decimal> (Enums.SettingsKey.didius_value_seller_commission_minimum);
+//				}
+//			}
 
 			return result;
 		}

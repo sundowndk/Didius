@@ -32,6 +32,8 @@ namespace Didius
 		private Guid _caseid;
 		private Guid _customerid;
 		private List<SettlementLine> _lines;
+		private string _caseno;
+		private string _reference;
 		#endregion
 		
 		#region Public Fields
@@ -155,6 +157,33 @@ namespace Didius
 				return this._lines;
 			}
 		}
+
+		public string CaseNo
+		{
+			get
+			{
+				return this._caseno;
+			}
+
+			set
+			{
+				this._caseno = value;
+			}
+		}
+
+		public string Reference
+		{
+			get
+			{
+				return this._reference;
+			}
+
+			set
+			{
+				this._reference = value;
+			}
+
+		}
 		#endregion
 		
 		#region Constructor
@@ -168,6 +197,8 @@ namespace Didius
 			this._caseid = Case.Id;			
 			this._customerid = Case.CustomerId;
 			this._lines = new List<SettlementLine> ();
+			this._caseno = Case.No;
+			this._reference = Case.CustomerReference;
 		}	
 				
 		private Settlement ()
@@ -179,6 +210,8 @@ namespace Didius
 			this._caseid = Guid.Empty;			
 			this._customerid = Guid.Empty;
 			this._lines = new List<SettlementLine> ();
+			this._caseno = string.Empty;
+			this._reference = string.Empty;
 		}
 		#endregion
 		
@@ -204,6 +237,8 @@ namespace Didius
 				item.Add ("caseid", this._caseid);
 				item.Add ("customerid", this._customerid);
 				item.Add ("lines", this._lines);
+				item.Add ("caseno", this._caseno);
+				item.Add ("reference", this._reference);
 				
 				SorentoLib.Services.Datastore.Meta meta = new SorentoLib.Services.Datastore.Meta ();
 				meta.Add ("auctionid", this._auctionid);
@@ -245,6 +280,8 @@ namespace Didius
 			result.Add ("vat", this.Vat);
 			result.Add ("total", this.Total);
 			result.Add ("lines", this._lines);
+			result.Add ("caseno", this._caseno);
+			result.Add ("reference", this._reference);
 			
 			return SNDK.Convert.ToXmlDocument (result, this.GetType ().FullName.ToLower ());
 		}
@@ -298,6 +335,16 @@ namespace Didius
 					{
 						result._lines.Add (SettlementLine.FromXmlDocument (settlementline));
 					}
+				}
+
+				if (item.ContainsKey ("caseno"))
+				{
+					result._caseno = (string)item["caseno"];
+				}
+
+				if (item.ContainsKey ("reference"))
+				{
+					result._reference = (string)item["reference"];
 				}
 			}
 			catch (Exception exception)
