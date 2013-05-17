@@ -86,15 +86,17 @@ label : function (attributes)
 
 	var data = "";
 																			
-//	if (attributes.invoice)
-//	{
-		//data = render ({invoice: attributes.invoice});
-		
+	if (attributes.item)
+	{
+		data = render ({item: attributes.item});
+	}
+	else if (attributes.items)
+	{	
 		for (var index in attributes.items)
 		{		
 			data += render ({item: attributes.items[index]});
 		}
-//	}
+	}
 //	else if (attributes.invoices)
 //	{
 //		for (index in attributes.invoices)

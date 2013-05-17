@@ -7,7 +7,8 @@
 	
 	<script type="application/javascript" src="chrome://didius/content/js/sndk/js/sndk.js"/>  
 	<script type="application/javascript" src="chrome://didius/content/js/sxul/js/sxul.js"/>	
-	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>		
+	<script type="application/javascript" src="chrome://didius/content/js/didius.js"/>	
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>	
 	<script type="application/javascript" src="chrome://didius/content/item/edit.js"/>				
 			
 	<keyset>  		
@@ -21,6 +22,9 @@
   		<key id="key.tab.details" modifiers="alt" key="1" oncommand="document.getElementById ('tab.details').click ();"/>
   		<key id="key.tab.bids" modifiers="alt" key="2" oncommand="document.getElementById ('tab.bids').click ();"/>  		
 	</keyset>			
+			
+	<iframe id="iframe.print" style="height: 0px; width: 0px; margin: 0px; padding: 0px;" collapsed="true">
+	</iframe>					
 			
 	<hbox class="Main" flex="1">
 		<tabbox selectedIndex="0" flex="1">
@@ -147,6 +151,8 @@
 	</hbox>
 	
 	<hbox class="WindowButtons" align="right" >
+		<button id="button.printlabel" label="Udskriv label" oncommand="main.printLabel ();" disabled="true"/>
+		<spacer flex="1"/>
 		<button id="button.savecreate" label="Gem og Opret" oncommand="main.saveCreate ();" disabled="true" accesskey="O"/>
 		<button id="button.close" label="Luk" oncommand="main.close ();" disabled="true" accesskey="L" key="key.close"/>
 		<button id="button.save" label="Gem" oncommand="main.save ();" disabled="true" accesskey="G" key="key.save"/>
