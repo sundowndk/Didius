@@ -1291,42 +1291,46 @@ var sXUL =
 				{
 					onStateChange: function (aWebProgress, aRequest, aStateFlags, aStatus) 
 		      		{
-		      	//			sXUL.console.log (aStateFlags);
+		      				sXUL.console.log (aStateFlags);
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_REQUEST)
 		      			{
-		      	//			sXUL.console.log ("STATE_IS_REQUEST")
+		      				sXUL.console.log ("STATE_IS_REQUEST")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT)
 		      			{
-		      	//			sXUL.console.log ("STATE_IS_DOCUMENT")
+		      				sXUL.console.log ("STATE_IS_DOCUMENT")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK)
 		      			{
-		      	//			sXUL.console.log ("STATE_IS_NETWORK")
+		      				sXUL.console.log ("STATE_IS_NETWORK")
 		      			}
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_WINDOW)
 		      			{
-		      //				sXUL.console.log ("STATE_IS_WINDOW")
+		      				sXUL.console.log ("STATE_IS_WINDOW")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_START)
 		      			{
-		    //  				sXUL.console.log ("STATE_START")
+		     				sXUL.console.log ("STATE_START")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP)
 		      			{
-		  //    				sXUL.console.log ("STATE_STOP")
+		      				sXUL.console.log ("STATE_STOP")
 		      			}
 		      			
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT) 
 		      			{
-		      				//onDone ();
+		      				sXUL.console.log ("STATE_STOP + STATE_DOCUMENT")
+		      				if (attributes.onDone != null)
+		    				{    					
+		    					setTimeout (attributes.onDone, 1);
+		    				}
 		      			}
 		      		
 						if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK) 
 		      			{
-		//      				sXUL.console.log ("DONE");      				      				
+		      				sXUL.console.log ("DONE");      				      				
 		      				if (attributes.onDone != null)
 		    				{    					
 		    					setTimeout (attributes.onDone, 1);

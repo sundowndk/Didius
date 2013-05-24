@@ -34,8 +34,14 @@ namespace Test
 
 			if (SorentoLib.Services.Database.Connection.Connect ())
 			{
-				foreach (Didius.Settlement sm in Didius.Settlement.List ())
+				foreach (Didius.Item i in Didius.Item.Search ("hd videokamera"))
 				{
+					Console.WriteLine (i.CatalogNo +" : "+ i.Title);
+				}
+
+
+//				foreach (Didius.Settlement sm in Didius.Settlement.List ())
+//				{
 //					Didius.Case c = Didius.Case.Load (sm.CaseId);
 //
 //					sm.CaseNo = c.No;
@@ -58,7 +64,7 @@ namespace Test
 //						sm.Save ();
 //						break;
 //					}					
-				}
+//				}
 
 
 //				Console.WriteLine ("Connected to database.");

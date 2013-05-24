@@ -1,12 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/chrome/content/item/edit.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
     <Files>
-      <File FileName="Didius/Application/xul/chrome/content/item/edit.js" Line="113" Column="59" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/edit.js" Line="671" Column="3" />
-      <File FileName="Didius/Application/xul/chrome/content/auction/catalog/print.xul" Line="10" Column="1" />
-      <File FileName="Didius/Application/js/didius/common/print/label.js" Line="71" Column="58" />
-      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
+      <File FileName="Didius/Application/js/didius/common/print/catalog.js" Line="206" Column="18" />
+      <File FileName="Didius/Application/js/didius/common/print/settlement.js" Line="118" Column="14" />
+      <File FileName="Didius/Application/js/didius/common/print/invoice.js" Line="90" Column="15" />
+      <File FileName="Didius/Application/xul/application.ini" Line="11" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -28,13 +27,12 @@
                       <Node name="catalog" expanded="True" />
                     </Node>
                     <Node name="bid" expanded="True" />
-                    <Node name="item" expanded="True">
-                      <Node name="edit.js" selected="True" />
-                    </Node>
+                    <Node name="item" expanded="True" />
                     <Node name="main" expanded="True" />
                   </Node>
                 </Node>
                 <Node name="defaults" expanded="True" />
+                <Node name="application.ini" selected="True" />
               </Node>
             </Node>
             <Node name="Didius" expanded="True" />

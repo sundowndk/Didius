@@ -110,6 +110,18 @@ invoice : function (attributes)
 													{
 														render = render.replace ("%%CUSTOMEREMAIL%%", customer.email);														
 													}
+													
+													// CUSTOMERVATNO
+													{
+														if (customer.vat)
+														{
+															render = render.replace ("%%CUSTOMERVATNO%%", customer.vatno);
+														}
+														else
+														{
+															render = render.replace ("%%CUSTOMERVATNO%%", "");
+														}
+													}
 																										
 													// AUCTIONINFO
 													{

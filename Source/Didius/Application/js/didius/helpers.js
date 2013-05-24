@@ -396,6 +396,34 @@ parsePrintTemplate : function (data)
 					result.auctioninfo = "";
 					continue;
 				}
+				
+				case "#BEGINCUSTOMERINFOROW":
+				{
+					block = "customerinforow";
+					result.customerinforow = "";
+					continue;
+				}
+				
+				case "#BEGINITEMLISTHEADERROW":
+				{
+					block = "itemlistheaderrow";
+					result.itemlistheaderrow = "";
+					continue;
+				}
+				
+				case "#BEGINITEMLISTROW":
+				{
+					block = "itemlistrow";
+					result.itemlistrow = "";
+					continue;
+				}
+				
+				case "#BEGINDISCLAIMERROW":
+				{
+					block = "disclaimerrow";
+					result.disclaimerrow = "";
+					continue;
+				}
 			}					
 		}
 		else
@@ -511,6 +539,30 @@ parsePrintTemplate : function (data)
 				}
 				
 				case "#ENDAUCTIONINFO":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDCUSTOMERINFOROW":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDITEMLISTHEADERROW":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDITEMLISTROW":
+				{
+					block = "";
+					continue;
+				}
+				
+				case "#ENDDISCLAIMERROW":
 				{
 					block = "";
 					continue;
@@ -637,6 +689,30 @@ parsePrintTemplate : function (data)
 			case "auctioninfo":
 			{
 				result.auctioninfo += data[idx] +"\n";
+				break;
+			}
+			
+			case "customerinforow":
+			{
+				result.customerinforow += data[idx] +"\n";
+				break;
+			}
+			
+			case "itemlistheaderrow":
+			{
+				result.itemlistheaderrow += data[idx] +"\n";
+				break;
+			}
+			
+			case "itemlistrow":
+			{
+				result.itemlistrow += data[idx] +"\n";
+				break;
+			}
+			
+			case "disclaimerrow":
+			{
+				result.disclaimerrow += data[idx] +"\n";
 				break;
 			}
 		}				

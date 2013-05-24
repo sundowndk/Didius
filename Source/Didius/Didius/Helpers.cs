@@ -127,6 +127,36 @@ namespace Didius
 //			}
 		}
 
+//		public static void MailBidPlaced (Item Item, decimal Amount)
+//		{
+//			Customer customer = Customer.Load (Invoice.CustomerId);
+//			
+//			string _from = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender);
+//			
+//			string to = customer.Email;
+////			string to = "rasmus@akvaservice.dk";
+//			
+//			string subject = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_invoice_subject);
+//			subject = ReplacePlaceholders (customer, subject);
+//			subject = ReplacePlaceholders (Invoice, subject);
+//			
+//			string body = SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_template_invoice_body);
+//			body = ReplacePlaceholders (customer, body);
+//			body = ReplacePlaceholders (Invoice, body);
+//			
+//			bool isbodyhtml = SorentoLib.Services.Settings.Get<bool> (Enums.SettingsKey.didius_email_template_invoice_isbodyhtml);
+//			
+//			List<SorentoLib.Tools.Helpers.SendMailAttatchment> attatchments = new List<SorentoLib.Tools.Helpers.SendMailAttatchment> ();
+//			attatchments.Add (new SorentoLib.Tools.Helpers.SendMailAttatchment (SNDK.IO.FileToByteArray (PdfFilename), "faktura"+ Invoice.No +".pdf", SNDK.IO.GetMimeType (PdfFilename)));
+//			
+//			SorentoLib.Tools.Helpers.SendMail (_from, to, subject, body, isbodyhtml, attatchments);
+//
+//
+//			SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Email, "Autobud oprettet","Du har oprettet et autobud på:\n Katalog nr.: "+ Item.CatalogNo +"\n\n"+ Item.Title +"\n\n"+"Autobud max: "+ Amount +" kr.\n\n");
+//
+//
+//		}
+
 
 		public static void MailItemWon (Item Item)
 		{

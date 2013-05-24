@@ -20,17 +20,26 @@ settlement : function (attributes)
 																							
 						var contentType1 =	function ()
 											{
+												var rows = new Array ();			
+											
+											
 												var page = function (from)
 												{
+													var totalsize = 0;
+												
 													// Add styles.																		
 													var styles = print.contentDocument.createElement ("style");					
 													print.contentDocument.body.appendChild (styles);					
 													styles.innerHTML = template.styles;
 											
 													// Create page.				
+													var page1 = print.contentDocument.createElement ("div");
+													page1.className = "Page A4";
+													print.contentDocument.body.appendChild (page1);
+													
 													var page = print.contentDocument.createElement ("div");
-													page.className = "Page A4";
-													print.contentDocument.body.appendChild (page);
+													page.className = "test";
+													page1.appendChild (page);
 													
 													// Page
 													{							
@@ -45,7 +54,7 @@ settlement : function (attributes)
 														
 														page.innerHTML = render;
 													}
-													
+																																							
 													// Add content holder.																						
 													var content = print.contentDocument.createElement ("div")
 													content.className = "PrintContent";
@@ -105,6 +114,18 @@ settlement : function (attributes)
 													{
 														render = render.replace ("%%CUSTOMEREMAIL%%", customer.email);														
 													}
+													
+													// CUSTOMERVATNO
+													{
+														if (customer.vat)
+														{
+															render = render.replace ("%%CUSTOMERVATNO%%", customer.vatno);
+														}
+														else
+														{
+															render = render.replace ("%%CUSTOMERVATNO%%", "");
+														}
+													}
 																										
 													// AUCTIONINFO
 													{
@@ -154,117 +175,116 @@ settlement : function (attributes)
 													// ROWS
 													{
 														// Add data rows.
-														var rows = "";	
+														var blabla = "";
 														var count = 0;
 																				
-														for (var idx = from; idx < attributes.settlement.lines.length; idx++)
+														for (var idx = from; idx < rows.length; idx++)
 														{							
-															var row = template.row;
-																																													
-															// TEXT
-															{
-																row = row.replace ("%%TEXT%%", attributes.settlement.lines[idx].text);
-															}		
-														
-															// AMOUNT
-															{
-																row = row.replace ("%%AMOUNT%%", attributes.settlement.lines[idx].amount.toFixed (2));
-															}
-																																
-															// VATAMOUNT
-															{
-																row = row.replace ("%%VATAMOUNT%%", attributes.settlement.lines[idx].vatamount.toFixed (2));
-															}
-															
-															// COMMISSIONFEE
-															{
-																row = row.replace ("%%COMMISSIONFEE%%", attributes.settlement.lines[idx].commissionfee.toFixed (2));
-															}					
-															
-															// VATCOMMISSIONFEE
-															{
-																row = row.replace ("%%VATCOMMISSIONFEE%%", attributes.settlement.lines[idx].vatcommissionfee.toFixed (2));
-															}					
-															
-															// TOTAL
-															{
-																row = row.replace ("%%TOTAL%%", attributes.settlement.lines[idx].total.toFixed (2));
-															}					
-
-															content.innerHTML = render.replace ("%%ROWS%%", rows + row);
-																																					
-															
-																																					
+															var row = rows[idx];				
+															content.innerHTML = render.replace ("%%ROWS%%", blabla + row);
+																												
+															sXUL.console.log ("********************")
+															sXUL.console.log (row)
+															sXUL.console.log ("********************")
+																																																																																						
 															if ((page.offsetHeight - print.contentDocument.getElementById ("PageFooter").offsetHeight - print.contentDocument.getElementById ("PageHeader").offsetHeight - 10) <= (content.offsetHeight))
 															{   																																				
 															
-																render = render.replace ("%%ROWS%%", rows);																																																															
-																content.innerHTML = render;															
-																
-																{
-																	var render = page.innerHTML;
-																	//var render = content.innerHTML;
-																	render = render.replace ("%%TRANSFER%%", template.transfer)						
-																	render = render.replace ("%%TOTAL%%", "");		
-																	render = render.replace ("%%DISCLAIMER%%", "");							
-																	page.innerHTML = render;																																
-																	//content.innerHTML = render;
-																}																
+																render = render.replace ("%%ROWS%%", blabla);																																																															
+																content.innerHTML = render;																																														
 																
 																break;	
 															}
-																					
-															rows += row;																	
+																						
+															blabla += row;																	
 															count++;						
 														}
 														
 														//sXUL.console.log (pageCount +" "+ (page.offsetHeight - print.contentDocument.getElementById ("PageFooter").offsetHeight - print.contentDocument.getElementById ("PageHeader").offsetHeight) +" < "+ content.offsetHeight)
 														
-														render = render.replace ("%%ROWS%%", rows);													
+														render = render.replace ("%%ROWS%%", blabla);													
 														content.innerHTML = render;
-																																									
-														{
-															var render = page.innerHTML;														
-															render = render.replace ("%%TRANSFER%%", "");
-															page.innerHTML = render;															
-														}
-														
-														
 													}
-													
-													// TOTAL
-													{																										
-														var render = page.innerHTML;
-														render = render.replace ("%%TOTAL%%", template.total);
-														render = render.replace ("%%TOTALSALE%%", attributes.settlement.sales.toFixed (2));
-														render = render.replace ("%%TOTALCOMMISSIONFEE%%", attributes.settlement.commissionfee.toFixed (2));
-														render = render.replace ("%%TOTALVAT%%", attributes.settlement.vat.toFixed (2));
-														render = render.replace ("%%TOTALTOTAL%%", attributes.settlement.total.toFixed (2));
-														page.innerHTML = render;
-													}				
-																					
-													// DISCLAIMER
-													{
-														var render = page.innerHTML;
-														render = render.replace ("%%DISCLAIMER%%", template.disclaimer);														
-														page.innerHTML = render;
-													}		
-													
+															
 													return count;				
 												}
+																																			
+																
+												
+												
+												for (idx in attributes.settlement.lines)
+												{
+													var row = template.row;
+																																													
+													// TEXT
+													{
+														row = row.replace ("%%TEXT%%", attributes.settlement.lines[idx].text);
+													}		
+													
+													// AMOUNT
+													{
+														row = row.replace ("%%AMOUNT%%", attributes.settlement.lines[idx].amount.toFixed (2));
+													}
+																																
+													// VATAMOUNT
+													{
+														row = row.replace ("%%VATAMOUNT%%", attributes.settlement.lines[idx].vatamount.toFixed (2));
+													}
+													
+													// COMMISSIONFEE
+													{
+														row = row.replace ("%%COMMISSIONFEE%%", attributes.settlement.lines[idx].commissionfee.toFixed (2));
+													}					
+													
+													// VATCOMMISSIONFEE
+													{
+														row = row.replace ("%%VATCOMMISSIONFEE%%", attributes.settlement.lines[idx].vatcommissionfee.toFixed (2));
+													}					
+													
+													// TOTAL
+													{
+														row = row.replace ("%%TOTAL%%", attributes.settlement.lines[idx].total.toFixed (2));
+													}		
+													
+													rows[rows.length] = row;
+												}
+												
+												// TOTAL
+												{																										
+													var row = template.total;
+													row = row.replace ("%%TOTAL%%", template.total);
+													row = row.replace ("%%TOTALSALE%%", attributes.settlement.sales.toFixed (2));
+													row = row.replace ("%%TOTALCOMMISSIONFEE%%", attributes.settlement.commissionfee.toFixed (2));
+													row = row.replace ("%%TOTALVAT%%", attributes.settlement.vat.toFixed (2));
+													row = row.replace ("%%TOTALTOTAL%%", attributes.settlement.total.toFixed (2));
+													rows[rows.length] = row;
+												}				
+																					
+												// DISCLAIMER
+												{													
+													rows[rows.length] = template.disclaimer;
+												}		
+												
+											
+												
 											
 												var output = "";
 												var c = 0;				
-												while (c < attributes.settlement.lines.length)
-												{							
-									 				c += page (c);				 				
+												//while (c < attributes.settlement.lines.length)
+												while (c < rows.length)
+												{																													
+								 					c += page (c);						 				
 									 				
 									 				output += print.contentDocument.body.innerHTML;
 									 				print.contentDocument.body.innerHTML = " ";	
-												}												
+												}					
+												
+																								
 												
 												return output;
 											};
+											
+											
 											
 						return contentType1 ();											
 					};
@@ -284,20 +304,23 @@ settlement : function (attributes)
 			data += render ({settlement: attributes.settlements[index]});
 		}			
 	}
-	
+	sXUL.console.log (data)
 	var print = document.getElementById ("iframe.print");
 	print.contentDocument.body.innerHTML = data;		
 							
 	var settings = PrintUtils.getPrintSettings ();
 																																								
-	settings.marginLeft = 0.5;
-	settings.marginRight = 0.5;
-	settings.marginTop = 0.5;
-	settings.marginBottom = 0.5;
+	settings.marginLeft = 0.0;
+	settings.marginRight = 0.0;
+	settings.marginTop = 0.0;
+	settings.marginBottom = 0.0;
 	settings.shrinkToFit = true;		
 	settings.paperName =  "iso_a4";
+	//settings.paperName =  "iso_a5";
 	settings.paperWidth = 210;
 	settings.paperHeight = 297
+	//settings.paperWidth = 148;
+	//settings.paperHeight = 210
 	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
    	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;	
 	settings.printBGImages = true;

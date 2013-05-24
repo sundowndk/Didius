@@ -39,9 +39,14 @@ catalog : function (attributes)
 													styles.innerHTML = template.styles;
 											
 													// Create page.				
+													var page1 = print.contentDocument.createElement ("div");
+													page1.className = "Page A4";
+													print.contentDocument.body.appendChild (page1);
+													
 													var page = print.contentDocument.createElement ("div");
-													page.className = "Page A4";
-													print.contentDocument.body.appendChild (page);
+													page.className = "test";
+													page1.appendChild (page);
+													
 													
 													// Page
 													{							
@@ -204,8 +209,9 @@ catalog : function (attributes)
 															}
 																									
 															content.innerHTML = render.replace ("%%ROWS%%", rows + row);																									
-																								
-															if ((page.offsetHeight - print.contentDocument.getElementById ("PageFooter").offsetHeight - print.contentDocument.getElementById ("PageHeader").offsetHeight ) < (content.offsetHeight))
+
+															if ((page.offsetHeight - print.contentDocument.getElementById ("PageFooter").offsetHeight - print.contentDocument.getElementById ("PageHeader").offsetHeight - 10) <= (content.offsetHeight))		
+//															if ((page.offsetHeight - print.contentDocument.getElementById ("PageFooter").offsetHeight - print.contentDocument.getElementById ("PageHeader").offsetHeight ) < (content.offsetHeight))
 															{   
 																render = render.replace ("%%ROWS%%", rows);
 																content.innerHTML = render;
@@ -253,10 +259,10 @@ catalog : function (attributes)
 					
 	var settings = PrintUtils.getPrintSettings ();
 																																								
-	settings.marginLeft = 0.5;
-	settings.marginRight = 0.5;
-	settings.marginTop = 0.5;
-	settings.marginBottom = 0.5;
+	settings.marginLeft = 0;
+	settings.marginRight = 0;
+	settings.marginTop = 0;
+	settings.marginBottom = 0;
 	settings.shrinkToFit = true;		
 	settings.paperName =  "iso_a4";
 	settings.paperWidth = 210;

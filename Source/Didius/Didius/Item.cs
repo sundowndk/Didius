@@ -643,7 +643,7 @@ namespace Didius
 				autobid.Save ();
 
 //				Console.WriteLine ("[1]SENDMAIL: Autobid placed: "+ Amount);
-				SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Autobud oprettet","Du har oprettet et autobud på effekt: "+ Item.Title +"\n\n"+"Autobud max: "+ Amount +" kr.\n\n");
+				SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Email, "Autobud oprettet","Du har oprettet et autobud på:\n Katalog nr.: "+ Item.CatalogNo +"\n\n"+ Item.Title +"\n\n"+"Autobud max: "+ Amount +" kr.\n\n");
 
 				// If no other bids have been made, place the first one.
 //				if (Item.BidAmount == 0)
@@ -664,9 +664,9 @@ namespace Didius
 				bid.Save ();
 
 //				Console.WriteLine ("[2]SENDMAIL: Bid placed: "+ Amount);
-				SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et bud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ Amount +" kr.\n\n");
+				SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Email, "Bud afgivet","Du har afgivet et bud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ Amount +" kr.\n\n");
 //				Console.WriteLine ("[3]SENDMAIL: Bid overbid: "+ Amount +" < "+ Item.NextBidAmount);
-				SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Overbudt","Din bud sum på "+ Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
+				SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Email, "Overbudt","Din bud sum på "+ Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
 
 				SorentoLib.Services.Logging.LogDebug ("[DIDIUS.ITEM]: Low bid placed on item "+ Item.Id);
 			}
@@ -688,7 +688,7 @@ namespace Didius
 							autobidplaced = true;
 
 //							Console.WriteLine ("[4]SENDMAIL: Autobid Bid placed: "+ nextbidamount +" ("+ Customer.Load (autobid.CustomerId).Name +")");
-							SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
+							SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
 						}
 					}
 				}
@@ -699,7 +699,7 @@ namespace Didius
 					bid.Save ();
 
 //					Console.WriteLine ("[5]SENDMAIL: Bid placed: "+ nextbidamount);
-					SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et bud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
+					SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Email, "Bud afgivet","Du har afgivet et bud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
 
 //					if (autobidplaced)
 //					{
@@ -748,7 +748,7 @@ namespace Didius
 						Bid bid = new Bid (Customer.Load (high.CustomerId), Item, bla);
 						bid.Save ();
 //						Console.WriteLine ("[6]SENDMAIL: Autobid Bid placed: "+ bla +" ("+ Customer.Load (high.CustomerId).Name +")");
-						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (high.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ CalculateNextBidAmount (low) +" kr.\n\n");
+						SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Load (high.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ CalculateNextBidAmount (low) +" kr.\n\n");
 					
 						foreach (AutoBid autobid in autobids)
 						{
@@ -757,10 +757,10 @@ namespace Didius
 								Bid bid2 = new Bid (Customer.Load (autobid.CustomerId), Item, bla);
 								bid2.Save ();
 //								Console.WriteLine ("[7]SENDMAIL: Autobid Bid placed: "+ bla +" ("+ Customer.Load (autobid.CustomerId).Name +")");
-								SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
+								SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ nextbidamount +" kr.\n\n");
 
 //								Console.WriteLine ("[9]SENDMAIL: Bid overbid by Autobid : "+ Amount +" < "+ bla +"("+ Customer.Load (autobid.CustomerId).Name +")");
-								SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Overbudt","Din bud sum på "+ autobid.Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
+								SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Load (autobid.CustomerId).Email, "Overbudt","Din bud sum på "+ autobid.Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
 
 							}
 						}
@@ -775,10 +775,10 @@ namespace Didius
 						Bid bid = new Bid (Customer.Load (autobid.CustomerId), Item, autobid.Amount);
 						bid.Save ();
 //						Console.WriteLine ("[8]SENDMAIL: Autobid Bid placed: "+ autobid.Amount +" ("+ Customer.Load (autobid.CustomerId).Name +")");
-						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ Amount +" kr.\n\n");
+						SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Load (autobid.CustomerId).Email, "Bud afgivet","Du har afgivet et autobud på effekt: "+ Item.Title +"\n\n"+"Bud sum: "+ Amount +" kr.\n\n");
 
 //						Console.WriteLine ("[9]SENDMAIL: Bid overbid: "+ autobid.Amount +" < "+ Item.NextBidAmount +"("+ Customer.Load (autobid.CustomerId).Name +")");
-						SorentoLib.Tools.Helpers.SendMail ("robot@york-auktion.dk", Customer.Load (autobid.CustomerId).Email, "Overbudt","Din bud sum på "+ Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
+						SorentoLib.Tools.Helpers.SendMail (SorentoLib.Services.Settings.Get<string> (Enums.SettingsKey.didius_email_sender), Customer.Load (autobid.CustomerId).Email, "Overbudt","Din bud sum på "+ Amount +" kr. på effekt: "+ Item.Title +" er blevet overbudt.\n\n");
 					}
 				}
 			}
@@ -1091,6 +1091,36 @@ namespace Didius
 
 
 			
+			return result;
+		}
+
+		public static List<Item> Search (string SearchString)
+		{
+			List<Item> result = new List<Item> ();
+
+			foreach (SorentoLib.Services.DatastoreItem item in SorentoLib.Services.Datastore.ListOfShelfsSearch (DatastoreAisle, SearchString))
+			{
+				try
+				{
+					Item item2 = FromXmlDocument (item.Get<XmlDocument> ());
+
+					Auction auction = Auction.Load (item2.AuctionId);
+
+					if (auction.Status == Didius.Enums.AuctionStatus.Open)
+					{
+						result.Add (item2);
+					}
+				}
+				catch (Exception exception)
+				{
+					// LOG: LogDebug.ExceptionUnknown
+					SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.ITEM", exception.Message));
+					
+					// LOG: LogDebug.ItemList
+					SorentoLib.Services.Logging.LogDebug (string.Format (Strings.LogDebug.ItemList, item.Id));
+				}
+			}
+
 			return result;
 		}
 		
