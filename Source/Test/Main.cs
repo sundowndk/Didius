@@ -28,6 +28,25 @@ namespace Test
 			SorentoLib.Services.Database.Prefix = "didiustest_";
 //			DateTime.Now < 
 
+			List<Didius.Customer> customers = Didius.Customer.List ();
+
+
+			foreach (Didius.Customer c in customers)
+			{
+				if (c.UserId != Guid.Empty)
+				{
+					if (c.Status == Didius.Enums.CustomerStatus.Disabled)
+					{
+						Console.WriteLine (c.Name);
+						c.Status = Didius.Enums.CustomerStatus.Enabled;
+						c.Save ();
+					}
+				}
+
+			}
+
+			Environment.Exit (0);
+
 			string test = "bla bla";
 			test.Replace ("\n", "<br>");
 

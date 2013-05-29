@@ -2910,6 +2910,7 @@ var didius =
 				settings.paperName =  "iso_a4";
 				settings.paperWidth = 210;
 				settings.paperHeight = 297
+				settings.orientation = 0;
 				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
 			   	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;	
 				settings.printBGImages = true;
@@ -3773,6 +3774,7 @@ var didius =
 				settings.paperName =  "iso_a4";
 				settings.paperWidth = 210;
 				settings.paperHeight = 297
+				settings.orientation = 0;
 				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
 			   	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;	
 				settings.printBGImages = true;
@@ -3849,10 +3851,10 @@ var didius =
 															}
 															
 										var worker = function ()
-										{									
+										{														
 											sXUL.tools.fileUpload ({postUrl: didius.runtime.ajaxUrl, fieldName: "file", filePath: filename, additionalFields: {cmd: "function", "cmd.function": "Didius.Helpers.MailSalesAgreement", customerid: attributes.case.customerid}, onLoad: onLoad, onProgress: onProgress, onError: onError});
 										}
-										
+																	
 										setTimeout (worker, 5000);																																
 									};
 										
@@ -4182,6 +4184,7 @@ var didius =
 				settings.marginBottom = 0.0;
 				settings.shrinkToFit = true;		
 				settings.paperName =  "iso_a4";
+				settings.orientation = 0;
 				//settings.paperName =  "iso_a5";
 				settings.paperWidth = 210;
 				settings.paperHeight = 297
@@ -5176,7 +5179,8 @@ var didius =
 				settings.shrinkToFit = true;		
 				settings.paperName =  "iso_a4";
 				settings.paperWidth = 210;
-				settings.paperHeight = 297
+				settings.paperHeight = 297;
+				settings.orientation = 0;
 				settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
 			   	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;	
 				settings.printBGImages = true;

@@ -2,10 +2,20 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="AppDebug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Didius/Application/xul/application.ini">
     <Files>
-      <File FileName="Didius/Application/js/didius/common/print/catalog.js" Line="206" Column="18" />
-      <File FileName="Didius/Application/js/didius/common/print/settlement.js" Line="118" Column="14" />
-      <File FileName="Didius/Application/js/didius/common/print/invoice.js" Line="90" Column="15" />
-      <File FileName="Didius/Application/xul/application.ini" Line="11" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.xul" Line="246" Column="41" />
+      <File FileName="Didius/Application/xul/chrome/content/customer/edit.js" Line="84" Column="14" />
+      <File FileName="Didius/Didius/Customer.cs" Line="444" Column="37" />
+      <File FileName="Test/Main.cs" Line="40" Column="34" />
+      <File FileName="Didius/Application/js/didius/common/print/salesagreement.js" Line="448" Column="8" />
+      <File FileName="Didius/Application/js/didius/common/print/invoice.js" Line="325" Column="27" />
+      <File FileName="Didius/Application/js/didius/common/print/settlement.js" Line="319" Column="27" />
+      <File FileName="Didius/Application/js/didius/common/print/turnoverreport.js" Line="482" Column="27" />
+      <File FileName="Didius/Application/xul/chrome/content/case/edit.js" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/chrome/content/case/salesagreement/show.js" Line="1" Column="1" />
+      <File FileName="Didius/Didius/Helpers.cs" Line="331" Column="4" />
+      <File FileName="Didius/Didius.Addin/Ajax.cs" Line="498" Column="25" />
+      <File FileName="Didius/Didius.Addin/Function.cs" Line="1" Column="1" />
+      <File FileName="Didius/Application/xul/application.ini" Line="5" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -27,6 +37,10 @@
                       <Node name="catalog" expanded="True" />
                     </Node>
                     <Node name="bid" expanded="True" />
+                    <Node name="case" expanded="True">
+                      <Node name="salesagreement" expanded="True" />
+                    </Node>
+                    <Node name="customer" expanded="True" />
                     <Node name="item" expanded="True" />
                     <Node name="main" expanded="True" />
                   </Node>

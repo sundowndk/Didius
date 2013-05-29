@@ -1322,10 +1322,10 @@ var sXUL =
 		      			if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_DOCUMENT) 
 		      			{
 		      				sXUL.console.log ("STATE_STOP + STATE_DOCUMENT")
-		      				if (attributes.onDone != null)
-		    				{    					
-		    					setTimeout (attributes.onDone, 1);
-		    				}
+		//  				if (attributes.onDone != null)
+		//  				{    					
+		//    					setTimeout (attributes.onDone, 1);
+		//    				}
 		      			}
 		      		
 						if (aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP && aStateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK) 

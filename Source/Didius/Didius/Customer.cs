@@ -468,16 +468,16 @@ namespace Didius
 			{
 				if (this._userid != Guid.Empty)
 				{
+					User user = User.Load (this._userid);
 					if (value == Enums.CustomerStatus.Enabled)
 					{
-						this.User.Status = SorentoLib.Enums.UserStatus.Enabled;
+						user.Status = SorentoLib.Enums.UserStatus.Enabled;
 					}
 					else 
 					{
-						this.User.Status = SorentoLib.Enums.UserStatus.Disabled;
+						user.Status = SorentoLib.Enums.UserStatus.Disabled;
 					}
-
-					this.User.Save ();
+					user.Save ();
 				}
 
 				this._status = value;
@@ -668,6 +668,8 @@ namespace Didius
 			}
 			catch (Exception exception)
 			{
+				Console.WriteLine (exception);
+
 				// LOG: LogDebug.ExceptionUnknown
 				SorentoLib.Services.Logging.LogDebug (string.Format (SorentoLib.Strings.LogDebug.ExceptionUnknown, "DIDIUS.CUSTOMER", exception.Message));
 				
@@ -967,7 +969,7 @@ namespace Didius
 				try
 				{
 //					result.Add (Load (new Guid (id)));
-					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));
+					result.Add (FromXmlDocument (item.Get<XmlDocument> (), true));
 				}
 				catch (Exception exception)
 				{
@@ -993,7 +995,7 @@ namespace Didius
 				try
 				{
 //					result.Add (Load (new Guid (id)));
-					result.Add (FromXmlDocument (item.Get<XmlDocument> ()));				
+					result.Add (FromXmlDocument (item.Get<XmlDocument> (), true));				
 				}
 				catch (Exception exception)
 				{
@@ -1010,6 +1012,11 @@ namespace Didius
 		}
 
 		public static Customer FromXmlDocument (XmlDocument xmlDocument)
+		{
+			return FromXmlDocument (xmlDocument, false);
+		}
+
+		private static Customer FromXmlDocument (XmlDocument xmlDocument, bool skip)
 		{
 			Hashtable item;
 			Customer result = new Customer ();
@@ -1160,15 +1167,22 @@ namespace Didius
 			{
 				result._notes = (string)item["notes"];
 			}
-			
-			if (item.ContainsKey ("status"))
-			{
-				result.Status = SNDK.Convert.StringToEnum<Enums.CustomerStatus> ((string)item["status"]);
-			}
 
 			if (item.ContainsKey ("userid"))
 			{
 				result._userid = new Guid ((string)item["userid"]);
+			}
+
+			if (item.ContainsKey ("status"))
+			{
+				if (skip)
+				{
+					result._status = SNDK.Convert.StringToEnum<Enums.CustomerStatus> ((string)item["status"]);
+				}
+				else
+				{
+					result.Status = SNDK.Convert.StringToEnum<Enums.CustomerStatus> ((string)item["status"]);
+				}
 			}
 			
 			return result;

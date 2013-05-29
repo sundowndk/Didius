@@ -270,9 +270,9 @@
 						<groupbox>
 							<caption label="Login"/>							
 							<hbox align="center">																
-								<checkbox id="checkbox.verified" label="Er godkendt til at logge ind på hjemmesiden" oncommand="web.onChange ();"/>
+								<checkbox id="checkbox.status" label="Er godkendt til at logge ind på hjemmesiden" oncommand="web.onChange ();"/>
 							</hbox>		
-							<hbox align="center">
+							<hbox align="center" collapsed="true">
 								<label class="Label">Adgangskode:</label>
 								<button id="button.sendnewpassword" label="Send ny adgangskode på mail" oncommand="web.onChange ();"/>
 							</hbox>					

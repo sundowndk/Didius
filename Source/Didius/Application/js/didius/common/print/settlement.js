@@ -316,6 +316,7 @@ settlement : function (attributes)
 	settings.marginBottom = 0.0;
 	settings.shrinkToFit = true;		
 	settings.paperName =  "iso_a4";
+	settings.orientation = 0;
 	//settings.paperName =  "iso_a5";
 	settings.paperWidth = 210;
 	settings.paperHeight = 297

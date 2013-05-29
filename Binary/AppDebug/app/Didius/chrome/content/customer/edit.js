@@ -81,6 +81,7 @@ var main =
 	get : function ()
 	{		
 		details.get ();
+		web.get ();
 		notes.get ();		
 	},
 		
@@ -903,9 +904,15 @@ var web =
 	// | SET																								|	
 	// ------------------------------------------------------------------------------------------------------
 	set : function ()
-	{
-		sXUL.console.log (main.customer.status);
-		//document.getElementById ("textbox.notes").value = main.customer.notes;
+	{		
+		if (main.customer.status == "Enabled")
+		{
+			document.getElementById ("checkbox.status").checked = true;
+		}
+		else
+		{
+			document.getElementById ("checkbox.status").checked = false;
+		}		
 	},
 	
 	// ------------------------------------------------------------------------------------------------------
@@ -913,7 +920,14 @@ var web =
 	// ------------------------------------------------------------------------------------------------------
 	get : function ()
 	{
-		main.customer.notes = document.getElementById ("textbox.notes").value;
+		if (document.getElementById ("checkbox.status").checked)
+		{
+			main.customer.status = "Enabled";
+		}
+		else
+		{
+			main.customer.status = "Disabled";
+		}
 	},
 	
 	// ------------------------------------------------------------------------------------------------------

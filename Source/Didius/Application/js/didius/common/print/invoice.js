@@ -322,6 +322,7 @@ invoice : function (attributes)
 	settings.paperName =  "iso_a4";
 	settings.paperWidth = 210;
 	settings.paperHeight = 297
+	settings.orientation = 0;
 	settings.paperSizeUnit = Ci.nsIPrintSettings.kPaperSizeMillimeters;																					
    	settings.printFrameType = Ci.nsIPrintSettings.kFramesAsIs;	
 	settings.printBGImages = true;
